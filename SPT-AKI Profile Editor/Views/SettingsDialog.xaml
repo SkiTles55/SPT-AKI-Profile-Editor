@@ -38,7 +38,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="serverPath" Grid.Column="0" TextWrapping="Wrap" Text="{Binding AppSettings.ServerPath}" IsEnabled="False"/>
+            <TextBox x:Name="serverPath" Grid.Column="0" TextWrapping="Wrap" Text="{Binding ServerPath}" IsEnabled="False"/>
             <Button x:Name="serverSelect" Grid.Column="1" Content="{Binding AppLocalization.Translations[button_select]}" Margin="5,0,0,0"/>
         </Grid>
         <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
@@ -49,13 +49,13 @@
         <Label Grid.Column="1" Grid.Row="2" Foreground="Red" Visibility="{Binding NoAccontsIcon}" ToolTip="{Binding AppLocalization.Translations[no_accounts]}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
         </Label>
-        <ComboBox x:Name="profileSelectBox" Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding Profiles}" SelectedItem="{Binding AppSettings.DefaultProfile}"/>
+        <ComboBox x:Name="profileSelectBox" Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding Profiles}" SelectedItem="{Binding DefaultProfile}"/>
         <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_color_scheme]}"/>
             </Label.Content>
         </Label>
-        <ComboBox x:Name="StyleChoicer" Grid.Column="2" Grid.Row="3" Margin="10,5,10,0" VerticalAlignment="Center">
+        <ComboBox x:Name="StyleChoicer" Grid.Column="2" Grid.Row="3" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding ColorSchemes}" SelectedValuePath="Scheme" SelectedValue="{Binding ColorScheme}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

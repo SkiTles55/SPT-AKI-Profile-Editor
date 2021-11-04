@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core;
+﻿using ControlzEx.Theming;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Windows;
@@ -13,6 +14,12 @@ namespace SPT_AKI_Profile_Editor
         public static AppSettings appSettings;
         public static AppLocalization appLocalization;
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            ChangeTheme();
+        }
+
         public App()
         {
             appSettings = new AppSettings();
@@ -23,13 +30,17 @@ namespace SPT_AKI_Profile_Editor
         {
             Current.Shutdown();
         });
+        public static void ChangeTheme()
+        {
+            if (appSettings == null || string.IsNullOrEmpty(appSettings.ColorScheme)) return;
+            ThemeManager.Current.ChangeTheme(Current, appSettings.ColorScheme);
+        }
 
         private void Application_Startup(object s, StartupEventArgs e)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             Current.DispatcherUnhandledException += (sender, args) => HandleException(args.Exception);
         }
-
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
@@ -37,7 +48,6 @@ namespace SPT_AKI_Profile_Editor
             else
                 HandleException(new Exception("Unknown Exception!"));
         }
-
         private static void HandleException(Exception exception)
         {
             string text = $"Exception Message: {exception.Message}. | StackTrace: {exception.StackTrace}";
