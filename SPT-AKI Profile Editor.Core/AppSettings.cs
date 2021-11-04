@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 CreateDefault();
         }
 
-        public void Save() => Helpers.SaveJson(configurationFile, this);
+        public void Save() => ExtMethods.SaveJson(configurationFile, this);
 
         private void LoadFromFile()
         {
@@ -53,7 +53,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ColorScheme = loaded.ColorScheme;
                 if (loaded.Language == null)
                 {
-                    loaded.Language = Helpers.WindowsCulture;
+                    loaded.Language = ExtMethods.WindowsCulture;
                     _needReSave = true;
                 }
                 Language = loaded.Language;
@@ -76,7 +76,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private void CreateDefault()
         {
             ColorScheme = DefaultValues.ColorScheme;
-            Language = Helpers.WindowsCulture;
+            Language = ExtMethods.WindowsCulture;
             DirsList = DefaultValues.DefaultDirsList;
             FilesList = DefaultValues.DefaultFilesList;
             Logger.Log($"Default configuration file created");

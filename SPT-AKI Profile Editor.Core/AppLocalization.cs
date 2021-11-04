@@ -1,22 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class AppLocalization
+    public class AppLocalization : INotifyPropertyChanged
     {
         public string Key { get; set; }
         public string Name { get; set; }
-        public Dictionary<string, string> Translations { get; set; }
+        public Dictionary<string, string> Translations
+        {
+            get => translations;
+            set
+            {
+                translations = value;
+                OnPropertyChanged("Translations");
+            }
+        }
 
         [JsonIgnore]
         public Dictionary<string, string> Localizations { get; set; }
 
         private static readonly string localizationsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Localizations");
+        private Dictionary<string, string> translations;
 
         public AppLocalization() { }
 
@@ -24,13 +35,15 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (!Directory.Exists(localizationsDir))
             {
-                DirectoryInfo dir = new DirectoryInfo(localizationsDir);
+                DirectoryInfo dir = new(localizationsDir);
                 dir.Create();
             }
             CreateDefault();
             LoadLocalization(language);
             CreateLocalizationsDictionary();
         }
+
+        public string GetLocalizedString(string key) => Translations != null && Translations.ContainsKey(key) ? Translations[key] : key;
 
         public void LoadLocalization(string key)
         {
@@ -39,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 AppLocalization appLocalization = LocalizationFromFile(Path.Combine(localizationsDir, key + ".json"));
-                var DefaultLocalization = DefaultValues.DefaultLocalizations.Find(x => x.Key == "en");
+                AppLocalization DefaultLocalization = DefaultValues.DefaultLocalizations.Find(x => x.Key == "en");
                 bool _needReSave = false;
                 foreach (var st in DefaultLocalization.Translations.Where(x => !appLocalization.Translations.ContainsKey(x.Key)))
                 {
@@ -60,9 +73,9 @@ namespace SPT_AKI_Profile_Editor.Core
             catch (Exception ex) { Logger.Log($"Localization ({key}) loading error: {ex.Message}"); }
         }
 
-        public void Save(string path, AppLocalization data) => Helpers.SaveJson(path, data);
+        public static void Save(string path, AppLocalization data) => ExtMethods.SaveJson(path, data);
 
-        private void CreateDefault()
+        private static void CreateDefault()
         {
             foreach (var loc in DefaultValues.DefaultLocalizations.Where(x => !File.Exists(Path.Combine(localizationsDir, x.Key + ".json"))))
             {
@@ -74,7 +87,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private void CreateLocalizationsDictionary()
         {
             Localizations = new Dictionary<string, string>();
-            foreach (var file in Directory.GetFiles(localizationsDir))
+            foreach (string file in Directory.GetFiles(localizationsDir))
             {
                 try
                 {
@@ -88,6 +101,9 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        private AppLocalization LocalizationFromFile(string path) => JsonSerializer.Deserialize<AppLocalization>(File.ReadAllText(path));
+        private static AppLocalization LocalizationFromFile(string path) => JsonSerializer.Deserialize<AppLocalization>(File.ReadAllText(path));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

@@ -5,15 +5,14 @@ namespace SPT_AKI_Profile_Editor.Core
     public static class DefaultValues
     {
         public const string ColorScheme = "Light.Emerald";
-
-        public static Dictionary<string, string> DefaultDirsList => new Dictionary<string, string>()
+        public static Dictionary<string, string> DefaultDirsList => new()
         {
             ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",
             ["dir_traders"] = "Aki_Data\\Server\\database\\traders",
             ["dir_bots"] = "Aki_Data\\Server\\database\\bots\\types",
             ["dir_profiles"] = "user\\profiles"
         };
-        public static Dictionary<string, string> DefaultFilesList => new Dictionary<string, string>()
+        public static Dictionary<string, string> DefaultFilesList => new()
         {
             ["file_globals"] = "Aki_Data\\Server\\database\\globals.json",
             ["file_items"] = "Aki_Data\\Server\\database\\templates\\items.json",
@@ -21,8 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core
             ["file_areas"] = "Aki_Data\\Server\\database\\hideout\\areas.json",
             ["file_serverexe"] = "Server.exe"
         };
-
-        public static List<AppLocalization> DefaultLocalizations = new List<AppLocalization>()
+        public static List<AppLocalization> DefaultLocalizations = new()
         {
             new AppLocalization { Key = "en", Name = "English", Translations = new Dictionary<string, string>() {
                 ["button_yes"] = "Yes",

@@ -3,10 +3,10 @@ using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    class Logger
+    public class Logger
     {
-        static readonly string LogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        static string _fileName;
+        private static readonly string LogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        private static string _fileName;
 
         static Logger()
         {
@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             try
             {
-                StreamWriter file = new StreamWriter(Path.Combine(LogPath, _fileName), true);
+                StreamWriter file = new(Path.Combine(LogPath, _fileName), true);
                 file.WriteLine(DateTime.Now.ToString() + ": " + text);
                 file.Close();
             }
