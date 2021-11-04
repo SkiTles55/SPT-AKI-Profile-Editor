@@ -42,6 +42,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("ServerPath");
                 InvalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
                 NoAccontsIcon = GetNoAccontsIconVisibility();
+                CloseButton = GetCloseButtonVisibility();
                 App.appSettings.NeedReload = true;
                 App.appSettings.Save();
             }
@@ -89,6 +90,15 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("NoAccontsIcon");
             }
         }
+        public Visibility CloseButton
+        {
+            get => closeButton;
+            set
+            {
+                closeButton = value;
+                OnPropertyChanged("CloseButton");
+            }
+        }
         public static RelayCommand QuitCommand => App.CloseApplication;
         public RelayCommand ServerSelect => new(async obj =>
         {
@@ -97,6 +107,7 @@ namespace SPT_AKI_Profile_Editor
 
         private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
         private static Visibility noAccontsIcon = GetNoAccontsIconVisibility();
+        private static Visibility closeButton = GetCloseButtonVisibility();
         private IDialogCoordinator dialogCoordinator;
         private static FolderBrowserDialog folderBrowserDialog = new()
         {
@@ -115,6 +126,7 @@ namespace SPT_AKI_Profile_Editor
 
         private static Visibility GetNoAccontsIconVisibility() => ExtMethods.ServerHaveProfiles(App.appSettings) ? Visibility.Collapsed : Visibility.Visible;
         private static Visibility GetInvalidServerLocationIconVisibility() => ExtMethods.PathIsServerFolder(App.appSettings) ? Visibility.Collapsed : Visibility.Visible;
+        private static Visibility GetCloseButtonVisibility() => ExtMethods.ServerHaveProfiles(App.appSettings) && ExtMethods.PathIsServerFolder(App.appSettings) ? Visibility.Visible : Visibility.Collapsed;
         private async Task ServerSelectDialog()
         {
             bool pathOK = false;

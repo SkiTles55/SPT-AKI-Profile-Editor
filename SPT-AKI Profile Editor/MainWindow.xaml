@@ -7,12 +7,18 @@
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:local="clr-namespace:SPT_AKI_Profile_Editor"
                  xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
                  Dialog:DialogParticipation.Register="{Binding}"
                  mc:Ignorable="d"
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                  BorderThickness="2"
                  SaveWindowPosition="True"
                  Title="{Binding WindowTitle}" MinHeight="600" MinWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitializeViewModelCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button Content="{Binding AppLocalization.Translations[button_settings]}" Command="{Binding OpenSettingsCommand}">
