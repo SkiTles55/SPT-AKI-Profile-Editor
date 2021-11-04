@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>SPT_AKI_Profile_Editor</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <Version>2.0.0</Version>
     <ApplicationIcon>killa_ico_k3r_icon.ico</ApplicationIcon>

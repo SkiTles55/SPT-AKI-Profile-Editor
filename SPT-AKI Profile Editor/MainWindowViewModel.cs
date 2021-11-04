@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
             });
-            settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand) };
+            settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(dialogCoordinator, closeCommand) };
             await dialogCoordinator.ShowMetroDialogAsync(this, settingsDialog);
         });
         public static string WindowTitle

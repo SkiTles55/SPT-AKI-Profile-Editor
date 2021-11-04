@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static void SaveJson(string path, object data) => File.WriteAllText(path, JsonSerializer.Serialize(data, _serializerOptions));
 
-        public static bool PathIsServerBase(AppSettings appSettings, string path = null)
+        public static bool PathIsServerFolder(AppSettings appSettings, string path = null)
         {
             if (string.IsNullOrEmpty(path)) path = appSettings.ServerPath;
             if (string.IsNullOrEmpty(path)) return false;

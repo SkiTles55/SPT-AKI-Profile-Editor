@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
@@ -12,7 +13,8 @@ namespace SPT_AKI_Profile_Editor.Core
         public string DefaultProfile { get; set; }
         public string Language { get; set; }
         public string ColorScheme { get; set; }
-
+        [JsonIgnore]
+        public bool NeedReload = false;
         public Dictionary<string, string> DirsList { get; set; }
         public Dictionary<string, string> FilesList { get; set; }
 
@@ -25,7 +27,6 @@ namespace SPT_AKI_Profile_Editor.Core
             else
                 CreateDefault();
         }
-
         public void Save() => ExtMethods.SaveJson(configurationFile, this);
 
         private void LoadFromFile()
@@ -50,18 +51,19 @@ namespace SPT_AKI_Profile_Editor.Core
                     loaded.ColorScheme = DefaultValues.ColorScheme;
                     _needReSave = true;
                 }
-                ColorScheme = loaded.ColorScheme;
                 if (loaded.Language == null)
                 {
                     loaded.Language = ExtMethods.WindowsCulture;
                     _needReSave = true;
                 }
+                ServerPath = loaded.ServerPath;
+                DefaultProfile = loaded.DefaultProfile;
                 Language = loaded.Language;
+                ColorScheme = loaded.ColorScheme;
                 DirsList = loaded.DirsList;
                 FilesList = loaded.FilesList;
                 if (_needReSave)
                 {
-
                     Logger.Log($"Configuration file updated");
                     Save();
                 }
@@ -72,7 +74,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 CreateDefault();
             }
         }
-
         private void CreateDefault()
         {
             ColorScheme = DefaultValues.ColorScheme;

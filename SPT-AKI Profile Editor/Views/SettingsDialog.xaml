@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SPT_AKI_Profile_Editor" 
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,13 +26,13 @@
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_lang]}"/>
             </Label.Content>
         </Label>
-        <ComboBox x:Name="langSelectBox" Grid.Column="2" Grid.Row="0" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding LocalizationsList}" SelectedValue="{Binding CurrentLocalization}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+        <ComboBox Grid.Column="2" Grid.Row="0" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding LocalizationsList}" SelectedValue="{Binding CurrentLocalization}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
         <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_server]}"/>
             </Label.Content>
         </Label>
-        <Label  Grid.Column="1" Grid.Row="1" Foreground="Red" Visibility="{Binding InvalidServerLocationIcon}" ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Label Grid.Column="1" Grid.Row="1" Foreground="Red" Visibility="{Binding InvalidServerLocationIcon}" ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
         </Label>
         <Grid Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Margin="10,0">
@@ -38,8 +40,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="serverPath" Grid.Column="0" TextWrapping="Wrap" Text="{Binding ServerPath}" IsEnabled="False"/>
-            <Button x:Name="serverSelect" Grid.Column="1" Content="{Binding AppLocalization.Translations[button_select]}" Margin="5,0,0,0"/>
+            <TextBox Grid.Column="0" TextWrapping="Wrap" Text="{Binding ServerPath}" IsEnabled="False"/>
+            <Button Grid.Column="1" Content="{Binding AppLocalization.Translations[button_select]}" Command="{Binding ServerSelect}" Margin="5,0,0,0"/>
         </Grid>
         <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
             <Label.Content>
@@ -49,13 +51,13 @@
         <Label Grid.Column="1" Grid.Row="2" Foreground="Red" Visibility="{Binding NoAccontsIcon}" ToolTip="{Binding AppLocalization.Translations[no_accounts]}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
         </Label>
-        <ComboBox x:Name="profileSelectBox" Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding Profiles}" SelectedItem="{Binding DefaultProfile}"/>
+        <ComboBox Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding Profiles}" SelectedItem="{Binding DefaultProfile}"/>
         <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_color_scheme]}"/>
             </Label.Content>
         </Label>
-        <ComboBox x:Name="StyleChoicer" Grid.Column="2" Grid.Row="3" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding ColorSchemes}" SelectedValuePath="Scheme" SelectedValue="{Binding ColorScheme}">
+        <ComboBox Grid.Column="2" Grid.Row="3" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding ColorSchemes}" SelectedValuePath="Scheme" SelectedValue="{Binding ColorScheme}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -66,8 +68,8 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <StackPanel Grid.Row="4"  Grid.ColumnSpan="3" Orientation="Horizontal" MinHeight="85" HorizontalAlignment="Right">
-            <Button x:Name="SettingsExit" Margin="0 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs}" Content="{Binding AppLocalization.Translations[button_quit]}" Command="{Binding QuitCommand}" Visibility="Visible"/>
-            <Button x:Name="SettingsClose" Margin="5 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Content="{Binding AppLocalization.Translations[button_close]}" Command="{Binding CloseCommand}" IsEnabled="True"/>
+            <Button Margin="0 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs}" Content="{Binding AppLocalization.Translations[button_quit]}" Command="{Binding QuitCommand}" Visibility="Visible"/>
+            <Button Margin="5 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Content="{Binding AppLocalization.Translations[button_close]}" Command="{Binding CloseCommand}" IsEnabled="True"/>
         </StackPanel>
     </Grid>
 </UserControl>
