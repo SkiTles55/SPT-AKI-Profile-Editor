@@ -27,12 +27,6 @@ namespace SPT_AKI_Profile_Editor.Core
 
             return true;
         }
-        public static bool ServerHaveProfiles(AppSettings appSettings)
-        {
-            if (string.IsNullOrEmpty(appSettings.ServerPath)) return false;
-            if (!Directory.Exists(Path.Combine(appSettings.ServerPath, appSettings.DirsList["dir_profiles"]))) return false;
-            if (Directory.GetFiles(Path.Combine(appSettings.ServerPath, appSettings.DirsList["dir_profiles"])).Length < 1) return false;
-            return true;
-        }
+        public static bool ServerHaveProfiles(AppSettings appSettings) => appSettings.ServerProfiles != null && appSettings.ServerProfiles.Count > 0;
     }
 }

@@ -47,7 +47,7 @@
             <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Margin="30" FontSize="20" Visibility="Visible">
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Margin="30" FontSize="20" Visibility="Collapsed">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[profile_empty]}" TextAlignment="Center"/>
             </Label.Content>

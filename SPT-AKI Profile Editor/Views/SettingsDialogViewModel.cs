@@ -24,39 +24,34 @@ namespace SPT_AKI_Profile_Editor
         }
         public string CurrentLocalization
         {
-            get => App.appSettings.Language;
+            get => AppSettings.Language;
             set
             {
-                App.appSettings.Language = value;
+                AppSettings.Language = value;
                 OnPropertyChanged("CurrentLocalization");
-                App.appSettings.Save();
-                App.appLocalization.LoadLocalization(App.appSettings.Language);
+                AppLocalization.LoadLocalization(AppSettings.Language);
             }
         }
         public string ServerPath
         {
-            get => App.appSettings.ServerPath;
+            get => AppSettings.ServerPath;
             set
             {
-                App.appSettings.ServerPath = value;
+                AppSettings.ServerPath = value;
                 OnPropertyChanged("ServerPath");
                 InvalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
-                NoAccontsIcon = GetNoAccontsIconVisibility();
                 CloseButton = GetCloseButtonVisibility();
-                App.appSettings.NeedReload = true;
-                App.appSettings.Save();
+                NoAccountsIcon = GetNoAccountsIconVisibility();
+                AccountsBoxEnabled = GetAccountsBoxEnabled();
             }
         }
-        public static List<string> Profiles { get; set; }
-        public static string DefaultProfile { get; set; }
         public string ColorScheme
         {
-            get => App.appSettings.ColorScheme;
+            get => AppSettings.ColorScheme;
             set
             {
-                App.appSettings.ColorScheme = value;
+                AppSettings.ColorScheme = value;
                 OnPropertyChanged("ColorScheme");
-                App.appSettings.Save();
                 App.ChangeTheme();
             }
         }
@@ -70,6 +65,7 @@ namespace SPT_AKI_Profile_Editor
                 Scheme = x.Name
             });
         public static AppLocalization AppLocalization => App.appLocalization;
+        public static AppSettings AppSettings => App.appSettings;
         public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
         public static RelayCommand CloseCommand { get; set; }
         public Visibility InvalidServerLocationIcon
@@ -81,13 +77,22 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("InvalidServerLocationIcon");
             }
         }
-        public Visibility NoAccontsIcon
+        public Visibility NoAccountsIcon
         {
-            get => noAccontsIcon;
+            get => noAccountsIcon;
             set
             {
-                noAccontsIcon = value;
-                OnPropertyChanged("NoAccontsIcon");
+                noAccountsIcon = value;
+                OnPropertyChanged("NoAccountsIcon");
+            }
+        }
+        public bool AccountsBoxEnabled
+        {
+            get => accountsBoxEnabled;
+            set
+            {
+                accountsBoxEnabled = value;
+                OnPropertyChanged("AccountsBoxEnabled");
             }
         }
         public Visibility CloseButton
@@ -106,10 +111,11 @@ namespace SPT_AKI_Profile_Editor
         });
 
         private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
-        private static Visibility noAccontsIcon = GetNoAccontsIconVisibility();
+        private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
+        private static bool accountsBoxEnabled = GetAccountsBoxEnabled();
         private static Visibility closeButton = GetCloseButtonVisibility();
-        private IDialogCoordinator dialogCoordinator;
-        private static FolderBrowserDialog folderBrowserDialog = new()
+        private readonly IDialogCoordinator dialogCoordinator;
+        private static readonly FolderBrowserDialog folderBrowserDialog = new()
         {
             Description = AppLocalization.Translations["server_select"],
             RootFolder = Environment.SpecialFolder.MyComputer,
@@ -124,9 +130,10 @@ namespace SPT_AKI_Profile_Editor
             AnimateShow = true
         };
 
-        private static Visibility GetNoAccontsIconVisibility() => ExtMethods.ServerHaveProfiles(App.appSettings) ? Visibility.Collapsed : Visibility.Visible;
-        private static Visibility GetInvalidServerLocationIconVisibility() => ExtMethods.PathIsServerFolder(App.appSettings) ? Visibility.Collapsed : Visibility.Visible;
-        private static Visibility GetCloseButtonVisibility() => ExtMethods.ServerHaveProfiles(App.appSettings) && ExtMethods.PathIsServerFolder(App.appSettings) ? Visibility.Visible : Visibility.Collapsed;
+        private static Visibility GetNoAccountsIconVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+        private static bool GetAccountsBoxEnabled() => ExtMethods.ServerHaveProfiles(AppSettings);
+        private static Visibility GetInvalidServerLocationIconVisibility() => ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+        private static Visibility GetCloseButtonVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Hidden;
         private async Task ServerSelectDialog()
         {
             bool pathOK = false;
@@ -136,7 +143,7 @@ namespace SPT_AKI_Profile_Editor
                     folderBrowserDialog.SelectedPath = ServerPath;
                 if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
                     pathOK = false;
-                if (ExtMethods.PathIsServerFolder(App.appSettings, folderBrowserDialog.SelectedPath))
+                if (ExtMethods.PathIsServerFolder(AppSettings, folderBrowserDialog.SelectedPath))
                     pathOK = true;
             } while (await PathIsNotServerFolder(pathOK));
             if (pathOK)

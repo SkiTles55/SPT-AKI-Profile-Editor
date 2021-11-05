@@ -39,6 +39,10 @@ namespace SPT_AKI_Profile_Editor
             RelayCommand closeCommand = new(async obj =>
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
+                if (App.appSettings.NeedReload)
+                {
+                    //Reload events
+                }
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(dialogCoordinator, closeCommand) };
             await dialogCoordinator.ShowMetroDialogAsync(this, settingsDialog);

@@ -48,10 +48,10 @@
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_account]}"/>
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="2" Foreground="Red" Visibility="{Binding NoAccontsIcon}" ToolTip="{Binding AppLocalization.Translations[no_accounts]}" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Label Grid.Column="1" Grid.Row="2" Foreground="Red" Visibility="{Binding NoAccountsIcon}" ToolTip="{Binding AppLocalization.Translations[no_accounts]}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
         </Label>
-        <ComboBox Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding Profiles}" SelectedItem="{Binding DefaultProfile}"/>
+        <ComboBox Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding AppSettings.ServerProfiles}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AppSettings.DefaultProfile}" IsEnabled="{Binding AccountsBoxEnabled}"/>
         <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_color_scheme]}"/>
