@@ -34,12 +34,12 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadGlobal()
         {
-            ServerDatabase.Global = new();
+            ServerDatabase.LocalesGlobal = new();
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], AppSettings.Language + ".json");
             try
             {
                 LocalesGlobal global = JsonSerializer.Deserialize<LocalesGlobal>(File.ReadAllText(path));
-                ServerDatabase.Global = global;
+                ServerDatabase.LocalesGlobal = global;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase Global ({path}) loading error: {ex.Message}"); }
         }
@@ -56,7 +56,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     if (bot.Appearance.Heads != null)
                         foreach (var head in bot.Appearance.Heads)
                             if (!ServerDatabase.Heads.ContainsKey(head))
-                                ServerDatabase.Heads.Add(head, ServerDatabase.Global.Customization.ContainsKey(head) ? ServerDatabase.Global.Customization[head].Name : head);
+                                ServerDatabase.Heads.Add(head, ServerDatabase.LocalesGlobal.Customization.ContainsKey(head) ? ServerDatabase.LocalesGlobal.Customization[head].Name : head);
                     if (bot.Appearance.Voices != null)
                         foreach (var voice in bot.Appearance.Voices)
                             if (!ServerDatabase.Voices.ContainsKey(voice))

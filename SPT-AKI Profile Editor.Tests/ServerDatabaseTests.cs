@@ -21,6 +21,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void BotTypesVoicesNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.Voices);
 
         [Test]
-        public void GlobalCustomizationNotEmpty() => Assert.AreNotEqual(new Dictionary<string, Template>(), AppData.ServerDatabase.Global.Customization);
+        public void GlobalCustomizationNotEmpty() => Assert.AreNotEqual(new Dictionary<string, Template>(), AppData.ServerDatabase.LocalesGlobal.Customization);
     }
 }
