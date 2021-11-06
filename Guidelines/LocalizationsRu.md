@@ -2,7 +2,7 @@
 [ENG README version](ENGREADME.md)
 
 ### Редактирование\создание файлов локализации:
-[ENG version](/Guidelines/LocalizationsEng.md)
+[ENG version](/Guidelines/LocalizationsENG.md)
 
 Файлы локализации генерируются в папке Localizations при первом запуске приложения.
 Файлы можно редактировать, и создавать новые.
