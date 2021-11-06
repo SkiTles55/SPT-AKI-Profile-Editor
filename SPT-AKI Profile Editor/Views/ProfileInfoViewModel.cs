@@ -6,7 +6,7 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     class ProfileInfoViewModel : INotifyPropertyChanged
     {
-        public static AppLocalization AppLocalization => App.appLocalization;
+        public static AppLocalization AppLocalization => AppData.AppLocalization;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

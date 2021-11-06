@@ -64,8 +64,8 @@ namespace SPT_AKI_Profile_Editor
                 Name = x.DisplayName,
                 Scheme = x.Name
             });
-        public static AppLocalization AppLocalization => App.appLocalization;
-        public static AppSettings AppSettings => App.appSettings;
+        public static AppLocalization AppLocalization => AppData.AppLocalization;
+        public static AppSettings AppSettings => AppData.AppSettings;
         public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
         public static RelayCommand CloseCommand { get; set; }
         public Visibility InvalidServerLocationIcon

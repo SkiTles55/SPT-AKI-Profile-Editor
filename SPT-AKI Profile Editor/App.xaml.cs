@@ -11,30 +11,11 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class App : Application
     {
-        public static AppSettings appSettings;
-        public static AppLocalization appLocalization;
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-            ChangeTheme();
-        }
-
-        public App()
-        {
-            appSettings = new AppSettings();
-            appSettings.Load();
-            appLocalization = new AppLocalization(appSettings.Language);
-        }
         public static RelayCommand CloseApplication => new(obj =>
         {
             Current.Shutdown();
         });
-        public static void ChangeTheme()
-        {
-            if (appSettings == null || string.IsNullOrEmpty(appSettings.ColorScheme)) return;
-            ThemeManager.Current.ChangeTheme(Current, appSettings.ColorScheme);
-        }
+        public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
 
         private void Application_Startup(object s, StartupEventArgs e)
         {

@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor
     class MainWindowViewModel
     {
         public MainWindowViewModel(IDialogCoordinator instance) => dialogCoordinator = instance;
-        public static AppLocalization AppLocalization => App.appLocalization;
+        public static AppLocalization AppLocalization => AppData.AppLocalization;
         public RelayCommand OpenSettingsCommand => new(async obj =>
         {
             await ShowSettingsDialog();
@@ -39,7 +39,7 @@ namespace SPT_AKI_Profile_Editor
             RelayCommand closeCommand = new(async obj =>
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
-                if (App.appSettings.NeedReload)
+                if (AppData.AppSettings.NeedReload)
                 {
                     //Reload events
                 }
@@ -49,10 +49,11 @@ namespace SPT_AKI_Profile_Editor
         }
         private async Task StartupEvents()
         {
-            if (string.IsNullOrEmpty(App.appSettings.ServerPath)
-            || !ExtMethods.PathIsServerFolder(App.appSettings)
-            || !ExtMethods.ServerHaveProfiles(App.appSettings)
-            || string.IsNullOrEmpty(App.appSettings.DefaultProfile))
+            App.ChangeTheme();
+            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
+            || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
+            || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
+            || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
                 await ShowSettingsDialog();
         }
     }
