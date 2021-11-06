@@ -8,6 +8,7 @@
                  xmlns:local="clr-namespace:SPT_AKI_Profile_Editor"
                  xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                 xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
                  Dialog:DialogParticipation.Register="{Binding}"
                  mc:Ignorable="d"
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -54,7 +55,7 @@
         </Label>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,5" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Visibility="Visible">
             <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:ProfileInfo/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_merchants_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

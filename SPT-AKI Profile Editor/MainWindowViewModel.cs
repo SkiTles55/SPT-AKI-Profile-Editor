@@ -33,7 +33,7 @@ namespace SPT_AKI_Profile_Editor
         {
             CustomDialog settingsDialog = new()
             {
-                Title = App.appLocalization.GetLocalizedString("tab_settings_title"),
+                Title = AppLocalization.GetLocalizedString("tab_settings_title"),
                 DialogContentWidth = new GridLength(500)
             };
             RelayCommand closeCommand = new(async obj =>
@@ -51,7 +51,8 @@ namespace SPT_AKI_Profile_Editor
         {
             if (string.IsNullOrEmpty(App.appSettings.ServerPath)
             || !ExtMethods.PathIsServerFolder(App.appSettings)
-            || !ExtMethods.ServerHaveProfiles(App.appSettings))
+            || !ExtMethods.ServerHaveProfiles(App.appSettings)
+            || string.IsNullOrEmpty(App.appSettings.DefaultProfile))
                 await ShowSettingsDialog();
         }
     }

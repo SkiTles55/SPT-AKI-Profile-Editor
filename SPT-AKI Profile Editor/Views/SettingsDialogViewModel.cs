@@ -117,15 +117,15 @@ namespace SPT_AKI_Profile_Editor
         private readonly IDialogCoordinator dialogCoordinator;
         private static readonly FolderBrowserDialog folderBrowserDialog = new()
         {
-            Description = AppLocalization.Translations["server_select"],
+            Description = AppLocalization.GetLocalizedString("server_select"),
             RootFolder = Environment.SpecialFolder.MyComputer,
             ShowNewFolderButton = false
         };
         private static MetroDialogSettings metroDialogSettings => new()
         {
             DefaultButtonFocus = MessageDialogResult.Affirmative,
-            AffirmativeButtonText = AppLocalization.Translations["button_yes"],
-            NegativeButtonText = AppLocalization.Translations["button_no"],
+            AffirmativeButtonText = AppLocalization.GetLocalizedString("button_yes"),
+            NegativeButtonText = AppLocalization.GetLocalizedString("button_no"),
             AnimateHide = true,
             AnimateShow = true
         };
@@ -152,8 +152,8 @@ namespace SPT_AKI_Profile_Editor
         private async Task<bool> PathIsNotServerFolder(bool pathOK)
         {
             return !pathOK && await dialogCoordinator.ShowMessageAsync(this,
-                AppLocalization.Translations["invalid_server_location_caption"],
-                AppLocalization.Translations["invalid_server_location_text"],
+                AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                AppLocalization.GetLocalizedString("invalid_server_location_text"),
                 MessageDialogStyle.AffirmativeAndNegative,
                 metroDialogSettings) == MessageDialogResult.Affirmative;
         }
