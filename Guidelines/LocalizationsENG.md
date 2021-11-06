@@ -2,7 +2,7 @@
 [RU README version](README.md)
 
 ### Редактирование\создание файлов локализации:
-[RU version](/Guidlines/LocalizationsRu.md)
+[RU version](/Guidelines/LocalizationsRu.md)
 
 Localization files are generated in the Localizations folder when the application is first launched.
 Files can be edited and new ones created.
