@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace SPT_AKI_Profile_Editor
         });
         public RelayCommand InitializeViewModelCommand => new(async obj =>
         {
+            App.ChangeTheme();
             await StartupEvents();
         });
         public static string WindowTitle
@@ -41,7 +43,7 @@ namespace SPT_AKI_Profile_Editor
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
                 if (AppData.AppSettings.NeedReload)
                 {
-                    //Reload events
+                    await StartupEvents();
                 }
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(dialogCoordinator, closeCommand) };
@@ -49,12 +51,15 @@ namespace SPT_AKI_Profile_Editor
         }
         private async Task StartupEvents()
         {
-            App.ChangeTheme();
             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
             || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
             || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
                 await ShowSettingsDialog();
+            else
+            {
+                AppData.Profile.Load(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
+            }
         }
     }
 }
