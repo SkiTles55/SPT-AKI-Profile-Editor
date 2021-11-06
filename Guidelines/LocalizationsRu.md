@@ -1,7 +1,7 @@
 # SPT-AKI Profile Editor
 [ENG README version](ENGREADME.md)
 
-### Редактирование\создание файлов локализации:
+### Редактирование \ создание файлов локализации:
 [ENG version](/Guidelines/LocalizationsENG.md)
 
 Файлы локализации генерируются в папке Localizations при первом запуске приложения.
