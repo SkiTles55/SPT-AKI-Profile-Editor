@@ -2,7 +2,7 @@
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    class Appearance
+    class BotTypeAppearance
     {
         [JsonPropertyName("head")]
         public string[] Heads { get; set; }

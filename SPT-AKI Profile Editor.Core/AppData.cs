@@ -27,12 +27,13 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (ExtMethods.PathIsServerFolder(AppSettings))
             {
-                LoadGlobal();
+                LoadLocalesGlobal();
                 LoadBotTypes();
+                LoadServerGlobals();
             }
         }
 
-        private static void LoadGlobal()
+        private static void LoadLocalesGlobal()
         {
             ServerDatabase.LocalesGlobal = new();
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], AppSettings.Language + ".json");
@@ -41,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LocalesGlobal global = JsonSerializer.Deserialize<LocalesGlobal>(File.ReadAllText(path));
                 ServerDatabase.LocalesGlobal = global;
             }
-            catch (Exception ex) { Logger.Log($"ServerDatabase Global ({path}) loading error: {ex.Message}"); }
+            catch (Exception ex) { Logger.Log($"ServerDatabase LocalesGlobal ({path}) loading error: {ex.Message}"); }
         }
 
         private static void LoadBotTypes()
@@ -66,6 +67,18 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             ServerDatabase.Heads = Heads;
             ServerDatabase.Voices = Voices;
+        }
+
+        private static void LoadServerGlobals()
+        {
+            ServerDatabase.ServerGlobals = new();
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_globals"]);
+            try
+            {
+                ServerGlobals global = JsonSerializer.Deserialize<ServerGlobals>(File.ReadAllText(path));
+                ServerDatabase.ServerGlobals = global;
+            }
+            catch (Exception ex) { Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}"); }
         }
     }
 }

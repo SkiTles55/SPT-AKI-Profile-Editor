@@ -53,9 +53,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get => level;
             set
             {
-                level = value;
-                OnPropertyChanged("Level");
-                Experience = LevelToExperience(level);
+                if (level != value)
+                {
+                    level = value;
+                    OnPropertyChanged("Level");
+                    Experience = LevelToExperience();
+                }
             }
         }
 
@@ -65,8 +68,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get => experience;
             set
             {
-                experience = value;
-                OnPropertyChanged("Experience");
+                if (experience != value)
+                {
+                    experience = value;
+                    OnPropertyChanged("Experience");
+                    Level = ExperienceToLevel();
+                }
             }
         }
 
@@ -79,29 +86,48 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private int level;
         private long experience;
 
-        private long LevelToExperience(int level)
+        private long LevelToExperience()
         {
-            //if (ExtMethods.ExpTable == null) return 0;
-            //if (level > ExtMethods.ExpTable.Count())
-            //    level = ExtMethods.ExpTable.Count();
-            long exp = 0;
-            //for (int i = 0; i < level; i++)
-            //    exp += ExtMethods.ExpTable[i];
-            return exp;
+            if (AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable == null) return 1;
+            if (level == 0)
+            {
+                level = 1;
+                Level = level;
+            }
+            if (level > AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length + 1)
+            {
+                level = AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length;
+                Level = level;
+            }
+            long expStart = 0;
+            long expEnd = 0;
+            for (int i = 0; i < level; i++)
+            {
+                expStart += AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable[i].Exp;
+                expEnd = expStart;
+                if (i < AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length - 1)
+                    expEnd += AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable[i + 1].Exp;
+                else
+                    expEnd += 100000;
+            }
+            if (experience >= expStart && experience < expEnd)
+                return experience;
+            else
+                return expStart;
         }
 
-        private int ExperienceToLevel(long experience)
+        private int ExperienceToLevel()
         {
-            //if (ExtMethods.ExpTable == null) return 0;
-            //long exp = 0;
+            if (AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable == null) return 0;
+            long exp = 0;
             int level = 0;
-            //for (int i = 0; i < ExtMethods.ExpTable.Count(); i++)
-            //{
-            //    if (experience < exp)
-            //        break;
-            //    exp += ExtMethods.ExpTable[i];
-            //    level = i;
-            //}
+            for (int i = 0; i < AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length; i++)
+            {
+                if (experience < exp)
+                    break;
+                exp += AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable[i].Exp;
+                level = i;
+            }
             return level;
         }
 

@@ -50,7 +50,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_level]}"/>
                 </Label.Content>
             </Label>
-            <TextBox Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Text="{ Binding Profile.Characters.Pmc.Info.Level, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
+            <TextBox Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Info.Level, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
             <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_experience]}"/>
@@ -61,8 +61,8 @@
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Text="{Binding ElementName=infotab_Experience, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" MinWidth="70"/>
-                <Slider x:Name="infotab_Experience" Grid.Column="1" Maximum="14199002" TickPlacement="BottomRight" TickFrequency="300000" Value="{Binding Profile.Characters.Pmc.Info.Experience}" VerticalAlignment="Center" Margin="2,0"/>
+                <TextBox Grid.Column="0" Text="{Binding Profile.Characters.Pmc.Info.Experience, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" MinWidth="70" PreviewTextInput="NumberValidationTextBox"/>
+                <Slider Grid.Column="1" TickPlacement="BottomRight" TickFrequency="300000" Value="{Binding Profile.Characters.Pmc.Info.Experience}" VerticalAlignment="Center" Margin="2,0" Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"/>
             </Grid>
             <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                 <Label.Content>

@@ -33,10 +33,20 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("LocalesGlobal");
             }
         }
+        public ServerGlobals ServerGlobals
+        {
+            get => serverGlobals;
+            set
+            {
+                serverGlobals = value;
+                OnPropertyChanged("ServerGlobals");
+            }
+        }
 
         private Dictionary<string, string> heads;
         private Dictionary<string, string> voices;
         private LocalesGlobal localesGlobal;
+        private ServerGlobals serverGlobals;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
