@@ -16,6 +16,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Aid");
             }
         }
+        [JsonPropertyName("Info")]
         public CharacterInfo Info
         {
             get => info;
@@ -25,9 +26,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Info");
             }
         }
+        [JsonPropertyName("Customization")]
+        public CharacterCustomization Customization
+        {
+            get => customization;
+            set
+            {
+                customization = value;
+                OnPropertyChanged("Customization");
+            }
+        }
 
         private string aid;
         private CharacterInfo info;
+        private CharacterCustomization customization;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

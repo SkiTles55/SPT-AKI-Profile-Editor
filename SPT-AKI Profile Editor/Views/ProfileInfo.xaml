@@ -32,7 +32,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_nickname]}"/>
                 </Label.Content>
             </Label>
-            <TextBox Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Info.Nickname}" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Info.Nickname, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center"/>
             <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_side]}"/>
@@ -44,13 +44,13 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_voice]}"/>
                 </Label.Content>
             </Label>
-            <ComboBox Grid.Column="1" Grid.Row="3" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key"/>
+            <ComboBox Grid.Column="1" Grid.Row="3" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Profile.Characters.Pmc.Info.Voice}" ItemsSource="{Binding ServerDatabase.Voices}"/>
             <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_level]}"/>
                 </Label.Content>
             </Label>
-            <TextBox Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Text="{ Binding Profile.Characters.Pmc.Info.Level}" Margin="10,0" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Text="{ Binding Profile.Characters.Pmc.Info.Level, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
             <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_experience]}"/>
@@ -75,7 +75,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_head]}"/>
                 </Label.Content>
             </Label>
-            <ComboBox Grid.Column="1" Grid.Row="7" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key"/>
+            <ComboBox Grid.Column="1" Grid.Row="7" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Profile.Characters.Pmc.Customization.Head}" ItemsSource="{Binding ServerDatabase.Heads}"/>
             <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                 <Label.Content>
                     <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_pockets]}"/>

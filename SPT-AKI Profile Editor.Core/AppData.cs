@@ -46,8 +46,8 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadBotTypes()
         {
-            ServerDatabase.Heads = new Dictionary<string, string>();
-            ServerDatabase.Voices = new Dictionary<string, string>();
+            Dictionary<string, string> Heads = new();
+            Dictionary<string, string> Voices = new();
             foreach (var btype in Directory.GetFiles(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_bots"])))
             {
                 try
@@ -55,15 +55,17 @@ namespace SPT_AKI_Profile_Editor.Core
                     BotType bot = JsonSerializer.Deserialize<BotType>(File.ReadAllText(btype));
                     if (bot.Appearance.Heads != null)
                         foreach (var head in bot.Appearance.Heads)
-                            if (!ServerDatabase.Heads.ContainsKey(head))
-                                ServerDatabase.Heads.Add(head, ServerDatabase.LocalesGlobal.Customization.ContainsKey(head) ? ServerDatabase.LocalesGlobal.Customization[head].Name : head);
+                            if (!Heads.ContainsKey(head))
+                                Heads.Add(head, ServerDatabase.LocalesGlobal.Customization.ContainsKey(head) ? ServerDatabase.LocalesGlobal.Customization[head].Name : head);
                     if (bot.Appearance.Voices != null)
                         foreach (var voice in bot.Appearance.Voices)
-                            if (!ServerDatabase.Voices.ContainsKey(voice))
-                                ServerDatabase.Voices.Add(voice, voice);
+                            if (!Voices.ContainsKey(voice))
+                                Voices.Add(voice, voice);
                 }
                 catch (Exception ex) { Logger.Log($"ServerDatabase BotType ({btype}) loading error: {ex.Message}"); }
             }
+            ServerDatabase.Heads = Heads;
+            ServerDatabase.Voices = Voices;
         }
     }
 }

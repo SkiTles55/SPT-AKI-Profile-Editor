@@ -16,7 +16,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (nickname != value)
                 {
                     LowerNickname = value.ToLower();
+                    OnPropertyChanged("LowerNickname");
                 }
+                OnPropertyChanged("Nickname");
             }
         }
 
@@ -30,6 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 side = value;
+                OnPropertyChanged("Side");
             }
         }
 
@@ -40,6 +43,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 voice = value;
+                OnPropertyChanged("Voice");
             }
         }
 
@@ -50,6 +54,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 level = value;
+                OnPropertyChanged("Level");
+                Experience = LevelToExperience(level);
             }
         }
 
@@ -60,6 +66,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 experience = value;
+                OnPropertyChanged("Experience");
             }
         }
 
@@ -71,6 +78,32 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private string voice;
         private int level;
         private long experience;
+
+        private long LevelToExperience(int level)
+        {
+            //if (ExtMethods.ExpTable == null) return 0;
+            //if (level > ExtMethods.ExpTable.Count())
+            //    level = ExtMethods.ExpTable.Count();
+            long exp = 0;
+            //for (int i = 0; i < level; i++)
+            //    exp += ExtMethods.ExpTable[i];
+            return exp;
+        }
+
+        private int ExperienceToLevel(long experience)
+        {
+            //if (ExtMethods.ExpTable == null) return 0;
+            //long exp = 0;
+            int level = 0;
+            //for (int i = 0; i < ExtMethods.ExpTable.Count(); i++)
+            //{
+            //    if (experience < exp)
+            //        break;
+            //    exp += ExtMethods.ExpTable[i];
+            //    level = i;
+            //}
+            return level;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

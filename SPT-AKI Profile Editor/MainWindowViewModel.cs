@@ -58,6 +58,7 @@ namespace SPT_AKI_Profile_Editor
                 await ShowSettingsDialog();
             else
             {
+                AppData.LoadDatabase();
                 AppData.Profile.Load(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
             }
         }
