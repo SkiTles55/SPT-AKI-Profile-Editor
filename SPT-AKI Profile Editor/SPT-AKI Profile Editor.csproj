@@ -11,12 +11,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="profileeditor.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="4.11.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SPT-AKI Profile Editor.Core\SPT-AKI Profile Editor.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="profileeditor.png" />
   </ItemGroup>
 
 </Project>
