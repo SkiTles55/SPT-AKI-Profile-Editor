@@ -33,6 +33,7 @@ namespace SPT_AKI_Profile_Editor
         private readonly IDialogCoordinator dialogCoordinator;
         private async Task ShowSettingsDialog()
         {
+            string startValues = AppData.AppSettings.ServerPath + AppData.AppSettings.DefaultProfile + AppData.AppSettings.Language;
             CustomDialog settingsDialog = new()
             {
                 Title = AppLocalization.GetLocalizedString("tab_settings_title"),
@@ -41,10 +42,9 @@ namespace SPT_AKI_Profile_Editor
             RelayCommand closeCommand = new(async obj =>
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
-                if (AppData.AppSettings.NeedReload)
-                {
+                string newValues = AppData.AppSettings.ServerPath + AppData.AppSettings.DefaultProfile + AppData.AppSettings.Language;
+                if (startValues != newValues)
                     await StartupEvents();
-                }
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(dialogCoordinator, closeCommand) };
             await dialogCoordinator.ShowMetroDialogAsync(this, settingsDialog);

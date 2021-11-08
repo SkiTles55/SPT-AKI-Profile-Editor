@@ -25,7 +25,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 {
                     if (_needReload)
                         LoadProfiles();
-                    NeedReload = _needReload;
                     Save();
                 }
             }
@@ -35,14 +34,10 @@ namespace SPT_AKI_Profile_Editor.Core
             get => defaultProfile;
             set
             {
-                bool _needReload = defaultProfile != value;
                 defaultProfile = value;
                 OnPropertyChanged("DefaultProfile");
                 if (Loaded)
-                {
-                    NeedReload = _needReload;
                     Save();
-                }
             }
         }
         public string Language
@@ -50,14 +45,10 @@ namespace SPT_AKI_Profile_Editor.Core
             get => language;
             set
             {
-                bool _needReload = language != value;
                 language = value;
                 OnPropertyChanged("Language");
                 if (Loaded)
-                {
-                    NeedReload = _needReload;
                     Save();
-                }
             }
         }
         public string ColorScheme
@@ -71,8 +62,6 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
-        [JsonIgnore]
-        public bool NeedReload = false;
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -103,6 +92,7 @@ namespace SPT_AKI_Profile_Editor.Core
             Loaded = true;
             LoadProfiles();
         }
+
         public void Save() => ExtMethods.SaveJson(configurationFile, this);
 
         public void LoadProfiles()
