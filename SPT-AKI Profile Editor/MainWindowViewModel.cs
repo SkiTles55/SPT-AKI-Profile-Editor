@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -9,18 +10,26 @@ using System.Windows;
 
 namespace SPT_AKI_Profile_Editor
 {
-    class MainWindowViewModel
+    public class MainWindowViewModel
     {
-        public MainWindowViewModel(IDialogCoordinator instance) => dialogCoordinator = instance;
+        public MainWindowViewModel(IDialogCoordinator instance)
+        {
+            dialogCoordinator = instance;
+            worker = new Worker(dialogCoordinator, this)
+            {
+                ErrorTitle = AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                ErrorConfirm = AppLocalization.GetLocalizedString("save_profile_dialog_ok")
+            };
+        }
         public static AppLocalization AppLocalization => AppData.AppLocalization;
         public RelayCommand OpenSettingsCommand => new(async obj =>
         {
             await ShowSettingsDialog();
         });
-        public RelayCommand InitializeViewModelCommand => new(async obj =>
+        public RelayCommand InitializeViewModelCommand => new(obj =>
         {
             App.ChangeTheme();
-            await StartupEvents();
+            StartupEventsWorker();
         });
         public static string WindowTitle
         {
@@ -31,6 +40,7 @@ namespace SPT_AKI_Profile_Editor
             }
         }
         private readonly IDialogCoordinator dialogCoordinator;
+        private readonly Worker worker;
         private async Task ShowSettingsDialog()
         {
             string startValues = AppData.AppSettings.ServerPath + AppData.AppSettings.DefaultProfile + AppData.AppSettings.Language;
@@ -44,18 +54,27 @@ namespace SPT_AKI_Profile_Editor
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
                 string newValues = AppData.AppSettings.ServerPath + AppData.AppSettings.DefaultProfile + AppData.AppSettings.Language;
                 if (startValues != newValues)
-                    await StartupEvents();
+                    StartupEventsWorker();
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(dialogCoordinator, closeCommand) };
             await dialogCoordinator.ShowMetroDialogAsync(this, settingsDialog);
         }
-        private async Task StartupEvents()
+        private void StartupEventsWorker()
+        {
+            worker.AddAction(new WorkerTask
+            {
+                Action = StartupEvents,
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
+            });
+        }
+        private void StartupEvents()
         {
             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
             || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
             || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await ShowSettingsDialog();
+                Application.Current.Dispatcher.Invoke(async () => { await ShowSettingsDialog(); });
             else
             {
                 AppData.LoadDatabase();

@@ -133,7 +133,7 @@ namespace SPT_AKI_Profile_Editor
         private static Visibility GetNoAccountsIconVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
         private static bool GetAccountsBoxEnabled() => ExtMethods.ServerHaveProfiles(AppSettings);
         private static Visibility GetInvalidServerLocationIconVisibility() => ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Hidden : Visibility.Visible;
-        private static Visibility GetCloseButtonVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Hidden;
+        private static Visibility GetCloseButtonVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Collapsed;
         private async Task ServerSelectDialog()
         {
             bool pathOK = false;
