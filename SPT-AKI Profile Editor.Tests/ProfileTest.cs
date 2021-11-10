@@ -28,10 +28,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void VoiceNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Info.Voice, "Voice is empty");
 
         [Test]
-        public void LevelNotZero() => Assert.AreNotEqual(0, profile.Characters.Pmc.Info.Level, "Experience is zero");
+        public void ExperienceNotZero() => Assert.AreNotEqual(0, profile.Characters.Pmc.Info.Experience, "Experience is zero");
 
         [Test]
-        public void ExperienceNotZero() => Assert.AreNotEqual(0, profile.Characters.Pmc.Info.Experience, "Experience is zero");
+        public void LevelNotZero() => Assert.AreNotEqual(0, profile.Characters.Pmc.Info.Level, "Level is zero");
 
         [Test]
         public void GameVersionNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Info.GameVersion, "GameVersion is empty");

@@ -88,7 +88,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private long LevelToExperience()
         {
-            if (AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable == null) return 1;
+            if (AppData.ServerDatabase.ServerGlobals?.Config?.Exp?.Level?.ExpTable == null) return 1;
             if (level == 0)
             {
                 level = 1;
@@ -118,7 +118,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private int ExperienceToLevel()
         {
-            if (AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable == null) return 0;
+            if (AppData.ServerDatabase.ServerGlobals?.Config?.Exp?.Level?.ExpTable == null) return 0;
             long exp = 0;
             int level = 0;
             for (int i = 0; i < AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length; i++)
