@@ -12,11 +12,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public string ErrorTitle { get; set; }
         public string ErrorConfirm { get; set; }
 
-        private IDialogCoordinator _dialogCoordinator;
-        private MainWindowViewModel _viewModel;
+        private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly MainWindowViewModel _viewModel;
         private ProgressDialogController progressDialog;
         private List<WorkerTask> tasks;
-        private List<WorkerNotification> workerNotifications;
+        private readonly List<WorkerNotification> workerNotifications;
         private bool isBusy = false;
 
         public Worker(IDialogCoordinator dialogCoordinator, MainWindowViewModel viewModel)

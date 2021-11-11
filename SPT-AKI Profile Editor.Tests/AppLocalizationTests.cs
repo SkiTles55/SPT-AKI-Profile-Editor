@@ -12,9 +12,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            appSettings = new AppSettings();
+            appSettings = new();
             appSettings.Load();
-            appLocalization = new AppLocalization(appSettings.Language);
+            appLocalization = new(appSettings.Language);
         }
 
         [Test]

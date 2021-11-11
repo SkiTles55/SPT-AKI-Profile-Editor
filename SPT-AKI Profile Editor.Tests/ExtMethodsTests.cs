@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            settings = new AppSettings();
+            settings = new();
             settings.Load();
         }
 

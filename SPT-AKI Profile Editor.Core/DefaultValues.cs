@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core
             ["file_areas"] = "Aki_Data\\Server\\database\\hideout\\areas.json",
             ["file_serverexe"] = "Server.exe"
         };
-        public static List<AppLocalization> DefaultLocalizations = new()
+        public static List<AppLocalization> DefaultLocalizations => new()
         {
             new AppLocalization { Key = "en", Name = "English", Translations = new Dictionary<string, string>() {
                 ["button_yes"] = "Yes",

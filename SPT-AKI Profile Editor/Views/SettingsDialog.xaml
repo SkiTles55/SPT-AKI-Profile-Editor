@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" 
+             xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor" 
+             d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:SettingsDialogViewModel}"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <Grid>

@@ -6,11 +6,11 @@ namespace SPT_AKI_Profile_Editor.Core
     public class Logger
     {
         private static readonly string LogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        private static string _fileName;
+        private static readonly string _fileName;
 
         static Logger()
         {
-            DirectoryInfo dir = new DirectoryInfo(LogPath);
+            DirectoryInfo dir = new(LogPath);
             if (!dir.Exists)
                 dir.Create();
             _fileName = "log" + DateTime.Now.ToString("dd-MM-yyyy") + ".txt";

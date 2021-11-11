@@ -24,6 +24,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void LocalesGlobalCustomizationNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalTemplate>(), AppData.ServerDatabase.LocalesGlobal.Customization);
 
         [Test]
-        public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.AreNotEqual(new LevelExpTable[0], AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable);
+        public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.AreNotEqual(System.Array.Empty<LevelExpTable>(), AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable);
     }
 }

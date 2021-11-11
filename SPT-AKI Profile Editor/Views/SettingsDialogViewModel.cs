@@ -121,7 +121,7 @@ namespace SPT_AKI_Profile_Editor
             RootFolder = Environment.SpecialFolder.MyComputer,
             ShowNewFolderButton = false
         };
-        private static MetroDialogSettings metroDialogSettings => new()
+        private static MetroDialogSettings MetroDialogSettings => new()
         {
             DefaultButtonFocus = MessageDialogResult.Affirmative,
             AffirmativeButtonText = AppLocalization.GetLocalizedString("button_yes"),
@@ -155,7 +155,7 @@ namespace SPT_AKI_Profile_Editor
                 AppLocalization.GetLocalizedString("invalid_server_location_caption"),
                 AppLocalization.GetLocalizedString("invalid_server_location_text"),
                 MessageDialogStyle.AffirmativeAndNegative,
-                metroDialogSettings) == MessageDialogResult.Affirmative;
+                MetroDialogSettings) == MessageDialogResult.Affirmative;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

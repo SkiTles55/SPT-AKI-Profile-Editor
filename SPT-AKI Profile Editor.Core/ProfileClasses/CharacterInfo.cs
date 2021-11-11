@@ -13,17 +13,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 nickname = value;
-                if (nickname != value)
-                {
-                    LowerNickname = value.ToLower();
-                    OnPropertyChanged("LowerNickname");
-                }
                 OnPropertyChanged("Nickname");
             }
         }
-
-        [JsonPropertyName("LowerNickname")]
-        public string LowerNickname { get; set; }
 
         [JsonPropertyName("Side")]
         public string Side
@@ -94,7 +86,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 level = 1;
                 Level = level;
             }
-            if (level > AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length + 1)
+            if (level > AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length)
             {
                 level = AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length;
                 Level = level;
