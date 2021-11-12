@@ -93,7 +93,7 @@
             </TabItem>
         </TabControl>
         <StackPanel Margin="10,0,10,5" Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Visible">
-            <Button x:Name="resetProfileButton" Content="{Binding AppLocalization.Translations[button_reload_profile]}" Margin="10,5,5,0" Width="250">
+            <Button Content="{Binding AppLocalization.Translations[button_reload_profile]}" Margin="10,5,5,0" Width="250" Command="{Binding ReloadButtonCommand}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -108,7 +108,7 @@
                     </DataTemplate>
                 </Button.ContentTemplate>
             </Button>
-            <Button x:Name="saveProfileButton" Content="{Binding AppLocalization.Translations[button_save_profile]}" Margin="5,5,10,0" Width="250">
+            <Button Content="{Binding AppLocalization.Translations[button_save_profile]}" Margin="5,5,10,0" Width="250" Command="{Binding SaveButtonCommand}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

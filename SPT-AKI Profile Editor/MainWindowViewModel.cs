@@ -33,6 +33,14 @@ namespace SPT_AKI_Profile_Editor
             App.ChangeTheme();
             StartupEventsWorker();
         });
+        public RelayCommand SaveButtonCommand => new(obj =>
+        {
+            SaveProfileAndReload();
+        });
+        public RelayCommand ReloadButtonCommand => new(obj =>
+        {
+            StartupEventsWorker();
+        });
         public static string WindowTitle
         {
             get
@@ -60,6 +68,16 @@ namespace SPT_AKI_Profile_Editor
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(dialogCoordinator, closeCommand) };
             await dialogCoordinator.ShowMetroDialogAsync(this, settingsDialog);
+        }
+        private void SaveProfileAndReload()
+        {
+            worker.AddAction(new WorkerTask
+            {
+                Action = () => { AppData.Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile)); },
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("save_profile_dialog_title")
+            });
+            StartupEventsWorker();
         }
         private void StartupEventsWorker()
         {
