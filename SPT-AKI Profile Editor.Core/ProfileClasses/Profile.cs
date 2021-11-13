@@ -45,6 +45,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
             jobject.SelectToken("characters")["pmc"].SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
+            foreach (var tr in AppData.ServerDatabase.TraderInfos)
+            {
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[tr.Key].LoyaltyLevel;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["salesSum"] = Characters.Pmc.TraderStandings[tr.Key].SalesSum;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["standing"] = Characters.Pmc.TraderStandings[tr.Key].Standing;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["unlocked"] = Characters.Pmc.TraderStandings[tr.Key].Unlocked;
+            }
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
         }

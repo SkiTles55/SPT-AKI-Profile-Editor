@@ -1,13 +1,9 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
-using System;
-using System.Collections.Generic;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -16,6 +12,11 @@ namespace SPT_AKI_Profile_Editor.Views
         public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static Profile Profile => AppData.Profile;
         public static ServerDatabase ServerDatabase => AppData.ServerDatabase;
+        public static RelayCommand SetAllMaxCommand => new(obj =>
+        {
+            foreach (var trader in ServerDatabase.TraderInfos.Values)
+                trader.Level = trader.MaxLevel;
+        });
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

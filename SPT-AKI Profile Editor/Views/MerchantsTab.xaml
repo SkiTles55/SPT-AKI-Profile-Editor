@@ -12,34 +12,55 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}">
+        <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding ServerDatabase.TraderInfos}" IsReadOnly="True">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_name], Source={StaticResource proxy}}" Width="*" SortMemberPath="name">
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_name], Source={StaticResource proxy}}" Width="*" SortMemberPath="Value.LocalizedName">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding Path=name}"/>
+                            <Label Content="{Binding Path=Value.LocalizedName}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_enabled], Source={StaticResource proxy}}" Width="*" SortMemberPath="Display">
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_enabled], Source={StaticResource proxy}}" Width="*" SortMemberPath="Value.Unlocked">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox/>
+                            <CheckBox IsChecked="{Binding Path=Value.Unlocked}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_level], Source={StaticResource proxy}}" Width="*" SortMemberPath="CurrentLevel">
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_standing], Source={StaticResource proxy}}" Width="*" SortMemberPath="Value.Standing">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox DisplayMemberPath="level" SelectedValuePath="level" SelectedValue="{Binding Path=CurrentLevel}"/>
+                            <Label Content="{Binding Path=Value.Standing}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_sales_sum], Source={StaticResource proxy}}" Width="*" SortMemberPath="Value.SalesSum">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Path=Value.SalesSum}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_level], Source={StaticResource proxy}}" Width="230" SortMemberPath="Value.Level">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Text="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" MinWidth="30" PreviewTextInput="NumberValidationTextBox"/>
+                                <Slider Grid.Column="1" TickPlacement="BottomRight" TickFrequency="1" Value="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Maximum="{Binding Path=Value.MaxLevel}" IsSnapToTickEnabled="True" Minimum="1"/>
+                            </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}" Grid.Row="1" HorizontalAlignment="Center" Margin="10,10,10,0" Width="200" Height="30"/>
+        <Button Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}" Grid.Row="1" HorizontalAlignment="Center" Margin="10,10,10,0" Width="200" Height="30" Command="{Binding SetAllMaxCommand}"/>
     </Grid>
 </UserControl>
