@@ -7,12 +7,12 @@ namespace SPT_AKI_Profile_Editor.Views
     /// <summary>
     /// Логика взаимодействия для ProfileInfo.xaml
     /// </summary>
-    public partial class ProfileInfo : UserControl
+    public partial class InfoTab : UserControl
     {
-        public ProfileInfo()
+        public InfoTab()
         {
             InitializeComponent();
-            DataContext = new ProfileInfoViewModel();
+            DataContext = new InfoTabViewModel();
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace SPT_AKI_Profile_Editor
 {
@@ -11,7 +10,7 @@ namespace SPT_AKI_Profile_Editor
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(DialogCoordinator.Instance);
+            DataContext = new MainWindowViewModel();
         }
     }
 }

@@ -30,6 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadLocalesGlobal();
                 LoadBotTypes();
                 LoadServerGlobals();
+                LoadTradersInfos();
             }
         }
 
@@ -79,6 +80,19 @@ namespace SPT_AKI_Profile_Editor.Core
                 ServerDatabase.ServerGlobals = global;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}"); }
+        }
+
+        private static void LoadTradersInfos()
+        {
+            ServerDatabase.TraderInfos = new();
+            var traderInfos = new Dictionary<string, TraderBase>();
+            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_traders"])))
+            {
+                if (Path.GetFileNameWithoutExtension(tbase) == "ragfair")
+                    continue;
+                traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonSerializer.Deserialize<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
+            }
+            ServerDatabase.TraderInfos = traderInfos;
         }
     }
 }

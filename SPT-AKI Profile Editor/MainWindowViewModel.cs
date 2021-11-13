@@ -14,9 +14,9 @@ namespace SPT_AKI_Profile_Editor
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public MainWindowViewModel(IDialogCoordinator instance)
+        public MainWindowViewModel()
         {
-            dialogCoordinator = instance;
+            dialogCoordinator = DialogCoordinator.Instance;
             worker = new Worker(dialogCoordinator, this)
             {
                 ErrorTitle = AppLocalization.GetLocalizedString("invalid_server_location_caption"),

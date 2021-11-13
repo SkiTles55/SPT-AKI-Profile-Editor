@@ -56,10 +56,10 @@
         </Label>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,5" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Visibility="Visible">
             <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:ProfileInfo/>
+                <views:InfoTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_merchants_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:MerchantsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_quests_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void Load(string path)
         {
             string fileText = File.ReadAllText(path);
-            Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
+            Profile profile = System.Text.Json.JsonSerializer.Deserialize<Profile>(fileText);
             Characters = profile.Characters;
         }
 

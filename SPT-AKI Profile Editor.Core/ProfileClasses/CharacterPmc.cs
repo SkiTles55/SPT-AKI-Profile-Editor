@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
@@ -36,10 +37,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Customization");
             }
         }
+        [JsonPropertyName("TradersInfo")]
+        public Dictionary<string, CharacterTraderStandings> TraderStandings
+        {
+            get => traderStandings;
+            set
+            {
+                traderStandings = value;
+                OnPropertyChanged("TraderStandings");
+            }
+        }
 
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;
+        private Dictionary<string, CharacterTraderStandings> traderStandings;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

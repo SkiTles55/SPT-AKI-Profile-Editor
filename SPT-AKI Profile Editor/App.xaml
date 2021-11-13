@@ -9,6 +9,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Emerald.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="MyColumnHeader" 
+               BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}" 
+               TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
             <DataTemplate x:Key="HeaderTemplate">
                 <TextBlock Text="{Binding}" Width="180" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </DataTemplate>

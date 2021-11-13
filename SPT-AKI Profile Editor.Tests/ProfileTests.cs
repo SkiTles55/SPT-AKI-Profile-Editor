@@ -2,7 +2,9 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -21,7 +23,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void CharactersNotNull() => Assert.IsNotNull(profile.Characters);
+
+        [Test]
+        public void PmcNotNull() => Assert.IsNotNull(profile.Characters.Pmc);
+
+        [Test]
         public void IdNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Aid, "Id is empty");
+
+        [Test]
+        public void InfoNotNull() => Assert.IsNotNull(profile.Characters.Pmc.Info);
 
         [Test]
         public void NicknameNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Info.Nickname, "Nickname is empty");
@@ -40,6 +51,18 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void GameVersionNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Info.GameVersion, "GameVersion is empty");
+
+        [Test]
+        public void CustomizationNotNully() => Assert.IsNotNull(profile.Characters.Pmc.Customization);
+
+        [Test]
+        public void HeadNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Customization.Head, "Head is empty");
+
+        [Test]
+        public void TraderStandingsNotEmpty() => Assert.AreNotEqual(new Dictionary<string, CharacterTraderStandings>(), profile.Characters.Pmc.TraderStandings, "TraderStandings is empty");
+
+        [Test]
+        public void TraderStandingsNotNull() => Assert.IsNotNull(profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
 
         [Test]
         public void ProfileSavesCorrectly()

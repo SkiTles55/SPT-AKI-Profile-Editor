@@ -8,14 +8,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         //[JsonPropertyName("interface")]
         //public Dictionary<string, string> Interface { get; set; }
 
-        //[JsonPropertyName("trading")]
-        //public Dictionary<string, TraderLocale> Traders { get; set; }
+        [JsonPropertyName("trading")]
+        public Dictionary<string, LocalesGlobalTrading> Trading { get; set; }
 
         //[JsonPropertyName("quest")]
         //public Dictionary<string, QuestLocale> Quests { get; set; }
 
-        //[JsonPropertyName("templates")]
-        //public Dictionary<string, Template> Templates { get; set; }
+        [JsonPropertyName("templates")]
+        public Dictionary<string, LocalesGlobalTemplate> Templates { get; set; }
 
         [JsonPropertyName("customization")]
         public Dictionary<string, LocalesGlobalTemplate> Customization { get; set; }
