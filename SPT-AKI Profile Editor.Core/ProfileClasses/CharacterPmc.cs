@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
         [JsonPropertyName("TradersInfo")]
-        public Dictionary<string, CharacterTraderStandings> TraderStandings
+        public Dictionary<string, CharacterTraderStanding> TraderStandings
         {
             get => traderStandings;
             set
@@ -47,11 +47,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("TraderStandings");
             }
         }
+        [JsonPropertyName("Quests")]
+        public CharacterQuest[] Quests { get; set; }
 
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;
-        private Dictionary<string, CharacterTraderStandings> traderStandings;
+        private Dictionary<string, CharacterTraderStanding> traderStandings;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

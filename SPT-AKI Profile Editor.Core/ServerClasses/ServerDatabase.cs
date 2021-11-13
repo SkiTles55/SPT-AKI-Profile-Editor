@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -52,12 +51,22 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("TraderInfos");
             }
         }
+        public Dictionary<string, string> QuestsData
+        {
+            get => questsData;
+            set
+            {
+                questsData = value;
+                OnPropertyChanged("QuestsData");
+            }
+        }
 
         private Dictionary<string, string> heads;
         private Dictionary<string, string> voices;
         private LocalesGlobal localesGlobal;
         private ServerGlobals serverGlobals;
         private Dictionary<string, TraderBase> traderInfos;
+        private Dictionary<string, string> questsData;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

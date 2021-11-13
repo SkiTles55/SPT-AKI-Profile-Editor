@@ -59,10 +59,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HeadNotEmpty() => Assert.IsNotNull(profile.Characters.Pmc.Customization.Head, "Head is empty");
 
         [Test]
-        public void TraderStandingsNotEmpty() => Assert.AreNotEqual(new Dictionary<string, CharacterTraderStandings>(), profile.Characters.Pmc.TraderStandings, "TraderStandings is empty");
+        public void TraderStandingsNotEmpty() => Assert.AreNotEqual(new Dictionary<string, CharacterTraderStanding>(), profile.Characters.Pmc.TraderStandings, "TraderStandings is empty");
 
         [Test]
         public void TraderStandingsNotNull() => Assert.IsNotNull(profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
+
+        [Test]
+        public void QuestsNotNull() => Assert.IsNotNull(profile.Characters.Pmc.Quests, "Quests is null");
+
+        [Test]
+        public void QuestsNotEmpty() => Assert.IsFalse(profile.Characters.Pmc.Quests.Length == 0, "Quests is empty");
 
         [Test]
         public void ProfileSavesCorrectly()

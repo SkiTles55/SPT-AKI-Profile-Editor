@@ -2,7 +2,6 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -49,5 +48,11 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void TraderInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.TraderInfos);
+
+        [Test]
+        public void QuestsDataNotNul() => Assert.IsNotNull(AppData.ServerDatabase.QuestsData);
+
+        [Test]
+        public void QuestsDataNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.QuestsData);
     }
 }

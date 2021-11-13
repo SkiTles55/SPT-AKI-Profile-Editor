@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace SPT_AKI_Profile_Editor.Core
@@ -31,6 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadBotTypes();
                 LoadServerGlobals();
                 LoadTradersInfos();
+                LoadQuestsData();
             }
         }
 
@@ -90,9 +92,25 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 if (Path.GetFileNameWithoutExtension(tbase) == "ragfair")
                     continue;
-                traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonSerializer.Deserialize<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
+                try
+                {
+                    traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonSerializer.Deserialize<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
+                }
+                catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({tbase}) loading error: {ex.Message}"); }
             }
             ServerDatabase.TraderInfos = traderInfos;
+        }
+
+        private static void LoadQuestsData()
+        {
+            ServerDatabase.QuestsData = new();
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_quests"]);
+            try
+            {
+                Dictionary<string, QuestData> questsData = JsonSerializer.Deserialize<Dictionary<string, QuestData>>(File.ReadAllText(path));
+                ServerDatabase.QuestsData = questsData.ToDictionary(x => x.Value.Id, y => y.Value.TraderId);
+            }
+            catch (Exception ex) { Logger.Log($"ServerDatabase QuestsData ({path}) loading error: {ex.Message}"); }
         }
     }
 }
