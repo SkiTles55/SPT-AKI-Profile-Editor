@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterPmc : INotifyPropertyChanged
     {
-        [JsonPropertyName("aid")]
+        [JsonProperty("aid")]
         public string Aid
         {
             get => aid;
@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Aid");
             }
         }
-        [JsonPropertyName("Info")]
+        [JsonProperty("Info")]
         public CharacterInfo Info
         {
             get => info;
@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Info");
             }
         }
-        [JsonPropertyName("Customization")]
+        [JsonProperty("Customization")]
         public CharacterCustomization Customization
         {
             get => customization;
@@ -37,7 +37,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Customization");
             }
         }
-        [JsonPropertyName("TradersInfo")]
+        [JsonProperty("TradersInfo")]
         public Dictionary<string, CharacterTraderStanding> TraderStandings
         {
             get => traderStandings;
@@ -47,7 +47,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("TraderStandings");
             }
         }
-        [JsonPropertyName("Quests")]
+        [JsonProperty("Quests")]
         public CharacterQuest[] Quests
         {
             get => quests;

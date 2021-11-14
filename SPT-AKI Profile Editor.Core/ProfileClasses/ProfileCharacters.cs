@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class ProfileCharacters : INotifyPropertyChanged
     {
-        [JsonPropertyName("pmc")]
+        [JsonProperty("pmc")]
         public CharacterPmc Pmc
         {
             get => pmc;

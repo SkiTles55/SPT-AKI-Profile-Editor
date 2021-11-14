@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterCustomization : INotifyPropertyChanged
     {
-        [JsonPropertyName("Head")]
+        [JsonProperty("Head")]
         public string Head
         {
             get => head;

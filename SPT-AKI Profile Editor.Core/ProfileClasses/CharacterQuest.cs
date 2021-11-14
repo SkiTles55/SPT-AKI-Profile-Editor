@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterQuest : INotifyPropertyChanged
     {
-        [JsonPropertyName("qid")]
+        [JsonProperty("qid")]
         public string Qid
         {
             get => qid;
@@ -17,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Qid");
             }
         }
-        [JsonPropertyName("status")]
+        [JsonProperty("status")]
         public string Status
         {
             get => status;

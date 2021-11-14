@@ -73,11 +73,25 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ProfileSavesCorrectly()
         {
+            profile.Load(profileFile);
             var expected = File.ReadAllText(profileFile);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.json");
             profile.Save(profileFile, testFile);
             var result = File.ReadAllText(profileFile);
             Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void QuestsStatusesSavesCorrectly()
+        {
+            profile.Load(profileFile);
+            foreach (var quest in profile.Characters.Pmc.Quests)
+                quest.Status = "Fail";
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
+            profile.Save(profileFile, testFile);
+            Profile testProfile = new();
+            testProfile.Load(testFile);
+            Assert.IsTrue(testProfile.Characters.Pmc.Quests.All(x => x.Status == "Fail"));
         }
     }
 }

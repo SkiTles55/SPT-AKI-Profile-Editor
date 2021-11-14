@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterTraderStanding : INotifyPropertyChanged
     {
-        [JsonPropertyName("loyaltyLevel")]
+        [JsonProperty("loyaltyLevel")]
         public int LoyaltyLevel
         {
             get => loyaltyLevel;
@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("LoyaltyLevel");
             }
         }
-        [JsonPropertyName("salesSum")]
+        [JsonProperty("salesSum")]
         public long SalesSum
         {
             get => salesSum;
@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("SalesSum");
             }
         }
-        [JsonPropertyName("standing")]
+        [JsonProperty("standing")]
         public float Standing
         {
             get => standing;
@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Standing");
             }
         }
-        [JsonPropertyName("unlocked")]
+        [JsonProperty("unlocked")]
         public bool Unlocked
         {
             get => unlocked;

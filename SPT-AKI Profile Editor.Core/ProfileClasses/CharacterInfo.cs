@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterInfo : INotifyPropertyChanged
     {
-        [JsonPropertyName("Nickname")]
+        [JsonProperty("Nickname")]
         public string Nickname
         {
             get => nickname;
@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonPropertyName("Side")]
+        [JsonProperty("Side")]
         public string Side
         {
             get => side;
@@ -28,7 +28,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonPropertyName("Voice")]
+        [JsonProperty("Voice")]
         public string Voice
         {
             get => voice;
@@ -39,7 +39,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonPropertyName("Level")]
+        [JsonProperty("Level")]
         public int Level
         {
             get => level;
@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonPropertyName("Experience")]
+        [JsonProperty("Experience")]
         public long Experience
         {
             get => experience;
@@ -69,7 +69,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonPropertyName("GameVersion")]
+        [JsonProperty("GameVersion")]
         public string GameVersion { get; set; }
 
         private string nickname;

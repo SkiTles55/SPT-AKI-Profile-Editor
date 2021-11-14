@@ -4,13 +4,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Profile : INotifyPropertyChanged
     {
-        [JsonPropertyName("characters")]
+        [JsonProperty("characters")]
         public ProfileCharacters Characters
         {
             get => characters;
@@ -26,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void Load(string path)
         {
             string fileText = File.ReadAllText(path);
-            Profile profile = System.Text.Json.JsonSerializer.Deserialize<Profile>(fileText);
+            Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
             if (profile.Characters.Pmc.Quests != null)
             {
                 foreach (var quest in AppData.ServerDatabase.QuestsData)
@@ -52,12 +51,32 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
             jobject.SelectToken("characters")["pmc"].SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
-            foreach (var tr in AppData.ServerDatabase.TraderInfos)
+            foreach (var trader in AppData.ServerDatabase.TraderInfos)
             {
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[tr.Key].LoyaltyLevel;
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["salesSum"] = Characters.Pmc.TraderStandings[tr.Key].SalesSum;
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["standing"] = Characters.Pmc.TraderStandings[tr.Key].Standing;
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(tr.Key)["unlocked"] = Characters.Pmc.TraderStandings[tr.Key].Unlocked;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
+                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
+            }
+            if (Characters.Pmc.Quests.Length > 0)
+            {
+                var questsObject = jobject.SelectToken("characters")["pmc"].SelectToken("Quests").ToObject<CharacterQuest[]>();
+                for (int i = 0; i < questsObject.Length; i++)
+                {
+                    var quest = jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[i].ToObject<CharacterQuest>();
+                    if (quest != null)
+                        jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[i]["status"] = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault().Status;
+                }
+                if (questsObject.Length > 0)
+                {
+                    foreach (var quest in Characters.Pmc.Quests)
+                    {
+                        if (!questsObject.Any(x => x.Qid == quest.Qid))
+                            jobject.SelectToken("characters")["pmc"].SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
+                    }
+                }
+                else
+                    jobject.SelectToken("characters")["pmc"].SelectToken("Quests").Replace(JToken.FromObject(Characters.Pmc.Quests));
             }
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
