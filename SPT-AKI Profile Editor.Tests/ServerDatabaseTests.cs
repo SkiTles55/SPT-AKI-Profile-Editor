@@ -38,6 +38,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void LocalesGlobalCustomizationNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalTemplate>(), AppData.ServerDatabase.LocalesGlobal.Customization);
 
         [Test]
+        public void LocalesGlobalQuestNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalQuest>(), AppData.ServerDatabase.LocalesGlobal.Quests);
+
+        [Test]
         public void ServerGlobalsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals);
 
         [Test]

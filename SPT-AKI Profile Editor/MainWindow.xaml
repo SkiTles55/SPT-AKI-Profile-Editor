@@ -62,7 +62,7 @@
                 <views:MerchantsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_quests_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:QuestsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

@@ -48,12 +48,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
         [JsonPropertyName("Quests")]
-        public CharacterQuest[] Quests { get; set; }
+        public CharacterQuest[] Quests
+        {
+            get => quests;
+            set
+            {
+                quests = value;
+                OnPropertyChanged("Quests");
+            }
+        }
 
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;
         private Dictionary<string, CharacterTraderStanding> traderStandings;
+        private CharacterQuest[] quests;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
