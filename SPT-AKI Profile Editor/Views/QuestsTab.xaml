@@ -8,13 +8,18 @@
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
              d:DataContext="{d:DesignInstance Type=views:QuestsTabViewModel}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}">
+            
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Profile.Characters.Pmc.Quests}" IsReadOnly="True">
+        <DataGrid x:Name="questsGrid" Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource quests}}" IsReadOnly="True">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
             </DataGrid.Resources>
@@ -28,7 +33,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                <TextBox Text="{Binding Data.TraderFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Controls:TextBoxHelper.ClearTextButton="True"/>
+                                <TextBox Text="{Binding Data.GridFilters.QuestsTab.TraderNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBox_TextChanged"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -47,7 +52,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                <TextBox Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Controls:TextBoxHelper.ClearTextButton="True"/>
+                                <TextBox Text="{Binding Data.GridFilters.QuestsTab.QuestNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBox_TextChanged"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -66,7 +71,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                <TextBox Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Controls:TextBoxHelper.ClearTextButton="True"/>
+                                <TextBox Text="{Binding Data.GridFilters.QuestsTab.QuestStatusFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Controls:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBox_TextChanged"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>

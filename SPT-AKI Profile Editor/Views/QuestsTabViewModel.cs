@@ -1,11 +1,9 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -13,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static Profile Profile => AppData.Profile;
-        public static ServerDatabase ServerDatabase => AppData.ServerDatabase;
+        public static GridFilters GridFilters => AppData.GridFilters;
         public static string SetAllValue { get; set; } = "Success";
         public string TraderFilter { get; set; }
         public static RelayCommand SetAllCommand => new(obj =>
