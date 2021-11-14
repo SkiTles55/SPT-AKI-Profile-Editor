@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
@@ -26,6 +27,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             string fileText = File.ReadAllText(path);
             Profile profile = System.Text.Json.JsonSerializer.Deserialize<Profile>(fileText);
+            if (profile.Characters.Pmc.Quests != null)
+            {
+                foreach (var quest in AppData.ServerDatabase.QuestsData)
+                    if (!profile.Characters.Pmc.Quests.Any(x => x.Qid == quest.Key))
+                        profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests.Append(new() { Qid = quest.Key, Status = "Locked" }).ToArray();
+            }
             Characters = profile.Characters;
         }
 
