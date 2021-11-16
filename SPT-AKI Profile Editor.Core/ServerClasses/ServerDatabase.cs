@@ -61,6 +61,12 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
+        public void SetAllTradersMax()
+        {
+            foreach (var trader in TraderInfos.Values)
+                trader.Level = trader.MaxLevel;
+        }
+
         private Dictionary<string, string> heads;
         private Dictionary<string, string> voices;
         private LocalesGlobal localesGlobal;

@@ -58,6 +58,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        public void SetAllQuests(string status)
+        {
+            foreach (var quest in Quests)
+                quest.Status = status;
+        }
+
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;

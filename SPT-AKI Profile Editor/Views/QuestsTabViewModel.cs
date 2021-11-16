@@ -18,8 +18,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (Profile.Characters?.Pmc?.Quests == null)
                 return;
-            foreach (var quest in Profile.Characters.Pmc.Quests)
-                quest.Status = SetAllValue;
+            Profile.Characters.Pmc.SetAllQuests(SetAllValue);
         });
         public static List<string> QuestStatuses => new() { "Locked", "AvailableForStart", "Started", "Fail", "AvailableForFinish", "Success" };
 

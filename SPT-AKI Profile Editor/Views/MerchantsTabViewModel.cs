@@ -14,8 +14,9 @@ namespace SPT_AKI_Profile_Editor.Views
         public static ServerDatabase ServerDatabase => AppData.ServerDatabase;
         public static RelayCommand SetAllMaxCommand => new(obj =>
         {
-            foreach (var trader in ServerDatabase.TraderInfos.Values)
-                trader.Level = trader.MaxLevel;
+            if (Profile.Characters?.Pmc?.TraderStandings == null)
+                return;
+            ServerDatabase.SetAllTradersMax();
         });
 
         public event PropertyChangedEventHandler PropertyChanged;
