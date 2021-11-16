@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
@@ -10,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     class ProfileTests
     {
-        const string profileFile = @"C:\SPT\user\profiles\4016faed9f0e6231aaf9be73.json";
+        const string profileFile = @"C:\SPT\user\profiles\5403de6b87fdd2dc06714896.json";
 
         [OneTimeSetUp]
         public void Setup()
@@ -25,6 +26,9 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void PmcNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc);
+
+        [Test]
+        public void ScavNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Scav);
 
         [Test]
         public void IdNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Aid, "Id is empty");
@@ -42,10 +46,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void VoiceNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Info.Voice, "Voice is empty");
 
         [Test]
-        public void ExperienceNotZero() => Assert.AreNotEqual(0, AppData.Profile.Characters.Pmc.Info.Experience, "Experience is zero");
+        public void PmcExperienceNotZero() => Assert.AreNotEqual(0, AppData.Profile.Characters.Pmc.Info.Experience, "Experience is zero");
 
         [Test]
-        public void LevelNotZero() => Assert.AreNotEqual(0, AppData.Profile.Characters.Pmc.Info.Level, "Level is zero");
+        public void PmcLevelNotZero() => Assert.AreNotEqual(0, AppData.Profile.Characters.Pmc.Info.Level, "Level is zero");
+
+        [Test]
+        public void ScavExperienceNotZero() => Assert.AreNotEqual(0, AppData.Profile.Characters.Scav.Info.Experience, "Experience is zero");
+
+        [Test]
+        public void ScavLevelNotZero() => Assert.AreNotEqual(0, AppData.Profile.Characters.Scav.Info.Level, "Level is zero");
 
         [Test]
         public void GameVersionNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Info.GameVersion, "GameVersion is empty");
@@ -71,12 +81,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ProfileSavesCorrectly()
         {
+            AppData.AppSettings.AutoAddMissingQuests = false;
             AppData.Profile.Load(profileFile);
-            var expected = File.ReadAllText(profileFile);
+            var expected = JsonConvert.DeserializeObject(File.ReadAllText(profileFile));
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.json");
             AppData.Profile.Save(profileFile, testFile);
-            var result = File.ReadAllText(profileFile);
-            Assert.AreEqual(expected, result);
+            var result = JsonConvert.DeserializeObject(File.ReadAllText(testFile));
+            Assert.AreEqual(expected.ToString(), result.ToString());
+            AppData.AppSettings.AutoAddMissingQuests = true;
         }
 
         [Test]

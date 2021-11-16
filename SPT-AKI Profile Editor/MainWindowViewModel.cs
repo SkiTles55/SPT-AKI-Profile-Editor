@@ -28,10 +28,16 @@ namespace SPT_AKI_Profile_Editor
         {
             await ShowSettingsDialog();
         });
-        public RelayCommand InitializeViewModelCommand => new(obj =>
+        public RelayCommand InitializeViewModelCommand => new(async obj =>
         {
             App.ChangeTheme();
-            StartupEventsWorker();
+            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
+            || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
+            || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
+            || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
+                await ShowSettingsDialog();
+            else
+                StartupEventsWorker();
         });
         public RelayCommand SaveButtonCommand => new(obj =>
         {
@@ -90,16 +96,8 @@ namespace SPT_AKI_Profile_Editor
         }
         private void StartupEvents()
         {
-            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
-            || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
-            || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
-            || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                Application.Current.Dispatcher.Invoke(async () => { await ShowSettingsDialog(); });
-            else
-            {
-                AppData.LoadDatabase();
-                AppData.Profile.Load(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
-            }
+            AppData.LoadDatabase();
+            AppData.Profile.Load(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -13,6 +13,8 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         [JsonIgnore]
         public bool Loaded = false;
+        [JsonIgnore]
+        public bool AutoAddMissingQuests = true;
         public string ServerPath
         {
             get => serverPath;

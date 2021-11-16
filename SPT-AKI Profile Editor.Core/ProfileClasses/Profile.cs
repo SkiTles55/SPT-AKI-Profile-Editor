@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             string fileText = File.ReadAllText(path);
             Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
-            if (profile.Characters.Pmc.Quests != null)
+            if (profile.Characters.Pmc.Quests != null && AppData.AppSettings.AutoAddMissingQuests)
             {
                 foreach (var quest in AppData.ServerDatabase.QuestsData)
                     if (!profile.Characters.Pmc.Quests.Any(x => x.Qid == quest.Key))
@@ -51,6 +51,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
             jobject.SelectToken("characters")["pmc"].SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
+            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Level"] = Characters.Scav.Info.Level;
+            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Experience"] = Characters.Scav.Info.Experience;
             foreach (var trader in AppData.ServerDatabase.TraderInfos)
             {
                 jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;

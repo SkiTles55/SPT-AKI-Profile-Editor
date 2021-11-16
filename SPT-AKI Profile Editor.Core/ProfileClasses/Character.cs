@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterPmc : INotifyPropertyChanged
+    public class Character : INotifyPropertyChanged
     {
         [JsonProperty("aid")]
         public string Aid

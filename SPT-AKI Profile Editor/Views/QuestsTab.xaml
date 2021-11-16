@@ -9,9 +9,7 @@
              d:DataContext="{d:DesignInstance Type=views:QuestsTabViewModel}"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}">
-            
-        </CollectionViewSource>
+        <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
