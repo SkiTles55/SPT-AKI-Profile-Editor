@@ -35,6 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadServerGlobals();
                 LoadTradersInfos();
                 LoadQuestsData();
+                LoadHideoutAreaInfos();
             }
         }
 
@@ -113,6 +114,18 @@ namespace SPT_AKI_Profile_Editor.Core
                 ServerDatabase.QuestsData = questsData.ToDictionary(x => x.Value.Id, y => y.Value.TraderId);
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase QuestsData ({path}) loading error: {ex.Message}"); }
+        }
+
+        private static void LoadHideoutAreaInfos()
+        {
+            ServerDatabase.HideoutAreaInfos = new();
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_areas"]);
+            try
+            {
+                List<HideoutAreaInfo> HideoutAreaInfos = JsonSerializer.Deserialize<List<HideoutAreaInfo>>(File.ReadAllText(path));
+                ServerDatabase.HideoutAreaInfos = HideoutAreaInfos;
+            }
+            catch (Exception ex) { Logger.Log($"ServerDatabase HideoutAreaInfos ({path}) loading error: {ex.Message}"); }
         }
     }
 }

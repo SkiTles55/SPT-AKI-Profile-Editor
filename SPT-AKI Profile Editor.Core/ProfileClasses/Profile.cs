@@ -51,8 +51,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
             jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
             jobject.SelectToken("characters")["pmc"].SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
+            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Nickname"] = Characters.Scav.Info.Nickname;
+            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Voice"] = Characters.Scav.Info.Voice;
             jobject.SelectToken("characters")["scav"].SelectToken("Info")["Level"] = Characters.Scav.Info.Level;
             jobject.SelectToken("characters")["scav"].SelectToken("Info")["Experience"] = Characters.Scav.Info.Experience;
+            jobject.SelectToken("characters")["scav"].SelectToken("Customization")["Head"] = Characters.Scav.Customization.Head;
             foreach (var trader in AppData.ServerDatabase.TraderInfos)
             {
                 jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
@@ -79,6 +82,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
                 else
                     jobject.SelectToken("characters")["pmc"].SelectToken("Quests").Replace(JToken.FromObject(Characters.Pmc.Quests));
+            }
+            var hideoutAreasObject = jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas").ToObject<HideoutArea[]>();
+            for (int i = 0; i < hideoutAreasObject.Length; i++)
+            {
+                var probe = jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas")[i].ToObject<HideoutArea>();
+                var areaInfo = AppData.Profile.Characters.Pmc.Hideout.Areas.Where(x => x.Type == probe.Type).FirstOrDefault();
+                if (areaInfo != null)
+                    jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
             }
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);

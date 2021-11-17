@@ -5,8 +5,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class LocalesGlobal
     {
-        //[JsonPropertyName("interface")]
-        //public Dictionary<string, string> Interface { get; set; }
+        [JsonPropertyName("interface")]
+        public Dictionary<string, string> Interface { get; set; }
 
         [JsonPropertyName("trading")]
         public Dictionary<string, LocalesGlobalTrading> Trading { get; set; }

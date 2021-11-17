@@ -47,6 +47,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("TraderStandings");
             }
         }
+        [JsonProperty("Hideout")]
+        public CharacterHideout Hideout
+        {
+            get => hideout;
+            set
+            {
+                hideout = value;
+                OnPropertyChanged("Hideout");
+            }
+        }
         [JsonProperty("Quests")]
         public CharacterQuest[] Quests
         {
@@ -64,10 +74,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 quest.Status = status;
         }
 
+        public void SetAllHideoutAreasMax()
+        {
+            foreach (var area in Hideout.Areas)
+                area.Level = area.MaxLevel;
+        }
+
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;
         private Dictionary<string, CharacterTraderStanding> traderStandings;
+        private CharacterHideout hideout;
         private CharacterQuest[] quests;
 
         public event PropertyChangedEventHandler PropertyChanged;

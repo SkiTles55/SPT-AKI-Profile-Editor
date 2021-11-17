@@ -39,6 +39,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void LocalesGlobalQuestNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalQuest>(), AppData.ServerDatabase.LocalesGlobal.Quests);
+        [Test]
+        public void LocalesGlobalInterfaceNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.LocalesGlobal.Interface);
 
         [Test]
         public void ServerGlobalsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals);
@@ -57,5 +59,11 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void QuestsDataNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.QuestsData);
+
+        [Test]
+        public void HideoutAreaInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.HideoutAreaInfos);
+
+        [Test]
+        public void HideoutAreaInfosDataNotEmpty() => Assert.AreNotEqual(new List<HideoutAreaInfo>(), AppData.ServerDatabase.HideoutAreaInfos);
     }
 }

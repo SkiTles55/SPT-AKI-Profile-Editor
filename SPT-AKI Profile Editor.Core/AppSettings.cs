@@ -11,10 +11,6 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : INotifyPropertyChanged
     {
-        [JsonIgnore]
-        public bool Loaded = false;
-        [JsonIgnore]
-        public bool AutoAddMissingQuests = true;
         public string ServerPath
         {
             get => serverPath;
@@ -64,6 +60,40 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+        public Dictionary<string, string> DirsList { get; set; }
+        public Dictionary<string, string> FilesList { get; set; }
+        public bool AutoAddMissingQuests
+        {
+            get => autoAddMissingQuests;
+            set
+            {
+                bool _needReload = autoAddMissingQuests != value;
+                autoAddMissingQuests = value;
+                OnPropertyChanged("AutoAddMissingQuests");
+                if (Loaded)
+                {
+                    if (_needReload)
+                        LoadProfiles();
+                    Save();
+                }
+            }
+        }
+        public bool AutoAddMissingMasterings
+        {
+            get => autoAddMissingMasterings;
+            set
+            {
+                bool _needReload = autoAddMissingMasterings != value;
+                autoAddMissingMasterings = value;
+                OnPropertyChanged("AutoAddMissingWeaponSkills");
+                if (Loaded)
+                {
+                    if (_needReload)
+                        LoadProfiles();
+                    Save();
+                }
+            }
+        }
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -74,14 +104,16 @@ namespace SPT_AKI_Profile_Editor.Core
                 OnPropertyChanged("ServerProfiles");
             }
         }
-        public Dictionary<string, string> DirsList { get; set; }
-        public Dictionary<string, string> FilesList { get; set; }
+        [JsonIgnore]
+        public bool Loaded = false;
 
         private static readonly string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
         private string serverPath;
         private string defaultProfile;
         private string language;
         private string colorScheme;
+        private bool autoAddMissingQuests;
+        private bool autoAddMissingMasterings;
         private Dictionary<string, string> serverProfiles;
 
         public void Load()
@@ -122,6 +154,15 @@ namespace SPT_AKI_Profile_Editor.Core
             else
                 DefaultProfile = null;
             ServerProfiles = Profiles;
+        }
+
+        public string GetStamp()
+        {
+            return AppData.AppSettings.ServerPath
+                + AppData.AppSettings.DefaultProfile
+                + AppData.AppSettings.Language
+                + AppData.AppSettings.AutoAddMissingQuests.ToString()
+                + AppData.AppSettings.AutoAddMissingMasterings.ToString();
         }
 
         private void LoadFromFile()
@@ -185,6 +226,8 @@ namespace SPT_AKI_Profile_Editor.Core
             Language = ExtMethods.WindowsCulture;
             DirsList = DefaultValues.DefaultDirsList;
             FilesList = DefaultValues.DefaultFilesList;
+            AutoAddMissingQuests = false;
+            AutoAddMissingMasterings = false;
             Logger.Log($"Default configuration file created");
             Save();
         }

@@ -79,16 +79,22 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Length == 0, "Quests is empty");
 
         [Test]
+        public void HideoutNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Hideout, "Hideout is null");
+
+        [Test]
+        public void HideoutAreasNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Hideout.Areas.Length == 0, "HideoutAreas is empty");
+
+        [Test]
         public void ProfileSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
+            AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.Profile.Load(profileFile);
             var expected = JsonConvert.DeserializeObject(File.ReadAllText(profileFile));
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.json");
             AppData.Profile.Save(profileFile, testFile);
             var result = JsonConvert.DeserializeObject(File.ReadAllText(testFile));
             Assert.AreEqual(expected.ToString(), result.ToString());
-            AppData.AppSettings.AutoAddMissingQuests = true;
         }
 
         [Test]
@@ -106,12 +112,24 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void QuestsStatusesSavesCorrectly()
         {
+            AppData.AppSettings.AutoAddMissingQuests = true;
             AppData.Profile.Load(profileFile);
             AppData.Profile.Characters.Pmc.SetAllQuests("Fail");
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail"));
+        }
+
+        [Test]
+        public void HideoutAreaLevelsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testHideouts.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Hideout.Areas.All(x => x.Level == x.MaxLevel));
         }
     }
 }

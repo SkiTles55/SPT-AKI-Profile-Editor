@@ -65,10 +65,10 @@
                 <views:QuestsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:HideoutTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_skills_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:SkillsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_mastering_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

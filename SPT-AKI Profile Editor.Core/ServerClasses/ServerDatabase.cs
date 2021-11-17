@@ -60,6 +60,15 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("QuestsData");
             }
         }
+        public List<HideoutAreaInfo> HideoutAreaInfos
+        {
+            get => hideoutAreaInfos;
+            set
+            {
+                hideoutAreaInfos = value;
+                OnPropertyChanged("HideoutAreaInfos");
+            }
+        }
 
         public void SetAllTradersMax()
         {
@@ -73,6 +82,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private ServerGlobals serverGlobals;
         private Dictionary<string, TraderBase> traderInfos;
         private Dictionary<string, string> questsData;
+        private List<HideoutAreaInfo> hideoutAreaInfos;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

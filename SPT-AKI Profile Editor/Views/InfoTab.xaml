@@ -93,6 +93,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition MaxHeight="50"/>
                     <RowDefinition MaxHeight="50"/>
+                    <RowDefinition MaxHeight="50"/>
+                    <RowDefinition MaxHeight="50"/>
+                    <RowDefinition MaxHeight="50"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150"/>
@@ -100,16 +103,28 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                     <Label.Content>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_nickname]}"/>
+                    </Label.Content>
+                </Label>
+                <TextBox Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Text="{Binding Profile.Characters.Scav.Info.Nickname, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
+                    <Label.Content>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_voice]}"/>
+                    </Label.Content>
+                </Label>
+                <ComboBox Grid.Column="1" Grid.Row="1" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Profile.Characters.Scav.Info.Voice}" ItemsSource="{Binding ServerDatabase.Voices}"/>
+                <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
+                    <Label.Content>
                         <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_level]}"/>
                     </Label.Content>
                 </Label>
-                <TextBox Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Text="{Binding Profile.Characters.Scav.Info.Level, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
-                <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
+                <TextBox Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Profile.Characters.Scav.Info.Level, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
+                <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
                     <Label.Content>
                         <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_experience]}"/>
                     </Label.Content>
                 </Label>
-                <Grid Grid.Column="1" Grid.Row="1" Margin="10,0">
+                <Grid Grid.Column="1" Grid.Row="3" Margin="10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition/>
@@ -117,6 +132,12 @@
                     <TextBox Grid.Column="0" Text="{Binding Profile.Characters.Scav.Info.Experience, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" MinWidth="70" PreviewTextInput="NumberValidationTextBox"/>
                     <Slider Grid.Column="1" TickPlacement="BottomRight" TickFrequency="300000" Value="{Binding Profile.Characters.Scav.Info.Experience}" VerticalAlignment="Center" Margin="2,0" Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"/>
                 </Grid>
+                <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
+                    <Label.Content>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_head]}"/>
+                    </Label.Content>
+                </Label>
+                <ComboBox Grid.Column="1" Grid.Row="4" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Profile.Characters.Scav.Customization.Head}" ItemsSource="{Binding ServerDatabase.Heads}"/>
             </Grid>
         </TabItem>
     </TabControl>    

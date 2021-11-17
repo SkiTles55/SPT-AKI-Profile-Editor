@@ -55,6 +55,24 @@ namespace SPT_AKI_Profile_Editor
                 App.ChangeTheme();
             }
         }
+        public bool AutoAddMissingQuests
+        {
+            get => AppSettings.AutoAddMissingQuests;
+            set
+            {
+                AppSettings.AutoAddMissingQuests = value;
+                OnPropertyChanged("AutoAddMissingQuests");
+            }
+        }
+        public bool AutoAddMissingMasterings
+        {
+            get => AppSettings.AutoAddMissingMasterings;
+            set
+            {
+                AppSettings.AutoAddMissingMasterings = value;
+                OnPropertyChanged("AutoAddMissingWeaponSkills");
+            }
+        }
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
             .OrderBy(x => x.DisplayName)
