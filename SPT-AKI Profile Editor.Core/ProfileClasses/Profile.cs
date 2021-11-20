@@ -30,11 +30,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (profile.Characters?.Pmc?.Quests != null
                 && AppData.AppSettings.AutoAddMissingQuests)
             {
-                var questsList = profile.Characters.Pmc.Quests.ToList();
-                foreach (var quest in AppData.ServerDatabase.QuestsData)
-                    if (!profile.Characters.Pmc.Quests.Any(x => x.Qid == quest.Key))
-                        questsList.Add(new() { Qid = quest.Key, Status = "Locked" });
-                profile.Characters.Pmc.Quests = questsList.ToArray();
+                if (profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count)
+                {
+                    profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests
+                    .Concat(AppData.ServerDatabase.QuestsData
+                    .Where(x => !profile.Characters.Pmc.Quests.Any(y => y.Qid == x.Key))
+                    .Select(x => new CharacterQuest { Qid = x.Key, Status = "Locked" })
+                    .ToArray())
+                    .ToArray();
+                }
             }
             if (profile.Characters?.Pmc?.Skills?.Common != null
                 && profile.Characters?.Scav?.Skills?.Common != null
@@ -58,11 +62,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (characterSkills.Mastering.Length != AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length)
                 {
-                    var skillsList = characterSkills.Mastering.ToList();
-                    foreach (var skill in AppData.ServerDatabase.ServerGlobals.Config.Mastering)
-                        if (!skillsList.Any(x => x.Id == skill.Name))
-                            skillsList.Add(new() { Id = skill.Name, Progress = 0 });
-                    characterSkills.Mastering = skillsList.ToArray();
+                    characterSkills.Mastering = characterSkills.Mastering
+                        .Concat(AppData.ServerDatabase.ServerGlobals.Config.Mastering
+                        .Where(x => !characterSkills.Mastering.Any(y => y.Id == x.Name))
+                        .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 })
+                        .ToArray())
+                        .ToArray();
                 }
             }
         }
