@@ -137,7 +137,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail"));
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail")
+                && AppData.Profile.Characters.Pmc.Quests.Length == AppData.ServerDatabase.QuestsData.Count);
         }
 
         [Test]
@@ -171,8 +172,34 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.ServerDatabase.CommonSkillMaxValue)
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == x.MaxValue)
                 && AppData.Profile.Characters.Scav.Skills.Common.Length == AppData.Profile.Characters.Pmc.Skills.Common.Length);
+        }
+
+        [Test]
+        public void PmcMasteringSkillsSavesCorrectly()
+        {
+            AppData.AppSettings.AutoAddMissingMasterings = true;
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Pmc.SetAllMasteringsSkills(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Max(x => x.Level2 + x.Level3));
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcMasteringSkills.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == x.MaxValue)
+                && AppData.Profile.Characters.Pmc.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
+        }
+
+        [Test]
+        public void ScavMasteringSkillsSavesCorrectly()
+        {
+            AppData.AppSettings.AutoAddMissingMasterings = true;
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Scav.SetAllMasteringsSkills(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Max(x => x.Level2 + x.Level3));
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavMasteringSkills.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == x.MaxValue)
+                && AppData.Profile.Characters.Scav.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
         }
     }
 }

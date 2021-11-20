@@ -71,7 +71,7 @@
                 <views:SkillsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_mastering_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:MasteringTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_examined_items_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

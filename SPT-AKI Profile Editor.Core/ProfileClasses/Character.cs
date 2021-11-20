@@ -97,6 +97,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     skill.Progress = value;
         }
 
+        public void SetAllMasteringsSkills(float value)
+        {
+            foreach (var skill in Skills.Mastering)
+                skill.Progress = value;
+        }
+
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;

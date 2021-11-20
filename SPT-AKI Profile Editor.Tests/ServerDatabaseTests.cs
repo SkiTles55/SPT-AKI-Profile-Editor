@@ -46,7 +46,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ServerGlobalsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals);
 
         [Test]
-        public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.AreNotEqual(System.Array.Empty<LevelExpTable>(), AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable);
+        public void ServerGlobalsConfigNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals.Config);
+
+        [Test]
+        public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length > 0);
+
+        [Test]
+        public void ServerGlobalsMasteringNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0);
         
         [Test]
         public void TraderInfosNotEmpty() => Assert.AreNotEqual(new Dictionary<string, TraderBase>(), AppData.ServerDatabase.TraderInfos);

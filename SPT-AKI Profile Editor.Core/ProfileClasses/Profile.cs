@@ -35,6 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests.Append(new() { Qid = quest.Key, Status = "Locked" }).ToArray();
             }
             if (profile.Characters?.Pmc?.Skills?.Common != null
+                && profile.Characters?.Scav?.Skills?.Common != null
                 && profile.Characters.Scav.Skills.Common.Length == 0
                 && AppData.AppSettings.AutoAddMissingScavSkills)
             {
@@ -43,7 +44,26 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     skills.Add(new() { Id = skill.Id, Progress = 0 });
                 profile.Characters.Scav.Skills.Common = skills.ToArray();
             }
+            if (profile.Characters?.Pmc?.Skills?.Mastering != null
+                && profile.Characters?.Scav?.Skills?.Mastering != null
+                && AppData.AppSettings.AutoAddMissingMasterings)
+            {
+                AddMissingMasteringSkills(profile.Characters.Pmc.Skills);
+                AddMissingMasteringSkills(profile.Characters.Scav.Skills);
+            }
             Characters = profile.Characters;
+
+            static void AddMissingMasteringSkills(CharacterSkills characterSkills)
+            {
+                if (characterSkills.Mastering.Length != AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length)
+                {
+                    var skillsList = characterSkills.Mastering.ToList();
+                    foreach (var skill in AppData.ServerDatabase.ServerGlobals.Config.Mastering)
+                        if (skillsList.Where(x => x.Id == skill.Name).FirstOrDefault() == null)
+                            skillsList.Add(new() { Id = skill.Name, Progress = 0 });
+                    characterSkills.Mastering = skillsList.ToArray();
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -74,26 +94,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
                 jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
             }
-            if (Characters.Pmc.Quests.Length > 0)
-            {
-                var questsObject = jobject.SelectToken("characters")["pmc"].SelectToken("Quests").ToObject<CharacterQuest[]>();
-                for (int i = 0; i < questsObject.Length; i++)
-                {
-                    var quest = jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[i].ToObject<CharacterQuest>();
-                    if (quest != null)
-                        jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[i]["status"] = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault().Status;
-                }
-                if (questsObject.Length > 0)
-                {
-                    foreach (var quest in Characters.Pmc.Quests)
-                    {
-                        if (!questsObject.Any(x => x.Qid == quest.Qid))
-                            jobject.SelectToken("characters")["pmc"].SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
-                    }
-                }
-                else
-                    jobject.SelectToken("characters")["pmc"].SelectToken("Quests").Replace(JToken.FromObject(Characters.Pmc.Quests));
-            }
+            WriteQuests();
             var hideoutAreasObject = jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas").ToObject<HideoutArea[]>();
             for (int i = 0; i < hideoutAreasObject.Length; i++)
             {
@@ -102,26 +103,49 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (areaInfo != null)
                     jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
             }
-            ProcessCommonSkills(jobject, Characters.Pmc, "pmc");
-            ProcessCommonSkills(jobject, Characters.Scav, "scav");
+            WriteSkills(Characters.Pmc.Skills.Common, "pmc", "Common");
+            WriteSkills(Characters.Scav.Skills.Common, "scav", "Common");
+            WriteSkills(Characters.Pmc.Skills.Mastering, "pmc", "Mastering");
+            WriteSkills(Characters.Scav.Skills.Mastering, "scav", "Mastering");
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
-            void ProcessCommonSkills(JObject jobject, Character character, string keyword)
+            void WriteQuests()
             {
-                var skillsObject = jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common").ToObject<CharacterSkill[]>();
+                var questsObject = jobject.SelectToken("characters")["pmc"].SelectToken("Quests").ToObject<CharacterQuest[]>();
+                if (questsObject.Length > 0)
+                {
+                    for (int index = 0; index < questsObject.Length; ++index)
+                    {
+                        var quest = jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[index].ToObject<CharacterQuest>();
+                        var edited = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
+                        if (edited != null && quest != null && edited.Status != quest.Status)
+                            jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[index]["status"] = edited.Status;
+                    }
+                    foreach (var quest in Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
+                        jobject.SelectToken("characters")["pmc"].SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
+                }
+                else
+                    jobject.SelectToken("characters")["pmc"].SelectToken("Quests").Replace(JToken.FromObject(Characters.Pmc.Quests));
+            }
+
+            void WriteSkills(CharacterSkill[] skills, string character, string type)
+            {
+                var skillsObject = jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type).ToObject<CharacterSkill[]>();
                 if (skillsObject.Length > 0)
                 {
                     for (int index = 0; index < skillsObject.Length; ++index)
                     {
-                        var probe = jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index]?.ToObject<CharacterSkill>();
-                        var edited = character.Skills.Common.Where(x => x.Id == probe.Id).FirstOrDefault();
+                        var probe = jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type)[index]?.ToObject<CharacterSkill>();
+                        var edited = skills.Where(x => x.Id == probe.Id).FirstOrDefault();
                         if (edited != null && probe != null && edited.Progress > probe.Progress)
-                            jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index]["Progress"] = edited.Progress;
+                            jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type)[index]["Progress"] = edited.Progress;
                     }
+                    foreach (var skill in skills.Where(x => !skillsObject.Any(y => y.Id == x.Id)))
+                        jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type).LastOrDefault().AddAfterSelf(JObject.FromObject(skill));
                 }
                 else
-                    jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common").Replace(JToken.FromObject(character.Skills.Common));
+                    jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type).Replace(JToken.FromObject(skills));
             }
         }
     }
