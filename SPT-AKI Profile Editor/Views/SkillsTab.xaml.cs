@@ -1,7 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
-using System;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using System.Collections;
 using System.ComponentModel;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,44 +26,25 @@ namespace SPT_AKI_Profile_Editor.Views
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void FilterBoxPmc_TextChanged(object sender, TextChangedEventArgs e) => ApplySkillsPmcFilter();
-        private void ApplySkillsPmcFilter()
-        {
-            //ICollectionView cv = CollectionViewSource.GetDefaultView(skillsPmcGrid.ItemsSource);
-            //if (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter)
-            //    && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter)
-            //    && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter))
-            //    cv.Filter = null;
-            //else
-            //{
-            //    cv.Filter = o =>
-            //    {
-            //        CharacterQuest p = o as CharacterQuest;
-            //        return (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter) || p.LocalizedQuestName.ToUpper().Contains(AppData.GridFilters.QuestsTab.QuestNameFilter.ToUpper()))
-            //        && (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter) || p.LocalizedTraderName.ToUpper().Contains(AppData.GridFilters.QuestsTab.TraderNameFilter.ToUpper()))
-            //        && (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter) || p.Status.ToUpper().Contains(AppData.GridFilters.QuestsTab.QuestStatusFilter.ToUpper()));
-            //    };
-            //}
-        }
+        private void FilterBoxPmc_TextChanged(object sender, TextChangedEventArgs e) =>
+            ApplyFilter(skillsPmcGrid.ItemsSource, AppData.GridFilters.SkillsTab.SkillNamePmcFilter);
+        private void FilterBoxScav_TextChanged(object sender, TextChangedEventArgs e) =>
+            ApplyFilter(skillsScavGrid.ItemsSource, AppData.GridFilters.SkillsTab.SkillNameScavFilter);
 
-        private void FilterBoxScav_TextChanged(object sender, TextChangedEventArgs e) => ApplySkillsScavFilter();
-        private void ApplySkillsScavFilter()
+        private static void ApplyFilter(IEnumerable source, string filter)
         {
-            //ICollectionView cv = CollectionViewSource.GetDefaultView(skillsScavGrid.ItemsSource);
-            //if (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter)
-            //    && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter)
-            //    && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter))
-            //    cv.Filter = null;
-            //else
-            //{
-            //    cv.Filter = o =>
-            //    {
-            //        CharacterQuest p = o as CharacterQuest;
-            //        return (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter) || p.LocalizedQuestName.ToUpper().Contains(AppData.GridFilters.QuestsTab.QuestNameFilter.ToUpper()))
-            //        && (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter) || p.LocalizedTraderName.ToUpper().Contains(AppData.GridFilters.QuestsTab.TraderNameFilter.ToUpper()))
-            //        && (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter) || p.Status.ToUpper().Contains(AppData.GridFilters.QuestsTab.QuestStatusFilter.ToUpper()));
-            //    };
-            //}
+            ICollectionView cv = CollectionViewSource.GetDefaultView(source);
+            if (string.IsNullOrEmpty(filter))
+                cv.Filter = null;
+            else
+            {
+                cv.Filter = o =>
+                {
+                    CharacterSkill p = o as CharacterSkill;
+                    return (string.IsNullOrEmpty(filter)
+                    || p.LocalizedName.ToUpper().Contains(filter.ToUpper()));
+                };
+            }
         }
     }
 }

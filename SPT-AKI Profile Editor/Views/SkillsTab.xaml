@@ -9,8 +9,8 @@
              d:DataContext="{d:DesignInstance Type=views:SkillsTabViewModel}"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="skillsPMC" Source="{Binding Profile.Characters.Pmc.Hideout.Areas}"/>
-        <CollectionViewSource x:Key="skillsScav" Source="{Binding Profile.Characters.Pmc.Hideout.Areas}"/>
+        <CollectionViewSource x:Key="skillsPMC" Source="{Binding Profile.Characters.Pmc.Skills.Common}"/>
+        <CollectionViewSource x:Key="skillsScav" Source="{Binding Profile.Characters.Scav.Skills.Common}"/>
     </UserControl.Resources>
     <TabControl mah:TabControlHelper.Underlined="TabPanel">
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
@@ -20,12 +20,12 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <DataGrid x:Name="skillsPmcGrid" Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" IsReadOnly="True">
+                <DataGrid x:Name="skillsPmcGrid" Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource skillsPMC}}" IsReadOnly="True">
                     <DataGrid.Resources>
                         <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_skills_skill], Source={StaticResource proxy}}" Width="*" SortMemberPath="name">
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_skills_skill], Source={StaticResource proxy}}" Width="*" SortMemberPath="LocalizedName">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,5">
@@ -40,11 +40,11 @@
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=name}"/>
+                                    <Label Content="{Binding Path=LocalizedName}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_skills_exp], Source={StaticResource proxy}}" Width="*" SortMemberPath="progress">
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_skills_exp], Source={StaticResource proxy}}" Width="*" SortMemberPath="Progress">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid Grid.Column="1" Grid.Row="5" Margin="10,0">
@@ -52,8 +52,8 @@
                                             <ColumnDefinition Width="80"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding ElementName=commonskill_exp, Path=Value, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
-                                        <Slider Grid.Column="1" Maximum="5100" TickPlacement="None" TickFrequency="1" Value="{Binding progress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True"/>
+                                        <TextBox Grid.Column="0" Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                                        <Slider Grid.Column="1" Maximum="{Binding MaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True"/>
                                     </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -66,14 +66,70 @@
                     </Label.Content>
                 </Label>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
-                    <TextBox Text="{Binding ElementName=allskill_exp, Path=Value, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0" Width="60"/>
-                    <Slider x:Name="allskill_exp" Grid.Column="1" Maximum="5100" TickPlacement="None" TickFrequency="1" Value="0" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
-                    <Button x:Name="SkillsExpButton" Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100"/>
+                    <TextBox Text="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0" Width="60"/>
+                    <Slider Grid.Column="1" Maximum="{Binding ServerDatabase.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
+                    <Button Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100" Command="{Binding SetAllPmsSkillsCommand}"/>
                 </StackPanel>
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
-            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <DataGrid x:Name="skillsScavGrid" Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource skillsScav}}" IsReadOnly="True">
+                    <DataGrid.Resources>
+                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_skills_skill], Source={StaticResource proxy}}" Width="*" SortMemberPath="LocalizedName">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <TextBox Text="{Binding Data.GridFilters.SkillsTab.SkillNameScavFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxScav_TextChanged"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=LocalizedName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_skills_exp], Source={StaticResource proxy}}" Width="*" SortMemberPath="Progress">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Grid.Column="1" Grid.Row="5" Margin="10,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                                        <Slider Grid.Column="1" Maximum="{Binding MaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0">
+                    <Label.Content>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_skills_set_all]}"/>
+                    </Label.Content>
+                </Label>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
+                    <TextBox Text="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0" Width="60"/>
+                    <Slider Grid.Column="1" Maximum="{Binding ServerDatabase.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
+                    <Button Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100" Command="{Binding SetAllScavSkillsCommand}"/>
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

@@ -85,6 +85,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HideoutAreasNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Hideout.Areas.Length == 0, "HideoutAreas is empty");
 
         [Test]
+        public void SkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Skills is null");
+
+        [Test]
+        public void CommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common.Length == 0, "CommonSkills is empty");
+
+        [Test]
+        public void MasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Mastering.Length == 0, "MasteringSkills is empty");
+
+        [Test]
         public void ProfileSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
@@ -130,6 +139,28 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Hideout.Areas.All(x => x.Level == x.MaxLevel));
+        }
+
+        [Test]
+        public void PmcCommonSkillsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Pmc.SetAllCommonSkills(AppData.ServerDatabase.CommonSkillMaxValue);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcCommonSkills.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.ServerDatabase.CommonSkillMaxValue));
+        }
+
+        [Test]
+        public void ScavCommonSkillsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Scav.SetAllCommonSkills(AppData.ServerDatabase.CommonSkillMaxValue);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.ServerDatabase.CommonSkillMaxValue));
         }
     }
 }

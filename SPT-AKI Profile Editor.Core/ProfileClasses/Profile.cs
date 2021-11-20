@@ -91,8 +91,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (areaInfo != null)
                     jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
             }
+            ProcessCommonSkills(jobject, Characters.Pmc, "pmc");
+            ProcessCommonSkills(jobject, Characters.Scav, "scav");
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
+
+            void ProcessCommonSkills(JObject jobject, Character character, string keyword)
+            {
+                for (int index = 0; index < character.Skills.Common.Length; ++index)
+                {
+                    var probe = jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index].ToObject<CharacterSkill>();
+                    var edited = character.Skills.Common.Where(x => x.Id == probe.Id).FirstOrDefault();
+                    if (edited != null && edited.Progress > probe.Progress)
+                        jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index]["Progress"] = edited.Progress;
+                }
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ServerDatabase : INotifyPropertyChanged
     {
+        public float CommonSkillMaxValue => 5100;
+
         public Dictionary<string, string> Heads
         {
             get => heads;

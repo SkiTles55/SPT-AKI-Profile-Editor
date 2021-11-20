@@ -67,6 +67,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Quests");
             }
         }
+        [JsonProperty("Skills")]
+        public CharacterSkills Skills
+        {
+            get => skills;
+            set
+            {
+                skills = value;
+                OnPropertyChanged("Skills");
+            }
+        }
 
         public void SetAllQuests(string status)
         {
@@ -80,12 +90,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 area.Level = area.MaxLevel;
         }
 
+        public void SetAllCommonSkills(float value)
+        {
+            foreach (var skill in Skills.Common)
+                if (!skill.Id.StartsWith("Bot"))
+                    skill.Progress = value;
+        }
+
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;
         private Dictionary<string, CharacterTraderStanding> traderStandings;
         private CharacterHideout hideout;
         private CharacterQuest[] quests;
+        private CharacterSkills skills;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
