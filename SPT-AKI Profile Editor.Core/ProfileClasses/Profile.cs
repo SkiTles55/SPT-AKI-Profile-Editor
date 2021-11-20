@@ -109,13 +109,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
             void ProcessCommonSkills(JObject jobject, Character character, string keyword)
             {
-                for (int index = 0; index < character.Skills.Common.Length; ++index)
+                var skillsObject = jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common").ToObject<CharacterSkill[]>();
+                if (skillsObject.Length > 0)
                 {
-                    var probe = jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index].ToObject<CharacterSkill>();
-                    var edited = character.Skills.Common.Where(x => x.Id == probe.Id).FirstOrDefault();
-                    if (edited != null && edited.Progress > probe.Progress)
-                        jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index]["Progress"] = edited.Progress;
+                    for (int index = 0; index < skillsObject.Length; ++index)
+                    {
+                        var probe = jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index]?.ToObject<CharacterSkill>();
+                        var edited = character.Skills.Common.Where(x => x.Id == probe.Id).FirstOrDefault();
+                        if (edited != null && probe != null && edited.Progress > probe.Progress)
+                            jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common")[index]["Progress"] = edited.Progress;
+                    }
                 }
+                else
+                    jobject.SelectToken("characters")[keyword].SelectToken("Skills").SelectToken("Common").Replace(JToken.FromObject(character.Skills.Common));
             }
         }
     }

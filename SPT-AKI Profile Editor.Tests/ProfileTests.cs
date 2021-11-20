@@ -107,6 +107,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
             AppData.AppSettings.AutoAddMissingMasterings = false;
+            AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(profileFile);
             var expected = JsonConvert.DeserializeObject(File.ReadAllText(profileFile));
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.json");
@@ -164,12 +165,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ScavCommonSkillsSavesCorrectly()
         {
+            AppData.AppSettings.AutoAddMissingScavSkills = true;
             AppData.Profile.Load(profileFile);
             AppData.Profile.Characters.Scav.SetAllCommonSkills(AppData.ServerDatabase.CommonSkillMaxValue);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.ServerDatabase.CommonSkillMaxValue));
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.ServerDatabase.CommonSkillMaxValue)
+                && AppData.Profile.Characters.Scav.Skills.Common.Length == AppData.Profile.Characters.Pmc.Skills.Common.Length);
         }
     }
 }
