@@ -67,7 +67,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HeadNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Customization.Head, "Head is empty");
 
         [Test]
-        public void TraderStandingsNotEmpty() => Assert.AreNotEqual(new Dictionary<string, CharacterTraderStanding>(), AppData.Profile.Characters.Pmc.TraderStandings, "TraderStandings is empty");
+        public void TraderStandingsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandings.Count == 0);
 
         [Test]
         public void TraderStandingsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
@@ -77,6 +77,12 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void QuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Length == 0, "Quests is empty");
+
+        [Test]
+        public void EncyclopediaNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Encyclopedia, "Encyclopedia is null");
+
+        [Test]
+        public void EncyclopediaNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Encyclopedia.Count == 0, "Encyclopedia is empty");
 
         [Test]
         public void HideoutNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Hideout, "Hideout is null");
@@ -200,6 +206,18 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == x.MaxValue)
                 && AppData.Profile.Characters.Scav.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
+        }
+
+        [Test]
+        public void ExaminedItemsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count;
+            AppData.Profile.Characters.Pmc.ExamineAll();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testExaminedItems.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count);
         }
     }
 }

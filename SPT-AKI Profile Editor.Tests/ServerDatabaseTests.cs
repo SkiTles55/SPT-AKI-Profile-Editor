@@ -15,12 +15,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void BotTypesHeadsNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.Heads);
+        public void BotTypesHeadsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Heads.Count == 0);
         [Test]
         public void BotTypesHeadsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Heads);
 
         [Test]
-        public void BotTypesVoicesNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.Voices);
+        public void BotTypesVoicesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Voices.Count == 0);
 
         [Test]
         public void BotTypesVoicesNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Voices);
@@ -29,18 +29,18 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void LocalesGlobalNotNull() => Assert.IsNotNull(AppData.ServerDatabase.LocalesGlobal);
 
         [Test]
-        public void LocalesGlobalTradingNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalTrading>(), AppData.ServerDatabase.LocalesGlobal.Trading);
+        public void LocalesGlobalTradingNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Trading.Count == 0);
 
         [Test]
-        public void LocalesGlobalTemplatesNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalTemplate>(), AppData.ServerDatabase.LocalesGlobal.Templates);
+        public void LocalesGlobalTemplatesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Templates.Count == 0);
 
         [Test]
-        public void LocalesGlobalCustomizationNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalTemplate>(), AppData.ServerDatabase.LocalesGlobal.Customization);
+        public void LocalesGlobalCustomizationNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Customization.Count == 0);
 
         [Test]
-        public void LocalesGlobalQuestNotEmpty() => Assert.AreNotEqual(new Dictionary<string, LocalesGlobalQuest>(), AppData.ServerDatabase.LocalesGlobal.Quests);
+        public void LocalesGlobalQuestNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Quests.Count == 0);
         [Test]
-        public void LocalesGlobalInterfaceNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.LocalesGlobal.Interface);
+        public void LocalesGlobalInterfaceNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Interface.Count == 0);
 
         [Test]
         public void ServerGlobalsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals);
@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ServerGlobalsMasteringNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0);
         
         [Test]
-        public void TraderInfosNotEmpty() => Assert.AreNotEqual(new Dictionary<string, TraderBase>(), AppData.ServerDatabase.TraderInfos);
+        public void TraderInfosNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Count == 0);
 
         [Test]
         public void TraderInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.TraderInfos);
@@ -64,12 +64,18 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsDataNotNul() => Assert.IsNotNull(AppData.ServerDatabase.QuestsData);
 
         [Test]
-        public void QuestsDataNotEmpty() => Assert.AreNotEqual(new Dictionary<string, string>(), AppData.ServerDatabase.QuestsData);
+        public void QuestsDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.QuestsData.Count == 0);
 
         [Test]
         public void HideoutAreaInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.HideoutAreaInfos);
 
         [Test]
-        public void HideoutAreaInfosDataNotEmpty() => Assert.AreNotEqual(new List<HideoutAreaInfo>(), AppData.ServerDatabase.HideoutAreaInfos);
+        public void HideoutAreaInfosDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.HideoutAreaInfos.Count == 0);
+
+        [Test]
+        public void ItemsDBNotNul() => Assert.IsNotNull(AppData.ServerDatabase.ItemsDB);
+
+        [Test]
+        public void ItemsDBNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.ItemsDB.Count == 0);
     }
 }

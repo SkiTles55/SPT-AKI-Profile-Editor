@@ -30,19 +30,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (profile.Characters?.Pmc?.Quests != null
                 && AppData.AppSettings.AutoAddMissingQuests)
             {
+                var questsList = profile.Characters.Pmc.Quests.ToList();
                 foreach (var quest in AppData.ServerDatabase.QuestsData)
                     if (!profile.Characters.Pmc.Quests.Any(x => x.Qid == quest.Key))
-                        profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests.Append(new() { Qid = quest.Key, Status = "Locked" }).ToArray();
+                        questsList.Add(new() { Qid = quest.Key, Status = "Locked" });
+                profile.Characters.Pmc.Quests = questsList.ToArray();
             }
             if (profile.Characters?.Pmc?.Skills?.Common != null
                 && profile.Characters?.Scav?.Skills?.Common != null
                 && profile.Characters.Scav.Skills.Common.Length == 0
                 && AppData.AppSettings.AutoAddMissingScavSkills)
             {
-                List<CharacterSkill> skills = new ();
-                foreach (var skill in profile.Characters.Pmc.Skills.Common)
-                    skills.Add(new() { Id = skill.Id, Progress = 0 });
-                profile.Characters.Scav.Skills.Common = skills.ToArray();
+                profile.Characters.Scav.Skills.Common = profile.Characters.Pmc.Skills.Common
+                    .Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })
+                    .ToArray();
             }
             if (profile.Characters?.Pmc?.Skills?.Mastering != null
                 && profile.Characters?.Scav?.Skills?.Mastering != null
@@ -59,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 {
                     var skillsList = characterSkills.Mastering.ToList();
                     foreach (var skill in AppData.ServerDatabase.ServerGlobals.Config.Mastering)
-                        if (skillsList.Where(x => x.Id == skill.Name).FirstOrDefault() == null)
+                        if (!skillsList.Any(x => x.Id == skill.Name))
                             skillsList.Add(new() { Id = skill.Name, Progress = 0 });
                     characterSkills.Mastering = skillsList.ToArray();
                 }
@@ -87,6 +88,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("characters")["scav"].SelectToken("Info")["Level"] = Characters.Scav.Info.Level;
             jobject.SelectToken("characters")["scav"].SelectToken("Info")["Experience"] = Characters.Scav.Info.Experience;
             jobject.SelectToken("characters")["scav"].SelectToken("Customization")["Head"] = Characters.Scav.Customization.Head;
+            jobject.SelectToken("characters")["pmc"].SelectToken("Encyclopedia").Replace(JToken.FromObject(Characters.Pmc.Encyclopedia));
             foreach (var trader in AppData.ServerDatabase.TraderInfos)
             {
                 jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;

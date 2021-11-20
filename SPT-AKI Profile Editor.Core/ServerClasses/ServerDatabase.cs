@@ -71,6 +71,15 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("HideoutAreaInfos");
             }
         }
+        public Dictionary<string, TarkovItem> ItemsDB
+        {
+            get => itemsDB;
+            set
+            {
+                itemsDB = value;
+                OnPropertyChanged("ItemsDB");
+            }
+        }
 
         public void SetAllTradersMax()
         {
@@ -85,6 +94,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private Dictionary<string, TraderBase> traderInfos;
         private Dictionary<string, string> questsData;
         private List<HideoutAreaInfo> hideoutAreaInfos;
+        private Dictionary<string, TarkovItem> itemsDB;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

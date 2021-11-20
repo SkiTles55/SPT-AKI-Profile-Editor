@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -77,6 +78,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Skills");
             }
         }
+        [JsonProperty("Encyclopedia")]
+        public Dictionary<string, bool> Encyclopedia
+        {
+            get => encyclopedia;
+            set
+            {
+                encyclopedia = value;
+                OnPropertyChanged("Encyclopedia");
+            }
+        }
+        [JsonIgnore]
+        public List<string> ExaminedItems => Encyclopedia
+            .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
+            ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key)
+            .ToList();
 
         public void SetAllQuests(string status)
         {
@@ -103,6 +119,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 skill.Progress = value;
         }
 
+        public void ExamineAll()
+        {
+            foreach (var item in AppData.ServerDatabase.ItemsDB
+                .Where(x => x.Value.Parent != null
+                && x.Value.Type == "Item"
+                && !x.Value.Properties.ExaminedByDefault
+                && !Encyclopedia.Any(c => c.Key == x.Key)
+                && AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)))
+                Encyclopedia.Add(item.Key, true);
+            OnPropertyChanged("ExaminedItems");
+        }
+
         private string aid;
         private CharacterInfo info;
         private CharacterCustomization customization;
@@ -110,6 +138,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterHideout hideout;
         private CharacterQuest[] quests;
         private CharacterSkills skills;
+        private Dictionary<string, bool> encyclopedia;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

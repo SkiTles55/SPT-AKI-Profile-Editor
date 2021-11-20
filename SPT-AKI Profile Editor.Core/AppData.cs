@@ -36,6 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadTradersInfos();
                 LoadQuestsData();
                 LoadHideoutAreaInfos();
+                LoadItemsDB();
             }
         }
 
@@ -126,6 +127,18 @@ namespace SPT_AKI_Profile_Editor.Core
                 ServerDatabase.HideoutAreaInfos = HideoutAreaInfos;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase HideoutAreaInfos ({path}) loading error: {ex.Message}"); }
+        }
+
+        private static void LoadItemsDB()
+        {
+            ServerDatabase.ItemsDB = new();
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_items"]);
+            try
+            {
+                Dictionary<string, TarkovItem> itemsDB = JsonSerializer.Deserialize<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
+                ServerDatabase.ItemsDB = itemsDB;
+            }
+            catch (Exception ex) { Logger.Log($"ServerDatabase ItemsDB ({path}) loading error: {ex.Message}"); }
         }
     }
 }

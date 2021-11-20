@@ -13,5 +13,6 @@
         public HideoutTab HideoutTab { get; set; }
         public SkillsTab SkillsTab { get; set; }
         public MasteringTab MasteringTab { get; set; }
+        public string ExaminedItemsFilter { get; set; }
     }
 }

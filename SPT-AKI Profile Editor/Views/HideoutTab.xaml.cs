@@ -35,8 +35,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 cv.Filter = o =>
                 {
                     HideoutArea p = o as HideoutArea;
-                    return (string.IsNullOrEmpty(AppData.GridFilters.HideoutTab.AreaNameFilter)
-                    || p.LocalizedName.ToUpper().Contains(AppData.GridFilters.HideoutTab.AreaNameFilter.ToUpper()));
+                    return p.LocalizedName.ToUpper().Contains(AppData.GridFilters.HideoutTab.AreaNameFilter.ToUpper());
                 };
             }
         }

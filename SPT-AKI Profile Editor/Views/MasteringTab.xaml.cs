@@ -41,8 +41,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 cv.Filter = o =>
                 {
                     CharacterSkill p = o as CharacterSkill;
-                    return (string.IsNullOrEmpty(filter)
-                    || p.LocalizedName.ToUpper().Contains(filter.ToUpper()));
+                    return p.LocalizedName.ToUpper().Contains(filter.ToUpper());
                 };
             }
         }
