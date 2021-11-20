@@ -94,6 +94,22 @@ namespace SPT_AKI_Profile_Editor.Core
                 }
             }
         }
+        public bool AutoAddMissingScavSkills
+        {
+            get => autoAddMissingScavSkills;
+            set
+            {
+                bool _needReload = autoAddMissingScavSkills != value;
+                autoAddMissingScavSkills = value;
+                OnPropertyChanged("AutoAddMissingScavSkills");
+                if (Loaded)
+                {
+                    if (_needReload)
+                        LoadProfiles();
+                    Save();
+                }
+            }
+        }
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -113,6 +129,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private string language;
         private string colorScheme;
         private bool autoAddMissingQuests;
+        private bool autoAddMissingScavSkills;
         private bool autoAddMissingMasterings;
         private Dictionary<string, string> serverProfiles;
 
@@ -156,13 +173,14 @@ namespace SPT_AKI_Profile_Editor.Core
             ServerProfiles = Profiles;
         }
 
-        public string GetStamp()
+        public static string GetStamp()
         {
             return AppData.AppSettings.ServerPath
                 + AppData.AppSettings.DefaultProfile
                 + AppData.AppSettings.Language
                 + AppData.AppSettings.AutoAddMissingQuests.ToString()
-                + AppData.AppSettings.AutoAddMissingMasterings.ToString();
+                + AppData.AppSettings.AutoAddMissingMasterings.ToString()
+                + AppData.AppSettings.AutoAddMissingScavSkills.ToString();
         }
 
         private void LoadFromFile()
@@ -208,6 +226,9 @@ namespace SPT_AKI_Profile_Editor.Core
                 ColorScheme = loaded.ColorScheme;
                 DirsList = loaded.DirsList;
                 FilesList = loaded.FilesList;
+                AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
+                AutoAddMissingQuests = loaded.AutoAddMissingQuests;
+                AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
                 if (_needReSave)
                 {
                     Logger.Log($"Configuration file updated");
@@ -228,6 +249,7 @@ namespace SPT_AKI_Profile_Editor.Core
             FilesList = DefaultValues.DefaultFilesList;
             AutoAddMissingQuests = false;
             AutoAddMissingMasterings = false;
+            AutoAddMissingScavSkills = false;
             Logger.Log($"Default configuration file created");
             Save();
         }

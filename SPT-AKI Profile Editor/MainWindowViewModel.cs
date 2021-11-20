@@ -59,7 +59,7 @@ namespace SPT_AKI_Profile_Editor
         private readonly Worker worker;
         private async Task ShowSettingsDialog()
         {
-            string startValues = AppData.AppSettings.GetStamp();
+            string startValues = AppSettings.GetStamp();
             CustomDialog settingsDialog = new()
             {
                 Title = AppLocalization.GetLocalizedString("tab_settings_title"),
@@ -68,7 +68,7 @@ namespace SPT_AKI_Profile_Editor
             RelayCommand closeCommand = new(async obj =>
             {
                 await dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
-                string newValues = AppData.AppSettings.GetStamp();
+                string newValues = AppSettings.GetStamp();
                 if (startValues != newValues)
                     StartupEventsWorker();
             });

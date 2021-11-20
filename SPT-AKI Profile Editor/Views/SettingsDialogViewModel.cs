@@ -73,6 +73,15 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("AutoAddMissingWeaponSkills");
             }
         }
+        public bool AutoAddMissingScavSkills
+        {
+            get => AppSettings.AutoAddMissingScavSkills;
+            set
+            {
+                AppSettings.AutoAddMissingScavSkills = value;
+                OnPropertyChanged("AutoAddMissingScavSkills");
+            }
+        }
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
             .OrderBy(x => x.DisplayName)

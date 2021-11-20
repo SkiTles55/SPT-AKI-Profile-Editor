@@ -85,13 +85,22 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HideoutAreasNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Hideout.Areas.Length == 0, "HideoutAreas is empty");
 
         [Test]
-        public void SkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Skills is null");
+        public void PmcSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Pmc skills is null");
 
         [Test]
-        public void CommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common.Length == 0, "CommonSkills is empty");
+        public void PmcCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common.Length == 0, "Pmc CommonSkills is empty");
 
         [Test]
-        public void MasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Mastering.Length == 0, "MasteringSkills is empty");
+        public void PmcMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Mastering.Length == 0, "Pmc MasteringSkills is empty");
+
+        [Test]
+        public void ScavSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Scav.Skills, "Scav skills is null");
+
+        [Test]
+        public void ScavCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Common.Length == 0, "Scav CommonSkills is empty");
+
+        [Test]
+        public void ScavMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Mastering.Length == 0, "Scav MasteringSkills is empty");
 
         [Test]
         public void ProfileSavesCorrectly()

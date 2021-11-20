@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -26,11 +27,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             string fileText = File.ReadAllText(path);
             Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
-            if (profile.Characters.Pmc.Quests != null && AppData.AppSettings.AutoAddMissingQuests)
+            if (profile.Characters?.Pmc?.Quests != null
+                && AppData.AppSettings.AutoAddMissingQuests)
             {
                 foreach (var quest in AppData.ServerDatabase.QuestsData)
                     if (!profile.Characters.Pmc.Quests.Any(x => x.Qid == quest.Key))
                         profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests.Append(new() { Qid = quest.Key, Status = "Locked" }).ToArray();
+            }
+            if (profile.Characters?.Pmc?.Skills?.Common != null
+                && profile.Characters.Scav.Skills.Common.Length == 0
+                && AppData.AppSettings.AutoAddMissingScavSkills)
+            {
+                List<CharacterSkill> skills = new ();
+                foreach (var skill in profile.Characters.Pmc.Skills.Common)
+                    skills.Add(new() { Id = skill.Id, Progress = 0 });
+                profile.Characters.Scav.Skills.Common = skills.ToArray();
             }
             Characters = profile.Characters;
         }
