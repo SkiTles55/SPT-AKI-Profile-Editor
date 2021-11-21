@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -23,6 +21,9 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void CharactersNotNull() => Assert.IsNotNull(AppData.Profile.Characters);
+
+        [Test]
+        public void SuitsNotEmpty() => Assert.IsFalse(AppData.Profile.Suits.Length == 0);
 
         [Test]
         public void PmcNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc);
@@ -218,6 +219,17 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count);
+        }
+
+        [Test]
+        public void SuitsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            AppData.ServerDatabase.AcquireAllClothing();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testSuits.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Suits.Length == AppData.ServerDatabase.TraderSuits.Count);
         }
     }
 }

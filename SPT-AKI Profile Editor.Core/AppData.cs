@@ -38,6 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadHideoutAreaInfos();
                 LoadItemsDB();
                 FindPockets();
+                LoadTraderSuits();
             }
         }
 
@@ -61,6 +62,8 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 try
                 {
+                    if (!File.Exists(btype))
+                        continue;
                     BotType bot = JsonSerializer.Deserialize<BotType>(File.ReadAllText(btype));
                     if (bot.Appearance.Heads != null)
                         foreach (var head in bot.Appearance.Heads)
@@ -95,6 +98,8 @@ namespace SPT_AKI_Profile_Editor.Core
             var traderInfos = new Dictionary<string, TraderBase>();
             foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_traders"])))
             {
+                if (!File.Exists(Path.Combine(tbase, "base.json")))
+                    continue;
                 if (Path.GetFileNameWithoutExtension(tbase) == "ragfair")
                     continue;
                 try
@@ -151,5 +156,24 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static string GetPocketsName(string x) =>
             $"{(ServerDatabase.LocalesGlobal.Templates.ContainsKey(x) ? ServerDatabase.LocalesGlobal.Templates[x].Name : x)}";
+
+        private static void LoadTraderSuits()
+        {
+            ServerDatabase.TraderSuits = new();
+            var traderSuits = new List<TraderSuit>();
+            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_traders"])))
+            {
+                try
+                {
+                    if (!File.Exists(Path.Combine(tbase, "suits.json")))
+                        continue;
+                    var traderSuitsList = JsonSerializer.Deserialize<List<TraderSuit>>(File.ReadAllText(Path.Combine(tbase, "suits.json")));
+                    foreach (var suit in traderSuitsList.Where(x => !traderSuits.Any(y => y.SuiteId == x.SuiteId)))
+                        traderSuits.Add(suit);
+                }
+                catch (Exception ex) { Logger.Log($"ServerDatabase TraderSuits ({tbase}) loading error: {ex.Message}"); }
+            }
+            ServerDatabase.TraderSuits = traderSuits;
+        }
     }
 }

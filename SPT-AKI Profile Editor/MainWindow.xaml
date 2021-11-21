@@ -80,7 +80,7 @@
 
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_clothing_title]}" Name="tabclothing" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:ClothingTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

@@ -83,5 +83,11 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void PocketsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Pockets.Count == 0);
+
+        [Test]
+        public void TraderSuitsNotNul() => Assert.IsNotNull(AppData.ServerDatabase.TraderSuits);
+
+        [Test]
+        public void TraderSuitsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderSuits.Count == 0);
     }
 }

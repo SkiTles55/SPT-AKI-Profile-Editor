@@ -20,8 +20,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Characters");
             }
         }
+        [JsonProperty("suits")]
+        public string[] Suits
+        {
+            get => suits;
+            set
+            {
+                suits = value;
+                OnPropertyChanged("Suits");
+            }
+        }
 
         private ProfileCharacters characters;
+        private string[] suits;
 
         public void Load(string path)
         {
@@ -57,6 +68,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 AddMissingMasteringSkills(profile.Characters.Scav.Skills);
             }
             Characters = profile.Characters;
+            Suits = profile.Suits;
 
             static void AddMissingMasteringSkills(CharacterSkills characterSkills)
             {
@@ -114,6 +126,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(Characters.Scav.Skills.Common, "scav", "Common");
             WriteSkills(Characters.Pmc.Skills.Mastering, "pmc", "Mastering");
             WriteSkills(Characters.Scav.Skills.Mastering, "scav", "Mastering");
+            jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 

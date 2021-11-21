@@ -87,11 +87,26 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Pockets");
             }
         }
+        public List<TraderSuit> TraderSuits
+        {
+            get => traderSuits;
+            set
+            {
+                traderSuits = value;
+                OnPropertyChanged("TraderSuits");
+            }
+        }
 
         public void SetAllTradersMax()
         {
             foreach (var trader in TraderInfos.Values)
                 trader.Level = trader.MaxLevel;
+        }
+
+        public void AcquireAllClothing()
+        {
+            foreach (var suit in TraderSuits)
+                suit.Boughted = true;
         }
 
         private Dictionary<string, string> heads;
@@ -103,6 +118,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private List<HideoutAreaInfo> hideoutAreaInfos;
         private Dictionary<string, TarkovItem> itemsDB;
         private Dictionary<string, string> pockets;
+        private List<TraderSuit> traderSuits;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
