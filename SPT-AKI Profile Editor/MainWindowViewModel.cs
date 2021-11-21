@@ -79,7 +79,11 @@ namespace SPT_AKI_Profile_Editor
         {
             worker.AddAction(new WorkerTask
             {
-                Action = () => { AppData.Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile)); },
+                Action = () =>
+                {
+                    AppData.BackupService.CreateBackup();
+                    AppData.Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
+                },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("save_profile_dialog_title")
             });
@@ -98,6 +102,7 @@ namespace SPT_AKI_Profile_Editor
         {
             AppData.LoadDatabase();
             AppData.Profile.Load(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
+            AppData.BackupService.LoadBackupsList();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

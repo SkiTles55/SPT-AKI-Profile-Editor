@@ -15,12 +15,14 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly static Profile Profile;
         public readonly static ServerDatabase ServerDatabase;
         public readonly static GridFilters GridFilters;
+        public readonly static BackupService BackupService;
 
         static AppData()
         {
             GridFilters = new();
             AppSettings = new();
             AppSettings.Load();
+            BackupService = new();
             AppLocalization = new(AppSettings.Language);
             Profile = new();
             ServerDatabase = new();
