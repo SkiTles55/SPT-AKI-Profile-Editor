@@ -43,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (mastering != null)
                 return mastering.Level2 + mastering.Level3;
             else
-                return AppData.ServerDatabase.CommonSkillMaxValue;
+                return AppData.AppSettings.CommonSkillMaxValue;
         }
 
         private string MasteringLocalizedName()

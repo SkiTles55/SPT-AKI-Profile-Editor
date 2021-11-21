@@ -162,11 +162,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcCommonSkillsSavesCorrectly()
         {
             AppData.Profile.Load(profileFile);
-            AppData.Profile.Characters.Pmc.SetAllCommonSkills(AppData.ServerDatabase.CommonSkillMaxValue);
+            AppData.Profile.Characters.Pmc.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.ServerDatabase.CommonSkillMaxValue));
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.AppSettings.AutoAddMissingScavSkills = true;
             AppData.Profile.Load(profileFile);
-            AppData.Profile.Characters.Scav.SetAllCommonSkills(AppData.ServerDatabase.CommonSkillMaxValue);
+            AppData.Profile.Characters.Scav.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);

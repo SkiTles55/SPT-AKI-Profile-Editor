@@ -77,5 +77,11 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void ItemsDBNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.ItemsDB.Count == 0);
+
+        [Test]
+        public void PocketsNotNul() => Assert.IsNotNull(AppData.ServerDatabase.Pockets);
+
+        [Test]
+        public void PocketsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Pockets.Count == 0);
     }
 }

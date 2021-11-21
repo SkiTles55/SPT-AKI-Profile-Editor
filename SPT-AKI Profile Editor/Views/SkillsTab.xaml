@@ -67,7 +67,7 @@
                 </Label>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
                     <TextBox Text="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0" Width="60"/>
-                    <Slider Grid.Column="1" Maximum="{Binding ServerDatabase.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
+                    <Slider Grid.Column="1" Maximum="{Binding AppSettings.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
                     <Button Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100" Command="{Binding SetAllPmsSkillsCommand}"/>
                 </StackPanel>
             </Grid>
@@ -126,7 +126,7 @@
                 </Label>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0">
                     <TextBox Text="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0" Width="60"/>
-                    <Slider Grid.Column="1" Maximum="{Binding ServerDatabase.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
+                    <Slider Grid.Column="1" Maximum="{Binding AppSettings.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
                     <Button Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100" Command="{Binding SetAllScavSkillsCommand}"/>
                 </StackPanel>
             </Grid>

@@ -110,6 +110,38 @@ namespace SPT_AKI_Profile_Editor.Core
                 }
             }
         }
+        public string PocketsContainerTpl
+        {
+            get => pocketsContainerTpl;
+            set
+            {
+                bool _needReload = pocketsContainerTpl != value;
+                pocketsContainerTpl = value;
+                OnPropertyChanged("PocketsContainerTpl");
+                if (Loaded)
+                {
+                    if (_needReload)
+                        LoadProfiles();
+                    Save();
+                }
+            }
+        }
+        public float CommonSkillMaxValue
+        {
+            get => commonSkillMaxValue;
+            set
+            {
+                bool _needReload = commonSkillMaxValue != value;
+                commonSkillMaxValue = value;
+                OnPropertyChanged("CommonSkillMaxValue");
+                if (Loaded)
+                {
+                    if (_needReload)
+                        LoadProfiles();
+                    Save();
+                }
+            }
+        }
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -131,6 +163,8 @@ namespace SPT_AKI_Profile_Editor.Core
         private bool autoAddMissingQuests;
         private bool autoAddMissingScavSkills;
         private bool autoAddMissingMasterings;
+        private string pocketsContainerTpl;
+        private float commonSkillMaxValue;
         private Dictionary<string, string> serverProfiles;
 
         public void Load()
@@ -180,7 +214,9 @@ namespace SPT_AKI_Profile_Editor.Core
                 + AppData.AppSettings.Language
                 + AppData.AppSettings.AutoAddMissingQuests.ToString()
                 + AppData.AppSettings.AutoAddMissingMasterings.ToString()
-                + AppData.AppSettings.AutoAddMissingScavSkills.ToString();
+                + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
+                + AppData.AppSettings.CommonSkillMaxValue.ToString()
+                + AppData.AppSettings.PocketsContainerTpl;
         }
 
         private void LoadFromFile()
@@ -229,6 +265,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
                 AutoAddMissingQuests = loaded.AutoAddMissingQuests;
                 AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
+                PocketsContainerTpl = loaded.PocketsContainerTpl;
+                CommonSkillMaxValue = loaded.CommonSkillMaxValue;
                 if (_needReSave)
                 {
                     Logger.Log($"Configuration file updated");
@@ -250,6 +288,8 @@ namespace SPT_AKI_Profile_Editor.Core
             AutoAddMissingQuests = false;
             AutoAddMissingMasterings = false;
             AutoAddMissingScavSkills = false;
+            PocketsContainerTpl = DefaultValues.PocketsContainerTpl;
+            CommonSkillMaxValue = DefaultValues.CommonSkillMaxValue;
             Logger.Log($"Default configuration file created");
             Save();
         }

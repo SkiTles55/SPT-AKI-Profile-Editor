@@ -6,8 +6,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ServerDatabase : INotifyPropertyChanged
     {
-        public float CommonSkillMaxValue => 5100;
-
         public Dictionary<string, string> Heads
         {
             get => heads;
@@ -80,6 +78,15 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("ItemsDB");
             }
         }
+        public Dictionary<string, string> Pockets
+        {
+            get => pockets;
+            set
+            {
+                pockets = value;
+                OnPropertyChanged("Pockets");
+            }
+        }
 
         public void SetAllTradersMax()
         {
@@ -95,6 +102,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private Dictionary<string, string> questsData;
         private List<HideoutAreaInfo> hideoutAreaInfos;
         private Dictionary<string, TarkovItem> itemsDB;
+        private Dictionary<string, string> pockets;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

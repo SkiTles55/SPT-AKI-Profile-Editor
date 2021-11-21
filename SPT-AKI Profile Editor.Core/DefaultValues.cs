@@ -5,6 +5,8 @@ namespace SPT_AKI_Profile_Editor.Core
     public static class DefaultValues
     {
         public const string ColorScheme = "Light.Emerald";
+        public const string PocketsContainerTpl = "557596e64bdc2dc2118b4571";
+        public const float CommonSkillMaxValue = 5100;
         public static Dictionary<string, string> DefaultDirsList => new()
         {
             ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",

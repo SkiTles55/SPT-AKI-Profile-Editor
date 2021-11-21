@@ -37,6 +37,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadQuestsData();
                 LoadHideoutAreaInfos();
                 LoadItemsDB();
+                FindPockets();
             }
         }
 
@@ -140,5 +141,15 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase ItemsDB ({path}) loading error: {ex.Message}"); }
         }
+
+        private static void FindPockets() => ServerDatabase.Pockets = ServerDatabase.ItemsDB
+            .Where(x => x.Value.Parent == AppSettings.PocketsContainerTpl)
+            .ToDictionary(x => x.Key, x => GetPocketsName(x.Key));
+
+        //private static string GetPocketsName(string x) =>
+        //    $"{(ServerDatabase.LocalesGlobal.Templates.ContainsKey(x) ? ServerDatabase.LocalesGlobal.Templates[x].Name : x)} ({GetSlotsCount(ServerDatabase.ItemsDB[x])})";
+
+        private static string GetPocketsName(string x) =>
+            $"{(ServerDatabase.LocalesGlobal.Templates.ContainsKey(x) ? ServerDatabase.LocalesGlobal.Templates[x].Name : x)}";
     }
 }
