@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     class ProfileTests
     {
-        const string profileFile = @"C:\SPT\user\profiles\5403de6b87fdd2dc06714896.json";
+        const string profileFile = @"C:\SPT\user\profiles\0a727cba469df90e68214278.json";
 
         [OneTimeSetUp]
         public void Setup()
@@ -131,7 +131,9 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testTraders.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandings.Where(x => x.Key != "ragfair").All(x => x.Value.LoyaltyLevel == AppData.ServerDatabase.TraderInfos[x.Key].MaxLevel));
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandings
+                .Where(x => x.Key != "ragfair")
+                .All(x => x.Value.LoyaltyLevel == AppData.ServerDatabase.TraderInfos[x.Key].MaxLevel));
 
         }
 
@@ -156,7 +158,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testHideouts.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Hideout.Areas.All(x => x.Level == x.MaxLevel));
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Hideout.Areas
+                .All(x => x.Level == x.MaxLevel));
         }
 
         [Test]
@@ -167,7 +170,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common
+                .All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
         }
 
         [Test]
@@ -179,7 +183,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.All(x => x.Id.StartsWith("Bot") || x.Progress == x.MaxValue)
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common
+                .All(x => x.Id.StartsWith("Bot") || x.Progress == x.MaxValue)
                 && AppData.Profile.Characters.Scav.Skills.Common.Length == AppData.Profile.Characters.Pmc.Skills.Common.Length);
         }
 
@@ -192,7 +197,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcMasteringSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == x.MaxValue)
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Mastering
+                .All(x => x.Progress == x.MaxValue)
                 && AppData.Profile.Characters.Pmc.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
         }
 
@@ -205,7 +211,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavMasteringSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == x.MaxValue)
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Mastering
+                .All(x => x.Progress == x.MaxValue)
                 && AppData.Profile.Characters.Scav.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
         }
 

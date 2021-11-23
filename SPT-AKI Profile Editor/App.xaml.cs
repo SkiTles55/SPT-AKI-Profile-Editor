@@ -1,4 +1,5 @@
 ﻿using ControlzEx.Theming;
+using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -13,6 +14,8 @@ namespace SPT_AKI_Profile_Editor
     {
         public static RelayCommand CloseApplication => new(obj => Current.Shutdown());
         public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
+        public static IDialogCoordinator dialogCoordinator;
+        public static Worker worker;
 
         private void Application_Startup(object s, StartupEventArgs e) => Current.DispatcherUnhandledException += (sender, args) => HandleException(args.Exception);
         public static void HandleException(Exception exception)

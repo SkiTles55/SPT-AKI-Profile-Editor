@@ -44,6 +44,13 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public static void StartupEvents()
+        {
+            LoadDatabase();
+            Profile.Load(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_profiles"], AppSettings.DefaultProfile));
+            BackupService.LoadBackupsList();
+        }
+
         private static void LoadLocalesGlobal()
         {
             ServerDatabase.LocalesGlobal = new();

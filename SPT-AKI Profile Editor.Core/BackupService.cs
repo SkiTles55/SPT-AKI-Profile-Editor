@@ -67,21 +67,23 @@ namespace SPT_AKI_Profile_Editor.Core
                 DirectoryInfo dir = new(destFolder);
                 dir.Create();
             }
-            string destPath = Path.Combine(destFolder, $"{Path.GetFileNameWithoutExtension(AppData.AppSettings.DefaultProfile)}-backup-{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.json");
+            string destPath = Path.Combine(destFolder, $"{Path.GetFileNameWithoutExtension(sourcePath)}-backup-{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.json");
             File.Copy(sourcePath, destPath, true);
         }
 
-        public void RestoreBackup(BackupFile file, string destPath = null)
+        public void RestoreBackup(string file, string destPath = null)
         {
             if (string.IsNullOrEmpty(destPath))
                 destPath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile);
-            File.Copy(file.Path, destPath, true);
-            File.Delete(file.Path);
+            File.Copy(file, destPath, true);
+            File.Delete(file);
         }
 
-        public void RemoveBackup(BackupFile file)
+        public void RemoveBackup(string file)
         {
-            File.Delete(file.Path);
+            if (!File.Exists(file))
+                return;
+            File.Delete(file);
             LoadBackupsList();
         }
 

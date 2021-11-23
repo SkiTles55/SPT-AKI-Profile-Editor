@@ -86,7 +86,7 @@
 
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:BackupsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_about_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
 

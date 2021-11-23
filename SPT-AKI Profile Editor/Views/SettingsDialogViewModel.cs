@@ -17,9 +17,8 @@ namespace SPT_AKI_Profile_Editor
 {
     class SettingsDialogViewModel : INotifyPropertyChanged
     {
-        public SettingsDialogViewModel(IDialogCoordinator instance, RelayCommand command)
+        public SettingsDialogViewModel(RelayCommand command)
         {
-            dialogCoordinator = instance;
             CloseCommand = command;
         }
         public string CurrentLocalization
@@ -141,26 +140,21 @@ namespace SPT_AKI_Profile_Editor
         private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
         private static bool accountsBoxEnabled = GetAccountsBoxEnabled();
         private static Visibility closeButton = GetCloseButtonVisibility();
-        private readonly IDialogCoordinator dialogCoordinator;
         private static readonly FolderBrowserDialog folderBrowserDialog = new()
         {
             Description = AppLocalization.GetLocalizedString("server_select"),
             RootFolder = Environment.SpecialFolder.MyComputer,
             ShowNewFolderButton = false
         };
-        private static MetroDialogSettings MetroDialogSettings => new()
-        {
-            DefaultButtonFocus = MessageDialogResult.Affirmative,
-            AffirmativeButtonText = AppLocalization.GetLocalizedString("button_yes"),
-            NegativeButtonText = AppLocalization.GetLocalizedString("button_no"),
-            AnimateHide = true,
-            AnimateShow = true
-        };
 
-        private static Visibility GetNoAccountsIconVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
-        private static bool GetAccountsBoxEnabled() => ExtMethods.ServerHaveProfiles(AppSettings);
-        private static Visibility GetInvalidServerLocationIconVisibility() => ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Hidden : Visibility.Visible;
-        private static Visibility GetCloseButtonVisibility() => ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Collapsed;
+        private static Visibility GetNoAccountsIconVisibility() =>
+            ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+        private static bool GetAccountsBoxEnabled() =>
+            ExtMethods.ServerHaveProfiles(AppSettings);
+        private static Visibility GetInvalidServerLocationIconVisibility() =>
+            ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+        private static Visibility GetCloseButtonVisibility() =>
+            ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Collapsed;
         private async Task ServerSelectDialog()
         {
             bool pathOK = false;
@@ -178,11 +172,9 @@ namespace SPT_AKI_Profile_Editor
         }
         private async Task<bool> PathIsNotServerFolder(bool pathOK)
         {
-            return !pathOK && await dialogCoordinator.ShowMessageAsync(this,
-                AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                AppLocalization.GetLocalizedString("invalid_server_location_text"),
-                MessageDialogStyle.AffirmativeAndNegative,
-                MetroDialogSettings) == MessageDialogResult.Affirmative;
+            return !pathOK && await Dialogs.YesNoDialog(this,
+                "invalid_server_location_caption",
+                "invalid_server_location_text") == MessageDialogResult.Affirmative;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

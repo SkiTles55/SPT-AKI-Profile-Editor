@@ -89,7 +89,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
         [JsonIgnore]
-        public List<string> ExaminedItems => Encyclopedia
+        public List<string> ExaminedItems => Encyclopedia?
             .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
             ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key)
             .ToList();
