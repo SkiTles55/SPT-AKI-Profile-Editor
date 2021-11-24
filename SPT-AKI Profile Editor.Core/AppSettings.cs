@@ -67,15 +67,10 @@ namespace SPT_AKI_Profile_Editor.Core
             get => autoAddMissingQuests;
             set
             {
-                bool _needReload = autoAddMissingQuests != value;
                 autoAddMissingQuests = value;
                 OnPropertyChanged("AutoAddMissingQuests");
                 if (Loaded)
-                {
-                    if (_needReload)
-                        LoadProfiles();
                     Save();
-                }
             }
         }
         public bool AutoAddMissingMasterings
@@ -83,15 +78,10 @@ namespace SPT_AKI_Profile_Editor.Core
             get => autoAddMissingMasterings;
             set
             {
-                bool _needReload = autoAddMissingMasterings != value;
                 autoAddMissingMasterings = value;
                 OnPropertyChanged("AutoAddMissingWeaponSkills");
                 if (Loaded)
-                {
-                    if (_needReload)
-                        LoadProfiles();
                     Save();
-                }
             }
         }
         public bool AutoAddMissingScavSkills
@@ -99,15 +89,10 @@ namespace SPT_AKI_Profile_Editor.Core
             get => autoAddMissingScavSkills;
             set
             {
-                bool _needReload = autoAddMissingScavSkills != value;
                 autoAddMissingScavSkills = value;
                 OnPropertyChanged("AutoAddMissingScavSkills");
                 if (Loaded)
-                {
-                    if (_needReload)
-                        LoadProfiles();
                     Save();
-                }
             }
         }
         public string PocketsContainerTpl
@@ -115,15 +100,10 @@ namespace SPT_AKI_Profile_Editor.Core
             get => pocketsContainerTpl;
             set
             {
-                bool _needReload = pocketsContainerTpl != value;
                 pocketsContainerTpl = value;
                 OnPropertyChanged("PocketsContainerTpl");
                 if (Loaded)
-                {
-                    if (_needReload)
-                        LoadProfiles();
                     Save();
-                }
             }
         }
         public float CommonSkillMaxValue
@@ -131,15 +111,65 @@ namespace SPT_AKI_Profile_Editor.Core
             get => commonSkillMaxValue;
             set
             {
-                bool _needReload = commonSkillMaxValue != value;
                 commonSkillMaxValue = value;
                 OnPropertyChanged("CommonSkillMaxValue");
                 if (Loaded)
-                {
-                    if (_needReload)
-                        LoadProfiles();
                     Save();
-                }
+            }
+        }
+        public string PocketsSlotId
+        {
+            get => pocketsSlotId;
+            set
+            {
+                pocketsSlotId = value;
+                OnPropertyChanged("PocketsSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+        public string MoneysDollarsTpl
+        {
+            get => moneysDollarsTpl;
+            set
+            {
+                moneysDollarsTpl = value;
+                OnPropertyChanged("MoneysDollarsTpl");
+                if (Loaded)
+                    Save();
+            }
+        }
+        public string MoneysRublesTpl
+        {
+            get => moneysRublesTpl;
+            set
+            {
+                moneysRublesTpl = value;
+                OnPropertyChanged("MoneysRublesTpl");
+                if (Loaded)
+                    Save();
+            }
+        }
+        public string MoneysEurosTpl
+        {
+            get => moneysEurosTpl;
+            set
+            {
+                moneysEurosTpl = value;
+                OnPropertyChanged("MoneysEurosTpl");
+                if (Loaded)
+                    Save();
+            }
+        }
+        public List<string> BannedItems
+        {
+            get => bannedItems;
+            set
+            {
+                bannedItems = value;
+                OnPropertyChanged("BannedItems");
+                if (Loaded)
+                    Save();
             }
         }
         [JsonIgnore]
@@ -166,6 +196,11 @@ namespace SPT_AKI_Profile_Editor.Core
         private string pocketsContainerTpl;
         private float commonSkillMaxValue;
         private Dictionary<string, string> serverProfiles;
+        private string pocketsSlotId;
+        private string moneysDollarsTpl;
+        private string moneysRublesTpl;
+        private string moneysEurosTpl;
+        private List<string> bannedItems;
 
         public void Load()
         {
@@ -216,7 +251,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 + AppData.AppSettings.AutoAddMissingMasterings.ToString()
                 + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
                 + AppData.AppSettings.CommonSkillMaxValue.ToString()
-                + AppData.AppSettings.PocketsContainerTpl;
+                + AppData.AppSettings.PocketsContainerTpl
+                + AppData.AppSettings.pocketsSlotId
+                + AppData.AppSettings.MoneysDollarsTpl
+                + AppData.AppSettings.MoneysEurosTpl
+                + AppData.AppSettings.MoneysRublesTpl;
         }
 
         private void LoadFromFile()
@@ -256,6 +295,11 @@ namespace SPT_AKI_Profile_Editor.Core
                     loaded.Language = ExtMethods.WindowsCulture;
                     _needReSave = true;
                 }
+                if (loaded.BannedItems == null)
+                {
+                    loaded.BannedItems = DefaultValues.BannedItems;
+                    _needReSave = true;
+                }
                 ServerPath = loaded.ServerPath;
                 DefaultProfile = loaded.DefaultProfile;
                 Language = loaded.Language;
@@ -267,6 +311,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
                 PocketsContainerTpl = loaded.PocketsContainerTpl;
                 CommonSkillMaxValue = loaded.CommonSkillMaxValue;
+                PocketsSlotId = loaded.PocketsSlotId;
+                MoneysDollarsTpl = loaded.MoneysDollarsTpl;
+                MoneysEurosTpl = loaded.MoneysEurosTpl;
+                MoneysRublesTpl = loaded.MoneysRublesTpl;
+                BannedItems = loaded.BannedItems;
                 if (_needReSave)
                 {
                     Logger.Log($"Configuration file updated");
@@ -290,6 +339,11 @@ namespace SPT_AKI_Profile_Editor.Core
             AutoAddMissingScavSkills = false;
             PocketsContainerTpl = DefaultValues.PocketsContainerTpl;
             CommonSkillMaxValue = DefaultValues.CommonSkillMaxValue;
+            PocketsSlotId = DefaultValues.PocketsSlotId;
+            MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
+            MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
+            MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
+            BannedItems = DefaultValues.BannedItems;
             Logger.Log($"Default configuration file created");
             Save();
         }

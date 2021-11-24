@@ -85,7 +85,7 @@
                         <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_pockets]}"/>
                     </Label.Content>
                 </Label>
-                <ComboBox Grid.Column="1" Grid.Row="8" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding ServerDatabase.Pockets}"/>
+                <ComboBox Grid.Column="1" Grid.Row="8" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding ServerDatabase.Pockets}" SelectedValue="{Binding Profile.Characters.Pmc.Inventory.Pockets}"/>
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">

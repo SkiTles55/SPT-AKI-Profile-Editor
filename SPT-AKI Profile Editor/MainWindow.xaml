@@ -77,7 +77,7 @@
                 <views:ExaminedItemsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:StashTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_clothing_title]}" Name="tabclothing" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:ClothingTab/>

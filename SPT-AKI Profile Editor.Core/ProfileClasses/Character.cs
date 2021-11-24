@@ -88,6 +88,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Encyclopedia");
             }
         }
+        [JsonProperty("Inventory")]
+        public CharacterInventory Inventory
+        {
+            get => inventory;
+            set
+            {
+                inventory = value;
+                OnPropertyChanged("Inventory");
+            }
+        }
         [JsonIgnore]
         public List<string> ExaminedItems => Encyclopedia?
             .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
@@ -139,6 +149,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterQuest[] quests;
         private CharacterSkills skills;
         private Dictionary<string, bool> encyclopedia;
+        private CharacterInventory inventory;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

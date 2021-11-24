@@ -8,6 +8,7 @@
             HideoutTab = new();
             SkillsTab = new();
             MasteringTab = new();
+            StashTab = new();
         }
         public QuestsTab QuestsTab { get; set; }
         public HideoutTab HideoutTab { get; set; }
@@ -15,5 +16,6 @@
         public MasteringTab MasteringTab { get; set; }
         public string ExaminedItemsFilter { get; set; }
         public string ClothingNameFilter { get; set; }
+        public StashTab StashTab { get; set; }
     }
 }

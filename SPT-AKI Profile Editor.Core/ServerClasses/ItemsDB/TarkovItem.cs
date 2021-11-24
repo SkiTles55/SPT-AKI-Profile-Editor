@@ -21,15 +21,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Templates[Id].Name : Id;
 
         [JsonIgnore]
-        public int GetSlotsCount
+        public int GetSlotsCount => CalculateSlotsCount();
+
+        private int CalculateSlotsCount()
         {
-            get
-            {
-                int slots = 0;
-                //foreach (var grid in Properties.Grids)
-                //    slots += grid.gridProps.cellsH * grid.gridProps.cellsV;
-                return slots;
-            }
+            int slots = 0;
+            //foreach (var grid in Properties.Grids)
+            //    slots += grid.Props.CellsH * grid.Props.CellsV;
+            return slots;
         }
     }
 }

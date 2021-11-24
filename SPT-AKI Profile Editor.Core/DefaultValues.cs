@@ -6,7 +6,26 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public const string ColorScheme = "Light.Emerald";
         public const string PocketsContainerTpl = "557596e64bdc2dc2118b4571";
+        public const string PocketsSlotId = "Pockets";
+        public const string MoneysDollarsTpl = "5696686a4bdc2da3298b456a";
+        public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
+        public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const float CommonSkillMaxValue = 5100;
+        public static List<string> BannedItems => new()
+        {
+            "543be5dd4bdc2deb348b4569",
+            "55d720f24bdc2d88028b456d",
+            "557596e64bdc2dc2118b4571",
+            "566965d44bdc2d814c8b4571",
+            "566abbb64bdc2d144c8b457d",
+            "5448f39d4bdc2d0a728b4568",
+            "5943d9c186f7745a13413ac9",
+            "5996f6cb86f774678763a6ca",
+            "5996f6d686f77467977ba6cc",
+            "5996f6fc86f7745e585b4de3",
+            "5cdeb229d7f00c000e7ce174",
+            "5d52cc5ba4b9367408500062"
+        };
         public static Dictionary<string, string> DefaultDirsList => new()
         {
             ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",
