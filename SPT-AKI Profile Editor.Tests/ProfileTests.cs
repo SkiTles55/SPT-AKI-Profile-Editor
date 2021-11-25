@@ -250,5 +250,33 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Suits.Length == AppData.ServerDatabase.TraderSuits.Count);
         }
+
+        [Test]
+        public void PocketsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            string expected = AppData.ServerDatabase.Pockets.Last().Key;
+            AppData.Profile.Characters.Pmc.Inventory.Pockets = expected;
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPockets.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Inventory.Pockets == expected);
+        }
+
+        [Test]
+        public void StashRemovingItemsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            int expectedCount = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length - 2;
+            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[0].Id;
+            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[1].Id;
+            AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new string[] { expectedId1, expectedId2 });
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingItems.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length == expectedCount);
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1));
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2));
+        }
     }
 }

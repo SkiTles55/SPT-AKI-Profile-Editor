@@ -22,6 +22,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private void ApplyFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(examinedGrid.ItemsSource);
+            if (cv == null)
+                return;
             if (string.IsNullOrEmpty(AppData.GridFilters.ExaminedItemsFilter))
                 cv.Filter = null;
             else

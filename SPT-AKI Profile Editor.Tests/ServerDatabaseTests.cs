@@ -89,5 +89,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void TraderSuitsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderSuits.Count == 0);
+
+        [Test]
+        public void SlotsCountCalculatesCorrectly() => Assert.AreEqual(4, AppData.ServerDatabase.ItemsDB["557ffd194bdc2d28148b457f"].GetSlotsCount);
     }
 }

@@ -24,6 +24,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private static void ApplyFilter(IEnumerable source)
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(source);
+            if (cv == null)
+                return;
             if (string.IsNullOrEmpty(AppData.GridFilters.StashTab.Name)
                 && string.IsNullOrEmpty(AppData.GridFilters.StashTab.Id))
                 cv.Filter = null;

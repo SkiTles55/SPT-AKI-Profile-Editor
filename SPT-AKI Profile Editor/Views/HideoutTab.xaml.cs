@@ -28,6 +28,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private void ApplyHideoutFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(hideoutGrid.ItemsSource);
+            if (cv == null)
+                return;
             if (string.IsNullOrEmpty(AppData.GridFilters.HideoutTab.AreaNameFilter))
                 cv.Filter = null;
             else

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -26,8 +27,11 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private int CalculateSlotsCount()
         {
             int slots = 0;
-            //foreach (var grid in Properties.Grids)
-            //    slots += grid.Props.CellsH * grid.Props.CellsV;
+            if (Properties?.Grids != null && !Properties.Grids.Any(x => x.Props == null))
+            {
+                foreach (var grid in Properties.Grids)
+                    slots += grid.Props.CellsH * grid.Props.CellsV;
+            }
             return slots;
         }
     }

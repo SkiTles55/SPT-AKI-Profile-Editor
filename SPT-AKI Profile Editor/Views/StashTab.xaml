@@ -84,6 +84,34 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_info_id], Source={StaticResource proxy}}" Width="*" SortMemberPath="Id">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                <TextBox Text="{Binding Data.GridFilters.StashTab.Id, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBox_TextChanged"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Path=Id}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*" MaxWidth="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

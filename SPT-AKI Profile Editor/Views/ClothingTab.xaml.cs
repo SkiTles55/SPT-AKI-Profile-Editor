@@ -23,6 +23,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private void ApplyFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(clothingGrid.ItemsSource);
+            if (cv == null)
+                return;
             if (string.IsNullOrEmpty(AppData.GridFilters.ClothingNameFilter))
                 cv.Filter = null;
             else

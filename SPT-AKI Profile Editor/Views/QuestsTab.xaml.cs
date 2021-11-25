@@ -21,6 +21,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private void ApplyQuestFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(questsGrid.ItemsSource);
+            if (cv == null)
+                return;
             if (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter)
                 && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter)
                 && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter))

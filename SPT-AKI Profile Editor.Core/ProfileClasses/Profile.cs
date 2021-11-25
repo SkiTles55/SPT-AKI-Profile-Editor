@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -92,79 +93,107 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 savePath = targetPath;
             JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
             JObject jobject = JObject.Parse(File.ReadAllText(targetPath));
-            jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Nickname"] = Characters.Pmc.Info.Nickname;
-            jobject.SelectToken("characters")["pmc"].SelectToken("Info")["LowerNickname"] = Characters.Pmc.Info.Nickname.ToLower();
-            jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Side"] = Characters.Pmc.Info.Side;
-            jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Voice"] = Characters.Pmc.Info.Voice;
-            jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
-            jobject.SelectToken("characters")["pmc"].SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
-            jobject.SelectToken("characters")["pmc"].SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
-            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Nickname"] = Characters.Scav.Info.Nickname;
-            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Voice"] = Characters.Scav.Info.Voice;
-            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Level"] = Characters.Scav.Info.Level;
-            jobject.SelectToken("characters")["scav"].SelectToken("Info")["Experience"] = Characters.Scav.Info.Experience;
-            jobject.SelectToken("characters")["scav"].SelectToken("Customization")["Head"] = Characters.Scav.Customization.Head;
-            jobject.SelectToken("characters")["pmc"].SelectToken("Encyclopedia").Replace(JToken.FromObject(Characters.Pmc.Encyclopedia));
+            JToken pmc = jobject.SelectToken("characters")["pmc"];
+            JToken scav = jobject.SelectToken("characters")["scav"];
+            pmc.SelectToken("Info")["Nickname"] = Characters.Pmc.Info.Nickname;
+            pmc.SelectToken("Info")["LowerNickname"] = Characters.Pmc.Info.Nickname.ToLower();
+            pmc.SelectToken("Info")["Side"] = Characters.Pmc.Info.Side;
+            pmc.SelectToken("Info")["Voice"] = Characters.Pmc.Info.Voice;
+            pmc.SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
+            pmc.SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
+            pmc.SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
+            scav.SelectToken("Info")["Nickname"] = Characters.Scav.Info.Nickname;
+            scav.SelectToken("Info")["Voice"] = Characters.Scav.Info.Voice;
+            scav.SelectToken("Info")["Level"] = Characters.Scav.Info.Level;
+            scav.SelectToken("Info")["Experience"] = Characters.Scav.Info.Experience;
+            scav.SelectToken("Customization")["Head"] = Characters.Scav.Customization.Head;
+            pmc.SelectToken("Encyclopedia").Replace(JToken.FromObject(Characters.Pmc.Encyclopedia));
+            JToken TradersInfo = pmc.SelectToken("TradersInfo");
             foreach (var trader in AppData.ServerDatabase.TraderInfos)
             {
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
-                jobject.SelectToken("characters")["pmc"].SelectToken("TradersInfo").SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
+                TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
+                TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
+                TradersInfo.SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
+                TradersInfo.SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
             }
             WriteQuests();
-            var hideoutAreasObject = jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas").ToObject<HideoutArea[]>();
+            var hideoutAreasObject = pmc.SelectToken("Hideout").SelectToken("Areas").ToObject<HideoutArea[]>();
             for (int i = 0; i < hideoutAreasObject.Length; i++)
             {
-                var probe = jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas")[i].ToObject<HideoutArea>();
+                var probe = pmc.SelectToken("Hideout").SelectToken("Areas")[i].ToObject<HideoutArea>();
                 var areaInfo = AppData.Profile.Characters.Pmc.Hideout.Areas.Where(x => x.Type == probe.Type).FirstOrDefault();
                 if (areaInfo != null)
-                    jobject.SelectToken("characters")["pmc"].SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
+                    pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
             }
-            WriteSkills(Characters.Pmc.Skills.Common, "pmc", "Common");
-            WriteSkills(Characters.Scav.Skills.Common, "scav", "Common");
-            WriteSkills(Characters.Pmc.Skills.Mastering, "pmc", "Mastering");
-            WriteSkills(Characters.Scav.Skills.Mastering, "scav", "Mastering");
+            WriteSkills(Characters.Pmc.Skills.Common, pmc, "Common");
+            WriteSkills(Characters.Scav.Skills.Common, scav, "Common");
+            WriteSkills(Characters.Pmc.Skills.Mastering, pmc, "Mastering");
+            WriteSkills(Characters.Scav.Skills.Mastering, scav, "Mastering");
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
+            WriteStash();
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
             void WriteQuests()
             {
-                var questsObject = jobject.SelectToken("characters")["pmc"].SelectToken("Quests").ToObject<CharacterQuest[]>();
+                var questsObject = pmc.SelectToken("Quests").ToObject<CharacterQuest[]>();
                 if (questsObject.Length > 0)
                 {
                     for (int index = 0; index < questsObject.Length; ++index)
                     {
-                        var quest = jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[index].ToObject<CharacterQuest>();
+                        var quest = pmc.SelectToken("Quests")[index].ToObject<CharacterQuest>();
                         var edited = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
                         if (edited != null && quest != null && edited.Status != quest.Status)
-                            jobject.SelectToken("characters")["pmc"].SelectToken("Quests")[index]["status"] = edited.Status;
+                            pmc.SelectToken("Quests")[index]["status"] = edited.Status;
                     }
                     foreach (var quest in Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
-                        jobject.SelectToken("characters")["pmc"].SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
+                        pmc.SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
                 }
                 else
-                    jobject.SelectToken("characters")["pmc"].SelectToken("Quests").Replace(JToken.FromObject(Characters.Pmc.Quests));
+                    pmc.SelectToken("Quests").Replace(JToken.FromObject(Characters.Pmc.Quests));
             }
 
-            void WriteSkills(CharacterSkill[] skills, string character, string type)
+            void WriteSkills(CharacterSkill[] skills, JToken character, string type)
             {
-                var skillsObject = jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type).ToObject<CharacterSkill[]>();
+                var skillsObject = character.SelectToken("Skills").SelectToken(type).ToObject<CharacterSkill[]>();
                 if (skillsObject.Length > 0)
                 {
                     for (int index = 0; index < skillsObject.Length; ++index)
                     {
-                        var probe = jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type)[index]?.ToObject<CharacterSkill>();
+                        var probe = character.SelectToken("Skills").SelectToken(type)[index]?.ToObject<CharacterSkill>();
                         var edited = skills.Where(x => x.Id == probe.Id).FirstOrDefault();
                         if (edited != null && probe != null && edited.Progress > probe.Progress)
-                            jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type)[index]["Progress"] = edited.Progress;
+                            character.SelectToken("Skills").SelectToken(type)[index]["Progress"] = edited.Progress;
                     }
                     foreach (var skill in skills.Where(x => !skillsObject.Any(y => y.Id == x.Id)))
-                        jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type).LastOrDefault().AddAfterSelf(JObject.FromObject(skill));
+                        character.SelectToken("Skills").SelectToken(type).LastOrDefault().AddAfterSelf(JObject.FromObject(skill));
                 }
                 else
-                    jobject.SelectToken("characters")[character].SelectToken("Skills").SelectToken(type).Replace(JToken.FromObject(skills));
+                    character.SelectToken("Skills").SelectToken(type).Replace(JToken.FromObject(skills));
+            }
+
+            void WriteStash()
+            {
+                List<JToken> ForRemove = new ();
+                var itemsObject = pmc.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
+                if (itemsObject.Length > 0)
+                {
+                    for (int index = 0; index < itemsObject.Length; ++index)
+                    {
+                        var probe = pmc.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
+                        if (probe == null)
+                            continue;
+                        if (!AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == probe.Id))
+                            ForRemove.Add(pmc.SelectToken("Inventory").SelectToken("items")[index]);
+                        if (probe.SlotId == AppData.AppSettings.PocketsSlotId)
+                            pmc.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Pmc.Inventory.Pockets;
+                    }
+                    foreach (var removedItem in ForRemove)
+                        removedItem.Remove();
+                    foreach (var item in AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
+                        pmc.SelectToken("Inventory").SelectToken("items").LastOrDefault()
+                            .AddAfterSelf(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(item)));
+                }
             }
         }
     }

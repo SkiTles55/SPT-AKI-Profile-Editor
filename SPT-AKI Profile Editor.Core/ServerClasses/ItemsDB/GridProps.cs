@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class GridProps
     {
-        [JsonProperty("cellsH")]
+        [JsonPropertyName("cellsH")]
         public int CellsH { get; set; }
-        [JsonProperty("cellsV")]
+        [JsonPropertyName("cellsV")]
         public int CellsV { get; set; }
     }
 }

@@ -34,6 +34,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private static void ApplyFilter(IEnumerable source, string filter)
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(source);
+            if (cv == null)
+                return;
             if (string.IsNullOrEmpty(filter))
                 cv.Filter = null;
             else
