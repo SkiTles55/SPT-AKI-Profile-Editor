@@ -18,6 +18,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 items = value;
                 OnPropertyChanged("Items");
+                OnPropertyChanged("InventoryItems");
+                OnPropertyChanged("DollarsCount");
+                OnPropertyChanged("RublesCount");
+                OnPropertyChanged("EurosCount");
+                OnPropertyChanged("ContainsModdedItems");
             }
         }
 
@@ -68,7 +73,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private InventoryItem[] items;
         private string stash;
 
-        public void RemoveItems(string[] itemIds)
+        public void RemoveItems(List<string> itemIds)
         {
             List<InventoryItem> ItemsList = Items.ToList();
             foreach (var id in itemIds)
@@ -79,13 +84,30 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             Items = ItemsList.ToArray();
         }
+        public void RemoveAllItems()
+        {
+            List<string> itemIds = new ();
+            foreach (var TargetItem in InventoryItems)
+            {
+                List<InventoryItem> toDo = new () { TargetItem };
+                while (toDo.Count > 0)
+                {
+                    foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0).Id))
+                        toDo.Add(item);
+                    itemIds.Add(toDo.ElementAt(0).Id);
+                    toDo.Remove(toDo.ElementAt(0));
+                }
+            }
+            RemoveItems(itemIds);
+        }
         public void AddNewItems(string tpl, int count, bool fir)
         {
             var mItem = AppData.ServerDatabase.ItemsDB[tpl];
             int[,] Stash = GetPlayerStashSlotMap();
             List<string> iDs = Items.Select(x => x.Id).ToList();
             List<InventoryItem> items = Items.ToList();
-            int stacks = (count / mItem.Properties.StackMaxSize) + (count % mItem.Properties.StackMaxSize);
+            int stacks = count / mItem.Properties.StackMaxSize;
+            if (mItem.Properties.StackMaxSize * stacks < count) stacks++;
             List<ItemLocation> NewItemsLocations = GetItemLocations(mItem, Stash, stacks);
             if (NewItemsLocations == null || NewItemsLocations.Count == 0)
                 throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));

@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="SPT_AKI_Profile_Editor.Views.StashTab"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +9,7 @@
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
+             Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="inventory" Source="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}"/>
@@ -26,7 +28,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Inventory.RublesCount}"/>
                 </Label.Content>
             </Label>
-            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoneys}">
+            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoney}" CommandParameter="{Binding AppSettings.MoneysRublesTpl}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <iconPacks:PackIconFontAwesome Width="10" Height="10" VerticalAlignment="Center" Kind="PlusSolid" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
@@ -39,7 +41,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Inventory.EurosCount}"/>
                 </Label.Content>
             </Label>
-            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoneys}">
+            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoney}" CommandParameter="{Binding AppSettings.MoneysEurosTpl}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <iconPacks:PackIconFontAwesome Width="10" Height="10" VerticalAlignment="Center" Kind="PlusSolid" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
@@ -52,7 +54,7 @@
                     <TextBlock TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Inventory.DollarsCount}"/>
                 </Label.Content>
             </Label>
-            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoneys}">
+            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoney}" CommandParameter="{Binding AppSettings.MoneysDollarsTpl}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <iconPacks:PackIconFontAwesome Width="10" Height="10" VerticalAlignment="Center" Kind="PlusSolid" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
@@ -107,12 +109,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}"/>
+                                <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Command="{Binding Data.RemoveItem, Source={StaticResource proxy}}" CommandParameter="{Binding Id}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Grid.Row="2" Content="{Binding AppLocalization.Translations[tab_stash_remove]}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Command="{Binding RemoveAllItems}"/>
     </Grid>
 </UserControl>
