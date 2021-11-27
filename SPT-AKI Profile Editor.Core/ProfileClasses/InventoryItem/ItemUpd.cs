@@ -6,5 +6,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     {
         [JsonProperty("StackObjectsCount")]
         public long? StackObjectsCount { get; set; }
+
+        [JsonProperty("Foldable")]
+        public UpdFoldable Foldable { get; set; }
+
+        [JsonProperty("SpawnedInSession")]
+        public bool SpawnedInSession { get; set; }
     }
 }

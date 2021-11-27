@@ -278,5 +278,67 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1));
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2));
         }
+
+        [Test]
+        public void Stash2DMapCalculatingCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            var stash2d = AppData.Profile.Characters.Pmc.Inventory.GetPlayerStashSlotMap();
+            Assert.AreNotEqual(new int[0, 0], stash2d);
+            Assert.IsFalse(stash2d.Cast<int>().All(x => x == 0));
+        }
+
+        [Test]
+        public void StashAddingItemsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            var largestItems = AppData.ServerDatabase.ItemsDB
+                .Where(x => !AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Any(y => y.Tpl == x.Key))
+                .OrderByDescending(x => x.Value.Properties?.Width + x.Value.Properties?.Height)
+                .ToArray();
+            var item1 = largestItems[0];
+            var item2 = largestItems[1];
+            Assert.IsNotNull(item1);
+            Assert.IsNotNull(item2);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item2.Key, 2, true);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item1.Key, 1, false);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingItems.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            var savedItems = AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Where(x => x.Tpl == item1.Key || x.Tpl == item2.Key).ToArray();
+            Assert.AreEqual(3, savedItems.Length);
+            Assert.AreEqual(true, savedItems[0].Upd.SpawnedInSession);
+            Assert.AreEqual(true, savedItems[1].Upd.SpawnedInSession);
+            Assert.AreEqual(false, savedItems[2].Upd.SpawnedInSession);
+            Assert.AreNotEqual(savedItems[0].Id, savedItems[1].Id);
+            Assert.AreNotEqual(savedItems[2].Id, savedItems[1].Id);
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Any(y => y.Id != x.Id && y.Location.X == x.Location.X && y.Location.Y == x.Location.Y))
+                .Any());
+        }
+
+        [Test]
+        public void StashAddingMoneysSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            var startValue = AppData.Profile.Characters.Pmc.Inventory.Items
+                .Where(x => x.Tpl == AppData.AppSettings.MoneysRublesTpl)
+                .Sum(x => x.Upd.StackObjectsCount ?? 0);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItems(AppData.AppSettings.MoneysRublesTpl, 2000000, false);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingMoneys.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            var endValue = AppData.Profile.Characters.Pmc.Inventory.Items
+                .Where(x => x.Tpl == AppData.AppSettings.MoneysRublesTpl)
+                .Sum(x => x.Upd.StackObjectsCount ?? 0);
+            Assert.AreEqual(startValue + 2000000, endValue);
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Any(y => y.Id != x.Id && y.Location.X == x.Location.X && y.Location.Y == x.Location.Y))
+                .Any());
+        }
     }
 }

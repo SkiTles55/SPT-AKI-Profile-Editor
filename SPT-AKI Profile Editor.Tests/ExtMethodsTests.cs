@@ -22,5 +22,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void PathIsServerBaseFalse() => Assert.IsFalse(ExtMethods.PathIsServerFolder(settings, @"D:\WinSetupFromUSB"));
+
+        [Test]
+        public void IdNotEmpty() => Assert.IsNotEmpty(ExtMethods.GenerateNewId(new string[] { "testid" }));
     }
 }
