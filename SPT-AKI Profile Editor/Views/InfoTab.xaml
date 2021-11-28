@@ -7,7 +7,7 @@
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views" 
              d:DataContext="{d:DesignInstance Type=views:InfoTabViewModel}"
              mc:Ignorable="d">
-    <TabControl mah:TabControlHelper.Underlined="TabPanel">
+    <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.RowDefinitions>

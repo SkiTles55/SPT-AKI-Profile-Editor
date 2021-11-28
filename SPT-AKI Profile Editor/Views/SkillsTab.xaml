@@ -12,7 +12,7 @@
         <CollectionViewSource x:Key="skillsPMC" Source="{Binding Profile.Characters.Pmc.Skills.Common}"/>
         <CollectionViewSource x:Key="skillsScav" Source="{Binding Profile.Characters.Scav.Skills.Common}"/>
     </UserControl.Resources>
-    <TabControl mah:TabControlHelper.Underlined="TabPanel">
+    <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.RowDefinitions>

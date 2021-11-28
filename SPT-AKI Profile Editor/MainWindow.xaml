@@ -42,7 +42,7 @@
     </mah:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="205"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -54,7 +54,7 @@
                 <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[profile_empty]}" TextAlignment="Center"/>
             </Label.Content>
         </Label>
-        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,5" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Visibility="Visible">
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,5,0,5" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Visibility="Visible">
             <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:InfoTab/>
             </TabItem>

@@ -18,8 +18,15 @@
             <DataTemplate x:Key="HeaderTemplate">
                 <TextBlock Text="{Binding}" Width="180" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </DataTemplate>
+            <DataTemplate x:Key="SettingsTemplate">
+                <TextBlock Text="{Binding}" FontSize="16" TextWrapping="Wrap" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </DataTemplate>
             <DataTemplate x:Key="CharacterHeaderTemplate">
-                <TextBlock Text="{Binding}" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding}" FontSize="16" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

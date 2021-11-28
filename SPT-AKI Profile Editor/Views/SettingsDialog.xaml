@@ -14,85 +14,103 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140"/>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_lang]}"/>
-            </Label.Content>
-        </Label>
-        <ComboBox Grid.Column="2" Grid.Row="0" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding LocalizationsList}" SelectedValue="{Binding CurrentLocalization}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
-        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_server]}"/>
-            </Label.Content>
-        </Label>
-        <Label Grid.Column="1" Grid.Row="1" Foreground="Red" Visibility="{Binding InvalidServerLocationIcon}" ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0">
-            <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
-        </Label>
-        <Grid Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Margin="10,5,10,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="80"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" TextWrapping="Wrap" Text="{Binding ServerPath}" IsEnabled="False"/>
-            <Button Grid.Column="1" Content="{Binding AppLocalization.Translations[button_select]}" Command="{Binding ServerSelect}" Margin="5,0,0,0"/>
-        </Grid>
-        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_account]}"/>
-            </Label.Content>
-        </Label>
-        <Label Grid.Column="1" Grid.Row="2" Foreground="Red" Visibility="{Binding NoAccountsIcon}" ToolTip="{Binding AppLocalization.Translations[no_accounts]}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0">
-            <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
-        </Label>
-        <ComboBox Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding AppSettings.ServerProfiles}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AppSettings.DefaultProfile}" IsEnabled="{Binding AccountsBoxEnabled}"/>
-        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_color_scheme]}"/>
-            </Label.Content>
-        </Label>
-        <ComboBox Grid.Column="2" Grid.Row="3" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding ColorSchemes}" SelectedValuePath="Scheme" SelectedValue="{Binding ColorScheme}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="30" Height="15" Fill="{Binding Path=Color}"/>
-                        <Label Content="{Binding Path=Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingQuests"/>
-            </Label.Content>
-        </Label>
-        <mah:ToggleSwitch Grid.Row="4" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingQuests}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-        <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingMasterings"/>
-            </Label.Content>
-        </Label>
-        <mah:ToggleSwitch Grid.Row="5" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingMasterings}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-
-        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingScavSkills"/>
-            </Label.Content>
-        </Label>
-        <mah:ToggleSwitch Grid.Row="6" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingScavSkills}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-
-        <StackPanel Grid.Row="7"  Grid.ColumnSpan="3" Orientation="Horizontal" MinHeight="85" HorizontalAlignment="Right">
+        <TabControl Grid.Row="0" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Height="180">
+            <TabItem Header="Main" HeaderTemplate="{StaticResource SettingsTemplate}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_lang]}"/>
+                        </Label.Content>
+                    </Label>
+                    <ComboBox Grid.Column="2" Grid.Row="0" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding LocalizationsList}" SelectedValue="{Binding CurrentLocalization}" SelectedValuePath="Key" DisplayMemberPath="Value"/>
+                    <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_server]}"/>
+                        </Label.Content>
+                    </Label>
+                    <Label Grid.Column="1" Grid.Row="1" Foreground="Red" Visibility="{Binding InvalidServerLocationIcon}" ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0">
+                        <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
+                    </Label>
+                    <Grid Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Margin="10,5,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" TextWrapping="Wrap" Text="{Binding ServerPath}" IsEnabled="False"/>
+                        <Button Grid.Column="1" Content="{Binding AppLocalization.Translations[button_select]}" Command="{Binding ServerSelect}" Margin="5,0,0,0"/>
+                    </Grid>
+                    <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_account]}"/>
+                        </Label.Content>
+                    </Label>
+                    <Label Grid.Column="1" Grid.Row="2" Foreground="Red" Visibility="{Binding NoAccountsIcon}" ToolTip="{Binding AppLocalization.Translations[no_accounts]}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,5,0,0">
+                        <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="24" Height="24"/>
+                    </Label>
+                    <ComboBox Grid.Column="2" Grid.Row="2" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding AppSettings.ServerProfiles}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding AppSettings.DefaultProfile}" IsEnabled="{Binding AccountsBoxEnabled}"/>
+                    <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_color_scheme]}"/>
+                        </Label.Content>
+                    </Label>
+                    <ComboBox Grid.Column="2" Grid.Row="3" Margin="10,5,10,0" VerticalAlignment="Center" ItemsSource="{Binding ColorSchemes}" SelectedValuePath="Scheme" SelectedValue="{Binding ColorScheme}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Width="30" Height="15" Fill="{Binding Path=Color}"/>
+                                    <Label Content="{Binding Path=Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Optional" HeaderTemplate="{StaticResource SettingsTemplate}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingQuests"/>
+                        </Label.Content>
+                    </Label>
+                    <mah:ToggleSwitch Grid.Row="0" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingQuests}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
+                    <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingMasterings"/>
+                        </Label.Content>
+                    </Label>
+                    <mah:ToggleSwitch Grid.Row="1" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingMasterings}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
+                    <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingScavSkills"/>
+                        </Label.Content>
+                    </Label>
+                    <mah:ToggleSwitch Grid.Row="2" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingScavSkills}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" MinHeight="85" HorizontalAlignment="Right">
             <Button Margin="0 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs}" Content="{Binding AppLocalization.Translations[button_quit]}" Command="{Binding QuitCommand}" Visibility="Visible"/>
             <Button Margin="5 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Content="{Binding AppLocalization.Translations[button_close]}" Command="{Binding CloseCommand}" Visibility="{Binding CloseButton}"/>
         </StackPanel>

@@ -18,8 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition  Height="Auto"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,5">
             <iconPacks:PackIconFontAwesome Width="15" Height="15" VerticalAlignment="Center" Kind="RubleSignSolid" />
@@ -62,7 +61,7 @@
                 </Button.ContentTemplate>
             </Button>
         </StackPanel>
-        <DataGrid x:Name="stashGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,0,0,10" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource inventory}}" IsReadOnly="True">
+        <DataGrid x:Name="stashGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource inventory}}" IsReadOnly="True">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
             </DataGrid.Resources>
@@ -116,6 +115,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="2" Content="{Binding AppLocalization.Translations[tab_stash_remove]}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Command="{Binding RemoveAllItems}"/>
+        <Button Grid.Row="2" Content="{Binding AppLocalization.Translations[tab_stash_remove]}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,0" Width="200" Command="{Binding RemoveAllItems}"/>
     </Grid>
 </UserControl>
