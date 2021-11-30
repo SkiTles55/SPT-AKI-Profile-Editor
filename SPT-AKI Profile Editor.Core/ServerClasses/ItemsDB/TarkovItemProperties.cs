@@ -42,5 +42,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonPropertyName("ExaminedByDefault")]
         public bool ExaminedByDefault { get; set; }
+
+        [JsonPropertyName("QuestItem")]
+        public bool QuestItem { get; set; }
     }
 }

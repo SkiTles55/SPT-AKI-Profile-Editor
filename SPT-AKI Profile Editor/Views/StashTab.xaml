@@ -7,114 +7,175 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="inventory" Source="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}"/>
+        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.ItemsForAdding}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="LocalizedGroupName"/>
+                <PropertyGroupDescription PropertyName="LocalizedSubGroupName"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,5">
-            <iconPacks:PackIconFontAwesome Width="15" Height="15" VerticalAlignment="Center" Kind="RubleSignSolid" />
-            <Label HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0,0,0">
-                <Label.Content>
-                    <TextBlock TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Inventory.RublesCount}"/>
-                </Label.Content>
-            </Label>
-            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoney}" CommandParameter="{Binding AppSettings.MoneysRublesTpl}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <iconPacks:PackIconFontAwesome Width="10" Height="10" VerticalAlignment="Center" Kind="PlusSolid" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-            <iconPacks:PackIconFontAwesome Width="15" Height="15" VerticalAlignment="Center" Kind="EuroSignSolid" Margin="10,0,0,0" />
-            <Label HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0,0,0">
-                <Label.Content>
-                    <TextBlock TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Inventory.EurosCount}"/>
-                </Label.Content>
-            </Label>
-            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoney}" CommandParameter="{Binding AppSettings.MoneysEurosTpl}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <iconPacks:PackIconFontAwesome Width="10" Height="10" VerticalAlignment="Center" Kind="PlusSolid" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-            <iconPacks:PackIconFontAwesome Width="15" Height="15" VerticalAlignment="Center" Kind="DollarSignSolid" Margin="10,0,0,0" />
-            <Label HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0,0,0">
-                <Label.Content>
-                    <TextBlock TextWrapping="Wrap" Text="{Binding Profile.Characters.Pmc.Inventory.DollarsCount}"/>
-                </Label.Content>
-            </Label>
-            <Button Height="30" Width="30" Style="{DynamicResource MahApps.Styles.Button.Circle}" Command="{Binding AddMoney}" CommandParameter="{Binding AppSettings.MoneysDollarsTpl}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <iconPacks:PackIconFontAwesome Width="10" Height="10" VerticalAlignment="Center" Kind="PlusSolid" HorizontalAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-        </StackPanel>
-        <DataGrid x:Name="stashGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource inventory}}" IsReadOnly="True">
-            <DataGrid.Resources>
-                <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_examined_items_item], Source={StaticResource proxy}}" Width="*" SortMemberPath="LocalizedName">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                <TextBox Text="{Binding Data.GridFilters.StashTab.Name, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBox_TextChanged"/>
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Path=LocalizedName}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_info_id], Source={StaticResource proxy}}" Width="*" SortMemberPath="Id">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                <TextBox Text="{Binding Data.GridFilters.StashTab.Id, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBox_TextChanged"/>
-                            </Grid>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Path=Id}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*" MaxWidth="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Command="{Binding Data.RemoveItem, Source={StaticResource proxy}}" CommandParameter="{Binding Id}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Grid.Row="2" Content="{Binding AppLocalization.Translations[tab_stash_remove]}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,0" Width="200" Command="{Binding RemoveAllItems}"/>
-    </Grid>
+    <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5"/>
+                <DataGrid x:Name="stashGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource inventory}}" IsReadOnly="True">
+                    <DataGrid.Resources>
+                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_examined_items_item], Source={StaticResource proxy}}" Width="*" SortMemberPath="LocalizedName">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <TextBox Text="{Binding Data.GridFilters.StashTab.StashItemName, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxStash_TextChanged"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=LocalizedName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_info_id], Source={StaticResource proxy}}" Width="*" SortMemberPath="Id">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <TextBox Text="{Binding Data.GridFilters.StashTab.Id, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxStash_TextChanged"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=Id}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*" MaxWidth="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Command="{Binding Data.RemoveItem, Source={StaticResource proxy}}" CommandParameter="{Binding Id}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Row="2" Content="{Binding AppLocalization.Translations[tab_stash_remove]}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,0" Width="200" Command="{Binding RemoveAllItems}"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5"/>
+                <DataGrid x:Name="itemsGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource items}}" IsReadOnly="True">
+                    <DataGrid.Resources>
+                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
+                    </DataGrid.Resources>
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="False" mah:HeaderedControlHelper.HeaderBackground="Transparent" BorderThickness="0" HorizontalAlignment="Left">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <DataGridRowsPresenter/>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_examined_items_item], Source={StaticResource proxy}}" Width="*">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        <TextBox Text="{Binding Data.GridFilters.StashTab.AddingItemName, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxAdding_TextChanged"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedName}"/>
+                                        </Label.Content>
+                                    </Label>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*" MinWidth="210">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" TextChanged="TextBox_TextChanged" Margin="5"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

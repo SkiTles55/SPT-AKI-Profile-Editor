@@ -18,8 +18,24 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public string Type { get; set; }
 
         [JsonIgnore]
+        public int AddingQuantity { get; set; } = 1;
+
+        [JsonIgnore]
+        public bool AddingFir { get; set; } = false;
+
+        [JsonIgnore]
         public string LocalizedName =>
             AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Templates[Id].Name : Id;
+
+        [JsonIgnore]
+        public string LocalizedGroupName =>
+            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(AppData.ServerDatabase.ItemsDB[Parent].Parent)
+            ? AppData.ServerDatabase.LocalesGlobal.Templates[AppData.ServerDatabase.ItemsDB[Parent].Parent].Name
+            : AppData.ServerDatabase.ItemsDB[Parent].Parent;
+        
+        [JsonIgnore]
+        public string LocalizedSubGroupName =>
+            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Parent) ? AppData.ServerDatabase.LocalesGlobal.Templates[Parent].Name : Parent;
 
         [JsonIgnore]
         public int GetSlotsCount => CalculateSlotsCount();

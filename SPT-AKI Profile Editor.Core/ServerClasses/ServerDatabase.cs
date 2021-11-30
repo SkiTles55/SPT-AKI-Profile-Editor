@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -76,6 +77,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             {
                 itemsDB = value;
                 OnPropertyChanged("ItemsDB");
+                OnPropertyChanged("ItemsForAdding");
             }
         }
         public Dictionary<string, string> Pockets
@@ -96,6 +98,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("TraderSuits");
             }
         }
+
+        public List<TarkovItem> ItemsForAdding =>
+            ItemsDB?
+            .Where(x => x.Value.Type == "Item" && x.Value.Parent != null
+            && LocalesGlobal.Templates.ContainsKey(x.Value.Parent)
+            && !x.Value.Properties.QuestItem
+            && !AppData.AppSettings.BannedItems.Contains(x.Value.Parent)
+            && !AppData.AppSettings.BannedItems.Contains(x.Value.Id))
+            .Select(x => x.Value)
+            .ToList();
 
         public void SetAllTradersMax()
         {

@@ -2,7 +2,8 @@
 {
     public class StashTab
     {
-        public string Name { get; set; }
+        public string StashItemName { get; set; }
         public string Id { get; set; }
+        public string AddingItemName { get; set; }
     }
 }

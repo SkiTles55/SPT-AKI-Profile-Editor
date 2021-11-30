@@ -25,7 +25,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="160"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
@@ -85,25 +85,25 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="160"/>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                    <Label Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
                         <Label.Content>
-                            <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingQuests"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_auto_add_quests]}"/>
                         </Label.Content>
                     </Label>
                     <mah:ToggleSwitch Grid.Row="0" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingQuests}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-                    <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                    <Label Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
                         <Label.Content>
-                            <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingMasterings"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_auto_add_masterings]}"/>
                         </Label.Content>
                     </Label>
                     <mah:ToggleSwitch Grid.Row="1" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingMasterings}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-                    <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
+                    <Label Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
                         <Label.Content>
-                            <TextBlock TextWrapping="Wrap" Text="AutoAddAllMissingScavSkills"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_settings_auto_add_scav_skills]}"/>
                         </Label.Content>
                     </Label>
                     <mah:ToggleSwitch Grid.Row="2" Grid.Column="2" Margin="12,5,0,0" IsOn="{Binding AutoAddMissingScavSkills}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
