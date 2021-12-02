@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor
             CustomDialog settingsDialog = new()
             {
                 Title = AppLocalization.GetLocalizedString("tab_settings_title"),
-                DialogContentWidth = new GridLength(500)
+                DialogContentWidth = new GridLength(600)
             };
             RelayCommand closeCommand = new(async obj =>
             {

@@ -34,38 +34,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void CreatedGeLocalizationCorrect()
-        {
-            appLocalization.LoadLocalization("ge");
-            var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == "ge");
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "German localization not correct");
-        }
-
-        [Test]
-        public void CreatedFrLocalizationCorrect()
-        {
-            appLocalization.LoadLocalization("fr");
-            var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == "fr");
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "French localization not correct");
-        }
-
-        [Test]
-        public void CreatedChLocalizationCorrect()
-        {
-            appLocalization.LoadLocalization("ch");
-            var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == "ch");
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "Chinese localization not correct");
-        }
-
-        [Test]
-        public void CreatedEsLocalizationCorrect()
-        {
-            appLocalization.LoadLocalization("es");
-            var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == "es");
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "Spanish localization not correct");
-        }
-
-        [Test]
         public void LoadedLocalizationCorrect()
         {
             appLocalization.LoadLocalization(appSettings.Language);

@@ -89,7 +89,7 @@
                 <views:BackupsTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_about_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:AboutTab/>
             </TabItem>
         </TabControl>
         <StackPanel Margin="10,0,10,5" Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Visible">
