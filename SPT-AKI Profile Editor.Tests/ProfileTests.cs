@@ -122,6 +122,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcPocketsNotNull() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Pockets);
 
         [Test]
+        public void WeaponBuildsNotNull() => Assert.IsNotNull(AppData.Profile.WeaponBuilds);
+
+        [Test]
+        public void WeaponBuildsNotEmpty() => Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
+
+        [Test]
         public void ProfileSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
@@ -350,6 +356,18 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Any(y => y.Id != x.Id && y.Location.X == x.Location.X && y.Location.Y == x.Location.Y))
                 .Any());
+        }
+
+        [Test]
+        public void WeaponBuildRemoveSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
+            AppData.Profile.RemoveBuild(expected);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsFalse(AppData.Profile.WeaponBuilds.ContainsKey(expected));
         }
     }
 }

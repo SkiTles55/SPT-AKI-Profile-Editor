@@ -45,5 +45,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonPropertyName("QuestItem")]
         public bool QuestItem { get; set; }
+
+        [JsonPropertyName("Ergonomics")]
+        public float Ergonomics { get; set; }
+
+        [JsonPropertyName("RecoilForceUp")]
+        public int RecoilForceUp { get; set; }
+
+        [JsonPropertyName("RecoilForceBack")]
+        public int RecoilForceBack { get; set; }
+
+        [JsonPropertyName("Recoil")]
+        public float Recoil { get; set; }
     }
 }

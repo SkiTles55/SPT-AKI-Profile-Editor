@@ -83,7 +83,7 @@
                 <views:ClothingTab/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-
+                <views:WeaponBuilds/>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:BackupsTab/>

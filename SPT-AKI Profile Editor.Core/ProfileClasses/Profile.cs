@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -30,9 +31,24 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Suits");
             }
         }
+        [JsonProperty("weaponbuilds")]
+        public Dictionary<string, WeaponBuild> WeaponBuilds
+        {
+            get => weaponBuilds;
+            set
+            {
+                weaponBuilds = value;
+                OnPropertyChanged("WeaponBuilds");
+                OnPropertyChanged("WBuilds");
+            }
+        }
+
+        [JsonIgnore]
+        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => new(WeaponBuilds);
 
         private ProfileCharacters characters;
         private string[] suits;
+        private Dictionary<string, WeaponBuild> weaponBuilds;
 
         public void Load(string path)
         {
@@ -69,6 +85,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             Characters = profile.Characters;
             Suits = profile.Suits;
+            WeaponBuilds = profile.WeaponBuilds;
 
             static void AddMissingMasteringSkills(CharacterSkills characterSkills)
             {
@@ -81,6 +98,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         .ToArray())
                         .ToArray();
                 }
+            }
+        }
+
+        public void RemoveBuild(string key)
+        {
+            if (WeaponBuilds.Remove(key))
+            {
+                OnPropertyChanged("WeaponBuilds");
+                OnPropertyChanged("WBuilds");
             }
         }
 
@@ -131,6 +157,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(Characters.Scav.Skills.Mastering, scav, "Mastering");
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             WriteStash();
+            jobject.SelectToken("weaponbuilds").Replace(JToken.FromObject(WeaponBuilds));
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
