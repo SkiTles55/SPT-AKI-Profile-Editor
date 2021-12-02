@@ -4,6 +4,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class ItemLocation
     {
+        [JsonIgnore]
+        public int? SimpleNumber { get; set; } = null;
+
         [JsonProperty("x")]
         public int X { get; set; }
 

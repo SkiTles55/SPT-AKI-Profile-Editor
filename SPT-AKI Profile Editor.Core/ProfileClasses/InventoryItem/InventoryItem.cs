@@ -13,6 +13,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonProperty("slotId")]
         public string SlotId { get; set; }
 
+        [JsonConverter(typeof(LocationJsonConverter))]
         [JsonProperty("location")]
         public ItemLocation Location { get; set; }
 
