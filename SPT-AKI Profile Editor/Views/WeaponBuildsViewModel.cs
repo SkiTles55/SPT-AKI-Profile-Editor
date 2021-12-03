@@ -3,7 +3,9 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
@@ -20,6 +22,12 @@ namespace SPT_AKI_Profile_Editor.Views
                 "remove_preset_dialog_title",
                 "remove_preset_dialog_caption") == MessageDialogResult.Affirmative)
                 Profile.RemoveBuild(obj.ToString());
+        });
+        public RelayCommand RemoveBuilds => new(async obj => {
+            if (await Dialogs.YesNoDialog(this,
+                "remove_preset_dialog_title",
+                "remove_presets_dialog_caption") == MessageDialogResult.Affirmative)
+                Profile.RemoveBuilds();
         });
         public static RelayCommand ExportBuild => new(obj => {
             if (obj == null)
@@ -38,6 +46,23 @@ namespace SPT_AKI_Profile_Editor.Views
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("tab_presets_export")
                 });
+            }
+        });
+        public static RelayCommand ExportBuilds => new(obj => {
+            FolderBrowserDialog folderBrowserDialog = new();
+            folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            folderBrowserDialog.ShowNewFolderButton = true;
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                foreach (var build in Profile.WeaponBuilds)
+                {
+                    App.worker.AddAction(new WorkerTask
+                    {
+                        Action = () => { Profile.ExportBuild(build.Key, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")); },
+                        Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                        Description = AppLocalization.GetLocalizedString("tab_presets_export")
+                    });
+                }
             }
         });
         public static RelayCommand ImportBuilds => new(obj => {

@@ -111,6 +111,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        public void RemoveBuilds()
+        {
+            WeaponBuilds = new();
+            OnPropertyChanged("WeaponBuilds");
+            OnPropertyChanged("WBuilds");
+        }
+
         public void ExportBuild(string key, string path)
         {
             WeaponBuild weaponBuild = WeaponBuilds[key];
