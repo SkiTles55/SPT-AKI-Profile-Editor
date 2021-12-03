@@ -27,7 +27,7 @@
                 </Label.Content>
             </Label>
             <TextBlock Margin="6,0,0,5">
-                <Hyperlink NavigateUri="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest" RequestNavigate="Hyperlink_RequestNavigate" Style="{DynamicResource LinkStyle}">https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest</Hyperlink>
+                <Hyperlink NavigateUri="{Binding AppSettings.RepositoryLink}" RequestNavigate="Hyperlink_RequestNavigate" Style="{DynamicResource LinkStyle}"><TextBlock Text="{Binding AppSettings.RepositoryLink}"/></Hyperlink>
             </TextBlock>
             <Label Style="{DynamicResource DescriptionHeaderStyle}" Margin="0,5,0,0">
                 <Label.Content>

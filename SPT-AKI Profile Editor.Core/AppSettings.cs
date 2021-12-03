@@ -184,6 +184,8 @@ namespace SPT_AKI_Profile_Editor.Core
         }
         [JsonIgnore]
         public bool Loaded = false;
+        [JsonIgnore]
+        public static string RepositoryLink => "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest";
 
         private static readonly string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
         private string serverPath;

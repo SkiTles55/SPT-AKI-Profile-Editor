@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using SPT_AKI_Profile_Editor.Core;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -17,9 +17,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            ProcessStartInfo link = new (e.Uri.AbsoluteUri);
-            link.UseShellExecute = true;
-            Process.Start(link);
+            ExtMethods.OpenUrl(e.Uri.AbsoluteUri);
             e.Handled = true;
         }
     }

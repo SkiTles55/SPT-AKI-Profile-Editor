@@ -31,6 +31,13 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand InitializeViewModelCommand => new(async obj =>
         {
             App.ChangeTheme();
+            if (UpdatesChecker.CheckUpdate())
+            {
+                if (await Dialogs.YesNoDialog(this,
+                "update_avialable",
+                "update_caption") == MessageDialogResult.Affirmative)
+                    ExtMethods.OpenUrl(AppSettings.RepositoryLink);
+            }
             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
             || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
             || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
