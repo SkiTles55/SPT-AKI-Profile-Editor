@@ -20,4 +20,10 @@
     <ProjectReference Include="..\SPT-AKI Profile Editor.Core\SPT-AKI Profile Editor.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testFiles\testBuild.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

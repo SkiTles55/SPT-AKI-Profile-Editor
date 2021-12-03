@@ -52,16 +52,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
                     await Task.Run(() => tasks[0].Action());
                     if (tasks[0].WorkerNotification != null)
                         workerNotifications.Add(tasks[0].WorkerNotification);
-                    tasks.RemoveAt(0);
                 }
                 catch (Exception ex)
                 {
                     if (progressDialog.IsOpen)
                         await progressDialog.CloseAsync();
-                    tasks = new();
                     await ShowMessageAsync(ErrorTitle, ex.Message);
                     Logger.Log($"LoadDataWorker | {ex.Message}");
                 }
+                tasks.RemoveAt(0);
             }
             if (progressDialog.IsOpen)
                 await progressDialog.CloseAsync();

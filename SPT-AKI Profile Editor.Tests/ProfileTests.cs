@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.IO;
 using System.Linq;
@@ -368,6 +369,35 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsFalse(AppData.Profile.WeaponBuilds.ContainsKey(expected));
+        }
+
+        [Test]
+        public void WeaponBuildExportCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
+            AppData.Profile.ExportBuild(expected.Key, testFile);
+            WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(testFile));
+            Assert.AreEqual(expected.Value.Name, weaponBuild.Name);
+            Assert.AreEqual(expected.Value.Root, weaponBuild.Root);
+            Assert.AreEqual(expected.Value.RecoilForceBack, weaponBuild.RecoilForceBack);
+            Assert.AreEqual(expected.Value.RecoilForceUp, weaponBuild.RecoilForceUp);
+            Assert.AreEqual(expected.Value.Ergonomics, weaponBuild.Ergonomics);
+            Assert.AreEqual(expected.Value.Items.Length, weaponBuild.Items.Length);
+        }
+
+        [Test]
+        public void WeaponBuildImportSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsImport.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.WeaponBuilds.ContainsKey("TestBuild"));
+            Assert.AreEqual(2, AppData.Profile.WeaponBuilds.Where(x => x.Value.Name.StartsWith("Test")).Count());
         }
     }
 }

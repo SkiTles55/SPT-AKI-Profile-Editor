@@ -159,7 +159,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ["tab_presets_title"] = "Presets",
                 ["tab_presets_export"] = "Export",
                 ["tab_presets_import"] = "Import",
-                ["tab_presets_wrong_file"] = "This file does not contain the weapon assembly",
+                ["tab_presets_wrong_file"] = "This file does not contain the weapon build",
                 ["remove_preset_dialog_title"] = "Deleting a preset",
                 ["remove_preset_dialog_caption"] = "Are you sure want to delete this preset?",
                 ["tab_presets_ergonomics"] = "Ergonomics",

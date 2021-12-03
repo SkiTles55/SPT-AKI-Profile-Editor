@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -44,7 +45,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonIgnore]
-        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => new(WeaponBuilds);
+        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new ();
 
         private ProfileCharacters characters;
         private string[] suits;
@@ -107,6 +108,41 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 OnPropertyChanged("WeaponBuilds");
                 OnPropertyChanged("WBuilds");
+            }
+        }
+
+        public void ExportBuild(string key, string path)
+        {
+            WeaponBuild weaponBuild = WeaponBuilds[key];
+            File.WriteAllText(path, JsonConvert.SerializeObject(weaponBuild, Formatting.Indented));
+        }
+
+        public void ImportBuild(string path)
+        {
+            try
+            {
+                WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(path));
+                if (weaponBuild.Name != null)
+                {
+                    if (WeaponBuilds == null)
+                        WeaponBuilds = new ();
+                    int count = 0;
+                    string tempFileName = weaponBuild.Name;
+                    while (WeaponBuilds.ContainsKey(tempFileName))
+                        tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
+                    weaponBuild.Name = tempFileName;
+                    weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id).ToArray());
+                    WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
+                    OnPropertyChanged("WeaponBuilds");
+                    OnPropertyChanged("WBuilds");
+                }
+                else
+                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_wrong_file") + ":" + Environment.NewLine + path);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"WeaponBuild import error: {ex.Message}");
+                throw new Exception(ex.Message);
             }
         }
 

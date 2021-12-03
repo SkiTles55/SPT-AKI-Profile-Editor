@@ -41,7 +41,7 @@
                                     <TextBlock TextWrapping="Wrap" Text="{Binding Path=Value.Weapon}"/>
                                 </Label.Content>
                             </Label>
-                            <Button x:Name="PresetExport" Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" Grid.Row="0" Grid.Column="2" Margin="5"/>
+                            <Button x:Name="PresetExport" Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" Grid.Row="0" Grid.Column="2" Margin="5" Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}" CommandParameter="{Binding Value}"/>
                             <Button x:Name="PresetRemove" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Grid.Row="1" Grid.Column="2" Margin="5" Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}" CommandParameter="{Binding Key}"/>
                             <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Label.Content>
@@ -66,6 +66,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Grid.Row="1" Content="{Binding AppLocalization.Translations[tab_presets_import]}" Width="200" Margin="5,10,5,0"/>
+        <Button Grid.Row="1" Content="{Binding AppLocalization.Translations[tab_presets_import]}" Width="200" Margin="5,10,5,0" Command="{Binding ImportBuilds}"/>
     </Grid>
 </UserControl>
