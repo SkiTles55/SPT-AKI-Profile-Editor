@@ -259,15 +259,27 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void PocketsSavesCorrectly()
+        public void PmcPocketsSavesCorrectly()
         {
             AppData.Profile.Load(profileFile);
             string expected = AppData.ServerDatabase.Pockets.Last().Key;
             AppData.Profile.Characters.Pmc.Inventory.Pockets = expected;
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPockets.json");
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcPockets.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Inventory.Pockets == expected);
+        }
+
+        [Test]
+        public void ScavPocketsSavesCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            string expected = AppData.ServerDatabase.Pockets.Last().Key;
+            AppData.Profile.Characters.Scav.Inventory.Pockets = expected;
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavPockets.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Inventory.Pockets == expected);
         }
 
         [Test]

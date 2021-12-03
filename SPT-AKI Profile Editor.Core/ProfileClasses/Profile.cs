@@ -199,7 +199,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(Characters.Pmc.Skills.Mastering, pmc, "Mastering");
             WriteSkills(Characters.Scav.Skills.Mastering, scav, "Mastering");
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
-            WriteStash();
+            WritePmcStash();
+            WriteScavStash();
             jobject.SelectToken("weaponbuilds").Replace(JToken.FromObject(WeaponBuilds));
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
@@ -242,7 +243,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     character.SelectToken("Skills").SelectToken(type).Replace(JToken.FromObject(skills));
             }
 
-            void WriteStash()
+            void WritePmcStash()
             {
                 List<JToken> ForRemove = new ();
                 var itemsObject = pmc.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
@@ -263,6 +264,22 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     foreach (var item in AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
                         pmc.SelectToken("Inventory").SelectToken("items").LastOrDefault()
                             .AddAfterSelf(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(item)));
+                }
+            }
+
+            void WriteScavStash()
+            {
+                var itemsObject = scav.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
+                if (itemsObject.Length > 0)
+                {
+                    for (int index = 0; index < itemsObject.Length; ++index)
+                    {
+                        var probe = scav.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
+                        if (probe == null)
+                            continue;
+                        if (probe.SlotId == AppData.AppSettings.PocketsSlotId)
+                            scav.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Scav.Inventory.Pockets;
+                    }
                 }
             }
         }

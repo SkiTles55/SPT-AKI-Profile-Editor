@@ -96,6 +96,7 @@
                     <RowDefinition MaxHeight="50"/>
                     <RowDefinition MaxHeight="50"/>
                     <RowDefinition MaxHeight="50"/>
+                    <RowDefinition MaxHeight="50"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150"/>
@@ -138,6 +139,12 @@
                     </Label.Content>
                 </Label>
                 <ComboBox Grid.Column="1" Grid.Row="4" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Profile.Characters.Scav.Customization.Head}" ItemsSource="{Binding ServerDatabase.Heads}"/>
+                <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0,0,0">
+                    <Label.Content>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_pockets]}"/>
+                    </Label.Content>
+                </Label>
+                <ComboBox Grid.Column="1" Grid.Row="5" Margin="10,0" VerticalAlignment="Center" DisplayMemberPath="Value" SelectedValuePath="Key" ItemsSource="{Binding ServerDatabase.Pockets}" SelectedValue="{Binding Profile.Characters.Scav.Inventory.Pockets}"/>
             </Grid>
         </TabItem>
     </TabControl>    
