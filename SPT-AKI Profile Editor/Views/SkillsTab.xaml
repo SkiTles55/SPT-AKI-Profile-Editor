@@ -6,7 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              d:DataContext="{d:DesignInstance Type=views:SkillsTabViewModel}"
+             Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="skillsPMC" Source="{Binding Profile.Characters.Pmc.Skills.Common}"/>
@@ -129,6 +131,19 @@
                     <Slider Grid.Column="1" Maximum="{Binding AppSettings.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True" Width="200"/>
                     <Button Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100" Command="{Binding SetAllScavSkillsCommand}"/>
                 </StackPanel>
+                <Border Grid.Row="0" Grid.RowSpan="3" Background="{DynamicResource MahApps.Brushes.Window.Background}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Profile.Characters.Scav.IsCommonSkillsEmpty}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <views:NoDataPanel/>
+                </Border>
             </Grid>
         </TabItem>
     </TabControl>

@@ -32,6 +32,10 @@ namespace SPT_AKI_Profile_Editor.Views
         }
         public RelayCommand SetAllPmsSkillsCommand => new(obj => { Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue); });
         public RelayCommand SetAllScavSkillsCommand => new(obj => { Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue); });
+        public RelayCommand OpenSettingsCommand => new(async obj =>
+        {
+            await Dialogs.ShowSettingsDialog(this, 1);
+        });
 
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
