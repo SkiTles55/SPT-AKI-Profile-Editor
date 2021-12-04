@@ -107,6 +107,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
         [JsonIgnore]
         public bool IsCommonSkillsEmpty => Skills == null || Skills.Common == null || Skills.Common.Length == 0;
+        [JsonIgnore]
+        public bool IsMasteringsEmpty => Skills == null || Skills.Mastering == null || Skills.Mastering.Length == 0;
 
         public void SetAllQuests(string status)
         {
