@@ -49,11 +49,6 @@
             <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Margin="30" FontSize="20" Visibility="Collapsed">
-            <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[profile_empty]}" TextAlignment="Center"/>
-            </Label.Content>
-        </Label>
         <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,5,0,5" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Visibility="Visible">
             <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:InfoTab/>
@@ -124,5 +119,22 @@
                 </Button.ContentTemplate>
             </Button>
         </StackPanel>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="{DynamicResource MahApps.Brushes.Window.Background}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Profile.IsProfileEmpty}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Margin="30" FontSize="20">
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[profile_empty]}" TextAlignment="Center"/>
+                </Label.Content>
+            </Label>
+        </Border>
     </Grid>
 </mah:MetroWindow>

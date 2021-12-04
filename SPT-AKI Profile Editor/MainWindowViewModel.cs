@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace SPT_AKI_Profile_Editor
             };
         }
         public static AppLocalization AppLocalization => AppData.AppLocalization;
+        public static Profile Profile => AppData.Profile;
         public RelayCommand OpenSettingsCommand => new(async obj =>
         {
             await ShowSettingsDialog();

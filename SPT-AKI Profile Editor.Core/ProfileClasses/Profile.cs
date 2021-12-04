@@ -20,6 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 characters = value;
                 OnPropertyChanged("Characters");
+                OnPropertyChanged("IsProfileEmpty");
             }
         }
         [JsonProperty("suits")]
@@ -46,6 +47,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new ();
+
+        [JsonIgnore]
+        public bool IsProfileEmpty => Characters?.Pmc.Info == null;
 
         private ProfileCharacters characters;
         private string[] suits;
