@@ -160,6 +160,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             if (string.IsNullOrEmpty(savePath))
                 savePath = targetPath;
+            string newStash = string.Empty;
             JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
             JObject jobject = JObject.Parse(File.ReadAllText(targetPath));
             JToken pmc = jobject.SelectToken("characters")["pmc"];
@@ -180,20 +181,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             JToken TradersInfo = pmc.SelectToken("TradersInfo");
             foreach (var trader in AppData.ServerDatabase.TraderInfos)
             {
+                var current = TradersInfo.SelectToken(trader.Key).ToObject<CharacterTraderStanding>();
+                if (current.LoyaltyLevel == Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel)
+                    continue;
                 TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
                 TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
                 TradersInfo.SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
                 TradersInfo.SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
             }
             WriteQuests();
-            var hideoutAreasObject = pmc.SelectToken("Hideout").SelectToken("Areas").ToObject<HideoutArea[]>();
-            for (int i = 0; i < hideoutAreasObject.Length; i++)
-            {
-                var probe = pmc.SelectToken("Hideout").SelectToken("Areas")[i].ToObject<HideoutArea>();
-                var areaInfo = AppData.Profile.Characters.Pmc.Hideout.Areas.Where(x => x.Type == probe.Type).FirstOrDefault();
-                if (areaInfo != null)
-                    pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
-            }
+            WriteHideout();
             WriteSkills(Characters.Pmc.Skills.Common, pmc, "Common");
             WriteSkills(Characters.Scav.Skills.Common, scav, "Common");
             WriteSkills(Characters.Pmc.Skills.Mastering, pmc, "Mastering");
@@ -245,7 +242,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
             void WritePmcStash()
             {
-                List<JToken> ForRemove = new ();
+                List<JToken> ForRemove = new();
                 var itemsObject = pmc.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
                 if (itemsObject.Length > 0)
                 {
@@ -254,6 +251,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         var probe = pmc.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
                         if (probe == null)
                             continue;
+                        if (!string.IsNullOrEmpty(newStash) && probe.Id == Characters.Pmc.Inventory.Stash && probe.Tpl != newStash)
+                            pmc.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = newStash;
                         if (!AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == probe.Id))
                             ForRemove.Add(pmc.SelectToken("Inventory").SelectToken("items")[index]);
                         if (probe.SlotId == AppData.AppSettings.PocketsSlotId)
@@ -280,6 +279,50 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         if (probe.SlotId == AppData.AppSettings.PocketsSlotId)
                             scav.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Scav.Inventory.Pockets;
                     }
+                }
+            }
+
+            void WriteHideout()
+            {
+                var hideoutAreasObject = pmc.SelectToken("Hideout").SelectToken("Areas").ToObject<HideoutArea[]>();
+                for (int i = 0; i < hideoutAreasObject.Length; i++)
+                {
+                    var probe = pmc.SelectToken("Hideout").SelectToken("Areas")[i].ToObject<HideoutArea>();
+                    var areaInfo = AppData.Profile.Characters.Pmc.Hideout.Areas.Where(x => x.Type == probe.Type).FirstOrDefault();
+                    if (areaInfo == null)
+                        continue;
+                    if (areaInfo.Level > 0 && areaInfo.Level > probe.Level)
+                    {
+                        for (int l = probe.Level; l <= areaInfo.Level; l++)
+                        {
+                            var areaBonuses = AppData.ServerDatabase.HideoutAreaInfos
+                                .Where(x => x.Type == probe.Type)
+                                .FirstOrDefault()
+                                .Stages[l.ToString()];
+                            if (areaBonuses == null)
+                                continue;
+                            var BonusesList = JObject.Parse(areaBonuses.ToString()).SelectToken("bonuses").ToObject<List<JToken>>();
+                            if (BonusesList == null || BonusesList.Count == 0)
+                                continue;
+                            foreach (var listItem in BonusesList)
+                            {
+                                var bonus = listItem.ToObject<CharacterBonuses>();
+                                if (bonus == null)
+                                    continue;
+                                switch (bonus.Type)
+                                {
+                                    case "StashSize":
+                                        newStash = bonus.TemplateId;
+                                        break;
+                                    case "MaximumEnergyReserve":
+                                        pmc.SelectToken("Health").SelectToken("Energy")["Maximum"] = 110;
+                                        break;
+                                }
+                                pmc.SelectToken("Bonuses").LastOrDefault().AddAfterSelf(JObject.FromObject(listItem));
+                            }
+                        }
+                    }
+                    pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
                 }
             }
         }

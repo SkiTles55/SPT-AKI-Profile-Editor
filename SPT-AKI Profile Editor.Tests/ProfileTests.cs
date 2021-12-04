@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     class ProfileTests
     {
-        const string profileFile = @"C:\SPT\user\profiles\0a727cba469df90e68214278.json";
+        const string profileFile = @"C:\SPT\user\profiles\3716db56a1d2caf6e4161b43.json";
 
         [OneTimeSetUp]
         public void Setup()
