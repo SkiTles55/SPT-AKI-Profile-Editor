@@ -1,5 +1,9 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
+using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor
 {
@@ -8,6 +12,8 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private bool _shutdown;
+
         public MainWindow()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
@@ -21,6 +27,28 @@ namespace SPT_AKI_Profile_Editor
                 App.HandleException(exception);
             else
                 App.HandleException(new Exception("Unknown Exception!"));
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (e.Cancel)
+                return;
+
+            if (ExtMethods.IsProfileChanged(AppData.Profile) && _shutdown == false)
+            {
+                e.Cancel = true;
+                Dispatcher.BeginInvoke(new Action(async () => await ConfirmShutdown()));
+            }
+        }
+
+        private async Task ConfirmShutdown()
+        {
+            var result = await Dialogs.YesNoDialog(DataContext,
+                AppData.AppLocalization.GetLocalizedString("app_quit"),
+                AppData.AppLocalization.GetLocalizedString("reload_profile_dialog_caption"));
+            _shutdown = result == MessageDialogResult.Affirmative;
+            if (_shutdown)
+                System.Windows.Application.Current.Shutdown();
         }
     }
 }

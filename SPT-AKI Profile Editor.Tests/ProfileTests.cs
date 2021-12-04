@@ -411,5 +411,26 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsTrue(AppData.Profile.WeaponBuilds.ContainsKey("TestBuild"));
             Assert.AreEqual(2, AppData.Profile.WeaponBuilds.Where(x => x.Value.Name.StartsWith("Test")).Count());
         }
+
+        [Test]
+        public void ProfileNotChangedAfterLoading()
+        {
+            AppData.AppSettings.AutoAddMissingQuests = false;
+            AppData.AppSettings.AutoAddMissingMasterings = false;
+            AppData.AppSettings.AutoAddMissingScavSkills = false;
+            AppData.Profile.Load(profileFile);
+            Assert.IsFalse(ExtMethods.IsProfileChanged(AppData.Profile));
+        }
+
+        [Test]
+        public void ProfileChangedAfterEditings()
+        {
+            AppData.AppSettings.AutoAddMissingQuests = false;
+            AppData.AppSettings.AutoAddMissingMasterings = false;
+            AppData.AppSettings.AutoAddMissingScavSkills = false;
+            AppData.Profile.Load(profileFile);
+            AppData.ServerDatabase.SetAllTradersMax();
+            Assert.IsTrue(ExtMethods.IsProfileChanged(AppData.Profile));
+        }
     }
 }

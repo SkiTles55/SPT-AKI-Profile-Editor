@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -25,7 +27,11 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();
 
-        public static void SaveJson(string path, object data) => File.WriteAllText(path, JsonSerializer.Serialize(data, _serializerOptions));
+        public static bool IsProfileChanged(Profile profile) =>
+            profile.ProfileHash != 0
+            && profile.ProfileHash != JsonConvert.SerializeObject(profile).ToString().GetHashCode();
+
+        public static void SaveJson(string path, object data) => File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(data, _serializerOptions));
 
         public static bool PathIsServerFolder(AppSettings appSettings, string path = null)
         {

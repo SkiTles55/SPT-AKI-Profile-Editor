@@ -15,7 +15,8 @@
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                  BorderThickness="2"
                  SaveWindowPosition="True"
-                 Title="{Binding WindowTitle}" MinHeight="600" MinWidth="800">
+                 Title="{Binding WindowTitle}" MinHeight="600" MinWidth="800"
+                 Closing="MetroWindow_Closing">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding InitializeViewModelCommand}"/>

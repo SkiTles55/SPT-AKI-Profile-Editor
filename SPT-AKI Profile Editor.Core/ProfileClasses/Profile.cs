@@ -51,14 +51,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool IsProfileEmpty => Characters?.Pmc.Info == null;
 
+        [JsonIgnore]
+        public int ProfileHash => profileHash;
+
         private ProfileCharacters characters;
         private string[] suits;
         private Dictionary<string, WeaponBuild> weaponBuilds;
+        private int profileHash = 0;
 
         public void Load(string path)
         {
             string fileText = File.ReadAllText(path);
             Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
+            profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
             if (profile.Characters?.Pmc?.Quests != null
                 && AppData.AppSettings.AutoAddMissingQuests)
             {
