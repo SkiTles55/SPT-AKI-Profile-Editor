@@ -28,6 +28,10 @@ namespace SPT_AKI_Profile_Editor
         {
             await Dialogs.ShowSettingsDialog(this);
         });
+        public static RelayCommand OpenFastModeCommand => new(obj =>
+        {
+            AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
+        });
         public RelayCommand InitializeViewModelCommand => new(async obj =>
         {
             App.ChangeTheme();

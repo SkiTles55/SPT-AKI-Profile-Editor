@@ -24,12 +24,27 @@
     </i:Interaction.Triggers>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button Content="{Binding AppLocalization.Translations[button_settings]}" Command="{Binding OpenSettingsCommand}">
+            <Button Content="{Binding AppLocalization.Translations[button_fast_mode]}" Command="{Binding OpenFastModeCommand}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconFontAwesome Width="22"
                                         Height="22"
+                                        VerticalAlignment="Center"
+                                        Kind="FighterJetSolid" />
+                            <TextBlock Margin="4 0 0 0"
+                         VerticalAlignment="Center"
+                         Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button Content="{Binding AppLocalization.Translations[button_settings]}" Command="{Binding OpenSettingsCommand}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconFontAwesome Width="20"
+                                        Height="20"
                                         VerticalAlignment="Center"
                                         Kind="WrenchSolid" />
                             <TextBlock Margin="4 0 0 0"
@@ -41,6 +56,11 @@
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <views:FastMode/>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="205"/>
