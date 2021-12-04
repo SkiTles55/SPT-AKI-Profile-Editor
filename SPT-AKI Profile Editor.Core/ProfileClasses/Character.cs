@@ -103,6 +103,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
             ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key)
             .ToList();
+        [JsonIgnore]
+        public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
 
         public void SetAllQuests(string status)
         {

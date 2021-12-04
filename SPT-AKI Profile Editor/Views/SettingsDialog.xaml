@@ -15,7 +15,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Height="180">
+        <TabControl Grid.Row="0" TabStripPlacement="Left" mah:TabControlHelper.Underlined="TabPanel" Height="180" SelectedIndex="{Binding SelectedTab}">
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_main]}" HeaderTemplate="{StaticResource SettingsTemplate}">
                 <Grid>
                     <Grid.RowDefinitions>

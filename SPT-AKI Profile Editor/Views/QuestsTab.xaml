@@ -6,7 +6,9 @@
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              d:DataContext="{d:DesignInstance Type=views:QuestsTabViewModel}"
+             Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}"/>
@@ -90,5 +92,18 @@
             <ComboBox Margin="5,0" Width="200" ItemsSource="{Binding QuestStatuses}" SelectedValue="{Binding SetAllValue}"/>
             <Button Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" Margin="5,0" Width="100" Command="{Binding SetAllCommand}"/>
         </StackPanel>
+        <Border Grid.Row="0" Grid.RowSpan="3" Background="{DynamicResource MahApps.Brushes.Window.Background}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Profile.Characters.Pmc.IsQuestsEmpty}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <views:NoDataPanel/>
+        </Border>
     </Grid>
 </UserControl>

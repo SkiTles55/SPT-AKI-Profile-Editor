@@ -17,9 +17,19 @@ namespace SPT_AKI_Profile_Editor
 {
     class SettingsDialogViewModel : INotifyPropertyChanged
     {
-        public SettingsDialogViewModel(RelayCommand command)
+        public SettingsDialogViewModel(RelayCommand command, int index = 0)
         {
             CloseCommand = command;
+            SelectedTab = index;
+        }
+        public int SelectedTab
+        {
+            get => selectedTab;
+            set
+            {
+                selectedTab = value;
+                OnPropertyChanged("SelectedTab");
+            }
         }
         public string CurrentLocalization
         {
@@ -136,6 +146,7 @@ namespace SPT_AKI_Profile_Editor
             await ServerSelectDialog();
         });
 
+        private int selectedTab;
         private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
         private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
         private static bool accountsBoxEnabled = GetAccountsBoxEnabled();

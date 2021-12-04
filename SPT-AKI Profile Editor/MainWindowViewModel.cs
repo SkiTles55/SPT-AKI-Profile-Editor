@@ -8,8 +8,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace SPT_AKI_Profile_Editor
 {
@@ -28,7 +26,7 @@ namespace SPT_AKI_Profile_Editor
         public static Profile Profile => AppData.Profile;
         public RelayCommand OpenSettingsCommand => new(async obj =>
         {
-            await ShowSettingsDialog();
+            await Dialogs.ShowSettingsDialog(this);
         });
         public RelayCommand InitializeViewModelCommand => new(async obj =>
         {
@@ -44,9 +42,9 @@ namespace SPT_AKI_Profile_Editor
             || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
             || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await ShowSettingsDialog();
+                await Dialogs.ShowSettingsDialog(this);
             else
-                StartupEventsWorker();
+                App.StartupEventsWorker();
         });
         public static RelayCommand SaveButtonCommand => new(obj =>
         {
@@ -54,7 +52,7 @@ namespace SPT_AKI_Profile_Editor
         });
         public static RelayCommand ReloadButtonCommand => new(obj =>
         {
-            StartupEventsWorker();
+            App.StartupEventsWorker();
         });
         public static string WindowTitle
         {
@@ -63,25 +61,6 @@ namespace SPT_AKI_Profile_Editor
                 Version version = Assembly.GetExecutingAssembly().GetName().Version;
                 return $"SPT-AKI Profile Editor {$" {version.Major}.{version.Minor}"}";
             }
-        }
-        
-        private async Task ShowSettingsDialog()
-        {
-            string startValues = AppSettings.GetStamp();
-            CustomDialog settingsDialog = new()
-            {
-                Title = AppLocalization.GetLocalizedString("tab_settings_title"),
-                DialogContentWidth = new GridLength(600)
-            };
-            RelayCommand closeCommand = new(async obj =>
-            {
-                await App.dialogCoordinator.HideMetroDialogAsync(this, settingsDialog);
-                string newValues = AppSettings.GetStamp();
-                if (startValues != newValues)
-                    StartupEventsWorker();
-            });
-            settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand) };
-            await App.dialogCoordinator.ShowMetroDialogAsync(this, settingsDialog);
         }
         private static void SaveProfileAndReload()
         {
@@ -95,16 +74,7 @@ namespace SPT_AKI_Profile_Editor
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("save_profile_dialog_title")
             });
-            StartupEventsWorker();
-        }
-        private static void StartupEventsWorker()
-        {
-            App.worker.AddAction(new WorkerTask
-            {
-                Action = AppData.StartupEvents,
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
-            });
+            App.StartupEventsWorker();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -20,6 +20,10 @@ namespace SPT_AKI_Profile_Editor.Views
                 return;
             Profile.Characters.Pmc.SetAllQuests(SetAllValue);
         });
+        public RelayCommand OpenSettingsCommand => new(async obj =>
+        {
+            await Dialogs.ShowSettingsDialog(this, 1);
+        });
         public static List<string> QuestStatuses => new() { "Locked", "AvailableForStart", "Started", "Fail", "AvailableForFinish", "Success" };
 
         public event PropertyChangedEventHandler PropertyChanged;
