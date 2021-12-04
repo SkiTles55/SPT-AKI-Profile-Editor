@@ -86,8 +86,8 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="10,5,0,0">
                         <Label.Content>
