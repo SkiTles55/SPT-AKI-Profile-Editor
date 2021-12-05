@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 "remove_backup_dialog_title",
                 "remove_backup_dialog_caption") == MessageDialogResult.Affirmative)
             {
-                App.worker.AddAction(new WorkerTask
+                App.Worker.AddAction(new WorkerTask
                 {
                     Action = () => { BackupService.RemoveBackup(obj.ToString()); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -35,13 +35,13 @@ namespace SPT_AKI_Profile_Editor.Views
                 "restore_backup_dialog_title",
                 "restore_backup_dialog_caption") == MessageDialogResult.Affirmative)
             {
-                App.worker.AddAction(new WorkerTask
+                App.Worker.AddAction(new WorkerTask
                 {
                     Action = () => { BackupService.RestoreBackup(obj.ToString()); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("restore_backup_dialog_title")
                 });
-                App.worker.AddAction(new WorkerTask
+                App.Worker.AddAction(new WorkerTask
                 {
                     Action = AppData.StartupEvents,
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

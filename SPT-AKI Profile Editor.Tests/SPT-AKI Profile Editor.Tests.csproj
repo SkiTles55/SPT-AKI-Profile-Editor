@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="testFiles\profileWithDuplicatedItems.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testFiles\testBuild.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

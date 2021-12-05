@@ -40,7 +40,7 @@ namespace SPT_AKI_Profile_Editor.Views
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                App.worker.AddAction(new WorkerTask
+                App.Worker.AddAction(new WorkerTask
                 {
                     Action = () => { Profile.ExportBuild(build.Name, saveFileDialog.FileName); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -56,7 +56,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 foreach (var build in Profile.WeaponBuilds)
                 {
-                    App.worker.AddAction(new WorkerTask
+                    App.Worker.AddAction(new WorkerTask
                     {
                         Action = () => { Profile.ExportBuild(build.Key, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")); },
                         Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -75,7 +75,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 foreach (var file in openFileDialog.FileNames)
                 {
-                    App.worker.AddAction(new WorkerTask
+                    App.Worker.AddAction(new WorkerTask
                     {
                         Action = () => { Profile.ImportBuild(file); },
                         Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

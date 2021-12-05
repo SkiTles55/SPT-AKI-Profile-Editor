@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
     public class Dialogs
     {
         public static async Task<MessageDialogResult> YesNoDialog(object context, string title, string caption) =>
-            await App.dialogCoordinator.ShowMessageAsync(context,
+            await App.DialogCoordinator.ShowMessageAsync(context,
                 AppData.AppLocalization.GetLocalizedString(title),
                 AppData.AppLocalization.GetLocalizedString(caption),
                 MessageDialogStyle.AffirmativeAndNegative,
@@ -33,13 +33,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
             };
             RelayCommand closeCommand = new(async obj =>
             {
-                await App.dialogCoordinator.HideMetroDialogAsync(context, settingsDialog);
+                await App.DialogCoordinator.HideMetroDialogAsync(context, settingsDialog);
                 string newValues = AppSettings.GetStamp();
                 if (startValues != newValues)
                     App.StartupEventsWorker();
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand, index) };
-            await App.dialogCoordinator.ShowMetroDialogAsync(context, settingsDialog);
+            await App.DialogCoordinator.ShowMetroDialogAsync(context, settingsDialog);
         }
     }
 }

@@ -15,8 +15,8 @@ namespace SPT_AKI_Profile_Editor
     {
         public static RelayCommand CloseApplication => new(obj => Current.Shutdown());
         public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
-        public static IDialogCoordinator dialogCoordinator;
-        public static Worker worker;
+        public static IDialogCoordinator DialogCoordinator { get; set; }
+        public static Worker Worker { get; set; }
 
         private void Application_Startup(object s, StartupEventArgs e) => Current.DispatcherUnhandledException += (sender, args) => HandleException(args.Exception);
         public static void HandleException(Exception exception)
@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor
         }
         public static void StartupEventsWorker()
         {
-            worker.AddAction(new WorkerTask
+            Worker.AddAction(new WorkerTask
             {
                 Action = AppData.StartupEvents,
                 Title = AppData.AppLocalization.GetLocalizedString("progress_dialog_title"),

@@ -13,12 +13,8 @@ namespace SPT_AKI_Profile_Editor
     {
         public MainWindowViewModel()
         {
-            App.dialogCoordinator = DialogCoordinator.Instance;
-            App.worker = new Worker(App.dialogCoordinator, this)
-            {
-                ErrorTitle = AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                ErrorConfirm = AppLocalization.GetLocalizedString("save_profile_dialog_ok")
-            };
+            App.DialogCoordinator = DialogCoordinator.Instance;
+            App.Worker = new Worker(App.DialogCoordinator, this);
         }
         public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static Profile Profile => AppData.Profile;
@@ -62,7 +58,7 @@ namespace SPT_AKI_Profile_Editor
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
         public static void SaveProfileAndReload()
         {
-            App.worker.AddAction(new WorkerTask
+            App.Worker.AddAction(new WorkerTask
             {
                 Action = () =>
                 {

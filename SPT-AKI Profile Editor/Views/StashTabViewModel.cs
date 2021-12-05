@@ -33,7 +33,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 "remove_stash_item_title",
                 "remove_stash_items_caption") == MessageDialogResult.Affirmative)
             {
-                App.worker.AddAction(new WorkerTask
+                App.Worker.AddAction(new WorkerTask
                 {
                     Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 return;
             if (obj is not TarkovItem item)
                 return;
-            App.worker.AddAction(new WorkerTask
+            App.Worker.AddAction(new WorkerTask
             {
                 Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(item.Id, item.AddingQuantity, item.AddingFir); }
             });
@@ -65,13 +65,13 @@ namespace SPT_AKI_Profile_Editor.Views
             };
             RelayCommand addCommand = new(async obj =>
             {
-                await App.dialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
+                await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
                 if (obj == null)
                     return;
                 Tuple<int, bool> result = (Tuple<int, bool>)obj;
                 if (result == null || result.Item1 <= 0)
                     return;
-                App.worker.AddAction(new WorkerTask
+                App.Worker.AddAction(new WorkerTask
                 {
                     Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(tpl, result.Item1, result.Item2); }
                 });
@@ -79,10 +79,10 @@ namespace SPT_AKI_Profile_Editor.Views
             });
             RelayCommand cancelCommand = new(async obj =>
             {
-                await App.dialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
+                await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
             });
             addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(tpl, addCommand, cancelCommand) };
-            await App.dialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
+            await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

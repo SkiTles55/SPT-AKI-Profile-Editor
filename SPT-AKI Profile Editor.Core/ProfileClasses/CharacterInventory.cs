@@ -63,26 +63,38 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
         [JsonIgnore]
         public InventoryItem[] InventoryItems => Items?
-            .Where(x => x.ParentId == Stash
-            && AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl))?
+            .Where(x => x.ParentId == Stash)?
             .ToArray();
         [JsonIgnore]
-        public bool ContainsModdedItems => Items
+        public bool ContainsModdedItems => InventoryItems
             .Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+        [JsonIgnore]
+        public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
 
         private InventoryItem[] items;
         private string stash;
+        [JsonIgnore]
+        private List<string> GroupedInventory => Items?
+            .GroupBy(x => x.Id)
+            .Where(x => x.Count() > 1)
+            .Select(x => x.Key)
+            .ToList();
 
+        public void RemoveDuplicatedItems() => RemoveItems(GroupedInventory);
         public void RemoveItems(List<string> itemIds)
         {
-            List<InventoryItem> ItemsList = Items.ToList();
-            foreach (var id in itemIds)
+            foreach (var TargetItem in InventoryItems)
             {
-                var item = ItemsList.Where(x => x.Id == id).FirstOrDefault();
-                if (item != null)
-                    ItemsList.Remove(item);
+                List<InventoryItem> toDo = new() { TargetItem };
+                while (toDo.Count > 0)
+                {
+                    foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0).Id))
+                        toDo.Add(item);
+                    itemIds.Add(toDo.ElementAt(0).Id);
+                    toDo.Remove(toDo.ElementAt(0));
+                }
             }
-            Items = ItemsList.ToArray();
+            FinalRemoveItems(itemIds);
         }
         public void RemoveAllItems()
         {
@@ -98,7 +110,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     toDo.Remove(toDo.ElementAt(0));
                 }
             }
-            RemoveItems(itemIds);
+            FinalRemoveItems(itemIds);
         }
         public void AddNewItems(string tpl, int count, bool fir)
         {
@@ -140,7 +152,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             try
             {
                 int[,] Stash2D = CreateStash2D();
-                foreach (var item in InventoryItems.Where(x => x.Location != null))
+                foreach (var item in InventoryItems
+                    .Where(x => AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl) && x.Location != null))
                 {
                     (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
                     int rotatedHeight = item.Location.R == "Vertical" ? itemWidth : itemHeight;
@@ -161,6 +174,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return Stash2D;
             }
             catch (Exception ex) { Logger.Log($"Failed to get player's Stash2D: {ex.Message}"); return new int[0, 0]; }
+        }
+        private void FinalRemoveItems(List<string> itemIds)
+        {
+            List<InventoryItem> ItemsList = Items.ToList();
+            while (itemIds.Count > 0)
+            {
+                var item = ItemsList.Where(x => x.Id == itemIds[0]).FirstOrDefault();
+                if (item != null)
+                    ItemsList.Remove(item);
+                else
+                    itemIds.RemoveAt(0);
+            }
+            Items = ItemsList.ToArray();
         }
         private int[,] CreateStash2D()
         {
