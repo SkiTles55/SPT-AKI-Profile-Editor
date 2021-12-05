@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
-using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {

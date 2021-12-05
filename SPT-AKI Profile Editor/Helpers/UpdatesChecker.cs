@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 if (string.IsNullOrEmpty(link))
                     link = AppSettings.RepositoryLink;
                 if (version == null)
-                    version = Assembly.GetExecutingAssembly().GetName().Version;
+                    version = GetVersion();
                 WebRequest request = WebRequest.Create(link);
                 WebResponse response = request.GetResponse();
                 float currentVersion = float.Parse(string.Format(" {0},{1}", version.Major, version.Minor));
@@ -28,6 +28,14 @@ namespace SPT_AKI_Profile_Editor.Core
                 Logger.Log($"UpdatesChecker error : {ex.Message}");
                 return false;
             }
+        }
+
+        public static Version GetVersion() => Assembly.GetExecutingAssembly().GetName().Version;
+
+        public static string GetAppTitleWithVersion()
+        {
+            Version version = GetVersion();
+            return $"SPT-AKI Profile Editor {$" {version.Major}.{version.Minor}"}";
         }
     }
 }

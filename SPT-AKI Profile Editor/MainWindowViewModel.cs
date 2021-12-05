@@ -3,10 +3,8 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.ComponentModel;
 using System.IO;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor
@@ -54,19 +52,15 @@ namespace SPT_AKI_Profile_Editor
         {
             SaveProfileAndReload();
         });
-        public static RelayCommand ReloadButtonCommand => new(obj =>
+        public RelayCommand ReloadButtonCommand => new(async obj =>
         {
-            App.StartupEventsWorker();
+            if (await Dialogs.YesNoDialog(this,
+                "reload_profile_dialog_title",
+                "reload_profile_dialog_caption") == MessageDialogResult.Affirmative)
+                App.StartupEventsWorker();
         });
-        public static string WindowTitle
-        {
-            get
-            {
-                Version version = Assembly.GetExecutingAssembly().GetName().Version;
-                return $"SPT-AKI Profile Editor {$" {version.Major}.{version.Minor}"}";
-            }
-        }
-        private static void SaveProfileAndReload()
+        public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
+        public static void SaveProfileAndReload()
         {
             App.worker.AddAction(new WorkerTask
             {
@@ -76,7 +70,12 @@ namespace SPT_AKI_Profile_Editor
                     AppData.Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
                 },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("save_profile_dialog_title")
+                Description = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
+                WorkerNotification = new ()
+                {
+                    NotificationTitle = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
+                    NotificationDescription = AppLocalization.GetLocalizedString("save_profile_dialog_caption")
+                } 
             });
             App.StartupEventsWorker();
         }
