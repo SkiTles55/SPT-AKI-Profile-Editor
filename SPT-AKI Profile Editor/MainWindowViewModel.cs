@@ -15,7 +15,9 @@ namespace SPT_AKI_Profile_Editor
         {
             App.DialogCoordinator = DialogCoordinator.Instance;
             App.Worker = new Worker(App.DialogCoordinator, this);
+            Instance = this;
         }
+        public static MainWindowViewModel Instance { get; set; }
         public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static Profile Profile => AppData.Profile;
         public RelayCommand OpenSettingsCommand => new(async obj =>
@@ -42,7 +44,7 @@ namespace SPT_AKI_Profile_Editor
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
                 await Dialogs.ShowSettingsDialog(this);
             else
-                App.StartupEventsWorker();
+                StartupEventsWorker();
         });
         public static RelayCommand SaveButtonCommand => new(obj =>
         {
@@ -53,7 +55,7 @@ namespace SPT_AKI_Profile_Editor
             if (await Dialogs.YesNoDialog(this,
                 "reload_profile_dialog_title",
                 "reload_profile_dialog_caption") == MessageDialogResult.Affirmative)
-                App.StartupEventsWorker();
+                StartupEventsWorker();
         });
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
         public static void SaveProfileAndReload()
@@ -73,7 +75,18 @@ namespace SPT_AKI_Profile_Editor
                     NotificationDescription = AppLocalization.GetLocalizedString("save_profile_dialog_caption")
                 } 
             });
-            App.StartupEventsWorker();
+            StartupEventsWorker();
+        }
+        public static async void StartupEventsWorker()
+        {
+            if (ExtMethods.PathIsServerFolder(AppData.AppSettings) && ServerChecker.CheckProcess())
+                await Dialogs.ShutdownCozServerRunned(Instance);
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = AppData.StartupEvents,
+                Title = AppData.AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppData.AppLocalization.GetLocalizedString("progress_dialog_caption")
+            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

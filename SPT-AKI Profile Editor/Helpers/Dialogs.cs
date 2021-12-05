@@ -12,9 +12,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 AppData.AppLocalization.GetLocalizedString(title),
                 AppData.AppLocalization.GetLocalizedString(caption),
                 MessageDialogStyle.AffirmativeAndNegative,
-                DialogSettings);
+                YesNoDialogSettings);
 
-        private static MetroDialogSettings DialogSettings => new()
+        private static MetroDialogSettings YesNoDialogSettings => new()
         {
             DefaultButtonFocus = MessageDialogResult.Affirmative,
             AffirmativeButtonText = AppData.AppLocalization.GetLocalizedString("button_yes"),
@@ -22,6 +22,23 @@ namespace SPT_AKI_Profile_Editor.Helpers
             AnimateShow = true,
             AnimateHide = true
         };
+
+        private static MetroDialogSettings ShutdownDialogSettings => new()
+        {
+            AffirmativeButtonText = AppData.AppLocalization.GetLocalizedString("button_quit"),
+            AnimateShow = true,
+            AnimateHide = true
+        };
+
+        public static async Task ShutdownCozServerRunned(object context)
+        {
+            if (await App.DialogCoordinator.ShowMessageAsync(context,
+                AppData.AppLocalization.GetLocalizedString("app_quit"),
+                AppData.AppLocalization.GetLocalizedString("server_runned"),
+                MessageDialogStyle.Affirmative,
+                ShutdownDialogSettings) == MessageDialogResult.Affirmative)
+                App.CloseApplication.Execute(null);
+        }
 
         public static async Task ShowSettingsDialog(object context, int index = 0)
         {
@@ -36,7 +53,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 await App.DialogCoordinator.HideMetroDialogAsync(context, settingsDialog);
                 string newValues = AppSettings.GetStamp();
                 if (startValues != newValues)
-                    App.StartupEventsWorker();
+                    MainWindowViewModel.StartupEventsWorker();
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand, index) };
             await App.DialogCoordinator.ShowMetroDialogAsync(context, settingsDialog);
