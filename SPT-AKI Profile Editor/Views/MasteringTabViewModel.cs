@@ -1,18 +1,11 @@
-﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class MasteringTabViewModel : INotifyPropertyChanged
+    class MasteringTabViewModel : BindableViewModel
     {
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
-        public static Profile Profile => AppData.Profile;
-        public static ServerDatabase ServerDatabase => AppData.ServerDatabase;
-        public static GridFilters GridFilters => AppData.GridFilters;
         public float SetAllPmcSkillsValue
         {
             get => setAllPmcSkillsValue;
@@ -40,8 +33,5 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

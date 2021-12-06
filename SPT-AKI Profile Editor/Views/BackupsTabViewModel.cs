@@ -2,14 +2,11 @@
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class BackupsTabViewModel : INotifyPropertyChanged
+    class BackupsTabViewModel : BindableViewModel
     {
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static BackupService BackupService => AppData.BackupService;
         public RelayCommand RemoveCommand => new(async obj =>
         {
@@ -49,8 +46,5 @@ namespace SPT_AKI_Profile_Editor.Views
                 });
             }
         });
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

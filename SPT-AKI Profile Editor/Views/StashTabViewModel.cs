@@ -3,21 +3,15 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class StashTabViewModel : INotifyPropertyChanged
+    class StashTabViewModel : BindableViewModel
     {
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static AppSettings AppSettings => AppData.AppSettings;
-        public static Profile Profile => AppData.Profile;
-        public static ServerDatabase ServerDatabase => AppData.ServerDatabase;
-        public static GridFilters GridFilters => AppData.GridFilters;
         public RelayCommand RemoveItem => new(async obj =>
         {
             if (obj == null)
@@ -84,8 +78,5 @@ namespace SPT_AKI_Profile_Editor.Views
             addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(tpl, addCommand, cancelCommand) };
             await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

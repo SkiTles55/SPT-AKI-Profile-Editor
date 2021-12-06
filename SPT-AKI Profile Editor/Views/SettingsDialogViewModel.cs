@@ -5,17 +5,15 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
-    class SettingsDialogViewModel : INotifyPropertyChanged
+    class SettingsDialogViewModel : BindableViewModel
     {
         public SettingsDialogViewModel(RelayCommand command, int index = 0)
         {
@@ -91,7 +89,6 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("AutoAddMissingScavSkills");
             }
         }
-
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
             .OrderBy(x => x.DisplayName)
             .Select(x => new AccentItem
@@ -100,7 +97,6 @@ namespace SPT_AKI_Profile_Editor
                 Name = x.DisplayName,
                 Scheme = x.Name
             });
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static AppSettings AppSettings => AppData.AppSettings;
         public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
         public static RelayCommand CloseCommand { get; set; }
@@ -157,7 +153,6 @@ namespace SPT_AKI_Profile_Editor
             RootFolder = Environment.SpecialFolder.MyComputer,
             ShowNewFolderButton = false
         };
-
         private static Visibility GetNoAccountsIconVisibility() =>
             ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
         private static bool GetAccountsBoxEnabled() =>
@@ -187,8 +182,5 @@ namespace SPT_AKI_Profile_Editor
                 "invalid_server_location_caption",
                 "invalid_server_location_text") == MessageDialogResult.Affirmative;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

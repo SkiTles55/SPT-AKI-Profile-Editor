@@ -1,15 +1,10 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class AboutTabViewModel : INotifyPropertyChanged
+    class AboutTabViewModel : BindableViewModel
     {
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
         public static AppSettings AppSettings => AppData.AppSettings;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

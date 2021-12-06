@@ -9,8 +9,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class Worker
     {
-        public string ErrorTitle { get; set; }
-        public string ErrorConfirm { get; set; }
+        public string ErrorTitle { get; set; } = AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption");
+        public string ErrorConfirm { get; set; } = AppData.AppLocalization.GetLocalizedString("save_profile_dialog_ok");
 
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly MainWindowViewModel _viewModel;

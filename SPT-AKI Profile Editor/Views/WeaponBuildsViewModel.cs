@@ -4,17 +4,13 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class WeaponBuildsViewModel : INotifyPropertyChanged
+    class WeaponBuildsViewModel : BindableViewModel
     {
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
-        public static Profile Profile => AppData.Profile;
         public RelayCommand RemoveBuild => new(async obj => {
             if (obj == null)
                 return;
@@ -84,8 +80,5 @@ namespace SPT_AKI_Profile_Editor.Views
                 }
             }
         });
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

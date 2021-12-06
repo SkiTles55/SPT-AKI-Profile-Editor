@@ -1,15 +1,12 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : BindableViewModel
     {
         public MainWindowViewModel()
         {
@@ -18,8 +15,6 @@ namespace SPT_AKI_Profile_Editor
             Instance = this;
         }
         public static MainWindowViewModel Instance { get; set; }
-        public static AppLocalization AppLocalization => AppData.AppLocalization;
-        public static Profile Profile => AppData.Profile;
         public RelayCommand OpenSettingsCommand => new(async obj =>
         {
             await Dialogs.ShowSettingsDialog(this);
@@ -65,7 +60,7 @@ namespace SPT_AKI_Profile_Editor
                 Action = () =>
                 {
                     AppData.BackupService.CreateBackup();
-                    AppData.Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
+                    Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
                 },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
@@ -84,12 +79,9 @@ namespace SPT_AKI_Profile_Editor
             App.Worker.AddAction(new WorkerTask
             {
                 Action = AppData.StartupEvents,
-                Title = AppData.AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppData.AppLocalization.GetLocalizedString("progress_dialog_caption")
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }
