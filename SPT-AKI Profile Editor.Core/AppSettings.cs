@@ -172,6 +172,17 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+        public List<string> BannedMasterings
+        {
+            get => bannedMasterings;
+            set
+            {
+                bannedMasterings = value;
+                OnPropertyChanged("BannedMasterings");
+                if (Loaded)
+                    Save();
+            }
+        }
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -213,6 +224,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private string moneysRublesTpl;
         private string moneysEurosTpl;
         private List<string> bannedItems;
+        private List<string> bannedMasterings;
         private bool fastModeOpened = false;
 
         public void Load()
@@ -313,6 +325,11 @@ namespace SPT_AKI_Profile_Editor.Core
                     loaded.BannedItems = DefaultValues.BannedItems;
                     _needReSave = true;
                 }
+                if (loaded.BannedMasterings == null)
+                {
+                    loaded.BannedMasterings = DefaultValues.BannedMasterings;
+                    _needReSave = true;
+                }
                 ServerPath = loaded.ServerPath;
                 DefaultProfile = loaded.DefaultProfile;
                 Language = loaded.Language;
@@ -329,6 +346,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 MoneysEurosTpl = loaded.MoneysEurosTpl;
                 MoneysRublesTpl = loaded.MoneysRublesTpl;
                 BannedItems = loaded.BannedItems;
+                BannedMasterings = loaded.bannedMasterings;
                 if (_needReSave)
                 {
                     Logger.Log($"Configuration file updated");
@@ -357,6 +375,7 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
             BannedItems = DefaultValues.BannedItems;
+            BannedMasterings = DefaultValues.BannedMasterings;
             Logger.Log($"Default configuration file created");
             Save();
         }

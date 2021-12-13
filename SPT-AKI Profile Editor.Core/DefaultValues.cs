@@ -26,6 +26,10 @@ namespace SPT_AKI_Profile_Editor.Core
             "5cdeb229d7f00c000e7ce174",
             "5d52cc5ba4b9367408500062"
         };
+        public static List<string> BannedMasterings => new()
+        {
+            "MR43"
+        };
         public static Dictionary<string, string> DefaultDirsList => new()
         {
             ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",
