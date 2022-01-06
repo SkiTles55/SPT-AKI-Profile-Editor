@@ -83,18 +83,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void RemoveDuplicatedItems() => RemoveItems(GroupedInventory);
         public void RemoveItems(List<string> itemIds)
         {
-            foreach (var TargetItem in InventoryItems)
+            List<string> toDo = new();
+            foreach (var TargetItem in itemIds)
             {
-                List<InventoryItem> toDo = new() { TargetItem };
-                while (toDo.Count > 0)
-                {
-                    foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0).Id))
-                        toDo.Add(item);
-                    itemIds.Add(toDo.ElementAt(0).Id);
-                    toDo.Remove(toDo.ElementAt(0));
-                }
+                toDo.Add(TargetItem);
+                toDo.AddRange(Items.Where(x => x.ParentId == TargetItem).Select(x => x.Id));
             }
-            FinalRemoveItems(itemIds);
+            FinalRemoveItems(toDo);
         }
         public void RemoveAllItems()
         {

@@ -7,6 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
@@ -49,6 +50,25 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=LocalizedName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="30" SortMemberPath="IsAddedByMods">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Foreground="Red" ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_is_modded_item], Source={StaticResource proxy}}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=IsAddedByMods}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                        <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="18" Height="18"/>
+                                    </Label>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -158,6 +178,16 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Data.Profile.Characters.Pmc.Inventory.ContainsModdedItems, Source={StaticResource proxy}}" Value="True">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>

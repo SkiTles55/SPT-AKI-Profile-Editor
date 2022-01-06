@@ -26,5 +26,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public string LocalizedName =>
             AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Tpl) ? AppData.ServerDatabase.LocalesGlobal.Templates[Tpl].Name : Tpl;
+
+        [JsonIgnore]
+        public bool IsAddedByMods =>
+            !AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl);
     }
 }

@@ -6,7 +6,38 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Horizontal">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Margin="5" Background="{DynamicResource MahApps.Brushes.AccentBase}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Label FontWeight="Bold" Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Label.Content>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_stash_mod_items]}" TextAlignment="Center" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+                </Label.Content>
+            </Label>
+        </Border>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
             <iconPacks:PackIconFontAwesome Width="15" Height="15" VerticalAlignment="Center" Kind="RubleSignSolid" />
             <Label HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0,0,0">
                 <Label.Content>
