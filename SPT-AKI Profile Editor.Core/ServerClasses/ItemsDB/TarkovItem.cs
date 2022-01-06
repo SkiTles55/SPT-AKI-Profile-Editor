@@ -18,6 +18,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public string Type { get; set; }
 
         [JsonIgnore]
+        public bool CanBeAddedToStash =>
+            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Parent)
+            && !Properties.QuestItem
+            && !AppData.AppSettings.BannedItems.Contains(Parent)
+            && !AppData.AppSettings.BannedItems.Contains(Id);
+
+        [JsonIgnore]
         public int AddingQuantity { get; set; } = 1;
 
         [JsonIgnore]

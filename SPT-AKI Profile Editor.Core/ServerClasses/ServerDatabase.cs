@@ -98,16 +98,15 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("TraderSuits");
             }
         }
-
-        public List<TarkovItem> ItemsForAdding =>
-            ItemsDB?
-            .Where(x => x.Value.Type == "Item" && x.Value.Parent != null
-            && LocalesGlobal.Templates.ContainsKey(x.Value.Parent)
-            && !x.Value.Properties.QuestItem
-            && !AppData.AppSettings.BannedItems.Contains(x.Value.Parent)
-            && !AppData.AppSettings.BannedItems.Contains(x.Value.Id))
-            .Select(x => x.Value)
-            .ToList();
+        public Handbook Handbook
+        {
+            get => handbook;
+            set
+            {
+                handbook = value;
+                OnPropertyChanged("Handbook");
+            }
+        }
 
         public void SetAllTradersMax()
         {
@@ -131,6 +130,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private Dictionary<string, TarkovItem> itemsDB;
         private Dictionary<string, string> pockets;
         private List<TraderSuit> traderSuits;
+        private Handbook handbook;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

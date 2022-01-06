@@ -8,6 +8,7 @@
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
              d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
@@ -116,7 +117,17 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5"/>
-                <DataGrid x:Name="itemsGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource items}}" IsReadOnly="True">
+                <ScrollViewer Grid.Row="1" CanContentScroll="True" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                    <ListBox ItemsSource="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}" ItemContainerStyle="{StaticResource NoHoverListBox}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <extendedcontrols:ItemCategory/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                
+                <DataGrid Visibility="Collapsed" x:Name="itemsGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource items}}" IsReadOnly="True">
                     <DataGrid.Resources>
                         <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
                     </DataGrid.Resources>
