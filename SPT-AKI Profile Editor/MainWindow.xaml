@@ -24,6 +24,21 @@
     </i:Interaction.Triggers>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
+            <Button Content="{Binding AppLocalization.Translations[button_faq]}" Command="{Binding OpenFAQ}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconFontAwesome Width="20"
+                                        Height="22"
+                                        VerticalAlignment="Center"
+                                        Kind="InfoCircleSolid" />
+                            <TextBlock Margin="4 0 0 0"
+                         VerticalAlignment="Center"
+                         Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
             <Button Content="{Binding AppLocalization.Translations[button_fast_mode]}" Command="{Binding OpenFastModeCommand}">
                 <Button.ContentTemplate>
                     <DataTemplate>

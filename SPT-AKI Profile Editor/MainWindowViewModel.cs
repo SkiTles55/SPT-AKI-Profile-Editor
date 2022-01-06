@@ -23,6 +23,11 @@ namespace SPT_AKI_Profile_Editor
         {
             AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
         });
+        public static RelayCommand OpenFAQ => new(obj =>
+        {
+            var link = AppData.AppSettings.Language == "ru" ? "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/FAQ.md" : "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/ENGFAQ.md";
+            ExtMethods.OpenUrl(link);
+        });
         public RelayCommand InitializeViewModelCommand => new(async obj =>
         {
             App.ChangeTheme();
