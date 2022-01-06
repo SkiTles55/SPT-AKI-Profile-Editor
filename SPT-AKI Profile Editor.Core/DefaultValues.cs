@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ["reload_profile_dialog_caption"] = "Are you sure? All changes will be lost",
                 ["server_select"] = "Select the SPT-AKI Server directory.",
                 ["invalid_server_location_caption"] = "Error",
-                ["invalid_server_location_text"] = "The selected path does not seem to be a SPT-AKI server location.",
+                ["invalid_server_location_text"] = "The selected path does not seem to be a SPT-AKI server location. Try again?",
                 ["no_accounts"] = "Failed to get accounts. No accounts?!",
                 ["tab_server_location_select"] = "Select",
                 ["tab_info_title"] = "Information",
