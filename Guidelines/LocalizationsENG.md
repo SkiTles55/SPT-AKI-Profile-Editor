@@ -1,6 +1,3 @@
-# SPT-AKI Profile Editor
-[RU README version](README.md)
-
 ### Editing \ creating localization files:
 [RU version](/Guidelines/LocalizationsRu.md)
 

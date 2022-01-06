@@ -1,6 +1,3 @@
-# SPT-AKI Profile Editor
-[ENG README version](ENGREADME.md)
-
 ### Редактирование \ создание файлов локализации:
 [ENG version](/Guidelines/LocalizationsENG.md)
 
