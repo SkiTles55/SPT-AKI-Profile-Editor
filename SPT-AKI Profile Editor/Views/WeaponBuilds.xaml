@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=views:WeaponBuildsViewModel}"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
@@ -35,11 +36,26 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="160"/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="110"/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="{Binding Path=Key}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label Content="{Binding Path=Key}" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Label Foreground="Red" ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=Value.HasModdedItems}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                    <iconPacks:PackIconFontAwesome Kind="ExclamationTriangleSolid" Width="18" Height="18"/>
+                                </Label>
+                            </StackPanel>                            
                             <Label Content="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Label.Content>

@@ -36,6 +36,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public int RecoilForceBack => recoilForceBack;
 
         [JsonIgnore]
+        public bool HasModdedItems =>
+            BuildItems
+            .Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+
+        [JsonIgnore]
         private List<InventoryItem> BuildItems
         {
             get

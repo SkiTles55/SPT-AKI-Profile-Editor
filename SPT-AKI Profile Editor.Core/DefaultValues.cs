@@ -172,6 +172,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ["tab_presets_ergonomics"] = "Ergonomics",
                 ["tab_preset_recoil_up"] = "Recoil Up",
                 ["tab_preset_recoil_back"] = "Recoil Back",
+                ["tab_presets_modded_items"] = "Weapon preset contains items added by mods",
                 ["message_duplicated_items"] = "The profile contains items with the same ID. Do you want to fix it? The profile will be automatically saved with the creation of a backup."
             } },
             new AppLocalization { Key = "ru", Name = "Русский", Translations = new Dictionary<string, string>() {
@@ -299,6 +300,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ["tab_presets_ergonomics"] = "Эргономика",
                 ["tab_preset_recoil_up"] = "Вертикальная отдача",
                 ["tab_preset_recoil_back"] = "Горизонтальная отдача",
+                ["tab_presets_modded_items"] = "Сборка содержит предметы добавленные модами",
                 ["message_duplicated_items"] = "В профиле есть предметы с одинаковыми ID. Вы хотите это исправить? Профиль будет автоматически сохранен с созданием бэкапа."
             } }
         };
