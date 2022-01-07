@@ -10,7 +10,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Margin="5" Background="{DynamicResource MahApps.Brushes.AccentBase}">
+        <Border Grid.Row="0" Margin="5" Background="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="10">
             <Border.Style>
                 <Style TargetType="Border">
                     <Setter Property="Visibility" Value="Collapsed"/>
