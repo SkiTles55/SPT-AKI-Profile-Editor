@@ -44,10 +44,8 @@ namespace SPT_AKI_Profile_Editor.Views
                 cv.Filter = o =>
                 {
                     TarkovItem p = o as TarkovItem;
-                    return string.IsNullOrEmpty(AppData.GridFilters.StashTab.AddingItemName)
-                    || p.LocalizedName.ToUpper().Contains(AppData.GridFilters.StashTab.AddingItemName.ToUpper())
-                    || p.LocalizedSubGroupName.ToUpper().Contains(AppData.GridFilters.StashTab.AddingItemName.ToUpper())
-                    || p.LocalizedGroupName.ToUpper().Contains(AppData.GridFilters.StashTab.AddingItemName.ToUpper());
+                    return string.IsNullOrEmpty(AppData.GridFilters.StashTab.AddingItemName);
+                    // more filters later
                 };
             }
         }

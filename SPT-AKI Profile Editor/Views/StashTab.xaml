@@ -14,12 +14,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="inventory" Source="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}"/>
-        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.ItemsForAdding}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="LocalizedGroupName"/>
-                <PropertyGroupDescription PropertyName="LocalizedSubGroupName"/>
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
+        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}"/>
     </UserControl.Resources>
     <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
@@ -118,7 +113,7 @@
                 </Grid.RowDefinitions>
                 <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5"/>
                 <ScrollViewer Grid.Row="1" CanContentScroll="True" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                    <ListBox ItemsSource="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}" ItemContainerStyle="{StaticResource NoHoverListBox}">
+                    <ListBox ItemsSource="{Binding Source={StaticResource items}}" ItemContainerStyle="{StaticResource NoHoverListBox}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <extendedcontrols:ItemCategory/>
