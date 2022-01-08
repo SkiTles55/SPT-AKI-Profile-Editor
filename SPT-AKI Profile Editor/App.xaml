@@ -14,6 +14,13 @@
                TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
             <Style x:Key="LinkStyle"
                    BasedOn="{StaticResource {x:Type Hyperlink}}"
@@ -26,6 +33,45 @@
                    TargetType="{x:Type Label}">
                 <Setter Property="FontSize" Value="22" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+            <Style x:Key="NoHoverListBox"
+                   BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                   TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Padding" Value="2,0,0,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border x:Name="Bd" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="Transparent" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                                </MultiTrigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="Transparent" />
+                    </Trigger>
+                </Style.Triggers>
             </Style>
             <DataTemplate x:Key="HeaderTemplate">
                 <TextBlock Text="{Binding}" Width="180" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center"/>

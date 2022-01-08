@@ -39,7 +39,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding Path=LocalizedTraderName}"/>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=LocalizedTraderName}" TextWrapping="Wrap"/>
+                                </Label.Content>
+                            </Label>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -58,7 +62,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding Path=LocalizedQuestName}"/>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=LocalizedQuestName}" TextWrapping="Wrap"/>
+                                </Label.Content>
+                            </Label>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -77,7 +85,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Data.QuestStatuses, Source={StaticResource proxy}}" SelectedItem="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ComboBox ItemsSource="{Binding Data.QuestStatuses, Source={StaticResource proxy}}" SelectedItem="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

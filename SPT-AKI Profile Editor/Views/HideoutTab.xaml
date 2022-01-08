@@ -36,7 +36,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding Path=LocalizedName}"/>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap"/>
+                                </Label.Content>
+                            </Label>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -45,10 +49,10 @@
                         <DataTemplate>
                             <Grid Grid.Column="1" Grid.Row="5" Margin="10,0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="40"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Text="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                                <TextBox Grid.Column="0" Text="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
                                 <Slider Grid.Column="1" Maximum="{Binding Path=MaxLevel}" TickPlacement="BottomRight" TickFrequency="1" Value="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsSnapToTickEnabled="True" Margin="5"/>
                             </Grid>
                         </DataTemplate>

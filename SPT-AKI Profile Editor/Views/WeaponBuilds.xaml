@@ -20,7 +20,7 @@
             <RowDefinition/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" Grid.ColumnSpan="3" ItemsSource="{Binding Profile.WBuilds}">
+        <ListBox Grid.Row="0" Grid.ColumnSpan="3" ItemsSource="{Binding Profile.WBuilds}" ItemContainerStyle="{StaticResource NoHoverListBox}">
             <ListBox.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </ListBox.Resources>

@@ -42,7 +42,11 @@
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=LocalizedName}"/>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap"/>
+                                        </Label.Content>
+                                    </Label>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -54,7 +58,7 @@
                                             <ColumnDefinition Width="80"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                                        <TextBox Grid.Column="0" Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
                                         <Slider Grid.Column="1" Maximum="{Binding MaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True"/>
                                     </Grid>
                                 </DataTemplate>
@@ -101,7 +105,11 @@
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=LocalizedName}"/>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap"/>
+                                        </Label.Content>
+                                    </Label>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -113,7 +121,7 @@
                                             <ColumnDefinition Width="80"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Grid.Column="0" Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                                        <TextBox Grid.Column="0" Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
                                         <Slider Grid.Column="1" Maximum="{Binding MaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsSnapToTickEnabled="True"/>
                                     </Grid>
                                 </DataTemplate>

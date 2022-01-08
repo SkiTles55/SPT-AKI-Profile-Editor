@@ -36,7 +36,11 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding}"/>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label.Content>
+                                    <Label Content="{Binding}"/>
+                                </Label.Content>
+                            </Label>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
