@@ -37,23 +37,23 @@
                         <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_examined_items_item], Source={StaticResource proxy}}" Width="*" SortMemberPath="LocalizedName">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="0,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                        <TextBox Text="{Binding Data.GridFilters.StashTab.StashItemName, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxStash_TextChanged"/>
-                                    </Grid>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" TextWrapping="Wrap"/>
+                                        <TextBox DockPanel.Dock="Right" Text="{Binding Data.GridFilters.StashTab.StashItemName, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxStash_TextChanged"/>
+                                    </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=LocalizedName}"/>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap"/>
+                                        </Label.Content>
+                                    </Label>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="30" SortMemberPath="IsAddedByMods">
+                        <DataGridTemplateColumn MinWidth="30" SortMemberPath="IsAddedByMods">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Foreground="Red" ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_is_modded_item], Source={StaticResource proxy}}" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -75,23 +75,19 @@
                         <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_info_id], Source={StaticResource proxy}}" Width="*" SortMemberPath="Id">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="0,5">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                        <TextBox Text="{Binding Data.GridFilters.StashTab.Id, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="10,0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxStash_TextChanged"/>
-                                    </Grid>
+                                    <DockPanel>
+                                        <TextBlock DockPanel.Dock="Left" Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" TextWrapping="Wrap"/>
+                                        <TextBox DockPanel.Dock="Right" Text="{Binding Data.GridFilters.StashTab.Id, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxStash_TextChanged"/>
+                                    </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=Id}"/>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock Text="{Binding Path=Id}" TextWrapping="Wrap"/>
+                                        </Label.Content>
+                                    </Label>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

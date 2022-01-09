@@ -60,14 +60,10 @@
                 <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_merchants_level], Source={StaticResource proxy}}" Width="230" SortMemberPath="Value.Level">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Text="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" MinWidth="30" PreviewTextInput="NumberValidationTextBox" Margin="0,0,10,0"/>
-                                <Slider Grid.Column="1" TickPlacement="BottomRight" TickFrequency="1" Value="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Maximum="{Binding Path=Value.MaxLevel}" IsSnapToTickEnabled="True" Minimum="1" Margin="5"/>
-                            </Grid>
+                            <DockPanel>
+                                <TextBox DockPanel.Dock="Left" Text="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" MinWidth="30" PreviewTextInput="NumberValidationTextBox" Margin="5"/>
+                                <Slider DockPanel.Dock="Right" TickPlacement="BottomRight" TickFrequency="1" Value="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Maximum="{Binding Path=Value.MaxLevel}" IsSnapToTickEnabled="True" Minimum="1" Margin="5,5,10,5"/>
+                            </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

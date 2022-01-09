@@ -9,34 +9,32 @@
              d:DataContext="{d:DesignInstance Type=views:BackupsTabViewModel}"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding BackupService.BackupList}">
-            <DataGrid.Resources>
-                <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_date], Source={StaticResource proxy}}" Width="*" SortMemberPath="Date">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Path=FormatedDate}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_restore], Source={StaticResource proxy}}" Command="{Binding Data.RestoreCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Path}"/>
-                                <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Command="{Binding Data.RemoveCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Path}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+    <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding BackupService.BackupList}" ColumnHeaderStyle="{StaticResource MyColumnHeader}">
+        <DataGrid.Resources>
+            <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </DataGrid.Resources>
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_date], Source={StaticResource proxy}}" Width="*" SortMemberPath="Date">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label.Content>
+                                <TextBlock Text="{Binding Path=FormatedDate}" TextWrapping="Wrap"/>
+                            </Label.Content>
+                        </Label>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_restore], Source={StaticResource proxy}}" Command="{Binding Data.RestoreCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Path}"/>
+                            <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Command="{Binding Data.RemoveCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Path}"/>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>
