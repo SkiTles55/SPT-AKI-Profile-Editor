@@ -13,8 +13,9 @@
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <helpers:HandbookCategoryConverter x:Key="HandbookCategoryConverter"/>
         <CollectionViewSource x:Key="inventory" Source="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}"/>
-        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}"/>
+        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding, Converter={StaticResource HandbookCategoryConverter}}"/>
     </UserControl.Resources>
     <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
@@ -113,7 +114,7 @@
                 </Grid.RowDefinitions>
                 <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5"/>
                 <ScrollViewer Grid.Row="1" CanContentScroll="True" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                    <ListBox ItemsSource="{Binding Source={StaticResource items}}" ItemContainerStyle="{StaticResource NoHoverListBox}">
+                    <ListBox ItemsSource="{Binding Source={StaticResource items}}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <extendedcontrols:ItemCategory/>
@@ -121,7 +122,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </ScrollViewer>
-                
+
                 <DataGrid Visibility="Collapsed" x:Name="itemsGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" ColumnHeaderStyle="{StaticResource MyColumnHeader}" ItemsSource="{Binding Source={StaticResource items}}" IsReadOnly="True">
                     <DataGrid.Resources>
                         <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
