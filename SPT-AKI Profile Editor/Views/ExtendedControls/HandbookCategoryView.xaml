@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="userControl" x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.ItemCategory"
+﻿<UserControl x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.HandbookCategoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,7 +21,7 @@
             <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Path=Category.Categories, Converter={StaticResource HandbookCategoryConverter}}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <extendedcontrols:ItemCategory/>
+                        <extendedcontrols:HandbookCategoryView/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

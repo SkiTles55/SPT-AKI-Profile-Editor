@@ -117,7 +117,7 @@
                     <ListBox ItemsSource="{Binding Source={StaticResource items}}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <extendedcontrols:ItemCategory/>
+                                <extendedcontrols:HandbookCategoryView/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

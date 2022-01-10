@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             set
             {
                 category = value;
-                OnPropertyChanged("ItemCategory");
+                OnPropertyChanged("Category");
             }
         }
 
