@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             if (value == null) return null;
             if (value is not List<HandbookCategory> categories) return null;
-            return categories.Select(x => new HandbookCategoryViewModel(x));
+            return categories.Select(x => new HandbookCategoryViewModel(x)).Where(x => x.IsNotHidden);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotSupportedException();

@@ -8,24 +8,21 @@
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
              d:DataContext="{d:DesignInstance Type=extendedcontrols:HandbookCategoryViewModel}"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <helpers:HandbookCategoryConverter x:Key="HandbookCategoryConverter"/>
-    </UserControl.Resources>
     <Expander IsExpanded="False" mah:HeaderedControlHelper.HeaderBackground="Transparent" BorderThickness="0">
         <Expander.Header>
             <DockPanel>
-                <TextBlock FontWeight="Bold" Text="{Binding Path=Category.LocalizedName}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                <TextBlock FontWeight="Bold" Text="{Binding Path=LocalizedName}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
             </DockPanel>
         </Expander.Header>
         <DockPanel>
-            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Path=Category.Categories, Converter={StaticResource HandbookCategoryConverter}}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Path=Categories}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <extendedcontrols:HandbookCategoryView/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding Path=Category.Items}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding Path=Items}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.Resources>
                     <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
                 </ListBox.Resources>
@@ -52,8 +49,8 @@
                                 </Label.Content>
                             </Label>
                             <WrapPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <CheckBox Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}"/>
-                                <TextBox Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" Margin="5" Width="40"/>
+                                <CheckBox Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}" IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" Margin="5" Width="40" PreviewTextInput="NumberValidationTextBox" TextChanged="TextBox_TextChanged"/>
                                 <Button Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5"/>
                             </WrapPanel>
                         </Grid>

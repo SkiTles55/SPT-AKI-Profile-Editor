@@ -5,7 +5,6 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Threading.Tasks;
 using System;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -36,17 +35,6 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         });
         public RelayCommand AddMoney => new(async obj => { await ShowAddMoneyDialog(obj); });
-        public static RelayCommand AddItem => new(obj =>
-        {
-            if (obj == null)
-                return;
-            if (obj is not TarkovItem item)
-                return;
-            App.Worker.AddAction(new WorkerTask
-            {
-                Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(item.Id, item.AddingQuantity, item.AddingFir); }
-            });
-        });
 
         private async Task ShowAddMoneyDialog(object obj)
         {

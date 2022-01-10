@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonIgnore]
         public List<HandbookCategory> CategoriesForItemsAdding =>
             Categories?
-            .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)
+            .Where(x => string.IsNullOrEmpty(x.ParentId))
             .ToList();
     }
 }
