@@ -28,32 +28,38 @@
                 </ListBox.Resources>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.Style>
-                                <Style TargetType="Grid">
-                                    <Setter Property="IsEnabled" Value="True"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Data.Profile.Characters.Pmc.Inventory.ContainsModdedItems, Source={StaticResource proxy}}" Value="True">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedName}"/>
-                                </Label.Content>
-                            </Label>
-                            <WrapPanel Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <CheckBox Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}" IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}"/>
-                                <TextBox Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" Margin="5" Width="40" PreviewTextInput="NumberValidationTextBox" TextChanged="TextBox_TextChanged"/>
-                                <Button Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5"/>
-                            </WrapPanel>
-                        </Grid>
+                        <WrapPanel Grid.IsSharedSizeScope="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="Column"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <Label.Content>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedName}"/>
+                                    </Label.Content>
+                                </Label>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="Column"/>
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel Grid.Column="0">
+                                    <WrapPanel.Style>
+                                        <Style TargetType="WrapPanel">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Data.Profile.Characters.Pmc.Inventory.ContainsModdedItems, Source={StaticResource proxy}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </WrapPanel.Style>
+                                    <CheckBox Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}" IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                                    <TextBox Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" Width="40" PreviewTextInput="NumberValidationTextBox" TextChanged="TextBox_TextChanged" Margin="5"/>
+                                    <Button Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5"/>
+                                </WrapPanel>
+                            </Grid>
+                        </WrapPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

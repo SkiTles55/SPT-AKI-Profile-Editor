@@ -10,34 +10,45 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
     {
         public HandbookCategoryViewModel(HandbookCategory category)
         {
-            Category = category;
+            LocalizedName = ServerDatabase.LocalesGlobal.Handbook.ContainsKey(category.Id) ? ServerDatabase.LocalesGlobal.Handbook[category.Id] : category.Id;
+            Categories = ServerDatabase.Handbook.Categories
+                .Where(x => x.ParentId == category.Id)
+                .Select(x => new HandbookCategoryViewModel(x))
+                .Where(x => x.IsNotHidden)
+                .ToList();
+            Items = ServerDatabase.Handbook.Items
+                .Where(x => x.ParentId == category.Id)
+                .Select(x => x.Item)
+                .Where(x => x.CanBeAddedToStash)
+                .ToList();
         }
-        public HandbookCategory Category
+        public string LocalizedName
         {
-            get => category;
+            get => localizedName;
             set
             {
-                category = value;
-                OnPropertyChanged("Category");
+                localizedName = value;
+                OnPropertyChanged("localizedName");
             }
         }
-        public string LocalizedName =>
-            ServerDatabase.LocalesGlobal.Handbook.ContainsKey(Category.Id) ? ServerDatabase.LocalesGlobal.Handbook[Category.Id] : Category.Id;
-
-        public List<HandbookCategoryViewModel> Categories =>
-            ServerDatabase.Handbook.Categories
-            .Where(x => x.ParentId == Category.Id)
-            .Select(x => new HandbookCategoryViewModel(x))
-            .Where(x => x.IsNotHidden)
-            .ToList();
-
-        public List<TarkovItem> Items =>
-            ServerDatabase.Handbook.Items
-            .Where(x => x.ParentId == Category.Id)
-            .Select(x => x.Item)
-            .Where(x => x.CanBeAddedToStash)
-            .ToList();
-
+        public List<HandbookCategoryViewModel> Categories
+        {
+            get => categories;
+            set
+            {
+                categories = value;
+                OnPropertyChanged("Categories");
+            }
+        }
+        public List<TarkovItem> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnPropertyChanged("Items");
+            }
+        }
         public bool IsNotHidden =>
             Items.Count > 0 || Categories.Any(y => y.Items.Count > 0);
         public static RelayCommand AddItem => new(obj =>
@@ -52,6 +63,8 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             });
         });
 
-        private HandbookCategory category;
+        private string localizedName;
+        private List<HandbookCategoryViewModel> categories;
+        private List<TarkovItem> items;
     }
 }
