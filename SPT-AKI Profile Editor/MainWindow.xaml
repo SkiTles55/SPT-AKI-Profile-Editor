@@ -129,9 +129,9 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconFontAwesome Width="22"
-                                        Height="22"
-                                        VerticalAlignment="Center"
-                                        Kind="RedoSolid" />
+                                                           Height="22"
+                                                           VerticalAlignment="Center"
+                                                           Kind="RedoSolid"/>
                             <TextBlock Margin="10 0 0 0"
                          VerticalAlignment="Center"
                          Text="{Binding}" />
@@ -144,9 +144,9 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <iconPacks:PackIconFontAwesome Width="22"
-                                        Height="22"
-                                        VerticalAlignment="Center"
-                                        Kind="SaveRegular" />
+                                                           Height="22"
+                                                           VerticalAlignment="Center"
+                                                           Kind="SaveRegular"/>
                             <TextBlock Margin="10 0 0 0"
                          VerticalAlignment="Center"
                          Text="{Binding}" />

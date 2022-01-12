@@ -114,9 +114,12 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5"/>
-                <TextBox Visibility="Collapsed" Text="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Margin="5" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxAdding_TextChanged" VerticalAlignment="Center"/>
+                <DockPanel Grid.Row="1">
+                    <Label DockPanel.Dock="Left" Content="{Binding AppLocalization.Translations[tab_stash_search]}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBox DockPanel.Dock="Right" Text="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" Margin="5" mah:TextBoxHelper.ClearTextButton="True" TextChanged="FilterBoxAdding_TextChanged" VerticalAlignment="Center"/>
+                </DockPanel>                
                 <ScrollViewer Grid.Row="2" CanContentScroll="True" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                    <ListBox ItemsSource="{Binding Source={StaticResource items}}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListBox x:Name="itemsList" ItemsSource="{Binding Source={StaticResource items}}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" d:ItemsSource="{d:SampleData ItemCount=5}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <extendedcontrols:HandbookCategoryView/>

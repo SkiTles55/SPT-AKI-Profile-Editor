@@ -6,6 +6,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
              xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=extendedcontrols:HandbookCategoryViewModel}"
              mc:Ignorable="d">
     <Expander IsExpanded="False" mah:HeaderedControlHelper.HeaderBackground="Transparent" BorderThickness="0">
@@ -56,7 +57,21 @@
                                     </WrapPanel.Style>
                                     <CheckBox Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}" IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                                     <TextBox Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" Width="40" PreviewTextInput="NumberValidationTextBox" TextChanged="TextBox_TextChanged" Margin="5"/>
-                                    <Button Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5"/>
+                                    <Button Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5">
+                                        <Button.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <iconPacks:PackIconFontAwesome Width="12"
+                                                                                   Height="12"
+                                                                                   VerticalAlignment="Center"
+                                                                                   Kind="PlusSolid"/>
+                                                    <TextBlock Margin="10 0 0 0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Button.ContentTemplate>
+                                    </Button>
                                 </WrapPanel>
                             </Grid>
                         </WrapPanel>

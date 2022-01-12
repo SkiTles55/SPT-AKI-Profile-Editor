@@ -1,5 +1,6 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,19 +27,17 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void ApplyAddingFilter()
         {
-            //ICollectionView cv = CollectionViewSource.GetDefaultView(itemsGrid.ItemsSource);
-            //if (cv == null)
-            //    return;
-            //if (string.IsNullOrEmpty(AppData.GridFilters.StashTab.AddingItemName))
-            //    cv.Filter = null;
-            //else
-            //{
-            //    cv.Filter = o =>
-            //    {
-            //        HandbookCategoryViewModel p = o as HandbookCategoryViewModel;
-            //        return p.FilterWithText(AppData.GridFilters.StashTab.AddingItemName);
-            //    };
-            //}
+            ICollectionView cv = CollectionViewSource.GetDefaultView(itemsList.ItemsSource);
+            if (cv == null)
+                return;
+            else
+            {
+                cv.Filter = o =>
+                {
+                    HandbookCategoryViewModel p = o as HandbookCategoryViewModel;
+                    return p.ContainsItemsWithTextInName(AppData.GridFilters.StashTab.AddingItemName);
+                };
+            }
         }
 
         private void ApplyStashFilter()
