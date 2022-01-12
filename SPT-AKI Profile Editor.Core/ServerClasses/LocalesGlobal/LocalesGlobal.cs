@@ -17,6 +17,9 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonPropertyName("templates")]
         public Dictionary<string, LocalesGlobalTemplate> Templates { get; set; }
 
+        [JsonPropertyName("handbook")]
+        public Dictionary<string, string> Handbook { get; set; }
+
         [JsonPropertyName("customization")]
         public Dictionary<string, LocalesGlobalTemplate> Customization { get; set; }
     }

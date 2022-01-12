@@ -1,8 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -20,12 +19,6 @@ namespace SPT_AKI_Profile_Editor.Views
             DataContext = new StashTabViewModel();
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>
             ApplyStashFilter();
 
@@ -34,20 +27,15 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void ApplyAddingFilter()
         {
-            ICollectionView cv = CollectionViewSource.GetDefaultView(itemsGrid.ItemsSource);
+            ICollectionView cv = CollectionViewSource.GetDefaultView(itemsList.ItemsSource);
             if (cv == null)
                 return;
-            if (string.IsNullOrEmpty(AppData.GridFilters.StashTab.AddingItemName))
-                cv.Filter = null;
             else
             {
                 cv.Filter = o =>
                 {
-                    TarkovItem p = o as TarkovItem;
-                    return string.IsNullOrEmpty(AppData.GridFilters.StashTab.AddingItemName)
-                    || p.LocalizedName.ToUpper().Contains(AppData.GridFilters.StashTab.AddingItemName.ToUpper())
-                    || p.LocalizedSubGroupName.ToUpper().Contains(AppData.GridFilters.StashTab.AddingItemName.ToUpper())
-                    || p.LocalizedGroupName.ToUpper().Contains(AppData.GridFilters.StashTab.AddingItemName.ToUpper());
+                    HandbookCategoryViewModel p = o as HandbookCategoryViewModel;
+                    return p.ContainsItemsWithTextInName(AppData.GridFilters.StashTab.AddingItemName);
                 };
             }
         }
@@ -73,28 +61,14 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            var textBox = sender as TextBox;
-            if (string.IsNullOrEmpty(textBox.Text))
-            {
-                textBox.Text = "1";
-                textBox.CaretIndex = 1;
-                return;
-            }
-            if (int.TryParse(textBox.Text.Replace(",", ""), out int money))
-            {
-                if (money < 1)
-                {
-                    textBox.Text = "1";
-                    textBox.CaretIndex = 1;
-                }
-            }
+            ScrollViewer scrollviewer = sender as ScrollViewer;
+            if (e.Delta > 0)
+                scrollviewer.LineUp();
             else
-            {
-                textBox.Text = int.MaxValue.ToString();
-                textBox.CaretIndex = textBox.Text.Length;
-            }
+                scrollviewer.LineDown();
+            e.Handled = true;
         }
     }
 }

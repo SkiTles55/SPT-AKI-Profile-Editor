@@ -43,6 +43,7 @@ namespace SPT_AKI_Profile_Editor.Core
             ["file_items"] = "Aki_Data\\Server\\database\\templates\\items.json",
             ["file_quests"] = "Aki_Data\\Server\\database\\templates\\quests.json",
             ["file_areas"] = "Aki_Data\\Server\\database\\hideout\\areas.json",
+            ["file_handbook"] = "Aki_Data\\Server\\database\\templates\\handbook.json",
             ["file_serverexe"] = "Server.exe"
         };
         public static List<AppLocalization> DefaultLocalizations => new()
@@ -124,6 +125,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ["tab_stash_fir"] = "Item found in raid",
                 ["tab_stash_items_adding"] = "Adding items",
                 ["tab_stash_is_modded_item"] = "This item was added by mod",
+                ["tab_stash_search"] = "Search",
                 ["tab_backups_title"] = "Backups",
                 ["tab_backups_date"] = "Date",
                 ["tab_backups_actions"] = "Actions",
@@ -244,6 +246,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 ["tab_stash_fir"] = "Предмет найденный в рейде",
                 ["tab_stash_items_adding"] = "Добавление предметов",
                 ["tab_stash_is_modded_item"] = "Этот предмет добавлен модом",
+                ["tab_stash_search"] = "Поиск",
                 ["tab_backups_title"] = "Бэкапы",
                 ["tab_backups_date"] = "Дата",
                 ["tab_backups_actions"] = "Действия",

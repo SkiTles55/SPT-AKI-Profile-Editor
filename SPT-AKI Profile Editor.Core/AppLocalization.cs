@@ -52,7 +52,8 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 AppLocalization appLocalization = LocalizationFromFile(Path.Combine(localizationsDir, key + ".json"));
-                AppLocalization DefaultLocalization = DefaultValues.DefaultLocalizations.Find(x => x.Key == "en");
+                AppLocalization DefaultLocalization = DefaultValues.DefaultLocalizations.Find(x => x.Key == key)
+                    ?? DefaultValues.DefaultLocalizations.Find(x => x.Key == "en");
                 bool _needReSave = false;
                 foreach (var st in DefaultLocalization.Translations.Where(x => !appLocalization.Translations.ContainsKey(x.Key)))
                 {

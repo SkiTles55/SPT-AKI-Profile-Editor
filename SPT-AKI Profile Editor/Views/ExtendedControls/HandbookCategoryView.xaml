@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.HandbookCategoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+             xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             d:DataContext="{d:DesignInstance Type=extendedcontrols:HandbookCategoryViewModel}"
+             mc:Ignorable="d">
+    <Expander IsExpanded="False" mah:HeaderedControlHelper.HeaderBackground="Transparent" BorderThickness="0">
+        <Expander.Header>
+            <DockPanel>
+                <TextBlock FontWeight="Bold" Text="{Binding Path=LocalizedName}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+            </DockPanel>
+        </Expander.Header>
+        <DockPanel>
+            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Path=Categories}" ItemContainerStyle="{StaticResource NoHoverListBox}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <extendedcontrols:HandbookCategoryView/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox DockPanel.Dock="Bottom" ItemsSource="{Binding Path=Items}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.Resources>
+                    <helpers:BindingProxy x:Key="proxy" Data="{Binding}"/>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel Grid.IsSharedSizeScope="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="Column"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <Label.Content>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding Path=LocalizedName}"/>
+                                    </Label.Content>
+                                </Label>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="Column"/>
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel Grid.Column="0">
+                                    <WrapPanel.Style>
+                                        <Style TargetType="WrapPanel">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Data.Profile.Characters.Pmc.Inventory.ContainsModdedItems, Source={StaticResource proxy}}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </WrapPanel.Style>
+                                    <CheckBox Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}" IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                                    <TextBox Text="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold" Width="40" PreviewTextInput="NumberValidationTextBox" TextChanged="TextBox_TextChanged" Margin="5"/>
+                                    <Button Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" Command="{Binding Data.AddItem, Source={StaticResource proxy}}" CommandParameter="{Binding}" Margin="5">
+                                        <Button.ContentTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <iconPacks:PackIconFontAwesome Width="12"
+                                                                                   Height="12"
+                                                                                   VerticalAlignment="Center"
+                                                                                   Kind="PlusSolid"/>
+                                                    <TextBlock Margin="10 0 0 0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Button.ContentTemplate>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </Expander>
+</UserControl>

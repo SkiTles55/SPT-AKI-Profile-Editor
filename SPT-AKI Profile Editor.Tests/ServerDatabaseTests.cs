@@ -33,6 +33,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void LocalesGlobalTemplatesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Templates.Count == 0);
 
         [Test]
+        public void LocalesGlobalHandbookNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Handbook.Count == 0);
+
+        [Test]
         public void LocalesGlobalCustomizationNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Customization.Count == 0);
 
         [Test]
@@ -90,5 +93,14 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void SlotsCountCalculatesCorrectly() => Assert.AreEqual(4, AppData.ServerDatabase.ItemsDB["557ffd194bdc2d28148b457f"].GetSlotsCount);
+
+        [Test]
+        public void HandbookNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Handbook);
+
+        [Test]
+        public void HandbookCategoriesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Handbook.Categories.Count == 0);
+
+        [Test]
+        public void HandbookItemsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Handbook.Items.Count == 0);
     }
 }
