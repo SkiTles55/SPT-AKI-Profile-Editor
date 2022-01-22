@@ -37,6 +37,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     return;
                 if (!AppData.Profile.Characters.Pmc.TraderStandings.ContainsKey(Id))
                     return;
+                if (levelStart == null)
+                    levelStart = AppData.Profile.Characters.Pmc.TraderStandings[Id].LoyaltyLevel;
                 if (value == 0)
                     value = 1;
                 if (value > MaxLevel)
@@ -47,14 +49,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     salesSumStart = AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum;
                 if (long.TryParse(LoyaltyLevels[value - 1].MinSalesSum.ToString(), out long salesSum))
                 {
-                    AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum = salesSum > salesSumStart.Value ? salesSum + 100 : salesSumStart.Value;
+                    AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum = value != levelStart ? salesSum + 100 : salesSumStart.Value;
                     OnPropertyChanged("SalesSum");
                 }
                 if (staindingStart == null)
                     staindingStart = AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].Standing ?? 0;
                 if (float.TryParse(LoyaltyLevels[value - 1].MinStanding.ToString().Replace(".", ","), out float standing))
                 {
-                    AppData.Profile.Characters.Pmc.TraderStandings[Id].Standing = standing > staindingStart.Value ? standing + 0.02f : staindingStart.Value;
+                    AppData.Profile.Characters.Pmc.TraderStandings[Id].Standing = value != levelStart ? standing + 0.02f : staindingStart.Value;
                     OnPropertyChanged("Standing");
                 }
                 if (unlockedStart == null)
@@ -73,6 +75,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private long? salesSumStart;
         private float? staindingStart;
         private bool? unlockedStart;
+        private int? levelStart;
 
         private string GetFormatedStanding()
         {
