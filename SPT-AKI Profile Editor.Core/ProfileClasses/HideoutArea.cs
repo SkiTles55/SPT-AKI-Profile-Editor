@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class HideoutArea : INotifyPropertyChanged
+    public class HideoutArea : BindableEntity
     {
         [JsonProperty("type")]
         public int Type
@@ -44,8 +42,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var areaInfo = AppData.ServerDatabase?.HideoutAreaInfos?.Where(x => x.Type == Type).FirstOrDefault();
             return areaInfo != null ? areaInfo.Stages.Count - 1 : 0;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

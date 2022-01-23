@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class Character : INotifyPropertyChanged
+    public class Character : BindableEntity
     {
         [JsonProperty("aid")]
         public string Aid
@@ -156,8 +154,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterSkills skills;
         private Dictionary<string, bool> encyclopedia;
         private CharacterInventory inventory;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

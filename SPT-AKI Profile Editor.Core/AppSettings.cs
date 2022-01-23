@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class AppSettings : INotifyPropertyChanged
+    public class AppSettings : BindableEntity
     {
         public string ServerPath
         {
@@ -379,8 +377,5 @@ namespace SPT_AKI_Profile_Editor.Core
             Logger.Log($"Default configuration file created");
             Save();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

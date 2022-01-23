@@ -1,11 +1,9 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class TraderSuit : INotifyPropertyChanged
+    public class TraderSuit : BindableEntity
     {
         [JsonPropertyName("_id")]
         public string Id { get; set; }
@@ -35,8 +33,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Boughted");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class AppLocalization : INotifyPropertyChanged
+    public class AppLocalization : BindableEntity
     {
         public string Key { get; set; }
         public string Name { get; set; }
@@ -103,8 +101,5 @@ namespace SPT_AKI_Profile_Editor.Core
         }
 
         private static AppLocalization LocalizationFromFile(string path) => JsonSerializer.Deserialize<AppLocalization>(File.ReadAllText(path));
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

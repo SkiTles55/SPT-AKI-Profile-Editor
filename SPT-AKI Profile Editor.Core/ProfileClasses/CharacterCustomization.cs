@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterCustomization : INotifyPropertyChanged
+    public class CharacterCustomization : BindableEntity
     {
         [JsonProperty("Head")]
         public string Head
@@ -18,8 +16,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         private string head;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

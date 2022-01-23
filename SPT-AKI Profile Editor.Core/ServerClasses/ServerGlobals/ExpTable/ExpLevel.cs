@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class ExpLevel : INotifyPropertyChanged
+    public class ExpLevel : BindableEntity
     {
         [JsonPropertyName("exp_table")]
         public LevelExpTable[] ExpTable
@@ -38,8 +36,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 experience += exp.Exp;
             return experience;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class BackupService : INotifyPropertyChanged
+    public class BackupService : BindableEntity
     {
         public BackupService()
         {
@@ -86,8 +84,5 @@ namespace SPT_AKI_Profile_Editor.Core
             File.Delete(file);
             LoadBackupsList();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

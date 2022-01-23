@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterInfo : INotifyPropertyChanged
+    public class CharacterInfo : BindableEntity
     {
         [JsonProperty("Nickname")]
         public string Nickname
@@ -122,8 +120,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             return level;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

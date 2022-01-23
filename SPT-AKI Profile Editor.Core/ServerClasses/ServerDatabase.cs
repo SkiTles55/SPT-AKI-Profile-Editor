@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class ServerDatabase : INotifyPropertyChanged
+    public class ServerDatabase : BindableEntity
     {
         public Dictionary<string, string> Heads
         {
@@ -131,8 +128,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private Dictionary<string, string> pockets;
         private List<TraderSuit> traderSuits;
         private Handbook handbook;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

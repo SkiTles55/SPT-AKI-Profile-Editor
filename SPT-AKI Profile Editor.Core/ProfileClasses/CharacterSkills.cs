@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterSkills : INotifyPropertyChanged
+    public class CharacterSkills : BindableEntity
     {
         [JsonProperty("Common")]
         public CharacterSkill[] Common
@@ -29,8 +27,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private CharacterSkill[] common;
         private CharacterSkill[] mastering;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

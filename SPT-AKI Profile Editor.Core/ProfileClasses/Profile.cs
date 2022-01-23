@@ -3,14 +3,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class Profile : INotifyPropertyChanged
+    public class Profile : BindableEntity
     {
         [JsonProperty("characters")]
         public ProfileCharacters Characters
@@ -167,9 +165,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 throw new Exception(ex.Message);
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
         public void Save(string targetPath, string savePath = null)
         {

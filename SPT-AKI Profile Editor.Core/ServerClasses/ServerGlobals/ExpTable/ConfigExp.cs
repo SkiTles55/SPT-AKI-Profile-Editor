@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class ConfigExp : INotifyPropertyChanged
+    public class ConfigExp : BindableEntity
     {
         [JsonPropertyName("level")]
         public ExpLevel Level
@@ -18,8 +16,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         private ExpLevel level;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

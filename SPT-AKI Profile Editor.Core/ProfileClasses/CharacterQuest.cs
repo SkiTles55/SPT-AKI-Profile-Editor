@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterQuest : INotifyPropertyChanged
+    public class CharacterQuest : BindableEntity
     {
         [JsonProperty("qid")]
         public string Qid
@@ -34,8 +32,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private string qid;
         private string status;
         private string QuestTrader => AppData.ServerDatabase.QuestsData.ContainsKey(Qid) ? AppData.ServerDatabase.QuestsData[Qid] : "unknown";
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

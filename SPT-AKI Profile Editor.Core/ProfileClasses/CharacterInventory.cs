@@ -2,13 +2,11 @@
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterInventory : INotifyPropertyChanged
+    public class CharacterInventory : BindableEntity
     {
         [JsonProperty("items")]
         public InventoryItem[] Items
@@ -325,8 +323,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Where(x => x.Tpl == moneys)
             .Sum(x => x.Upd.StackObjectsCount ?? 0) ?? 0)
             .ToString("N0");
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }

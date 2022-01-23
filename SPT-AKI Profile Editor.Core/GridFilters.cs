@@ -1,10 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace SPT_AKI_Profile_Editor.Core
+﻿namespace SPT_AKI_Profile_Editor.Core
 {
-    public class GridFilters : INotifyPropertyChanged
+    public class GridFilters : BindableEntity
     {
         public GridFilters()
         {
@@ -96,8 +92,5 @@ namespace SPT_AKI_Profile_Editor.Core
             ExaminedItemsFilter = string.Empty;
             ClothingNameFilter = string.Empty;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
 }
