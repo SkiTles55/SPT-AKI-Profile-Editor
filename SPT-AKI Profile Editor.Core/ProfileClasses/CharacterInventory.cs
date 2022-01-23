@@ -91,10 +91,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
         public void RemoveAllItems()
         {
-            List<string> itemIds = new ();
+            List<string> itemIds = new();
             foreach (var TargetItem in InventoryItems)
             {
-                List<InventoryItem> toDo = new () { TargetItem };
+                List<InventoryItem> toDo = new() { TargetItem };
                 while (toDo.Count > 0)
                 {
                     foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0).Id))
@@ -253,7 +253,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
         private (int iW, int iH) GetSizeOfInventoryItem(InventoryItem inventoryItem)
         {
-            List<InventoryItem> toDo = new () { inventoryItem };
+            List<InventoryItem> toDo = new() { inventoryItem };
             TarkovItem tmpItem = AppData.ServerDatabase.ItemsDB[inventoryItem.Tpl];
             InventoryItem rootItem = Items.Where(x => x.ParentId == inventoryItem.Id).FirstOrDefault();
             bool FoldableWeapon = tmpItem.Properties.Foldable;
@@ -272,7 +272,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int outY = tmpItem.Properties.Height;
             if (rootItem != null)
             {
-                List<string> skipThisItems = new () { "5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041" };
+                List<string> skipThisItems = new() { "5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041" };
                 bool rootFolded = rootItem.Upd != null && rootItem.Upd.Foldable != null && rootItem.Upd.Foldable.Folded;
 
                 if (FoldableWeapon && string.IsNullOrEmpty(FoldedSlot) && rootFolded)

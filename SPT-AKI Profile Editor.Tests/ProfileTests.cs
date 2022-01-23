@@ -288,7 +288,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(profileFile);
             string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[0].Id;
             string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[1].Id;
-            AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new () { expectedId1, expectedId2 });
+            AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingItems.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);

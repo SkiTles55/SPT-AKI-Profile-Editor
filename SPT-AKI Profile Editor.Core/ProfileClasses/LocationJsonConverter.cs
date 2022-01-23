@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 JObject jo = JObject.Load(reader);
 
-                ItemLocation loc = new ();
+                ItemLocation loc = new();
                 serializer.Populate(jo.CreateReader(), loc);
 
                 return loc;

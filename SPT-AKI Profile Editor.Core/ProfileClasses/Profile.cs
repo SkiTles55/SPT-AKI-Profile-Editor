@@ -44,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonIgnore]
-        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new ();
+        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new();
 
         [JsonIgnore]
         public bool IsProfileEmpty => Characters?.Pmc.Info == null;
@@ -145,7 +145,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (weaponBuild.Name != null)
                 {
                     if (WeaponBuilds == null)
-                        WeaponBuilds = new ();
+                        WeaponBuilds = new();
                     int count = 0;
                     string tempFileName = weaponBuild.Name;
                     while (WeaponBuilds.ContainsKey(tempFileName))

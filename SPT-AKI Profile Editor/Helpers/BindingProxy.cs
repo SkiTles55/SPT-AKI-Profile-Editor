@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public object Data
         {
-            get { return (object)GetValue(DataProperty); }
+            get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 

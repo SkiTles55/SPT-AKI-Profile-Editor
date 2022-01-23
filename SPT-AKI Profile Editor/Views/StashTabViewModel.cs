@@ -3,8 +3,8 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -18,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Views
             if (await Dialogs.YesNoDialog(this,
                 "remove_stash_item_title",
                 "remove_stash_item_caption") == MessageDialogResult.Affirmative)
-                Profile.Characters.Pmc.Inventory.RemoveItems(new () { obj.ToString() });
+                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
         });
         public RelayCommand RemoveAllItems => new(async obj =>
         {

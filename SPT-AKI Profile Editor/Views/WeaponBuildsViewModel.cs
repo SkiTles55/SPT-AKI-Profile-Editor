@@ -11,7 +11,8 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     class WeaponBuildsViewModel : BindableViewModel
     {
-        public RelayCommand RemoveBuild => new(async obj => {
+        public RelayCommand RemoveBuild => new(async obj =>
+        {
             if (obj == null)
                 return;
             if (await Dialogs.YesNoDialog(this,
@@ -19,18 +20,20 @@ namespace SPT_AKI_Profile_Editor.Views
                 "remove_preset_dialog_caption") == MessageDialogResult.Affirmative)
                 Profile.RemoveBuild(obj.ToString());
         });
-        public RelayCommand RemoveBuilds => new(async obj => {
+        public RelayCommand RemoveBuilds => new(async obj =>
+        {
             if (await Dialogs.YesNoDialog(this,
                 "remove_preset_dialog_title",
                 "remove_presets_dialog_caption") == MessageDialogResult.Affirmative)
                 Profile.RemoveBuilds();
         });
-        public static RelayCommand ExportBuild => new(obj => {
+        public static RelayCommand ExportBuild => new(obj =>
+        {
             if (obj == null)
                 return;
             if (obj is not WeaponBuild build)
                 return;
-            SaveFileDialog saveFileDialog = new ();
+            SaveFileDialog saveFileDialog = new();
             saveFileDialog.Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*";
             saveFileDialog.FileName = $"Weapon preset {build.Name}";
             saveFileDialog.RestoreDirectory = true;
@@ -44,7 +47,8 @@ namespace SPT_AKI_Profile_Editor.Views
                 });
             }
         });
-        public static RelayCommand ExportBuilds => new(obj => {
+        public static RelayCommand ExportBuilds => new(obj =>
+        {
             FolderBrowserDialog folderBrowserDialog = new();
             folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
             folderBrowserDialog.ShowNewFolderButton = true;
@@ -61,8 +65,9 @@ namespace SPT_AKI_Profile_Editor.Views
                 }
             }
         });
-        public static RelayCommand ImportBuilds => new(obj => {
-            OpenFileDialog openFileDialog = new ();
+        public static RelayCommand ImportBuilds => new(obj =>
+        {
+            OpenFileDialog openFileDialog = new();
             openFileDialog.Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.Multiselect = true;

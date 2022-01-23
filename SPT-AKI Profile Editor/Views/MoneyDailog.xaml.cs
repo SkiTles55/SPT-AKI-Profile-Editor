@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 textBox.CaretIndex = 1;
                 return;
             }
-            if (int.TryParse(textBox.Text.Replace(",",""), out int money))
+            if (int.TryParse(textBox.Text.Replace(",", ""), out int money))
             {
                 if (money < 1)
                 {

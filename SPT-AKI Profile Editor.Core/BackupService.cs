@@ -34,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (string.IsNullOrEmpty(profile) && !string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
                 profile = Path.GetFileNameWithoutExtension(AppData.AppSettings.DefaultProfile);
-            List<BackupFile>  backups = new ();
+            List<BackupFile> backups = new();
             if (!string.IsNullOrEmpty(profile) && Directory.Exists(Path.Combine(backupFolder, profile)))
             {
                 foreach (var bk in Directory.GetFiles(Path.Combine(backupFolder, profile)).Where(x => x.Contains("backup")))

@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void ServerGlobalsMasteringNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0);
-        
+
         [Test]
         public void TraderInfosNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Count == 0);
 

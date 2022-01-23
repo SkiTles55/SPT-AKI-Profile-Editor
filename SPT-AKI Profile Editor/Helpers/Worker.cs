@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly MainWindowViewModel _viewModel;
         private ProgressDialogController progressDialog;
-        private List<WorkerTask> tasks;
+        private readonly List<WorkerTask> tasks;
         private readonly List<WorkerNotification> workerNotifications;
         private bool isBusy = false;
 

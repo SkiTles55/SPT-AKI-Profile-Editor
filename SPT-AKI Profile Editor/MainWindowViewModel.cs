@@ -69,11 +69,11 @@ namespace SPT_AKI_Profile_Editor
                 },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
-                WorkerNotification = new ()
+                WorkerNotification = new()
                 {
                     NotificationTitle = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
                     NotificationDescription = AppLocalization.GetLocalizedString("save_profile_dialog_caption")
-                } 
+                }
             });
             StartupEventsWorker();
         }
