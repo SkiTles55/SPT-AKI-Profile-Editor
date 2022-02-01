@@ -6,6 +6,8 @@
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)
 [Ссылка на обмен Steam](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)
 
+### [Версия 2.0 для сервера SPT-AKI 2.2.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.0)
+
 ### Возможности:
 * Уровень, никнейм, голос персонажа
 * Установка обычных \ больших карманов
