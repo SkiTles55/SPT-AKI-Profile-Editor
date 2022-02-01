@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     class ProfileTests
     {
-        const string profileFile = @"C:\SPT\user\profiles\3550b9ff1bb6cc1aac51c3a5.json";
+        const string profileFile = @"C:\SPT\user\profiles\5d2e0e1f320b903988c78d91.json";
 
         [OneTimeSetUp]
         public void Setup()
@@ -165,6 +165,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
+            var test1 = AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail");
+            var test2 = AppData.Profile.Characters.Pmc.Quests.Length == AppData.ServerDatabase.QuestsData.Count;
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail")
                 && AppData.Profile.Characters.Pmc.Quests.Length == AppData.ServerDatabase.QuestsData.Count);
         }
