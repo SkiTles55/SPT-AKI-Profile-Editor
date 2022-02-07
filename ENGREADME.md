@@ -6,6 +6,8 @@
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)
 [Steam Trade Offer Link](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)
 
+### [Submit a bug report](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
+
 ### [Version 2.0 for server SPT-AKI 2.2.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.0)
 
 ### Capabilities:
