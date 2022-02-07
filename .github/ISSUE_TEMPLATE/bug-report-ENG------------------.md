@@ -10,6 +10,7 @@ assignees: SkiTles55
 **Versions**
 - SPT-AKI Server version
 - SPT-AKI Profile Editor version
+- List of installed mods
 
 **Describe the bug**
 A clear and concise description of what the bug is.
