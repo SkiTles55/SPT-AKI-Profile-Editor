@@ -191,8 +191,11 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common
+                .Where(x => x.Id.ToLower().StartsWith("bot"))
+                .Any(x => x.Progress > 0));
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common
-                .All(x => x.Id.StartsWith("Bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
+                .All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
         }
 
         [Test]
@@ -204,8 +207,11 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
+            Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Common
+                .Where(x => x.Id.ToLower().StartsWith("bot"))
+                .Any(x => x.Progress > 0));
             Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common
-                .All(x => x.Id.StartsWith("Bot") || x.Progress == x.MaxValue)
+                .All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == x.MaxValue)
                 && AppData.Profile.Characters.Scav.Skills.Common.Length == AppData.Profile.Characters.Pmc.Skills.Common.Length);
         }
 

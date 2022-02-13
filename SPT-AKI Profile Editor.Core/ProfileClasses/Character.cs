@@ -123,7 +123,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void SetAllCommonSkills(float value)
         {
             foreach (var skill in Skills.Common)
-                if (!skill.Id.StartsWith("Bot"))
+                if (!skill.Id.ToLower().StartsWith("bot"))
                     skill.Progress = value;
         }
 

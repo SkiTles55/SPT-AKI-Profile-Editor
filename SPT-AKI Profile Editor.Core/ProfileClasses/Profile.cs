@@ -240,7 +240,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     {
                         var probe = character.SelectToken("Skills").SelectToken(type)[index]?.ToObject<CharacterSkill>();
                         var edited = skills.Where(x => x.Id == probe.Id).FirstOrDefault();
-                        if (edited != null && probe != null && edited.Progress > probe.Progress)
+                        if (edited != null && probe != null && edited.Progress != probe.Progress)
                             character.SelectToken("Skills").SelectToken(type)[index]["Progress"] = edited.Progress;
                     }
                     foreach (var skill in skills.Where(x => !skillsObject.Any(y => y.Id == x.Id)))
