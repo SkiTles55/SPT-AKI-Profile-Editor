@@ -12,3 +12,4 @@ This program is provided open source and does not contain any viruses, provided 
 
 ### The statuses of individual quests are not saved
 The server checks the quest statuses for compliance with various conditions (level, other quests, etc.), and corrects them. Therefore, change the status of the quest after unlocking it in the game, or set all profile characteristics to maximum.
+#### UPD: You can turn off checking quest statuses in [ALLINONE MOD](https://hub.sp-tarkov.com/files/file/1-allinone-mod/)
