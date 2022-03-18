@@ -22,13 +22,22 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 .Select(x => x.Item)
                 .Where(x => x.CanBeAddedToStash));
         }
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set
+            {
+                isExpanded = value;
+                OnPropertyChanged("IsExpanded");
+            }
+        }
         public string LocalizedName
         {
             get => localizedName;
             set
             {
                 localizedName = value;
-                OnPropertyChanged("localizedName");
+                OnPropertyChanged("LocalizedName");
             }
         }
         public ObservableCollection<HandbookCategoryViewModel> Categories
@@ -106,6 +115,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             }
         }
 
+        private bool isExpanded;
         private string localizedName;
         private ObservableCollection<HandbookCategoryViewModel> categories;
         private ObservableCollection<TarkovItem> items;

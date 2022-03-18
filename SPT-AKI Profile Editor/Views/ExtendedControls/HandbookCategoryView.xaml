@@ -9,7 +9,7 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=extendedcontrols:HandbookCategoryViewModel}"
              mc:Ignorable="d">
-    <Expander IsExpanded="False" mah:HeaderedControlHelper.HeaderBackground="Transparent" BorderThickness="0">
+    <Expander IsExpanded="{Binding Path=IsExpanded}" mah:HeaderedControlHelper.HeaderBackground="Transparent" BorderThickness="0">
         <Expander.Header>
             <DockPanel>
                 <TextBlock FontWeight="Bold" Text="{Binding Path=LocalizedName}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
