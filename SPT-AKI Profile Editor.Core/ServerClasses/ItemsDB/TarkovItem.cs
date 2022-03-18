@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonIgnore]
         public bool CanBeAddedToStash =>
-            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Parent)
+            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Id)
             && !Properties.QuestItem
             && !AppData.AppSettings.BannedItems.Contains(Parent)
             && !AppData.AppSettings.BannedItems.Contains(Id);
