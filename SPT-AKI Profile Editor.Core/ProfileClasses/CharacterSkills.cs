@@ -4,6 +4,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterSkills : BindableEntity
     {
+        private CharacterSkill[] common;
+
+        private CharacterSkill[] mastering;
+
         [JsonProperty("Common")]
         public CharacterSkill[] Common
         {
@@ -14,6 +18,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Common");
             }
         }
+
         [JsonProperty("Mastering")]
         public CharacterSkill[] Mastering
         {
@@ -24,8 +29,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Mastering");
             }
         }
-
-        private CharacterSkill[] common;
-        private CharacterSkill[] mastering;
     }
 }

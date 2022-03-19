@@ -13,13 +13,48 @@ using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
-    class SettingsDialogViewModel : BindableViewModel
+    internal class SettingsDialogViewModel : BindableViewModel
     {
+        private static readonly FolderBrowserDialog folderBrowserDialog = new()
+        {
+            Description = AppLocalization.GetLocalizedString("server_select"),
+            RootFolder = Environment.SpecialFolder.MyComputer,
+            ShowNewFolderButton = false
+        };
+
+        private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
+
+        private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
+
+        private static bool accountsBoxEnabled = GetAccountsBoxEnabled();
+
+        private static Visibility closeButton = GetCloseButtonVisibility();
+
+        private int selectedTab;
+
         public SettingsDialogViewModel(RelayCommand command, int index = 0)
         {
             CloseCommand = command;
             SelectedTab = index;
         }
+
+        public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
+            .OrderBy(x => x.DisplayName)
+            .Select(x => new AccentItem
+            {
+                Color = x.PrimaryAccentColor.ToString(),
+                Name = x.DisplayName,
+                Scheme = x.Name
+            });
+
+        public static AppSettings AppSettings => AppData.AppSettings;
+
+        public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
+
+        public static RelayCommand CloseCommand { get; set; }
+
+        public static RelayCommand QuitCommand => App.CloseApplication;
+
         public int SelectedTab
         {
             get => selectedTab;
@@ -29,6 +64,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("SelectedTab");
             }
         }
+
         public string CurrentLocalization
         {
             get => AppSettings.Language;
@@ -39,6 +75,7 @@ namespace SPT_AKI_Profile_Editor
                 AppLocalization.LoadLocalization(AppSettings.Language);
             }
         }
+
         public string ServerPath
         {
             get => AppSettings.ServerPath;
@@ -52,6 +89,7 @@ namespace SPT_AKI_Profile_Editor
                 AccountsBoxEnabled = GetAccountsBoxEnabled();
             }
         }
+
         public string ColorScheme
         {
             get => AppSettings.ColorScheme;
@@ -62,6 +100,7 @@ namespace SPT_AKI_Profile_Editor
                 App.ChangeTheme();
             }
         }
+
         public bool AutoAddMissingQuests
         {
             get => AppSettings.AutoAddMissingQuests;
@@ -71,6 +110,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("AutoAddMissingQuests");
             }
         }
+
         public bool AutoAddMissingMasterings
         {
             get => AppSettings.AutoAddMissingMasterings;
@@ -80,6 +120,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("AutoAddMissingWeaponSkills");
             }
         }
+
         public bool AutoAddMissingScavSkills
         {
             get => AppSettings.AutoAddMissingScavSkills;
@@ -89,17 +130,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("AutoAddMissingScavSkills");
             }
         }
-        public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
-            .OrderBy(x => x.DisplayName)
-            .Select(x => new AccentItem
-            {
-                Color = x.PrimaryAccentColor.ToString(),
-                Name = x.DisplayName,
-                Scheme = x.Name
-            });
-        public static AppSettings AppSettings => AppData.AppSettings;
-        public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
-        public static RelayCommand CloseCommand { get; set; }
+
         public Visibility InvalidServerLocationIcon
         {
             get => invalidServerLocationIcon;
@@ -109,6 +140,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("InvalidServerLocationIcon");
             }
         }
+
         public Visibility NoAccountsIcon
         {
             get => noAccountsIcon;
@@ -118,6 +150,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("NoAccountsIcon");
             }
         }
+
         public bool AccountsBoxEnabled
         {
             get => accountsBoxEnabled;
@@ -127,6 +160,7 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("AccountsBoxEnabled");
             }
         }
+
         public Visibility CloseButton
         {
             get => closeButton;
@@ -136,31 +170,24 @@ namespace SPT_AKI_Profile_Editor
                 OnPropertyChanged("CloseButton");
             }
         }
-        public static RelayCommand QuitCommand => App.CloseApplication;
-        public RelayCommand ServerSelect => new(async obj =>
-        {
-            await ServerSelectDialog();
-        });
 
-        private int selectedTab;
-        private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
-        private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
-        private static bool accountsBoxEnabled = GetAccountsBoxEnabled();
-        private static Visibility closeButton = GetCloseButtonVisibility();
-        private static readonly FolderBrowserDialog folderBrowserDialog = new()
-        {
-            Description = AppLocalization.GetLocalizedString("server_select"),
-            RootFolder = Environment.SpecialFolder.MyComputer,
-            ShowNewFolderButton = false
-        };
+        public RelayCommand ServerSelect => new(async obj =>
+         {
+             await ServerSelectDialog();
+         });
+
         private static Visibility GetNoAccountsIconVisibility() =>
             ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+
         private static bool GetAccountsBoxEnabled() =>
             ExtMethods.ServerHaveProfiles(AppSettings);
+
         private static Visibility GetInvalidServerLocationIconVisibility() =>
             ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+
         private static Visibility GetCloseButtonVisibility() =>
             ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Collapsed;
+
         private async Task ServerSelectDialog()
         {
             bool pathOK = false;
@@ -176,6 +203,7 @@ namespace SPT_AKI_Profile_Editor
             if (pathOK)
                 ServerPath = folderBrowserDialog.SelectedPath;
         }
+
         private async Task<bool> PathIsNotServerFolder(bool pathOK)
         {
             return !pathOK && await Dialogs.YesNoDialog(this,

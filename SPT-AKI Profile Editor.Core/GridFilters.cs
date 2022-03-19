@@ -2,6 +2,20 @@
 {
     public class GridFilters : BindableEntity
     {
+        private QuestsTab questsTab;
+
+        private HideoutTab hideoutTab;
+
+        private SkillsTab skillsTab;
+
+        private MasteringTab masteringTab;
+
+        private string examinedItemsFilter;
+
+        private string clothingNameFilter;
+
+        private StashTab stashTab;
+
         public GridFilters()
         {
             QuestsTab = new();
@@ -10,6 +24,7 @@
             MasteringTab = new();
             StashTab = new();
         }
+
         public QuestsTab QuestsTab
         {
             get => questsTab;
@@ -19,6 +34,7 @@
                 OnPropertyChanged("QuestsTab");
             }
         }
+
         public HideoutTab HideoutTab
         {
             get => hideoutTab;
@@ -28,6 +44,7 @@
                 OnPropertyChanged("HideoutTab");
             }
         }
+
         public SkillsTab SkillsTab
         {
             get => skillsTab;
@@ -37,6 +54,7 @@
                 OnPropertyChanged("SkillsTab");
             }
         }
+
         public MasteringTab MasteringTab
         {
             get => masteringTab;
@@ -46,6 +64,7 @@
                 OnPropertyChanged("MasteringTab");
             }
         }
+
         public string ExaminedItemsFilter
         {
             get => examinedItemsFilter;
@@ -55,6 +74,7 @@
                 OnPropertyChanged("ExaminedItemsFilter");
             }
         }
+
         public string ClothingNameFilter
         {
             get => clothingNameFilter;
@@ -64,6 +84,7 @@
                 OnPropertyChanged("ClothingNameFilter");
             }
         }
+
         public StashTab StashTab
         {
             get => stashTab;
@@ -73,14 +94,6 @@
                 OnPropertyChanged("StashTab");
             }
         }
-
-        private QuestsTab questsTab;
-        private HideoutTab hideoutTab;
-        private SkillsTab skillsTab;
-        private MasteringTab masteringTab;
-        private string examinedItemsFilter;
-        private string clothingNameFilter;
-        private StashTab stashTab;
 
         public void Clear()
         {

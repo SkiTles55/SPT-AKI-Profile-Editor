@@ -8,6 +8,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterInventory : BindableEntity
     {
+        private InventoryItem[] items;
+
+        private string stash;
+
         [JsonProperty("items")]
         public InventoryItem[] Items
         {
@@ -53,24 +57,28 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
         }
+
         [JsonIgnore]
         public string DollarsCount => GetMoneyCountString(AppData.AppSettings.MoneysDollarsTpl);
+
         [JsonIgnore]
         public string RublesCount => GetMoneyCountString(AppData.AppSettings.MoneysRublesTpl);
+
         [JsonIgnore]
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
+
         [JsonIgnore]
         public InventoryItem[] InventoryItems => Items?
             .Where(x => x.ParentId == Stash)?
             .ToArray();
+
         [JsonIgnore]
         public bool ContainsModdedItems => InventoryItems
             .Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+
         [JsonIgnore]
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
 
-        private InventoryItem[] items;
-        private string stash;
         [JsonIgnore]
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
@@ -79,6 +87,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .ToList();
 
         public void RemoveDuplicatedItems() => RemoveItems(GroupedInventory);
+
         public void RemoveItems(List<string> itemIds)
         {
             List<string> toDo = new();
@@ -89,6 +98,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             FinalRemoveItems(toDo);
         }
+
         public void RemoveAllItems()
         {
             List<string> itemIds = new();
@@ -105,6 +115,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             FinalRemoveItems(itemIds);
         }
+
         public void AddNewItems(string tpl, int count, bool fir)
         {
             var mItem = AppData.ServerDatabase.ItemsDB[tpl];
@@ -140,6 +151,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             else
                 throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
         }
+
         public int[,] GetPlayerStashSlotMap()
         {
             try
@@ -168,31 +180,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             catch (Exception ex) { Logger.Log($"Failed to get player's Stash2D: {ex.Message}"); return new int[0, 0]; }
         }
-        private void FinalRemoveItems(List<string> itemIds)
-        {
-            List<InventoryItem> ItemsList = Items.ToList();
-            while (itemIds.Count > 0)
-            {
-                var item = ItemsList.Where(x => x.Id == itemIds[0]).FirstOrDefault();
-                if (item != null)
-                    ItemsList.Remove(item);
-                else
-                    itemIds.RemoveAt(0);
-            }
-            Items = ItemsList.ToArray();
-        }
-        private int[,] CreateStash2D()
-        {
-            try
-            {
-                InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
-                Grid stashTPL = AppData.ServerDatabase.ItemsDB[ProfileStash.Tpl].Properties.Grids.First();
-                int stashX = stashTPL.Props.CellsH == 0 ? 10 : stashTPL.Props.CellsH;
-                int stashY = stashTPL.Props.CellsV == 0 ? 66 : stashTPL.Props.CellsV;
-                return new int[stashY, stashX];
-            }
-            catch (Exception ex) { Logger.Log($"Failed to create Stash2D: {ex.Message}"); return new int[0, 0]; }
-        }
+
         private static List<ItemLocation> GetFreeSlots(int[,] Stash)
         {
             List<ItemLocation> locations = new();
@@ -202,6 +190,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         locations.Add(new ItemLocation { X = x, Y = y, R = "Horizontal" });
             return locations;
         }
+
         private static List<ItemLocation> GetItemLocations(TarkovItem mItem, int[,] Stash, int stacks)
         {
             List<ItemLocation> freeSlots = GetFreeSlots(Stash);
@@ -231,6 +220,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             return null;
         }
+
         private static ItemLocation GetItemLocation(int Width, int Height, int[,] Stash, ItemLocation slot)
         {
             int size = 0;
@@ -251,6 +241,34 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             return null;
         }
+
+        private void FinalRemoveItems(List<string> itemIds)
+        {
+            List<InventoryItem> ItemsList = Items.ToList();
+            while (itemIds.Count > 0)
+            {
+                var item = ItemsList.Where(x => x.Id == itemIds[0]).FirstOrDefault();
+                if (item != null)
+                    ItemsList.Remove(item);
+                else
+                    itemIds.RemoveAt(0);
+            }
+            Items = ItemsList.ToArray();
+        }
+
+        private int[,] CreateStash2D()
+        {
+            try
+            {
+                InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+                Grid stashTPL = AppData.ServerDatabase.ItemsDB[ProfileStash.Tpl].Properties.Grids.First();
+                int stashX = stashTPL.Props.CellsH == 0 ? 10 : stashTPL.Props.CellsH;
+                int stashY = stashTPL.Props.CellsV == 0 ? 66 : stashTPL.Props.CellsV;
+                return new int[stashY, stashX];
+            }
+            catch (Exception ex) { Logger.Log($"Failed to create Stash2D: {ex.Message}"); return new int[0, 0]; }
+        }
+
         private (int iW, int iH) GetSizeOfInventoryItem(InventoryItem inventoryItem)
         {
             List<InventoryItem> toDo = new() { inventoryItem };
@@ -319,6 +337,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
         }
+
         private string GetMoneyCountString(string moneys) => (Items?
             .Where(x => x.Tpl == moneys)
             .Sum(x => x.Upd.StackObjectsCount ?? 0) ?? 0)

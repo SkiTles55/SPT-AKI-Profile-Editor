@@ -7,17 +7,25 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class MoneyDailogViewModel : BindableViewModel
     {
+        private readonly string moneysTpl;
+
+        private int count = 500000;
+
+        private bool fir = false;
+
         public MoneyDailogViewModel(string tpl, RelayCommand addCommand, RelayCommand cancelCommand)
         {
             moneysTpl = tpl;
             AddMoneysCommand = addCommand;
             CancelCommand = cancelCommand;
         }
+
         public static AppSettings AppSettings => AppData.AppSettings;
         public static RelayCommand AddMoneysCommand { get; set; }
         public static RelayCommand CancelCommand { get; set; }
         public PackIconFontAwesomeKind Сurrency => GetIconKind();
         public Tuple<int, bool> Result => new(Count, Fir);
+
         public int Count
         {
             get => count;
@@ -28,6 +36,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 OnPropertyChanged("Result");
             }
         }
+
         public bool Fir
         {
             get => fir;
@@ -39,9 +48,6 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        private readonly string moneysTpl;
-        private int count = 500000;
-        private bool fir = false;
         private PackIconFontAwesomeKind GetIconKind()
         {
             return moneysTpl switch

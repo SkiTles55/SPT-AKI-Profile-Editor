@@ -10,12 +10,12 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public static class AppData
     {
-        public readonly static AppSettings AppSettings;
-        public readonly static AppLocalization AppLocalization;
-        public readonly static Profile Profile;
-        public readonly static ServerDatabase ServerDatabase;
-        public readonly static GridFilters GridFilters;
-        public readonly static BackupService BackupService;
+        public static readonly AppSettings AppSettings;
+        public static readonly AppLocalization AppLocalization;
+        public static readonly Profile Profile;
+        public static readonly ServerDatabase ServerDatabase;
+        public static readonly GridFilters GridFilters;
+        public static readonly BackupService BackupService;
 
         static AppData()
         {

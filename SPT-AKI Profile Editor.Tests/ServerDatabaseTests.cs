@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Core;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
-    class ServerDatabaseTests
+    internal class ServerDatabaseTests
     {
         [OneTimeSetUp]
         public void Setup()
@@ -14,6 +14,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void BotTypesHeadsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Heads.Count == 0);
+
         [Test]
         public void BotTypesHeadsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Heads);
 
@@ -40,6 +41,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void LocalesGlobalQuestNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Quests.Count == 0);
+
         [Test]
         public void LocalesGlobalInterfaceNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Interface.Count == 0);
 

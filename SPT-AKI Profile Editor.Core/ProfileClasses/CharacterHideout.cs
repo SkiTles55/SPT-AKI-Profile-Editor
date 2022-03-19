@@ -4,6 +4,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterHideout : BindableEntity
     {
+        private HideoutArea[] areas;
+
         [JsonProperty("Areas")]
         public HideoutArea[] Areas
         {
@@ -14,7 +16,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Areas");
             }
         }
-
-        private HideoutArea[] areas;
     }
 }

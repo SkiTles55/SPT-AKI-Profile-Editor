@@ -18,14 +18,14 @@ namespace SPT_AKI_Profile_Editor.Core
             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
 
+        public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();
+
         public static void OpenUrl(string url)
         {
             ProcessStartInfo link = new(url);
             link.UseShellExecute = true;
             Process.Start(link);
         }
-
-        public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();
 
         public static bool IsProfileChanged(Profile profile) =>
             profile.ProfileHash != 0
@@ -43,6 +43,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
             return true;
         }
+
         public static bool ServerHaveProfiles(AppSettings appSettings) => appSettings.ServerProfiles != null && appSettings.ServerProfiles.Count > 0;
 
         public static JObject RemoveNullAndEmptyProperties(JObject jObject)

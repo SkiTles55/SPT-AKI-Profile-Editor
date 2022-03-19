@@ -8,6 +8,10 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class BackupService : BindableEntity
     {
+        private static readonly string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
+
+        private List<BackupFile> backupList;
+
         public BackupService()
         {
             if (!Directory.Exists(backupFolder))
@@ -26,9 +30,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 OnPropertyChanged("BackupList");
             }
         }
-
-        private List<BackupFile> backupList;
-        private static readonly string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
 
         public void LoadBackupsList(string profile = null)
         {
@@ -54,6 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             BackupList = backups.OrderByDescending(x => x.Date).ToList();
         }
+
         public void CreateBackup(string sourcePath = null)
         {
             if (string.IsNullOrEmpty(sourcePath))

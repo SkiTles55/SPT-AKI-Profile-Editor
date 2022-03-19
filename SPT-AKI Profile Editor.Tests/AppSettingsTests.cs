@@ -3,9 +3,9 @@ using SPT_AKI_Profile_Editor.Core;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
-    class AppSettingsTests
+    internal class AppSettingsTests
     {
-        AppSettings settings;
+        private AppSettings settings;
 
         [OneTimeSetUp]
         public void Setup()

@@ -14,50 +14,59 @@ namespace SPT_AKI_Profile_Editor
             App.Worker = new Worker(App.DialogCoordinator, this);
             Instance = this;
         }
+
         public static MainWindowViewModel Instance { get; set; }
-        public RelayCommand OpenSettingsCommand => new(async obj =>
-        {
-            await Dialogs.ShowSettingsDialog(this);
-        });
+
         public static RelayCommand OpenFastModeCommand => new(obj =>
-        {
-            AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
-        });
+          {
+              AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
+          });
+
         public static RelayCommand OpenFAQ => new(obj =>
-        {
-            var link = AppData.AppSettings.Language == "ru" ? "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/FAQ.md" : "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/ENGFAQ.md";
-            ExtMethods.OpenUrl(link);
-        });
-        public RelayCommand InitializeViewModelCommand => new(async obj =>
-        {
-            App.ChangeTheme();
-            if (UpdatesChecker.CheckUpdate())
-            {
-                if (await Dialogs.YesNoDialog(this,
-                "update_avialable",
-                "update_caption") == MessageDialogResult.Affirmative)
-                    ExtMethods.OpenUrl(AppSettings.RepositoryLink);
-            }
-            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
-            || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
-            || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
-            || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await Dialogs.ShowSettingsDialog(this);
-            else
-                StartupEventsWorker();
-        });
+          {
+              var link = AppData.AppSettings.Language == "ru" ? "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/FAQ.md" : "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/ENGFAQ.md";
+              ExtMethods.OpenUrl(link);
+          });
+
         public static RelayCommand SaveButtonCommand => new(obj =>
-        {
-            SaveProfileAndReload();
-        });
-        public RelayCommand ReloadButtonCommand => new(async obj =>
-        {
-            if (await Dialogs.YesNoDialog(this,
-                "reload_profile_dialog_title",
-                "reload_profile_dialog_caption") == MessageDialogResult.Affirmative)
-                StartupEventsWorker();
-        });
+          {
+              SaveProfileAndReload();
+          });
+
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
+
+        public RelayCommand OpenSettingsCommand => new(async obj =>
+                                         {
+                                             await Dialogs.ShowSettingsDialog(this);
+                                         });
+
+        public RelayCommand InitializeViewModelCommand => new(async obj =>
+         {
+             App.ChangeTheme();
+             if (UpdatesChecker.CheckUpdate())
+             {
+                 if (await Dialogs.YesNoDialog(this,
+                 "update_avialable",
+                 "update_caption") == MessageDialogResult.Affirmative)
+                     ExtMethods.OpenUrl(AppSettings.RepositoryLink);
+             }
+             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
+             || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
+             || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
+             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
+                 await Dialogs.ShowSettingsDialog(this);
+             else
+                 StartupEventsWorker();
+         });
+
+        public RelayCommand ReloadButtonCommand => new(async obj =>
+         {
+             if (await Dialogs.YesNoDialog(this,
+                 "reload_profile_dialog_title",
+                 "reload_profile_dialog_caption") == MessageDialogResult.Affirmative)
+                 StartupEventsWorker();
+         });
+
         public static void SaveProfileAndReload()
         {
             App.Worker.AddAction(new WorkerTask
@@ -77,6 +86,7 @@ namespace SPT_AKI_Profile_Editor
             });
             StartupEventsWorker();
         }
+
         public static async void StartupEventsWorker()
         {
             if (ExtMethods.PathIsServerFolder(AppData.AppSettings) && ServerChecker.CheckProcess())

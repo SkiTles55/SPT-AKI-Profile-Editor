@@ -9,8 +9,27 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppLocalization : BindableEntity
     {
+        private static readonly string localizationsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Localizations");
+        private Dictionary<string, string> translations;
+
+        public AppLocalization()
+        { }
+
+        public AppLocalization(string language)
+        {
+            if (!Directory.Exists(localizationsDir))
+            {
+                DirectoryInfo dir = new(localizationsDir);
+                dir.Create();
+            }
+            CreateDefault();
+            LoadLocalization(language);
+            CreateLocalizationsDictionary();
+        }
+
         public string Key { get; set; }
         public string Name { get; set; }
+
         public Dictionary<string, string> Translations
         {
             get => translations;
@@ -24,22 +43,7 @@ namespace SPT_AKI_Profile_Editor.Core
         [JsonIgnore]
         public Dictionary<string, string> Localizations { get; set; }
 
-        private static readonly string localizationsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Localizations");
-        private Dictionary<string, string> translations;
-
-        public AppLocalization() { }
-
-        public AppLocalization(string language)
-        {
-            if (!Directory.Exists(localizationsDir))
-            {
-                DirectoryInfo dir = new(localizationsDir);
-                dir.Create();
-            }
-            CreateDefault();
-            LoadLocalization(language);
-            CreateLocalizationsDictionary();
-        }
+        public static void Save(string path, AppLocalization data) => ExtMethods.SaveJson(path, data);
 
         public string GetLocalizedString(string key) => Translations != null && Translations.ContainsKey(key) ? Translations[key] : key;
 
@@ -72,8 +76,6 @@ namespace SPT_AKI_Profile_Editor.Core
             catch (Exception ex) { Logger.Log($"Localization ({key}) loading error: {ex.Message}"); }
         }
 
-        public static void Save(string path, AppLocalization data) => ExtMethods.SaveJson(path, data);
-
         private static void CreateDefault()
         {
             foreach (var loc in DefaultValues.DefaultLocalizations.Where(x => !File.Exists(Path.Combine(localizationsDir, x.Key + ".json"))))
@@ -82,6 +84,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 catch (Exception ex) { Logger.Log($"Localization file ({loc.Key}) creating error: {ex.Message}"); }
             }
         }
+
+        private static AppLocalization LocalizationFromFile(string path) => JsonSerializer.Deserialize<AppLocalization>(File.ReadAllText(path));
 
         private void CreateLocalizationsDictionary()
         {
@@ -99,7 +103,5 @@ namespace SPT_AKI_Profile_Editor.Core
                 catch (Exception ex) { Logger.Log($"Localization file ({file}) loading error: {ex.Message}"); }
             }
         }
-
-        private static AppLocalization LocalizationFromFile(string path) => JsonSerializer.Deserialize<AppLocalization>(File.ReadAllText(path));
     }
 }

@@ -7,13 +7,6 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class Dialogs
     {
-        public static async Task<MessageDialogResult> YesNoDialog(object context, string title, string caption) =>
-            await App.DialogCoordinator.ShowMessageAsync(context,
-                AppData.AppLocalization.GetLocalizedString(title),
-                AppData.AppLocalization.GetLocalizedString(caption),
-                MessageDialogStyle.AffirmativeAndNegative,
-                YesNoDialogSettings);
-
         private static MetroDialogSettings YesNoDialogSettings => new()
         {
             DefaultButtonFocus = MessageDialogResult.Affirmative,
@@ -29,6 +22,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
             AnimateShow = true,
             AnimateHide = true
         };
+
+        public static async Task<MessageDialogResult> YesNoDialog(object context, string title, string caption) =>
+            await App.DialogCoordinator.ShowMessageAsync(context,
+                AppData.AppLocalization.GetLocalizedString(title),
+                AppData.AppLocalization.GetLocalizedString(caption),
+                MessageDialogStyle.AffirmativeAndNegative,
+                YesNoDialogSettings);
 
         public static async Task ShutdownCozServerRunned(object context)
         {

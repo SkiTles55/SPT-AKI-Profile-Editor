@@ -4,6 +4,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ServerGlobals : BindableEntity
     {
+        private ServerGlobalsConfig config;
+
         [JsonPropertyName("config")]
         public ServerGlobalsConfig Config
         {
@@ -14,7 +16,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Config");
             }
         }
-
-        private ServerGlobalsConfig config;
     }
 }

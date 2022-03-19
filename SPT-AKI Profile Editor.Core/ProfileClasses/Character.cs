@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,26 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Character : BindableEntity
     {
+        private string aid;
+
+        private CharacterInfo info;
+
+        private CharacterCustomization customization;
+
+        private Dictionary<string, CharacterTraderStanding> traderStandings;
+
+        private CharacterHideout hideout;
+
+        private CharacterQuest[] quests;
+
+        private CharacterRepeatableQuest[] repeatableQuests;
+
+        private CharacterSkills skills;
+
+        private Dictionary<string, bool> encyclopedia;
+
+        private CharacterInventory inventory;
+
         [JsonProperty("aid")]
         public string Aid
         {
@@ -16,6 +37,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Aid");
             }
         }
+
         [JsonProperty("Info")]
         public CharacterInfo Info
         {
@@ -26,6 +48,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Info");
             }
         }
+
         [JsonProperty("Customization")]
         public CharacterCustomization Customization
         {
@@ -36,6 +59,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Customization");
             }
         }
+
         [JsonProperty("TradersInfo")]
         public Dictionary<string, CharacterTraderStanding> TraderStandings
         {
@@ -46,6 +70,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("TraderStandings");
             }
         }
+
         [JsonProperty("Hideout")]
         public CharacterHideout Hideout
         {
@@ -56,6 +81,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Hideout");
             }
         }
+
         [JsonProperty("Quests")]
         public CharacterQuest[] Quests
         {
@@ -66,6 +92,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Quests");
             }
         }
+
         [JsonProperty("RepeatableQuests")]
         public CharacterRepeatableQuest[] RepeatableQuests
         {
@@ -76,6 +103,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("RepeatableQuests");
             }
         }
+
         [JsonProperty("Skills")]
         public CharacterSkills Skills
         {
@@ -86,6 +114,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Skills");
             }
         }
+
         [JsonProperty("Encyclopedia")]
         public Dictionary<string, bool> Encyclopedia
         {
@@ -96,6 +125,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Encyclopedia");
             }
         }
+
         [JsonProperty("Inventory")]
         public CharacterInventory Inventory
         {
@@ -106,19 +136,23 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Inventory");
             }
         }
+
         [JsonIgnore]
         public List<string> ExaminedItems => Encyclopedia?
             .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
             ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key)
             .ToList();
+
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
+
         [JsonIgnore]
         public bool IsCommonSkillsEmpty => Skills == null || Skills.Common == null || Skills.Common.Length == 0;
+
         [JsonIgnore]
         public bool IsMasteringsEmpty => Skills == null || Skills.Mastering == null || Skills.Mastering.Length == 0;
 
-        public void SetAllQuests(string status)
+        public void SetAllQuests(QuestStatus status)
         {
             foreach (var quest in Quests)
                 quest.Status = status;
@@ -154,16 +188,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 Encyclopedia.Add(item.Key, true);
             OnPropertyChanged("ExaminedItems");
         }
-
-        private string aid;
-        private CharacterInfo info;
-        private CharacterCustomization customization;
-        private Dictionary<string, CharacterTraderStanding> traderStandings;
-        private CharacterHideout hideout;
-        private CharacterQuest[] quests;
-        private CharacterRepeatableQuest[] repeatableQuests;
-        private CharacterSkills skills;
-        private Dictionary<string, bool> encyclopedia;
-        private CharacterInventory inventory;
     }
 }

@@ -5,12 +5,23 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class TraderBase : BindableEntity
     {
+        private long? salesSumStart;
+
+        private float? staindingStart;
+
+        private bool? unlockedStart;
+
+        private int? levelStart;
+
         [JsonPropertyName("_id")]
         public string Id { get; set; }
+
         [JsonPropertyName("loyaltyLevels")]
         public List<LoyaltyLevels> LoyaltyLevels { get; set; }
+
         [JsonIgnore]
         public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.Trading.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Trading[Id].Nickname : Id;
+
         [JsonIgnore]
         public bool Unlocked
         {
@@ -25,6 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Unlocked");
             }
         }
+
         [JsonIgnore]
         public int Level
         {
@@ -63,17 +75,15 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Unlocked");
             }
         }
+
         [JsonIgnore]
         public int MaxLevel => LoyaltyLevels.Count;
+
         [JsonIgnore]
         public string SalesSum => (AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].SalesSum ?? 0).ToString("N0");
+
         [JsonIgnore]
         public string Standing => GetFormatedStanding();
-
-        private long? salesSumStart;
-        private float? staindingStart;
-        private bool? unlockedStart;
-        private int? levelStart;
 
         private string GetFormatedStanding()
         {

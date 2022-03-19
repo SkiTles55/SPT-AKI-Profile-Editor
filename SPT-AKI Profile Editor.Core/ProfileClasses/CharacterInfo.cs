@@ -4,6 +4,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterInfo : BindableEntity
     {
+        private string nickname;
+
+        private string side;
+
+        private string voice;
+
+        private int level;
+
+        private long experience;
+
         [JsonProperty("Nickname")]
         public string Nickname
         {
@@ -69,12 +79,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("GameVersion")]
         public string GameVersion { get; set; }
-
-        private string nickname;
-        private string side;
-        private string voice;
-        private int level;
-        private long experience;
 
         private long LevelToExperience()
         {

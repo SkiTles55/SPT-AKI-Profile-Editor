@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class HideoutTabViewModel : BindableViewModel
+    internal class HideoutTabViewModel : BindableViewModel
     {
         public static RelayCommand SetAllMaxCommand => new(obj =>
         {

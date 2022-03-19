@@ -1,36 +1,53 @@
-﻿<UserControl x:Class="SPT_AKI_Profile_Editor.Views.BackupsTab"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
-             xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-             d:DataContext="{d:DesignInstance Type=views:BackupsTabViewModel}"
-             Dialog:DialogParticipation.Register="{Binding}"
-             mc:Ignorable="d">
-    <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" ItemsSource="{Binding BackupService.BackupList}" ColumnHeaderStyle="{StaticResource MyColumnHeader}">
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.BackupsTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    Dialog:DialogParticipation.Register="{Binding}"
+    d:DataContext="{d:DesignInstance Type=views:BackupsTabViewModel}"
+    mc:Ignorable="d">
+    <DataGrid
+        AutoGenerateColumns="False"
+        CanUserAddRows="False"
+        ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+        IsReadOnly="True"
+        ItemsSource="{Binding BackupService.BackupList}">
         <DataGrid.Resources>
             <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
         </DataGrid.Resources>
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_date], Source={StaticResource proxy}}" Width="*" SortMemberPath="Date">
+            <DataGridTemplateColumn
+                Width="*"
+                Header="{Binding Data.AppLocalization.Translations[tab_backups_date], Source={StaticResource proxy}}"
+                SortMemberPath="Date">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                             <Label.Content>
-                                <TextBlock Text="{Binding Path=FormatedDate}" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Path=FormatedDate}" TextWrapping="Wrap" />
                             </Label.Content>
                         </Label>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}" Width="*">
+            <DataGridTemplateColumn Width="*" Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <WrapPanel Orientation="Horizontal">
-                            <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_restore], Source={StaticResource proxy}}" Command="{Binding Data.RestoreCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Path}"/>
-                            <Button Margin="5" Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" Command="{Binding Data.RemoveCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Path}"/>
+                            <Button
+                                Margin="5"
+                                Command="{Binding Data.RestoreCommand, Source={StaticResource proxy}}"
+                                CommandParameter="{Binding Path}"
+                                Content="{Binding Data.AppLocalization.Translations[tab_backups_restore], Source={StaticResource proxy}}" />
+                            <Button
+                                Margin="5"
+                                Command="{Binding Data.RemoveCommand, Source={StaticResource proxy}}"
+                                CommandParameter="{Binding Path}"
+                                Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
                         </WrapPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

@@ -4,6 +4,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class LevelExpTable : BindableEntity
     {
+        private long exp;
+
         [JsonPropertyName("exp")]
         public long Exp
         {
@@ -14,7 +16,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Exp");
             }
         }
-
-        private long exp;
     }
 }

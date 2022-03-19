@@ -4,6 +4,10 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ExpLevel : BindableEntity
     {
+        private LevelExpTable[] expTable;
+
+        private long maxExp;
+
         [JsonPropertyName("exp_table")]
         public LevelExpTable[] ExpTable
         {
@@ -15,6 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 MaxExp = CalculateMaxExp();
             }
         }
+
         [JsonIgnore]
         public long MaxExp
         {
@@ -25,9 +30,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("MaxExp");
             }
         }
-
-        private LevelExpTable[] expTable;
-        private long maxExp;
 
         private long CalculateMaxExp()
         {

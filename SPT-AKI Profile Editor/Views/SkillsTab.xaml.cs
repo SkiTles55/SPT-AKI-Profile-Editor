@@ -20,17 +20,6 @@ namespace SPT_AKI_Profile_Editor.Views
             DataContext = new SkillsTabViewModel();
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void FilterBoxPmc_TextChanged(object sender, TextChangedEventArgs e) =>
-            ApplyFilter(skillsPmcGrid.ItemsSource, AppData.GridFilters.SkillsTab.SkillNamePmcFilter);
-        private void FilterBoxScav_TextChanged(object sender, TextChangedEventArgs e) =>
-            ApplyFilter(skillsScavGrid.ItemsSource, AppData.GridFilters.SkillsTab.SkillNameScavFilter);
-
         private static void ApplyFilter(IEnumerable source, string filter)
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(source);
@@ -47,5 +36,17 @@ namespace SPT_AKI_Profile_Editor.Views
                 };
             }
         }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void FilterBoxPmc_TextChanged(object sender, TextChangedEventArgs e) =>
+            ApplyFilter(skillsPmcGrid.ItemsSource, AppData.GridFilters.SkillsTab.SkillNamePmcFilter);
+
+        private void FilterBoxScav_TextChanged(object sender, TextChangedEventArgs e) =>
+            ApplyFilter(skillsScavGrid.ItemsSource, AppData.GridFilters.SkillsTab.SkillNameScavFilter);
     }
 }

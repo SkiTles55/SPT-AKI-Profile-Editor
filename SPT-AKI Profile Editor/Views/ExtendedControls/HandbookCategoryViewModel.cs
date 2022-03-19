@@ -8,8 +8,16 @@ using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 {
-    class HandbookCategoryViewModel : BindableViewModel
+    internal class HandbookCategoryViewModel : BindableViewModel
     {
+        private bool isExpanded;
+
+        private string localizedName;
+
+        private ObservableCollection<HandbookCategoryViewModel> categories;
+
+        private ObservableCollection<TarkovItem> items;
+
         public HandbookCategoryViewModel(HandbookCategory category)
         {
             LocalizedName = ServerDatabase.LocalesGlobal.Handbook.ContainsKey(category.Id) ? ServerDatabase.LocalesGlobal.Handbook[category.Id] : category.Id;
@@ -22,44 +30,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 .Select(x => x.Item)
                 .Where(x => x.CanBeAddedToStash));
         }
-        public bool IsExpanded
-        {
-            get => isExpanded;
-            set
-            {
-                isExpanded = value;
-                OnPropertyChanged("IsExpanded");
-            }
-        }
-        public string LocalizedName
-        {
-            get => localizedName;
-            set
-            {
-                localizedName = value;
-                OnPropertyChanged("LocalizedName");
-            }
-        }
-        public ObservableCollection<HandbookCategoryViewModel> Categories
-        {
-            get => categories;
-            set
-            {
-                categories = value;
-                OnPropertyChanged("Categories");
-            }
-        }
-        public ObservableCollection<TarkovItem> Items
-        {
-            get => items;
-            set
-            {
-                items = value;
-                OnPropertyChanged("Items");
-            }
-        }
-        public bool IsNotHidden =>
-            Items.Count > 0 || Categories.Any(y => y.Items.Count > 0);
+
         public static RelayCommand AddItem => new(obj =>
         {
             if (obj == null)
@@ -71,6 +42,50 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(item.Id, item.AddingQuantity, item.AddingFir); }
             });
         });
+
+        public bool IsExpanded
+        {
+            get => isExpanded;
+            set
+            {
+                isExpanded = value;
+                OnPropertyChanged("IsExpanded");
+            }
+        }
+
+        public string LocalizedName
+        {
+            get => localizedName;
+            set
+            {
+                localizedName = value;
+                OnPropertyChanged("LocalizedName");
+            }
+        }
+
+        public ObservableCollection<HandbookCategoryViewModel> Categories
+        {
+            get => categories;
+            set
+            {
+                categories = value;
+                OnPropertyChanged("Categories");
+            }
+        }
+
+        public ObservableCollection<TarkovItem> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnPropertyChanged("Items");
+            }
+        }
+
+        public bool IsNotHidden =>
+            Items.Count > 0 || Categories.Any(y => y.Items.Count > 0);
+
         public bool ApplyFilter(string text)
         {
             bool categories = false;
@@ -91,6 +106,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             };
             return categories;
         }
+
         public bool ContainsItemsWithTextInName(string text)
         {
             FilterItems();
@@ -114,10 +130,5 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 }
             }
         }
-
-        private bool isExpanded;
-        private string localizedName;
-        private ObservableCollection<HandbookCategoryViewModel> categories;
-        private ObservableCollection<TarkovItem> items;
     }
 }

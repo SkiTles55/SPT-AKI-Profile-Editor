@@ -29,8 +29,8 @@
                 ItemContainerStyle="{StaticResource NoHoverListBox}"
                 ItemsSource="{Binding Path=Categories}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                VirtualizingPanel.IsVirtualizing="True"
-                VirtualizingPanel.IsContainerVirtualizable="true">
+                VirtualizingPanel.IsContainerVirtualizable="true"
+                VirtualizingPanel.IsVirtualizing="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <extendedcontrols:HandbookCategoryView />

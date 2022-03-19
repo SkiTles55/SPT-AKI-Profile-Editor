@@ -24,7 +24,9 @@ namespace SPT_AKI_Profile_Editor.Views
             Regex regex = new("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) => ApplyHideoutFilter();
+
         private void ApplyHideoutFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(hideoutGrid.ItemsSource);

@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
-    class AppLocalizationTests
+    internal class AppLocalizationTests
     {
-        AppSettings appSettings;
-        AppLocalization appLocalization;
+        private AppSettings appSettings;
+        private AppLocalization appLocalization;
 
         [OneTimeSetUp]
         public void Setup()

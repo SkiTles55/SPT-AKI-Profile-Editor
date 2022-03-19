@@ -15,16 +15,19 @@ namespace SPT_AKI_Profile_Editor
     public partial class App : Application
     {
         public static RelayCommand CloseApplication => new(obj => Current.Shutdown());
-        public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
         public static IDialogCoordinator DialogCoordinator { get; set; }
+
         public static Worker Worker { get; set; }
 
-        private void Application_Startup(object s, StartupEventArgs e) => Current.DispatcherUnhandledException += (sender, args) => HandleException(args.Exception);
+        public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
+
         public static void HandleException(Exception exception)
         {
             string text = $"Exception Message: {exception.Message}. | StackTrace: {exception.StackTrace}";
             Logger.Log(text);
             MessageBox.Show(text, "Exception", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
+        private void Application_Startup(object s, StartupEventArgs e) => Current.DispatcherUnhandledException += (sender, args) => HandleException(args.Exception);
     }
 }

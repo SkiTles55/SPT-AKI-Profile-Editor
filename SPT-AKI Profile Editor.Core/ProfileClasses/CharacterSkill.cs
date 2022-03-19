@@ -6,6 +6,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterSkill : BindableEntity
     {
+        private string id;
+
+        private float progress;
+
         [JsonProperty("Id")]
         public string Id
         {
@@ -16,6 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Id");
             }
         }
+
         [JsonProperty("Progress")]
         public float Progress
         {
@@ -26,14 +31,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Progress");
             }
         }
+
         [JsonIgnore]
         public float MaxValue => GetMaxProgress();
+
         [JsonIgnore]
         public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.Interface.ContainsKey(Id)
             ? AppData.ServerDatabase.LocalesGlobal.Interface[Id] : MasteringLocalizedName();
-
-        private string id;
-        private float progress;
 
         private float GetMaxProgress()
         {

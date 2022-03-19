@@ -6,6 +6,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         [JsonPropertyName("cellsH")]
         public int CellsH { get; set; }
+
         [JsonPropertyName("cellsV")]
         public int CellsV { get; set; }
     }

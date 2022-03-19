@@ -4,6 +4,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterTraderStanding : BindableEntity
     {
+        private int loyaltyLevel;
+
+        private long salesSum;
+
+        private float standing;
+
+        private bool unlocked;
+
         [JsonProperty("loyaltyLevel")]
         public int LoyaltyLevel
         {
@@ -14,6 +22,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("LoyaltyLevel");
             }
         }
+
         [JsonProperty("salesSum")]
         public long SalesSum
         {
@@ -24,6 +33,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("SalesSum");
             }
         }
+
         [JsonProperty("standing")]
         public float Standing
         {
@@ -34,6 +44,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Standing");
             }
         }
+
         [JsonProperty("unlocked")]
         public bool Unlocked
         {
@@ -44,10 +55,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Unlocked");
             }
         }
-
-        private int loyaltyLevel;
-        private long salesSum;
-        private float standing;
-        private bool unlocked;
     }
 }

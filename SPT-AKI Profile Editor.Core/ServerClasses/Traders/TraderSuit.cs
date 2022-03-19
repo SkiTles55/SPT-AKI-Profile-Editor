@@ -7,11 +7,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         [JsonPropertyName("_id")]
         public string Id { get; set; }
+
         [JsonPropertyName("suiteId")]
         public string SuiteId { get; set; }
+
         [JsonIgnore]
         public string LocalizedName =>
             AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(SuiteId) ? AppData.ServerDatabase.LocalesGlobal.Templates[SuiteId].Name : SuiteId;
+
         [JsonIgnore]
         public bool Boughted
         {

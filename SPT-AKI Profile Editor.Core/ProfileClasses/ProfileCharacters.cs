@@ -4,6 +4,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class ProfileCharacters : BindableEntity
     {
+        private Character pmc;
+
+        private Character scav;
+
         [JsonProperty("pmc")]
         public Character Pmc
         {
@@ -14,6 +18,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Pmc");
             }
         }
+
         [JsonProperty("scav")]
         public Character Scav
         {
@@ -24,8 +29,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Scav");
             }
         }
-
-        private Character pmc;
-        private Character scav;
     }
 }

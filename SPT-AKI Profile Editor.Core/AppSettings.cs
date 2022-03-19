@@ -9,6 +9,48 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : BindableEntity
     {
+        [JsonIgnore]
+        public bool Loaded = false;
+
+        private static readonly string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
+
+        private string serverPath;
+
+        private string defaultProfile;
+
+        private string language;
+
+        private string colorScheme;
+
+        private bool autoAddMissingQuests;
+
+        private bool autoAddMissingScavSkills;
+
+        private bool autoAddMissingMasterings;
+
+        private string pocketsContainerTpl;
+
+        private float commonSkillMaxValue;
+
+        private Dictionary<string, string> serverProfiles;
+
+        private string pocketsSlotId;
+
+        private string moneysDollarsTpl;
+
+        private string moneysRublesTpl;
+
+        private string moneysEurosTpl;
+
+        private List<string> bannedItems;
+
+        private List<string> bannedMasterings;
+
+        private bool fastModeOpened = false;
+
+        [JsonIgnore]
+        public static string RepositoryLink => "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest";
+
         public string ServerPath
         {
             get => serverPath;
@@ -25,6 +67,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 }
             }
         }
+
         public string DefaultProfile
         {
             get => defaultProfile;
@@ -36,6 +79,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string Language
         {
             get => language;
@@ -47,6 +91,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string ColorScheme
         {
             get => colorScheme;
@@ -58,8 +103,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public Dictionary<string, string> DirsList { get; set; }
         public Dictionary<string, string> FilesList { get; set; }
+
         public bool AutoAddMissingQuests
         {
             get => autoAddMissingQuests;
@@ -71,6 +118,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public bool AutoAddMissingMasterings
         {
             get => autoAddMissingMasterings;
@@ -82,6 +130,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public bool AutoAddMissingScavSkills
         {
             get => autoAddMissingScavSkills;
@@ -93,6 +142,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string PocketsContainerTpl
         {
             get => pocketsContainerTpl;
@@ -104,6 +154,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public float CommonSkillMaxValue
         {
             get => commonSkillMaxValue;
@@ -115,6 +166,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string PocketsSlotId
         {
             get => pocketsSlotId;
@@ -126,6 +178,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string MoneysDollarsTpl
         {
             get => moneysDollarsTpl;
@@ -137,6 +190,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string MoneysRublesTpl
         {
             get => moneysRublesTpl;
@@ -148,6 +202,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public string MoneysEurosTpl
         {
             get => moneysEurosTpl;
@@ -159,6 +214,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public List<string> BannedItems
         {
             get => bannedItems;
@@ -170,6 +226,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         public List<string> BannedMasterings
         {
             get => bannedMasterings;
@@ -181,6 +238,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     Save();
             }
         }
+
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -191,8 +249,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 OnPropertyChanged("ServerProfiles");
             }
         }
-        [JsonIgnore]
-        public bool Loaded = false;
+
         [JsonIgnore]
         public bool FastModeOpened
         {
@@ -203,27 +260,22 @@ namespace SPT_AKI_Profile_Editor.Core
                 OnPropertyChanged("FastModeOpened");
             }
         }
-        [JsonIgnore]
-        public static string RepositoryLink => "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest";
 
-        private static readonly string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
-        private string serverPath;
-        private string defaultProfile;
-        private string language;
-        private string colorScheme;
-        private bool autoAddMissingQuests;
-        private bool autoAddMissingScavSkills;
-        private bool autoAddMissingMasterings;
-        private string pocketsContainerTpl;
-        private float commonSkillMaxValue;
-        private Dictionary<string, string> serverProfiles;
-        private string pocketsSlotId;
-        private string moneysDollarsTpl;
-        private string moneysRublesTpl;
-        private string moneysEurosTpl;
-        private List<string> bannedItems;
-        private List<string> bannedMasterings;
-        private bool fastModeOpened = false;
+        public static string GetStamp()
+        {
+            return AppData.AppSettings.ServerPath
+                + AppData.AppSettings.DefaultProfile
+                + AppData.AppSettings.Language
+                + AppData.AppSettings.AutoAddMissingQuests.ToString()
+                + AppData.AppSettings.AutoAddMissingMasterings.ToString()
+                + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
+                + AppData.AppSettings.CommonSkillMaxValue.ToString()
+                + AppData.AppSettings.PocketsContainerTpl
+                + AppData.AppSettings.pocketsSlotId
+                + AppData.AppSettings.MoneysDollarsTpl
+                + AppData.AppSettings.MoneysEurosTpl
+                + AppData.AppSettings.MoneysRublesTpl;
+        }
 
         public void Load()
         {
@@ -263,22 +315,6 @@ namespace SPT_AKI_Profile_Editor.Core
             else
                 DefaultProfile = null;
             ServerProfiles = Profiles;
-        }
-
-        public static string GetStamp()
-        {
-            return AppData.AppSettings.ServerPath
-                + AppData.AppSettings.DefaultProfile
-                + AppData.AppSettings.Language
-                + AppData.AppSettings.AutoAddMissingQuests.ToString()
-                + AppData.AppSettings.AutoAddMissingMasterings.ToString()
-                + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
-                + AppData.AppSettings.CommonSkillMaxValue.ToString()
-                + AppData.AppSettings.PocketsContainerTpl
-                + AppData.AppSettings.pocketsSlotId
-                + AppData.AppSettings.MoneysDollarsTpl
-                + AppData.AppSettings.MoneysEurosTpl
-                + AppData.AppSettings.MoneysRublesTpl;
         }
 
         private void LoadFromFile()
@@ -357,6 +393,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 CreateDefault();
             }
         }
+
         private void CreateDefault()
         {
             ColorScheme = DefaultValues.ColorScheme;

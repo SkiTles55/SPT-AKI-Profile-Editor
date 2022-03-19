@@ -11,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const float CommonSkillMaxValue = 5100;
+
         public static List<string> BannedItems => new()
         {
             "543be5dd4bdc2deb348b4569",
@@ -26,10 +27,12 @@ namespace SPT_AKI_Profile_Editor.Core
             "5cdeb229d7f00c000e7ce174",
             "5d52cc5ba4b9367408500062"
         };
+
         public static List<string> BannedMasterings => new()
         {
             "MR43"
         };
+
         public static Dictionary<string, string> DefaultDirsList => new()
         {
             ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",
@@ -37,6 +40,7 @@ namespace SPT_AKI_Profile_Editor.Core
             ["dir_bots"] = "Aki_Data\\Server\\database\\bots\\types",
             ["dir_profiles"] = "user\\profiles"
         };
+
         public static Dictionary<string, string> DefaultFilesList => new()
         {
             ["file_globals"] = "Aki_Data\\Server\\database\\globals.json",
@@ -46,6 +50,7 @@ namespace SPT_AKI_Profile_Editor.Core
             ["file_handbook"] = "Aki_Data\\Server\\database\\templates\\handbook.json",
             ["file_serverexe"] = "Server.exe"
         };
+
         public static List<AppLocalization> DefaultLocalizations => new()
         {
             new AppLocalization

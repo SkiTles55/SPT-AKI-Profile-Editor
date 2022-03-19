@@ -4,6 +4,28 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ServerDatabase : BindableEntity
     {
+        private Dictionary<string, string> heads;
+
+        private Dictionary<string, string> voices;
+
+        private LocalesGlobal localesGlobal;
+
+        private ServerGlobals serverGlobals;
+
+        private Dictionary<string, TraderBase> traderInfos;
+
+        private Dictionary<string, string> questsData;
+
+        private List<HideoutAreaInfo> hideoutAreaInfos;
+
+        private Dictionary<string, TarkovItem> itemsDB;
+
+        private Dictionary<string, string> pockets;
+
+        private List<TraderSuit> traderSuits;
+
+        private Handbook handbook;
+
         public Dictionary<string, string> Heads
         {
             get => heads;
@@ -13,6 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Heads");
             }
         }
+
         public Dictionary<string, string> Voices
         {
             get => voices;
@@ -22,6 +45,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Voices");
             }
         }
+
         public LocalesGlobal LocalesGlobal
         {
             get => localesGlobal;
@@ -31,6 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("LocalesGlobal");
             }
         }
+
         public ServerGlobals ServerGlobals
         {
             get => serverGlobals;
@@ -40,6 +65,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("ServerGlobals");
             }
         }
+
         public Dictionary<string, TraderBase> TraderInfos
         {
             get => traderInfos;
@@ -49,6 +75,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("TraderInfos");
             }
         }
+
         public Dictionary<string, string> QuestsData
         {
             get => questsData;
@@ -58,6 +85,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("QuestsData");
             }
         }
+
         public List<HideoutAreaInfo> HideoutAreaInfos
         {
             get => hideoutAreaInfos;
@@ -67,6 +95,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("HideoutAreaInfos");
             }
         }
+
         public Dictionary<string, TarkovItem> ItemsDB
         {
             get => itemsDB;
@@ -77,6 +106,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("ItemsForAdding");
             }
         }
+
         public Dictionary<string, string> Pockets
         {
             get => pockets;
@@ -86,6 +116,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Pockets");
             }
         }
+
         public List<TraderSuit> TraderSuits
         {
             get => traderSuits;
@@ -95,6 +126,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("TraderSuits");
             }
         }
+
         public Handbook Handbook
         {
             get => handbook;
@@ -116,17 +148,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             foreach (var suit in TraderSuits)
                 suit.Boughted = true;
         }
-
-        private Dictionary<string, string> heads;
-        private Dictionary<string, string> voices;
-        private LocalesGlobal localesGlobal;
-        private ServerGlobals serverGlobals;
-        private Dictionary<string, TraderBase> traderInfos;
-        private Dictionary<string, string> questsData;
-        private List<HideoutAreaInfo> hideoutAreaInfos;
-        private Dictionary<string, TarkovItem> itemsDB;
-        private Dictionary<string, string> pockets;
-        private List<TraderSuit> traderSuits;
-        private Handbook handbook;
     }
 }

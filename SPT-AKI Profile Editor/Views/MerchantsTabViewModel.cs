@@ -4,13 +4,13 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    class MerchantsTabViewModel : BindableViewModel
+    internal class MerchantsTabViewModel : BindableViewModel
     {
         public static RelayCommand SetAllMaxCommand => new(obj =>
-        {
-            if (Profile.Characters?.Pmc?.TraderStandings == null)
-                return;
-            ServerDatabase.SetAllTradersMax();
-        });
+          {
+              if (Profile.Characters?.Pmc?.TraderStandings == null)
+                  return;
+              ServerDatabase.SetAllTradersMax();
+          });
     }
 }

@@ -9,14 +9,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class Worker
     {
-        public string ErrorTitle { get; set; } = AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption");
-        public string ErrorConfirm { get; set; } = AppData.AppLocalization.GetLocalizedString("save_profile_dialog_ok");
-
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly MainWindowViewModel _viewModel;
-        private ProgressDialogController progressDialog;
         private readonly List<WorkerTask> tasks;
         private readonly List<WorkerNotification> workerNotifications;
+        private ProgressDialogController progressDialog;
         private bool isBusy = false;
 
         public Worker(IDialogCoordinator dialogCoordinator, MainWindowViewModel viewModel)
@@ -26,6 +23,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
             _dialogCoordinator = dialogCoordinator;
             _viewModel = viewModel;
         }
+
+        public string ErrorTitle { get; set; } = AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption");
+        public string ErrorConfirm { get; set; } = AppData.AppLocalization.GetLocalizedString("save_profile_dialog_ok");
 
         public async void AddAction(WorkerTask task)
         {

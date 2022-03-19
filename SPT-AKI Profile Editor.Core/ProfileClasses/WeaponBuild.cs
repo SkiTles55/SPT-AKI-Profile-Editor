@@ -7,6 +7,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class WeaponBuild
     {
+        [JsonIgnore]
+        private float ergonomics = 0;
+
+        [JsonIgnore]
+        private int recoilForceUp = 0;
+
+        [JsonIgnore]
+        private int recoilForceBack = 0;
+
         [JsonProperty("id")]
         public string Id { get; set; }
 
@@ -79,14 +88,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return items;
             }
         }
-
-        [JsonIgnore]
-        private float ergonomics = 0;
-
-        [JsonIgnore]
-        private int recoilForceUp = 0;
-
-        [JsonIgnore]
-        private int recoilForceBack = 0;
     }
 }
