@@ -1,201 +1,476 @@
-﻿<mah:Flyout x:Class="SPT_AKI_Profile_Editor.Views.FastMode"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
-            xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-            HorizontalContentAlignment="Stretch"
-            AnimateOpacity="True"
-            CloseButtonIsCancel="True"
-            Header="{Binding AppLocalization.Translations[button_fast_mode]}"
-            Position="Left"
-            IsOpen="{Binding AppSettings.FastModeOpened}"
-            mc:Ignorable="d"
-            d:DataContext="{d:DesignInstance Type=views:FastModeViewModel}">
+﻿<mah:Flyout
+    x:Class="SPT_AKI_Profile_Editor.Views.FastMode"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    HorizontalContentAlignment="Stretch"
+    d:DataContext="{d:DesignInstance Type=views:FastModeViewModel}"
+    AnimateOpacity="True"
+    CloseButtonIsCancel="True"
+    Header="{Binding AppLocalization.Translations[button_fast_mode]}"
+    IsOpen="{Binding AppSettings.FastModeOpened}"
+    Position="Left"
+    mc:Ignorable="d">
+    <mah:Flyout.Resources>
+        <helpers:QuestStatusValueConverter x:Key="QuestStatusValueConverter" />
+    </mah:Flyout.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="IsOpenChanged">
-            <i:InvokeCommandAction Command="{Binding OpenningRefresh}"/>
+            <i:InvokeCommandAction Command="{Binding OpenningRefresh}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Margin="10,10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="90" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition MaxHeight="50" />
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_pmc]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_info_pmc]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_level]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="{Binding Pmc.Level, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
-        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Center"
+            PreviewTextInput="NumberValidationTextBox"
+            Text="{Binding Pmc.Level, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_experience]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_info_experience]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
+        <Grid
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Pmc.Experience, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" MinWidth="70" PreviewTextInput="NumberValidationTextBox"/>
-            <Slider Grid.Column="1" TickPlacement="BottomRight" TickFrequency="300000" Value="{Binding Pmc.Experience}" VerticalAlignment="Center" Margin="2,0" Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"/>
+            <TextBox
+                Grid.Column="0"
+                MinWidth="70"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding Pmc.Experience, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider
+                Grid.Column="1"
+                Margin="2,0"
+                VerticalAlignment="Center"
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
+                TickFrequency="300000"
+                TickPlacement="BottomRight"
+                Value="{Binding Pmc.Experience}" />
         </Grid>
-        <Label Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_skills_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_skills_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_skills_set_all]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_skills_set_all]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Grid Grid.Column="2" Grid.Row="3" Margin="10,0,0,0">
+        <Grid
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="10,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"/>
-            <Slider Grid.Column="1" Maximum="{Binding AppSettings.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsSnapToTickEnabled="True" Margin="10,0,0,0"/>
+            <TextBox
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                IsSnapToTickEnabled="True"
+                Maximum="{Binding AppSettings.CommonSkillMaxValue}"
+                TickFrequency="1"
+                TickPlacement="None"
+                Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Label Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_mastering_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_mastering_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="4"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_mastering_set_all]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_mastering_set_all]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Grid Grid.Column="2" Grid.Row="4" Margin="10,0,0,0">
+        <Grid
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="10,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"/>
-            <Slider Grid.Column="1" Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsSnapToTickEnabled="True" Margin="10,0,0,0"/>
+            <TextBox
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                IsSnapToTickEnabled="True"
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
+                TickFrequency="1"
+                TickPlacement="None"
+                Value="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Label Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_quests_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_quests_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="5"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_quests_mark_all]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_quests_mark_all]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <ComboBox Grid.Column="2" Grid.Row="5" Margin="10,0,0,0" ItemsSource="{Binding QuestStatuses}" SelectedValue="{Binding SetAllQuestsValue}" MaxHeight="25"/>
-        <Label Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <ComboBox
+            Grid.Row="5"
+            Grid.Column="2"
+            MaxHeight="25"
+            Margin="10,0,0,0"
+            ItemsSource="{Binding Source={StaticResource QuestStatusValueConverter}, Path=Strings}"
+            SelectedItem="{Binding SetAllQuestsValue, Converter={StaticResource QuestStatusValueConverter}}" />
+        <Label
+            Grid.Row="6"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_examined_items_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_examined_items_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="6"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_examined_items_examine_all_button]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_examined_items_examine_all_button]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <mah:ToggleSwitch Grid.Column="2" Grid.Row="6" Margin="12,0,0,0" HorizontalAlignment="Left" IsOn="{Binding ExamineAll}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-        <Label Grid.Column="0" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <mah:ToggleSwitch
+            Grid.Row="6"
+            Grid.Column="2"
+            Margin="12,0,0,0"
+            HorizontalAlignment="Left"
+            IsOn="{Binding ExamineAll}"
+            OffContent="{Binding AppLocalization.Translations[button_no]}"
+            OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+        <Label
+            Grid.Row="7"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_clothing_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_clothing_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="7"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_clothing_acquire_all]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_clothing_acquire_all]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <mah:ToggleSwitch Grid.Column="2" Grid.Row="7" HorizontalAlignment="Left" IsOn="{Binding AcquireAll}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}" VerticalAlignment="Center" Margin="12,0,0,0"/>
-        <Label Grid.Column="0" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <mah:ToggleSwitch
+            Grid.Row="7"
+            Grid.Column="2"
+            Margin="12,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            IsOn="{Binding AcquireAll}"
+            OffContent="{Binding AppLocalization.Translations[button_no]}"
+            OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+        <Label
+            Grid.Row="8"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_merchants_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_merchants_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="8"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <mah:ToggleSwitch Grid.Column="2" Grid.Row="8" Margin="12,0,0,0" HorizontalAlignment="Left" IsOn="{Binding SetMerchantsMax}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-        <Label Grid.Column="0" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0">
+        <mah:ToggleSwitch
+            Grid.Row="8"
+            Grid.Column="2"
+            Margin="12,0,0,0"
+            HorizontalAlignment="Left"
+            IsOn="{Binding SetMerchantsMax}"
+            OffContent="{Binding AppLocalization.Translations[button_no]}"
+            OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+        <Label
+            Grid.Row="9"
+            Grid.Column="0"
+            Margin="0,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_hideout_title]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_hideout_title]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Label Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="9"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <mah:ToggleSwitch Grid.Column="2" Grid.Row="9" Margin="12,0,0,0" HorizontalAlignment="Left" IsOn="{Binding SetHideoutMax}" OnContent="{Binding AppLocalization.Translations[button_yes]}" OffContent="{Binding AppLocalization.Translations[button_no]}"/>
-        <Label Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+        <mah:ToggleSwitch
+            Grid.Row="9"
+            Grid.Column="2"
+            Margin="12,0,0,0"
+            HorizontalAlignment="Left"
+            IsOn="{Binding SetHideoutMax}"
+            OffContent="{Binding AppLocalization.Translations[button_no]}"
+            OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+        <Label
+            Grid.Row="0"
+            Grid.Column="4"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_info_scav]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_info_scav]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <TextBox Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="{Binding Scav.Level, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" PreviewTextInput="NumberValidationTextBox"/>
-        <Grid Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2">
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="4"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Center"
+            PreviewTextInput="NumberValidationTextBox"
+            Text="{Binding Scav.Level, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <Grid
+            Grid.Row="2"
+            Grid.Column="4"
+            Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding Scav.Experience, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" MinWidth="70" PreviewTextInput="NumberValidationTextBox"/>
-            <Slider Grid.Column="1" TickPlacement="BottomRight" TickFrequency="300000" Value="{Binding Scav.Experience}" VerticalAlignment="Center" Margin="2,0" Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"/>
+            <TextBox
+                Grid.Column="0"
+                MinWidth="70"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding Scav.Experience, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider
+                Grid.Column="1"
+                Margin="2,0"
+                VerticalAlignment="Center"
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
+                TickFrequency="300000"
+                TickPlacement="BottomRight"
+                Value="{Binding Scav.Experience}" />
         </Grid>
-        <Label Grid.Column="4" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="3"
+            Grid.Column="4"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_skills_set_all]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_skills_set_all]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Grid Grid.Column="5" Grid.Row="3" Margin="10,0,0,0">
+        <Grid
+            Grid.Row="3"
+            Grid.Column="5"
+            Margin="10,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"/>
-            <Slider Grid.Column="1" Maximum="{Binding AppSettings.CommonSkillMaxValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsSnapToTickEnabled="True" Margin="10,0,0,0"/>
+            <TextBox
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                IsSnapToTickEnabled="True"
+                Maximum="{Binding AppSettings.CommonSkillMaxValue}"
+                TickFrequency="1"
+                TickPlacement="None"
+                Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Label Grid.Column="4" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold">
+        <Label
+            Grid.Row="4"
+            Grid.Column="4"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap" Text="{Binding AppLocalization.Translations[tab_mastering_set_all]}"/>
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_mastering_set_all]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <Grid Grid.Column="5" Grid.Row="4" Margin="10,0,0,0">
+        <Grid
+            Grid.Row="4"
+            Grid.Column="5"
+            Margin="10,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"/>
-            <Slider Grid.Column="1" Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}" TickPlacement="None" TickFrequency="1" Value="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsSnapToTickEnabled="True" Margin="10,0,0,0"/>
+            <TextBox
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
+            <Slider
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                IsSnapToTickEnabled="True"
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
+                TickFrequency="1"
+                TickPlacement="None"
+                Value="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Button Grid.Column="5" Grid.Row="10" Margin="5 0 5 0" Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Content="{Binding AppLocalization.Translations[button_save_profile]}" Command="{Binding SaveProfile}"/>
+        <Button
+            Grid.Row="10"
+            Grid.Column="5"
+            Margin="5,0,5,0"
+            Command="{Binding SaveProfile}"
+            Content="{Binding AppLocalization.Translations[button_save_profile]}"
+            Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
     </Grid>
 </mah:Flyout>

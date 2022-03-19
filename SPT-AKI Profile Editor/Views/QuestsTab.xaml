@@ -13,6 +13,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}" />
+        <helpers:QuestStatusValueConverter x:Key="QuestStatusValueConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -132,8 +133,8 @@
                         <DataTemplate>
                             <ComboBox
                                 Margin="5"
-                                ItemsSource="{Binding Data.QuestStatuses, Source={StaticResource proxy}}"
-                                SelectedItem="{Binding Path=Status, UpdateSourceTrigger=PropertyChanged}" />
+                                ItemsSource="{Binding Source={StaticResource QuestStatusValueConverter}, Path=Strings}"
+                                SelectedItem="{Binding Path=Status, Converter={StaticResource QuestStatusValueConverter}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -157,8 +158,8 @@
             <ComboBox
                 Width="200"
                 Margin="5,0"
-                ItemsSource="{Binding QuestStatuses}"
-                SelectedValue="{Binding SetAllValue}" />
+                ItemsSource="{Binding Source={StaticResource QuestStatusValueConverter}, Path=Strings}"
+                SelectedItem="{Binding SetAllValue, Converter={StaticResource QuestStatusValueConverter}}" />
             <Button
                 Width="100"
                 Margin="5,0"

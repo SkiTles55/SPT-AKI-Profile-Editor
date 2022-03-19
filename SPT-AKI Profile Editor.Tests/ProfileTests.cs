@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.IO;
@@ -8,9 +9,9 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
-    class ProfileTests
+    internal class ProfileTests
     {
-        const string profileFile = @"C:\SPT\user\profiles\5fefd341298c14dbf210a8a3.json";
+        private const string profileFile = @"C:\SPT\user\profiles\5fefd341298c14dbf210a8a3.json";
 
         [OneTimeSetUp]
         public void Setup()
@@ -162,7 +163,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandings
                 .Where(x => x.Key != "ragfair")
                 .All(x => x.Value.LoyaltyLevel == AppData.ServerDatabase.TraderInfos[x.Key].MaxLevel));
-
         }
 
         [Test]
@@ -170,11 +170,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.AppSettings.AutoAddMissingQuests = true;
             AppData.Profile.Load(profileFile);
-            AppData.Profile.Characters.Pmc.SetAllQuests("Fail");
+            AppData.Profile.Characters.Pmc.SetAllQuests(QuestStatus.Fail);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail")
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == QuestStatus.Fail)
                 && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() == AppData.ServerDatabase.QuestsData.Count);
         }
 

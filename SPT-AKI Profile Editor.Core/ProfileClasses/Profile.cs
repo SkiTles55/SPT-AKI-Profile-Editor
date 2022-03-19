@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Profile : BindableEntity
     {
+        private ProfileCharacters characters;
+
+        private string[] suits;
+
+        private Dictionary<string, WeaponBuild> weaponBuilds;
+
+        private int profileHash = 0;
+
         [JsonProperty("characters")]
         public ProfileCharacters Characters
         {
@@ -21,6 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("IsProfileEmpty");
             }
         }
+
         [JsonProperty("suits")]
         public string[] Suits
         {
@@ -31,6 +41,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Suits");
             }
         }
+
         [JsonProperty("weaponbuilds")]
         public Dictionary<string, WeaponBuild> WeaponBuilds
         {
@@ -52,11 +63,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public int ProfileHash => profileHash;
 
-        private ProfileCharacters characters;
-        private string[] suits;
-        private Dictionary<string, WeaponBuild> weaponBuilds;
-        private int profileHash = 0;
-
         public void Load(string path)
         {
             string fileText = File.ReadAllText(path);
@@ -69,7 +75,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests
                     .Concat(AppData.ServerDatabase.QuestsData
                     .Where(x => !profile.Characters.Pmc.Quests.Any(y => y.Qid == x.Key))
-                    .Select(x => new CharacterQuest { Qid = x.Key, Status = "Locked" })
+                    .Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked })
                     .ToArray())
                     .ToArray();
                 }
@@ -116,8 +122,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             QuestType GetQuestType(string qid)
             {
                 if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(qid)
-                    || profile.Characters.Pmc.RepeatableQuests == null
-                    || profile.Characters.Pmc.RepeatableQuests.Length == 0)
+                    || profile.Characters.Pmc.RepeatableQuests == null)
                     return QuestType.Standart;
                 if (profile.Characters.Pmc.RepeatableQuests
                     .Where(x => x.Type == QuestType.Daily)
@@ -126,9 +131,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     .Any(x => x.Id == qid))
                     return QuestType.Daily;
                 if (profile.Characters.Pmc.RepeatableQuests
+                    .Where(x => x.Type == QuestType.Daily)
+                    .First()
+                    .InactiveQuests
+                    .Any(x => x.Id == qid))
+                    return QuestType.Daily;
+                if (profile.Characters.Pmc.RepeatableQuests
                     .Where(x => x.Type == QuestType.Weekly)
                     .First()
                     .ActiveQuests
+                    .Any(x => x.Id == qid))
+                    return QuestType.Weekly;
+                if (profile.Characters.Pmc.RepeatableQuests
+                    .Where(x => x.Type == QuestType.Weekly)
+                    .First()
+                    .InactiveQuests
                     .Any(x => x.Id == qid))
                     return QuestType.Weekly;
                 return QuestType.Standart;
@@ -263,7 +280,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         var quest = pmc.SelectToken("Quests")[index].ToObject<CharacterQuest>();
                         var edited = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
                         if (edited != null && quest != null && edited.Status != quest.Status)
-                            pmc.SelectToken("Quests")[index]["status"] = edited.Status;
+                            pmc.SelectToken("Quests")[index]["status"] = edited.Status.ToString();
                     }
                     foreach (var quest in Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
                         pmc.SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
@@ -365,6 +382,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                     case "StashSize":
                                         newStash = bonus.TemplateId;
                                         break;
+
                                     case "MaximumEnergyReserve":
                                         pmc.SelectToken("Health").SelectToken("Energy")["Maximum"] = 110;
                                         break;

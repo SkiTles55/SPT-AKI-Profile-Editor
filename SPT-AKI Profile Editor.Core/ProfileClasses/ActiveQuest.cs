@@ -2,7 +2,7 @@
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class ActiveQuest : BindableEntity
+    public class ActiveQuest
     {
         [JsonProperty("_id")]
         public string Id { get; set; }
