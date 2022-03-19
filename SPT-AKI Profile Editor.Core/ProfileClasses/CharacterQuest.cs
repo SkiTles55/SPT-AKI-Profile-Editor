@@ -54,6 +54,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        [JsonIgnore]
+        public string LocalizedQuestType => Type.ToString();
+
         private string QuestTrader => AppData.ServerDatabase.QuestsData.ContainsKey(Qid) ? AppData.ServerDatabase.QuestsData[Qid] : "unknown";
 
         private QuestStatus GetNewStatus(QuestStatus newStatus)

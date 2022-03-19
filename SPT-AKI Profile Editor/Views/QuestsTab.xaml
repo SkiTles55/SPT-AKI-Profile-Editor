@@ -6,6 +6,7 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -14,7 +15,7 @@
     <UserControl.Resources>
         <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Type" />
+                <PropertyGroupDescription PropertyName="LocalizedQuestType" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
         <helpers:QuestStatusValueConverter x:Key="QuestStatusValueConverter" />
@@ -38,7 +39,28 @@
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.GroupStyle>
-                <GroupStyle ContainerStyle="{StaticResource MahApps.Styles.GroupItem.DataGrid}" HidesIfEmpty="True">
+                <GroupStyle HidesIfEmpty="True">
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander
+                                            mah:HeaderedControlHelper.HeaderBackground="Transparent"
+                                            BorderThickness="0"
+                                            IsExpanded="True">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
                     <GroupStyle.Panel>
                         <ItemsPanelTemplate>
                             <DataGridRowsPresenter />
