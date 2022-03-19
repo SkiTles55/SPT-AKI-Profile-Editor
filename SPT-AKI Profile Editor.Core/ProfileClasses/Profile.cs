@@ -64,7 +64,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
             if (profile.Characters?.Pmc?.Quests != null)
             {
-                if (AppData.AppSettings.AutoAddMissingQuests && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count)
+                if (NeedToAddMissingQuests())
                 {
                     profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests
                     .Concat(AppData.ServerDatabase.QuestsData
@@ -76,21 +76,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (profile.Characters.Pmc.Quests.Length > 0)
                 {
                     foreach (var quest in profile.Characters.Pmc.Quests)
-                        quest.Type = GetQuestType(profile.Characters.Pmc, quest.Qid);
+                        quest.Type = GetQuestType(quest.Qid);
                 }
             }
-            if (profile.Characters?.Pmc?.Skills?.Common != null
-                && profile.Characters?.Scav?.Skills?.Common != null
-                && profile.Characters.Scav.Skills.Common.Length == 0
-                && AppData.AppSettings.AutoAddMissingScavSkills)
+            if (NeedToAddMissingScavCommonSkills())
             {
                 profile.Characters.Scav.Skills.Common = profile.Characters.Pmc.Skills.Common
                     .Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })
                     .ToArray();
             }
-            if (profile.Characters?.Pmc?.Skills?.Mastering != null
-                && profile.Characters?.Scav?.Skills?.Mastering != null
-                && AppData.AppSettings.AutoAddMissingMasterings)
+            if (NeedToAddMissingMasteringsSkills())
             {
                 AddMissingMasteringSkills(profile.Characters.Pmc.Skills);
                 AddMissingMasteringSkills(profile.Characters.Scav.Skills);
@@ -116,6 +111,48 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         .ToArray())
                         .ToArray();
                 }
+            }
+
+            QuestType GetQuestType(string qid)
+            {
+                if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(qid)
+                    || profile.Characters.Pmc.RepeatableQuests == null
+                    || profile.Characters.Pmc.RepeatableQuests.Length == 0)
+                    return QuestType.Standart;
+                if (profile.Characters.Pmc.RepeatableQuests
+                    .Where(x => x.Type == QuestType.Daily)
+                    .First()
+                    .ActiveQuests
+                    .Any(x => x.Id == qid))
+                    return QuestType.Daily;
+                if (profile.Characters.Pmc.RepeatableQuests
+                    .Where(x => x.Type == QuestType.Weekly)
+                    .First()
+                    .ActiveQuests
+                    .Any(x => x.Id == qid))
+                    return QuestType.Weekly;
+                return QuestType.Standart;
+            }
+
+            bool NeedToAddMissingQuests()
+            {
+                return AppData.AppSettings.AutoAddMissingQuests
+                    && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count;
+            }
+
+            bool NeedToAddMissingScavCommonSkills()
+            {
+                return AppData.AppSettings.AutoAddMissingScavSkills
+                    && profile.Characters?.Pmc?.Skills?.Common != null
+                    && profile.Characters?.Scav?.Skills?.Common != null
+                    && profile.Characters.Scav.Skills.Common.Length == 0;
+            }
+
+            bool NeedToAddMissingMasteringsSkills()
+            {
+                return AppData.AppSettings.AutoAddMissingMasterings
+                    && profile.Characters?.Pmc?.Skills?.Mastering != null
+                    && profile.Characters?.Scav?.Skills?.Mastering != null;
             }
         }
 
@@ -339,17 +376,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
                 }
             }
-        }
-
-        private static QuestType GetQuestType(Character character, string qid)
-        {
-            if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(qid) || character.RepeatableQuests == null || character.RepeatableQuests.Length == 0)
-                return QuestType.Standart;
-            if (character.RepeatableQuests.Where(x => x.Type == QuestType.Daily).First().ActiveQuests.Any(x => x.Id == qid))
-                return QuestType.Daily;
-            if (character.RepeatableQuests.Where(x => x.Type == QuestType.Weekly).First().ActiveQuests.Any(x => x.Id == qid))
-                return QuestType.Weekly;
-            return QuestType.Standart;
         }
     }
 }
