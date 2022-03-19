@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System;
@@ -40,6 +41,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             if (value is QuestStatus status)
                 return GetString(status);
+            if (value is QuestType type)
+                return type.GetAvailableStatuses().Select(x => GetString(x));
 
             return null;
         }

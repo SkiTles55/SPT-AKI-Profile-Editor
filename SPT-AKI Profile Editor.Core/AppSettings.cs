@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,11 +10,28 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : BindableEntity
     {
+        public readonly List<QuestStatus> standartQuestStatuses = new()
+        {
+            QuestStatus.Locked,
+            QuestStatus.AvailableForStart,
+            QuestStatus.Started,
+            QuestStatus.Fail,
+            QuestStatus.AvailableForFinish,
+            QuestStatus.Success
+        };
+
+        public readonly List<QuestStatus> repeatableQuestStatuses = new()
+        {
+            QuestStatus.Started,
+            QuestStatus.Fail,
+            QuestStatus.AvailableForFinish,
+            QuestStatus.Success
+        };
+
         [JsonIgnore]
         public bool Loaded = false;
 
         private static readonly string configurationFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSettings.json");
-
         private string serverPath;
 
         private string defaultProfile;

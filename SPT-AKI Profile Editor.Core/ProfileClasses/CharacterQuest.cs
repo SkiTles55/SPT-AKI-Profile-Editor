@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterQuest : BindableEntity
     {
-        private QuestType type = QuestType.Standart;
+        private QuestType type;
 
         private string qid;
 
@@ -28,7 +29,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get => status;
             set
             {
-                status = value;
+                var newStatus = value;
+                if (!Type.GetAvailableStatuses().Contains(newStatus))
+                    newStatus = GetNewStatus(newStatus);
+                status = newStatus;
                 OnPropertyChanged("Status");
             }
         }
@@ -51,5 +55,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         private string QuestTrader => AppData.ServerDatabase.QuestsData.ContainsKey(Qid) ? AppData.ServerDatabase.QuestsData[Qid] : "unknown";
+
+        private QuestStatus GetNewStatus(QuestStatus newStatus)
+        {
+            var suitableStatuses = Type.GetAvailableStatuses().Where(x => StatusIsSuitable(newStatus, x));
+            newStatus = suitableStatuses.Any() ? suitableStatuses.First() : status;
+            return newStatus;
+
+            bool StatusIsSuitable(QuestStatus newStatus, QuestStatus x)
+            {
+                return newStatus < status ? x > newStatus : x < newStatus;
+            }
+        }
     }
 }

@@ -15,8 +15,6 @@ namespace SPT_AKI_Profile_Editor.Views
             Profile.Characters.Pmc.SetAllQuests(SetAllValue);
         });
 
-        public string TraderFilter { get; set; }
-
         public RelayCommand OpenSettingsCommand => new(async obj =>
         {
             await Dialogs.ShowSettingsDialog(this, 1);
