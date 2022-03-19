@@ -81,6 +81,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Length == 0, "Quests is empty");
 
         [Test]
+        public void RepeatableQuestsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.RepeatableQuests, "RepeatableQuests is null");
+
+        [Test]
+        public void RepeatableQuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.RepeatableQuests.Length == 0, "RepeatableQuests is empty");
+
+        [Test]
+        public void RepeatableQuestsActiveQuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.RepeatableQuests.Any(x => x.ActiveQuests.Length == 0), "RepeatableQuests ActiveQuests is empty");
+
+        [Test]
         public void EncyclopediaNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Encyclopedia, "Encyclopedia is null");
 
         [Test]
@@ -165,10 +174,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            var test1 = AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail");
-            var test2 = AppData.Profile.Characters.Pmc.Quests.Length == AppData.ServerDatabase.QuestsData.Count;
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == "Fail")
-                && AppData.Profile.Characters.Pmc.Quests.Length == AppData.ServerDatabase.QuestsData.Count);
+                && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() == AppData.ServerDatabase.QuestsData.Count);
         }
 
         [Test]

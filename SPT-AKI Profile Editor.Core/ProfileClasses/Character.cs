@@ -66,6 +66,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Quests");
             }
         }
+        [JsonProperty("RepeatableQuests")]
+        public CharacterRepeatableQuest[] RepeatableQuests
+        {
+            get => repeatableQuests;
+            set
+            {
+                repeatableQuests = value;
+                OnPropertyChanged("RepeatableQuests");
+            }
+        }
         [JsonProperty("Skills")]
         public CharacterSkills Skills
         {
@@ -151,6 +161,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private Dictionary<string, CharacterTraderStanding> traderStandings;
         private CharacterHideout hideout;
         private CharacterQuest[] quests;
+        private CharacterRepeatableQuest[] repeatableQuests;
         private CharacterSkills skills;
         private Dictionary<string, bool> encyclopedia;
         private CharacterInventory inventory;

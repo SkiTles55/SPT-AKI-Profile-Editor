@@ -62,10 +62,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             string fileText = File.ReadAllText(path);
             Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
             profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
-            if (profile.Characters?.Pmc?.Quests != null
-                && AppData.AppSettings.AutoAddMissingQuests)
+            if (profile.Characters?.Pmc?.Quests != null)
             {
-                if (profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count)
+                if (AppData.AppSettings.AutoAddMissingQuests && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count)
                 {
                     profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests
                     .Concat(AppData.ServerDatabase.QuestsData
@@ -73,6 +72,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     .Select(x => new CharacterQuest { Qid = x.Key, Status = "Locked" })
                     .ToArray())
                     .ToArray();
+                }
+                if (profile.Characters.Pmc.Quests.Length > 0)
+                {
+                    foreach (var quest in profile.Characters.Pmc.Quests)
+                        quest.Type = GetQuestType(profile.Characters.Pmc, quest.Qid);
                 }
             }
             if (profile.Characters?.Pmc?.Skills?.Common != null
@@ -335,6 +339,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
                 }
             }
+        }
+
+        private static QuestType GetQuestType(Character character, string qid)
+        {
+            if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(qid) || character.RepeatableQuests == null || character.RepeatableQuests.Length == 0)
+                return QuestType.Standart;
+            if (character.RepeatableQuests.Where(x => x.Type == QuestType.Daily).First().ActiveQuests.Any(x => x.Id == qid))
+                return QuestType.Daily;
+            if (character.RepeatableQuests.Where(x => x.Type == QuestType.Weekly).First().ActiveQuests.Any(x => x.Id == qid))
+                return QuestType.Weekly;
+            return QuestType.Standart;
         }
     }
 }
