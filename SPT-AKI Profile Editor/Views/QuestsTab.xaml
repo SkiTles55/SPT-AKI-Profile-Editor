@@ -12,7 +12,11 @@
     d:DataContext="{d:DesignInstance Type=views:QuestsTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}" />
+        <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Type" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
         <helpers:QuestStatusValueConverter x:Key="QuestStatusValueConverter" />
     </UserControl.Resources>
     <Grid>
@@ -33,6 +37,20 @@
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
+            <DataGrid.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource MahApps.Styles.GroupItem.DataGrid}" HidesIfEmpty="True">
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" Text="Test" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
             <DataGrid.Columns>
                 <DataGridTemplateColumn
                     Width="*"
