@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonIgnore]
-        public string LocalizedQuestType => Type.ToString();
+        public string LocalizedQuestType => Type.LocalizedName();
 
         [JsonIgnore]
         public string QuestTrader { get; set; } = "unknown";
