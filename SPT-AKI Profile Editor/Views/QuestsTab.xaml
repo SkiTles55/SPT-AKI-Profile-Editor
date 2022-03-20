@@ -34,6 +34,8 @@
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             IsReadOnly="True"
             ItemsSource="{Binding Source={StaticResource quests}}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
             VirtualizingPanel.IsVirtualizingWhenGrouping="True">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
