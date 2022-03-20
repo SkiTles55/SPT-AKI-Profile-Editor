@@ -15,7 +15,7 @@
     MinHeight="600"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:MainWindowViewModel}"
-    BorderThickness="2"
+    BorderThickness="0"
     Closing="MetroWindow_Closing"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
     SaveWindowPosition="True"
