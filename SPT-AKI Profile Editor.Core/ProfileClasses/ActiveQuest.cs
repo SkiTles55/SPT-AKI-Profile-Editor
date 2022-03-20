@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -10,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonProperty("traderId")]
         public string TraderId { get; set; }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("type")]
+        public ActiveQuestType Type { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System;

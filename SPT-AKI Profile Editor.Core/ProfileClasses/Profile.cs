@@ -80,10 +80,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     .ToArray();
                 }
                 if (profile.Characters.Pmc.Quests.Length > 0)
-                {
                     foreach (var quest in profile.Characters.Pmc.Quests)
-                        quest.Type = GetQuestType(quest.Qid);
-                }
+                        SetupQuest(quest);
             }
             if (NeedToAddMissingScavCommonSkills())
             {
@@ -119,58 +117,54 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
 
-            QuestType GetQuestType(string qid)
+            void SetupQuest(CharacterQuest quest)
             {
-                if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(qid)
-                    || profile.Characters.Pmc.RepeatableQuests == null)
-                    return QuestType.Standart;
-                if (profile.Characters.Pmc.RepeatableQuests
-                    .Where(x => x.Type == QuestType.Daily)
-                    .First()
-                    .ActiveQuests
-                    .Any(x => x.Id == qid))
-                    return QuestType.Daily;
-                if (profile.Characters.Pmc.RepeatableQuests
-                    .Where(x => x.Type == QuestType.Daily)
-                    .First()
-                    .InactiveQuests
-                    .Any(x => x.Id == qid))
-                    return QuestType.Daily;
-                if (profile.Characters.Pmc.RepeatableQuests
-                    .Where(x => x.Type == QuestType.Weekly)
-                    .First()
-                    .ActiveQuests
-                    .Any(x => x.Id == qid))
-                    return QuestType.Weekly;
-                if (profile.Characters.Pmc.RepeatableQuests
-                    .Where(x => x.Type == QuestType.Weekly)
-                    .First()
-                    .InactiveQuests
-                    .Any(x => x.Id == qid))
-                    return QuestType.Weekly;
-                return QuestType.Standart;
+                if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(quest.Qid) || profile.Characters.Pmc.RepeatableQuests == null || profile.Characters.Pmc.RepeatableQuests.Length == 0)
+                {
+                    quest.Type = QuestType.Standart;
+                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid] : "unknown";
+                    quest.QuestName = quest.Qid;
+                    return;
+                }
+                var dailyQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == QuestType.Daily).First();
+                if (SetupQuestFromArray(dailyQuests.ActiveQuests, QuestType.Daily))
+                    return;
+                if (SetupQuestFromArray(dailyQuests.InactiveQuests, QuestType.Daily))
+                    return;
+                var weeklyQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == QuestType.Weekly).First();
+                if (SetupQuestFromArray(weeklyQuests.ActiveQuests, QuestType.Weekly))
+                    return;
+                if (SetupQuestFromArray(weeklyQuests.InactiveQuests, QuestType.Weekly))
+                    return;
+
+                bool SetupQuestFromArray(ActiveQuest[] array, QuestType type)
+                {
+                    if (array.Any())
+                    {
+                        var repeatableQuest = array.Where(x => x.Id == quest.Qid);
+                        if (repeatableQuest.Any())
+                        {
+                            quest.Type = type;
+                            quest.QuestTrader = repeatableQuest.First().TraderId;
+                            quest.QuestName = repeatableQuest.First().Type.LocalizedName();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
             }
 
-            bool NeedToAddMissingQuests()
-            {
-                return AppData.AppSettings.AutoAddMissingQuests
-                    && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count;
-            }
+            bool NeedToAddMissingQuests() => AppData.AppSettings.AutoAddMissingQuests
+                && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count;
 
-            bool NeedToAddMissingScavCommonSkills()
-            {
-                return AppData.AppSettings.AutoAddMissingScavSkills
-                    && profile.Characters?.Pmc?.Skills?.Common != null
-                    && profile.Characters?.Scav?.Skills?.Common != null
-                    && profile.Characters.Scav.Skills.Common.Length == 0;
-            }
+            bool NeedToAddMissingScavCommonSkills() => AppData.AppSettings.AutoAddMissingScavSkills
+                && profile.Characters?.Pmc?.Skills?.Common != null
+                && profile.Characters?.Scav?.Skills?.Common != null
+                && profile.Characters.Scav.Skills.Common.Length == 0;
 
-            bool NeedToAddMissingMasteringsSkills()
-            {
-                return AppData.AppSettings.AutoAddMissingMasterings
-                    && profile.Characters?.Pmc?.Skills?.Mastering != null
-                    && profile.Characters?.Scav?.Skills?.Mastering != null;
-            }
+            bool NeedToAddMissingMasteringsSkills() => AppData.AppSettings.AutoAddMissingMasterings
+                && profile.Characters?.Pmc?.Skills?.Mastering != null
+                && profile.Characters?.Scav?.Skills?.Mastering != null;
         }
 
         public void RemoveBuild(string key)

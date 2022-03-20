@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string LocalizedTraderName => AppData.ServerDatabase.LocalesGlobal.Trading.ContainsKey(QuestTrader) ? AppData.ServerDatabase.LocalesGlobal.Trading[QuestTrader].Nickname : QuestTrader;
 
         [JsonIgnore]
-        public string LocalizedQuestName => AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(Qid) ? AppData.ServerDatabase.LocalesGlobal.Quests[Qid].Name : Qid;
+        public string LocalizedQuestName => AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(QuestName) ? AppData.ServerDatabase.LocalesGlobal.Quests[QuestName].Name : QuestName;
 
         [JsonIgnore]
         public QuestType Type
@@ -57,7 +57,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public string LocalizedQuestType => Type.ToString();
 
-        private string QuestTrader => AppData.ServerDatabase.QuestsData.ContainsKey(Qid) ? AppData.ServerDatabase.QuestsData[Qid] : "unknown";
+        [JsonIgnore]
+        public string QuestTrader { get; set; } = "unknown";
+
+        [JsonIgnore]
+        public string QuestName { get; set; } = "unknown";
 
         private QuestStatus GetNewStatus(QuestStatus newStatus)
         {
@@ -65,10 +69,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             newStatus = suitableStatuses.Any() ? suitableStatuses.First() : status;
             return newStatus;
 
-            bool StatusIsSuitable(QuestStatus newStatus, QuestStatus x)
-            {
-                return newStatus < status ? x > newStatus : x < newStatus;
-            }
+            bool StatusIsSuitable(QuestStatus newStatus, QuestStatus x) => newStatus < status ? x > newStatus : x < newStatus;
         }
     }
 }

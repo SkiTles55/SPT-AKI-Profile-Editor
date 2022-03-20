@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.Enums
 {
@@ -12,5 +13,14 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
 
         [EnumMember(Value = "Daily")]
         Daily
+    }
+
+    public static class QuestTypeExtension
+    {
+        public static List<QuestStatus> GetAvailableStatuses(this QuestType type) => type switch
+        {
+            QuestType.Standart => AppData.AppSettings.standartQuestStatuses,
+            _ => AppData.AppSettings.repeatableQuestStatuses,
+        };
     }
 }
