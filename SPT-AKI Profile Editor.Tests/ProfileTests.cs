@@ -161,7 +161,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandings
-                .Where(x => x.Key != "ragfair")
+                .Where(x => x.Key != "ragfair" && AppData.ServerDatabase.TraderInfos.ContainsKey(x.Key))
                 .All(x => x.Value.LoyaltyLevel == AppData.ServerDatabase.TraderInfos[x.Key].MaxLevel));
         }
 
@@ -175,7 +175,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == QuestStatus.Fail)
-                && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() == AppData.ServerDatabase.QuestsData.Count);
+                && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() >= AppData.ServerDatabase.QuestsData.Count);
         }
 
         [Test]
@@ -231,9 +231,10 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcMasteringSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Mastering
-                .All(x => x.Progress == x.MaxValue)
-                && AppData.Profile.Characters.Pmc.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
+            var isAllSkillsProgressMax = AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == x.MaxValue);
+            var profileSkillsCount = AppData.Profile.Characters.Pmc.Skills.Mastering.Length;
+            var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name)).Count();
+            Assert.IsTrue(isAllSkillsProgressMax && profileSkillsCount == dbSkillsCount);
         }
 
         [Test]
@@ -245,15 +246,17 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavMasteringSkills.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Mastering
-                .All(x => x.Progress == x.MaxValue)
-                && AppData.Profile.Characters.Scav.Skills.Mastering.Length == AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length);
+            var isAllSkillsProgressMax = AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == x.MaxValue);
+            var profileSkillsCount = AppData.Profile.Characters.Scav.Skills.Mastering.Length;
+            var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name)).Count();
+            Assert.IsTrue(isAllSkillsProgressMax && profileSkillsCount == dbSkillsCount);
         }
 
         [Test]
         public void ExaminedItemsSavesCorrectly()
         {
             AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Pmc.Encyclopedia = new();
             var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count;
             AppData.Profile.Characters.Pmc.ExamineAll();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testExaminedItems.json");
