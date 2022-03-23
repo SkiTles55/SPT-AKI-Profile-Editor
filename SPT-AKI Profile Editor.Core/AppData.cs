@@ -186,14 +186,17 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHandbook()
         {
-            ServerDatabase.Handbook = new();
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_handbook"]);
             try
             {
                 Handbook handbook = JsonSerializer.Deserialize<Handbook>(File.ReadAllText(path));
                 ServerDatabase.Handbook = handbook;
             }
-            catch (Exception ex) { Logger.Log($"ServerDatabase Handbook ({path}) loading error: {ex.Message}"); }
+            catch (Exception ex)
+            {
+                ServerDatabase.Handbook = new Handbook(new List<HandbookCategory>(), new List<HandbookItem>());
+                Logger.Log($"ServerDatabase Handbook ({path}) loading error: {ex.Message}");
+            }
         }
     }
 }

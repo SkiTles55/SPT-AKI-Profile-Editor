@@ -6,6 +6,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class Handbook
     {
+        private List<HandbookCategory> categoriesForItemsAdding;
+
+        public Handbook(List<HandbookCategory> categories, List<HandbookItem> items)
+        {
+            Categories = categories;
+            Items = items;
+            CategoriesForItemsAdding = Categories
+                    .Where(x => string.IsNullOrEmpty(x.ParentId))
+                    .ToList();
+        }
+
         [JsonPropertyName("Categories")]
         public List<HandbookCategory> Categories { get; set; }
 
@@ -13,9 +24,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public List<HandbookItem> Items { get; set; }
 
         [JsonIgnore]
-        public List<HandbookCategory> CategoriesForItemsAdding =>
-            Categories?
-            .Where(x => string.IsNullOrEmpty(x.ParentId))
-            .ToList();
+        public List<HandbookCategory> CategoriesForItemsAdding
+        {
+            get => categoriesForItemsAdding;
+            set
+            {
+                categoriesForItemsAdding = value;
+            }
+        }
     }
 }
