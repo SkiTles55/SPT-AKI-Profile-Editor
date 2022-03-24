@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
     public class UpdatesChecker
     {
+        private static readonly HttpClient HttpClient;
+
+        static UpdatesChecker()
+        {
+            HttpClient = new HttpClient();
+        }
+
         public static bool CheckUpdate(string link = null, Version version = null)
         {
             try
@@ -15,13 +22,15 @@ namespace SPT_AKI_Profile_Editor.Core
                     link = AppSettings.RepositoryLink;
                 if (version == null)
                     version = GetVersion();
-                WebRequest request = WebRequest.Create(link);
-                WebResponse response = request.GetResponse();
-                float currentVersion = float.Parse(string.Format(" {0},{1}", version.Major, version.Minor));
-                float latestVersion = currentVersion;
-                if (response.ResponseUri != null)
-                    latestVersion = float.Parse(response.ResponseUri.ToString().Split('/').Last().Replace(".", ","));
-                return latestVersion > currentVersion;
+
+                using var responce = HttpClient.GetAsync(new Uri(link)).Result;
+                var responseUrl = responce.RequestMessage.RequestUri.ToString();
+                if (responseUrl == link)
+                    return false;
+
+                Version latest = new(responseUrl.Split('/').Last());
+
+                return latest > version;
             }
             catch (Exception ex)
             {
@@ -35,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static string GetAppTitleWithVersion()
         {
             Version version = GetVersion();
-            return $"SPT-AKI Profile Editor {$" {version.Major}.{version.Minor}"}";
+            return $"SPT-AKI Profile Editor {$" {version.Major}.{version.Minor}"}" + (version.Build != 0 ? "." + version.Build.ToString() : "");
         }
     }
 }
