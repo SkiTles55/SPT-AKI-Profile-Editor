@@ -391,6 +391,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildRemoveSavesCorrectly()
         {
             AppData.Profile.Load(profileFile);
+            if (AppData.Profile.WeaponBuilds.Count() == 0)
+                AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
             AppData.Profile.RemoveBuild(expected);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
@@ -403,6 +405,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildExportCorrectly()
         {
             AppData.Profile.Load(profileFile);
+            if (AppData.Profile.WeaponBuilds.Count() == 0)
+                AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
             AppData.Profile.ExportBuild(expected.Key, testFile);
