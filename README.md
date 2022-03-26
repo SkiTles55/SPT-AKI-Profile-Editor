@@ -1,8 +1,11 @@
 # SPT-AKI Profile Editor [ENG README version](ENGREADME.md)
 ### Программа для редактирования профиля игрока на сервере SPT-AKI
   <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
-  <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/LICENSE"><img src="https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor?color=lightgrey"></a>
-[![HitCount](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor.svg?style=flat-square)](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor)
+  ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)
+  [![HitCount](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor.svg?style=flat-square)](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor)
+  ![GitHub all releases](https://img.shields.io/github/downloads/SkiTles55/SPT-AKI-Profile-Editor/total)
+  ![GitHub release (latest by date)](https://img.shields.io/github/downloads/SkiTles55/SPT-AKI-Profile-Editor/latest/total)
+  ![GitHub last commit](https://img.shields.io/github/last-commit/SkiTles55/SPT-AKI-Profile-Editor)
 
 #### Поддержать разработчика:
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)
