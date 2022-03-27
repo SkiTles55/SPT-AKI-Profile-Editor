@@ -4,35 +4,140 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:UpdateDialogViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <helpers:FileSizeConverter x:Key="FileSizeConverter" />
+    </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition MaxHeight="30" />
+            <RowDefinition MaxHeight="30" />
+            <RowDefinition MaxHeight="30" />
+            <RowDefinition MaxHeight="30" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="Version" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="{Binding Release.Tag}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
             Grid.Row="1"
+            Grid.Column="0"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="Date" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="{Binding FormatedDate}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="Size" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="{Binding ReleaseFile.Size, Converter={StaticResource FileSizeConverter}}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="Downloads" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="10,0,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            FontWeight="Bold">
+            <Label.Content>
+                <TextBlock Text="{Binding ReleaseFile.DownloadCount}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <ScrollViewer
+            Grid.Row="0"
+            Grid.RowSpan="4"
+            Grid.Column="2"
+            Margin="5,10,5,10"
+            VerticalScrollBarVisibility="Auto">
+            <TextBlock Text="{Binding Release.Description}" TextWrapping="Wrap" />
+        </ScrollViewer>
+        <StackPanel
+            Grid.Row="4"
+            Grid.ColumnSpan="3"
             MinHeight="85"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
                 Margin="0,0,5,0"
                 Command="{Binding QuitCommand}"
-                Content="{Binding AppLocalization.Translations[button_quit]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs}"
-                Visibility="Visible" />
+                Content="{Binding AppLocalization.Translations[button_yes]}"
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding CloseCommand}"
                 Content="{Binding AppLocalization.Translations[button_close]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
-                Visibility="{Binding CloseButton}" />
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -65,7 +65,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog updateDialog = new()
             {
                 Title = AppData.AppLocalization.GetLocalizedString("update_avialable"),
-                DialogContentWidth = new GridLength(600)
+                DialogContentWidth = new GridLength(500)
             };
             RelayCommand closeCommand = new(async obj =>
             {
