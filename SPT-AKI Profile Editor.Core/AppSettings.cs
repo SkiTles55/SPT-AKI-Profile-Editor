@@ -10,6 +10,10 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : BindableEntity
     {
+        public readonly string repoAuthor = "SkiTles55";
+
+        public readonly string repoName = "SPT-AKI-Profile-Editor";
+
         public readonly List<QuestStatus> standartQuestStatuses = new()
         {
             QuestStatus.Locked,
@@ -65,9 +69,6 @@ namespace SPT_AKI_Profile_Editor.Core
         private List<string> bannedMasterings;
 
         private bool fastModeOpened = false;
-
-        [JsonIgnore]
-        public static string RepositoryLink => "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest";
 
         public string ServerPath
         {

@@ -24,7 +24,7 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand OpenFAQ => new(obj =>
           {
-              var link = AppData.AppSettings.Language == "ru" ? "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/FAQ.md" : "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/ENGFAQ.md";
+              var link = AppData.AppSettings.Language == "ru" ? $"https://github.com/{AppData.AppSettings.repoAuthor}/{AppData.AppSettings.repoName}/blob/master/FAQ.md" : $"https://github.com/{AppData.AppSettings.repoAuthor}/{AppData.AppSettings.repoName}/blob/master/ENGFAQ.md";
               ExtMethods.OpenUrl(link);
           });
 
@@ -43,12 +43,10 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand InitializeViewModelCommand => new(async obj =>
          {
              App.ChangeTheme();
-             if (UpdatesChecker.CheckUpdate())
+             var release = await UpdatesChecker.CheckUpdate();
+             if (release != null)
              {
-                 if (await Dialogs.YesNoDialog(this,
-                 "update_avialable",
-                 "update_caption") == MessageDialogResult.Affirmative)
-                     ExtMethods.OpenUrl(AppSettings.RepositoryLink);
+                 await Dialogs.ShowUpdateDialog(this, release);
              }
              if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
              || !ExtMethods.PathIsServerFolder(AppData.AppSettings)

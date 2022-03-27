@@ -6,5 +6,9 @@ namespace SPT_AKI_Profile_Editor.Views
     internal class AboutTabViewModel : BindableViewModel
     {
         public static AppSettings AppSettings => AppData.AppSettings;
+
+        public static string RepositoryURL => $"https://github.com/{AppSettings.repoAuthor}/{AppSettings.repoName}/releases/latest";
+
+        public static string AuthorURL => $"https://github.com/{AppSettings.repoAuthor}";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using System.Threading.Tasks;
 using System.Windows;
@@ -57,6 +58,21 @@ namespace SPT_AKI_Profile_Editor.Helpers
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand, index) };
             await App.DialogCoordinator.ShowMetroDialogAsync(context, settingsDialog);
+        }
+
+        public static async Task ShowUpdateDialog(object context, GitHubRelease release)
+        {
+            CustomDialog updateDialog = new()
+            {
+                Title = AppData.AppLocalization.GetLocalizedString("update_avialable"),
+                DialogContentWidth = new GridLength(600)
+            };
+            RelayCommand closeCommand = new(async obj =>
+            {
+                await App.DialogCoordinator.HideMetroDialogAsync(context, updateDialog);
+            });
+            updateDialog.Content = new UpdateDialog { DataContext = new UpdateDialogViewModel(closeCommand, release) };
+            await App.DialogCoordinator.ShowMetroDialogAsync(context, updateDialog);
         }
     }
 }
