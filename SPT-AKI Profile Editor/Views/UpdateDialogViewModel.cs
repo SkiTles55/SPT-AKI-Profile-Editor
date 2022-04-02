@@ -1,4 +1,5 @@
 ﻿using ReleaseChecker.GitHub;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 
@@ -13,6 +14,9 @@ namespace SPT_AKI_Profile_Editor
         }
 
         public static RelayCommand CloseCommand { get; set; }
+
+        public static RelayCommand DownloadRelease => new(obj => { });
+        public RelayCommand OpenReleaseUrl => new(obj => { ExtMethods.OpenUrl(Release.Url); });
         public GitHubRelease Release { get; set; }
         public GithubReleaseFile ReleaseFile => Release.Files?.First();
 

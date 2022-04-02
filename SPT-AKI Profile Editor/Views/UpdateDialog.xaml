@@ -5,6 +5,7 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -34,7 +35,7 @@
             VerticalAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
-                <TextBlock Text="Version" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding AppLocalization.Translations[update_dialog_version]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -56,7 +57,7 @@
             VerticalAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
-                <TextBlock Text="Date" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding AppLocalization.Translations[update_dialog_publish_date]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -78,7 +79,7 @@
             VerticalAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
-                <TextBlock Text="Size" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding AppLocalization.Translations[update_dialog_size]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -100,7 +101,7 @@
             VerticalAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
-                <TextBlock Text="Downloads" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding AppLocalization.Translations[update_dialog_downloads]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -129,10 +130,49 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
-                Margin="0,0,5,0"
-                Command="{Binding QuitCommand}"
-                Content="{Binding AppLocalization.Translations[button_yes]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
+                Margin="5,0,5,0"
+                Command="{Binding OpenReleaseUrl}"
+                Content="{Binding AppLocalization.Translations[update_dialog_open_button]}"
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconFontAwesome
+                                Width="22"
+                                Height="22"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Kind="GithubBrands" />
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button
+                Margin="5,0,5,0"
+                Command="{Binding DownloadRelease}"
+                Content="{Binding AppLocalization.Translations[update_dialog_download_button]}"
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconFontAwesome
+                                Width="22"
+                                Height="22"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Kind="DownloadSolid" />
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding CloseCommand}"

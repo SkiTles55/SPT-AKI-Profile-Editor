@@ -179,7 +179,13 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_presets_ergonomics"] = "Ergonomics",
                     ["tab_preset_recoil_up"] = "Recoil Up",
                     ["tab_preset_recoil_back"] = "Recoil Back",
-                    ["tab_presets_modded_items"] = "Weapon preset contains items added by mods"
+                    ["tab_presets_modded_items"] = "Weapon preset contains items added by mods",
+                    ["update_dialog_version"] = "Version",
+                    ["update_dialog_publish_date"] = "Publish date",
+                    ["update_dialog_size"] = "Size",
+                    ["update_dialog_downloads"] = "Downloads count",
+                    ["update_dialog_download_button"] = "Download",
+                    ["update_dialog_open_button"] = "Open GitHub"
                 }
             },
             new AppLocalization
@@ -308,7 +314,13 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_presets_ergonomics"] = "Эргономика",
                     ["tab_preset_recoil_up"] = "Вертикальная отдача",
                     ["tab_preset_recoil_back"] = "Горизонтальная отдача",
-                    ["tab_presets_modded_items"] = "Сборка содержит предметы добавленные модами"
+                    ["tab_presets_modded_items"] = "Сборка содержит предметы добавленные модами",
+                    ["update_dialog_version"] = "Версия",
+                    ["update_dialog_publish_date"] = "Дата публикации",
+                    ["update_dialog_size"] = "Размер",
+                    ["update_dialog_downloads"] = "Количество загрузок",
+                    ["update_dialog_download_button"] = "Скачать",
+                    ["update_dialog_open_button"] = "Открыть GitHub"
                 }
             }
         };

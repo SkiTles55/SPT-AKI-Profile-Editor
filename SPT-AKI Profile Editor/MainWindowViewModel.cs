@@ -80,9 +80,6 @@ namespace SPT_AKI_Profile_Editor
         private async Task InitializeViewModel()
         {
             App.ChangeTheme();
-            var release = await UpdatesChecker.CheckUpdate();
-            if (release != null)
-                await Dialogs.ShowUpdateDialog(this, release);
             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
             || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
             || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
@@ -90,6 +87,9 @@ namespace SPT_AKI_Profile_Editor
                 await Dialogs.ShowSettingsDialog(this);
             else
                 StartupEventsWorker();
+            var release = await UpdatesChecker.CheckUpdate();
+            if (release != null)
+                await Dialogs.ShowUpdateDialog(this, release);
         }
 
         private async Task Reload()
