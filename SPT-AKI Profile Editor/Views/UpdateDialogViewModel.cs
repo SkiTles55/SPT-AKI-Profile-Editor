@@ -1,4 +1,5 @@
-﻿using ReleaseChecker.GitHub;
+﻿using MahApps.Metro.Controls.Dialogs;
+using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
@@ -33,7 +34,8 @@ namespace SPT_AKI_Profile_Editor
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                CloseCommand.Execute(null);
+                BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
+                await App.DialogCoordinator.HideMetroDialogAsync(MainWindowViewModel.Instance, dialog);
                 await FileDownloader.Download("https://dev.sp-tarkov.com/attachments/024362ab-d6a9-4be9-a05d-c1616804d97f", saveFileDialog.FileName);
             }
         }
