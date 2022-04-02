@@ -24,6 +24,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
             AnimateHide = true
         };
 
+        private static MetroDialogSettings OkDialogSettings => new()
+        {
+            AffirmativeButtonText = AppData.AppLocalization.GetLocalizedString("save_profile_dialog_ok"),
+            AnimateShow = true,
+            AnimateHide = true
+        };
+
         public static async Task<MessageDialogResult> YesNoDialog(object context, string title, string caption) =>
             await App.DialogCoordinator.ShowMessageAsync(context,
                 AppData.AppLocalization.GetLocalizedString(title),
@@ -73,6 +80,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
             });
             updateDialog.Content = new UpdateDialog { DataContext = new UpdateDialogViewModel(closeCommand, release) };
             await App.DialogCoordinator.ShowMetroDialogAsync(context, updateDialog);
+        }
+
+        public static async Task ShowOkMessageAsync(object context, string title, string message)
+        {
+            await App.DialogCoordinator.ShowMessageAsync(context, title, 
+                message, MessageDialogStyle.Affirmative, OkDialogSettings);
         }
     }
 }

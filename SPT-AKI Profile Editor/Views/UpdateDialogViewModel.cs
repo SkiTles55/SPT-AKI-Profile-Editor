@@ -2,6 +2,8 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
@@ -15,11 +17,25 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand CloseCommand { get; set; }
 
-        public static RelayCommand DownloadRelease => new(obj => { });
+        public RelayCommand DownloadRelease => new(async obj => { await Download(); });
         public RelayCommand OpenReleaseUrl => new(obj => { ExtMethods.OpenUrl(Release.Url); });
         public GitHubRelease Release { get; set; }
         public GithubReleaseFile ReleaseFile => Release.Files?.First();
 
         public string FormatedDate => Release.PublishDate.ToString("dd.MM.yyyy");
+
+        private async Task Download()
+        {
+            if (ReleaseFile == null)
+                return;
+            SaveFileDialog saveFileDialog = new();
+            saveFileDialog.FileName = ReleaseFile.Name;
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                CloseCommand.Execute(null);
+                await FileDownloader.Download("https://dev.sp-tarkov.com/attachments/024362ab-d6a9-4be9-a05d-c1616804d97f", saveFileDialog.FileName);
+            }
+        }
     }
 }
