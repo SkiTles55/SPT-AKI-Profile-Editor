@@ -10,48 +10,75 @@
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:BackupsTabViewModel}"
     mc:Ignorable="d">
-    <DataGrid
-        AutoGenerateColumns="False"
-        CanUserAddRows="False"
-        ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-        IsReadOnly="True"
-        ItemsSource="{Binding BackupService.BackupList}">
-        <DataGrid.Resources>
-            <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-        </DataGrid.Resources>
-        <DataGrid.Columns>
-            <DataGridTemplateColumn
-                Width="*"
-                Header="{Binding Data.AppLocalization.Translations[tab_backups_date], Source={StaticResource proxy}}"
-                SortMemberPath="Date">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Label.Content>
-                                <TextBlock Text="{Binding Path=FormatedDate}" TextWrapping="Wrap" />
-                            </Label.Content>
-                        </Label>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Width="*" Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <WrapPanel Orientation="Horizontal">
-                            <Button
-                                Margin="5"
-                                Command="{Binding Data.RestoreCommand, Source={StaticResource proxy}}"
-                                CommandParameter="{Binding Path}"
-                                Content="{Binding Data.AppLocalization.Translations[tab_backups_restore], Source={StaticResource proxy}}" />
-                            <Button
-                                Margin="5"
-                                Command="{Binding Data.RemoveCommand, Source={StaticResource proxy}}"
-                                CommandParameter="{Binding Path}"
-                                Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
-                        </WrapPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+    <Grid>
+        <DataGrid
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+            IsReadOnly="True"
+            ItemsSource="{Binding BackupService.BackupList}">
+            <DataGrid.Resources>
+                <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    Width="*"
+                    Header="{Binding Data.AppLocalization.Translations[tab_backups_date], Source={StaticResource proxy}}"
+                    SortMemberPath="Date">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=FormatedDate}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Orientation="Horizontal">
+                                <Button
+                                    Margin="5"
+                                    Command="{Binding Data.RestoreCommand, Source={StaticResource proxy}}"
+                                    CommandParameter="{Binding Path}"
+                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_restore], Source={StaticResource proxy}}" />
+                                <Button
+                                    Margin="5"
+                                    Command="{Binding Data.RemoveCommand, Source={StaticResource proxy}}"
+                                    CommandParameter="{Binding Path}"
+                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BackupService.HasBackups}" Value="False">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Label
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock
+                        Text="{Binding AppLocalization.Translations[tab_backups_empty]}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+        </Border>
+    </Grid>
 </UserControl>

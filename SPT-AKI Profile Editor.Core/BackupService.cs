@@ -21,6 +21,8 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public bool HasBackups => BackupList != null && BackupList.Count > 0;
+
         public List<BackupFile> BackupList
         {
             get => backupList;
@@ -28,6 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 backupList = value;
                 OnPropertyChanged("BackupList");
+                OnPropertyChanged("HasBackups");
             }
         }
 
