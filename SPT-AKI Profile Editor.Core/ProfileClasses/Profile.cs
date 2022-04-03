@@ -49,13 +49,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 weaponBuilds = value;
-                OnPropertyChanged("WeaponBuilds");
-                OnPropertyChanged("WBuilds");
+                WeaponBuildsChanged();
             }
         }
 
         [JsonIgnore]
         public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new();
+
+        [JsonIgnore]
+        public bool HasWeaponBuilds => WBuilds.Count > 0;
 
         [JsonIgnore]
         public bool IsProfileEmpty => Characters?.Pmc.Info == null;
@@ -171,16 +173,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             if (WeaponBuilds.Remove(key))
             {
-                OnPropertyChanged("WeaponBuilds");
-                OnPropertyChanged("WBuilds");
+                WeaponBuildsChanged();
             }
         }
 
         public void RemoveBuilds()
         {
             WeaponBuilds = new();
-            OnPropertyChanged("WeaponBuilds");
-            OnPropertyChanged("WBuilds");
+            WeaponBuildsChanged();
         }
 
         public void ExportBuild(string key, string path)
@@ -205,8 +205,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     weaponBuild.Name = tempFileName;
                     weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id).ToArray());
                     WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
-                    OnPropertyChanged("WeaponBuilds");
-                    OnPropertyChanged("WBuilds");
+                    WeaponBuildsChanged();
                 }
                 else
                     throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_wrong_file") + ":" + Environment.NewLine + path);
@@ -388,6 +387,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
                 }
             }
+        }
+
+        private void WeaponBuildsChanged()
+        {
+            OnPropertyChanged("WeaponBuilds");
+            OnPropertyChanged("WBuilds");
+            OnPropertyChanged("HasWeaponBuilds");
         }
     }
 }

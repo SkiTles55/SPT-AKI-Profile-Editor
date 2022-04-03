@@ -177,13 +177,15 @@
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding ExportBuilds}"
-            Content="{Binding AppLocalization.Translations[tab_presets_export_all]}" />
+            Content="{Binding AppLocalization.Translations[tab_presets_export_all]}"
+            IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
         <Button
             Grid.Row="1"
             Grid.Column="2"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding RemoveBuilds}"
-            Content="{Binding AppLocalization.Translations[tab_stash_remove]}" />
+            Content="{Binding AppLocalization.Translations[tab_stash_remove]}"
+            IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>
