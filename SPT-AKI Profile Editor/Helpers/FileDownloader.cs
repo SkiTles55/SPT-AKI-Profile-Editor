@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private static MetroDialogSettings DialogSettings => new()
         {
-            NegativeButtonText = "cancel",
+            NegativeButtonText = AppData.AppLocalization.GetLocalizedString("button_cancel"),
             DialogResultOnCancel = MessageDialogResult.Canceled,
         };
 
@@ -25,15 +25,18 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             progressDialog = await App.DialogCoordinator.ShowProgressAsync(
                 MainWindowViewModel.Instance,
-                "Download File",
-                "File Url",
+                AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
+                GetProgressString(0),
                 true,
                 DialogSettings);
             progressIndicator = new Progress<float>(ReportProgress);
             progressDialog.Canceled += DownloadCanceled;
             if (await DownloadFromUrl(url, filePath))
-                await CloseProgressWithMessage("Download File", "File downloaded");
+                await CloseProgressWithMessage(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
+                                               AppData.AppLocalization.GetLocalizedString("download_dialog_success"));
         }
+
+        private static string GetProgressString(float value) => string.Format("{0} {1:P2}.", AppData.AppLocalization.GetLocalizedString("download_dialog_downloaded"), value);
 
         private static void DownloadCanceled(object sender, EventArgs e) => cancelTokenSource.Cancel();
 
@@ -42,7 +45,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (progressDialog != null)
             {
                 progressDialog.SetProgress(value);
-                progressDialog.SetMessage($"Progress: {value * 100}");
+                progressDialog.SetMessage(GetProgressString(value));
             }
         }
 
@@ -51,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             try
             {
                 using var client = new HttpClient();
-                client.Timeout = TimeSpan.FromMinutes(5);
+                client.Timeout = TimeSpan.FromSeconds(30);
                 using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await DownloadAsync(client, url, file);
                 return true;
@@ -67,11 +70,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
         }
 
-        private static async Task CloseProgressWithMessage(string title, string message, bool show = true)
+        private static async Task CloseProgressWithMessage(string title, string message, bool showMessage = true)
         {
             if (progressDialog.IsOpen)
                 await progressDialog.CloseAsync();
-            if (show)
+            if (showMessage)
                 await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance, title, message);
         }
 

@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 var currentVersion = GetVersion();
-                var latestRelease = await gitHubChecker.GetLatestReleaseAsync();
+                var latestRelease = await gitHubChecker.GetLatestReleaseAsync(true);
                 if (latestRelease != null && new Version(latestRelease.Tag) > currentVersion)
                     return latestRelease;
                 Logger.Log($"No updates available");

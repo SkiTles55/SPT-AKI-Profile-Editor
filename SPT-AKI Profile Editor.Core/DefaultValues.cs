@@ -185,7 +185,11 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["update_dialog_size"] = "Size",
                     ["update_dialog_downloads"] = "Downloads count",
                     ["update_dialog_download_button"] = "Download",
-                    ["update_dialog_open_button"] = "Open GitHub"
+                    ["update_dialog_open_button"] = "Open GitHub",
+                    ["download_dialog_title"] = "File download",
+                    ["button_cancel"] = "Cancel",
+                    ["download_dialog_downloaded"] = "Downloaded:",
+                    ["download_dialog_success"] = "File downloaded successfully"
                 }
             },
             new AppLocalization
@@ -320,7 +324,11 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["update_dialog_size"] = "Размер",
                     ["update_dialog_downloads"] = "Количество загрузок",
                     ["update_dialog_download_button"] = "Скачать",
-                    ["update_dialog_open_button"] = "Открыть GitHub"
+                    ["update_dialog_open_button"] = "Открыть GitHub",
+                    ["download_dialog_title"] = "Скачивание файла",
+                    ["button_cancel"] = "Отмена",
+                    ["download_dialog_downloaded"] = "Скачано:",
+                    ["download_dialog_success"] = "Файл успешно скачан"
                 }
             }
         };
