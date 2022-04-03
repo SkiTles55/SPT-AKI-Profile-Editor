@@ -22,7 +22,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             appLocalization.LoadLocalization("en");
             var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == "en");
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "English localization not correct");
+            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "English localization strings count not correct");
+            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "English localization does not have all strings");
         }
 
         [Test]
@@ -30,7 +31,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             appLocalization.LoadLocalization("ru");
             var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == "ru");
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "Russian localization not correct");
+            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "Russian localization strings count not correct");
+            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "Russian localization does not have all strings");
         }
 
         [Test]
@@ -38,7 +40,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             appLocalization.LoadLocalization(appSettings.Language);
             var expected = DefaultValues.DefaultLocalizations.Find(x => x.Key == appSettings.Language);
-            Assert.AreEqual(expected.Translations, appLocalization.Translations, "Loaded localization not correct");
+            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "Loaded localization strings count not correct");
+            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "Loaded localization does not have all strings");
         }
 
         [Test]
