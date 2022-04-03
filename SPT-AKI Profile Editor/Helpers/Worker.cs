@@ -24,9 +24,6 @@ namespace SPT_AKI_Profile_Editor.Helpers
             _viewModel = viewModel;
         }
 
-        public string ErrorTitle { get; set; } = AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption");
-        public string ErrorConfirm { get; set; } = AppData.AppLocalization.GetLocalizedString("save_profile_dialog_ok");
-
         public async void AddAction(WorkerTask task)
         {
             tasks.Add(task);
@@ -57,7 +54,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 {
                     if (progressDialog.IsOpen)
                         await progressDialog.CloseAsync();
-                    await ShowMessageAsync(ErrorTitle, ex.Message);
+                    await Dialogs.ShowOkMessageAsync(_viewModel,
+                        AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                        ex.Message);
                     Logger.Log($"LoadDataWorker | {ex.Message}");
                 }
                 tasks.RemoveAt(0);
@@ -66,25 +65,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 await progressDialog.CloseAsync();
             while (workerNotifications.Count > 0)
             {
-                await ShowMessageAsync(workerNotifications[0].NotificationTitle,
+                await Dialogs.ShowOkMessageAsync(_viewModel, workerNotifications[0].NotificationTitle,
                     workerNotifications[0].NotificationDescription);
                 workerNotifications.RemoveAt(0);
             }
             isBusy = false;
-        }
-
-        private async Task ShowMessageAsync(string title, string message)
-        {
-            await _dialogCoordinator.ShowMessageAsync(_viewModel,
-                                title,
-                                message,
-                                MessageDialogStyle.Affirmative,
-                                new MetroDialogSettings
-                                {
-                                    AffirmativeButtonText = ErrorConfirm,
-                                    AnimateShow = true,
-                                    AnimateHide = true
-                                });
         }
     }
 }

@@ -63,12 +63,14 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scrollviewer = sender as ScrollViewer;
-            if (e.Delta > 0)
-                scrollviewer.LineUp();
-            else
-                scrollviewer.LineDown();
-            e.Handled = true;
+            if (sender is ScrollViewer scrollViewer)
+            {
+                if (e.Delta > 0)
+                    scrollViewer.LineUp();
+                else
+                    scrollViewer.LineDown();
+                e.Handled = true;
+            }
         }
     }
 }

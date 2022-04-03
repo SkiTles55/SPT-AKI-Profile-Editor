@@ -30,7 +30,6 @@
                 <DataGrid
                     x:Name="stashGrid"
                     Grid.Row="1"
-                    d:ItemsSource="{d:SampleData ItemCount=5}"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     ColumnHeaderStyle="{StaticResource MyColumnHeader}"
@@ -192,7 +191,6 @@
                     PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                     <ListBox
                         x:Name="itemsList"
-                        d:ItemsSource="{d:SampleData ItemCount=5}"
                         ItemContainerStyle="{StaticResource NoHoverListBox}"
                         ItemsSource="{Binding Source={StaticResource items}}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">

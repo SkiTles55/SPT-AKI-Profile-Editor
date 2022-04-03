@@ -21,10 +21,10 @@
             </Label>
             <TextBlock Margin="6,0,0,5">
                 <Hyperlink
-                    NavigateUri="https://github.com/SkiTles55"
+                    NavigateUri="{Binding AuthorURL}"
                     RequestNavigate="Hyperlink_RequestNavigate"
                     Style="{DynamicResource LinkStyle}">
-                    https://github.com/SkiTles55
+                    <TextBlock Text="{Binding AuthorURL}" />
                 </Hyperlink>
             </TextBlock>
             <Label Margin="0,5,0,0" Style="{DynamicResource DescriptionHeaderStyle}">
@@ -34,10 +34,10 @@
             </Label>
             <TextBlock Margin="6,0,0,5">
                 <Hyperlink
-                    NavigateUri="{Binding AppSettings.RepositoryLink}"
+                    NavigateUri="{Binding RepositoryURL}"
                     RequestNavigate="Hyperlink_RequestNavigate"
                     Style="{DynamicResource LinkStyle}">
-                    <TextBlock Text="{Binding AppSettings.RepositoryLink}" />
+                    <TextBlock Text="{Binding RepositoryURL}" />
                 </Hyperlink>
             </TextBlock>
             <Label Margin="0,5,0,0" Style="{DynamicResource DescriptionHeaderStyle}">

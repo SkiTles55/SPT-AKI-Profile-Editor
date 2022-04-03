@@ -1,41 +1,34 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
+﻿using ReleaseChecker.GitHub;
+using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
     public class UpdatesChecker
     {
-        private static readonly HttpClient HttpClient;
+        private static readonly GitHubChecker gitHubChecker;
 
         static UpdatesChecker()
         {
-            HttpClient = new HttpClient();
+            gitHubChecker = new GitHubChecker(AppData.AppSettings.repoAuthor, AppData.AppSettings.repoName);
         }
 
-        public static bool CheckUpdate(string link = null, Version version = null)
+        public static async Task<GitHubRelease> CheckUpdate()
         {
             try
             {
-                if (string.IsNullOrEmpty(link))
-                    link = AppSettings.RepositoryLink;
-                if (version == null)
-                    version = GetVersion();
-
-                using var responce = HttpClient.GetAsync(new Uri(link)).Result;
-                var responseUrl = responce.RequestMessage.RequestUri.ToString();
-                if (responseUrl == link)
-                    return false;
-
-                Version latest = new(responseUrl.Split('/').Last());
-
-                return latest > version;
+                var currentVersion = GetVersion();
+                var latestRelease = await gitHubChecker.GetLatestReleaseAsync(true);
+                if (latestRelease != null && new Version(latestRelease.Tag) > currentVersion)
+                    return latestRelease;
+                Logger.Log($"No updates available");
+                return null;
             }
             catch (Exception ex)
             {
                 Logger.Log($"UpdatesChecker error : {ex.Message}");
-                return false;
+                return null;
             }
         }
 

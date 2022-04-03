@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +20,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private static MetroDialogSettings ShutdownDialogSettings => new()
         {
             AffirmativeButtonText = AppData.AppLocalization.GetLocalizedString("button_quit"),
+            AnimateShow = true,
+            AnimateHide = true
+        };
+
+        private static MetroDialogSettings OkDialogSettings => new()
+        {
+            AffirmativeButtonText = AppData.AppLocalization.GetLocalizedString("save_profile_dialog_ok"),
             AnimateShow = true,
             AnimateHide = true
         };
@@ -57,6 +65,27 @@ namespace SPT_AKI_Profile_Editor.Helpers
             });
             settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand, index) };
             await App.DialogCoordinator.ShowMetroDialogAsync(context, settingsDialog);
+        }
+
+        public static async Task ShowUpdateDialog(object context, GitHubRelease release)
+        {
+            CustomDialog updateDialog = new()
+            {
+                Title = AppData.AppLocalization.GetLocalizedString("update_avialable"),
+                DialogContentWidth = new GridLength(500)
+            };
+            RelayCommand closeCommand = new(async obj =>
+            {
+                await App.DialogCoordinator.HideMetroDialogAsync(context, updateDialog);
+            });
+            updateDialog.Content = new UpdateDialog { DataContext = new UpdateDialogViewModel(closeCommand, release) };
+            await App.DialogCoordinator.ShowMetroDialogAsync(context, updateDialog);
+        }
+
+        public static async Task ShowOkMessageAsync(object context, string title, string message)
+        {
+            await App.DialogCoordinator.ShowMessageAsync(context, title, 
+                message, MessageDialogStyle.Affirmative, OkDialogSettings);
         }
     }
 }

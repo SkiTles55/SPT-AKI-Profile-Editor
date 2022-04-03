@@ -168,7 +168,6 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_clothing_acquire_all"] = "Acquire all",
                     ["server_runned"] = "The server you selected is currently running. Shut down the server and restart the program.",
                     ["update_avialable"] = "Update available",
-                    ["update_caption"] = "A new version of the program is available. Open the download page?",
                     ["tab_presets_title"] = "Presets",
                     ["tab_presets_export"] = "Export",
                     ["tab_presets_import"] = "Import",
@@ -180,7 +179,17 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_presets_ergonomics"] = "Ergonomics",
                     ["tab_preset_recoil_up"] = "Recoil Up",
                     ["tab_preset_recoil_back"] = "Recoil Back",
-                    ["tab_presets_modded_items"] = "Weapon preset contains items added by mods"
+                    ["tab_presets_modded_items"] = "Weapon preset contains items added by mods",
+                    ["update_dialog_version"] = "Version",
+                    ["update_dialog_publish_date"] = "Publish date",
+                    ["update_dialog_size"] = "Size",
+                    ["update_dialog_downloads"] = "Downloads count",
+                    ["update_dialog_download_button"] = "Download",
+                    ["update_dialog_open_button"] = "Open GitHub",
+                    ["download_dialog_title"] = "File download",
+                    ["button_cancel"] = "Cancel",
+                    ["download_dialog_downloaded"] = "Downloaded:",
+                    ["download_dialog_success"] = "File downloaded successfully"
                 }
             },
             new AppLocalization
@@ -298,7 +307,6 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_clothing_acquire_all"] = "Получить все",
                     ["server_runned"] = "Выбранный вами сервер запущен в данный момент. Выключите сервер и перезапустите программу.",
                     ["update_avialable"] = "Доступно обновление",
-                    ["update_caption"] = "Доступна новая версия программы. Открыть страницу загрузки?",
                     ["tab_presets_title"] = "Сборки",
                     ["tab_presets_export"] = "Экспорт",
                     ["tab_presets_import"] = "Импорт",
@@ -310,7 +318,17 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_presets_ergonomics"] = "Эргономика",
                     ["tab_preset_recoil_up"] = "Вертикальная отдача",
                     ["tab_preset_recoil_back"] = "Горизонтальная отдача",
-                    ["tab_presets_modded_items"] = "Сборка содержит предметы добавленные модами"
+                    ["tab_presets_modded_items"] = "Сборка содержит предметы добавленные модами",
+                    ["update_dialog_version"] = "Версия",
+                    ["update_dialog_publish_date"] = "Дата публикации",
+                    ["update_dialog_size"] = "Размер",
+                    ["update_dialog_downloads"] = "Количество скачиваний",
+                    ["update_dialog_download_button"] = "Скачать",
+                    ["update_dialog_open_button"] = "Открыть GitHub",
+                    ["download_dialog_title"] = "Скачивание файла",
+                    ["button_cancel"] = "Отмена",
+                    ["download_dialog_downloaded"] = "Скачано:",
+                    ["download_dialog_success"] = "Файл успешно скачан"
                 }
             }
         };
