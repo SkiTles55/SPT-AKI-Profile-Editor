@@ -1,8 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>SPT_AKI_Profile_Editor.Core</RootNamespace>
+    <Version>2.1.0</Version>
+    <PackageId>SPT-AKI Profile Editor.Core</PackageId>
+    <Authors>SkiTles55</Authors>
+    <Company>SkiTles55</Company>
+    <Product>SPT-AKI Profile Editor.Core</Product>
+    <Description>Library for editing player profile on the SPT-AKI Server</Description>
+    <Copyright>SkiTles55</Copyright>
+    <PackageProjectUrl>https://github.com/SkiTles55/SPT-AKI-Profile-Editor</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

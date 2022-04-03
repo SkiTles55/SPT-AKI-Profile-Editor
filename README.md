@@ -13,7 +13,7 @@
 
 ### [Отправить баг репорт](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Версия 2.0 для сервера SPT-AKI 2.2.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.0)
+### [Версия 2.1 для сервера SPT-AKI 2.2.0 - 2.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1)
 
 ### Возможности:
 * Уровень, никнейм, голос персонажа
@@ -32,7 +32,8 @@
 * Автоматические бэкапы при каждом сохранении профиля
 
 ### Требования:
-* .NET 5.0
+* .NET 6.0
+* .NET 5.0 (только для версии приложения 2.0)
 
 ### Предыдущие версии:
 [Версии 1.0 - 1.9 для серверов 0.12.7-R6 - SPT-AKI 2.0.0](https://github.com/SkiTles55/SP-EFT-ProfileEditor#readme)

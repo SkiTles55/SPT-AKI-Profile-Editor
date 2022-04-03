@@ -8,7 +8,7 @@
 
 ### [Submit a bug report](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 2.0 for server SPT-AKI 2.2.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.0)
+### [Version 2.1 for server SPT-AKI 2.2.0 - 2.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1)
 
 ### Capabilities:
 * Level, nickname, character voice  
@@ -27,7 +27,8 @@
 * Automatic backups every time you save your profile
 
 ### Requirements:
-* .NET 5.0
+* .NET 6.0
+* .NET 5.0 (only for app version 2.0)
 
 ### Previous versions:
 [Versions 1.0 - 1.9 for servers 0.12.7-R6 - SPT-AKI 2.0.0](https://github.com/SkiTles55/SP-EFT-ProfileEditor#readme)
