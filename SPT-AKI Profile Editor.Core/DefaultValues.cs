@@ -322,7 +322,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["update_dialog_version"] = "Версия",
                     ["update_dialog_publish_date"] = "Дата публикации",
                     ["update_dialog_size"] = "Размер",
-                    ["update_dialog_downloads"] = "Количество загрузок",
+                    ["update_dialog_downloads"] = "Количество скачиваний",
                     ["update_dialog_download_button"] = "Скачать",
                     ["update_dialog_open_button"] = "Открыть GitHub",
                     ["download_dialog_title"] = "Скачивание файла",
