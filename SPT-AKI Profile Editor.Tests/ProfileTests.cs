@@ -179,6 +179,24 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void QuestsFirstLockedStatusSavesCorrectly()
+        {
+            AppData.AppSettings.AutoAddMissingQuests = true;
+            AppData.Profile.Load(profileFile);
+            var locked = AppData.Profile.Characters.Pmc.Quests?
+                .Where(x => x.Type == QuestType.Standart && x.Status == QuestStatus.Locked)?
+                .First();
+            Assert.IsNotNull(locked);
+            locked.Status = QuestStatus.AvailableForFinish;
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests?
+                .Where(x => x.Qid == locked.Qid)?
+                .First().Status == QuestStatus.AvailableForFinish);
+        }
+
+        [Test]
         public void HideoutAreaLevelsSavesCorrectly()
         {
             AppData.Profile.Load(profileFile);

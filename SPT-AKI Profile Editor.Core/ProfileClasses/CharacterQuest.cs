@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using System.Linq;
 
@@ -23,6 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty("status")]
         public QuestStatus Status
         {

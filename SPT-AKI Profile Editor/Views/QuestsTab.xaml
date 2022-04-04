@@ -176,7 +176,7 @@
                             <ComboBox
                                 Margin="5"
                                 ItemsSource="{Binding Path=Type, Converter={StaticResource QuestStatusValueConverter}}"
-                                SelectedItem="{Binding Path=Status, Converter={StaticResource QuestStatusValueConverter}}" />
+                                SelectedItem="{Binding Path=Status, Converter={StaticResource QuestStatusValueConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
