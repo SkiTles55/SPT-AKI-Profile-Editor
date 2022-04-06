@@ -2,6 +2,8 @@
 This is not a mod, but a separate program. It does not need to be unpacked into the server mods folder.
 
 ### The program displays the message: "The selected path does not seem to be a SPT-AKI server location."
+Make sure that folder user\profiles exist in the server folder. Before using the program, you must start the server, create a profile in the launcher, and go into the game at least once.
+
 Make sure you are using the correct version of the program for your SPT-AKI server. If the [README](ENGREADME.md)) does not indicate compatibility with your version of the server, wait for an update. Or you can try editing the relative paths in the AppSettings.json file, but success is not guaranteed!
 
 ### Some items are missing in the "Adding items" window
