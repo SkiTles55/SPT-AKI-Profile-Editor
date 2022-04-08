@@ -57,27 +57,25 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("Level");
                 if (salesSumStart == null)
                     salesSumStart = AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum;
-                if (long.TryParse(LoyaltyLevels[value - 1].MinSalesSum.ToString(), out long salesSum))
-                {
-                    AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum = value != levelStart ? salesSum + 100 : salesSumStart.Value;
-                    OnPropertyChanged("SalesSum");
-                }
+                AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum = value != levelStart ? LoyaltyLevels[value - 1].MinSalesSum + 100 : salesSumStart.Value;
+                OnPropertyChanged("SalesSum");
                 if (staindingStart == null)
                     staindingStart = AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].Standing ?? 0;
-                if (float.TryParse(LoyaltyLevels[value - 1].MinStanding.ToString().Replace(".", ","), out float standing))
-                {
-                    AppData.Profile.Characters.Pmc.TraderStandings[Id].Standing = value != levelStart ? standing + 0.02f : staindingStart.Value;
-                    OnPropertyChanged("Standing");
-                }
+                AppData.Profile.Characters.Pmc.TraderStandings[Id].Standing = value != levelStart ? LoyaltyLevels[value - 1].MinStanding + 0.02f : staindingStart.Value;
+                OnPropertyChanged("Standing");
                 if (unlockedStart == null)
                     unlockedStart = AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].Unlocked ?? false;
                 AppData.Profile.Characters.Pmc.TraderStandings[Id].Unlocked = value > 1 || unlockedStart.Value;
                 OnPropertyChanged("Unlocked");
+                OnPropertyChanged("IsLevelAvailable");
             }
         }
 
         [JsonIgnore]
         public int MaxLevel => LoyaltyLevels.Count;
+
+        [JsonIgnore]
+        public bool IsLevelAvailable => (AppData.Profile?.Characters?.Pmc?.Info?.Level ?? 0) >= LoyaltyLevels[Level - 1].MinLevel;
 
         [JsonIgnore]
         public string SalesSum => (AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].SalesSum ?? 0).ToString("N0");

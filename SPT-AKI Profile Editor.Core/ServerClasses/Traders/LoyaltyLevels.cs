@@ -2,15 +2,16 @@
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public class LoyaltyLevels
     {
         [JsonPropertyName("minLevel")]
-        public object MinLevel { get; set; } //WTF SPT-AKI? why string in minLevel????
+        public int MinLevel { get; set; }
 
         [JsonPropertyName("minSalesSum")]
-        public object MinSalesSum { get; set; }
+        public long MinSalesSum { get; set; }
 
         [JsonPropertyName("minStanding")]
-        public object MinStanding { get; set; }
+        public float MinStanding { get; set; }
     }
 }
