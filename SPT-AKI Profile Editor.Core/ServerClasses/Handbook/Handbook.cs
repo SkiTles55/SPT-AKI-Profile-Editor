@@ -6,8 +6,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class Handbook
     {
-        private List<HandbookCategory> categoriesForItemsAdding;
-
         public Handbook(List<HandbookCategory> categories, List<HandbookItem> items)
         {
             Categories = categories;
@@ -24,13 +22,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public List<HandbookItem> Items { get; set; }
 
         [JsonIgnore]
-        public List<HandbookCategory> CategoriesForItemsAdding
-        {
-            get => categoriesForItemsAdding;
-            set
-            {
-                categoriesForItemsAdding = value;
-            }
-        }
+        public List<HandbookCategory> CategoriesForItemsAdding { get; }
     }
 }

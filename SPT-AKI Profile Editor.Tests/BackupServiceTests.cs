@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     internal class BackupServiceTests
     {
-        private const string profileFile = @"C:\SPT\user\profiles\5fefd341298c14dbf210a8a3.json";
+        private const string profileFile = @"C:\SPT\user\profiles\99ccaab4eee294d7f3b432af.json";
         private BackupService backupService;
 
         [OneTimeSetUp]

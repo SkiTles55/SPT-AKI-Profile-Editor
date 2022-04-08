@@ -316,7 +316,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                             pmc.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = newStash;
                         if (!AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == probe.Id))
                             ForRemove.Add(pmc.SelectToken("Inventory").SelectToken("items")[index]);
-                        if (probe.SlotId == AppData.AppSettings.PocketsSlotId)
+                        if (probe.IsPockets)
                             pmc.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Pmc.Inventory.Pockets;
                     }
                     foreach (var removedItem in ForRemove)
@@ -337,7 +337,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         var probe = scav.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
                         if (probe == null)
                             continue;
-                        if (probe.SlotId == AppData.AppSettings.PocketsSlotId)
+                        if (probe.IsPockets)
                             scav.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Scav.Inventory.Pockets;
                     }
                 }

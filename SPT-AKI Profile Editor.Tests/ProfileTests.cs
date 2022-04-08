@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     internal class ProfileTests
     {
-        private const string profileFile = @"C:\SPT\user\profiles\5fefd341298c14dbf210a8a3.json";
+        private const string profileFile = @"C:\SPT\user\profiles\99ccaab4eee294d7f3b432af.json";
 
         [OneTimeSetUp]
         public void Setup()
@@ -341,6 +341,16 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length);
+        }
+
+        [Test]
+        public void StashRemovingAllItemsRunsCorrectly()
+        {
+            AppData.Profile.Load(profileFile);
+            AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
+            var ids = AppData.Profile.Characters.Pmc.Inventory.Items.Select(x => x.Id);
+            var missedItems = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.ParentId != null && !ids.Contains(x.ParentId));
+            Assert.IsEmpty(missedItems);
         }
 
         [Test]

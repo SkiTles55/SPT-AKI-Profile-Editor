@@ -30,5 +30,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool IsAddedByMods =>
             !AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl);
+
+        [JsonIgnore]
+        public bool IsPockets => SlotId == AppData.AppSettings.PocketsSlotId;
     }
 }

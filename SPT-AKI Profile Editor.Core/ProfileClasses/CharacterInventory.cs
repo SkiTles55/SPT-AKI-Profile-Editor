@@ -43,12 +43,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string Pockets
         {
             get => Items?
-                .Where(x => x.SlotId == AppData.AppSettings.PocketsSlotId)
+                .Where(x => x.IsPockets)
                 .FirstOrDefault()?.Tpl;
             set
             {
                 var pocketsSlot = Items?
-                .Where(x => x.SlotId == AppData.AppSettings.PocketsSlotId)
+                .Where(x => x.IsPockets)
                 .FirstOrDefault();
                 if (pocketsSlot != null)
                 {
@@ -69,12 +69,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public InventoryItem[] InventoryItems => Items?
-            .Where(x => x.ParentId == Stash)?
+            .Where(x => x.ParentId == Stash && x.Location != null)?
             .ToArray();
 
         [JsonIgnore]
-        public bool ContainsModdedItems => InventoryItems
-            .Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+        public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
 
         [JsonIgnore]
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
@@ -125,60 +124,50 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int stacks = count / mItem.Properties.StackMaxSize;
             if (mItem.Properties.StackMaxSize * stacks < count) stacks++;
             List<ItemLocation> NewItemsLocations = GetItemLocations(mItem, Stash, stacks);
-            if (NewItemsLocations == null || NewItemsLocations.Count == 0)
+            if (NewItemsLocations == null)
                 throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
-            if (NewItemsLocations.Count == stacks)
+            for (int i = 0; i < NewItemsLocations.Count; i++)
             {
-                for (int i = 0; i < NewItemsLocations.Count; i++)
+                if (count <= 0) break;
+                string id = ExtMethods.GenerateNewId(iDs.ToArray());
+                iDs.Add(id);
+                var newItem = new InventoryItem
                 {
-                    if (count <= 0) break;
-                    string id = ExtMethods.GenerateNewId(iDs.ToArray());
-                    iDs.Add(id);
-                    var newItem = new InventoryItem
-                    {
-                        Id = id,
-                        ParentId = this.Stash,
-                        SlotId = "hideout",
-                        Tpl = mItem.Id,
-                        Location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true },
-                        Upd = new ItemUpd { StackObjectsCount = count > mItem.Properties.StackMaxSize ? mItem.Properties.StackMaxSize : count, SpawnedInSession = fir }
-                    };
-                    items.Add(newItem);
-                    count -= mItem.Properties.StackMaxSize;
-                }
-                Items = items.ToArray();
+                    Id = id,
+                    ParentId = this.Stash,
+                    SlotId = "hideout",
+                    Tpl = mItem.Id,
+                    Location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true },
+                    Upd = new ItemUpd { StackObjectsCount = count > mItem.Properties.StackMaxSize ? mItem.Properties.StackMaxSize : count, SpawnedInSession = fir }
+                };
+                items.Add(newItem);
+                count -= mItem.Properties.StackMaxSize;
             }
-            else
-                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            Items = items.ToArray();
         }
 
         public int[,] GetPlayerStashSlotMap()
         {
-            try
+            int[,] Stash2D = CreateStash2D();
+            foreach (var item in InventoryItems)
             {
-                int[,] Stash2D = CreateStash2D();
-                foreach (var item in InventoryItems
-                    .Where(x => AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl) && x.Location != null))
+                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
+                int rotatedHeight = item.Location.R == "Vertical" ? itemWidth : itemHeight;
+                int rotatedWidth = item.Location.R == "Vertical" ? itemHeight : itemWidth;
+                for (int y = 0; y < rotatedHeight; y++)
                 {
-                    (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
-                    int rotatedHeight = item.Location.R == "Vertical" ? itemWidth : itemHeight;
-                    int rotatedWidth = item.Location.R == "Vertical" ? itemHeight : itemWidth;
-                    for (int y = 0; y < rotatedHeight; y++)
+                    try
                     {
-                        try
-                        {
-                            for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
-                                Stash2D[item.Location.Y + y, z] = 1;
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Log($"Failed to insert item with id {item.Id} to Stash2D: {ex.Message}");
-                        }
+                        for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
+                            Stash2D[item.Location.Y + y, z] = 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log($"Failed to insert item with id {item.Id} to Stash2D: {ex.Message}");
                     }
                 }
-                return Stash2D;
             }
-            catch (Exception ex) { Logger.Log($"Failed to get player's Stash2D: {ex.Message}"); return new int[0, 0]; }
+            return Stash2D;
         }
 
         private static List<ItemLocation> GetFreeSlots(int[,] Stash)
@@ -258,15 +247,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private int[,] CreateStash2D()
         {
-            try
-            {
-                InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
-                Grid stashTPL = AppData.ServerDatabase.ItemsDB[ProfileStash.Tpl].Properties.Grids.First();
-                int stashX = stashTPL.Props.CellsH == 0 ? 10 : stashTPL.Props.CellsH;
-                int stashY = stashTPL.Props.CellsV == 0 ? 66 : stashTPL.Props.CellsV;
-                return new int[stashY, stashX];
-            }
-            catch (Exception ex) { Logger.Log($"Failed to create Stash2D: {ex.Message}"); return new int[0, 0]; }
+            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            Grid stashTPL = AppData.ServerDatabase.ItemsDB[ProfileStash.Tpl].Properties.Grids.First();
+            int stashX = stashTPL.Props.CellsH == 0 ? 10 : stashTPL.Props.CellsH;
+            int stashY = stashTPL.Props.CellsV == 0 ? 66 : stashTPL.Props.CellsV;
+            return new int[stashY, stashX];
         }
 
         private (int iW, int iH) GetSizeOfInventoryItem(InventoryItem inventoryItem)

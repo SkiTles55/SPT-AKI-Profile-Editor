@@ -5,8 +5,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class HandbookItem
     {
-        private TarkovItem item;
-
         [JsonConstructor]
         public HandbookItem(string id, string parentId)
         {
@@ -24,6 +22,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public string ParentId { get; set; }
 
         [JsonIgnore]
-        public TarkovItem Item { get => item; set => item = value; }
+        public TarkovItem Item { get; }
     }
 }

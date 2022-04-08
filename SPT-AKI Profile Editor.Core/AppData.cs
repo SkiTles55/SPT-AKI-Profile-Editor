@@ -160,10 +160,11 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void FindPockets() => ServerDatabase.Pockets = ServerDatabase.ItemsDB
             .Where(x => x.Value.Parent == AppSettings.PocketsContainerTpl)
+            .OrderBy(x => x.Value.SlotsCount)
             .ToDictionary(x => x.Key, x => GetPocketsName(x.Value));
 
         private static string GetPocketsName(TarkovItem x) =>
-            $"{x.LocalizedName} ({x.GetSlotsCount})";
+            $"{x.LocalizedName} ({x.SlotsCount})";
 
         private static void LoadTraderSuits()
         {
