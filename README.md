@@ -13,7 +13,7 @@
 
 ### [Отправить баг репорт](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Версия 2.1 для сервера SPT-AKI 2.2.0 - 2.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1)
+### [Версия 2.1.1 для сервера SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1.1)
 
 ### Возможности:
 * Уровень, никнейм, голос персонажа

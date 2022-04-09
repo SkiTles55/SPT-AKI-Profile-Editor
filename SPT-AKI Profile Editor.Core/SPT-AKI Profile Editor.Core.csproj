@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>SPT_AKI_Profile_Editor.Core</RootNamespace>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <PackageId>SPT-AKI Profile Editor.Core</PackageId>
     <Authors>SkiTles55</Authors>
     <Company>SkiTles55</Company>

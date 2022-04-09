@@ -1,6 +1,11 @@
 # SPT-AKI Profile Editor [RU README version](README.md)
 ### Program for editing player profile on the SPT-AKI Server
-[![HitCount](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor.svg?style=flat-square)](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor)
+<a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
+  ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)
+  [![HitCount](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor.svg?style=flat-square)](http://hits.dwyl.com/SkiTles55/SPT-AKI-Profile-Editor)
+  ![GitHub all releases](https://img.shields.io/github/downloads/SkiTles55/SPT-AKI-Profile-Editor/total)
+  ![GitHub release (latest by date)](https://img.shields.io/github/downloads/SkiTles55/SPT-AKI-Profile-Editor/latest/total)
+  ![GitHub last commit](https://img.shields.io/github/last-commit/SkiTles55/SPT-AKI-Profile-Editor)
 
 #### Support the developer:
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)
@@ -8,7 +13,7 @@
 
 ### [Submit a bug report](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 2.1 for server SPT-AKI 2.2.0 - 2.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1)
+### [Version 2.1.1 for server SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1.1)
 
 ### Capabilities:
 * Level, nickname, character voice  
