@@ -17,6 +17,10 @@ namespace SPT_AKI_Profile_Editor.Views
             DataContext = new QuestsTabViewModel();
         }
 
+        private static bool FiltersIsEmpty() => string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter)
+                            && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter)
+                            && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter);
+
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) => ApplyQuestFilter();
 
         private void ApplyQuestFilter()
@@ -24,9 +28,7 @@ namespace SPT_AKI_Profile_Editor.Views
             ICollectionView cv = CollectionViewSource.GetDefaultView(questsGrid.ItemsSource);
             if (cv == null)
                 return;
-            if (string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter)
-                && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestStatusFilter)
-                && string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.TraderNameFilter))
+            if (FiltersIsEmpty())
                 cv.Filter = null;
             else
             {
@@ -55,6 +57,29 @@ namespace SPT_AKI_Profile_Editor.Views
                         || p.Status.ToString().ToUpper().Contains(AppData.GridFilters.QuestsTab.QuestStatusFilter.ToUpper());
                     }
                 };
+            }
+        }
+
+        private void Expander_Expanded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (sender is Expander questType && questType.DataContext is CollectionViewGroup grid)
+            {
+                var groupName = grid.Name.ToString();
+                if (!AppData.GridFilters.QuestsTab.QuestTypesExpander.ContainsKey(groupName))
+                    AppData.GridFilters.QuestsTab.QuestTypesExpander.Add(groupName, questType.IsExpanded);
+                else
+                    AppData.GridFilters.QuestsTab.QuestTypesExpander[groupName] = questType.IsExpanded;
+            }
+        }
+
+        private void Expander_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (sender is Expander questType && questType.DataContext is CollectionViewGroup grid)
+            {
+                var groupName = grid.Name.ToString();
+                if (!AppData.GridFilters.QuestsTab.QuestTypesExpander.ContainsKey(groupName))
+                    AppData.GridFilters.QuestsTab.QuestTypesExpander.Add(groupName, true);
+                questType.IsExpanded = AppData.GridFilters.QuestsTab.QuestTypesExpander[groupName];
             }
         }
     }

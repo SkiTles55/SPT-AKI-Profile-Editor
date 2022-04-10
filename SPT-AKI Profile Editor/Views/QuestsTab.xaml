@@ -50,7 +50,9 @@
                                         <Expander
                                             mah:HeaderedControlHelper.HeaderBackground="Transparent"
                                             BorderThickness="0"
-                                            IsExpanded="True">
+                                            Collapsed="Expander_Expanded"
+                                            Expanded="Expander_Expanded"
+                                            Loaded="Expander_Loaded">
                                             <Expander.Header>
                                                 <DockPanel>
                                                     <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
