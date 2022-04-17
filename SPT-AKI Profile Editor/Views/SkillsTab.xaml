@@ -78,13 +78,14 @@
                                 <DataTemplate>
                                     <DockPanel>
                                         <TextBox
+                                            MinWidth="50"
                                             Margin="5,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             DockPanel.Dock="Left"
                                             FontWeight="Bold"
                                             PreviewTextInput="NumberValidationTextBox"
-                                            Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" />
+                                            Text="{Binding Progress, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
                                         <Slider
                                             Margin="5,5,10,5"
                                             VerticalAlignment="Center"
@@ -116,13 +117,13 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
                     <TextBox
-                        Width="60"
+                        Width="50"
                         Margin="5,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         PreviewTextInput="NumberValidationTextBox"
-                        Text="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding SetAllPmcSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
                     <Slider
                         Grid.Column="1"
                         Width="200"
@@ -203,13 +204,14 @@
                                 <DataTemplate>
                                     <DockPanel>
                                         <TextBox
+                                            MinWidth="50"
                                             Margin="5,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             DockPanel.Dock="Left"
                                             FontWeight="Bold"
                                             PreviewTextInput="NumberValidationTextBox"
-                                            Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" />
+                                            Text="{Binding Progress, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
                                         <Slider
                                             Margin="5,5,10,5"
                                             VerticalAlignment="Center"
@@ -241,13 +243,13 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
                     <TextBox
-                        Width="60"
+                        Width="50"
                         Margin="5,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         PreviewTextInput="NumberValidationTextBox"
-                        Text="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding SetAllScavSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
                     <Slider
                         Grid.Column="1"
                         Width="200"

@@ -136,18 +136,18 @@
                     Grid.Column="1"
                     Margin="10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBox
                         Grid.Column="0"
-                        MinWidth="70"
+                        MinWidth="80"
                         Margin="0,0,10,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         PreviewTextInput="NumberValidationTextBox"
-                        Text="{Binding Profile.Characters.Pmc.Info.Experience, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding Profile.Characters.Pmc.Info.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
                     <Slider
                         Grid.Column="1"
                         Margin="2,0"
@@ -305,18 +305,18 @@
                     Grid.Column="1"
                     Margin="10,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBox
                         Grid.Column="0"
-                        MinWidth="70"
+                        MinWidth="90"
                         Margin="0,0,10,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         FontWeight="Bold"
                         PreviewTextInput="NumberValidationTextBox"
-                        Text="{Binding Profile.Characters.Scav.Info.Experience, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding Profile.Characters.Scav.Info.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
                     <Slider
                         Grid.Column="1"
                         Margin="2,0"
