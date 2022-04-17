@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System;
@@ -59,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public static string[] GetStrings()
         {
             List<string> list = new();
-            foreach (QuestStatus format in Enum.GetValues(typeof(QuestStatus)))
+            foreach (QuestStatus format in AppData.AppSettings.standartQuestStatuses)
                 list.Add(GetString(format));
 
             return list.ToArray();

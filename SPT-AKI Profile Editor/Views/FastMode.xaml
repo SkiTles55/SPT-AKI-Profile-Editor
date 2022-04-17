@@ -92,18 +92,18 @@
             Grid.Column="1"
             Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBox
                 Grid.Column="0"
-                MinWidth="70"
+                MinWidth="80"
                 Margin="0,0,10,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding Pmc.Experience, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Pmc.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="2,0"
@@ -148,7 +148,7 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding SetAllPmcSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
@@ -194,7 +194,7 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding SetAllPmcMasteringsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
@@ -374,18 +374,18 @@
             Grid.Column="4"
             Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBox
                 Grid.Column="0"
-                MinWidth="70"
+                MinWidth="80"
                 Margin="0,0,10,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding Scav.Experience, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Scav.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="2,0"
@@ -419,7 +419,7 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding SetAllScavSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
@@ -454,7 +454,7 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding SetAllScavMasteringsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
