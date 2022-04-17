@@ -20,6 +20,12 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         AvailableForFinish,
 
         [EnumMember(Value = "Success")]
-        Success
+        Success,
+
+        [EnumMember(Value = "FailRestartable")]
+        FailRestartable,
+
+        [EnumMember(Value = "MarkedAsFailed")]
+        MarkedAsFailed
     }
 }

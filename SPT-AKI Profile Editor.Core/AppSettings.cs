@@ -26,6 +26,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public readonly List<QuestStatus> repeatableQuestStatuses = new()
         {
+            QuestStatus.AvailableForStart,
             QuestStatus.Started,
             QuestStatus.Fail,
             QuestStatus.AvailableForFinish,
