@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -49,19 +50,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     return;
                 if (levelStart == null)
                     levelStart = AppData.Profile.Characters.Pmc.TraderStandings[Id].LoyaltyLevel;
-                if (value == 0)
-                    value = 1;
-                if (value > MaxLevel)
-                    value = MaxLevel;
+                value = Math.Min(Math.Max(value, 1), MaxLevel);
                 AppData.Profile.Characters.Pmc.TraderStandings[Id].LoyaltyLevel = value;
                 OnPropertyChanged("Level");
                 if (salesSumStart == null)
                     salesSumStart = AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum;
-                AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum = value != levelStart ? LoyaltyLevels[value - 1].MinSalesSum + 100 : salesSumStart.Value;
+                AppData.Profile.Characters.Pmc.TraderStandings[Id].SalesSum = value >= levelStart ? Math.Max(LoyaltyLevels[value - 1].MinSalesSum + 100, salesSumStart.Value) : Math.Min(LoyaltyLevels[value - 1].MinSalesSum + 100, salesSumStart.Value);
                 OnPropertyChanged("SalesSum");
                 if (staindingStart == null)
                     staindingStart = AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].Standing ?? 0;
-                AppData.Profile.Characters.Pmc.TraderStandings[Id].Standing = value != levelStart ? LoyaltyLevels[value - 1].MinStanding + 0.02f : staindingStart.Value;
+                AppData.Profile.Characters.Pmc.TraderStandings[Id].Standing = value >= levelStart ? Math.Max(LoyaltyLevels[value - 1].MinStanding + 0.02f, staindingStart.Value) : Math.Min(LoyaltyLevels[value - 1].MinStanding + 0.02f, staindingStart.Value);
                 OnPropertyChanged("Standing");
                 if (unlockedStart == null)
                     unlockedStart = AppData.Profile?.Characters?.Pmc?.TraderStandings?[Id].Unlocked ?? false;
