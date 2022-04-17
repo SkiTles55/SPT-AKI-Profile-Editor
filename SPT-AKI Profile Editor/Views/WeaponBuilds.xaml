@@ -21,149 +21,154 @@
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <ListBox
+        <ScrollViewer
             Grid.Row="0"
             Grid.ColumnSpan="3"
-            ItemContainerStyle="{StaticResource NoHoverListBox}"
-            ItemsSource="{Binding Profile.WBuilds}">
-            <ListBox.Resources>
-                <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </ListBox.Resources>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border
-                        Margin="5"
-                        BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
-                        BorderThickness="1">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="110" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-                                <Label
+            CanContentScroll="True"
+            PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <ListBox
+                ItemContainerStyle="{StaticResource NoHoverListBox}"
+                ItemsSource="{Binding Profile.WBuilds}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.Resources>
+                    <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="5"
+                            BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+                            BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="110" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Content="{Binding Path=Key}"
-                                    FontSize="14"
-                                    FontWeight="Bold" />
+                                    Orientation="Horizontal">
+                                    <Label
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding Path=Key}"
+                                        FontSize="14"
+                                        FontWeight="Bold" />
+                                    <Label
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Foreground="Red"
+                                        ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Value.HasModdedItems}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                        <iconPacks:PackIconFontAwesome
+                                            Width="18"
+                                            Height="18"
+                                            Kind="ExclamationTriangleSolid" />
+                                    </Label>
+                                </StackPanel>
                                 <Label
-                                    Margin="5"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Foreground="Red"
-                                    ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}">
-                                    <Label.Style>
-                                        <Style TargetType="Label">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Path=Value.HasModdedItems}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Label.Style>
-                                    <iconPacks:PackIconFontAwesome
-                                        Width="18"
-                                        Height="18"
-                                        Kind="ExclamationTriangleSolid" />
+                                    Content="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}" />
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                    <Label.Content>
+                                        <TextBlock Text="{Binding Path=Value.Weapon}" TextWrapping="Wrap" />
+                                    </Label.Content>
                                 </Label>
-                            </StackPanel>
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}" />
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=Value.Weapon}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
-                            <Button
-                                x:Name="PresetExport"
-                                Grid.Row="0"
-                                Grid.Column="2"
-                                Margin="5"
-                                Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}"
-                                CommandParameter="{Binding Value}"
-                                Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" />
-                            <Button
-                                x:Name="PresetRemove"
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                Margin="5"
-                                Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
-                                CommandParameter="{Binding Key}"
-                                Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
-                            <Label
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_presets_ergonomics], Source={StaticResource proxy}}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
-                            <Label
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{Binding Path=Value.Ergonomics}" />
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_preset_recoil_up], Source={StaticResource proxy}}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{Binding Path=Value.RecoilForceUp}" />
-                            <Label
-                                Grid.Row="4"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_preset_recoil_back], Source={StaticResource proxy}}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
-                            <Label
-                                Grid.Row="4"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{Binding Path=Value.RecoilForceBack}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                                <Button
+                                    x:Name="PresetExport"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="5"
+                                    Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}"
+                                    CommandParameter="{Binding Value}"
+                                    Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" />
+                                <Button
+                                    x:Name="PresetRemove"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Margin="5"
+                                    Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
+                                    CommandParameter="{Binding Key}"
+                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                    <Label.Content>
+                                        <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_presets_ergonomics], Source={StaticResource proxy}}" TextWrapping="Wrap" />
+                                    </Label.Content>
+                                </Label>
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Path=Value.Ergonomics}" />
+                                <Label
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                    <Label.Content>
+                                        <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_preset_recoil_up], Source={StaticResource proxy}}" TextWrapping="Wrap" />
+                                    </Label.Content>
+                                </Label>
+                                <Label
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Path=Value.RecoilForceUp}" />
+                                <Label
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                    <Label.Content>
+                                        <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_preset_recoil_back], Source={StaticResource proxy}}" TextWrapping="Wrap" />
+                                    </Label.Content>
+                                </Label>
+                                <Label
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Path=Value.RecoilForceBack}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
         <Border
             Grid.Row="0"
             Grid.ColumnSpan="3"
