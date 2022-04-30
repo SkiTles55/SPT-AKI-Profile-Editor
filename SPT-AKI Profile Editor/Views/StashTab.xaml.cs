@@ -1,6 +1,6 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Views.ExtendedControls;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -34,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 cv.Filter = o =>
                 {
-                    HandbookCategoryViewModel p = o as HandbookCategoryViewModel;
+                    HandbookCategory p = o as HandbookCategory;
                     return p.ContainsItemsWithTextInName(AppData.GridFilters.StashTab.AddingItemName);
                 };
             }

@@ -8,7 +8,8 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignInstance Type=extendedcontrols:HandbookCategoryViewModel}"
+    xmlns:serverclasses="clr-namespace:SPT_AKI_Profile_Editor.Core.ServerClasses"
+    d:DataContext="{d:DesignInstance Type=serverclasses:HandbookCategory}"
     mc:Ignorable="d">
     <Expander
         mah:HeaderedControlHelper.HeaderBackground="Transparent"
