@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppLocalization : BindableEntity
     {
-        private static readonly string localizationsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Localizations");
+        private static readonly string localizationsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor", "Localizations");
         private Dictionary<string, string> translations;
 
         public AppLocalization()

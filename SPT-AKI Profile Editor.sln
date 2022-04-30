@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPT-AKI Profile Editor", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPT-AKI Profile Editor.Tests", "SPT-AKI Profile Editor.Tests\SPT-AKI Profile Editor.Tests.csproj", "{0F9C0DE1-29D0-45C5-8AFE-B6A1AD953C9B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SPT-AKI Profile Editor.Installer", "SPT-AKI Profile Editor.Installer\SPT-AKI Profile Editor.Installer.vdproj", "{AA494F62-9178-446B-9184-4F78725D3303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{0F9C0DE1-29D0-45C5-8AFE-B6A1AD953C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F9C0DE1-29D0-45C5-8AFE-B6A1AD953C9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0F9C0DE1-29D0-45C5-8AFE-B6A1AD953C9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA494F62-9178-446B-9184-4F78725D3303}.Debug|Any CPU.ActiveCfg = Debug
+		{AA494F62-9178-446B-9184-4F78725D3303}.Debug|x64.ActiveCfg = Debug
+		{AA494F62-9178-446B-9184-4F78725D3303}.Release|Any CPU.ActiveCfg = Release
+		{AA494F62-9178-446B-9184-4F78725D3303}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
