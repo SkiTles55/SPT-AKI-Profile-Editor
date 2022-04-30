@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
     <RootNamespace>SPT_AKI_Profile_Editor.Tests</RootNamespace>
     <UseAppHost>true</UseAppHost>
 
@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SPT-AKI Profile Editor.Core\SPT-AKI Profile Editor.Core.csproj" />
+    <ProjectReference Include="..\SPT-AKI Profile Editor\SPT-AKI Profile Editor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
