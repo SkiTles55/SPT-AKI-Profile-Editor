@@ -10,7 +10,6 @@ namespace SPT_AKI_Profile_Editor
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    /// publish cmd: dotnet publish -r win-x64 --self-contained=false /p:PublishSingleFile=true /p:PublishReadyToRun=true
 
     public partial class App : Application
     {
