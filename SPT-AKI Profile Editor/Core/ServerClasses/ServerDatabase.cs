@@ -137,12 +137,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
-        public void SetAllTradersMax()
-        {
-            foreach (var trader in TraderInfos.Values)
-                trader.Level = trader.MaxLevel;
-        }
-
         public void AcquireAllClothing()
         {
             foreach (var suit in TraderSuits)

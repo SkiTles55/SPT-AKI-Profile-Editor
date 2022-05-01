@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -68,6 +70,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 traderStandings = value;
                 OnPropertyChanged("TraderStandings");
+                OnPropertyChanged("TraderStandingsExt");
             }
         }
 
@@ -138,6 +141,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonIgnore]
+        public ObservableCollection<CharacterTraderStandingExtended> TraderStandingsExt =>
+            new(TraderStandings.Select(x => new CharacterTraderStandingExtended(x.Value,
+                                                                                x.Key,
+                                                                                GetTraderInfo(x.Key))));
+
+        [JsonIgnore]
         public List<string> ExaminedItems => Encyclopedia?
             .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
             ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key)
@@ -151,6 +160,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public bool IsMasteringsEmpty => Skills == null || Skills.Mastering == null || Skills.Mastering.Length == 0;
+
+        public void SetAllTradersMax()
+        {
+            foreach (var trader in TraderStandingsExt)
+                trader.LoyaltyLevel = trader.MaxLevel;
+            OnPropertyChanged("TraderStandings");
+            OnPropertyChanged("TraderStandingsExt");
+        }
 
         public void SetAllQuests(QuestStatus status)
         {
@@ -188,5 +205,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 Encyclopedia.Add(item.Key, true);
             OnPropertyChanged("ExaminedItems");
         }
+
+        private static TraderBase GetTraderInfo(string key) => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
     }
 }

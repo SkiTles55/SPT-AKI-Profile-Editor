@@ -156,13 +156,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TradersSavesCorrectly()
         {
             AppData.Profile.Load(profileFile);
-            AppData.ServerDatabase.SetAllTradersMax();
+            AppData.Profile.Characters.Pmc.SetAllTradersMax();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testTraders.json");
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandings
-                .Where(x => x.Key != "ragfair" && AppData.ServerDatabase.TraderInfos.ContainsKey(x.Key))
-                .All(x => x.Value.LoyaltyLevel == AppData.ServerDatabase.TraderInfos[x.Key].MaxLevel));
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandingsExt
+                .All(x => x.LoyaltyLevel == x.MaxLevel));
         }
 
         [Test]
@@ -477,7 +476,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(profileFile);
-            AppData.ServerDatabase.SetAllTradersMax();
+            AppData.Profile.Characters.Pmc.SetAllTradersMax();
             Assert.IsTrue(ExtMethods.IsProfileChanged(AppData.Profile));
         }
 

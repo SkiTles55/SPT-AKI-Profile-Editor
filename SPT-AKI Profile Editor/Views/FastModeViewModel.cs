@@ -115,7 +115,7 @@ namespace SPT_AKI_Profile_Editor.Views
             Profile.Characters.Pmc.Info.Experience = Pmc.Experience;
             Profile.Characters.Scav.Info.Experience = Scav.Experience;
             if (SetMerchantsMax)
-                ServerDatabase.SetAllTradersMax();
+                Profile.Characters.Pmc.SetAllTradersMax();
             Profile.Characters.Pmc.SetAllQuests(SetAllQuestsValue);
             if (SetHideoutMax)
                 Profile.Characters.Pmc.SetAllHideoutAreasMax();

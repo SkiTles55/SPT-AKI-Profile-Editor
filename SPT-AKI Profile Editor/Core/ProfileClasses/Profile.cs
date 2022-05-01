@@ -96,15 +96,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 AddMissingMasteringSkills(profile.Characters.Pmc.Skills);
                 AddMissingMasteringSkills(profile.Characters.Scav.Skills);
             }
-            if (!string.IsNullOrEmpty(profile.Characters?.Pmc?.Customization?.Head)
-                && !AppData.ServerDatabase.Heads.Any(x => x.Key == profile.Characters.Pmc.Customization.Head))
-                AppData.ServerDatabase.Heads.Add(profile.Characters.Pmc.Customization.Head, profile.Characters.Pmc.Customization.Head);
-            if (!string.IsNullOrEmpty(profile.Characters?.Scav?.Customization?.Head)
-                && !AppData.ServerDatabase.Heads.Any(x => x.Key == profile.Characters.Scav.Customization.Head))
-                AppData.ServerDatabase.Heads.Add(profile.Characters.Scav.Customization.Head, profile.Characters.Scav.Customization.Head);
+            AddMisingHeadToServerDatabase(profile.Characters?.Pmc);
+            AddMisingHeadToServerDatabase(profile.Characters?.Scav);
             Characters = profile.Characters;
             Suits = profile.Suits;
             WeaponBuilds = profile.WeaponBuilds;
+
+            static void AddMisingHeadToServerDatabase(Character character)
+            {
+                if (!string.IsNullOrEmpty(character?.Customization?.Head)
+                && !AppData.ServerDatabase.Heads.Any(x => x.Key == character.Customization.Head))
+                    AppData.ServerDatabase.Heads.Add(character.Customization.Head, character.Customization.Head);
+            }
 
             static void AddMissingMasteringSkills(CharacterSkills characterSkills)
             {

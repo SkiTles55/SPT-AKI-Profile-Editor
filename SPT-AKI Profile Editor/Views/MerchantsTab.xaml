@@ -19,7 +19,7 @@
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             IsReadOnly="True"
-            ItemsSource="{Binding ServerDatabase.TraderInfos}">
+            ItemsSource="{Binding Profile.Characters.Pmc.TraderStandingsExt}">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
@@ -32,7 +32,7 @@
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=Value.LocalizedName}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
                         </DataTemplate>
@@ -44,7 +44,7 @@
                     SortMemberPath="Value.Unlocked">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=Value.Unlocked}" />
+                            <CheckBox IsChecked="{Binding Path=TraderStanding.Unlocked}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -56,7 +56,7 @@
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=Value.Standing}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Path=TraderStanding.Standing}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
                         </DataTemplate>
@@ -70,7 +70,7 @@
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=Value.SalesSum}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Path=TraderStanding.SalesSum, ConverterCulture=ru-RU, StringFormat=N0}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
                         </DataTemplate>
@@ -91,17 +91,17 @@
                                     DockPanel.Dock="Left"
                                     FontWeight="Bold"
                                     PreviewTextInput="NumberValidationTextBox"
-                                    Text="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
                                 <Slider
                                     Margin="5,5,10,5"
                                     VerticalAlignment="Center"
                                     DockPanel.Dock="Right"
                                     IsSnapToTickEnabled="True"
-                                    Maximum="{Binding Path=Value.MaxLevel}"
+                                    Maximum="{Binding Path=MaxLevel}"
                                     Minimum="1"
                                     TickFrequency="1"
                                     TickPlacement="BottomRight"
-                                    Value="{Binding Path=Value.Level, UpdateSourceTrigger=PropertyChanged}" />
+                                    Value="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
