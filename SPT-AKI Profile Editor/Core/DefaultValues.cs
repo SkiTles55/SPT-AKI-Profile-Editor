@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -13,6 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const float CommonSkillMaxValue = 5100;
+        public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
 
         public readonly static string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 

@@ -69,6 +69,8 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private List<string> bannedMasterings;
 
+        private IssuesAction issuesAction;
+
         private bool fastModeOpened = false;
 
         public string ServerPath
@@ -259,6 +261,18 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public IssuesAction IssuesAction
+        {
+            get => issuesAction;
+            set
+            {
+                issuesAction = value;
+                OnPropertyChanged("IssuesAction");
+                if (Loaded)
+                    Save();
+            }
+        }
+
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -341,8 +355,9 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             try
             {
+                JsonSerializerOptions options = new() { Converters ={ new JsonStringEnumConverter() } };
                 string cfg = File.ReadAllText(configurationFile);
-                AppSettings loaded = JsonSerializer.Deserialize<AppSettings>(cfg);
+                AppSettings loaded = JsonSerializer.Deserialize<AppSettings>(cfg, options);
                 bool _needReSave = false;
                 if (loaded.DirsList == null)
                 {
@@ -401,6 +416,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 MoneysRublesTpl = loaded.MoneysRublesTpl;
                 BannedItems = loaded.BannedItems;
                 BannedMasterings = loaded.bannedMasterings;
+                IssuesAction = loaded.IssuesAction;
                 if (_needReSave)
                 {
                     Logger.Log($"Configuration file updated");
@@ -431,6 +447,7 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
             BannedItems = DefaultValues.BannedItems;
             BannedMasterings = DefaultValues.BannedMasterings;
+            IssuesAction = DefaultValues.DefaultIssuesAction;
             Logger.Log($"Default configuration file created");
             Save();
         }

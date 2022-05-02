@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -25,5 +26,29 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void FilesListCorrect() => Assert.AreEqual(DefaultValues.DefaultFilesList, settings.FilesList, "Files list not correct");
+
+        [Test]
+        public void IssuesActionAlwaysShowSavesCorrectly()
+        {
+            settings.IssuesAction = IssuesAction.AlwaysShow;
+            settings.Load();
+            Assert.True(settings.IssuesAction == IssuesAction.AlwaysShow, "IssuesAction is not AlwaysShow");
+        }
+
+        [Test]
+        public void IssuesActionAlwaysFixSavesCorrectly()
+        {
+            settings.IssuesAction = IssuesAction.AlwaysFix;
+            settings.Load();
+            Assert.True(settings.IssuesAction == IssuesAction.AlwaysFix, "IssuesAction is not AlwaysFix");
+        }
+
+        [Test]
+        public void IssuesActionAlwaysIgnoreSavesCorrectly()
+        {
+            settings.IssuesAction = IssuesAction.AlwaysIgnore;
+            settings.Load();
+            Assert.True(settings.IssuesAction == IssuesAction.AlwaysIgnore, "IssuesAction is not AlwaysIgnore");
+        }
     }
 }
