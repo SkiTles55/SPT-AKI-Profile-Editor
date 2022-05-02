@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -14,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public int Y { get; set; }
 
         [JsonProperty("r")]
-        public string R { get; set; }
+        public ItemRotation R { get; set; }
 
         [JsonProperty("isSearched")]
         public bool? IsSearched { get; set; }

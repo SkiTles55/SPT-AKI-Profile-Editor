@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
@@ -152,8 +153,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             foreach (var item in InventoryItems)
             {
                 (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
-                int rotatedHeight = item.Location.R == "Vertical" ? itemWidth : itemHeight;
-                int rotatedWidth = item.Location.R == "Vertical" ? itemHeight : itemWidth;
+                int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
+                int rotatedWidth = item.Location.R == ItemRotation.Vertical ? itemHeight : itemWidth;
                 for (int y = 0; y < rotatedHeight; y++)
                 {
                     try
@@ -176,7 +177,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             for (int y = 0; y < Stash.GetLength(0); y++)
                 for (int x = 0; x < Stash.GetLength(1); x++)
                     if (Stash[y, x] == 0)
-                        locations.Add(new ItemLocation { X = x, Y = y, R = "Horizontal" });
+                        locations.Add(new ItemLocation { X = x, Y = y, R = ItemRotation.Horizontal });
             return locations;
         }
 
@@ -200,7 +201,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     itemLocation = GetItemLocation(mItem.Properties.Width, mItem.Properties.Height, Stash, slot);
                     if (itemLocation != null)
                     {
-                        itemLocation.R = "Vertical";
+                        itemLocation.R = ItemRotation.Vertical;
                         NewItemsLocations.Add(itemLocation);
                     }
                 }

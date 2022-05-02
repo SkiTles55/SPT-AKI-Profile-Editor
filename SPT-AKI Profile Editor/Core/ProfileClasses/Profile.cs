@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -225,7 +226,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (string.IsNullOrEmpty(savePath))
                 savePath = targetPath;
             string newStash = string.Empty;
-            JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
+            JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = new List<JsonConverter>() { new StringEnumConverterExt() } };
             JObject jobject = JObject.Parse(File.ReadAllText(targetPath));
             JToken pmc = jobject.SelectToken("characters")["pmc"];
             JToken scav = jobject.SelectToken("characters")["scav"];
@@ -324,9 +325,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     }
                     foreach (var removedItem in ForRemove)
                         removedItem.Remove();
+                    JsonSerializer serializer = JsonSerializer.Create(seriSettings);
                     foreach (var item in AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
                         pmc.SelectToken("Inventory").SelectToken("items").LastOrDefault()
-                            .AddAfterSelf(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(item)));
+                            .AddAfterSelf(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(item, serializer)));
                 }
             }
 
