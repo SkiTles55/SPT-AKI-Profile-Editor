@@ -32,7 +32,7 @@
 * Automatic backups every time you save your profile
 
 ### Requirements:
-* [.NET 6.0 Desktop x64] (https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
+* [.NET 6.0 Desktop x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
 * .NET 5.0 (only for app version 2.0)
 
 ### Previous versions:

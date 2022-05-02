@@ -32,7 +32,7 @@
 * Автоматические бэкапы при каждом сохранении профиля
 
 ### Требования:
-* [.NET 6.0 Desktop x64] (https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
+* [.NET 6.0 Desktop x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
 * .NET 5.0 (только для версии приложения 2.0)
 
 ### Предыдущие версии:
