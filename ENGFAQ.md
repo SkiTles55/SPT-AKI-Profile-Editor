@@ -4,12 +4,12 @@ This is not a mod, but a separate program. It does not need to be unpacked into 
 ### The program displays the message: "The selected path does not seem to be a SPT-AKI server location."
 Make sure that folder user\profiles exist in the server folder. Before using the program, you must start the server, create a profile in the launcher, and go into the game at least once.
 
-Make sure you are using the correct version of the program for your SPT-AKI server. If the [README](ENGREADME.md)) does not indicate compatibility with your version of the server, wait for an update. Or you can try editing the relative paths in the AppSettings.json file, but success is not guaranteed!
+Make sure you are using the correct version of the program for your SPT-AKI server. If the [README](ENGREADME.md)) does not indicate compatibility with your version of the server, wait for an update. Or you can try editing the relative paths in the [AppSettings.json](ENGFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) file, but success is not guaranteed!
 
-Make sure that all folders and files from the DirsList and FilesList sections in the AppSettings.json file are present in the server folder, and have the correct names (some non-origin SPT-AKI builds may change file names, for example Server1.exe instead of Server.exe).
+Make sure that all folders and files from the DirsList and FilesList sections in the [AppSettings.json](ENGFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) file are present in the server folder, and have the correct names (some non-origin SPT-AKI builds may change file names, for example Server1.exe instead of Server.exe).
 You can make changes to these sections as needed.
 
-An example of the DirsList and FilesList sections in the AppSettings.json file:
+An example of the DirsList and FilesList sections in the [AppSettings.json](ENGFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) file:
 ```json
 "DirsList": {
     "dir_globals": "Aki_Data\\Server\\database\\locales\\global",
@@ -39,3 +39,11 @@ The server checks the quest statuses for compliance with various conditions (lev
 
 ### Traders levels are not saved
 The level of PMCs is below that required for traders levels. Raise the PMC level.
+
+### Where can I find the AppSettings.json file, logs, localizations and backups maded by application?
+#### For application version 2.0 - 2.1.1:
+Application root folder
+Backups - profile backups
+Localizations - application localizations
+Logs - application logs
+AppSettings.json - application settings

@@ -46,10 +46,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.6.0.x64"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Среда выполнения .NET для классических приложений 6.0.3 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.6.0.x64"
                     }
                 }
             }
@@ -189,7 +189,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SPT-AKI Profile Editor"
         "ProductCode" = "8:{7586D288-D416-4EA7-B862-45C67CA7B9FB}"
-        "PackageCode" = "8:{8C90D1C3-DB62-41E7-BA89-B50BA3B3D792}"
+        "PackageCode" = "8:{451448BA-1F12-48DA-BD72-D325D1D16CC6}"
         "UpgradeCode" = "8:{1F669B59-9085-4108-BADB-9359D4FBA0D0}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -313,21 +313,21 @@
             {
             "Name" = "8:SPT-AKI Profile Editor"
             "Arguments" = "8:"
-            "Description" = "8:"
+            "Description" = "8:Program for editing player profile on the SPT-AKI Server"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
+            "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
             "Target" = "8:_14BD26B3073C4E73B794343A83AFD5D8"
             "Folder" = "8:_271F40F5E79B407191B4DEBBEE1A83A9"
             "WorkingFolder" = "8:_9DAA9F69ECAB4BF6BF476D1762EF3466"
-            "Icon" = "8:"
+            "Icon" = "8:_14BD26B3073C4E73B794343A83AFD5D8"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F2B587D12F354ED7AFF7217103DB435E"
             {
             "Name" = "8:SPT-AKI Profile Editor"
             "Arguments" = "8:"
-            "Description" = "8:"
+            "Description" = "8:Program for editing player profile on the SPT-AKI Server"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
