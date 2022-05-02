@@ -481,7 +481,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ProfileCanRemoveDuplicatedItems()
         {
-            AppData.Profile.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json"));
+            AppData.Profile.Load(TestConstants.profileWithDuplicatedItems);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems);
             AppData.Profile.Characters.Pmc.Inventory.RemoveDuplicatedItems();
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems);

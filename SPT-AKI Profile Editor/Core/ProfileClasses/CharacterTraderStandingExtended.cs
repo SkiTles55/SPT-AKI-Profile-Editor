@@ -41,7 +41,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 SetSalesSum(value);
                 SetStanding(value);
                 SetUnlocked(value);
-
             }
         }
 
