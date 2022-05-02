@@ -5,7 +5,7 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class Logger
     {
-        private static readonly string LogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor", "Logs");
+        private static readonly string LogPath = Path.Combine(DefaultValues.AppDataFolder, "Logs");
         private static readonly string _fileName;
 
         static Logger()

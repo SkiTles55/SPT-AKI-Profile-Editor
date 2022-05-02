@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
@@ -11,6 +13,8 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const float CommonSkillMaxValue = 5100;
+
+        public readonly static string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 
         public static List<string> BannedItems => new()
         {
@@ -114,6 +118,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_auto_add_scav_skills"] = "Adding missing Scav skills to the profile",
                     ["tab_settings_main"] = "Main",
                     ["tab_settings_additional"] = "Additional",
+                    ["tab_settings_troubleshooting"] = "Troubleshooting",
+                    ["tab_settings_appdata"] = "Open app data folder",
+                    ["tab_settings_reset_settings"] = "Reset settings",
+                    ["tab_settings_reset_localizations"] = "Reset localizations",
                     ["tab_hideout_title"] = "Hideout",
                     ["tab_hideout_area"] = "Area",
                     ["tab_hideout_level"] = "Level",
@@ -255,6 +263,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_auto_add_scav_skills"] = "Добавление отсутствующих умений Дикого в профиль",
                     ["tab_settings_main"] = "Основное",
                     ["tab_settings_additional"] = "Дополнительное",
+                    ["tab_settings_troubleshooting"] = "Устранение проблем",
+                    ["tab_settings_appdata"] = "Открыть папку данных приложения",
+                    ["tab_settings_reset_settings"] = "Сброс настроек",
+                    ["tab_settings_reset_localizations"] = "Сброс локализаций",
                     ["tab_hideout_title"] = "Убежище",
                     ["tab_hideout_area"] = "Зона",
                     ["tab_hideout_level"] = "Уровень",

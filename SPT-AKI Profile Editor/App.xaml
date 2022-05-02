@@ -97,10 +97,11 @@
             </DataTemplate>
             <DataTemplate x:Key="SettingsTemplate">
                 <TextBlock
-                    HorizontalAlignment="Right"
+                    Width="140"
                     VerticalAlignment="Center"
                     FontSize="16"
                     Text="{Binding}"
+                    TextAlignment="Right"
                     TextWrapping="Wrap" />
             </DataTemplate>
             <DataTemplate x:Key="CharacterHeaderTemplate">

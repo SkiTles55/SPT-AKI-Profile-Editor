@@ -236,6 +236,35 @@
                         OnContent="{Binding AppLocalization.Translations[button_yes]}" />
                 </Grid>
             </TabItem>
+            <TabItem Header="{Binding AppLocalization.Translations[tab_settings_troubleshooting]}" HeaderTemplate="{StaticResource SettingsTemplate}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button
+                        Grid.Row="0"
+                        Margin="5"
+                        Command="{Binding OpenAppData}"
+                        Content="{Binding AppLocalization.Translations[tab_settings_appdata]}"
+                        Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
+                    <Button
+                        Grid.Row="1"
+                        Margin="5"
+                        Command="{Binding ResetAndReload}"
+                        CommandParameter="{Binding ResetSettings}"
+                        Content="{Binding AppLocalization.Translations[tab_settings_reset_settings]}"
+                        Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
+                    <Button
+                        Grid.Row="2"
+                        Margin="5"
+                        Command="{Binding ResetAndReload}"
+                        CommandParameter="{Binding ResetLocalizations}"
+                        Content="{Binding AppLocalization.Translations[tab_settings_reset_localizations]}"
+                        Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
+                </Grid>
+            </TabItem>
         </TabControl>
         <StackPanel
             Grid.Row="1"

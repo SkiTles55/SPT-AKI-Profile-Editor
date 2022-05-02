@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class BackupService : BindableEntity
     {
-        private static readonly string backupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor", "Backups");
+        private static readonly string backupFolder = Path.Combine(DefaultValues.AppDataFolder, "Backups");
 
         private List<BackupFile> backupList;
 

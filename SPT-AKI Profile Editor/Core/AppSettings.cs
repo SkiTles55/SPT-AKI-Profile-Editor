@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core
         [JsonIgnore]
         public bool Loaded = false;
 
-        private static readonly string configurationFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor", "AppSettings.json");
+        public static readonly string configurationFile = Path.Combine(DefaultValues.AppDataFolder, "AppSettings.json");
         private string serverPath;
 
         private string defaultProfile;

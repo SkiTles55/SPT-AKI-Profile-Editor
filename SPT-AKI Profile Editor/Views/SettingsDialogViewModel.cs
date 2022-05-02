@@ -55,6 +55,37 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand QuitCommand => App.CloseApplication;
 
+        public static RelayCommand OpenAppData => new(obj =>
+        {
+            ExtMethods.OpenUrl(DefaultValues.AppDataFolder);
+        });
+
+        public static RelayCommand ResetSettings => new(obj =>
+        {
+            File.Delete(AppSettings.configurationFile);
+        });
+
+        public static RelayCommand ResetLocalizations => new(obj =>
+        {
+            Directory.Delete(AppLocalization.localizationsDir, true);
+        });
+
+        public static RelayCommand ResetAndReload => new(async obj =>
+        {
+            try
+            {
+                if (obj is RelayCommand command)
+                {
+                    command.Execute(null);
+                    ReloadApplication();
+                }
+            }
+            catch (Exception ex)
+            {
+                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance, AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), ex.Message);
+            }
+        });
+
         public int SelectedTab
         {
             get => selectedTab;
@@ -172,9 +203,15 @@ namespace SPT_AKI_Profile_Editor
         }
 
         public RelayCommand ServerSelect => new(async obj =>
-         {
-             await ServerSelectDialog();
-         });
+        {
+            await ServerSelectDialog();
+        });
+
+        private static void ReloadApplication()
+        {
+            System.Windows.Forms.Application.Restart();
+            Environment.Exit(0);
+        }
 
         private static Visibility GetNoAccountsIconVisibility() =>
             ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
