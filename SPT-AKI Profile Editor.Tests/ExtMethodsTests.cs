@@ -18,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void AppSettingsServerPathIsServerBase() => Assert.IsTrue(ExtMethods.PathIsServerFolder(settings));
 
         [Test]
-        public void PathIsServerBaseTrue() => Assert.IsTrue(ExtMethods.PathIsServerFolder(settings, @"C:\SPT"));
+        public void PathIsServerBaseTrue() => Assert.IsTrue(ExtMethods.PathIsServerFolder(settings, TestConstants.serverPath));
 
         [Test]
         public void PathIsServerBaseFalse() => Assert.IsFalse(ExtMethods.PathIsServerFolder(settings, @"D:\WinSetupFromUSB"));
