@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public void FixAllIssues()
         {
-            while (profileIssues.Count > 0)
+            while (HasIssues)
             {
                 profileIssues[0].FixAction();
                 GetIssues();

@@ -69,4 +69,34 @@ namespace SPT_AKI_Profile_Editor.Helpers
             return null;
         }
     }
+
+    public class IssuesActionValueConverter : IValueConverter
+    {
+        public static Dictionary<string, string> Strings => GetStrings();
+
+        public static string GetString(IssuesAction action) => action.ToString();
+
+        public static Dictionary<string, string> GetStrings()
+        {
+            Dictionary<string, string> list = new();
+            foreach (IssuesAction format in Enum.GetValues(typeof(IssuesAction)))
+                list.Add(GetString(format), AppData.AppLocalization.GetLocalizedString($"issue_action_{GetString(format).ToLower()}"));
+            return list;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is IssuesAction status)
+                return GetString(status);
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string s)
+                return Enum.Parse(typeof(IssuesAction), s);
+            return null;
+        }
+    }
 }

@@ -124,6 +124,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_appdata"] = "Open app data folder",
                     ["tab_settings_reset_settings"] = "Reset settings",
                     ["tab_settings_reset_localizations"] = "Reset localizations",
+                    ["tab_settings_issues_action"] = "Default action for profile issues",
                     ["tab_hideout_title"] = "Hideout",
                     ["tab_hideout_area"] = "Area",
                     ["tab_hideout_level"] = "Level",
@@ -201,7 +202,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["download_dialog_title"] = "File download",
                     ["button_cancel"] = "Cancel",
                     ["download_dialog_downloaded"] = "Downloaded:",
-                    ["download_dialog_success"] = "File downloaded successfully"
+                    ["download_dialog_success"] = "File downloaded successfully",
+                    ["issue_action_alwaysshow"] = "Always show",
+                    ["issue_action_alwaysfix"] = "Always fix",
+                    ["issue_action_alwaysignore"] = "Always ignore"
                 }
             },
             new AppLocalization
@@ -269,6 +273,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_appdata"] = "Открыть папку данных приложения",
                     ["tab_settings_reset_settings"] = "Сброс настроек",
                     ["tab_settings_reset_localizations"] = "Сброс локализаций",
+                    ["tab_settings_issues_action"] = "Действие по умолчанию для проблем с профилем",
                     ["tab_hideout_title"] = "Убежище",
                     ["tab_hideout_area"] = "Зона",
                     ["tab_hideout_level"] = "Уровень",
@@ -346,7 +351,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["download_dialog_title"] = "Скачивание файла",
                     ["button_cancel"] = "Отмена",
                     ["download_dialog_downloaded"] = "Скачано:",
-                    ["download_dialog_success"] = "Файл успешно скачан"
+                    ["download_dialog_success"] = "Файл успешно скачан",
+                    ["issue_action_alwaysshow"] = "Всегда показывать",
+                    ["issue_action_alwaysfix"] = "Всегда исправлять",
+                    ["issue_action_alwaysignore"] = "Всегда игнорировать"
                 }
             }
         };

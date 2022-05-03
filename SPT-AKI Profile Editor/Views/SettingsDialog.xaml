@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,6 +12,9 @@
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:SettingsDialogViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <helpers:IssuesActionValueConverter x:Key="IssuesActionValueConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -18,7 +22,7 @@
         </Grid.RowDefinitions>
         <TabControl
             Grid.Row="0"
-            Height="180"
+            Height="200"
             mah:TabControlHelper.Underlined="TabPanel"
             SelectedIndex="{Binding SelectedTab}"
             TabStripPlacement="Left">
@@ -174,11 +178,12 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="160" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="160" />
                     </Grid.ColumnDefinitions>
                     <Label
                         Grid.Row="0"
@@ -195,7 +200,7 @@
                         Grid.Row="0"
                         Grid.Column="2"
                         Margin="12,5,0,0"
-                        IsOn="{Binding AutoAddMissingQuests}"
+                        IsOn="{Binding AppSettings.AutoAddMissingQuests}"
                         OffContent="{Binding AppLocalization.Translations[button_no]}"
                         OnContent="{Binding AppLocalization.Translations[button_yes]}" />
                     <Label
@@ -213,7 +218,7 @@
                         Grid.Row="1"
                         Grid.Column="2"
                         Margin="12,5,0,0"
-                        IsOn="{Binding AutoAddMissingMasterings}"
+                        IsOn="{Binding AppSettings.AutoAddMissingMasterings}"
                         OffContent="{Binding AppLocalization.Translations[button_no]}"
                         OnContent="{Binding AppLocalization.Translations[button_yes]}" />
                     <Label
@@ -231,9 +236,29 @@
                         Grid.Row="2"
                         Grid.Column="2"
                         Margin="12,5,0,0"
-                        IsOn="{Binding AutoAddMissingScavSkills}"
+                        IsOn="{Binding AppSettings.AutoAddMissingScavSkills}"
                         OffContent="{Binding AppLocalization.Translations[button_no]}"
                         OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Margin="10,5,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold">
+                        <Label.Content>
+                            <TextBlock Text="{Binding AppLocalization.Translations[tab_settings_issues_action]}" TextWrapping="Wrap" />
+                        </Label.Content>
+                    </Label>
+                    <ComboBox
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Margin="10,5,10,0"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="Value"
+                        ItemsSource="{Binding Source={StaticResource IssuesActionValueConverter}, Path=Strings}"
+                        SelectedValue="{Binding AppSettings.IssuesAction, Converter={StaticResource IssuesActionValueConverter}}"
+                        SelectedValuePath="Key" />
                 </Grid>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_troubleshooting]}" HeaderTemplate="{StaticResource SettingsTemplate}">
