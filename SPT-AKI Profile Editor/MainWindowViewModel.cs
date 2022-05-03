@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.IO;
 using System.Threading.Tasks;
@@ -32,10 +33,23 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand ReloadButtonCommand => new(async obj => { await Reload(); });
 
-        public static void SaveProfileAndReload()
+        public static async void SaveProfileAndReload()
         {
-            App.Worker.AddAction(SaveProfileTask());
-            StartupEventsWorker();
+            AppData.IssuesService.GetIssues();
+            if (AppData.IssuesService.HasIssues)
+            {
+                switch (AppData.AppSettings.IssuesAction)
+                {
+                    case IssuesAction.AlwaysShow:
+                        RelayCommand saveCommand = new(obj => { SaveAction(); });
+                        await Dialogs.ShowIssuesDialog(Instance, saveCommand);
+                        return;
+                    case IssuesAction.AlwaysFix:
+                        AppData.IssuesService.FixAllIssues();
+                        break;
+                }
+            }
+            SaveAction();
         }
 
         public static async void StartupEventsWorker()
@@ -48,6 +62,12 @@ namespace SPT_AKI_Profile_Editor
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });
+        }
+
+        private static void SaveAction()
+        {
+            App.Worker.AddAction(SaveProfileTask());
+            StartupEventsWorker();
         }
 
         private static WorkerTask SaveProfileTask()

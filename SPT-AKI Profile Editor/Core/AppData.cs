@@ -16,6 +16,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly ServerDatabase ServerDatabase;
         public static readonly GridFilters GridFilters;
         public static readonly BackupService BackupService;
+        public static readonly IssuesService IssuesService;
 
         static AppData()
         {
@@ -24,6 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core
             AppSettings.Load();
             BackupService = new();
             AppLocalization = new(AppSettings.Language);
+            IssuesService = new();
             Profile = new();
             ServerDatabase = new();
         }

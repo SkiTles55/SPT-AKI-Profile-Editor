@@ -45,7 +45,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static void Save(string path, AppLocalization data) => ExtMethods.SaveJson(path, data);
 
-        public string GetLocalizedString(string key) => Translations != null && Translations.ContainsKey(key) ? Translations[key] : key;
+        public string GetLocalizedString(string key, params string[] args) => Translations != null && Translations.ContainsKey(key) ? string.Format(Translations[key], args) : key;
 
         public void LoadLocalization(string key)
         {

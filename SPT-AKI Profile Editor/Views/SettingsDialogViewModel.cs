@@ -132,36 +132,6 @@ namespace SPT_AKI_Profile_Editor
             }
         }
 
-        public bool AutoAddMissingQuests
-        {
-            get => AppSettings.AutoAddMissingQuests;
-            set
-            {
-                AppSettings.AutoAddMissingQuests = value;
-                OnPropertyChanged("AutoAddMissingQuests");
-            }
-        }
-
-        public bool AutoAddMissingMasterings
-        {
-            get => AppSettings.AutoAddMissingMasterings;
-            set
-            {
-                AppSettings.AutoAddMissingMasterings = value;
-                OnPropertyChanged("AutoAddMissingWeaponSkills");
-            }
-        }
-
-        public bool AutoAddMissingScavSkills
-        {
-            get => AppSettings.AutoAddMissingScavSkills;
-            set
-            {
-                AppSettings.AutoAddMissingScavSkills = value;
-                OnPropertyChanged("AutoAddMissingScavSkills");
-            }
-        }
-
         public Visibility InvalidServerLocationIcon
         {
             get => invalidServerLocationIcon;

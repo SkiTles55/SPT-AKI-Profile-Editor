@@ -157,7 +157,7 @@
                 Margin="5,0,5,0"
                 Command="{Binding OpenReleaseUrl}"
                 Content="{Binding AppLocalization.Translations[update_dialog_open_button]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -179,7 +179,7 @@
                 Margin="5,0,5,0"
                 Command="{Binding DownloadRelease}"
                 Content="{Binding AppLocalization.Translations[update_dialog_download_button]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -201,7 +201,7 @@
                 Margin="5,0,5,0"
                 Command="{Binding CloseCommand}"
                 Content="{Binding AppLocalization.Translations[button_close]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
         </StackPanel>
     </Grid>
 </UserControl>

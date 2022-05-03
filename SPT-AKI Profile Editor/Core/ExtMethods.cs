@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
@@ -15,7 +16,8 @@ namespace SPT_AKI_Profile_Editor.Core
         private static readonly JsonSerializerOptions _serializerOptions = new()
         {
             WriteIndented = true,
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            Converters = { new JsonStringEnumConverter() }
         };
 
         public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();

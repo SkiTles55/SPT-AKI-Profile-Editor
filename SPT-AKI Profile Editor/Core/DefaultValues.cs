@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -13,6 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const float CommonSkillMaxValue = 5100;
+        public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
 
         public readonly static string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 
@@ -122,6 +124,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_appdata"] = "Open app data folder",
                     ["tab_settings_reset_settings"] = "Reset settings",
                     ["tab_settings_reset_localizations"] = "Reset localizations",
+                    ["tab_settings_issues_action"] = "Default action for profile issues",
                     ["tab_hideout_title"] = "Hideout",
                     ["tab_hideout_area"] = "Area",
                     ["tab_hideout_level"] = "Level",
@@ -199,7 +202,17 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["download_dialog_title"] = "File download",
                     ["button_cancel"] = "Cancel",
                     ["download_dialog_downloaded"] = "Downloaded:",
-                    ["download_dialog_success"] = "File downloaded successfully"
+                    ["download_dialog_success"] = "File downloaded successfully",
+                    ["issue_action_alwaysshow"] = "Always show",
+                    ["issue_action_alwaysfix"] = "Always fix",
+                    ["issue_action_alwaysignore"] = "Always ignore",
+                    ["profile_issues_title"] = "Profile issues",
+                    ["profile_issues_fix_all"] = "Fix all and save",
+                    ["profile_issues_ignore"] = "Ignore all and save",
+                    ["profile_issues_remember_action"] = "Remember as default action",
+                    ["profile_issues_fix_command"] = "Fix",
+                    ["profile_issues_pmc_level_issue"] = "For trader {0} requires PMC level {1}",
+                    ["profile_issues_duplicate_items_id_issue"] = "{0} stash contains items with the same ID"
                 }
             },
             new AppLocalization
@@ -267,6 +280,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_appdata"] = "Открыть папку данных приложения",
                     ["tab_settings_reset_settings"] = "Сброс настроек",
                     ["tab_settings_reset_localizations"] = "Сброс локализаций",
+                    ["tab_settings_issues_action"] = "Действие по умолчанию для проблем с профилем",
                     ["tab_hideout_title"] = "Убежище",
                     ["tab_hideout_area"] = "Зона",
                     ["tab_hideout_level"] = "Уровень",
@@ -344,7 +358,17 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["download_dialog_title"] = "Скачивание файла",
                     ["button_cancel"] = "Отмена",
                     ["download_dialog_downloaded"] = "Скачано:",
-                    ["download_dialog_success"] = "Файл успешно скачан"
+                    ["download_dialog_success"] = "Файл успешно скачан",
+                    ["issue_action_alwaysshow"] = "Всегда показывать",
+                    ["issue_action_alwaysfix"] = "Всегда исправлять",
+                    ["issue_action_alwaysignore"] = "Всегда игнорировать",
+                    ["profile_issues_title"] = "Проблемы с профилем",
+                    ["profile_issues_fix_all"] = "Исправить все и сохранить",
+                    ["profile_issues_ignore"] = "Игнорировать все и сохранить",
+                    ["profile_issues_remember_action"] = "Запомнить как действие по умолчанию",
+                    ["profile_issues_fix_command"] = "Исправить",
+                    ["profile_issues_pmc_level_issue"] = "Для трейдера {0} требуется PMC уровня {1}",
+                    ["profile_issues_duplicate_items_id_issue"] = "Схрон {0} содержит предметы с одинаковыми ID"
                 }
             }
         };

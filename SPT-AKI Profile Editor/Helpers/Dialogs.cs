@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Views;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -51,11 +52,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public static async Task ShowSettingsDialog(object context, int index = 0)
         {
             string startValues = AppSettings.GetStamp();
-            CustomDialog settingsDialog = new()
-            {
-                Title = AppData.AppLocalization.GetLocalizedString("tab_settings_title"),
-                DialogContentWidth = new GridLength(600)
-            };
+            CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
             RelayCommand closeCommand = new(async obj =>
             {
                 await App.DialogCoordinator.HideMetroDialogAsync(context, settingsDialog);
@@ -69,11 +66,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public static async Task ShowUpdateDialog(object context, GitHubRelease release)
         {
-            CustomDialog updateDialog = new()
-            {
-                Title = AppData.AppLocalization.GetLocalizedString("update_avialable"),
-                DialogContentWidth = new GridLength(500)
-            };
+            CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
             RelayCommand closeCommand = new(async obj =>
             {
                 await App.DialogCoordinator.HideMetroDialogAsync(context, updateDialog);
@@ -82,10 +75,23 @@ namespace SPT_AKI_Profile_Editor.Helpers
             await App.DialogCoordinator.ShowMetroDialogAsync(context, updateDialog);
         }
 
+        public static async Task ShowIssuesDialog(object context, RelayCommand saveCommand)
+        {
+            CustomDialog issuesDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("profile_issues_title"), 500);
+            issuesDialog.Content = new IssuesDialog { DataContext = new IssuesDialogViewModel(saveCommand) };
+            await App.DialogCoordinator.ShowMetroDialogAsync(context, issuesDialog);
+        }
+
         public static async Task ShowOkMessageAsync(object context, string title, string message)
         {
-            await App.DialogCoordinator.ShowMessageAsync(context, title, 
+            await App.DialogCoordinator.ShowMessageAsync(context, title,
                 message, MessageDialogStyle.Affirmative, OkDialogSettings);
         }
+
+        private static CustomDialog CustomDialog(string title, double width) => new()
+        {
+            Title = title,
+            DialogContentWidth = new GridLength(width)
+        };
     }
 }
