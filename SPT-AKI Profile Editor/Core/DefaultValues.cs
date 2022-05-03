@@ -205,7 +205,12 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["download_dialog_success"] = "File downloaded successfully",
                     ["issue_action_alwaysshow"] = "Always show",
                     ["issue_action_alwaysfix"] = "Always fix",
-                    ["issue_action_alwaysignore"] = "Always ignore"
+                    ["issue_action_alwaysignore"] = "Always ignore",
+                    ["profile_issues_title"] = "Profile issues",
+                    ["profile_issues_fix_all"] = "Fix all and save",
+                    ["profile_issues_ignore"] = "Ignore all and save",
+                    ["profile_issues_remember_action"] = "Remember as default action",
+                    ["profile_issues_fix_command"] = "Fix"
                 }
             },
             new AppLocalization
@@ -354,7 +359,12 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["download_dialog_success"] = "Файл успешно скачан",
                     ["issue_action_alwaysshow"] = "Всегда показывать",
                     ["issue_action_alwaysfix"] = "Всегда исправлять",
-                    ["issue_action_alwaysignore"] = "Всегда игнорировать"
+                    ["issue_action_alwaysignore"] = "Всегда игнорировать",
+                    ["profile_issues_title"] = "Проблемы с профилем",
+                    ["profile_issues_fix_all"] = "Исправить все и сохранить",
+                    ["profile_issues_ignore"] = "Игнорировать все и сохранить",
+                    ["profile_issues_remember_action"] = "Запомнить как действие по умолчанию",
+                    ["profile_issues_fix_command"] = "Исправить"
                 }
             }
         };
