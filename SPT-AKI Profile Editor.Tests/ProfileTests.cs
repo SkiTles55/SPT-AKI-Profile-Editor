@@ -137,6 +137,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildsNotEmpty() => Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
 
         [Test]
+        public void PMCStashContainsVerticalItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Location?.R == ItemRotation.Vertical));
+
+        [Test]
         public void ProfileSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
@@ -234,7 +237,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Any(x => x.Progress > 0));
             Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common
                 .All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == x.MaxValue)
-                && AppData.Profile.Characters.Scav.Skills.Common.Length == AppData.Profile.Characters.Pmc.Skills.Common.Length);
+                && AppData.Profile.Characters.Scav.Skills.Common.Length >= AppData.Profile.Characters.Pmc.Skills.Common.Length);
         }
 
         [Test]

@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -9,5 +11,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonPropertyName("traderId")]
         public string TraderId { get; set; }
+
+        [JsonPropertyName("conditions")]
+        public Dictionary<QuestStatus, QuestCondition[]> Conditions { get; set; }
     }
 }

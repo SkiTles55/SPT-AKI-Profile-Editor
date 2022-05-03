@@ -129,7 +129,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 quest.Type = QuestType.Standart;
                 if (AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(quest.Qid) || profile.Characters.Pmc.RepeatableQuests == null || profile.Characters.Pmc.RepeatableQuests.Length == 0)
                 {
-                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid] : "unknown";
+                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid].TraderId : "unknown";
                     return;
                 }
                 var dailyQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == QuestType.Daily).First();

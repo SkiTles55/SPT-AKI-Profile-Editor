@@ -131,7 +131,7 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 Dictionary<string, QuestData> questsData = JsonSerializer.Deserialize<Dictionary<string, QuestData>>(File.ReadAllText(path));
-                ServerDatabase.QuestsData = questsData.ToDictionary(x => x.Value.Id, y => y.Value.TraderId);
+                ServerDatabase.QuestsData = questsData;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase QuestsData ({path}) loading error: {ex.Message}"); }
         }
