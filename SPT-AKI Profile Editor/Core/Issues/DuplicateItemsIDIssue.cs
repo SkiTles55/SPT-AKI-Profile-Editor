@@ -5,12 +5,12 @@ namespace SPT_AKI_Profile_Editor.Core.Issues
 {
     public class DuplicateItemsIDIssue : ProfileIssue
     {
-        private CharacterInventory _inventory;
+        private readonly CharacterInventory _inventory;
 
         public DuplicateItemsIDIssue(CharacterInventory inventory) : base(TargetName(inventory))
         {
             _inventory = inventory;
-            Description = $"{TargetId} contains items with duplicated ID's";
+            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_duplicate_items_id_issue", TargetId);
         }
 
         public override Action FixAction => () => { _inventory.RemoveDuplicatedItems(); };

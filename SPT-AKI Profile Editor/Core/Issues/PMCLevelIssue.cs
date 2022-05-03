@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Core.Issues
         public PMCLevelIssue(CharacterTraderStandingExtended trader) : base(trader.Id)
         {
             RequiredLevel = trader.TraderBase.LoyaltyLevels[trader.LoyaltyLevel - 1].MinLevel;
-            Description = $"For trader {trader.LocalizedName} needed PMC Level {RequiredLevel}";
+            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_pmc_level_issue", trader.LocalizedName, RequiredLevel.ToString());
         }
 
         public int RequiredLevel { get; }
