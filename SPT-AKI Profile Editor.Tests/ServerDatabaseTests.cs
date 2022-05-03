@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -68,6 +69,9 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void QuestsDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.QuestsData.Count == 0);
+
+        [Test]
+        public void QuestsDataConditionsNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.Count > 0));
 
         [Test]
         public void HideoutAreaInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.HideoutAreaInfos);
