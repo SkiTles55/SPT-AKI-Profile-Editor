@@ -10,6 +10,11 @@ namespace SPT_AKI_Profile_Editor.Core.Issues
             RequiredLevel = trader.TraderBase.LoyaltyLevels[trader.LoyaltyLevel - 1].MinLevel;
             Description = AppData.AppLocalization.GetLocalizedString("profile_issues_pmc_level_issue", trader.LocalizedName, RequiredLevel.ToString());
         }
+        public PMCLevelIssue(string questId, int requiredLevel) : base(questId)
+        {
+            RequiredLevel = requiredLevel;
+            Description = $"Test for quest related level issue. Need level {RequiredLevel}";
+        }
 
         public int RequiredLevel { get; }
 

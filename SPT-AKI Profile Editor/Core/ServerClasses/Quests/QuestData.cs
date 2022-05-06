@@ -56,27 +56,35 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
                     [JsonPropertyName("status")]
                     public QuestStatus[] RequiredStatuses { get; set; }
+
+                    public bool CheckRequiredValue(int currentValue)
+                    {
+                        return CompareMethod switch
+                        {
+                            ">=" => currentValue >= RequiredValue,
+                            ">" => currentValue > RequiredValue,
+                            "<=" => currentValue <= RequiredValue,
+                            "<" => currentValue < RequiredValue,
+                            "!=" => currentValue != RequiredValue,
+                            "==" => currentValue == RequiredValue,
+                            _ => true,
+                        };
+                    }
+
+                    public int GetNearestValue()
+                    {
+                        return CompareMethod switch
+                        {
+                            ">=" => RequiredValue,
+                            ">" => RequiredValue + 1,
+                            "<=" => RequiredValue,
+                            "<" => RequiredValue - 1,
+                            "!=" => RequiredValue + 1,
+                            "==" => RequiredValue,
+                            _ => RequiredValue,
+                        };
+                    }
                 }
-            }
-        }
-
-        private void TempMetod(string compareMethod)
-        {
-            switch (compareMethod)
-            {
-                case ">=":
-                    break;
-                case ">":
-                    break;
-                case "<=":
-                    break;
-                case "<":
-                    break;
-                case "!=":
-                    break;
-                case "==":
-                    break;
-
             }
         }
     }
