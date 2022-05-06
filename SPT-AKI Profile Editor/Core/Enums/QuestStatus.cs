@@ -13,14 +13,14 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         [EnumMember(Value = "Started")]
         Started,
 
-        [EnumMember(Value = "Fail")]
-        Fail,
-
         [EnumMember(Value = "AvailableForFinish")]
         AvailableForFinish,
 
         [EnumMember(Value = "Success")]
         Success,
+
+        [EnumMember(Value = "Fail")]
+        Fail,
 
         [EnumMember(Value = "FailRestartable")]
         FailRestartable,
