@@ -7,14 +7,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class WeaponBuild
     {
-        [JsonIgnore]
-        private float ergonomics = 0;
+        private float RecoilDelta = 0;
 
-        [JsonIgnore]
-        private int recoilForceUp = 0;
-
-        [JsonIgnore]
-        private int recoilForceBack = 0;
+        [JsonConstructor]
+        public WeaponBuild(string id, string name, string root, object[] items)
+        {
+            Id = id;
+            Name = name;
+            Root = root;
+            Items = items;
+            CalculateBuildProperties();
+        }
 
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -29,63 +32,65 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public object[] Items { get; set; }
 
         [JsonIgnore]
-        public string Weapon =>
-            BuildItems
-            .Where(x => x.Id == Root)
-            .FirstOrDefault()
-            .LocalizedName;
+        public List<InventoryItem> BuildItems { get; set; }
 
         [JsonIgnore]
-        public float Ergonomics => ergonomics;
+        public string Weapon { get; set; }
 
         [JsonIgnore]
-        public int RecoilForceUp => recoilForceUp;
+        public float Ergonomics { get; set; }
 
         [JsonIgnore]
-        public int RecoilForceBack => recoilForceBack;
+        public int RecoilForceUp { get; set; }
 
         [JsonIgnore]
-        public bool HasModdedItems =>
-            BuildItems
-            .Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+        public int RecoilForceBack { get; set; }
 
         [JsonIgnore]
-        private List<InventoryItem> BuildItems
+        public bool HasModdedItems { get; set; }
+
+        private void CalculateBuildProperties()
         {
-            get
+            List<InventoryItem> buildItems = new();
+            foreach (var obj in Items)
             {
-                List<InventoryItem> items = new();
-                float RecoilDelta = 0;
-                foreach (var obj in Items)
+                try
                 {
-                    try
-                    {
-                        var item = JsonConvert.DeserializeObject<InventoryItem>(obj.ToString());
-                        items.Add(item);
-                        if (item.Id == Root)
-                        {
-                            if (AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
-                            {
-                                recoilForceUp = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.RecoilForceUp;
-                                recoilForceBack = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.RecoilForceBack;
-                                ergonomics = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Ergonomics;
-                            }
-                        }
-                        else
-                        {
-                            if (AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
-                            {
-                                RecoilDelta += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Recoil;
-                                ergonomics += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Ergonomics;
-                            }
-                        }
-                    }
-                    catch (Exception ex) { Logger.Log($"WeaponBuilds weapon item loading error: {ex.Message}"); }
+                    var item = JsonConvert.DeserializeObject<InventoryItem>(obj.ToString());
+                    buildItems.Add(item);
+                    if (item.Id == Root)
+                        SetupWeaponProperties(item);
+                    else
+                        AddModProperties(item);
                 }
-                RecoilDelta /= 100f;
-                recoilForceUp = (int)Math.Round(recoilForceUp + recoilForceUp * RecoilDelta);
-                recoilForceBack = (int)Math.Round(recoilForceBack + recoilForceBack * RecoilDelta);
-                return items;
+                catch (Exception ex) { Logger.Log($"WeaponBuilds weapon item loading error: {ex.Message}"); }
+            }
+            RecoilDelta /= 100f;
+            RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
+            RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
+            if (buildItems.Count == 0)
+                return;
+            BuildItems = buildItems.Where(x => x.Id != Root).ToList();
+            HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+            Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
+        }
+
+        private void AddModProperties(InventoryItem item)
+        {
+            if (AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
+            {
+                RecoilDelta += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Recoil;
+                Ergonomics += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Ergonomics;
+            }
+        }
+
+        private void SetupWeaponProperties(InventoryItem item)
+        {
+            if (AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
+            {
+                RecoilForceUp = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.RecoilForceUp;
+                RecoilForceBack = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.RecoilForceBack;
+                Ergonomics = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Ergonomics;
             }
         }
     }

@@ -73,8 +73,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 .Where(x => x.CanBeAddedToStash));
 
         [JsonIgnore]
-        public bool IsNotHidden =>
-            Items.Count > 0 || AppData.ServerDatabase.Handbook.Categories.Where(x => x.ParentId == Id).Any(x => x.Items.Count > 0);
+        public bool IsNotHidden => Items.Count > 0 || Categories.Count > 0;
 
         public bool ApplyFilter(string text)
         {

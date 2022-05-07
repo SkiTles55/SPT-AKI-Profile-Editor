@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -27,6 +28,7 @@
             CanContentScroll="True"
             PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
             <ListBox
+                d:ItemsSource="{d:SampleData ItemCount=2}"
                 ItemContainerStyle="{StaticResource NoHoverListBox}"
                 ItemsSource="{Binding Profile.WBuilds}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -42,15 +44,16 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition />
-                                    <ColumnDefinition Width="110" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel
                                     Grid.Row="0"
@@ -90,12 +93,7 @@
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}" />
-                                <Label
-                                    Grid.Row="1"
-                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center">
                                     <Label.Content>
@@ -112,8 +110,8 @@
                                     Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" />
                                 <Button
                                     x:Name="PresetRemove"
-                                    Grid.Row="1"
-                                    Grid.Column="2"
+                                    Grid.Row="0"
+                                    Grid.Column="3"
                                     Margin="5"
                                     Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding Key}"
@@ -122,7 +120,7 @@
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Top">
                                     <Label.Content>
                                         <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_presets_ergonomics], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                     </Label.Content>
@@ -131,13 +129,13 @@
                                     Grid.Row="2"
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     Content="{Binding Path=Value.Ergonomics}" />
                                 <Label
                                     Grid.Row="3"
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Top">
                                     <Label.Content>
                                         <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_preset_recoil_up], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                     </Label.Content>
@@ -146,13 +144,13 @@
                                     Grid.Row="3"
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     Content="{Binding Path=Value.RecoilForceUp}" />
                                 <Label
                                     Grid.Row="4"
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Top">
                                     <Label.Content>
                                         <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_preset_recoil_back], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                     </Label.Content>
@@ -161,8 +159,37 @@
                                     Grid.Row="4"
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     Content="{Binding Path=Value.RecoilForceBack}" />
+                                <Expander
+                                    Grid.Row="1"
+                                    Grid.RowSpan="4"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="5,0,5,5"
+                                    mah:ControlsHelper.ContentCharacterCasing="Normal"
+                                    mah:HeaderedControlHelper.HeaderBackground="Transparent"
+                                    BorderThickness="0"
+                                    Header="{Binding Data.AppLocalization.Translations[tab_preset_parts], Source={StaticResource proxy}}">
+                                    <DataGrid
+                                        AutoGenerateColumns="False"
+                                        CanUserAddRows="False"
+                                        HeadersVisibility="None"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding Path=Value.BuildItems}"
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="*" Binding="{Binding Path=LocalizedName}">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style>
+                                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                                        <Setter Property="TextBlock.TextAlignment" Value="Left" />
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Expander>
                             </Grid>
                         </Border>
                     </DataTemplate>
