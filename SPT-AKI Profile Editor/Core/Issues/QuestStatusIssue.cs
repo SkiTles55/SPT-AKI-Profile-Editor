@@ -7,22 +7,21 @@ namespace SPT_AKI_Profile_Editor.Core.Issues
     public class QuestStatusIssue : ProfileIssue
     {
         private readonly CharacterQuest _targetQuest;
+        private readonly QuestStatus _requiredQuestStatus;
 
         public QuestStatusIssue(CharacterQuest quest, CharacterQuest targetQuest, QuestStatus requiredStatus) : base(quest.Qid)
         {
             _targetQuest = targetQuest;
-            RequiredQuestStatus = requiredStatus;
-            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_quest_level_issue_quest",
+            _requiredQuestStatus = requiredStatus;
+            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_quest_status_issue_quest",
                                                                      quest.LocalizedQuestName,
                                                                      quest.LocalizedTraderName,
                                                                      targetQuest.LocalizedQuestName,
                                                                      targetQuest.LocalizedTraderName,
-                                                                     RequiredQuestStatus.ToString());
+                                                                     _requiredQuestStatus.ToString());
         }
 
-        public QuestStatus RequiredQuestStatus { get; }
-
-        public override Action FixAction => () => { _targetQuest.Status = RequiredQuestStatus; };
+        public override Action FixAction => () => { _targetQuest.Status = _requiredQuestStatus; };
 
         public override string Description { get; }
     }

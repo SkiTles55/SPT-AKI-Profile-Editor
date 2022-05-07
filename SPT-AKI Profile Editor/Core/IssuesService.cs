@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     switch (condition.Type)
                     {
                         case QuestConditionType.Level:
-                            if (!condition.Props?.CheckRequiredValue(character.Info?.Level ?? 1) ?? false)
+                            if (!(condition.Props?.CheckRequiredValue(character.Info?.Level ?? 1) ?? true))
                                 profileIssues.Add(new PMCLevelIssue(quest, condition.Props.GetNearestValue()));
                             break;
                         case QuestConditionType.Quest:
@@ -70,6 +70,16 @@ namespace SPT_AKI_Profile_Editor.Core
                             var targetQuest = character.Quests.Where(x => x.Qid == condition.Props?.Target).FirstOrDefault();
                             if (requiredStatus != null && targetQuest!= null && targetQuest.Status < requiredStatus)
                                 profileIssues.Add(new QuestStatusIssue(quest, targetQuest, (QuestStatus)requiredStatus));
+                            break;
+                        case QuestConditionType.TraderLoyalty:
+                            var targetTrader = character.TraderStandingsExt.Where(x => x.Id == condition.Props?.Target).FirstOrDefault();
+                            if (targetTrader != null && !(condition.Props?.CheckRequiredValue(targetTrader.LoyaltyLevel) ?? true))
+                            {
+                                var requiredLoyaltyLevel = condition.Props.GetNearestValue();
+                                if (requiredLoyaltyLevel < 1)
+                                    continue;
+                                profileIssues.Add(new TraderLoyaltyIssue(quest, targetTrader, requiredLoyaltyLevel));
+                            }
                             break;
                     }
                 }
