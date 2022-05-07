@@ -16,13 +16,15 @@
         </Grid.RowDefinitions>
         <DataGrid
             Grid.Row="0"
-            MaxHeight="180"
+            MaxHeight="200"
             Margin="5,5,5,10"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             HeadersVisibility="None"
             IsReadOnly="True"
-            ItemsSource="{Binding IssuesService.ProfileIssues}">
+            ItemsSource="{Binding IssuesService.ProfileIssues}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
