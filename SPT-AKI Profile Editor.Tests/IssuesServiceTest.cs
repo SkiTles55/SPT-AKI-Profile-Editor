@@ -20,6 +20,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestConstants.profileWithDuplicatedItems);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
@@ -30,7 +31,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void PMCLevelIssuesNotEmpty()
+        public void PMCLevelIssuesByTradersNotEmpty()
         {
             AppData.Profile.Load(TestConstants.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
@@ -38,7 +39,45 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
-            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is PMCLevelIssue), "ProfileIssues does not have PMC Level Issues");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is PMCLevelIssue), "ProfileIssues does not have PMC Level Issues by Tarders");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.TraderInfos.ContainsKey(x.TargetId)), "ProfileIssues does not have PMC Level Issues by Tarders");
+        }
+
+        [Test]
+        public void PMCLevelIssuesByQuestsNotEmpty()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.Info.Level = 1;
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is PMCLevelIssue), "ProfileIssues does not have PMC Level Issues by Quests");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.QuestsData.ContainsKey(x.TargetId)), "ProfileIssues does not have PMC Level Issues by Quests");
+        }
+
+        [Test]
+        public void QuestStatusIssuesByQuestNotEmpty()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is QuestStatusIssue), "ProfileIssues does not have Quest Status Issues");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.QuestsData.ContainsKey(x.TargetId)), "ProfileIssues does not have Quest Status Issues");
+        }
+
+        [Test]
+        public void TraderLoyaltyIssuesByQuestNotEmpty()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is TraderLoyaltyIssue), "ProfileIssues does not have Trader Loyalty Issues");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.QuestsData.ContainsKey(x.TargetId)), "ProfileIssues does not have Trader Loyalty Issues");
         }
 
         [Test]
@@ -54,7 +93,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.NotNull(firstIssue, "First PMC Level Issue is null");
             firstIssue.FixAction.Invoke();
             AppData.IssuesService.GetIssues();
-            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x.TargetId == firstIssue.TargetId), "First PMC Level Issue not fixed");
+            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x.TargetId == firstIssue.TargetId && x is PMCLevelIssue), "First PMC Level Issue not fixed");
         }
 
         [Test]
@@ -93,7 +132,65 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.True(firstIssue.TargetId == "PMC", "First Duplicate Items ID Issue is not PMC");
             firstIssue.FixAction.Invoke();
             AppData.IssuesService.GetIssues();
-            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x.TargetId == firstIssue.TargetId), "First Duplicate Items ID Issues not fixed");
+            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x.TargetId == firstIssue.TargetId && x is DuplicateItemsIDIssue), "First Duplicate Items ID Issues not fixed");
+        }
+
+        [Test]
+        public void IssuesServiceCanFixQuestStatusIssue()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is QuestStatusIssue).First();
+            Assert.NotNull(firstIssue, "First Quest Status Issue is null");
+            firstIssue.FixAction.Invoke();
+            AppData.IssuesService.GetIssues();
+            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x.TargetId == firstIssue.TargetId && x is QuestStatusIssue), "First Quest Status Issue not fixed");
+        }
+
+        [Test]
+        public void IssuesServiceCanFixAllQuestStatusIssues()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is QuestStatusIssue), "ProfileIssues does not have Quest Status Issues");
+            AppData.IssuesService.FixAllIssues();
+            AppData.IssuesService.GetIssues();
+            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x is QuestStatusIssue), "Quest Status Issues not fixed");
+        }
+
+        [Test]
+        public void IssuesServiceCanFixTraderLoyaltyIssue()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is TraderLoyaltyIssue).First();
+            Assert.NotNull(firstIssue, "First Trader Loyalty Issue is null");
+            firstIssue.FixAction.Invoke();
+            AppData.IssuesService.GetIssues();
+            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x.TargetId == firstIssue.TargetId && x is TraderLoyaltyIssue), "First Trader Loyalty Issue not fixed");
+        }
+
+        [Test]
+        public void IssuesServiceCanFixAllTraderLoyaltyIssues()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            AppData.IssuesService.GetIssues();
+            Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
+            Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is TraderLoyaltyIssue), "ProfileIssues does not have Trader Loyalty Issues");
+            AppData.IssuesService.FixAllIssues();
+            AppData.IssuesService.GetIssues();
+            Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x is TraderLoyaltyIssue), "Trader Loyalty Issues not fixed");
         }
     }
 }

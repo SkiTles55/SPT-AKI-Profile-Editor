@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         private Dictionary<string, TraderBase> traderInfos;
 
-        private Dictionary<string, string> questsData;
+        private Dictionary<string, QuestData> questsData;
 
         private List<HideoutAreaInfo> hideoutAreaInfos;
 
@@ -76,7 +76,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
-        public Dictionary<string, string> QuestsData
+        public Dictionary<string, QuestData> QuestsData
         {
             get => questsData;
             set

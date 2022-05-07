@@ -261,6 +261,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public IssuesAction IssuesAction
         {
             get => issuesAction;
@@ -355,9 +356,8 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             try
             {
-                JsonSerializerOptions options = new() { Converters ={ new JsonStringEnumConverter() } };
                 string cfg = File.ReadAllText(configurationFile);
-                AppSettings loaded = JsonSerializer.Deserialize<AppSettings>(cfg, options);
+                AppSettings loaded = JsonSerializer.Deserialize<AppSettings>(cfg);
                 bool _needReSave = false;
                 if (loaded.DirsList == null)
                 {

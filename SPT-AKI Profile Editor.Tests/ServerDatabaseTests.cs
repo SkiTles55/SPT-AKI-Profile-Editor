@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using System.Linq;
+using static SPT_AKI_Profile_Editor.Core.ServerClasses.QuestData.QuestConditions.QuestCondition;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -68,6 +70,24 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void QuestsDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.QuestsData.Count == 0);
+
+        [Test]
+        public void QuestsDataConditionsNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Count != 0));
+
+        [Test]
+        public void QuestsDataConditionsLevelNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.Level)));
+
+        [Test]
+        public void QuestsDataConditionsQuestNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.Quest)));
+
+        [Test]
+        public void QuestsDataConditionsTraderLoyaltyNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.TraderLoyalty)));
+
+        [Test]
+        public void QuestsDataConditionsCompareMethodGreaterOrEqualNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == ">=")));
+
+        [Test]
+        public void QuestsDataConditionsCompareMethodNullNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == null)));
 
         [Test]
         public void HideoutAreaInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.HideoutAreaInfos);

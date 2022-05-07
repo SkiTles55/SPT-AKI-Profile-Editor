@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -61,6 +62,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public string QuestTrader { get; set; } = "unknown";
+
+        [JsonIgnore]
+        public QuestData QuestData { get; set; }
 
         [JsonIgnore]
         public string QuestName { get; set; } = "unknown";
