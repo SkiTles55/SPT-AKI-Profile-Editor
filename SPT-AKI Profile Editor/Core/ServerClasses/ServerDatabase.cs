@@ -103,7 +103,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             {
                 itemsDB = value;
                 OnPropertyChanged("ItemsDB");
-                OnPropertyChanged("ItemsForAdding");
             }
         }
 
