@@ -7,8 +7,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class WeaponBuild
     {
-        private List<InventoryItem> BuildItems = new();
-
         private float RecoilDelta = 0;
 
         [JsonConstructor]
@@ -32,6 +30,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("items")]
         public object[] Items { get; set; }
+
+        [JsonIgnore]
+        public List<InventoryItem> BuildItems { get; set; }
 
         [JsonIgnore]
         public string Weapon { get; set; }
@@ -67,7 +68,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilDelta /= 100f;
             RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
-            BuildItems = buildItems;
+            if (buildItems.Count == 0)
+                return;
+            BuildItems = buildItems.Where(x => x.Id != Root).ToList();
             HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
             Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
         }
