@@ -8,12 +8,18 @@ namespace SPT_AKI_Profile_Editor.Core.Issues
         public PMCLevelIssue(CharacterTraderStandingExtended trader) : base(trader.Id)
         {
             RequiredLevel = trader.TraderBase.LoyaltyLevels[trader.LoyaltyLevel - 1].MinLevel;
-            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_pmc_level_issue", trader.LocalizedName, RequiredLevel.ToString());
+            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_pmc_level_issue_trader",
+                                                                     trader.LocalizedName,
+                                                                     RequiredLevel.ToString());
         }
-        public PMCLevelIssue(string questId, int requiredLevel) : base(questId)
+
+        public PMCLevelIssue(CharacterQuest quest, int requiredLevel) : base(quest.Qid)
         {
             RequiredLevel = requiredLevel;
-            Description = $"Test for quest related level issue. Need level {RequiredLevel}";
+            Description = AppData.AppLocalization.GetLocalizedString("profile_issues_pmc_level_issue_quest",
+                                                                     quest.LocalizedQuestName,
+                                                                     quest.LocalizedTraderName,
+                                                                     RequiredLevel.ToString());
         }
 
         public int RequiredLevel { get; }

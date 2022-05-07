@@ -211,8 +211,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_ignore"] = "Ignore all and save",
                     ["profile_issues_remember_action"] = "Remember as default action",
                     ["profile_issues_fix_command"] = "Fix",
-                    ["profile_issues_pmc_level_issue"] = "For trader {0} requires PMC level {1}",
-                    ["profile_issues_duplicate_items_id_issue"] = "{0} stash contains items with the same ID"
+                    ["profile_issues_pmc_level_issue_trader"] = "For trader {0} requires PMC level {1}",
+                    ["profile_issues_pmc_level_issue_quest"] = "For quest {0} ({1}) requires PMC level {2}",
+                    ["profile_issues_duplicate_items_id_issue"] = "{0} stash contains items with the same ID",
+                    ["profile_issues_quest_level_issue_quest"] = "Quest {0} ({1}) requires quest {2} ({3}) with status {4}"
                 }
             },
             new AppLocalization
@@ -367,8 +369,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_ignore"] = "Игнорировать все и сохранить",
                     ["profile_issues_remember_action"] = "Запомнить как действие по умолчанию",
                     ["profile_issues_fix_command"] = "Исправить",
-                    ["profile_issues_pmc_level_issue"] = "Для трейдера {0} требуется PMC уровня {1}",
-                    ["profile_issues_duplicate_items_id_issue"] = "Схрон {0} содержит предметы с одинаковыми ID"
+                    ["profile_issues_pmc_level_issue_trader"] = "Для трейдера {0} требуется PMC уровня {1}",
+                    ["profile_issues_pmc_level_issue_quest"] = "Для квеста {0} ({1}) требуется PMC уровня {2}",
+                    ["profile_issues_duplicate_items_id_issue"] = "Схрон {0} содержит предметы с одинаковыми ID",
+                    ["profile_issues_quest_level_issue_quest"] = "Для квеста {0} ({1}) требуется квест {2} ({3}) со статусом {4}"
                 }
             }
         };

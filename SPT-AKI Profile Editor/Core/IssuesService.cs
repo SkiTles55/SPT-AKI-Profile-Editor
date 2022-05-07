@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.Issues;
+﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.Issues;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -54,13 +55,23 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private void GetQuestIssues(Character character)
         {
-            foreach (var quest in character?.Quests?.Where(x => x.QuestData != null))
+            foreach (var quest in character?.Quests?.Where(x => x.QuestData != null && x.Status >= QuestStatus.AvailableForStart))
             {
-                var levelCondition = quest.QuestData.Conditions?.AvailableForStart?.Where(x => x.Type == QuestConditionType.Level).FirstOrDefault();
-                if (levelCondition != null)
+                foreach (var condition in quest.QuestData.Conditions?.AvailableForStart)
                 {
-                    if (!levelCondition.Props?.CheckRequiredValue(character.Info?.Level ?? 1) ?? false)
-                        profileIssues.Add(new PMCLevelIssue(quest.Qid, levelCondition.Props.GetNearestValue()));
+                    switch (condition.Type)
+                    {
+                        case QuestConditionType.Level:
+                            if (!condition.Props?.CheckRequiredValue(character.Info?.Level ?? 1) ?? false)
+                                profileIssues.Add(new PMCLevelIssue(quest, condition.Props.GetNearestValue()));
+                            break;
+                        case QuestConditionType.Quest:
+                            var requiredStatus = condition?.Props?.RequiredStatuses.FirstOrDefault();
+                            var targetQuest = character.Quests.Where(x => x.Qid == condition.Props?.Target).FirstOrDefault();
+                            if (requiredStatus != null && targetQuest!= null && targetQuest.Status < requiredStatus)
+                                profileIssues.Add(new QuestStatusIssue(quest, targetQuest, (QuestStatus)requiredStatus));
+                            break;
+                    }
                 }
             }
         }
