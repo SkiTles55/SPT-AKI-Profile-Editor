@@ -36,13 +36,22 @@ This program is provided open source and does not contain any viruses, provided 
 ### The statuses of individual quests are not saved
 The server checks the quest statuses for compliance with various conditions (level, other quests, etc.), and corrects them. Therefore, change the status of the quest after unlocking it in the game, or set all profile characteristics to maximum.
 #### UPD: You can turn off checking quest statuses in [ALLINONE MOD](https://hub.sp-tarkov.com/files/file/1-allinone-mod/)
+#### UPD 2: Starting from version 2.2, the program checks the statuses of quests for compliance with a large part of the server conditions, and suggests correcting the found inconsistencies if "Always ignore" is not set in the settings (Troubleshooting item, in the Additional section).
 
 ### Traders levels are not saved
 The level of PMCs is below that required for traders levels. Raise the PMC level.
+#### UPD: Starting from version 2.2, the program checks the levels of traders for compliance with the level of PMCs, and suggests correcting the level if "Always ignore" is not set in the settings (Troubleshooting item, in the Additional section).
 
 ### Where can I find the AppSettings.json file, logs, localizations and backups maded by application?
 #### For application version 2.0 - 2.1.1:
 Application root folder
+Backups - profile backups
+Localizations - application localizations
+Logs - application logs
+AppSettings.json - application settings
+#### For application version 2.2 and higher:
+User folder\AppData\Roaming\SPT-AKI Profile Editor
+%AppData%\SPT-AKI Profile Editor (press WIN + R, copy this path into the window that appears and press Enter, or run the program, Settings - Troubleshooting - Open app data folder)
 Backups - profile backups
 Localizations - application localizations
 Logs - application logs
