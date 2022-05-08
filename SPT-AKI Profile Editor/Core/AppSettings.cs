@@ -420,101 +420,8 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 string cfg = File.ReadAllText(configurationFile);
                 AppSettings loaded = JsonSerializer.Deserialize<AppSettings>(cfg);
-                bool _needReSave = false;
-                if (loaded.DirsList == null)
-                {
-                    loaded.DirsList = new();
-                    _needReSave = true;
-                }
-                if (loaded.FilesList == null)
-                {
-                    loaded.FilesList = new();
-                    _needReSave = true;
-                }
-                foreach (var dir in DefaultValues.DefaultDirsList.Where(x => !loaded.DirsList.ContainsKey(x.Key)))
-                {
-                    loaded.DirsList.Add(dir.Key, dir.Value);
-                    _needReSave = true;
-                }
-                foreach (var file in DefaultValues.DefaultFilesList.Where(x => !loaded.FilesList.ContainsKey(x.Key)))
-                {
-                    loaded.FilesList.Add(file.Key, file.Value);
-                    _needReSave = true;
-                }
-                if (loaded.ColorScheme == null)
-                {
-                    loaded.ColorScheme = DefaultValues.ColorScheme;
-                    _needReSave = true;
-                }
-                if (loaded.Language == null)
-                {
-                    loaded.Language = ExtMethods.WindowsCulture;
-                    _needReSave = true;
-                }
-                if (loaded.BannedItems == null)
-                {
-                    loaded.BannedItems = DefaultValues.BannedItems;
-                    _needReSave = true;
-                }
-                if (loaded.BannedMasterings == null)
-                {
-                    loaded.BannedMasterings = DefaultValues.BannedMasterings;
-                    _needReSave = true;
-                }
-                if (loaded.FirstPrimaryWeaponSlotId == null)
-                {
-                    loaded.FirstPrimaryWeaponSlotId = DefaultValues.FirstPrimaryWeaponSlotId;
-                    _needReSave = true;
-                }
-                if (loaded.HeadwearSlotId == null)
-                {
-                    loaded.HeadwearSlotId = DefaultValues.HeadwearSlotId;
-                    _needReSave = true;
-                }
-                if (loaded.TacticalVestSlotId == null)
-                {
-                    loaded.TacticalVestSlotId = DefaultValues.TacticalVestSlotId;
-                    _needReSave = true;
-                }
-                if (loaded.SecuredContainerSlotId == null)
-                {
-                    loaded.SecuredContainerSlotId = DefaultValues.SecuredContainerSlotId;
-                    _needReSave = true;
-                }
-                if (loaded.BackpackSlotId == null)
-                {
-                    loaded.BackpackSlotId = DefaultValues.BackpackSlotId;
-                    _needReSave = true;
-                }
-                if (loaded.EarpieceSlotId == null)
-                {
-                    loaded.EarpieceSlotId = DefaultValues.EarpieceSlotId;
-                    _needReSave = true;
-                }
-                ServerPath = loaded.ServerPath;
-                DefaultProfile = loaded.DefaultProfile;
-                Language = loaded.Language;
-                ColorScheme = loaded.ColorScheme;
-                DirsList = loaded.DirsList;
-                FilesList = loaded.FilesList;
-                AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
-                AutoAddMissingQuests = loaded.AutoAddMissingQuests;
-                AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
-                PocketsContainerTpl = loaded.PocketsContainerTpl;
-                FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
-                HeadwearSlotId = loaded.HeadwearSlotId;
-                TacticalVestSlotId = loaded.TacticalVestSlotId;
-                SecuredContainerSlotId = loaded.SecuredContainerSlotId;
-                BackpackSlotId = loaded.BackpackSlotId;
-                EarpieceSlotId = loaded.EarpieceSlotId;
-                CommonSkillMaxValue = loaded.CommonSkillMaxValue;
-                PocketsSlotId = loaded.PocketsSlotId;
-                MoneysDollarsTpl = loaded.MoneysDollarsTpl;
-                MoneysEurosTpl = loaded.MoneysEurosTpl;
-                MoneysRublesTpl = loaded.MoneysRublesTpl;
-                BannedItems = loaded.BannedItems;
-                BannedMasterings = loaded.bannedMasterings;
-                IssuesAction = loaded.IssuesAction;
+                bool _needReSave = loaded.CheckValues();
+                ApplyLoadedValues(loaded);
                 if (_needReSave)
                 {
                     Logger.Log($"Configuration file updated");
@@ -526,6 +433,140 @@ namespace SPT_AKI_Profile_Editor.Core
                 Logger.Log($"Configuration file ({configurationFile}) loading error: {ex.Message}");
                 CreateDefault();
             }
+        }
+
+        private void ApplyLoadedValues(AppSettings loaded)
+        {
+            ServerPath = loaded.ServerPath;
+            DefaultProfile = loaded.DefaultProfile;
+            Language = loaded.Language;
+            ColorScheme = loaded.ColorScheme;
+            DirsList = loaded.DirsList;
+            FilesList = loaded.FilesList;
+            AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
+            AutoAddMissingQuests = loaded.AutoAddMissingQuests;
+            AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
+            PocketsContainerTpl = loaded.PocketsContainerTpl;
+            FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
+            HeadwearSlotId = loaded.HeadwearSlotId;
+            TacticalVestSlotId = loaded.TacticalVestSlotId;
+            SecuredContainerSlotId = loaded.SecuredContainerSlotId;
+            BackpackSlotId = loaded.BackpackSlotId;
+            EarpieceSlotId = loaded.EarpieceSlotId;
+            CommonSkillMaxValue = loaded.CommonSkillMaxValue;
+            PocketsSlotId = loaded.PocketsSlotId;
+            MoneysDollarsTpl = loaded.MoneysDollarsTpl;
+            MoneysEurosTpl = loaded.MoneysEurosTpl;
+            MoneysRublesTpl = loaded.MoneysRublesTpl;
+            BannedItems = loaded.BannedItems;
+            BannedMasterings = loaded.bannedMasterings;
+            IssuesAction = loaded.IssuesAction;
+        }
+
+        private bool CheckValues()
+        {
+            bool _needReSave = false;
+            if (DirsList == null)
+            {
+                DirsList = new();
+                _needReSave = true;
+            }
+            if (FilesList == null)
+            {
+                FilesList = new();
+                _needReSave = true;
+            }
+            foreach (var dir in DefaultValues.DefaultDirsList.Where(x => !DirsList.ContainsKey(x.Key)))
+            {
+                DirsList.Add(dir.Key, dir.Value);
+                _needReSave = true;
+            }
+            foreach (var file in DefaultValues.DefaultFilesList.Where(x => !FilesList.ContainsKey(x.Key)))
+            {
+                FilesList.Add(file.Key, file.Value);
+                _needReSave = true;
+            }
+            if (PocketsContainerTpl == null)
+            {
+                PocketsContainerTpl = DefaultValues.PocketsContainerTpl;
+                _needReSave = true;
+            }
+            if (PocketsSlotId == null)
+            {
+                PocketsSlotId = DefaultValues.PocketsSlotId;
+                _needReSave = true;
+            }
+            if (MoneysDollarsTpl == null)
+            {
+                MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
+                _needReSave = true;
+            }
+            if (MoneysRublesTpl == null)
+            {
+                MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
+                _needReSave = true;
+            }
+            if (MoneysEurosTpl == null)
+            {
+                MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
+                _needReSave = true;
+            }
+            if (CommonSkillMaxValue == 0)
+            {
+                CommonSkillMaxValue = DefaultValues.CommonSkillMaxValue;
+                _needReSave = true;
+            }
+            if (ColorScheme == null)
+            {
+                ColorScheme = DefaultValues.ColorScheme;
+                _needReSave = true;
+            }
+            if (Language == null)
+            {
+                Language = ExtMethods.WindowsCulture;
+                _needReSave = true;
+            }
+            if (BannedItems == null)
+            {
+                BannedItems = DefaultValues.BannedItems;
+                _needReSave = true;
+            }
+            if (BannedMasterings == null)
+            {
+                BannedMasterings = DefaultValues.BannedMasterings;
+                _needReSave = true;
+            }
+            if (FirstPrimaryWeaponSlotId == null)
+            {
+                FirstPrimaryWeaponSlotId = DefaultValues.FirstPrimaryWeaponSlotId;
+                _needReSave = true;
+            }
+            if (HeadwearSlotId == null)
+            {
+                HeadwearSlotId = DefaultValues.HeadwearSlotId;
+                _needReSave = true;
+            }
+            if (TacticalVestSlotId == null)
+            {
+                TacticalVestSlotId = DefaultValues.TacticalVestSlotId;
+                _needReSave = true;
+            }
+            if (SecuredContainerSlotId == null)
+            {
+                SecuredContainerSlotId = DefaultValues.SecuredContainerSlotId;
+                _needReSave = true;
+            }
+            if (BackpackSlotId == null)
+            {
+                BackpackSlotId = DefaultValues.BackpackSlotId;
+                _needReSave = true;
+            }
+            if (EarpieceSlotId == null)
+            {
+                EarpieceSlotId = DefaultValues.EarpieceSlotId;
+                _needReSave = true;
+            }
+            return _needReSave;
         }
 
         private void CreateDefault()
