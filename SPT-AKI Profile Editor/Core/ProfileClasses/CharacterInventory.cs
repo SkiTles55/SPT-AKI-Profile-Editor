@@ -10,8 +10,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterInventory : BindableEntity
     {
         private InventoryItem[] items;
-
         private string stash;
+        private string equipment;
 
         [JsonProperty("items")]
         public InventoryItem[] Items
@@ -37,6 +37,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 stash = value;
                 OnPropertyChanged("Stash");
+            }
+        }
+
+        [JsonProperty("equipment")]
+        public string Equipment
+        {
+            get => equipment;
+            set
+            {
+                equipment = value;
+                OnPropertyChanged("Equipment");
             }
         }
 
@@ -80,6 +91,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
 
         [JsonIgnore]
+        public InventoryItem FirstPrimaryWeapon => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.FirstPrimaryWeaponSlotId)?.FirstOrDefault();
+
+        [JsonIgnore]
+        public InventoryItem Headwear => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.HeadwearSlotId)?.FirstOrDefault();
+
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)

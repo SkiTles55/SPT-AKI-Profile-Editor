@@ -37,40 +37,26 @@ namespace SPT_AKI_Profile_Editor.Core
         public bool Loaded = false;
 
         public static readonly string configurationFile = Path.Combine(DefaultValues.AppDataFolder, "AppSettings.json");
+
         private string serverPath;
-
         private string defaultProfile;
-
         private string language;
-
         private string colorScheme;
-
         private bool autoAddMissingQuests;
-
         private bool autoAddMissingScavSkills;
-
         private bool autoAddMissingMasterings;
-
         private string pocketsContainerTpl;
-
         private float commonSkillMaxValue;
-
         private Dictionary<string, string> serverProfiles;
-
         private string pocketsSlotId;
-
+        private string firstPrimaryWeaponSlotId;
+        private string headwearSlotId;
         private string moneysDollarsTpl;
-
         private string moneysRublesTpl;
-
         private string moneysEurosTpl;
-
         private List<string> bannedItems;
-
         private List<string> bannedMasterings;
-
         private IssuesAction issuesAction;
-
         private bool fastModeOpened = false;
 
         public string ServerPath
@@ -196,6 +182,30 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 pocketsSlotId = value;
                 OnPropertyChanged("PocketsSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string FirstPrimaryWeaponSlotId
+        {
+            get => firstPrimaryWeaponSlotId;
+            set
+            {
+                firstPrimaryWeaponSlotId = value;
+                OnPropertyChanged("FirstPrimaryWeaponSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string HeadwearSlotId
+        {
+            get => headwearSlotId;
+            set
+            {
+                headwearSlotId = value;
+                OnPropertyChanged("HeadwearSlotId");
                 if (Loaded)
                     Save();
             }
@@ -399,6 +409,16 @@ namespace SPT_AKI_Profile_Editor.Core
                     loaded.BannedMasterings = DefaultValues.BannedMasterings;
                     _needReSave = true;
                 }
+                if (loaded.FirstPrimaryWeaponSlotId == null)
+                {
+                    loaded.FirstPrimaryWeaponSlotId = DefaultValues.FirstPrimaryWeaponSlotId;
+                    _needReSave = true;
+                }
+                if (loaded.HeadwearSlotId == null)
+                {
+                    loaded.HeadwearSlotId = DefaultValues.HeadwearSlotId;
+                    _needReSave = true;
+                }
                 ServerPath = loaded.ServerPath;
                 DefaultProfile = loaded.DefaultProfile;
                 Language = loaded.Language;
@@ -409,6 +429,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 AutoAddMissingQuests = loaded.AutoAddMissingQuests;
                 AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
                 PocketsContainerTpl = loaded.PocketsContainerTpl;
+                FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
+                HeadwearSlotId = loaded.HeadwearSlotId;
                 CommonSkillMaxValue = loaded.CommonSkillMaxValue;
                 PocketsSlotId = loaded.PocketsSlotId;
                 MoneysDollarsTpl = loaded.MoneysDollarsTpl;
@@ -442,6 +464,8 @@ namespace SPT_AKI_Profile_Editor.Core
             PocketsContainerTpl = DefaultValues.PocketsContainerTpl;
             CommonSkillMaxValue = DefaultValues.CommonSkillMaxValue;
             PocketsSlotId = DefaultValues.PocketsSlotId;
+            FirstPrimaryWeaponSlotId = DefaultValues.FirstPrimaryWeaponSlotId;
+            HeadwearSlotId = DefaultValues.HeadwearSlotId;
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
