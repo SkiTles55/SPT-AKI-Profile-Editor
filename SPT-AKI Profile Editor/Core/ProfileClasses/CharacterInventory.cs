@@ -96,6 +96,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public InventoryItem Headwear => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.HeadwearSlotId)?.FirstOrDefault();
 
+        [JsonIgnore]
+        public InventoryItem TacticalVest => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.TacticalVestSlotId)?.FirstOrDefault();
+
+        [JsonIgnore]
+        public InventoryItem SecuredContainer => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.SecuredContainerSlotId)?.FirstOrDefault();
+
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)

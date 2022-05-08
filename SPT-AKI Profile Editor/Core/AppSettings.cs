@@ -51,6 +51,8 @@ namespace SPT_AKI_Profile_Editor.Core
         private string pocketsSlotId;
         private string firstPrimaryWeaponSlotId;
         private string headwearSlotId;
+        private string tacticalVestSlotId;
+        private string securedContainerSlotId;
         private string moneysDollarsTpl;
         private string moneysRublesTpl;
         private string moneysEurosTpl;
@@ -206,6 +208,30 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 headwearSlotId = value;
                 OnPropertyChanged("HeadwearSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string TacticalVestSlotId
+        {
+            get => tacticalVestSlotId;
+            set
+            {
+                tacticalVestSlotId = value;
+                OnPropertyChanged("TacticalVestSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string SecuredContainerSlotId
+        {
+            get => securedContainerSlotId;
+            set
+            {
+                securedContainerSlotId = value;
+                OnPropertyChanged("SecuredContainerSlotId");
                 if (Loaded)
                     Save();
             }
@@ -419,6 +445,16 @@ namespace SPT_AKI_Profile_Editor.Core
                     loaded.HeadwearSlotId = DefaultValues.HeadwearSlotId;
                     _needReSave = true;
                 }
+                if (loaded.TacticalVestSlotId == null)
+                {
+                    loaded.TacticalVestSlotId = DefaultValues.TacticalVestSlotId;
+                    _needReSave = true;
+                }
+                if (loaded.SecuredContainerSlotId == null)
+                {
+                    loaded.SecuredContainerSlotId = DefaultValues.SecuredContainerSlotId;
+                    _needReSave = true;
+                }
                 ServerPath = loaded.ServerPath;
                 DefaultProfile = loaded.DefaultProfile;
                 Language = loaded.Language;
@@ -431,6 +467,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 PocketsContainerTpl = loaded.PocketsContainerTpl;
                 FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
                 HeadwearSlotId = loaded.HeadwearSlotId;
+                TacticalVestSlotId = loaded.TacticalVestSlotId;
+                SecuredContainerSlotId = loaded.SecuredContainerSlotId;
                 CommonSkillMaxValue = loaded.CommonSkillMaxValue;
                 PocketsSlotId = loaded.PocketsSlotId;
                 MoneysDollarsTpl = loaded.MoneysDollarsTpl;
@@ -466,6 +504,8 @@ namespace SPT_AKI_Profile_Editor.Core
             PocketsSlotId = DefaultValues.PocketsSlotId;
             FirstPrimaryWeaponSlotId = DefaultValues.FirstPrimaryWeaponSlotId;
             HeadwearSlotId = DefaultValues.HeadwearSlotId;
+            TacticalVestSlotId = DefaultValues.TacticalVestSlotId;
+            SecuredContainerSlotId = DefaultValues.SecuredContainerSlotId;
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;

@@ -140,6 +140,18 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ScavInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Headwear);
 
         [Test]
+        public void PmcInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
+
+        [Test]
+        public void ScavInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
+
+        [Test]
+        public void PmcInventorySecuredContainerNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
+
+        [Test]
+        public void ScavInventorySecuredContainerIsNull() => Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
+
+        [Test]
         public void InventoryItemsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Length == 0);
 
         [Test]
