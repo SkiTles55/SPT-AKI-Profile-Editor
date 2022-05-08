@@ -13,7 +13,7 @@
 
 ### [Submit a bug report](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 2.1.1 for server SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.1.1)
+### [Version 2.2 for server SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.2)
 
 ### Capabilities:
 * Level, nickname, character voice  
