@@ -43,16 +43,16 @@ The level of PMCs is below that required for traders levels. Raise the PMC level
 #### UPD: Starting from version 2.2, the program checks the levels of traders for compliance with the level of PMCs, and suggests correcting the level if "Always ignore" is not set in the settings (Troubleshooting item, in the Additional section).
 
 ### Where can I find the AppSettings.json file, logs, localizations and backups maded by application?
-#### For application version 2.0 - 2.1.1:
-Application root folder
-Backups - profile backups
-Localizations - application localizations
-Logs - application logs
-AppSettings.json - application settings
 #### For application version 2.2 and higher:
-User folder\AppData\Roaming\SPT-AKI Profile Editor
-%AppData%\SPT-AKI Profile Editor (press WIN + R, copy this path into the window that appears and press Enter, or run the program, Settings - Troubleshooting - Open app data folder)
-Backups - profile backups
-Localizations - application localizations
-Logs - application logs
-AppSettings.json - application settings
+User folder\AppData\Roaming\SPT-AKI Profile Editor</br>
+%AppData%\SPT-AKI Profile Editor (press WIN + R, copy this path into the window that appears and press Enter, or run the program, Settings - Troubleshooting - Open app data folder)</br>
+Backups - profile backups</br></br>
+Localizations - application localizations</br>
+Logs - application logs</br>
+AppSettings.json - application settings</br>
+#### For application versions 2.0 - 2.1.1:
+Application root folder</br>
+Backups - profile backups</br>
+Localizations - application localizations</br>
+Logs - application logs</br>
+AppSettings.json - application settings</br>
