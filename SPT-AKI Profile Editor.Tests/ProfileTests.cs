@@ -330,6 +330,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(testFile);
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1));
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2));
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId1));
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId2));
         }
 
         [Test]
@@ -347,8 +349,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void StashRemovingAllItemsRunsCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             var ids = AppData.Profile.Characters.Pmc.Inventory.Items.Select(x => x.Id);
+            AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             var missedItems = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.ParentId != null && !ids.Contains(x.ParentId));
             Assert.IsEmpty(missedItems);
         }

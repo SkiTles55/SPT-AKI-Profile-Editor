@@ -86,35 +86,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Select(x => x.Key)
             .ToList();
 
-        public void RemoveDuplicatedItems() => RemoveItems(GroupedInventory);
+        public void RemoveDuplicatedItems() => FinalRemoveItems(GroupedInventory);
 
-        public void RemoveItems(List<string> itemIds)
-        {
-            List<string> toDo = new();
-            foreach (var TargetItem in itemIds)
-            {
-                toDo.Add(TargetItem);
-                toDo.AddRange(Items.Where(x => x.ParentId == TargetItem).Select(x => x.Id));
-            }
-            FinalRemoveItems(toDo);
-        }
+        public void RemoveItems(List<string> itemIds) => FinalRemoveItems(itemIds);
 
-        public void RemoveAllItems()
-        {
-            List<string> itemIds = new();
-            foreach (var TargetItem in InventoryItems)
-            {
-                List<InventoryItem> toDo = new() { TargetItem };
-                while (toDo.Count > 0)
-                {
-                    foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0).Id))
-                        toDo.Add(item);
-                    itemIds.Add(toDo.ElementAt(0).Id);
-                    toDo.Remove(toDo.ElementAt(0));
-                }
-            }
-            FinalRemoveItems(itemIds);
-        }
+        public void RemoveAllItems() => FinalRemoveItems(GetCompleteItemsList(InventoryItems.Select(x => x.Id)));
 
         public void AddNewItems(string tpl, int count, bool fir)
         {
@@ -230,6 +206,23 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return new ItemLocation { X = slot.X, Y = slot.Y };
             }
             return null;
+        }
+
+        private List<string> GetCompleteItemsList(IEnumerable<string> items)
+        {
+            List<string> itemIds = new();
+            foreach (var TargetItem in items)
+            {
+                List<string> toDo = new() { TargetItem };
+                while (toDo.Count > 0)
+                {
+                    foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0)))
+                        toDo.Add(item.Id);
+                    itemIds.Add(toDo.ElementAt(0));
+                    toDo.Remove(toDo.ElementAt(0));
+                }
+            }
+            return itemIds;
         }
 
         private void FinalRemoveItems(List<string> itemIds)
