@@ -1,0 +1,52 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.ItemsAdding"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
+        <DockPanel Grid.Row="1">
+            <Label
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{Binding AppLocalization.Translations[tab_stash_search]}"
+                DockPanel.Dock="Left" />
+            <TextBox
+                Margin="5"
+                VerticalAlignment="Center"
+                mah:TextBoxHelper.ClearTextButton="True"
+                DockPanel.Dock="Right"
+                Text="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}"
+                TextChanged="FilterBoxAdding_TextChanged" />
+        </DockPanel>
+        <ScrollViewer
+            Grid.Row="2"
+            CanContentScroll="True"
+            PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <ListBox
+                x:Name="itemsList"
+                ItemContainerStyle="{StaticResource NoHoverListBox}"
+                ItemsSource="{Binding Source={StaticResource items}}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:HandbookCategoryView />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

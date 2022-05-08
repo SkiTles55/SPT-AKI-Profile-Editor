@@ -15,7 +15,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="inventory" Source="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}" />
-        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}" />
     </UserControl.Resources>
     <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
@@ -163,44 +162,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
-                <DockPanel Grid.Row="1">
-                    <Label
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{Binding AppLocalization.Translations[tab_stash_search]}"
-                        DockPanel.Dock="Left" />
-                    <TextBox
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        mah:TextBoxHelper.ClearTextButton="True"
-                        DockPanel.Dock="Right"
-                        Text="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}"
-                        TextChanged="FilterBoxAdding_TextChanged" />
-                </DockPanel>
-                <ScrollViewer
-                    Grid.Row="2"
-                    CanContentScroll="True"
-                    PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                    <ListBox
-                        x:Name="itemsList"
-                        ItemContainerStyle="{StaticResource NoHoverListBox}"
-                        ItemsSource="{Binding Source={StaticResource items}}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <extendedcontrols:HandbookCategoryView />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </ScrollViewer>
-            </Grid>
+            <extendedcontrols:ItemsAdding />
         </TabItem>
     </TabControl>
 </UserControl>

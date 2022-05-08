@@ -1,6 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,24 +20,6 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>
             ApplyStashFilter();
-
-        private void FilterBoxAdding_TextChanged(object sender, TextChangedEventArgs e) =>
-            ApplyAddingFilter();
-
-        private void ApplyAddingFilter()
-        {
-            ICollectionView cv = CollectionViewSource.GetDefaultView(itemsList.ItemsSource);
-            if (cv == null)
-                return;
-            else
-            {
-                cv.Filter = o =>
-                {
-                    HandbookCategory p = o as HandbookCategory;
-                    return p.ContainsItemsWithTextInName(AppData.GridFilters.StashTab.AddingItemName);
-                };
-            }
-        }
 
         private void ApplyStashFilter()
         {
