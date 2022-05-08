@@ -11,9 +11,11 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     public class HandbookCategory : BindableViewModel
     {
         private bool isExpanded;
-
         private string localizedName;
+        private ObservableCollection<HandbookCategory> categories;
+        private ObservableCollection<TarkovItem> items;
 
+        [JsonConstructor]
         public HandbookCategory(string id, string parentId)
         {
             Id = id;
@@ -22,16 +24,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         public static RelayCommand AddItem => new(obj =>
-          {
-              if (obj == null)
-                  return;
-              if (obj is not TarkovItem item)
-                  return;
-              App.Worker.AddAction(new WorkerTask
-              {
-                  Action = () => { AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item.Id, item.AddingQuantity, item.AddingFir); }
-              });
-          });
+        {
+            if (obj == null || obj is not TarkovItem item)
+                return;
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = () => { AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item.Id, item.AddingQuantity, item.AddingFir); }
+            });
+        });
 
         [JsonPropertyName("Id")]
         public string Id { get; set; }
@@ -62,15 +62,39 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         [JsonIgnore]
-        public ObservableCollection<HandbookCategory> Categories => new(AppData.ServerDatabase.Handbook.Categories
-                .Where(x => x.ParentId == Id)
-                .Where(x => x.IsNotHidden));
+        public ObservableCollection<HandbookCategory> Categories
+        {
+            get
+            {
+                if (categories == null)
+                    categories = new(AppData.ServerDatabase.Handbook.Categories.Where(x => x.ParentId == Id && x.IsNotHidden));
+                return categories;
+            }
+            set
+            {
+                categories = value;
+                OnPropertyChanged("Categories");
+            }
+        }
 
         [JsonIgnore]
-        public ObservableCollection<TarkovItem> Items => new(AppData.ServerDatabase.Handbook.Items
-                .Where(x => x.ParentId == Id)
-                .Select(x => x.Item)
-                .Where(x => x.CanBeAddedToStash));
+        public ObservableCollection<TarkovItem> Items
+        {
+            get
+            {
+                if (items == null)
+                    items = new(AppData.ServerDatabase.Handbook.Items
+                        .Where(x => x.ParentId == Id)
+                        .Select(x => x.Item)
+                        .Where(x => x.CanBeAddedToStash));
+                return items;
+            }
+            set
+            {
+                items = value;
+                OnPropertyChanged("Items");
+            }
+        }
 
         [JsonIgnore]
         public bool IsNotHidden => Items.Count > 0 || Categories.Count > 0;
