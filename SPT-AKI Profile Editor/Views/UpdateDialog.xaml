@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label
@@ -32,7 +32,7 @@
             Grid.Column="0"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -46,7 +46,7 @@
             Grid.Column="1"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -60,7 +60,7 @@
             Grid.Column="0"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -74,7 +74,7 @@
             Grid.Column="1"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -88,7 +88,7 @@
             Grid.Column="0"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -102,7 +102,7 @@
             Grid.Column="1"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -116,7 +116,7 @@
             Grid.Column="0"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -130,7 +130,7 @@
             Grid.Column="1"
             Margin="10,0,5,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
@@ -143,6 +143,7 @@
             Grid.Row="0"
             Grid.RowSpan="4"
             Grid.Column="2"
+            MaxHeight="250"
             Margin="5,10,5,10"
             VerticalScrollBarVisibility="Auto">
             <TextBlock Text="{Binding Release.Description}" TextWrapping="Wrap" />
