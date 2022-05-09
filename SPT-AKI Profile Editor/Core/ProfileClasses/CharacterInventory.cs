@@ -80,8 +80,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
 
         [JsonIgnore]
-        public InventoryItem[] InventoryItems => Items?
+        public InventoryItemExtended[] InventoryItems => Items?
             .Where(x => x.ParentId == Stash && x.Location != null)?
+            .Select(x => new InventoryItemExtended(x, Items))
             .ToArray();
 
         [JsonIgnore]
@@ -91,22 +92,22 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
 
         [JsonIgnore]
-        public InventoryItem FirstPrimaryWeapon => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.FirstPrimaryWeaponSlotId)?.FirstOrDefault();
+        public InventoryItem FirstPrimaryWeapon => GetEquipment(AppData.AppSettings.FirstPrimaryWeaponSlotId);
 
         [JsonIgnore]
-        public InventoryItem Headwear => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.HeadwearSlotId)?.FirstOrDefault();
+        public InventoryItem Headwear => GetEquipment(AppData.AppSettings.HeadwearSlotId);
 
         [JsonIgnore]
-        public InventoryItem TacticalVest => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.TacticalVestSlotId)?.FirstOrDefault();
+        public InventoryItem TacticalVest => GetEquipment(AppData.AppSettings.TacticalVestSlotId);
 
         [JsonIgnore]
-        public InventoryItem SecuredContainer => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.SecuredContainerSlotId)?.FirstOrDefault();
+        public InventoryItem SecuredContainer => GetEquipment(AppData.AppSettings.SecuredContainerSlotId);
 
         [JsonIgnore]
-        public InventoryItem Backpack => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.BackpackSlotId)?.FirstOrDefault();
+        public InventoryItem Backpack => GetEquipment(AppData.AppSettings.BackpackSlotId);
 
         [JsonIgnore]
-        public InventoryItem Earpiece => Items?.Where(x => x.ParentId == Equipment && x.SlotId == AppData.AppSettings.EarpieceSlotId)?.FirstOrDefault();
+        public InventoryItem Earpiece => GetEquipment(AppData.AppSettings.EarpieceSlotId);
 
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
@@ -234,6 +235,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return new ItemLocation { X = slot.X, Y = slot.Y };
             }
             return null;
+        }
+        private InventoryItem GetEquipment(string slotId)
+        {
+            return Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
         }
 
         private List<string> GetCompleteItemsList(IEnumerable<string> items)
