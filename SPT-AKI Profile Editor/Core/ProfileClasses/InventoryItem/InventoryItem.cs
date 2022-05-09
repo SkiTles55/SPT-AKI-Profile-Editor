@@ -2,7 +2,7 @@
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class InventoryItem
+    public class InventoryItem : BindableEntity
     {
         [JsonProperty("_id")]
         public string Id { get; set; }

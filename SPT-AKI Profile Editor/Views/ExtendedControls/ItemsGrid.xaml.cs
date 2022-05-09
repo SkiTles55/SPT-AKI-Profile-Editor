@@ -1,8 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using System.Collections.Generic;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -11,20 +10,11 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
     /// <summary>
     /// Логика взаимодействия для ItemsGrid.xaml
     /// </summary>
-    public partial class ItemsGrid : UserControl
+    public partial class ItemsGrid : GridControl
     {
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable<InventoryItemExtended>), typeof(ItemsGrid), new PropertyMetadata(null));
-
         public ItemsGrid()
         {
             InitializeComponent();
-        }
-
-        public IEnumerable<InventoryItemExtended> ItemsSource
-        {
-            get { return (IEnumerable<InventoryItemExtended>)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
         }
 
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>
