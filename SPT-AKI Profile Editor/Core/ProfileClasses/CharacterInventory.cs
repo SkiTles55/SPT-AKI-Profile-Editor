@@ -10,6 +10,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterInventory : BindableEntity
     {
         private InventoryItem[] items;
+        private InventoryItemExtended[] inventoryItems;
         private string stash;
         private string equipment;
 
@@ -21,7 +22,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 items = value;
                 OnPropertyChanged("Items");
-                OnPropertyChanged("InventoryItems");
+                GetInventoryItems();
                 OnPropertyChanged("DollarsCount");
                 OnPropertyChanged("RublesCount");
                 OnPropertyChanged("EurosCount");
@@ -65,7 +66,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (pocketsSlot != null)
                 {
                     pocketsSlot.Tpl = value;
-                    OnPropertyChanged("CharacterPockets");
+                    OnPropertyChanged("Pockets");
                 }
             }
         }
@@ -80,10 +81,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
 
         [JsonIgnore]
-        public InventoryItemExtended[] InventoryItems => Items?
-            .Where(x => x.ParentId == Stash && x.Location != null)?
-            .Select(x => new InventoryItemExtended(x, Items))
-            .ToArray();
+        public InventoryItemExtended[] InventoryItems
+        {
+            get
+            {
+                if (inventoryItems == null || (inventoryItems.Length == 0 && Items.Length != 0))
+                    GetInventoryItems();
+                return inventoryItems;
+            }
+            set
+            {
+                inventoryItems = value;
+                OnPropertyChanged("InventoryItems");
+            }
+        }
 
         [JsonIgnore]
         public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
@@ -236,6 +247,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             return null;
         }
+
+        private void GetInventoryItems()
+        {
+            InventoryItems = Items?
+                .Where(x => x.ParentId == Stash && x.Location != null)?
+                .Select(x => new InventoryItemExtended(x, Items))
+                .ToArray();
+        }
+
         private InventoryItem GetEquipment(string slotId)
         {
             return Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
