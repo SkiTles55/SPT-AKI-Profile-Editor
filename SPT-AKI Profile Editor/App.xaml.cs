@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor
         public static bool CheckForOpenedWindow(string itemId)
         {
             foreach (Window window in Current.Windows)
-                if (window is ContainerWindow openedWindow && openedWindow.ItemId == itemId)
+                if (window is ItemViewWindow openedWindow && openedWindow.ItemId == itemId)
                 {
                     openedWindow.Activate();
                     return true;
@@ -43,20 +43,26 @@ namespace SPT_AKI_Profile_Editor
             return false;
         }
 
-        public static void CloseContainerWindows(List<string> idsList)
+        public static void CloseItemViewWindows(List<string> idsList)
         {
+            // Skipping in nUnit tests
+            if (Current == null)
+                return;
             Current.Dispatcher.Invoke(() => {
                 foreach (Window window in Current.Windows)
-                    if (window is ContainerWindow containerWindow && idsList.Contains(containerWindow.ItemId))
+                    if (window is ItemViewWindow containerWindow && idsList.Contains(containerWindow.ItemId))
                         containerWindow.Close();
             });
         }
 
-        public static void CloseAllContainerWindows()
+        public static void CloseAllItemViewWindows()
         {
+            // Skipping in nUnit tests
+            if (Current == null)
+                return;
             Current.Dispatcher.Invoke(() => {
                 foreach (Window window in Current.Windows)
-                    if (window is ContainerWindow containerWindow)
+                    if (window is ItemViewWindow containerWindow)
                         containerWindow.Close();
             });
         }

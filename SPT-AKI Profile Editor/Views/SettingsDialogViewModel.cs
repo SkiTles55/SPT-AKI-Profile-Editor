@@ -55,20 +55,11 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand QuitCommand => App.CloseApplication;
 
-        public static RelayCommand OpenAppData => new(obj =>
-        {
-            ExtMethods.OpenUrl(DefaultValues.AppDataFolder);
-        });
+        public static RelayCommand OpenAppData => new(obj => ExtMethods.OpenUrl(DefaultValues.AppDataFolder));
 
-        public static RelayCommand ResetSettings => new(obj =>
-        {
-            File.Delete(AppSettings.configurationFile);
-        });
+        public static RelayCommand ResetSettings => new(obj => File.Delete(AppSettings.configurationFile));
 
-        public static RelayCommand ResetLocalizations => new(obj =>
-        {
-            Directory.Delete(AppLocalization.localizationsDir, true);
-        });
+        public static RelayCommand ResetLocalizations => new(obj => Directory.Delete(AppLocalization.localizationsDir, true));
 
         public static RelayCommand ResetAndReload => new(async obj =>
         {
@@ -172,10 +163,7 @@ namespace SPT_AKI_Profile_Editor
             }
         }
 
-        public RelayCommand ServerSelect => new(async obj =>
-        {
-            await ServerSelectDialog();
-        });
+        public RelayCommand ServerSelect => new(async obj => await ServerSelectDialog());
 
         private static void ReloadApplication()
         {

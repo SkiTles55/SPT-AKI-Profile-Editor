@@ -132,7 +132,7 @@
                                     Margin="5"
                                     Command="{Binding Data.OpenContainer, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding}"
-                                    Content="Open">
+                                    Content="{Binding Data.AppLocalization.Translations[tab_stash_open], Source={StaticResource proxy}}">
                                     <Button.Style>
                                         <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
                                             <Setter Property="Visibility" Value="Collapsed" />

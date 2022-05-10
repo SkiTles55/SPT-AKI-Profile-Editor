@@ -30,8 +30,8 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        public RelayCommand SetAllPmsSkillsCommand => new(obj => { Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcSkillsValue); });
-        public RelayCommand SetAllScavSkillsCommand => new(obj => { Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavSkillsValue); });
+        public RelayCommand SetAllPmsSkillsCommand => new(obj => Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcSkillsValue));
+        public RelayCommand SetAllScavSkillsCommand => new(obj => Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavSkillsValue));
 
         public RelayCommand OpenSettingsCommand => new(async obj =>
          {

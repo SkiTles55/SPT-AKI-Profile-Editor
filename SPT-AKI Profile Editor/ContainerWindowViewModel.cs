@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor
             _item = item;
         }
 
-        public static RelayCommand OpenContainer => new(obj => { App.OpenContainerWindow(obj); });
+        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj));
 
         public string WindowTitle { get; }
 

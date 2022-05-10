@@ -12,7 +12,7 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         public static AppSettings AppSettings => AppData.AppSettings;
 
-        public static RelayCommand OpenContainer => new(obj => { App.OpenContainerWindow(obj); });
+        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj));
 
         public RelayCommand RemoveItem => new(async obj =>
         {
@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         });
 
-        public RelayCommand AddMoney => new(async obj => { await ShowAddMoneyDialog(obj); });
+        public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj));
 
         private async Task ShowAddMoneyDialog(object obj)
         {
@@ -59,10 +59,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(tpl, result.Item1, result.Item2); }
                 });
             });
-            RelayCommand cancelCommand = new(async obj =>
-            {
-                await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
-            });
+            RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));
             addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(tpl, addCommand, cancelCommand) };
             await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
         }

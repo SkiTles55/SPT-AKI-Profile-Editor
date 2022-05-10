@@ -14,12 +14,12 @@ namespace SPT_AKI_Profile_Editor.Views
             SaveCommand = saveCommand;
         }
 
-        public static RelayCommand CancelCommand => new(async obj => { await CloseDailog(); });
+        public static RelayCommand CancelCommand => new(async obj => await CloseDailog());
         public static IssuesService IssuesService => AppData.IssuesService;
         public RelayCommand SaveCommand { get; }
-        public RelayCommand FixCommand => new(async obj => { await ExecuteFixCommand(obj); });
-        public RelayCommand IgnoreCommand => new(obj => { ExecuteSaveCommand(IssuesAction.AlwaysIgnore); });
-        public RelayCommand FixAllCommand => new(obj => { ExecuteSaveCommand(IssuesAction.AlwaysFix); });
+        public RelayCommand FixCommand => new(async obj => await ExecuteFixCommand(obj));
+        public RelayCommand IgnoreCommand => new(obj => ExecuteSaveCommand(IssuesAction.AlwaysIgnore));
+        public RelayCommand FixAllCommand => new(obj => ExecuteSaveCommand(IssuesAction.AlwaysFix));
         public bool RemeberAction { get; set; } = false;
 
         private static async Task CloseDailog()
