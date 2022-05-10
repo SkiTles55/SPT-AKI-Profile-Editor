@@ -10,8 +10,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterInventory : BindableEntity
     {
         private InventoryItem[] items;
-
         private string stash;
+        private string equipment;
 
         [JsonProperty("items")]
         public InventoryItem[] Items
@@ -40,6 +40,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        [JsonProperty("equipment")]
+        public string Equipment
+        {
+            get => equipment;
+            set
+            {
+                equipment = value;
+                OnPropertyChanged("Equipment");
+            }
+        }
+
         [JsonIgnore]
         public string Pockets
         {
@@ -54,7 +65,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (pocketsSlot != null)
                 {
                     pocketsSlot.Tpl = value;
-                    OnPropertyChanged("CharacterPockets");
+                    OnPropertyChanged("Pockets");
                 }
             }
         }
@@ -80,6 +91,23 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
 
         [JsonIgnore]
+        public InventoryItem FirstPrimaryWeapon => GetEquipment(AppData.AppSettings.FirstPrimaryWeaponSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Headwear => GetEquipment(AppData.AppSettings.HeadwearSlotId);
+
+        [JsonIgnore]
+        public InventoryItem TacticalVest => GetEquipment(AppData.AppSettings.TacticalVestSlotId);
+
+        [JsonIgnore]
+        public InventoryItem SecuredContainer => GetEquipment(AppData.AppSettings.SecuredContainerSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Backpack => GetEquipment(AppData.AppSettings.BackpackSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Earpiece => GetEquipment(AppData.AppSettings.EarpieceSlotId);
+
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)
@@ -90,7 +118,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveItems(List<string> itemIds) => FinalRemoveItems(itemIds);
 
-        public void RemoveAllItems() => FinalRemoveItems(GetCompleteItemsList(InventoryItems.Select(x => x.Id)));
+        public void RemoveAllItems() => FinalRemoveItems(InventoryItems.Select(x => x.Id));
 
         public void AddNewItems(string tpl, int count, bool fir)
         {
@@ -208,6 +236,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return null;
         }
 
+        private InventoryItem GetEquipment(string slotId)
+        {
+            return Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
+        }
+
         private List<string> GetCompleteItemsList(IEnumerable<string> items)
         {
             List<string> itemIds = new();
@@ -225,16 +258,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return itemIds;
         }
 
-        private void FinalRemoveItems(List<string> itemIds)
+        private void FinalRemoveItems(IEnumerable<string> itemIds)
         {
+            var completedList = GetCompleteItemsList(itemIds);
+            App.CloseItemViewWindows(completedList);
             List<InventoryItem> ItemsList = Items.ToList();
-            while (itemIds.Count > 0)
+            while (completedList.Count > 0)
             {
-                var item = ItemsList.Where(x => x.Id == itemIds[0]).FirstOrDefault();
+                var item = ItemsList.Where(x => x.Id == completedList[0]).FirstOrDefault();
                 if (item != null)
                     ItemsList.Remove(item);
                 else
-                    itemIds.RemoveAt(0);
+                    completedList.RemoveAt(0);
             }
             Items = ItemsList.ToArray();
         }

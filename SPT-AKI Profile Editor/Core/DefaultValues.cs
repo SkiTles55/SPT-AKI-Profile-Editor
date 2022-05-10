@@ -10,6 +10,12 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string ColorScheme = "Light.Emerald";
         public const string PocketsContainerTpl = "557596e64bdc2dc2118b4571";
         public const string PocketsSlotId = "Pockets";
+        public const string FirstPrimaryWeaponSlotId = "FirstPrimaryWeapon";
+        public const string HeadwearSlotId = "Headwear";
+        public const string TacticalVestSlotId = "TacticalVest";
+        public const string BackpackSlotId = "Backpack";
+        public const string EarpieceSlotId = "Earpiece";
+        public const string SecuredContainerSlotId = "SecuredContainer";
         public const string MoneysDollarsTpl = "5696686a4bdc2da3298b456a";
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
@@ -145,6 +151,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_dialog_money"] = "Enter the amount of money you want to add",
                     ["tab_stash_no_slots"] = "Not enough free slots",
                     ["tab_stash_add"] = "Add",
+                    ["tab_stash_open"] = "Open",
                     ["tab_stash_remove"] = "Remove all",
                     ["tab_stash_fir"] = "Item found in raid",
                     ["tab_stash_items_adding"] = "Adding items",
@@ -305,6 +312,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_dialog_money"] = "Введите сумму денег, которую хотите добавить",
                     ["tab_stash_no_slots"] = "Недостаточно свободных слотов",
                     ["tab_stash_add"] = "Добавить",
+                    ["tab_stash_open"] = "Открыть",
                     ["tab_stash_remove"] = "Удалить все",
                     ["tab_stash_fir"] = "Предмет найденный в рейде",
                     ["tab_stash_items_adding"] = "Добавление предметов",

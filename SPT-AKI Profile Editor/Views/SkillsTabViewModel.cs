@@ -1,6 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -15,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllPmcSkillsValue;
             set
             {
-                setAllPmcSkillsValue = value > AppSettings.CommonSkillMaxValue ? AppSettings.CommonSkillMaxValue : value;
+                setAllPmcSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
                 OnPropertyChanged("SetAllPmcSkillsValue");
             }
         }
@@ -25,17 +26,14 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllScavSkillsValue;
             set
             {
-                setAllScavSkillsValue = value > AppSettings.CommonSkillMaxValue ? AppSettings.CommonSkillMaxValue : value;
+                setAllScavSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
                 OnPropertyChanged("SetAllScavSkillsValue");
             }
         }
 
-        public RelayCommand SetAllPmsSkillsCommand => new(obj => { Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue); });
-        public RelayCommand SetAllScavSkillsCommand => new(obj => { Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue); });
+        public RelayCommand SetAllPmsSkillsCommand => new(obj => Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue));
+        public RelayCommand SetAllScavSkillsCommand => new(obj => Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue));
 
-        public RelayCommand OpenSettingsCommand => new(async obj =>
-         {
-             await Dialogs.ShowSettingsDialog(this, 1);
-         });
+        public RelayCommand OpenSettingsCommand => new(async obj => await Dialogs.ShowSettingsDialog(this, 1));
     }
 }

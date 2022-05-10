@@ -184,6 +184,7 @@
                                                     <Style>
                                                         <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                                                         <Setter Property="TextBlock.TextAlignment" Value="Left" />
+                                                        <Setter Property="TextBlock.Padding" Value="5 0 0 0" />
                                                     </Style>
                                                 </DataGridTextColumn.ElementStyle>
                                             </DataGridTextColumn>

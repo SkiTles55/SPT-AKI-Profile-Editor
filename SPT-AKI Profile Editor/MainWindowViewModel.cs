@@ -19,19 +19,19 @@ namespace SPT_AKI_Profile_Editor
 
         public static MainWindowViewModel Instance { get; set; }
 
-        public static RelayCommand OpenFastModeCommand => new(obj => { ChangeMode(); });
+        public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
 
-        public static RelayCommand OpenFAQ => new(obj => { OpenFAQUrl(); });
+        public static RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
-        public static RelayCommand SaveButtonCommand => new(obj => { SaveProfileAndReload(); });
+        public static RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
 
-        public RelayCommand OpenSettingsCommand => new(async obj => { await Dialogs.ShowSettingsDialog(this); });
+        public RelayCommand OpenSettingsCommand => new(async obj => await Dialogs.ShowSettingsDialog(this));
 
-        public RelayCommand InitializeViewModelCommand => new(async obj => { await InitializeViewModel(); });
+        public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
-        public RelayCommand ReloadButtonCommand => new(async obj => { await Reload(); });
+        public RelayCommand ReloadButtonCommand => new(async obj => await Reload());
 
         public static async void SaveProfileAndReload()
         {
@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor
                 switch (AppData.AppSettings.IssuesAction)
                 {
                     case IssuesAction.AlwaysShow:
-                        RelayCommand saveCommand = new(obj => { SaveAction(); });
+                        RelayCommand saveCommand = new(obj => SaveAction());
                         await Dialogs.ShowIssuesDialog(Instance, saveCommand);
                         return;
                     case IssuesAction.AlwaysFix:
@@ -56,6 +56,7 @@ namespace SPT_AKI_Profile_Editor
         {
             if (ExtMethods.PathIsServerFolder(AppData.AppSettings) && ServerChecker.CheckProcess())
                 await Dialogs.ShutdownCozServerRunned(Instance);
+            App.CloseAllItemViewWindows();
             App.Worker.AddAction(new WorkerTask
             {
                 Action = AppData.StartupEvents,
@@ -114,9 +115,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task Reload()
         {
-            if (await Dialogs.YesNoDialog(this,
-                              "reload_profile_dialog_title",
-                              "reload_profile_dialog_caption") == MessageDialogResult.Affirmative)
+            if (await Dialogs.YesNoDialog(this, "reload_profile_dialog_title", "reload_profile_dialog_caption"))
                 StartupEventsWorker();
         }
     }

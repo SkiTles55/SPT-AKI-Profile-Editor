@@ -12,32 +12,30 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         public static AppSettings AppSettings => AppData.AppSettings;
 
+        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj));
+
         public RelayCommand RemoveItem => new(async obj =>
-         {
-             if (obj == null)
-                 return;
-             if (await Dialogs.YesNoDialog(this,
-                 "remove_stash_item_title",
-                 "remove_stash_item_caption") == MessageDialogResult.Affirmative)
-                 Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
-         });
+        {
+            if (obj == null)
+                return;
+            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
+        });
 
         public RelayCommand RemoveAllItems => new(async obj =>
-         {
-             if (await Dialogs.YesNoDialog(this,
-                 "remove_stash_item_title",
-                 "remove_stash_items_caption") == MessageDialogResult.Affirmative)
-             {
-                 App.Worker.AddAction(new WorkerTask
-                 {
-                     Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
-                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
-                 });
-             }
-         });
+        {
+            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
+            {
+                App.Worker.AddAction(new WorkerTask
+                {
+                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
+                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                    Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
+                });
+            }
+        });
 
-        public RelayCommand AddMoney => new(async obj => { await ShowAddMoneyDialog(obj); });
+        public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj));
 
         private async Task ShowAddMoneyDialog(object obj)
         {
@@ -61,10 +59,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(tpl, result.Item1, result.Item2); }
                 });
             });
-            RelayCommand cancelCommand = new(async obj =>
-            {
-                await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
-            });
+            RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));
             addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(tpl, addCommand, cancelCommand) };
             await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
         }

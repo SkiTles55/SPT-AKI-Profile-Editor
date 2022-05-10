@@ -5,6 +5,6 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class ExaminedItemsTabViewModel : BindableViewModel
     {
-        public static RelayCommand ExamineAllCommand => new(obj => { Profile.Characters.Pmc.ExamineAll(); });
+        public static RelayCommand ExamineAllCommand => new(obj => Profile.Characters.Pmc.ExamineAll());
     }
 }

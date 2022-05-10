@@ -2,7 +2,7 @@
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class InventoryItem
+    public class InventoryItem : BindableEntity
     {
         [JsonProperty("_id")]
         public string Id { get; set; }
@@ -24,8 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public ItemUpd Upd { get; set; }
 
         [JsonIgnore]
-        public string LocalizedName =>
-            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Tpl) ? AppData.ServerDatabase.LocalesGlobal.Templates[Tpl].Name : Tpl;
+        public string LocalizedName => (!string.IsNullOrEmpty(Tag) ? $"[{Tag}] " : string.Empty) + GlobalName;
 
         [JsonIgnore]
         public bool IsAddedByMods =>
@@ -33,5 +32,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public bool IsPockets => SlotId == AppData.AppSettings.PocketsSlotId;
+
+        [JsonIgnore]
+        public string Tag => Upd?.Tag?.Name;
+
+        [JsonIgnore]
+        public string GlobalName =>
+            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Tpl) ? AppData.ServerDatabase.LocalesGlobal.Templates[Tpl].Name : Tpl;
+
+        [JsonIgnore]
+        public bool IsContainer => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
     }
 }

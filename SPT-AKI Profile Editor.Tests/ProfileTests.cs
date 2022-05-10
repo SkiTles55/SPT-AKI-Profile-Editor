@@ -125,6 +125,45 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void InventoryStashNotEmpty() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Stash);
 
         [Test]
+        public void InventoryEquipmentNotEmpty() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Equipment);
+
+        [Test]
+        public void PmcInventoryFirstPrimaryWeaponNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.FirstPrimaryWeapon);
+
+        [Test]
+        public void ScavInventoryFirstPrimaryWeaponNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon);
+
+        [Test]
+        public void PmcInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Headwear);
+
+        [Test]
+        public void ScavInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Headwear);
+
+        [Test]
+        public void PmcInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
+
+        [Test]
+        public void ScavInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
+
+        [Test]
+        public void PmcInventorySecuredContainerNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
+
+        [Test]
+        public void ScavInventorySecuredContainerIsNull() => Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
+
+        [Test]
+        public void PmcInventoryBackpackNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Backpack);
+
+        [Test]
+        public void ScavInventoryBackpackNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Backpack);
+
+        [Test]
+        public void PmcInventoryEarpieceNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Earpiece);
+
+        [Test]
+        public void ScavInventoryEarpieceNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Earpiece);
+
+        [Test]
         public void InventoryItemsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Length == 0);
 
         [Test]
@@ -322,16 +361,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void StashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[0].Id;
-            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[1].Id;
+            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.First().Id;
+            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Id != expectedId1 && x.ParentId != expectedId1).First().Id;
             AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1));
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2));
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId1));
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId2));
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1), "expectedId1 not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2), "expectedId2 not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId1), "expectedId1 child items not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId2), "expectedId2 child items not removed");
         }
 
         [Test]

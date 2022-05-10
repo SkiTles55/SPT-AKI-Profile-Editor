@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -43,10 +42,9 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task ConfirmShutdown()
         {
-            var result = await Dialogs.YesNoDialog(DataContext,
+            _shutdown = await Dialogs.YesNoDialog(DataContext,
                 AppData.AppLocalization.GetLocalizedString("app_quit"),
-                AppData.AppLocalization.GetLocalizedString("reload_profile_dialog_caption"));
-            _shutdown = result == MessageDialogResult.Affirmative;
+                AppData.AppLocalization.GetLocalizedString("reload_profile_dialog_caption")); ;
             if (_shutdown)
                 System.Windows.Application.Current.Shutdown();
         }

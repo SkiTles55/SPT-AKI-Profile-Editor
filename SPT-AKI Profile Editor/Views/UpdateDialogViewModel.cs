@@ -18,8 +18,8 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand CloseCommand { get; set; }
 
-        public RelayCommand DownloadRelease => new(async obj => { await Download(); });
-        public RelayCommand OpenReleaseUrl => new(obj => { ExtMethods.OpenUrl(Release.Url); });
+        public RelayCommand DownloadRelease => new(async obj => await Download());
+        public RelayCommand OpenReleaseUrl => new(obj => ExtMethods.OpenUrl(Release.Url));
         public GitHubRelease Release { get; set; }
         public GithubReleaseFile ReleaseFile => Release.Files?.First();
 

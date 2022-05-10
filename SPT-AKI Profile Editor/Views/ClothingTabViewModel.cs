@@ -5,6 +5,6 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class ClothingTabViewModel : BindableViewModel
     {
-        public static RelayCommand AcquireAllCommand => new(obj => { ServerDatabase.AcquireAllClothing(); });
+        public static RelayCommand AcquireAllCommand => new(obj => ServerDatabase.AcquireAllClothing());
     }
 }
