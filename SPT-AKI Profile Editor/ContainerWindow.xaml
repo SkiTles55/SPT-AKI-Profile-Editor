@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
     Title="{Binding WindowTitle}"
+    WindowStartupLocation="CenterScreen"
     Width="600"
     Height="400"
     MinWidth="600"
@@ -17,6 +18,7 @@
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:ContainerWindowViewModel}"
     BorderThickness="0"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+    SaveWindowPosition="True"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>

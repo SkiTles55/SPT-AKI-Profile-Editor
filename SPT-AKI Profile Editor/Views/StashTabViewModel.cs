@@ -12,13 +12,7 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         public static AppSettings AppSettings => AppData.AppSettings;
 
-        public static RelayCommand OpenContainer => new(obj =>
-        {
-            if (obj == null || obj is not InventoryItem item)
-                return;
-            ContainerWindow window = new(item);
-            window.Show();
-        });
+        public static RelayCommand OpenContainer => new(obj => { App.OpenContainerWindow(obj); });
 
         public RelayCommand RemoveItem => new(async obj =>
         {
@@ -29,17 +23,17 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         public RelayCommand RemoveAllItems => new(async obj =>
-         {
-             if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
-             {
-                 App.Worker.AddAction(new WorkerTask
-                 {
-                     Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
-                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
-                 });
-             }
-         });
+        {
+            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
+            {
+                App.Worker.AddAction(new WorkerTask
+                {
+                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
+                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                    Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
+                });
+            }
+        });
 
         public RelayCommand AddMoney => new(async obj => { await ShowAddMoneyDialog(obj); });
 
