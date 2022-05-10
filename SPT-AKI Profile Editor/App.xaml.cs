@@ -26,15 +26,39 @@ namespace SPT_AKI_Profile_Editor
         {
             if (obj == null || obj is not InventoryItem item)
                 return;
-            ContainerWindow window = new(item);
-            window.Show();
+            if (CheckForOpenedWindow(item.Id))
+                return;
+            ContainerWindow containerWindow = new(item);
+            containerWindow.Show();
+        }
+
+        public static bool CheckForOpenedWindow(string itemId)
+        {
+            foreach (Window window in Current.Windows)
+                if (window is ContainerWindow openedWindow && openedWindow.ItemId == itemId)
+                {
+                    openedWindow.Activate();
+                    return true;
+                }
+            return false;
         }
 
         public static void CloseContainerWindows(List<string> idsList)
         {
-            foreach (Window window in Current.Windows)
-                if (window is ContainerWindow containerWindow && idsList.Contains(containerWindow.ItemId))
-                    containerWindow.Close();
+            Current.Dispatcher.Invoke(() => {
+                foreach (Window window in Current.Windows)
+                    if (window is ContainerWindow containerWindow && idsList.Contains(containerWindow.ItemId))
+                        containerWindow.Close();
+            });
+        }
+
+        public static void CloseAllContainerWindows()
+        {
+            Current.Dispatcher.Invoke(() => {
+                foreach (Window window in Current.Windows)
+                    if (window is ContainerWindow containerWindow)
+                        containerWindow.Close();
+            });
         }
 
         public static void HandleException(Exception exception)
