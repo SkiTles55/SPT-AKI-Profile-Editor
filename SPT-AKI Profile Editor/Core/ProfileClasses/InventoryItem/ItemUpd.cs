@@ -10,6 +10,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonProperty("Foldable")]
         public UpdFoldable Foldable { get; set; }
 
+        [JsonProperty("Tag")]
+        public Tag Tag { get; set; }
+
         [JsonProperty("SpawnedInSession")]
         public bool SpawnedInSession { get; set; }
     }
