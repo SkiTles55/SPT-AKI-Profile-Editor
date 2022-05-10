@@ -4,146 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:MasteringTabViewModel}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="skillsPMC" Source="{Binding Profile.Characters.Pmc.Skills.Mastering}" />
-        <CollectionViewSource x:Key="skillsScav" Source="{Binding Profile.Characters.Scav.Skills.Mastering}" />
-    </UserControl.Resources>
     <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                </Grid.RowDefinitions>
-                <DataGrid
-                    x:Name="masteringsPmcGrid"
-                    Grid.Row="0"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Source={StaticResource skillsPMC}}">
-                    <DataGrid.Resources>
-                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn
-                            Width="*"
-                            Header="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}"
-                            SortMemberPath="LocalizedName">
-                            <DataGridTemplateColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock
-                                            Margin="5,0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            DockPanel.Dock="Left"
-                                            Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                            TextWrapping="Wrap" />
-                                        <TextBox
-                                            Margin="5"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            mah:TextBoxHelper.ClearTextButton="True"
-                                            DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.MasteringTab.SkillNamePmcFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="FilterBoxPmc_TextChanged" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.HeaderTemplate>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Label.Content>
-                                            <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
-                                        </Label.Content>
-                                    </Label>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn
-                            Width="*"
-                            Header="{Binding Data.AppLocalization.Translations[tab_mastering_exp], Source={StaticResource proxy}}"
-                            SortMemberPath="Progress">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBox
-                                            MinWidth="50"
-                                            Margin="5"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            DockPanel.Dock="Left"
-                                            FontWeight="Bold"
-                                            PreviewTextInput="NumberValidationTextBox"
-                                            Text="{Binding Progress, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
-                                        <Slider
-                                            Margin="5,5,10,5"
-                                            VerticalAlignment="Center"
-                                            DockPanel.Dock="Right"
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="{Binding MaxValue}"
-                                            TickFrequency="1"
-                                            TickPlacement="None"
-                                            Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Label
-                    Grid.Row="1"
-                    Margin="5,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding AppLocalization.Translations[tab_mastering_set_all]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
-                <StackPanel
-                    Grid.Row="2"
-                    Margin="10,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBox
-                        Width="50"
-                        Margin="5,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        PreviewTextInput="NumberValidationTextBox"
-                        Text="{Binding SetAllPmcSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
-                    <Slider
-                        Grid.Column="1"
-                        Width="200"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        IsSnapToTickEnabled="True"
-                        Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
-                        TickFrequency="1"
-                        TickPlacement="None"
-                        Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        Width="100"
-                        Margin="5,0"
-                        Command="{Binding SetAllPmsSkillsCommand}"
-                        Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" />
-                </StackPanel>
-                <Border
-                    Grid.Row="0"
-                    Grid.RowSpan="3"
-                    Background="{DynamicResource MahApps.Brushes.Window.Background}">
+                <extendedcontrols:SkillGrid
+                    FilterValue="{Binding GridFilters.MasteringTab.SkillNamePmcFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    FirstCollumnTitle="{Binding AppLocalization.Translations[tab_mastering_weapon]}"
+                    ItemsSource="{Binding Profile.Characters.Pmc.Skills.Mastering}"
+                    MaxValue="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
+                    SecondCollumnTitle="{Binding AppLocalization.Translations[tab_mastering_exp]}"
+                    SetAllButtonTitle="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}"
+                    SetAllCommand="{Binding SetAllPmsSkillsCommand}"
+                    SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
+                    SetAllValue="{Binding SetAllPmcSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -160,132 +41,17 @@
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                </Grid.RowDefinitions>
-                <DataGrid
-                    x:Name="masteringsScavGrid"
-                    Grid.Row="0"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding Source={StaticResource skillsScav}}">
-                    <DataGrid.Resources>
-                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn
-                            Width="*"
-                            Header="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}"
-                            SortMemberPath="LocalizedName">
-                            <DataGridTemplateColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock
-                                            Margin="5,0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            DockPanel.Dock="Left"
-                                            Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                            TextWrapping="Wrap" />
-                                        <TextBox
-                                            Margin="5"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            mah:TextBoxHelper.ClearTextButton="True"
-                                            DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.MasteringTab.SkillNameScavFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="FilterBoxScav_TextChanged" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.HeaderTemplate>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Label.Content>
-                                            <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
-                                        </Label.Content>
-                                    </Label>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn
-                            Width="*"
-                            Header="{Binding Data.AppLocalization.Translations[tab_mastering_exp], Source={StaticResource proxy}}"
-                            SortMemberPath="Progress">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBox
-                                            MinWidth="50"
-                                            Margin="5"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            DockPanel.Dock="Left"
-                                            FontWeight="Bold"
-                                            PreviewTextInput="NumberValidationTextBox"
-                                            Text="{Binding Progress, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
-                                        <Slider
-                                            Margin="5,5,10,5"
-                                            VerticalAlignment="Center"
-                                            DockPanel.Dock="Right"
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="{Binding MaxValue}"
-                                            TickFrequency="1"
-                                            TickPlacement="None"
-                                            Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Label
-                    Grid.Row="1"
-                    Margin="5,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding AppLocalization.Translations[tab_mastering_set_all]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
-                <StackPanel
-                    Grid.Row="2"
-                    Margin="10,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBox
-                        Width="50"
-                        Margin="5,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        PreviewTextInput="NumberValidationTextBox"
-                        Text="{Binding SetAllScavSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
-                    <Slider
-                        Grid.Column="1"
-                        Width="200"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        IsSnapToTickEnabled="True"
-                        Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
-                        TickFrequency="1"
-                        TickPlacement="None"
-                        Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
-                        Width="100"
-                        Margin="5,0"
-                        Command="{Binding SetAllScavSkillsCommand}"
-                        Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" />
-                </StackPanel>
-                <Border
-                    Grid.Row="0"
-                    Grid.RowSpan="3"
-                    Background="{DynamicResource MahApps.Brushes.Window.Background}">
+                <extendedcontrols:SkillGrid
+                    FilterValue="{Binding GridFilters.MasteringTab.SkillNameScavFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    FirstCollumnTitle="{Binding AppLocalization.Translations[tab_mastering_weapon]}"
+                    ItemsSource="{Binding Profile.Characters.Scav.Skills.Mastering}"
+                    MaxValue="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
+                    SecondCollumnTitle="{Binding AppLocalization.Translations[tab_mastering_exp]}"
+                    SetAllButtonTitle="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}"
+                    SetAllCommand="{Binding SetAllScavSkillsCommand}"
+                    SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
+                    SetAllValue="{Binding SetAllScavSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="Visibility" Value="Collapsed" />
