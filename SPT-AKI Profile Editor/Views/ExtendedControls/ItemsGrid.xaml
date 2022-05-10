@@ -130,6 +130,22 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button
                                     Margin="5"
+                                    Command="{Binding Data.OpenContainer, Source={StaticResource proxy}}"
+                                    CommandParameter="{Binding}"
+                                    Content="Open">
+                                    <Button.Style>
+                                        <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=IsContainer}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button
+                                    Margin="5"
                                     Command="{Binding Data.RemoveItem, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding Id}"
                                     Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />

@@ -213,9 +213,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task<bool> PathIsNotServerFolder(bool pathOK)
         {
-            return !pathOK && await Dialogs.YesNoDialog(this,
-                "invalid_server_location_caption",
-                "invalid_server_location_text") == MessageDialogResult.Affirmative;
+            return !pathOK && await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text");
         }
     }
 }

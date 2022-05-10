@@ -13,9 +13,7 @@ namespace SPT_AKI_Profile_Editor.Views
          {
              if (obj == null)
                  return;
-             if (await Dialogs.YesNoDialog(this,
-                 "remove_backup_dialog_title",
-                 "remove_backup_dialog_caption") == MessageDialogResult.Affirmative)
+             if (await Dialogs.YesNoDialog(this, "remove_backup_dialog_title", "remove_backup_dialog_caption"))
              {
                  App.Worker.AddAction(new WorkerTask
                  {
@@ -30,9 +28,7 @@ namespace SPT_AKI_Profile_Editor.Views
          {
              if (obj == null)
                  return;
-             if (await Dialogs.YesNoDialog(this,
-                 "restore_backup_dialog_title",
-                 "restore_backup_dialog_caption") == MessageDialogResult.Affirmative)
+             if (await Dialogs.YesNoDialog(this, "restore_backup_dialog_title", "restore_backup_dialog_caption"))
              {
                  App.Worker.AddAction(new WorkerTask
                  {

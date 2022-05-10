@@ -12,21 +12,25 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         public static AppSettings AppSettings => AppData.AppSettings;
 
+        public static RelayCommand OpenContainer => new(obj =>
+        {
+            if (obj == null || obj is not InventoryItem item)
+                return;
+            ContainerWindow window = new(item);
+            window.Show();
+        });
+
         public RelayCommand RemoveItem => new(async obj =>
-         {
-             if (obj == null)
-                 return;
-             if (await Dialogs.YesNoDialog(this,
-                 "remove_stash_item_title",
-                 "remove_stash_item_caption") == MessageDialogResult.Affirmative)
-                 Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
-         });
+        {
+            if (obj == null)
+                return;
+            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
+        });
 
         public RelayCommand RemoveAllItems => new(async obj =>
          {
-             if (await Dialogs.YesNoDialog(this,
-                 "remove_stash_item_title",
-                 "remove_stash_items_caption") == MessageDialogResult.Affirmative)
+             if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
              {
                  App.Worker.AddAction(new WorkerTask
                  {

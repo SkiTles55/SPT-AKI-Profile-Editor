@@ -114,9 +114,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task Reload()
         {
-            if (await Dialogs.YesNoDialog(this,
-                              "reload_profile_dialog_title",
-                              "reload_profile_dialog_caption") == MessageDialogResult.Affirmative)
+            if (await Dialogs.YesNoDialog(this, "reload_profile_dialog_title", "reload_profile_dialog_caption"))
                 StartupEventsWorker();
         }
     }

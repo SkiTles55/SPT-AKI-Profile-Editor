@@ -76,17 +76,13 @@ namespace SPT_AKI_Profile_Editor.Views
                                  {
                                      if (obj == null)
                                          return;
-                                     if (await Dialogs.YesNoDialog(this,
-                                         "remove_preset_dialog_title",
-                                         "remove_preset_dialog_caption") == MessageDialogResult.Affirmative)
+                                     if (await Dialogs.YesNoDialog(this, "remove_preset_dialog_title", "remove_preset_dialog_caption"))
                                          Profile.RemoveBuild(obj.ToString());
                                  });
 
         public RelayCommand RemoveBuilds => new(async obj =>
          {
-             if (await Dialogs.YesNoDialog(this,
-                 "remove_preset_dialog_title",
-                 "remove_presets_dialog_caption") == MessageDialogResult.Affirmative)
+             if (await Dialogs.YesNoDialog(this, "remove_preset_dialog_title", "remove_presets_dialog_caption"))
                  Profile.RemoveBuilds();
          });
     }
