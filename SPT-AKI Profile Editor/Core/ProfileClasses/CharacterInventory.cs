@@ -261,6 +261,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private void FinalRemoveItems(IEnumerable<string> itemIds)
         {
             var completedList = GetCompleteItemsList(itemIds);
+            App.CloseContainerWindows(completedList);
             List<InventoryItem> ItemsList = Items.ToList();
             while (completedList.Count > 0)
             {

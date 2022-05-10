@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace SPT_AKI_Profile_Editor
@@ -27,6 +28,13 @@ namespace SPT_AKI_Profile_Editor
                 return;
             ContainerWindow window = new(item);
             window.Show();
+        }
+
+        public static void CloseContainerWindows(List<string> idsList)
+        {
+            foreach (Window window in Current.Windows)
+                if (window is ContainerWindow containerWindow && idsList.Contains(containerWindow.ItemId))
+                    containerWindow.Close();
         }
 
         public static void HandleException(Exception exception)

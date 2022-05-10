@@ -8,10 +8,12 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class ContainerWindow : MetroWindow
     {
+        public string ItemId { get; }
         public ContainerWindow(InventoryItem item)
         {
             InitializeComponent();
             DataContext = new ContainerWindowViewModel(item);
+            ItemId = item.Id;
         }
     }
 }
