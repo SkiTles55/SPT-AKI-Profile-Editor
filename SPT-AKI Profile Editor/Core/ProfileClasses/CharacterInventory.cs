@@ -10,7 +10,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterInventory : BindableEntity
     {
         private InventoryItem[] items;
-        private InventoryItemExtended[] inventoryItems;
         private string stash;
         private string equipment;
 
@@ -22,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 items = value;
                 OnPropertyChanged("Items");
-                GetInventoryItems();
+                OnPropertyChanged("InventoryItems");
                 OnPropertyChanged("DollarsCount");
                 OnPropertyChanged("RublesCount");
                 OnPropertyChanged("EurosCount");
@@ -81,20 +80,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
 
         [JsonIgnore]
-        public InventoryItemExtended[] InventoryItems
-        {
-            get
-            {
-                if (inventoryItems == null || (inventoryItems.Length == 0 && Items.Length != 0))
-                    GetInventoryItems();
-                return inventoryItems;
-            }
-            set
-            {
-                inventoryItems = value;
-                OnPropertyChanged("InventoryItems");
-            }
-        }
+        public InventoryItem[] InventoryItems => Items?
+            .Where(x => x.ParentId == Stash && x.Location != null)?
+            .ToArray();
 
         [JsonIgnore]
         public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
@@ -130,7 +118,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveItems(List<string> itemIds) => FinalRemoveItems(itemIds);
 
-        public void RemoveAllItems() => FinalRemoveItems(GetCompleteItemsList(InventoryItems.Select(x => x.Id)));
+        public void RemoveAllItems() => FinalRemoveItems(InventoryItems.Select(x => x.Id));
 
         public void AddNewItems(string tpl, int count, bool fir)
         {
@@ -248,14 +236,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return null;
         }
 
-        private void GetInventoryItems()
-        {
-            InventoryItems = Items?
-                .Where(x => x.ParentId == Stash && x.Location != null)?
-                .Select(x => new InventoryItemExtended(x, Items))
-                .ToArray();
-        }
-
         private InventoryItem GetEquipment(string slotId)
         {
             return Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
@@ -278,16 +258,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return itemIds;
         }
 
-        private void FinalRemoveItems(List<string> itemIds)
+        private void FinalRemoveItems(IEnumerable<string> itemIds)
         {
+            var completedList = GetCompleteItemsList(itemIds);
             List<InventoryItem> ItemsList = Items.ToList();
-            while (itemIds.Count > 0)
+            while (completedList.Count > 0)
             {
-                var item = ItemsList.Where(x => x.Id == itemIds[0]).FirstOrDefault();
+                var item = ItemsList.Where(x => x.Id == completedList[0]).FirstOrDefault();
                 if (item != null)
                     ItemsList.Remove(item);
                 else
-                    itemIds.RemoveAt(0);
+                    completedList.RemoveAt(0);
             }
             Items = ItemsList.ToArray();
         }

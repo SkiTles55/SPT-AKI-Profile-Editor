@@ -361,16 +361,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void StashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[0].Id;
-            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems[1].Id;
+            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.First().Id;
+            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Id != expectedId1 && x.ParentId != expectedId1).First().Id;
             AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1));
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2));
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId1));
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId2));
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1), "expectedId1 not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2), "expectedId2 not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId1), "expectedId1 child items not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId2), "expectedId2 child items not removed");
         }
 
         [Test]
