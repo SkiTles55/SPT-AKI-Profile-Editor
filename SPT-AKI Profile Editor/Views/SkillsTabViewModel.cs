@@ -1,6 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -15,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllPmcSkillsValue;
             set
             {
-                setAllPmcSkillsValue = value > AppSettings.CommonSkillMaxValue ? AppSettings.CommonSkillMaxValue : value;
+                setAllPmcSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
                 OnPropertyChanged("SetAllPmcSkillsValue");
             }
         }
@@ -25,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllScavSkillsValue;
             set
             {
-                setAllScavSkillsValue = value > AppSettings.CommonSkillMaxValue ? AppSettings.CommonSkillMaxValue : value;
+                setAllScavSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
                 OnPropertyChanged("SetAllScavSkillsValue");
             }
         }
