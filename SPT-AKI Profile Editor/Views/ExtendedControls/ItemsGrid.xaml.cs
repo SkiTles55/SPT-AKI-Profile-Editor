@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -12,9 +13,27 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
     /// </summary>
     public partial class ItemsGrid : GridControl
     {
+        public static readonly DependencyProperty FilterNameProperty =
+            DependencyProperty.Register(nameof(FilterName), typeof(string), typeof(ItemsGrid), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty FilterIdProperty =
+            DependencyProperty.Register(nameof(FilterId), typeof(string), typeof(ItemsGrid), new PropertyMetadata(null));
+
         public ItemsGrid()
         {
             InitializeComponent();
+        }
+
+        public string FilterName
+        {
+            get { return (string)GetValue(FilterNameProperty); }
+            set { SetValue(FilterNameProperty, value); }
+        }
+
+        public string FilterId
+        {
+            get { return (string)GetValue(FilterIdProperty); }
+            set { SetValue(FilterIdProperty, value); }
         }
 
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>
@@ -25,18 +44,18 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             ICollectionView cv = CollectionViewSource.GetDefaultView(itemsGrid.ItemsSource);
             if (cv == null)
                 return;
-            if (string.IsNullOrEmpty(AppData.GridFilters.StashTab.StashItemName)
-                && string.IsNullOrEmpty(AppData.GridFilters.StashTab.Id))
+            if (string.IsNullOrEmpty(FilterName)
+                && string.IsNullOrEmpty(FilterId))
                 cv.Filter = null;
             else
             {
                 cv.Filter = o =>
                 {
                     InventoryItem p = o as InventoryItem;
-                    return (string.IsNullOrEmpty(AppData.GridFilters.StashTab.StashItemName)
-                    || p.LocalizedName.ToUpper().Contains(AppData.GridFilters.StashTab.StashItemName.ToUpper()))
-                    && (string.IsNullOrEmpty(AppData.GridFilters.StashTab.Id)
-                    || p.Id.ToUpper().Contains(AppData.GridFilters.StashTab.Id.ToUpper()));
+                    return (string.IsNullOrEmpty(FilterName)
+                    || p.LocalizedName.ToUpper().Contains(FilterName.ToUpper()))
+                    && (string.IsNullOrEmpty(FilterId)
+                    || p.Id.ToUpper().Contains(FilterId.ToUpper()));
                 };
             }
         }

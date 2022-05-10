@@ -15,7 +15,11 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
-        <extendedcontrols:ItemsGrid Grid.Row="1" ItemsSource="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}" />
+        <extendedcontrols:ItemsGrid
+            Grid.Row="1"
+            FilterId="{Binding GridFilters.StashTab.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            FilterName="{Binding GridFilters.StashTab.StashItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}" />
         <Button
             Grid.Row="2"
             Width="200"

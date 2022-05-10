@@ -22,6 +22,7 @@
             ItemsSource="{Binding Source={StaticResource items}}">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+                <helpers:BindingProxy x:Key="proxy2" Data="{Binding ElementName=Control}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn
@@ -44,7 +45,7 @@
                                     VerticalAlignment="Center"
                                     mah:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.StashTab.StashItemName, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Data.FilterName, Source={StaticResource proxy2}, UpdateSourceTrigger=PropertyChanged}"
                                     TextChanged="FilterBoxStash_TextChanged" />
                             </DockPanel>
                         </DataTemplate>
@@ -105,7 +106,7 @@
                                     VerticalAlignment="Center"
                                     mah:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.StashTab.Id, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Data.FilterId, Source={StaticResource proxy2}, UpdateSourceTrigger=PropertyChanged}"
                                     TextChanged="FilterBoxStash_TextChanged" />
                             </DockPanel>
                         </DataTemplate>
