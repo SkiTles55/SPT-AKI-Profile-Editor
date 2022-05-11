@@ -18,5 +18,11 @@
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:ItemsAdding />
         </TabItem>
+        <TabItem Header="PMC" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <extendedcontrols:Equipment InventoryEquipment="{Binding Profile.Characters.Pmc.Inventory}" />
+        </TabItem>
+        <TabItem Header="Scav" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <extendedcontrols:Equipment InventoryEquipment="{Binding Profile.Characters.Scav.Inventory}" />
+        </TabItem>
     </TabControl>
 </UserControl>
