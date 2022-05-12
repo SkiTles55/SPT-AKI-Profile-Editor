@@ -20,12 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 items = value;
-                OnPropertyChanged("Items");
-                OnPropertyChanged("InventoryItems");
-                OnPropertyChanged("DollarsCount");
-                OnPropertyChanged("RublesCount");
-                OnPropertyChanged("EurosCount");
-                OnPropertyChanged("ContainsModdedItems");
+                OnPropertyChanged("");
             }
         }
 
