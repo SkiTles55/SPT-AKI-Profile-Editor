@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -12,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         public static AppSettings AppSettings => AppData.AppSettings;
 
-        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj));
+        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.PMC));
 
         public RelayCommand RemoveItem => new(async obj =>
         {
