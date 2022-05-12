@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
@@ -127,29 +128,11 @@
                     Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding Data.OpenContainer, Source={StaticResource proxy}}"
-                                    CommandParameter="{Binding}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_stash_open], Source={StaticResource proxy}}">
-                                    <Button.Style>
-                                        <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Path=IsContainer}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding Data.RemoveItem, Source={StaticResource proxy}}"
-                                    CommandParameter="{Binding Id}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
-                            </StackPanel>
+                            <extendedcontrols:ItemActions
+                                Item="{Binding}"
+                                LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}"
+                                OpenContainer="{Binding Data.OpenContainer, Source={StaticResource proxy}}"
+                                RemoveItem="{Binding Data.RemoveItem, Source={StaticResource proxy}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
