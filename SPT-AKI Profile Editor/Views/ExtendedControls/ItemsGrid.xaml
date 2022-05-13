@@ -19,6 +19,7 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+            HeadersVisibility="{Binding ElementName=Control, Path=ShowHeaders}"
             IsReadOnly="True"
             ItemsSource="{Binding Source={StaticResource items}}">
             <DataGrid.Resources>

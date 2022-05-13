@@ -1,6 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 {
@@ -21,6 +22,18 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (CharacterInventory)GetValue(InventoryEquipmentProperty); }
             set { SetValue(InventoryEquipmentProperty, value); }
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is ScrollViewer scrollViewer)
+            {
+                if (e.Delta > 0)
+                    scrollViewer.LineUp();
+                else
+                    scrollViewer.LineDown();
+                e.Handled = true;
+            }
         }
     }
 }

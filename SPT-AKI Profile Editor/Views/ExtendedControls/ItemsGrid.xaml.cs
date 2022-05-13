@@ -19,6 +19,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty FilterIdProperty =
             DependencyProperty.Register(nameof(FilterId), typeof(string), typeof(ItemsGrid), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty ShowHeadersProperty =
+            DependencyProperty.Register(nameof(ShowHeaders), typeof(DataGridHeadersVisibility), typeof(ItemsGrid), new PropertyMetadata(DataGridHeadersVisibility.Column, null));
+
         public ItemsGrid()
         {
             InitializeComponent();
@@ -34,6 +37,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (string)GetValue(FilterIdProperty); }
             set { SetValue(FilterIdProperty, value); }
+        }
+
+        public DataGridHeadersVisibility ShowHeaders
+        {
+            get { return (DataGridHeadersVisibility)GetValue(ShowHeadersProperty); }
+            set { SetValue(ShowHeadersProperty, value); }
         }
 
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>

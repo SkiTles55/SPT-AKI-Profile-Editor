@@ -17,7 +17,11 @@
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer
+            Grid.Row="0"
+            CanContentScroll="True"
+            PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+            VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -38,9 +42,9 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label
                     Grid.Row="0"
@@ -713,6 +717,12 @@
                         <TextBlock Text="Pockets" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
+                <extendedcontrols:ItemsGrid
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    ItemsSource="{Binding Profile.Characters.Pmc.Inventory.PocketsItems}"
+                    ShowHeaders="None" />
                 <Label
                     Grid.Row="12"
                     Grid.Column="0"

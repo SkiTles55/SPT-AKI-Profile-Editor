@@ -124,6 +124,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public InventoryItem ArmBand => GetEquipment(AppData.AppSettings.ArmBandSlotId);
 
+        [JsonIgnore]
+        public InventoryItem[] PocketsItems => Items?
+            .Where(x => x.ParentId == Items?.Where(x => x.IsPockets).FirstOrDefault()?.Id)?
+            .ToArray();
+
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)
