@@ -112,6 +112,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public InventoryItem ArmorVest => GetEquipment(AppData.AppSettings.ArmorVestSlotId);
 
+        [JsonIgnore]
+        public InventoryItem SecondPrimaryWeapon => GetEquipment(AppData.AppSettings.SecondPrimaryWeaponSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Holster => GetEquipment(AppData.AppSettings.HolsterSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Scabbard => GetEquipment(AppData.AppSettings.ScabbardSlotId);
+
+        [JsonIgnore]
+        public InventoryItem ArmBand => GetEquipment(AppData.AppSettings.ArmBandSlotId);
+
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)
