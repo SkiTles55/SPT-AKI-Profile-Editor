@@ -167,6 +167,55 @@
                 <TextBlock Text="Face cover" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
+        <!--#region FaceCover Info-->
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Label.Content>
+                <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.LocalizedName}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="2"
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="Red"
+            ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsAddedByMods}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <iconPacks:PackIconFontAwesome
+                Width="18"
+                Height="18"
+                Kind="ExclamationTriangleSolid" />
+        </Label>
+        <Label
+            Grid.Row="2"
+            Grid.Column="3"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Label.Content>
+                <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.Id}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <extendedcontrols:ItemActions
+            Grid.Row="2"
+            Grid.Column="4"
+            Item="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover}"
+            LocalizationDict="{Binding AppLocalization.Translations}"
+            OpenContainer="{Binding OpenContainer}"
+            RemoveItem="{Binding RemoveItem}" />
+        <!--#endregion-->
         <Label
             Grid.Row="3"
             Grid.Column="0"
@@ -178,6 +227,55 @@
                 <TextBlock Text="Eyewear" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
+        <!--#region Eyewear Info-->
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Label.Content>
+                <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.LocalizedName}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="3"
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="Red"
+            ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsAddedByMods}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <iconPacks:PackIconFontAwesome
+                Width="18"
+                Height="18"
+                Kind="ExclamationTriangleSolid" />
+        </Label>
+        <Label
+            Grid.Row="3"
+            Grid.Column="3"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Label.Content>
+                <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.Id}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <extendedcontrols:ItemActions
+            Grid.Row="3"
+            Grid.Column="4"
+            Item="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear}"
+            LocalizationDict="{Binding AppLocalization.Translations}"
+            OpenContainer="{Binding OpenContainer}"
+            RemoveItem="{Binding RemoveItem}" />
+        <!--#endregion-->
         <Label
             Grid.Row="4"
             Grid.Column="0"
@@ -197,9 +295,58 @@
             VerticalAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
-                <TextBlock Text="Body armor" TextWrapping="Wrap" />
+                <TextBlock Text="ArmorVest" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
+        <!--#region ArmorVest Info-->
+        <Label
+            Grid.Row="5"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Label.Content>
+                <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.LocalizedName}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <Label
+            Grid.Row="5"
+            Grid.Column="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="Red"
+            ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsAddedByMods}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+            <iconPacks:PackIconFontAwesome
+                Width="18"
+                Height="18"
+                Kind="ExclamationTriangleSolid" />
+        </Label>
+        <Label
+            Grid.Row="5"
+            Grid.Column="3"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <Label.Content>
+                <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.Id}" TextWrapping="Wrap" />
+            </Label.Content>
+        </Label>
+        <extendedcontrols:ItemActions
+            Grid.Row="5"
+            Grid.Column="4"
+            Item="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest}"
+            LocalizationDict="{Binding AppLocalization.Translations}"
+            OpenContainer="{Binding OpenContainer}"
+            RemoveItem="{Binding RemoveItem}" />
+        <!--#endregion-->
         <Label
             Grid.Row="6"
             Grid.Column="0"

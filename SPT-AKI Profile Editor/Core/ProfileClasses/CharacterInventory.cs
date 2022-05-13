@@ -103,6 +103,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public InventoryItem Earpiece => GetEquipment(AppData.AppSettings.EarpieceSlotId);
 
+        [JsonIgnore]
+        public InventoryItem FaceCover => GetEquipment(AppData.AppSettings.FaceCoverSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Eyewear => GetEquipment(AppData.AppSettings.EyewearSlotId);
+
+        [JsonIgnore]
+        public InventoryItem ArmorVest => GetEquipment(AppData.AppSettings.ArmorVestSlotId);
+
         private List<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)

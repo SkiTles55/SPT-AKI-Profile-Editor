@@ -55,6 +55,9 @@ namespace SPT_AKI_Profile_Editor.Core
         private string securedContainerSlotId;
         private string backpackSlotId;
         private string earpieceSlotId;
+        private string faceCoverSlotId;
+        private string eyewearSlotId;
+        private string armorVestSlotId;
         private string moneysDollarsTpl;
         private string moneysRublesTpl;
         private string moneysEurosTpl;
@@ -263,6 +266,42 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public string FaceCoverSlotId
+        {
+            get => faceCoverSlotId;
+            set
+            {
+                faceCoverSlotId = value;
+                OnPropertyChanged("FaceCoverSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string EyewearSlotId
+        {
+            get => eyewearSlotId;
+            set
+            {
+                eyewearSlotId = value;
+                OnPropertyChanged("EyewearSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string ArmorVestSlotId
+        {
+            get => armorVestSlotId;
+            set
+            {
+                armorVestSlotId = value;
+                OnPropertyChanged("ArmorVestSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
         public string MoneysDollarsTpl
         {
             get => moneysDollarsTpl;
@@ -368,7 +407,16 @@ namespace SPT_AKI_Profile_Editor.Core
                 + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
                 + AppData.AppSettings.CommonSkillMaxValue.ToString()
                 + AppData.AppSettings.PocketsContainerTpl
-                + AppData.AppSettings.pocketsSlotId
+                + AppData.AppSettings.PocketsSlotId
+                + AppData.AppSettings.EarpieceSlotId
+                + AppData.AppSettings.HeadwearSlotId
+                + AppData.AppSettings.FaceCoverSlotId
+                + AppData.AppSettings.TacticalVestSlotId
+                + AppData.AppSettings.FirstPrimaryWeaponSlotId
+                + AppData.AppSettings.BackpackSlotId
+                + AppData.AppSettings.SecuredContainerSlotId
+                + AppData.AppSettings.EyewearSlotId
+                + AppData.AppSettings.ArmorVestSlotId
                 + AppData.AppSettings.MoneysDollarsTpl
                 + AppData.AppSettings.MoneysEurosTpl
                 + AppData.AppSettings.MoneysRublesTpl;
@@ -453,6 +501,9 @@ namespace SPT_AKI_Profile_Editor.Core
             SecuredContainerSlotId = loaded.SecuredContainerSlotId;
             BackpackSlotId = loaded.BackpackSlotId;
             EarpieceSlotId = loaded.EarpieceSlotId;
+            FaceCoverSlotId = loaded.FaceCoverSlotId;
+            EyewearSlotId = loaded.EyewearSlotId;
+            ArmorVestSlotId = loaded.ArmorVestSlotId;
             CommonSkillMaxValue = loaded.CommonSkillMaxValue;
             PocketsSlotId = loaded.PocketsSlotId;
             MoneysDollarsTpl = loaded.MoneysDollarsTpl;
@@ -566,6 +617,21 @@ namespace SPT_AKI_Profile_Editor.Core
                 EarpieceSlotId = DefaultValues.EarpieceSlotId;
                 _needReSave = true;
             }
+            if (FaceCoverSlotId == null)
+            {
+                FaceCoverSlotId = DefaultValues.FaceCoverSlotId;
+                _needReSave = true;
+            }
+            if (EyewearSlotId == null)
+            {
+                EyewearSlotId = DefaultValues.EyewearSlotId;
+                _needReSave = true;
+            }
+            if (ArmorVestSlotId == null)
+            {
+                ArmorVestSlotId = DefaultValues.ArmorVestSlotId;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -587,6 +653,9 @@ namespace SPT_AKI_Profile_Editor.Core
             SecuredContainerSlotId = DefaultValues.SecuredContainerSlotId;
             BackpackSlotId = DefaultValues.BackpackSlotId;
             EarpieceSlotId = DefaultValues.EarpieceSlotId;
+            FaceCoverSlotId = DefaultValues.FaceCoverSlotId;
+            EyewearSlotId = DefaultValues.EyewearSlotId;
+            ArmorVestSlotId = DefaultValues.ArmorVestSlotId;
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
