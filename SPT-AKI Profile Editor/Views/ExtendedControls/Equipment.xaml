@@ -721,7 +721,7 @@
                     Grid.Row="11"
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
-                    ItemsSource="{Binding Profile.Characters.Pmc.Inventory.PocketsItems}"
+                    ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.PocketsItems}"
                     ShowHeaders="None" />
                 <Label
                     Grid.Row="12"
