@@ -411,6 +411,55 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void PmcStashRemovingAllEquipmentSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.Inventory.RemoveAllEquipment();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingAllEquipment.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.FirstPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Headwear);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Backpack);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Earpiece);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.FaceCover);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Eyewear);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmorVest);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.SecondPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Holster);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Scabbard);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmBand);
+            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Length);
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length > 0);
+        }
+
+        [Test]
+        public void ScavStashRemovingAllEquipmentSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Scav.Inventory.RemoveAllEquipment();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavStashRemovingAllEquipment.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Headwear);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Backpack);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Earpiece);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.FaceCover);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Eyewear);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmorVest);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecondPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Holster);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Scabbard);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmBand);
+            Assert.AreEqual(0, AppData.Profile.Characters.Scav.Inventory.PocketsItems.Length);
+        }
+
+        [Test]
         public void Stash2DMapCalculatingCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);

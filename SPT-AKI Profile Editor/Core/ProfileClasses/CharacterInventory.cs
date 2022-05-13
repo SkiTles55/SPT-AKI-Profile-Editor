@@ -267,6 +267,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             List<string> itemIds = new();
             foreach (var TargetItem in items)
             {
+                if (string.IsNullOrEmpty(TargetItem))
+                    continue;
                 List<string> toDo = new() { TargetItem };
                 while (toDo.Count > 0)
                 {
@@ -377,5 +379,26 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Where(x => x.Tpl == moneys)
             .Sum(x => x.Upd.StackObjectsCount ?? 0) ?? 0)
             .ToString("N0");
+
+        public void RemoveAllEquipment()
+        {
+            FinalRemoveItems(new List<string>
+            {
+                FirstPrimaryWeapon?.Id,
+                Headwear?.Id,
+                TacticalVest?.Id,
+                SecuredContainer?.Id,
+                Backpack?.Id,
+                Earpiece?.Id,
+                FaceCover?.Id,
+                Eyewear?.Id,
+                ArmorVest?.Id,
+                SecondPrimaryWeapon?.Id,
+                Holster?.Id,
+                Scabbard?.Id,
+                ArmBand?.Id
+            });
+            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
+        }
     }
 }

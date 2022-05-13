@@ -851,7 +851,7 @@
             Margin="10,10,10,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Command="{Binding RemoveAllItems}"
+            Command="{Binding RemoveAllEquipment}"
             Content="{Binding AppLocalization.Translations[tab_stash_remove]}" />
     </Grid>
 </UserControl>

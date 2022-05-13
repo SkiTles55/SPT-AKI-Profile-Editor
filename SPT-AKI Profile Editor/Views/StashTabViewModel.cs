@@ -36,6 +36,19 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         });
 
+        public RelayCommand RemoveAllEquipment => new(async obj =>
+        {
+            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
+            {
+                App.Worker.AddAction(new WorkerTask
+                {
+                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllEquipment(); },
+                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                    Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
+                });
+            }
+        });
+
         public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj));
 
         private async Task ShowAddMoneyDialog(object obj)
