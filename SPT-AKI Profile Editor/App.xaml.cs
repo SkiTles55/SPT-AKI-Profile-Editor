@@ -1,6 +1,7 @@
 ﻿using ControlzEx.Theming;
 using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -22,13 +23,13 @@ namespace SPT_AKI_Profile_Editor
 
         public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
 
-        public static void OpenContainerWindow(object obj)
+        public static void OpenContainerWindow(object obj, StashEditMode editMode)
         {
             if (obj == null || obj is not InventoryItem item)
                 return;
             if (CheckForOpenedWindow(item.Id))
                 return;
-            ContainerWindow containerWindow = new(item);
+            ContainerWindow containerWindow = new(item, editMode);
             containerWindow.Show();
         }
 

@@ -55,6 +55,13 @@ namespace SPT_AKI_Profile_Editor.Core
         private string securedContainerSlotId;
         private string backpackSlotId;
         private string earpieceSlotId;
+        private string faceCoverSlotId;
+        private string eyewearSlotId;
+        private string armorVestSlotId;
+        private string secondPrimaryWeaponSlotId;
+        private string holsterSlotId;
+        private string scabbardSlotId;
+        private string armBandSlotId;
         private string moneysDollarsTpl;
         private string moneysRublesTpl;
         private string moneysEurosTpl;
@@ -263,6 +270,90 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public string FaceCoverSlotId
+        {
+            get => faceCoverSlotId;
+            set
+            {
+                faceCoverSlotId = value;
+                OnPropertyChanged("FaceCoverSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string EyewearSlotId
+        {
+            get => eyewearSlotId;
+            set
+            {
+                eyewearSlotId = value;
+                OnPropertyChanged("EyewearSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string ArmorVestSlotId
+        {
+            get => armorVestSlotId;
+            set
+            {
+                armorVestSlotId = value;
+                OnPropertyChanged("ArmorVestSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string SecondPrimaryWeaponSlotId
+        {
+            get => secondPrimaryWeaponSlotId;
+            set
+            {
+                secondPrimaryWeaponSlotId = value;
+                OnPropertyChanged("SecondPrimaryWeaponSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string HolsterSlotId
+        {
+            get => holsterSlotId;
+            set
+            {
+                holsterSlotId = value;
+                OnPropertyChanged("HolsterSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string ScabbardSlotId
+        {
+            get => scabbardSlotId;
+            set
+            {
+                scabbardSlotId = value;
+                OnPropertyChanged("ScabbardSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public string ArmBandSlotId
+        {
+            get => armBandSlotId;
+            set
+            {
+                armBandSlotId = value;
+                OnPropertyChanged("ArmBandSlotId");
+                if (Loaded)
+                    Save();
+            }
+        }
+
         public string MoneysDollarsTpl
         {
             get => moneysDollarsTpl;
@@ -368,7 +459,20 @@ namespace SPT_AKI_Profile_Editor.Core
                 + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
                 + AppData.AppSettings.CommonSkillMaxValue.ToString()
                 + AppData.AppSettings.PocketsContainerTpl
-                + AppData.AppSettings.pocketsSlotId
+                + AppData.AppSettings.PocketsSlotId
+                + AppData.AppSettings.EarpieceSlotId
+                + AppData.AppSettings.HeadwearSlotId
+                + AppData.AppSettings.FaceCoverSlotId
+                + AppData.AppSettings.TacticalVestSlotId
+                + AppData.AppSettings.FirstPrimaryWeaponSlotId
+                + AppData.AppSettings.BackpackSlotId
+                + AppData.AppSettings.SecuredContainerSlotId
+                + AppData.AppSettings.EyewearSlotId
+                + AppData.AppSettings.ArmorVestSlotId
+                + AppData.AppSettings.SecondPrimaryWeaponSlotId
+                + AppData.AppSettings.HolsterSlotId
+                + AppData.AppSettings.ScabbardSlotId
+                + AppData.AppSettings.ArmBandSlotId
                 + AppData.AppSettings.MoneysDollarsTpl
                 + AppData.AppSettings.MoneysEurosTpl
                 + AppData.AppSettings.MoneysRublesTpl;
@@ -453,6 +557,13 @@ namespace SPT_AKI_Profile_Editor.Core
             SecuredContainerSlotId = loaded.SecuredContainerSlotId;
             BackpackSlotId = loaded.BackpackSlotId;
             EarpieceSlotId = loaded.EarpieceSlotId;
+            FaceCoverSlotId = loaded.FaceCoverSlotId;
+            EyewearSlotId = loaded.EyewearSlotId;
+            ArmorVestSlotId = loaded.ArmorVestSlotId;
+            SecondPrimaryWeaponSlotId = loaded.SecondPrimaryWeaponSlotId;
+            HolsterSlotId = loaded.HolsterSlotId;
+            ScabbardSlotId = loaded.ScabbardSlotId;
+            ArmBandSlotId = loaded.ArmBandSlotId;
             CommonSkillMaxValue = loaded.CommonSkillMaxValue;
             PocketsSlotId = loaded.PocketsSlotId;
             MoneysDollarsTpl = loaded.MoneysDollarsTpl;
@@ -566,6 +677,41 @@ namespace SPT_AKI_Profile_Editor.Core
                 EarpieceSlotId = DefaultValues.EarpieceSlotId;
                 _needReSave = true;
             }
+            if (FaceCoverSlotId == null)
+            {
+                FaceCoverSlotId = DefaultValues.FaceCoverSlotId;
+                _needReSave = true;
+            }
+            if (EyewearSlotId == null)
+            {
+                EyewearSlotId = DefaultValues.EyewearSlotId;
+                _needReSave = true;
+            }
+            if (ArmorVestSlotId == null)
+            {
+                ArmorVestSlotId = DefaultValues.ArmorVestSlotId;
+                _needReSave = true;
+            }
+            if (SecondPrimaryWeaponSlotId == null)
+            {
+                SecondPrimaryWeaponSlotId = DefaultValues.SecondPrimaryWeaponSlotId;
+                _needReSave = true;
+            }
+            if (HolsterSlotId == null)
+            {
+                HolsterSlotId = DefaultValues.HolsterSlotId;
+                _needReSave = true;
+            }
+            if (ScabbardSlotId == null)
+            {
+                ScabbardSlotId = DefaultValues.ScabbardSlotId;
+                _needReSave = true;
+            }
+            if (ArmBandSlotId == null)
+            {
+                ArmBandSlotId = DefaultValues.ArmBandSlotId;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -587,6 +733,13 @@ namespace SPT_AKI_Profile_Editor.Core
             SecuredContainerSlotId = DefaultValues.SecuredContainerSlotId;
             BackpackSlotId = DefaultValues.BackpackSlotId;
             EarpieceSlotId = DefaultValues.EarpieceSlotId;
+            FaceCoverSlotId = DefaultValues.FaceCoverSlotId;
+            EyewearSlotId = DefaultValues.EyewearSlotId;
+            ArmorVestSlotId = DefaultValues.ArmorVestSlotId;
+            SecondPrimaryWeaponSlotId = DefaultValues.SecondPrimaryWeaponSlotId;
+            HolsterSlotId = DefaultValues.HolsterSlotId;
+            ScabbardSlotId = DefaultValues.ScabbardSlotId;
+            ArmBandSlotId = DefaultValues.ArmBandSlotId;
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;

@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         private static readonly string backupFolder = Path.Combine(DefaultValues.AppDataFolder, "Backups");
 
-        private List<BackupFile> backupList;
+        private IEnumerable<BackupFile> backupList;
 
         public BackupService()
         {
@@ -21,9 +21,9 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public bool HasBackups => BackupList != null && BackupList.Count > 0;
+        public bool HasBackups => BackupList != null && BackupList.Count() > 0;
 
-        public List<BackupFile> BackupList
+        public IEnumerable<BackupFile> BackupList
         {
             get => backupList;
             set
@@ -56,7 +56,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     catch (Exception ex) { Logger.Log($"Backup file ({bk}) loading error: {ex.Message}"); }
                 }
             }
-            BackupList = backups.OrderByDescending(x => x.Date).ToList();
+            BackupList = backups.OrderByDescending(x => x.Date);
         }
 
         public void CreateBackup(string sourcePath = null)

@@ -16,6 +16,13 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string BackpackSlotId = "Backpack";
         public const string EarpieceSlotId = "Earpiece";
         public const string SecuredContainerSlotId = "SecuredContainer";
+        public const string FaceCoverSlotId = "FaceCover";
+        public const string EyewearSlotId = "Eyewear";
+        public const string ArmorVestSlotId = "ArmorVest";
+        public const string SecondPrimaryWeaponSlotId = "SecondPrimaryWeapon";
+        public const string HolsterSlotId = "Holster";
+        public const string ScabbardSlotId = "Scabbard";
+        public const string ArmBandSlotId = "ArmBand";
         public const string MoneysDollarsTpl = "5696686a4bdc2da3298b456a";
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
@@ -157,6 +164,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_items_adding"] = "Adding items",
                     ["tab_stash_is_modded_item"] = "This item was added by mod",
                     ["tab_stash_search"] = "Search",
+                    ["tab_stash_empty_slot"] = "Empty slot",
+                    ["tab_stash_no_items"] = "There are no items",
                     ["tab_backups_title"] = "Backups",
                     ["tab_backups_date"] = "Date",
                     ["tab_backups_actions"] = "Actions",
@@ -178,6 +187,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["remove_stash_item_title"] = "Removing an item",
                     ["remove_stash_item_caption"] = "Are you sure you want to delete this item?",
                     ["remove_stash_items_caption"] = "Are you sure you want to delete all items?",
+                    ["remove_equipment_items_caption"] = "Are you sure you want to delete all equipment?",
                     ["tab_stash_mod_items"] = "The stash contains items added by mods.\nFunctions for adding money and items are disabled.\nTo use them, remove these items, or move them to the container.",
                     ["profile_empty"] = "There is no data to display. The profile is empty. Log into the game under this profile and try again.",
                     ["app_quit"] = "Quit application?",
@@ -318,6 +328,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_items_adding"] = "Добавление предметов",
                     ["tab_stash_is_modded_item"] = "Этот предмет добавлен модом",
                     ["tab_stash_search"] = "Поиск",
+                    ["tab_stash_empty_slot"] = "Пустой слот",
+                    ["tab_stash_no_items"] = "Предметы отсутствуют",
                     ["tab_backups_title"] = "Бэкапы",
                     ["tab_backups_date"] = "Дата",
                     ["tab_backups_actions"] = "Действия",
@@ -339,6 +351,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["remove_stash_item_title"] = "Удаление предмета",
                     ["remove_stash_item_caption"] = "Вы действительно хотите удалить этот предмет?",
                     ["remove_stash_items_caption"] = "Вы действительно хотите удалить все предметы?",
+                    ["remove_equipment_items_caption"] = "Вы действительно хотите удалить все снаряжение?",
                     ["tab_stash_mod_items"] = "Схрон содержит предметы добавленные модами.\nФункции добавления денег и предметов отключены.\nЧто бы воспользоваться ими удалите эти предметы, или переместите их в контейнер.",
                     ["profile_empty"] = "Нет данных для отображения. Профиль пустой. Зайдите в игру под этим профилем и попробуйте снова.",
                     ["app_quit"] = "Выйти из приложения?",

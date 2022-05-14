@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public object[] Items { get; set; }
 
         [JsonIgnore]
-        public List<InventoryItem> BuildItems { get; set; }
+        public IEnumerable<InventoryItem> BuildItems { get; set; }
 
         [JsonIgnore]
         public string Weapon { get; set; }
@@ -70,7 +70,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
             if (buildItems.Count == 0)
                 return;
-            BuildItems = buildItems.Where(x => x.Id != Root).ToList();
+            BuildItems = buildItems.Where(x => x.Id != Root);
             HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
             Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
         }

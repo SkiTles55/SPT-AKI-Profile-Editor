@@ -208,7 +208,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     while (WeaponBuilds.ContainsKey(tempFileName))
                         tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
                     weaponBuild.Name = tempFileName;
-                    weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id).ToArray());
+                    weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id));
                     WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
                     WeaponBuildsChanged();
                 }
@@ -262,8 +262,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(Characters.Pmc.Skills.Mastering, pmc, "Mastering");
             WriteSkills(Characters.Scav.Skills.Mastering, scav, "Mastering");
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
-            WritePmcStash();
-            WriteScavStash();
+            WriteStash(pmc, Characters.Pmc.Inventory);
+            WriteStash(scav, Characters.Scav.Inventory);
             jobject.SelectToken("weaponbuilds").Replace(JToken.FromObject(WeaponBuilds));
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
@@ -306,46 +306,30 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     character.SelectToken("Skills").SelectToken(type).Replace(JToken.FromObject(skills));
             }
 
-            void WritePmcStash()
+            void WriteStash(JToken characterToken, CharacterInventory inventory)
             {
                 List<JToken> ForRemove = new();
-                var itemsObject = pmc.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
+                var itemsObject = characterToken.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
                 if (itemsObject.Length > 0)
                 {
                     for (int index = 0; index < itemsObject.Length; ++index)
                     {
-                        var probe = pmc.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
+                        var probe = characterToken.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
                         if (probe == null)
                             continue;
-                        if (!string.IsNullOrEmpty(newStash) && probe.Id == Characters.Pmc.Inventory.Stash && probe.Tpl != newStash)
-                            pmc.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = newStash;
-                        if (!AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == probe.Id))
-                            ForRemove.Add(pmc.SelectToken("Inventory").SelectToken("items")[index]);
+                        if (!string.IsNullOrEmpty(newStash) && probe.Id == inventory.Stash && probe.Tpl != newStash)
+                            characterToken.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = newStash;
+                        if (!inventory.Items.Any(x => x.Id == probe.Id))
+                            ForRemove.Add(characterToken.SelectToken("Inventory").SelectToken("items")[index]);
                         if (probe.IsPockets)
-                            pmc.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Pmc.Inventory.Pockets;
+                            characterToken.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = inventory.Pockets;
                     }
                     foreach (var removedItem in ForRemove)
                         removedItem.Remove();
                     JsonSerializer serializer = JsonSerializer.Create(seriSettings);
-                    foreach (var item in AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
-                        pmc.SelectToken("Inventory").SelectToken("items").LastOrDefault()
+                    foreach (var item in inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
+                        characterToken.SelectToken("Inventory")?.SelectToken("items")?.LastOrDefault()?
                             .AddAfterSelf(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(item, serializer)));
-                }
-            }
-
-            void WriteScavStash()
-            {
-                var itemsObject = scav.SelectToken("Inventory").SelectToken("items").ToObject<InventoryItem[]>();
-                if (itemsObject.Length > 0)
-                {
-                    for (int index = 0; index < itemsObject.Length; ++index)
-                    {
-                        var probe = scav.SelectToken("Inventory").SelectToken("items")[index]?.ToObject<InventoryItem>();
-                        if (probe == null)
-                            continue;
-                        if (probe.IsPockets)
-                            scav.SelectToken("Inventory").SelectToken("items")[index]["_tpl"] = AppData.Profile.Characters.Scav.Inventory.Pockets;
-                    }
                 }
             }
 

@@ -20,12 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 items = value;
-                OnPropertyChanged("Items");
-                OnPropertyChanged("InventoryItems");
-                OnPropertyChanged("DollarsCount");
-                OnPropertyChanged("RublesCount");
-                OnPropertyChanged("EurosCount");
-                OnPropertyChanged("ContainsModdedItems");
+                OnPropertyChanged("");
             }
         }
 
@@ -80,9 +75,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
 
         [JsonIgnore]
-        public InventoryItem[] InventoryItems => Items?
-            .Where(x => x.ParentId == Stash && x.Location != null)?
-            .ToArray();
+        public IEnumerable<InventoryItem> InventoryItems => Items?
+            .Where(x => x.ParentId == Stash && x.Location != null);
+
+        [JsonIgnore]
+        public bool HasItems => InventoryItems?.Count() > 0;
 
         [JsonIgnore]
         public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
@@ -108,11 +105,44 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public InventoryItem Earpiece => GetEquipment(AppData.AppSettings.EarpieceSlotId);
 
-        private List<string> GroupedInventory => Items?
+        [JsonIgnore]
+        public InventoryItem FaceCover => GetEquipment(AppData.AppSettings.FaceCoverSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Eyewear => GetEquipment(AppData.AppSettings.EyewearSlotId);
+
+        [JsonIgnore]
+        public InventoryItem ArmorVest => GetEquipment(AppData.AppSettings.ArmorVestSlotId);
+
+        [JsonIgnore]
+        public InventoryItem SecondPrimaryWeapon => GetEquipment(AppData.AppSettings.SecondPrimaryWeaponSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Holster => GetEquipment(AppData.AppSettings.HolsterSlotId);
+
+        [JsonIgnore]
+        public InventoryItem Scabbard => GetEquipment(AppData.AppSettings.ScabbardSlotId);
+
+        [JsonIgnore]
+        public InventoryItem ArmBand => GetEquipment(AppData.AppSettings.ArmBandSlotId);
+
+        [JsonIgnore]
+        public IEnumerable<InventoryItem> PocketsItems => Items?
+            .Where(x => x.ParentId == Items?.Where(x => x.IsPockets).FirstOrDefault()?.Id);
+
+        [JsonIgnore]
+        public bool PocketsHasItems => PocketsItems?.Count() > 0;
+
+        [JsonIgnore]
+        public bool HasEquipment => FirstPrimaryWeapon != null || Headwear != null || TacticalVest != null || SecuredContainer != null
+            || Backpack != null || Earpiece != null || FaceCover != null || Eyewear != null || ArmorVest != null
+            || SecondPrimaryWeapon != null || Holster != null || Scabbard != null || ArmBand != null
+            || PocketsItems?.Count() > 0;
+
+        private IEnumerable<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)
-            .Select(x => x.Key)
-            .ToList();
+            .Select(x => x.Key);
 
         public void RemoveDuplicatedItems() => FinalRemoveItems(GroupedInventory);
 
@@ -134,7 +164,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             for (int i = 0; i < NewItemsLocations.Count; i++)
             {
                 if (count <= 0) break;
-                string id = ExtMethods.GenerateNewId(iDs.ToArray());
+                string id = ExtMethods.GenerateNewId(iDs);
                 iDs.Add(id);
                 var newItem = new InventoryItem
                 {
@@ -246,6 +276,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             List<string> itemIds = new();
             foreach (var TargetItem in items)
             {
+                if (string.IsNullOrEmpty(TargetItem))
+                    continue;
                 List<string> toDo = new() { TargetItem };
                 while (toDo.Count > 0)
                 {
@@ -356,5 +388,26 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Where(x => x.Tpl == moneys)
             .Sum(x => x.Upd.StackObjectsCount ?? 0) ?? 0)
             .ToString("N0");
+
+        public void RemoveAllEquipment()
+        {
+            FinalRemoveItems(new List<string>
+            {
+                FirstPrimaryWeapon?.Id,
+                Headwear?.Id,
+                TacticalVest?.Id,
+                SecuredContainer?.Id,
+                Backpack?.Id,
+                Earpiece?.Id,
+                FaceCover?.Id,
+                Eyewear?.Id,
+                ArmorVest?.Id,
+                SecondPrimaryWeapon?.Id,
+                Holster?.Id,
+                Scabbard?.Id,
+                ArmBand?.Id
+            });
+            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
+        }
     }
 }

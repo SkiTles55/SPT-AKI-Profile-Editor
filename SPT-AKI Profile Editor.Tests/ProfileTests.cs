@@ -314,12 +314,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             AppData.Profile.Characters.Pmc.Encyclopedia = new();
-            var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count;
+            var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
             AppData.Profile.Characters.Pmc.ExamineAll();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testExaminedItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count);
+            Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count());
         }
 
         [Test]
@@ -358,7 +358,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void StashRemovingItemsSavesCorrectly()
+        public void PmcStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
             string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.First().Id;
@@ -374,24 +374,89 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void StashRemovingAllItemsSavesCorrectly()
+        public void ScavStashRemovingItemsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            string expectedId1 = AppData.Profile.Characters.Scav.Inventory.TacticalVest.Id;
+            string expectedId2 = AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon.Id;
+            AppData.Profile.Characters.Scav.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavStashRemovingItems.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == expectedId1), "expectedId1 not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == expectedId2), "expectedId2 not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.ParentId == expectedId1), "expectedId1 child items not removed");
+            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.ParentId == expectedId2), "expectedId2 child items not removed");
+        }
+
+        [Test]
+        public void PmcStashRemovingAllItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
             AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingAllItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length);
+            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count());
         }
 
         [Test]
-        public void StashRemovingAllItemsRunsCorrectly()
+        public void PmcStashRemovingAllItemsRunsCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
             var ids = AppData.Profile.Characters.Pmc.Inventory.Items.Select(x => x.Id);
             AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             var missedItems = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.ParentId != null && !ids.Contains(x.ParentId));
             Assert.IsEmpty(missedItems);
+        }
+
+        [Test]
+        public void PmcStashRemovingAllEquipmentSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.Inventory.RemoveAllEquipment();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingAllEquipment.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.FirstPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Headwear);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Backpack);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Earpiece);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.FaceCover);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Eyewear);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmorVest);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.SecondPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Holster);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Scabbard);
+            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmBand);
+            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Count());
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count() > 0);
+        }
+
+        [Test]
+        public void ScavStashRemovingAllEquipmentSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Scav.Inventory.RemoveAllEquipment();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavStashRemovingAllEquipment.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Headwear);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Backpack);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Earpiece);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.FaceCover);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Eyewear);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmorVest);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecondPrimaryWeapon);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Holster);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Scabbard);
+            Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmBand);
+            Assert.AreEqual(0, AppData.Profile.Characters.Scav.Inventory.PocketsItems.Count());
         }
 
         [Test]
