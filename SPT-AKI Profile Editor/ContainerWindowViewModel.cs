@@ -29,6 +29,8 @@ namespace SPT_AKI_Profile_Editor
             _ => new(Profile.Characters.Pmc.Inventory.Items?.Where(x => x.ParentId == _item.Id)),
         };
 
+        public bool HasItems => Items.Count > 0;
+
         public RelayCommand RemoveItem => new(async obj =>
         {
             if (obj == null)
@@ -44,7 +46,7 @@ namespace SPT_AKI_Profile_Editor
                         Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
                         break;
                 }
-                OnPropertyChanged("Items");
+                OnPropertyChanged("");
             }
         });
 
@@ -64,7 +66,7 @@ namespace SPT_AKI_Profile_Editor
                                 Profile.Characters.Pmc.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
                                 break;
                         }
-                        OnPropertyChanged("Items");
+                        OnPropertyChanged("");
                     },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")

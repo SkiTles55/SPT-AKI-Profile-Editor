@@ -842,7 +842,11 @@
                     Grid.Row="11"
                     Grid.Column="1"
                     Grid.ColumnSpan="4"
+                    HasItems="{Binding ElementName=Control, Path=InventoryEquipment.PocketsHasItems}"
                     ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.PocketsItems}"
+                    PromptFontSize="12"
+                    PromptFontWeight="Normal"
+                    PromptHorizontalAlignment="Left"
                     ShowHeaders="None" />
                 <Label
                     Grid.Row="12"
@@ -995,6 +999,17 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Command="{Binding RemoveAllEquipment}"
-            Content="{Binding AppLocalization.Translations[tab_stash_remove]}" />
+            Content="{Binding AppLocalization.Translations[tab_stash_remove]}">
+            <Button.Style>
+                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
+                    <Setter Property="IsEnabled" Value="True" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.HasEquipment}" Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </UserControl>

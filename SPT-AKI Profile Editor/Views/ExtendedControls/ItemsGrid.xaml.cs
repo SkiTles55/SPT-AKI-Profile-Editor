@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.ComponentModel;
 using System.Windows;
@@ -22,6 +21,18 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty ShowHeadersProperty =
             DependencyProperty.Register(nameof(ShowHeaders), typeof(DataGridHeadersVisibility), typeof(ItemsGrid), new PropertyMetadata(DataGridHeadersVisibility.Column, null));
 
+        public static readonly DependencyProperty HasItemsProperty =
+            DependencyProperty.Register(nameof(HasItems), typeof(bool), typeof(ItemsGrid), new PropertyMetadata(false, null));
+
+        public static readonly DependencyProperty PromptHorizontalAlignmentProperty =
+            DependencyProperty.Register(nameof(PromptHorizontalAlignment), typeof(HorizontalAlignment), typeof(ItemsGrid), new PropertyMetadata(HorizontalAlignment.Center, null));
+
+        public static readonly DependencyProperty PromptFontSizeProperty =
+            DependencyProperty.Register(nameof(PromptFontSize), typeof(int), typeof(ItemsGrid), new PropertyMetadata(20, null));
+
+        public static readonly DependencyProperty PromptFontWeightProperty =
+            DependencyProperty.Register(nameof(PromptFontWeight), typeof(FontWeight), typeof(ItemsGrid), new PropertyMetadata(FontWeights.Bold, null));
+
         public ItemsGrid()
         {
             InitializeComponent();
@@ -43,6 +54,30 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (DataGridHeadersVisibility)GetValue(ShowHeadersProperty); }
             set { SetValue(ShowHeadersProperty, value); }
+        }
+
+        public bool HasItems
+        {
+            get { return (bool)GetValue(HasItemsProperty); }
+            set { SetValue(HasItemsProperty, value); }
+        }
+
+        public HorizontalAlignment PromptHorizontalAlignment
+        {
+            get { return (HorizontalAlignment)GetValue(PromptHorizontalAlignmentProperty); }
+            set { SetValue(PromptHorizontalAlignmentProperty, value); }
+        }
+
+        public int PromptFontSize
+        {
+            get { return (int)GetValue(PromptFontSizeProperty); }
+            set { SetValue(PromptFontSizeProperty, value); }
+        }
+
+        public FontWeight PromptFontWeight
+        {
+            get { return (FontWeight)GetValue(PromptFontWeightProperty); }
+            set { SetValue(PromptFontWeightProperty, value); }
         }
 
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>

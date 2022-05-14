@@ -19,6 +19,7 @@
             Grid.Row="1"
             FilterId="{Binding GridFilters.StashTab.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             FilterName="{Binding GridFilters.StashTab.StashItemName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            HasItems="{Binding Profile.Characters.Pmc.Inventory.HasItems}"
             ItemsSource="{Binding Profile.Characters.Pmc.Inventory.InventoryItems}" />
         <Button
             Grid.Row="2"
@@ -27,6 +28,17 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Command="{Binding RemoveAllItems}"
-            Content="{Binding AppLocalization.Translations[tab_stash_remove]}" />
+            Content="{Binding AppLocalization.Translations[tab_stash_remove]}">
+            <Button.Style>
+                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
+                    <Setter Property="IsEnabled" Value="True" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Profile.Characters.Pmc.Inventory.HasItems}" Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </UserControl>

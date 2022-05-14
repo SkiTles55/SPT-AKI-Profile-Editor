@@ -139,5 +139,29 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Control, Path=HasItems}" Value="False">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Label
+                HorizontalAlignment="{Binding ElementName=Control, Path=PromptHorizontalAlignment}"
+                VerticalAlignment="Center"
+                FontSize="{Binding ElementName=Control, Path=PromptFontSize}"
+                FontWeight="{Binding ElementName=Control, Path=PromptFontWeight}">
+                <Label.Content>
+                    <TextBlock
+                        Text="{Binding AppLocalization.Translations[tab_stash_no_items]}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+        </Border>
     </Grid>
 </helpers:GridControl>

@@ -79,6 +79,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Where(x => x.ParentId == Stash && x.Location != null);
 
         [JsonIgnore]
+        public bool HasItems => InventoryItems?.Count() > 0;
+
+        [JsonIgnore]
         public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
 
         [JsonIgnore]
@@ -126,6 +129,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public IEnumerable<InventoryItem> PocketsItems => Items?
             .Where(x => x.ParentId == Items?.Where(x => x.IsPockets).FirstOrDefault()?.Id);
+
+        [JsonIgnore]
+        public bool PocketsHasItems => PocketsItems?.Count() > 0;
+
+        [JsonIgnore]
+        public bool HasEquipment => FirstPrimaryWeapon != null || Headwear != null || TacticalVest != null || SecuredContainer != null
+            || Backpack != null || Earpiece != null || FaceCover != null || Eyewear != null || ArmorVest != null
+            || SecondPrimaryWeapon != null || Holster != null || Scabbard != null || ArmBand != null
+            || PocketsItems?.Count() > 0;
 
         private IEnumerable<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
