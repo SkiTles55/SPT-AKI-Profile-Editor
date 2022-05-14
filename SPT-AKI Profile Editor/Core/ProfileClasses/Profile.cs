@@ -203,7 +203,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 {
                     if (WeaponBuilds == null)
                         WeaponBuilds = new();
-                    int count = 0;
+                    int count = 1;
                     string tempFileName = weaponBuild.Name;
                     while (WeaponBuilds.ContainsKey(tempFileName))
                         tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);

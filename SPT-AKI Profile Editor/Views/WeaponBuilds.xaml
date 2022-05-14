@@ -65,7 +65,7 @@
                                     <Label
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        Content="{Binding Path=Key}"
+                                        Content="{Binding Path=Value.Name}"
                                         FontSize="14"
                                         FontWeight="Bold" />
                                     <Label
