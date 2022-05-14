@@ -31,7 +31,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void BackupListNotEmpty()
         {
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
-            Assert.IsFalse(backupService.BackupList.Count == 0);
+            Assert.IsFalse(backupService.BackupList.Count() == 0);
         }
 
         [Test]
@@ -50,10 +50,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void BackupRemovingCorrectly()
         {
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
-            var expected = backupService.BackupList.Count;
+            var expected = backupService.BackupList.Count();
             backupService.RemoveBackup(backupService.BackupList.Last().Path);
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
-            Assert.AreNotEqual(expected, backupService.BackupList.Count);
+            Assert.AreNotEqual(expected, backupService.BackupList.Count());
         }
     }
 }

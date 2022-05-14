@@ -147,10 +147,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                                                                 GetTraderInfo(x.Key))));
 
         [JsonIgnore]
-        public List<string> ExaminedItems => Encyclopedia?
+        public IEnumerable<string> ExaminedItems => Encyclopedia?
             .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
-            ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key)
-            .ToList();
+            ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key);
 
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;

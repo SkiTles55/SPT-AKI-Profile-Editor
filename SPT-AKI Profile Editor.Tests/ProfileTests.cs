@@ -314,12 +314,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             AppData.Profile.Characters.Pmc.Encyclopedia = new();
-            var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count;
+            var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
             AppData.Profile.Characters.Pmc.ExamineAll();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testExaminedItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count);
+            Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count());
         }
 
         [Test]
@@ -397,7 +397,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingAllItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
-            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length);
+            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count());
         }
 
         [Test]
@@ -431,8 +431,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Holster);
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Scabbard);
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmBand);
-            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Length);
-            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Length > 0);
+            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Count());
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count() > 0);
         }
 
         [Test]
@@ -456,7 +456,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.Null(AppData.Profile.Characters.Scav.Inventory.Holster);
             Assert.Null(AppData.Profile.Characters.Scav.Inventory.Scabbard);
             Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmBand);
-            Assert.AreEqual(0, AppData.Profile.Characters.Scav.Inventory.PocketsItems.Length);
+            Assert.AreEqual(0, AppData.Profile.Characters.Scav.Inventory.PocketsItems.Count());
         }
 
         [Test]

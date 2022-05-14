@@ -75,9 +75,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string EurosCount => GetMoneyCountString(AppData.AppSettings.MoneysEurosTpl);
 
         [JsonIgnore]
-        public InventoryItem[] InventoryItems => Items?
-            .Where(x => x.ParentId == Stash && x.Location != null)?
-            .ToArray();
+        public IEnumerable<InventoryItem> InventoryItems => Items?
+            .Where(x => x.ParentId == Stash && x.Location != null);
 
         [JsonIgnore]
         public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
@@ -125,15 +124,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public InventoryItem ArmBand => GetEquipment(AppData.AppSettings.ArmBandSlotId);
 
         [JsonIgnore]
-        public InventoryItem[] PocketsItems => Items?
-            .Where(x => x.ParentId == Items?.Where(x => x.IsPockets).FirstOrDefault()?.Id)?
-            .ToArray();
+        public IEnumerable<InventoryItem> PocketsItems => Items?
+            .Where(x => x.ParentId == Items?.Where(x => x.IsPockets).FirstOrDefault()?.Id);
 
-        private List<string> GroupedInventory => Items?
+        private IEnumerable<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)
-            .Select(x => x.Key)
-            .ToList();
+            .Select(x => x.Key);
 
         public void RemoveDuplicatedItems() => FinalRemoveItems(GroupedInventory);
 
@@ -155,7 +152,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             for (int i = 0; i < NewItemsLocations.Count; i++)
             {
                 if (count <= 0) break;
-                string id = ExtMethods.GenerateNewId(iDs.ToArray());
+                string id = ExtMethods.GenerateNewId(iDs);
                 iDs.Add(id);
                 var newItem = new InventoryItem
                 {

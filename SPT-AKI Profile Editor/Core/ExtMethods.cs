@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -56,7 +57,7 @@ namespace SPT_AKI_Profile_Editor.Core
             return jObject;
         }
 
-        public static string GenerateNewId(string[] ids)
+        public static string GenerateNewId(IEnumerable<string> ids)
         {
             string id;
             do

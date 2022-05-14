@@ -208,7 +208,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     while (WeaponBuilds.ContainsKey(tempFileName))
                         tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
                     weaponBuild.Name = tempFileName;
-                    weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id).ToArray());
+                    weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id));
                     WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
                     WeaponBuildsChanged();
                 }

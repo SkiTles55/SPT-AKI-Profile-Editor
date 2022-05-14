@@ -13,8 +13,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public List<HandbookItem> Items { get; set; }
 
         [JsonIgnore]
-        public List<HandbookCategory> CategoriesForItemsAdding => Categories
-                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)
-                    .ToList();
+        public IEnumerable<HandbookCategory> CategoriesForItemsAdding => Categories
+                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden);
     }
 }
