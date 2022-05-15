@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
@@ -9,27 +10,29 @@ namespace SPT_AKI_Profile_Editor
     {
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
-        private WeaponBuild weaponBuild;
 
         public WeaponBuildWindowViewModel(InventoryItem item, StashEditMode editMode)
         {
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
-            WeaponBuild = new WeaponBuild(_item, new List<InventoryItem>() { _item });
+            List<InventoryItem> items = new() { _item };
+            List<string> skippedSlots = new() { "patron_in_weapon", "cartridges" };
+            switch (editMode)
+            {
+                case StashEditMode.PMC:
+                    items.AddRange(AppData.Profile.Characters.Pmc.Inventory.GetInnerItems(item.Id, skippedSlots));
+                    break;
+                case StashEditMode.Scav:
+                    items.AddRange(AppData.Profile.Characters.Scav.Inventory.GetInnerItems(item.Id, skippedSlots));
+                    break;
+            }
+            WeaponBuild = new WeaponBuild(_item, items);
         }
 
         public string WindowTitle { get; }
 
-        public WeaponBuild WeaponBuild
-        {
-            get => weaponBuild;
-            set
-            {
-                weaponBuild = value;
-                OnPropertyChanged("WeaponBuild");
-            }
-        }
+        public WeaponBuild WeaponBuild { get; }
 
         public RelayCommand RemoveItem => new(async obj =>
         {

@@ -150,6 +150,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveAllItems() => FinalRemoveItems(InventoryItems.Select(x => x.Id));
 
+        public List<InventoryItem> GetInnerItems(string itemId, List<string> skippedSlots = null)
+        {
+            List<InventoryItem> items = new();
+            foreach (var item in Items?.Where(x => x.ParentId == itemId))
+            {
+                if (skippedSlots != null && skippedSlots.Count > 0 && skippedSlots.Contains(item.SlotId))
+                    continue;
+                items.Add(item);
+                items.AddRange(GetInnerItems(item.Id, skippedSlots));
+            }
+            return items;
+        }
+
         public void AddNewItems(string tpl, int count, bool fir)
         {
             var mItem = AppData.ServerDatabase.ItemsDB[tpl];

@@ -11,9 +11,8 @@
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
     Title="{Binding WindowTitle}"
     Width="600"
-    Height="400"
     MinWidth="600"
-    MinHeight="400"
+    MinHeight="200"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:WeaponBuildWindowViewModel}"
     BorderThickness="0"
@@ -33,6 +32,7 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
+            Margin="5"
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <Label
@@ -66,6 +66,7 @@
         <StackPanel
             Grid.Row="0"
             Grid.Column="1"
+            Margin="5"
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <Button
@@ -85,6 +86,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            Margin="5"
             Build="{Binding WeaponBuild}"
             LocalizationDict="{Binding AppLocalization.Translations}" />
     </Grid>
