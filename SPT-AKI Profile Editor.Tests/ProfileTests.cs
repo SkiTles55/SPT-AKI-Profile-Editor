@@ -579,6 +579,18 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void WeaponBuildCalculatingCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
+            Assert.NotNull(build);
+            Assert.AreEqual(48.5, build.Value.Ergonomics);
+            Assert.AreEqual(73, build.Value.RecoilForceUp);
+            Assert.AreEqual(186, build.Value.RecoilForceBack);
+        }
+
+        [Test]
         public void ProfileNotChangedAfterLoading()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
