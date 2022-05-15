@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 {
@@ -16,12 +15,6 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 
         public static readonly DependencyProperty LocalizationProperty =
             DependencyProperty.Register(nameof(LocalizationDict), typeof(Dictionary<string, string>), typeof(WeaponBuildView), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty ExportCommandProperty =
-            DependencyProperty.Register(nameof(ExportCommand), typeof(ICommand), typeof(WeaponBuildView), new PropertyMetadata(null));
-
-        public static readonly DependencyProperty RemoveCommandProperty =
-            DependencyProperty.Register(nameof(RemoveCommand), typeof(ICommand), typeof(WeaponBuildView), new PropertyMetadata(null));
 
         public WeaponBuildView()
         {
@@ -38,18 +31,6 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (Dictionary<string, string>)GetValue(LocalizationProperty); }
             set { SetValue(LocalizationProperty, value); }
-        }
-
-        public ICommand ExportCommand
-        {
-            get { return (ICommand)GetValue(ExportCommandProperty); }
-            set { SetValue(ExportCommandProperty, value); }
-        }
-
-        public ICommand RemoveCommand
-        {
-            get { return (ICommand)GetValue(RemoveCommandProperty); }
-            set { SetValue(RemoveCommandProperty, value); }
         }
     }
 }
