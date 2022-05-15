@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             CalculateBuildProperties();
         }
 
-        public WeaponBuild(InventoryItem item, InventoryItem[] items)
+        public WeaponBuild(InventoryItem item, IEnumerable<InventoryItem> items)
         {
             Id = ExtMethods.GenerateNewId(items.Select(x => x.Id));
             Name = item.LocalizedName;

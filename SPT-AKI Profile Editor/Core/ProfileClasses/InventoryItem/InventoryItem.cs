@@ -24,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public ItemUpd Upd { get; set; }
 
         [JsonIgnore]
-        public string LocalizedName => (!string.IsNullOrEmpty(Tag) ? $"[{Tag}] " : string.Empty) + GlobalName;
+        public string LocalizedName => (!string.IsNullOrEmpty(Tag) ? $"[{Tag}] " : string.Empty) + GlobalName + CountString;
 
         [JsonIgnore]
         public bool IsAddedByMods =>
@@ -37,10 +37,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string Tag => Upd?.Tag?.Name;
 
         [JsonIgnore]
+        public string CountString => (Upd?.StackObjectsCount ?? 1) > 1 ? $" [{Upd.StackObjectsCount}]" : string.Empty;
+
+        [JsonIgnore]
         public string GlobalName =>
             AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Tpl) ? AppData.ServerDatabase.LocalesGlobal.Templates[Tpl].Name : Tpl;
 
         [JsonIgnore]
         public bool IsContainer => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
+
+        [JsonIgnore]
+        public bool IsWeapon => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
     }
 }
