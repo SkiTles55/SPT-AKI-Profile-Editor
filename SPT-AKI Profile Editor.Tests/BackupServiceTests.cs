@@ -31,7 +31,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void BackupListNotEmpty()
         {
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
-            Assert.IsFalse(backupService.BackupList.Any());
+            Assert.IsTrue(backupService.BackupList.Any());
         }
 
         [Test]

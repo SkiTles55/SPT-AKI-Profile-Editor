@@ -127,6 +127,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <extendedcontrols:ItemActions
+                                InspectWeapon="{Binding Data.InspectWeapon, Source={StaticResource proxy}}"
                                 Item="{Binding}"
                                 LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}"
                                 OpenContainer="{Binding Data.OpenContainer, Source={StaticResource proxy}}"

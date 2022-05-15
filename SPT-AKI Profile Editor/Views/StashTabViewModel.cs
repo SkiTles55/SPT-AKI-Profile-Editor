@@ -15,6 +15,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.PMC));
 
+        public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
+
         public RelayCommand RemoveItem => new(async obj =>
         {
             if (obj == null)

@@ -11,7 +11,7 @@
             <Button
                 Margin="5"
                 VerticalAlignment="Center"
-                Command="{Binding ElementName=Control, Path=OpenContainer}"
+                Command="{Binding ElementName=Control, Path=InspectWeapon}"
                 CommandParameter="{Binding ElementName=Control, Path=Item}"
                 Content="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_inspect]}">
                 <Button.Style>

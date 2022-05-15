@@ -21,6 +21,8 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, _editMode));
 
+        public RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, _editMode));
+
         public string WindowTitle { get; }
 
         public ObservableCollection<InventoryItem> Items => _editMode switch

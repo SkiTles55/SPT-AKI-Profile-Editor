@@ -16,17 +16,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Name = name;
             Root = root;
             Items = items;
-            BuildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             CalculateBuildProperties();
         }
 
-        public WeaponBuild(InventoryItem item, IEnumerable<InventoryItem> items)
+        public WeaponBuild(InventoryItem item, List<InventoryItem> items)
         {
-            Id = ExtMethods.GenerateNewId(items.Select(x => x.Id));
+            Id = item.Id;
             Name = item.LocalizedName;
             Root = item.Id;
             Items = items.Select(x => JsonConvert.SerializeObject(x)).ToArray();
-            BuildItems = items;
             CalculateBuildProperties();
         }
 
@@ -62,20 +60,28 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void CalculateBuildProperties()
         {
-            foreach (var item in BuildItems)
+            List<InventoryItem> buildItems = new();
+            foreach (var obj in Items)
             {
-                if (item.Id == Root)
-                    SetupWeaponProperties(item);
-                else
-                    AddModProperties(item);
+                try
+                {
+                    var item = JsonConvert.DeserializeObject<InventoryItem>(obj.ToString());
+                    buildItems.Add(item);
+                    if (item.Id == Root)
+                        SetupWeaponProperties(item);
+                    else
+                        AddModProperties(item);
+                }
+                catch (Exception ex) { Logger.Log($"WeaponBuilds weapon item loading error: {ex.Message}"); }
             }
             RecoilDelta /= 100f;
             RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
-            if (!BuildItems.Any())
+            if (buildItems.Count == 0)
                 return;
-            HasModdedItems = BuildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
-            Weapon = BuildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
+            BuildItems = buildItems.Where(x => x.Id != Root);
+            HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
+            Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
         }
 
         private void AddModProperties(InventoryItem item)
