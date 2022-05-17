@@ -177,9 +177,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void RemoveBuild(string key)
         {
             if (WeaponBuilds.Remove(key))
-            {
                 WeaponBuildsChanged();
-            }
         }
 
         public void RemoveBuilds()
@@ -188,10 +186,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WeaponBuildsChanged();
         }
 
-        public void ExportBuild(string key, string path)
+        public static void ExportBuild(WeaponBuild weaponBuild, string path)
         {
-            WeaponBuild weaponBuild = WeaponBuilds[key];
-            File.WriteAllText(path, JsonConvert.SerializeObject(weaponBuild, Formatting.Indented));
+            try
+            {
+                JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
+                JsonSerializer serializer = JsonSerializer.Create(seriSettings);
+                var build = ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(weaponBuild, serializer));
+                File.WriteAllText(path, JsonConvert.SerializeObject(build, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"WeaponBuild export error: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
         }
 
         public void ImportBuild(string path)

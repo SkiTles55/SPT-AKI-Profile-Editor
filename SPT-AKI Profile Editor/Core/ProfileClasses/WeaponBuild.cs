@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Id = item.Id;
             Name = item.LocalizedName;
             Root = item.Id;
-            Items = items.Select(x => JsonConvert.SerializeObject(x)).ToArray();
+            Items = items.ToArray();
             CalculateBuildProperties(items);
         }
 

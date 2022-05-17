@@ -444,7 +444,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Scabbard);
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmBand);
             Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Count());
-            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count() > 0);
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any());
         }
 
         [Test]
@@ -555,7 +555,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
-            AppData.Profile.ExportBuild(expected.Key, testFile);
+            Profile.ExportBuild(expected.Value, testFile);
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(testFile));
             Assert.AreEqual(expected.Value.Name, weaponBuild.Name);
             Assert.AreEqual(expected.Value.Root, weaponBuild.Root);

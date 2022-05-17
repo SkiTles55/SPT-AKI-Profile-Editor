@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Views
               {
                   App.Worker.AddAction(new WorkerTask
                   {
-                      Action = () => { Profile.ExportBuild(build.Name, saveFileDialog.FileName); },
+                      Action = () => { Profile.ExportBuild(build, saveFileDialog.FileName); },
                       Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                       Description = AppLocalization.GetLocalizedString("tab_presets_export")
                   });
@@ -43,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Views
                   {
                       App.Worker.AddAction(new WorkerTask
                       {
-                          Action = () => { Profile.ExportBuild(build.Key, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")); },
+                          Action = () => { Profile.ExportBuild(build.Value, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")); },
                           Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                           Description = AppLocalization.GetLocalizedString("tab_presets_export")
                       });
