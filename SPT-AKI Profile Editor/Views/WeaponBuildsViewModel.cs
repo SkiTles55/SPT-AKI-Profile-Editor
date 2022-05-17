@@ -64,7 +64,7 @@ namespace SPT_AKI_Profile_Editor.Views
                   {
                       App.Worker.AddAction(new WorkerTask
                       {
-                          Action = () => { Profile.ImportBuild(file); },
+                          Action = () => { Profile.ImportBuildFromFile(file); },
                           Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                           Description = AppLocalization.GetLocalizedString("tab_presets_import")
                       });

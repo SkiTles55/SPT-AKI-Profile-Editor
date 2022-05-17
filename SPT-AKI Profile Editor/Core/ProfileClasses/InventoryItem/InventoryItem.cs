@@ -48,5 +48,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public bool IsWeapon => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
+
+        public static InventoryItem CopyFrom(InventoryItem item)
+        {
+            InventoryItem copy = new();
+            copy.Id = item.Id;
+            copy.Tpl = item.Tpl;
+            copy.SlotId = item.SlotId;
+            copy.Location = item.Location;
+            copy.ParentId = item.ParentId;
+            copy.Upd = item.Upd;
+            return copy;
+        }
     }
 }

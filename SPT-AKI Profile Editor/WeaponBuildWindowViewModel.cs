@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
@@ -29,7 +30,7 @@ namespace SPT_AKI_Profile_Editor
                     items.AddRange(AppData.Profile.Characters.Scav.Inventory.GetInnerItems(item.Id, skippedSlots));
                     break;
             }
-            WeaponBuild = new WeaponBuild(_item, items);
+            WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
         }
 
         public string WindowTitle { get; }
@@ -67,6 +68,16 @@ namespace SPT_AKI_Profile_Editor
                     Description = AppLocalization.GetLocalizedString("tab_presets_export")
                 });
             }
+        });
+
+        public RelayCommand AddToWeaponBuilds => new(obj =>
+        {
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = () => { Profile.ImportBuild(WeaponBuild); },
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("tab_presets_export")
+            });
         });
     }
 }

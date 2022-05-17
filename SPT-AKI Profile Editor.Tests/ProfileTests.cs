@@ -538,7 +538,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+                AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
             AppData.Profile.RemoveBuild(expected);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
@@ -552,7 +552,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+                AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
             Profile.ExportBuild(expected.Value, testFile);
@@ -569,8 +569,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
-            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsImport.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
@@ -582,7 +582,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildCalculatingCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
             Assert.NotNull(build);
             Assert.AreEqual(48.5, build.Value.Ergonomics);

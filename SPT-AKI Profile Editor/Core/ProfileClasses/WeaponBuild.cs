@@ -27,6 +27,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Id = item.Id;
             Name = item.LocalizedName;
             Root = item.Id;
+            foreach (var innerItem in items)
+            {
+                innerItem.Upd = null;
+                innerItem.Location = null;
+                if (innerItem.Id == item.Id)
+                {
+                    innerItem.ParentId = null;
+                    innerItem.SlotId = null;
+                }
+            }
             Items = items.ToArray();
             CalculateBuildProperties(items);
         }
