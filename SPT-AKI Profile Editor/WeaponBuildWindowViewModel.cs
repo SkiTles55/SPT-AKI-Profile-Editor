@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Classes;
+﻿using MahApps.Metro.Controls.Dialogs;
+using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
@@ -14,8 +15,9 @@ namespace SPT_AKI_Profile_Editor
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
 
-        public WeaponBuildWindowViewModel(InventoryItem item, StashEditMode editMode)
+        public WeaponBuildWindowViewModel(InventoryItem item, StashEditMode editMode, IDialogCoordinator dialogCoordinator)
         {
+            Worker = new Worker(dialogCoordinator, this);
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
@@ -32,6 +34,8 @@ namespace SPT_AKI_Profile_Editor
             }
             WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
         }
+
+        public Worker Worker { get; }
 
         public string WindowTitle { get; }
 
@@ -61,7 +65,7 @@ namespace SPT_AKI_Profile_Editor
             saveFileDialog.RestoreDirectory = true;
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                App.Worker.AddAction(new WorkerTask
+                Worker.AddAction(new WorkerTask
                 {
                     Action = () => { Profile.ExportBuild(WeaponBuild, saveFileDialog.FileName); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -72,7 +76,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand AddToWeaponBuilds => new(obj =>
         {
-            App.Worker.AddAction(new WorkerTask
+            Worker.AddAction(new WorkerTask
             {
                 Action = () => { Profile.ImportBuild(WeaponBuild); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
