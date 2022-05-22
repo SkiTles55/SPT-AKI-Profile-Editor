@@ -123,7 +123,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
+                <DataGridTemplateColumn
+                    Width="Auto"
+                    MinWidth="84"
+                    Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <extendedcontrols:ItemActions
