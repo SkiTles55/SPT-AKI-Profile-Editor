@@ -73,12 +73,12 @@
                 MinWidth="110"
                 Margin="5"
                 Command="{Binding AddToWeaponBuilds}"
-                Content="Add to builds" />
+                Content="{Binding AppLocalization.Translations[weapon_build_window_add]}" />
             <Button
                 MinWidth="110"
                 Margin="5"
                 Command="{Binding ExportBuild}"
-                Content="{Binding AppLocalization.Translations[tab_presets_export]}" />
+                Content="{Binding AppLocalization.Translations[weapon_build_window_export]}" />
             <Button
                 MinWidth="110"
                 Margin="5"
