@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Classes;
+﻿using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 

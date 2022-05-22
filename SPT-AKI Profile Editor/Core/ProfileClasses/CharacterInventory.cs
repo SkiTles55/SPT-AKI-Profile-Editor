@@ -218,6 +218,27 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return Stash2D;
         }
 
+        public void RemoveAllEquipment()
+        {
+            FinalRemoveItems(new List<string>
+            {
+                FirstPrimaryWeapon?.Id,
+                Headwear?.Id,
+                TacticalVest?.Id,
+                SecuredContainer?.Id,
+                Backpack?.Id,
+                Earpiece?.Id,
+                FaceCover?.Id,
+                Eyewear?.Id,
+                ArmorVest?.Id,
+                SecondPrimaryWeapon?.Id,
+                Holster?.Id,
+                Scabbard?.Id,
+                ArmBand?.Id
+            });
+            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
+        }
+
         private static List<ItemLocation> GetFreeSlots(int[,] Stash)
         {
             List<ItemLocation> locations = new();
@@ -401,26 +422,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Where(x => x.Tpl == moneys)
             .Sum(x => x.Upd.StackObjectsCount ?? 0) ?? 0)
             .ToString("N0");
-
-        public void RemoveAllEquipment()
-        {
-            FinalRemoveItems(new List<string>
-            {
-                FirstPrimaryWeapon?.Id,
-                Headwear?.Id,
-                TacticalVest?.Id,
-                SecuredContainer?.Id,
-                Backpack?.Id,
-                Earpiece?.Id,
-                FaceCover?.Id,
-                Eyewear?.Id,
-                ArmorVest?.Id,
-                SecondPrimaryWeapon?.Id,
-                Holster?.Id,
-                Scabbard?.Id,
-                ArmBand?.Id
-            });
-            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
-        }
     }
 }

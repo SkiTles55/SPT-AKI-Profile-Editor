@@ -48,6 +48,7 @@ namespace SPT_AKI_Profile_Editor
                     case StashEditMode.Scav:
                         Profile.Characters.Scav.Inventory.RemoveItems(new() { obj.ToString() });
                         break;
+
                     case StashEditMode.PMC:
                         Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
                         break;
@@ -62,12 +63,14 @@ namespace SPT_AKI_Profile_Editor
             {
                 Worker.AddAction(new WorkerTask
                 {
-                    Action = () => {
+                    Action = () =>
+                    {
                         switch (_editMode)
                         {
                             case StashEditMode.Scav:
                                 Profile.Characters.Scav.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
                                 break;
+
                             case StashEditMode.PMC:
                                 Profile.Characters.Pmc.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
                                 break;

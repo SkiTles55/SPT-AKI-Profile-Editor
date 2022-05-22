@@ -59,7 +59,8 @@ namespace SPT_AKI_Profile_Editor
             // Skipping in nUnit tests
             if (Current == null)
                 return;
-            Current.Dispatcher.Invoke(() => {
+            Current.Dispatcher.Invoke(() =>
+            {
                 foreach (Window window in Current.Windows)
                     if (window is ItemViewWindow containerWindow && idsList.Contains(containerWindow.ItemId))
                         containerWindow.Close();
@@ -71,7 +72,8 @@ namespace SPT_AKI_Profile_Editor
             // Skipping in nUnit tests
             if (Current == null)
                 return;
-            Current.Dispatcher.Invoke(() => {
+            Current.Dispatcher.Invoke(() =>
+            {
                 foreach (Window window in Current.Windows)
                     if (window is ItemViewWindow containerWindow)
                         containerWindow.Close();

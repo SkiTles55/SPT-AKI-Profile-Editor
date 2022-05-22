@@ -28,6 +28,7 @@ namespace SPT_AKI_Profile_Editor
                 case StashEditMode.PMC:
                     items.AddRange(AppData.Profile.Characters.Pmc.Inventory.GetInnerItems(item.Id, skippedSlots));
                     break;
+
                 case StashEditMode.Scav:
                     items.AddRange(AppData.Profile.Characters.Scav.Inventory.GetInnerItems(item.Id, skippedSlots));
                     break;
@@ -50,6 +51,7 @@ namespace SPT_AKI_Profile_Editor
                     case StashEditMode.Scav:
                         Profile.Characters.Scav.Inventory.RemoveItems(new() { _item.Id });
                         break;
+
                     case StashEditMode.PMC:
                         Profile.Characters.Pmc.Inventory.RemoveItems(new() { _item.Id });
                         break;
@@ -59,10 +61,12 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand ExportBuild => new(obj =>
         {
-            SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*";
-            saveFileDialog.FileName = $"Weapon preset {WeaponBuild.Name}";
-            saveFileDialog.RestoreDirectory = true;
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
+                FileName = $"Weapon preset {WeaponBuild.Name}",
+                RestoreDirectory = true
+            };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Worker.AddAction(new WorkerTask

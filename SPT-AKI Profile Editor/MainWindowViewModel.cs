@@ -44,6 +44,7 @@ namespace SPT_AKI_Profile_Editor
                         RelayCommand saveCommand = new(obj => SaveAction());
                         await Dialogs.ShowIssuesDialog(Instance, saveCommand);
                         return;
+
                     case IssuesAction.AlwaysFix:
                         AppData.IssuesService.FixAllIssues();
                         break;

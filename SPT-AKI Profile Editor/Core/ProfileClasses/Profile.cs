@@ -66,6 +66,22 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public int ProfileHash => profileHash;
 
+        public static void ExportBuild(WeaponBuild weaponBuild, string path)
+        {
+            try
+            {
+                JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
+                JsonSerializer serializer = JsonSerializer.Create(seriSettings);
+                var build = ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(weaponBuild, serializer));
+                File.WriteAllText(path, JsonConvert.SerializeObject(build, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"WeaponBuild export error: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+
         public void Load(string path)
         {
             string fileText = File.ReadAllText(path);
@@ -184,22 +200,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             WeaponBuilds = new();
             WeaponBuildsChanged();
-        }
-
-        public static void ExportBuild(WeaponBuild weaponBuild, string path)
-        {
-            try
-            {
-                JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
-                JsonSerializer serializer = JsonSerializer.Create(seriSettings);
-                var build = ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(weaponBuild, serializer));
-                File.WriteAllText(path, JsonConvert.SerializeObject(build, Formatting.Indented));
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"WeaponBuild export error: {ex.Message}");
-                throw new Exception(ex.Message);
-            }
         }
 
         public void ImportBuildFromFile(string path)

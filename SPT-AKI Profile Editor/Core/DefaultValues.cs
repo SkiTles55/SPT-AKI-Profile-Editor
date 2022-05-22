@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
 
-        public readonly static string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
+        public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 
         public static List<string> BannedItems => new()
         {

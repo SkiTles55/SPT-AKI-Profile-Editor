@@ -44,6 +44,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? LoyaltyLevel;
+
         private void SetSalesSum(int value)
         {
             if (salesSumStart == null)
@@ -66,7 +68,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 unlockedStart = TraderStanding.Unlocked;
             TraderStanding.Unlocked = value > 1 || unlockedStart.Value;
         }
-
-        public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? LoyaltyLevel;
     }
 }
