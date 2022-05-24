@@ -22,6 +22,7 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
             QuestType.Standart => AppData.AppSettings.standartQuestStatuses,
             _ => AppData.AppSettings.repeatableQuestStatuses,
         };
+
         public static string LocalizedName(this QuestType type) => type switch
         {
             QuestType.Daily => AppData.AppLocalization.GetLocalizedString("tab_quests_daily_group"),

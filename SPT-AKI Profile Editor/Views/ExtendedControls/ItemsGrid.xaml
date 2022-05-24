@@ -62,7 +62,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="30" SortMemberPath="IsAddedByMods">
+                <DataGridTemplateColumn Width="30" SortMemberPath="IsAddedByMods">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label
@@ -124,12 +124,13 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Width="*"
-                    MaxWidth="150"
+                    Width="Auto"
+                    MinWidth="84"
                     Header="{Binding Data.AppLocalization.Translations[tab_backups_actions], Source={StaticResource proxy}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <extendedcontrols:ItemActions
+                                InspectWeapon="{Binding Data.InspectWeapon, Source={StaticResource proxy}}"
                                 Item="{Binding}"
                                 LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}"
                                 OpenContainer="{Binding Data.OpenContainer, Source={StaticResource proxy}}"

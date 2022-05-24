@@ -17,6 +17,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty OpenContainerProperty =
             DependencyProperty.Register(nameof(OpenContainer), typeof(ICommand), typeof(ItemActions), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty InspectWeaponProperty =
+            DependencyProperty.Register(nameof(InspectWeapon), typeof(ICommand), typeof(ItemActions), new PropertyMetadata(null));
+
         public static readonly DependencyProperty RemoveItemProperty =
             DependencyProperty.Register(nameof(RemoveItem), typeof(ICommand), typeof(ItemActions), new PropertyMetadata(null));
 
@@ -38,6 +41,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (ICommand)GetValue(OpenContainerProperty); }
             set { SetValue(OpenContainerProperty, value); }
+        }
+
+        public ICommand InspectWeapon
+        {
+            get { return (ICommand)GetValue(InspectWeaponProperty); }
+            set { SetValue(InspectWeaponProperty, value); }
         }
 
         public ICommand RemoveItem

@@ -23,13 +23,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
             public class QuestCondition
             {
-                [JsonConverter(typeof(JsonStringEnumConverter))]
-                [JsonPropertyName("_parent")]
-                public QuestConditionType Type { get; set; }
-
-                [JsonPropertyName("_props")]
-                public QuestConditionProps Props { get; set; }
-
                 public enum QuestConditionType
                 {
                     [EnumMember(Value = "Level")]
@@ -41,6 +34,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     [EnumMember(Value = "TraderLoyalty")]
                     TraderLoyalty
                 }
+
+                [JsonConverter(typeof(JsonStringEnumConverter))]
+                [JsonPropertyName("_parent")]
+                public QuestConditionType Type { get; set; }
+
+                [JsonPropertyName("_props")]
+                public QuestConditionProps Props { get; set; }
 
                 public class QuestConditionProps
                 {

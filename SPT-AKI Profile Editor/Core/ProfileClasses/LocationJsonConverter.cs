@@ -15,12 +15,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             if (reader.Value == null)
             {
-                JObject jo = JObject.Load(reader);
+                try
+                {
+                    JObject jo = JObject.Load(reader);
 
-                ItemLocation loc = new();
-                serializer.Populate(jo.CreateReader(), loc);
+                    ItemLocation loc = new();
+                    serializer.Populate(jo.CreateReader(), loc);
 
-                return loc;
+                    return loc;
+                }
+                catch
+                {
+                    return null;
+                }
             }
             else if (reader.TokenType == JsonToken.Integer)
                 return new ItemLocation { SimpleNumber = Convert.ToInt32(reader.Value) };

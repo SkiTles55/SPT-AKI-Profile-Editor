@@ -33,6 +33,16 @@ namespace SPT_AKI_Profile_Editor
             containerWindow.Show();
         }
 
+        public static void OpenWeaponBuildWindow(object obj, StashEditMode editMode)
+        {
+            if (obj == null || obj is not InventoryItem item)
+                return;
+            if (CheckForOpenedWindow(item.Id))
+                return;
+            WeaponBuildWindow weaponBuildWindow = new(item, editMode);
+            weaponBuildWindow.Show();
+        }
+
         public static bool CheckForOpenedWindow(string itemId)
         {
             foreach (Window window in Current.Windows)
@@ -49,7 +59,8 @@ namespace SPT_AKI_Profile_Editor
             // Skipping in nUnit tests
             if (Current == null)
                 return;
-            Current.Dispatcher.Invoke(() => {
+            Current.Dispatcher.Invoke(() =>
+            {
                 foreach (Window window in Current.Windows)
                     if (window is ItemViewWindow containerWindow && idsList.Contains(containerWindow.ItemId))
                         containerWindow.Close();
@@ -61,7 +72,8 @@ namespace SPT_AKI_Profile_Editor
             // Skipping in nUnit tests
             if (Current == null)
                 return;
-            Current.Dispatcher.Invoke(() => {
+            Current.Dispatcher.Invoke(() =>
+            {
                 foreach (Window window in Current.Windows)
                     if (window is ItemViewWindow containerWindow)
                         containerWindow.Close();

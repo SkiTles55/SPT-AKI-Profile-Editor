@@ -179,6 +179,18 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PMCStashContainsVerticalItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Location?.R == ItemRotation.Vertical));
 
         [Test]
+        public void PMCStashContainsContainers() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.IsContainer));
+
+        [Test]
+        public void PMCStashContainsWeapons() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.IsWeapon));
+
+        [Test]
+        public void ScavStashContainsContainers() => Assert.True(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.IsContainer));
+
+        [Test]
+        public void ScavStashContainsWeapons() => Assert.True(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.IsWeapon));
+
+        [Test]
         public void ProfileSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
@@ -432,7 +444,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Scabbard);
             Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmBand);
             Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Count());
-            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count() > 0);
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any());
         }
 
         [Test]
@@ -526,7 +538,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+                AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
             AppData.Profile.RemoveBuild(expected);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
@@ -540,10 +552,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+                AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
-            AppData.Profile.ExportBuild(expected.Key, testFile);
+            Profile.ExportBuild(expected.Value, testFile);
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(testFile));
             Assert.AreEqual(expected.Value.Name, weaponBuild.Name);
             Assert.AreEqual(expected.Value.Root, weaponBuild.Root);
@@ -557,13 +569,25 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
-            AppData.Profile.ImportBuild(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsImport.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.WeaponBuilds.ContainsKey("TestBuild"));
             Assert.AreEqual(2, AppData.Profile.WeaponBuilds.Where(x => x.Value.Name.StartsWith("Test")).Count());
+        }
+
+        [Test]
+        public void WeaponBuildCalculatingCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
+            Assert.NotNull(build);
+            Assert.AreEqual(48.5, build.Value.Ergonomics);
+            Assert.AreEqual(73, build.Value.RecoilForceUp);
+            Assert.AreEqual(186, build.Value.RecoilForceBack);
         }
 
         [Test]

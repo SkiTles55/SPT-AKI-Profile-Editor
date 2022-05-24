@@ -16,7 +16,29 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Name = name;
             Root = root;
             Items = items;
-            CalculateBuildProperties();
+            var buildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
+            if (!buildItems.Any())
+                return;
+            CalculateBuildProperties(buildItems);
+        }
+
+        public WeaponBuild(InventoryItem item, List<InventoryItem> items)
+        {
+            Id = item.Id;
+            Name = item.LocalizedName;
+            Root = item.Id;
+            foreach (var innerItem in items)
+            {
+                innerItem.Upd = null;
+                innerItem.Location = null;
+                if (innerItem.Id == item.Id)
+                {
+                    innerItem.ParentId = null;
+                    innerItem.SlotId = null;
+                }
+            }
+            Items = items.ToArray();
+            CalculateBuildProperties(items);
         }
 
         [JsonProperty("id")]
@@ -49,27 +71,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool HasModdedItems { get; set; }
 
-        private void CalculateBuildProperties()
+        private void CalculateBuildProperties(IEnumerable<InventoryItem> buildItems)
         {
-            List<InventoryItem> buildItems = new();
-            foreach (var obj in Items)
+            foreach (var item in buildItems)
             {
-                try
-                {
-                    var item = JsonConvert.DeserializeObject<InventoryItem>(obj.ToString());
-                    buildItems.Add(item);
-                    if (item.Id == Root)
-                        SetupWeaponProperties(item);
-                    else
-                        AddModProperties(item);
-                }
-                catch (Exception ex) { Logger.Log($"WeaponBuilds weapon item loading error: {ex.Message}"); }
+                if (item.Id == Root)
+                    SetupWeaponProperties(item);
+                else
+                    AddModProperties(item);
             }
             RecoilDelta /= 100f;
             RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
-            if (buildItems.Count == 0)
-                return;
             BuildItems = buildItems.Where(x => x.Id != Root);
             HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
             Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;

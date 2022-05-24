@@ -10,8 +10,8 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : BindableEntity
     {
+        public static readonly string configurationFile = Path.Combine(DefaultValues.AppDataFolder, "AppSettings.json");
         public readonly string repoAuthor = "SkiTles55";
-
         public readonly string repoName = "SPT-AKI-Profile-Editor";
 
         public readonly List<QuestStatus> standartQuestStatuses = new()
@@ -35,8 +35,6 @@ namespace SPT_AKI_Profile_Editor.Core
 
         [JsonIgnore]
         public bool Loaded = false;
-
-        public static readonly string configurationFile = Path.Combine(DefaultValues.AppDataFolder, "AppSettings.json");
 
         private string serverPath;
         private string defaultProfile;

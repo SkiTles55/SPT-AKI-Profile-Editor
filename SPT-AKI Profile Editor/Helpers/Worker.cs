@@ -10,13 +10,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
     public class Worker
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-        private readonly MainWindowViewModel _viewModel;
+        private readonly BindableViewModel _viewModel;
         private readonly List<WorkerTask> tasks;
         private readonly List<WorkerNotification> workerNotifications;
         private ProgressDialogController progressDialog;
         private bool isBusy = false;
 
-        public Worker(IDialogCoordinator dialogCoordinator, MainWindowViewModel viewModel)
+        public Worker(IDialogCoordinator dialogCoordinator, BindableViewModel viewModel)
         {
             tasks = new List<WorkerTask>();
             workerNotifications = new List<WorkerNotification>();

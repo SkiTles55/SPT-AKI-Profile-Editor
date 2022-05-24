@@ -44,7 +44,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="30" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" MinWidth="83" />
                 </Grid.ColumnDefinitions>
                 <Label
                     Grid.Row="0"
@@ -112,6 +112,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="0"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -183,6 +184,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="1"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.Headwear}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -254,6 +256,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="2"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -325,6 +328,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="3"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -396,6 +400,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="4"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -467,6 +472,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="5"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -538,6 +544,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="6"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -609,6 +616,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="7"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -680,6 +688,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="8"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -751,6 +760,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="9"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.Holster}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -822,6 +832,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="10"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -914,6 +925,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="12"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.Backpack}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
@@ -985,6 +997,7 @@
                 <extendedcontrols:ItemActions
                     Grid.Row="13"
                     Grid.Column="4"
+                    InspectWeapon="{Binding InspectWeapon}"
                     Item="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer}"
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"

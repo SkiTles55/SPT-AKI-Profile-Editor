@@ -197,7 +197,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             catch (Exception ex)
             {
-                ServerDatabase.Handbook = new ();
+                ServerDatabase.Handbook = new();
                 Logger.Log($"ServerDatabase Handbook ({path}) loading error: {ex.Message}");
             }
         }

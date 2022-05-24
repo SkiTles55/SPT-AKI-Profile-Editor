@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
 
-        public readonly static string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
+        public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 
         public static List<string> BannedItems => new()
         {
@@ -159,6 +159,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_no_slots"] = "Not enough free slots",
                     ["tab_stash_add"] = "Add",
                     ["tab_stash_open"] = "Open",
+                    ["tab_stash_inspect"] = "Inspect",
                     ["tab_stash_remove"] = "Remove all",
                     ["tab_stash_fir"] = "Item found in raid",
                     ["tab_stash_items_adding"] = "Adding items",
@@ -235,7 +236,9 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_pmc_level_issue_quest"] = "For quest {0} ({1}) requires PMC level {2}",
                     ["profile_issues_duplicate_items_id_issue"] = "{0} stash contains items with the same ID",
                     ["profile_issues_quest_status_issue_quest"] = "For quest {0} ({1}) requires quest {2} ({3}) with status {4}",
-                    ["profile_issues_trader_loyalty_issue_quest"] = "For quest {0} ({1}) requires merchant {2} with level {3}"
+                    ["profile_issues_trader_loyalty_issue_quest"] = "For quest {0} ({1}) requires merchant {2} with level {3}",
+                    ["weapon_build_window_export"] = "Export build",
+                    ["weapon_build_window_add"] = "Add to builds"
                 }
             },
             new AppLocalization
@@ -325,6 +328,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_no_slots"] = "Недостаточно свободных слотов",
                     ["tab_stash_add"] = "Добавить",
                     ["tab_stash_open"] = "Открыть",
+                    ["tab_stash_inspect"] = "Осмотреть",
                     ["tab_stash_remove"] = "Удалить все",
                     ["tab_stash_fir"] = "Предмет найденный в рейде",
                     ["tab_stash_items_adding"] = "Добавление предметов",
@@ -401,7 +405,9 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_pmc_level_issue_quest"] = "Для квеста {0} ({1}) требуется ЧВК уровня {2}",
                     ["profile_issues_duplicate_items_id_issue"] = "Схрон {0} содержит предметы с одинаковыми ID",
                     ["profile_issues_quest_status_issue_quest"] = "Для квеста {0} ({1}) требуется квест {2} ({3}) со статусом {4}",
-                    ["profile_issues_trader_loyalty_issue_quest"] = "Для квеста {0} ({1}) требуется торговец {2} со уровнем {3}"
+                    ["profile_issues_trader_loyalty_issue_quest"] = "Для квеста {0} ({1}) требуется торговец {2} со уровнем {3}",
+                    ["weapon_build_window_export"] = "Экспорт сборки",
+                    ["weapon_build_window_add"] = "Добавить в сборки"
                 }
             }
         };

@@ -150,6 +150,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveAllItems() => FinalRemoveItems(InventoryItems.Select(x => x.Id));
 
+        public List<InventoryItem> GetInnerItems(string itemId, List<string> skippedSlots = null)
+        {
+            List<InventoryItem> items = new();
+            foreach (var item in Items?.Where(x => x.ParentId == itemId))
+            {
+                if (skippedSlots != null && skippedSlots.Count > 0 && skippedSlots.Contains(item.SlotId))
+                    continue;
+                items.Add(item);
+                items.AddRange(GetInnerItems(item.Id, skippedSlots));
+            }
+            return items;
+        }
+
         public void AddNewItems(string tpl, int count, bool fir)
         {
             var mItem = AppData.ServerDatabase.ItemsDB[tpl];
@@ -203,6 +216,27 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
             return Stash2D;
+        }
+
+        public void RemoveAllEquipment()
+        {
+            FinalRemoveItems(new List<string>
+            {
+                FirstPrimaryWeapon?.Id,
+                Headwear?.Id,
+                TacticalVest?.Id,
+                SecuredContainer?.Id,
+                Backpack?.Id,
+                Earpiece?.Id,
+                FaceCover?.Id,
+                Eyewear?.Id,
+                ArmorVest?.Id,
+                SecondPrimaryWeapon?.Id,
+                Holster?.Id,
+                Scabbard?.Id,
+                ArmBand?.Id
+            });
+            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
         }
 
         private static List<ItemLocation> GetFreeSlots(int[,] Stash)
@@ -388,26 +422,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             .Where(x => x.Tpl == moneys)
             .Sum(x => x.Upd.StackObjectsCount ?? 0) ?? 0)
             .ToString("N0");
-
-        public void RemoveAllEquipment()
-        {
-            FinalRemoveItems(new List<string>
-            {
-                FirstPrimaryWeapon?.Id,
-                Headwear?.Id,
-                TacticalVest?.Id,
-                SecuredContainer?.Id,
-                Backpack?.Id,
-                Earpiece?.Id,
-                FaceCover?.Id,
-                Eyewear?.Id,
-                ArmorVest?.Id,
-                SecondPrimaryWeapon?.Id,
-                Holster?.Id,
-                Scabbard?.Id,
-                ArmBand?.Id
-            });
-            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
-        }
     }
 }

@@ -66,6 +66,22 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public int ProfileHash => profileHash;
 
+        public static void ExportBuild(WeaponBuild weaponBuild, string path)
+        {
+            try
+            {
+                JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
+                JsonSerializer serializer = JsonSerializer.Create(seriSettings);
+                var build = ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(weaponBuild, serializer));
+                File.WriteAllText(path, JsonConvert.SerializeObject(build, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"WeaponBuild export error: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
+
         public void Load(string path)
         {
             string fileText = File.ReadAllText(path);
@@ -177,9 +193,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void RemoveBuild(string key)
         {
             if (WeaponBuilds.Remove(key))
-            {
                 WeaponBuildsChanged();
-            }
         }
 
         public void RemoveBuilds()
@@ -188,38 +202,34 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WeaponBuildsChanged();
         }
 
-        public void ExportBuild(string key, string path)
-        {
-            WeaponBuild weaponBuild = WeaponBuilds[key];
-            File.WriteAllText(path, JsonConvert.SerializeObject(weaponBuild, Formatting.Indented));
-        }
-
-        public void ImportBuild(string path)
+        public void ImportBuildFromFile(string path)
         {
             try
             {
                 WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(path));
-                if (weaponBuild.Name != null)
-                {
-                    if (WeaponBuilds == null)
-                        WeaponBuilds = new();
-                    int count = 0;
-                    string tempFileName = weaponBuild.Name;
-                    while (WeaponBuilds.ContainsKey(tempFileName))
-                        tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
-                    weaponBuild.Name = tempFileName;
-                    weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id));
-                    WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
-                    WeaponBuildsChanged();
-                }
-                else
+                if (weaponBuild.Name == null)
                     throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_wrong_file") + ":" + Environment.NewLine + path);
+                ImportBuild(weaponBuild);
             }
             catch (Exception ex)
             {
                 Logger.Log($"WeaponBuild import error: {ex.Message}");
                 throw new Exception(ex.Message);
             }
+        }
+
+        public void ImportBuild(WeaponBuild weaponBuild)
+        {
+            if (WeaponBuilds == null)
+                WeaponBuilds = new();
+            int count = 1;
+            string tempFileName = weaponBuild.Name;
+            while (WeaponBuilds.ContainsKey(tempFileName))
+                tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
+            weaponBuild.Name = tempFileName;
+            weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id));
+            WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
+            WeaponBuildsChanged();
         }
 
         public void Save(string targetPath, string savePath = null)
@@ -264,7 +274,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             WriteStash(pmc, Characters.Pmc.Inventory);
             WriteStash(scav, Characters.Scav.Inventory);
-            jobject.SelectToken("weaponbuilds").Replace(JToken.FromObject(WeaponBuilds));
+            jobject.SelectToken("weaponbuilds").Replace(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(WeaponBuilds)));
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 

@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Classes;
+﻿using MahApps.Metro.Controls.Dialogs;
+using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
@@ -12,14 +13,19 @@ namespace SPT_AKI_Profile_Editor
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
 
-        public ContainerWindowViewModel(InventoryItem item, StashEditMode editMode)
+        public ContainerWindowViewModel(InventoryItem item, StashEditMode editMode, IDialogCoordinator dialogCoordinator)
         {
+            Worker = new Worker(dialogCoordinator, this);
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
         }
 
+        public Worker Worker { get; }
+
         public RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, _editMode));
+
+        public RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, _editMode));
 
         public string WindowTitle { get; }
 
@@ -42,6 +48,7 @@ namespace SPT_AKI_Profile_Editor
                     case StashEditMode.Scav:
                         Profile.Characters.Scav.Inventory.RemoveItems(new() { obj.ToString() });
                         break;
+
                     case StashEditMode.PMC:
                         Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
                         break;
@@ -54,14 +61,16 @@ namespace SPT_AKI_Profile_Editor
         {
             if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
             {
-                App.Worker.AddAction(new WorkerTask
+                Worker.AddAction(new WorkerTask
                 {
-                    Action = () => {
+                    Action = () =>
+                    {
                         switch (_editMode)
                         {
                             case StashEditMode.Scav:
                                 Profile.Characters.Scav.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
                                 break;
+
                             case StashEditMode.PMC:
                                 Profile.Characters.Pmc.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
                                 break;

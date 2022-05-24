@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Classes;
+﻿using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
@@ -17,15 +16,17 @@ namespace SPT_AKI_Profile_Editor.Views
                   return;
               if (obj is not WeaponBuild build)
                   return;
-              SaveFileDialog saveFileDialog = new();
-              saveFileDialog.Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*";
-              saveFileDialog.FileName = $"Weapon preset {build.Name}";
-              saveFileDialog.RestoreDirectory = true;
+              SaveFileDialog saveFileDialog = new()
+              {
+                  Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
+                  FileName = $"Weapon preset {build.Name}",
+                  RestoreDirectory = true
+              };
               if (saveFileDialog.ShowDialog() == DialogResult.OK)
               {
                   App.Worker.AddAction(new WorkerTask
                   {
-                      Action = () => { Profile.ExportBuild(build.Name, saveFileDialog.FileName); },
+                      Action = () => { Profile.ExportBuild(build, saveFileDialog.FileName); },
                       Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                       Description = AppLocalization.GetLocalizedString("tab_presets_export")
                   });
@@ -34,16 +35,18 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static RelayCommand ExportBuilds => new(obj =>
           {
-              FolderBrowserDialog folderBrowserDialog = new();
-              folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
-              folderBrowserDialog.ShowNewFolderButton = true;
+              FolderBrowserDialog folderBrowserDialog = new()
+              {
+                  RootFolder = Environment.SpecialFolder.MyComputer,
+                  ShowNewFolderButton = true
+              };
               if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
               {
                   foreach (var build in Profile.WeaponBuilds)
                   {
                       App.Worker.AddAction(new WorkerTask
                       {
-                          Action = () => { Profile.ExportBuild(build.Key, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")); },
+                          Action = () => { Profile.ExportBuild(build.Value, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")); },
                           Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                           Description = AppLocalization.GetLocalizedString("tab_presets_export")
                       });
@@ -53,10 +56,12 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static RelayCommand ImportBuilds => new(obj =>
           {
-              OpenFileDialog openFileDialog = new();
-              openFileDialog.Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*";
-              openFileDialog.RestoreDirectory = true;
-              openFileDialog.Multiselect = true;
+              OpenFileDialog openFileDialog = new()
+              {
+                  Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
+                  RestoreDirectory = true,
+                  Multiselect = true
+              };
 
               if (openFileDialog.ShowDialog() == DialogResult.OK)
               {
@@ -64,7 +69,7 @@ namespace SPT_AKI_Profile_Editor.Views
                   {
                       App.Worker.AddAction(new WorkerTask
                       {
-                          Action = () => { Profile.ImportBuild(file); },
+                          Action = () => { Profile.ImportBuildFromFile(file); },
                           Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                           Description = AppLocalization.GetLocalizedString("tab_presets_import")
                       });
