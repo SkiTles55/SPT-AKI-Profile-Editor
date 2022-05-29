@@ -514,6 +514,27 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void AddingItemsToContainerSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            var sickId = "5c0a840b86f7742ffa4f2482";
+            var sickCases = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == sickId).Select(x => x.Id);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(sickId, 1, true);
+            var newItems = AppData.ServerDatabase.ItemsDB.Where(x => x.Value?.Properties?.Width > 2).Take(3).Select(x => x.Value);
+            var tempSick = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == sickId).LastOrDefault();
+            foreach (var newItem in newItems)
+                AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(tempSick, newItem, 1, true, "main");
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingItems.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            var addedSick = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == sickId).LastOrDefault();
+            Assert.NotNull(addedSick);
+            Assert.False(sickCases.Contains(addedSick.Id));
+            var addedItemsToSick = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.ParentId == addedSick.Id);
+            Assert.AreEqual(3, addedItemsToSick.Count());
+        }
+
+        [Test]
         public void StashAddingMoneysSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
