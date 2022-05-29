@@ -57,5 +57,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
             return slots;
         }
+
+        public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
     }
 }

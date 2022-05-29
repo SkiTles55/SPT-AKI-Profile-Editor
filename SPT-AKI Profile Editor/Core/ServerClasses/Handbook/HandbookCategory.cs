@@ -143,5 +143,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 }
             }
         }
+
+        public static HandbookCategory CopyFrom(HandbookCategory category)
+        {
+            HandbookCategory copy = new(category.Id, category.ParentId)
+            {
+                LocalizedName = category.LocalizedName,
+                IsExpanded = false,
+                categories = new ObservableCollection<HandbookCategory>(category.Categories.Select(x => CopyFrom(x))),
+                items = new ObservableCollection<TarkovItem>(category.Items.Select(x => TarkovItem.CopyFrom(x)))
+            };
+            return copy;
+        }
     }
 }
