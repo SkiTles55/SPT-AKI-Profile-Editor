@@ -5,7 +5,6 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -15,6 +14,7 @@ namespace SPT_AKI_Profile_Editor
     {
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
+        private ObservableCollection<HandbookCategory> categoriesForItemsAdding;
 
         public ContainerWindowViewModel(InventoryItem item, StashEditMode editMode, IDialogCoordinator dialogCoordinator)
         {
@@ -42,8 +42,22 @@ namespace SPT_AKI_Profile_Editor
 
         public bool ItemsAddingAllowed => _item.CanAddItems;
 
-        public IEnumerable<HandbookCategory> CategoriesForItemsAdding => AppData.ServerDatabase.Handbook.Categories
-                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden).Select(x => HandbookCategory.CopyFrom(x));
+        public ObservableCollection<HandbookCategory> CategoriesForItemsAdding
+        {
+            get
+            {
+                if (categoriesForItemsAdding == null)
+                    categoriesForItemsAdding = new ObservableCollection<HandbookCategory>(AppData.ServerDatabase.Handbook.Categories
+                        .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)
+                        .Select(x => HandbookCategory.CopyFrom(x)));
+                return categoriesForItemsAdding;
+            }
+            set
+            {
+                categoriesForItemsAdding = value;
+                OnPropertyChanged("CategoriesForItemsAdding");
+            }
+        }
 
         public RelayCommand RemoveItem => new(async obj =>
         {
