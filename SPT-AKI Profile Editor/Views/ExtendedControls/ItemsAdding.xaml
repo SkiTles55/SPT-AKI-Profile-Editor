@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -41,9 +42,12 @@
                 ItemContainerStyle="{StaticResource NoHoverListBox}"
                 ItemsSource="{Binding Source={StaticResource items}}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.Resources>
+                    <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </ListBox.Resources>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <local:HandbookCategoryView />
+                        <local:HandbookCategoryView AddItemCommand="{Binding Data.AddItem, Source={StaticResource proxy}}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

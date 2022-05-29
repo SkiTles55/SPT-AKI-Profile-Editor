@@ -1,8 +1,11 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Classes;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -36,6 +39,9 @@ namespace SPT_AKI_Profile_Editor
         };
 
         public bool HasItems => Items.Count > 0;
+
+        public IEnumerable<HandbookCategory> CategoriesForItemsAdding => AppData.ServerDatabase.Handbook.Categories
+                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden).Select(x => HandbookCategory.CopyFrom(x));
 
         public RelayCommand RemoveItem => new(async obj =>
         {
@@ -81,6 +87,29 @@ namespace SPT_AKI_Profile_Editor
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
             }
+        });
+
+        public RelayCommand AddItem => new(obj =>
+        {
+            if (obj == null || obj is not TarkovItem item)
+                return;
+            Worker.AddAction(new WorkerTask
+            {
+                Action = () =>
+                {
+                    switch (_editMode)
+                    {
+                        case StashEditMode.Scav:
+                            Profile.Characters.Scav.Inventory.AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
+                            break;
+
+                        case StashEditMode.PMC:
+                            Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
+                            break;
+                    }
+                    OnPropertyChanged("");
+                }
+            });
         });
     }
 }

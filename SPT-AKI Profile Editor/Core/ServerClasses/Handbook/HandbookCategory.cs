@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Classes;
-using SPT_AKI_Profile_Editor.Helpers;
+﻿using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -22,16 +21,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             ParentId = parentId;
             LocalizedName = AppData.ServerDatabase.LocalesGlobal.Handbook.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Handbook[Id] : Id;
         }
-
-        public static RelayCommand AddItem => new(obj =>
-        {
-            if (obj == null || obj is not TarkovItem item)
-                return;
-            App.Worker.AddAction(new WorkerTask
-            {
-                Action = () => { AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir); }
-            });
-        });
 
         [JsonPropertyName("Id")]
         public string Id { get; set; }

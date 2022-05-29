@@ -9,6 +9,7 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:serverclasses="clr-namespace:SPT_AKI_Profile_Editor.Core.ServerClasses"
+    x:Name="Control"
     d:DataContext="{d:DesignInstance Type=serverclasses:HandbookCategory}"
     mc:Ignorable="d">
     <Expander
@@ -32,9 +33,12 @@
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 VirtualizingPanel.IsContainerVirtualizable="true"
                 VirtualizingPanel.IsVirtualizing="True">
+                <ListBox.Resources>
+                    <helpers:BindingProxy x:Key="proxy" Data="{Binding ElementName=Control}" />
+                </ListBox.Resources>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <extendedcontrols:HandbookCategoryView />
+                        <extendedcontrols:HandbookCategoryView AddItemCommand="{Binding Data.AddItemCommand, Source={StaticResource proxy}}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -91,7 +95,7 @@
                                         TextChanged="TextBox_TextChanged" />
                                     <Button
                                         Margin="5"
-                                        Command="{Binding Data.AddItem, Source={StaticResource proxy}}"
+                                        Command="{Binding ElementName=Control, Path=AddItemCommand}"
                                         CommandParameter="{Binding}"
                                         Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}">
                                         <Button.ContentTemplate>

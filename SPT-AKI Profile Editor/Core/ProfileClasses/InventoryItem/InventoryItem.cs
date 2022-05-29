@@ -47,6 +47,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool IsContainer => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
 
         [JsonIgnore]
+        public bool CanAddItems => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length == 1;
+
+        [JsonIgnore]
         public bool IsWeapon => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
 
         public static InventoryItem CopyFrom(InventoryItem item)

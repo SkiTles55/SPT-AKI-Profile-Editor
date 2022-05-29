@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -49,6 +50,16 @@ namespace SPT_AKI_Profile_Editor.Views
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
             }
+        });
+
+        public static RelayCommand AddItem => new(obj =>
+        {
+            if (obj == null || obj is not TarkovItem item)
+                return;
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = () => { Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir); }
+            });
         });
 
         public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj));
