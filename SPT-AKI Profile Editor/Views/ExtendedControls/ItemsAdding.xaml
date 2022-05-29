@@ -7,19 +7,18 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    x:Name="Control"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="items" Source="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}" />
+        <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=CategoriesForItemsAdding}" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
-        <DockPanel Grid.Row="1">
+        <DockPanel Grid.Row="0">
             <Label
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -30,11 +29,11 @@
                 VerticalAlignment="Center"
                 mah:TextBoxHelper.ClearTextButton="True"
                 DockPanel.Dock="Right"
-                Text="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged}"
                 TextChanged="FilterBoxAdding_TextChanged" />
         </DockPanel>
         <ScrollViewer
-            Grid.Row="2"
+            Grid.Row="1"
             CanContentScroll="True"
             PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
             <ListBox

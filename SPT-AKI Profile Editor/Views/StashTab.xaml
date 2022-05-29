@@ -16,7 +16,17 @@
             <extendedcontrols:Inventory />
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
-            <extendedcontrols:ItemsAdding />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
+                <extendedcontrols:ItemsAdding
+                    Grid.Row="1"
+                    CategoriesForItemsAdding="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}"
+                    FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_pmc_equipment]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:Equipment InventoryEquipment="{Binding Profile.Characters.Pmc.Inventory}" />
