@@ -291,7 +291,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public int[,] GetSlotsMap(InventoryItem container)
         {
             int[,] Stash2D = CreateContainerStash2D(container);
-            foreach (var item in InventoryItems)
+            foreach (var item in Items?.Where(x => x.ParentId == container.Id))
             {
                 (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
                 int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
