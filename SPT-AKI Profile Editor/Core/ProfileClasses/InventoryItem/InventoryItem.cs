@@ -51,13 +51,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public static InventoryItem CopyFrom(InventoryItem item)
         {
-            InventoryItem copy = new();
-            copy.Id = item.Id;
-            copy.Tpl = item.Tpl;
-            copy.SlotId = item.SlotId;
-            copy.Location = item.Location;
-            copy.ParentId = item.ParentId;
-            copy.Upd = item.Upd;
+            InventoryItem copy = new()
+            {
+                Id = item.Id,
+                Tpl = item.Tpl,
+                SlotId = item.SlotId,
+                Location = item.Location,
+                ParentId = item.ParentId,
+                Upd = item.Upd
+            };
             return copy;
         }
     }

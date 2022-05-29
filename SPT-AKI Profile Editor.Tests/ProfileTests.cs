@@ -475,7 +475,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void Stash2DMapCalculatingCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            var stash2d = AppData.Profile.Characters.Pmc.Inventory.GetPlayerStashSlotMap();
+            InventoryItem ProfileStash = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Id == AppData.Profile.Characters.Pmc.Inventory.Stash).FirstOrDefault();
+            var stash2d = AppData.Profile.Characters.Pmc.Inventory.GetSlotsMap(ProfileStash);
             Assert.AreNotEqual(new int[0, 0], stash2d);
             Assert.IsFalse(stash2d.Cast<int>().All(x => x == 0));
         }
@@ -493,8 +494,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             var item2 = largestItems[1];
             Assert.IsNotNull(item1);
             Assert.IsNotNull(item2);
-            AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item2.Key, 2, true);
-            AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item1.Key, 1, false);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item2.Key, 2, true);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item1.Key, 1, false);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
@@ -519,7 +520,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var startValue = AppData.Profile.Characters.Pmc.Inventory.Items
                 .Where(x => x.Tpl == AppData.AppSettings.MoneysRublesTpl)
                 .Sum(x => x.Upd.StackObjectsCount ?? 0);
-            AppData.Profile.Characters.Pmc.Inventory.AddNewItems(AppData.AppSettings.MoneysRublesTpl, 2000000, false);
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(AppData.AppSettings.MoneysRublesTpl, 2000000, false);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingMoneys.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);

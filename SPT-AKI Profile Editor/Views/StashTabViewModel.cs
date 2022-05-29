@@ -72,7 +72,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     return;
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(tpl, result.Item1, result.Item2); }
+                    Action = () => { Profile.Characters.Pmc.Inventory.AddNewItemsToStash(tpl, result.Item1, result.Item2); }
                 });
             });
             RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));

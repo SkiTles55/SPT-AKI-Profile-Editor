@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 return;
             App.Worker.AddAction(new WorkerTask
             {
-                Action = () => { AppData.Profile.Characters.Pmc.Inventory.AddNewItems(item.Id, item.AddingQuantity, item.AddingFir); }
+                Action = () => { AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir); }
             });
         });
 

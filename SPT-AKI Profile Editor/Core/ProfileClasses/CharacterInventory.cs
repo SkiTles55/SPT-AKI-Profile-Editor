@@ -163,17 +163,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return items;
         }
 
-        public void AddNewItems(string tpl, int count, bool fir)
+        public void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, int count, bool fir, string slotId)
         {
-            var mItem = AppData.ServerDatabase.ItemsDB[tpl];
-            int[,] Stash = GetPlayerStashSlotMap();
+            int[,] Stash = GetSlotsMap(container);
             List<string> iDs = Items.Select(x => x.Id).ToList();
-            List<InventoryItem> items = Items.ToList();
-            int stacks = count / mItem.Properties.StackMaxSize;
-            if (mItem.Properties.StackMaxSize * stacks < count) stacks++;
-            List<ItemLocation> NewItemsLocations = GetItemLocations(mItem, Stash, stacks);
+            int stacks = count / tarkovItem.Properties.StackMaxSize;
+            if (tarkovItem.Properties.StackMaxSize * stacks < count) stacks++;
+            List<ItemLocation> NewItemsLocations = GetItemLocations(tarkovItem, Stash, stacks);
             if (NewItemsLocations == null)
                 throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            List<InventoryItem> items = Items.ToList();
             for (int i = 0; i < NewItemsLocations.Count; i++)
             {
                 if (count <= 0) break;
@@ -182,40 +181,23 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 var newItem = new InventoryItem
                 {
                     Id = id,
-                    ParentId = this.Stash,
-                    SlotId = "hideout",
-                    Tpl = mItem.Id,
+                    ParentId = container.Id,
+                    SlotId = slotId,
+                    Tpl = tarkovItem.Id,
                     Location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true },
-                    Upd = new ItemUpd { StackObjectsCount = count > mItem.Properties.StackMaxSize ? mItem.Properties.StackMaxSize : count, SpawnedInSession = fir }
+                    Upd = new ItemUpd { StackObjectsCount = count > tarkovItem.Properties.StackMaxSize ? tarkovItem.Properties.StackMaxSize : count, SpawnedInSession = fir }
                 };
                 items.Add(newItem);
-                count -= mItem.Properties.StackMaxSize;
+                count -= tarkovItem.Properties.StackMaxSize;
             }
             Items = items.ToArray();
         }
 
-        public int[,] GetPlayerStashSlotMap()
+        public void AddNewItemsToStash(string tpl, int count, bool fir)
         {
-            int[,] Stash2D = CreateStash2D();
-            foreach (var item in InventoryItems)
-            {
-                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
-                int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
-                int rotatedWidth = item.Location.R == ItemRotation.Vertical ? itemHeight : itemWidth;
-                for (int y = 0; y < rotatedHeight; y++)
-                {
-                    try
-                    {
-                        for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
-                            Stash2D[item.Location.Y + y, z] = 1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Log($"Failed to insert item with id {item.Id} to Stash2D: {ex.Message}");
-                    }
-                }
-            }
-            return Stash2D;
+            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            var mItem = AppData.ServerDatabase.ItemsDB[tpl];
+            AddNewItemsToContainer(ProfileStash, mItem, count, fir, "hideout");
         }
 
         public void RemoveAllEquipment()
@@ -239,34 +221,24 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             FinalRemoveItems(PocketsItems?.Select(x => x.Id));
         }
 
-        private static List<ItemLocation> GetFreeSlots(int[,] Stash)
+        private static List<ItemLocation> GetItemLocations(TarkovItem tarkovItem, int[,] stash, int stacks)
         {
-            List<ItemLocation> locations = new();
-            for (int y = 0; y < Stash.GetLength(0); y++)
-                for (int x = 0; x < Stash.GetLength(1); x++)
-                    if (Stash[y, x] == 0)
-                        locations.Add(new ItemLocation { X = x, Y = y, R = ItemRotation.Horizontal });
-            return locations;
-        }
-
-        private static List<ItemLocation> GetItemLocations(TarkovItem mItem, int[,] Stash, int stacks)
-        {
-            List<ItemLocation> freeSlots = GetFreeSlots(Stash);
-            if (freeSlots.Count < mItem.Properties.Width * mItem.Properties.Height * stacks)
+            List<ItemLocation> freeSlots = GetFreeSlots(stash);
+            if (freeSlots.Count < tarkovItem.Properties.Width * tarkovItem.Properties.Height * stacks)
                 return null;
             List<ItemLocation> NewItemsLocations = new();
             foreach (var slot in freeSlots)
             {
-                if (mItem.Properties.Width == 1 && mItem.Properties.Height == 1)
+                if (tarkovItem.Properties.Width == 1 && tarkovItem.Properties.Height == 1)
                     NewItemsLocations.Add(slot);
                 else
                 {
-                    ItemLocation itemLocation = GetItemLocation(mItem.Properties.Height, mItem.Properties.Width, Stash, slot);
+                    ItemLocation itemLocation = GetItemLocation(tarkovItem.Properties.Height, tarkovItem.Properties.Width, stash, slot);
                     if (itemLocation != null)
                         NewItemsLocations.Add(itemLocation);
                     if (NewItemsLocations.Count == stacks)
                         return NewItemsLocations;
-                    itemLocation = GetItemLocation(mItem.Properties.Width, mItem.Properties.Height, Stash, slot);
+                    itemLocation = GetItemLocation(tarkovItem.Properties.Width, tarkovItem.Properties.Height, stash, slot);
                     if (itemLocation != null)
                     {
                         itemLocation.R = ItemRotation.Vertical;
@@ -277,6 +249,22 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     return NewItemsLocations;
             }
             return null;
+        }
+
+        private static int[,] CreateContainerStash2D(InventoryItem container)
+        {
+            Grid stashTPL = AppData.ServerDatabase.ItemsDB[container.Tpl].Properties.Grids.FirstOrDefault();
+            return new int[stashTPL?.Props?.CellsV ?? 0, stashTPL?.Props?.CellsH ?? 0];
+        }
+
+        private static List<ItemLocation> GetFreeSlots(int[,] Stash)
+        {
+            List<ItemLocation> locations = new();
+            for (int y = 0; y < Stash.GetLength(0); y++)
+                for (int x = 0; x < Stash.GetLength(1); x++)
+                    if (Stash[y, x] == 0)
+                        locations.Add(new ItemLocation { X = x, Y = y, R = ItemRotation.Horizontal });
+            return locations;
         }
 
         private static ItemLocation GetItemLocation(int Width, int Height, int[,] Stash, ItemLocation slot)
@@ -298,6 +286,30 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return new ItemLocation { X = slot.X, Y = slot.Y };
             }
             return null;
+        }
+
+        public int[,] GetSlotsMap(InventoryItem container)
+        {
+            int[,] Stash2D = CreateContainerStash2D(container);
+            foreach (var item in InventoryItems)
+            {
+                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
+                int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
+                int rotatedWidth = item.Location.R == ItemRotation.Vertical ? itemHeight : itemWidth;
+                for (int y = 0; y < rotatedHeight; y++)
+                {
+                    try
+                    {
+                        for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
+                            Stash2D[item.Location.Y + y, z] = 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log($"Failed to insert item with id {item.Id} to Stash2D: {ex.Message}");
+                    }
+                }
+            }
+            return Stash2D;
         }
 
         private InventoryItem GetEquipment(string slotId)
@@ -338,15 +350,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     completedList.RemoveAt(0);
             }
             Items = ItemsList.ToArray();
-        }
-
-        private int[,] CreateStash2D()
-        {
-            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
-            Grid stashTPL = AppData.ServerDatabase.ItemsDB[ProfileStash.Tpl].Properties.Grids.First();
-            int stashX = stashTPL.Props.CellsH == 0 ? 10 : stashTPL.Props.CellsH;
-            int stashY = stashTPL.Props.CellsV == 0 ? 66 : stashTPL.Props.CellsV;
-            return new int[stashY, stashX];
         }
 
         private (int iW, int iH) GetSizeOfInventoryItem(InventoryItem inventoryItem)
