@@ -40,6 +40,8 @@ namespace SPT_AKI_Profile_Editor
 
         public bool HasItems => Items.Count > 0;
 
+        public bool ItemsAddingAllowed => _item.CanAddItems;
+
         public IEnumerable<HandbookCategory> CategoriesForItemsAdding => AppData.ServerDatabase.Handbook.Categories
                     .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden).Select(x => HandbookCategory.CopyFrom(x));
 
