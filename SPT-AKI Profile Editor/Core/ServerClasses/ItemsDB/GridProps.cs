@@ -9,5 +9,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonPropertyName("cellsV")]
         public int CellsV { get; set; }
+
+        [JsonPropertyName("filters")]
+        public Filters[] Filters { get; set; }
     }
 }

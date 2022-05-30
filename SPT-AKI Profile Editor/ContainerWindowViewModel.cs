@@ -40,16 +40,17 @@ namespace SPT_AKI_Profile_Editor
 
         public bool HasItems => Items.Count > 0;
 
-        public bool ItemsAddingAllowed => _item.CanAddItems;
+        public bool ItemsAddingAllowed => _item.CanAddItems && CategoriesForItemsAdding.Count > 0;
 
         public ObservableCollection<HandbookCategory> CategoriesForItemsAdding
         {
             get
             {
                 if (categoriesForItemsAdding == null)
-                    categoriesForItemsAdding = new ObservableCollection<HandbookCategory>(AppData.ServerDatabase.Handbook.Categories
+                    categoriesForItemsAdding = new ObservableCollection<HandbookCategory>(ServerDatabase.Handbook.Categories
                         .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)
-                        .Select(x => HandbookCategory.CopyFrom(x)));
+                        .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x)))
+                        .Where(x => x.IsNotHidden));
                 return categoriesForItemsAdding;
             }
             set
@@ -127,5 +128,15 @@ namespace SPT_AKI_Profile_Editor
                 }
             });
         });
+
+        private HandbookCategory FilterForConatiner(HandbookCategory category)
+        {
+            if (ServerDatabase.ItemsDB.ContainsKey(_item.Tpl))
+            {
+                category.Items = new ObservableCollection<TarkovItem>(category.Items.Where(x => x.CanBeAddedToContainer(ServerDatabase.ItemsDB[_item.Tpl])));
+                category.Categories = new ObservableCollection<HandbookCategory>(category.Categories.Select(x => FilterForConatiner(x)).Where(x => x.IsNotHidden));
+            }
+            return category;
+        }
     }
 }
