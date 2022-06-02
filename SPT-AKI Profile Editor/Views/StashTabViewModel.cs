@@ -18,13 +18,23 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
 
-        public RelayCommand RemoveItem => new(async obj =>
+        public static RelayCommand AddItem => new(obj =>
         {
-            if (obj == null)
+            if (obj == null || obj is not TarkovItem item)
                 return;
-            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir)
+            });
         });
+
+        public RelayCommand RemoveItem => new(async obj =>
+                {
+                    if (obj == null)
+                        return;
+                    if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+                        Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
+                });
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
@@ -50,16 +60,6 @@ namespace SPT_AKI_Profile_Editor.Views
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
             }
-        });
-
-        public static RelayCommand AddItem => new(obj =>
-        {
-            if (obj == null || obj is not TarkovItem item)
-                return;
-            App.Worker.AddAction(new WorkerTask
-            {
-                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir)
-            });
         });
 
         public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj));

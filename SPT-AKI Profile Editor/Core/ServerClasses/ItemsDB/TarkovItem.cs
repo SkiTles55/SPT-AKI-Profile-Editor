@@ -48,6 +48,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonIgnore]
         public int SlotsCount { get; }
 
+        public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
+
         public bool CanBeAddedToContainer(TarkovItem container)
         {
             var filters = container.Properties?.Grids?.FirstOrDefault().Props?.Filters;
@@ -75,7 +77,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
             return slots;
         }
-
-        public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
     }
 }

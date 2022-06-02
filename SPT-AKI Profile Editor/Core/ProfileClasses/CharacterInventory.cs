@@ -221,6 +221,30 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             FinalRemoveItems(PocketsItems?.Select(x => x.Id));
         }
 
+        public int[,] GetSlotsMap(InventoryItem container)
+        {
+            int[,] Stash2D = CreateContainerStash2D(container);
+            foreach (var item in Items?.Where(x => x.ParentId == container.Id))
+            {
+                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
+                int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
+                int rotatedWidth = item.Location.R == ItemRotation.Vertical ? itemHeight : itemWidth;
+                for (int y = 0; y < rotatedHeight; y++)
+                {
+                    try
+                    {
+                        for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
+                            Stash2D[item.Location.Y + y, z] = 1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log($"Failed to insert item with id {item.Id} to Stash2D: {ex.Message}");
+                    }
+                }
+            }
+            return Stash2D;
+        }
+
         private static List<ItemLocation> GetItemLocations(TarkovItem tarkovItem, int[,] stash, int stacks)
         {
             List<ItemLocation> freeSlots = GetFreeSlots(stash);
@@ -286,30 +310,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return new ItemLocation { X = slot.X, Y = slot.Y };
             }
             return null;
-        }
-
-        public int[,] GetSlotsMap(InventoryItem container)
-        {
-            int[,] Stash2D = CreateContainerStash2D(container);
-            foreach (var item in Items?.Where(x => x.ParentId == container.Id))
-            {
-                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
-                int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
-                int rotatedWidth = item.Location.R == ItemRotation.Vertical ? itemHeight : itemWidth;
-                for (int y = 0; y < rotatedHeight; y++)
-                {
-                    try
-                    {
-                        for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
-                            Stash2D[item.Location.Y + y, z] = 1;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Log($"Failed to insert item with id {item.Id} to Stash2D: {ex.Message}");
-                    }
-                }
-            }
-            return Stash2D;
         }
 
         private InventoryItem GetEquipment(string slotId)

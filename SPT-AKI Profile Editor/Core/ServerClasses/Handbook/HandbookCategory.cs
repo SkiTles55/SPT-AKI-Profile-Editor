@@ -88,6 +88,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonIgnore]
         public bool IsNotHidden => Items.Count > 0 || Categories.Count > 0;
 
+        public static HandbookCategory CopyFrom(HandbookCategory category) => new(category.Id, category.ParentId)
+        {
+            LocalizedName = category.LocalizedName,
+            IsExpanded = false,
+            categories = new ObservableCollection<HandbookCategory>(category.Categories.Select(x => CopyFrom(x))),
+            items = new ObservableCollection<TarkovItem>(category.Items.Select(x => TarkovItem.CopyFrom(x)))
+        };
+
         public bool ApplyFilter(string text)
         {
             bool categories = false;
@@ -132,13 +140,5 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 }
             }
         }
-
-        public static HandbookCategory CopyFrom(HandbookCategory category) => new(category.Id, category.ParentId)
-        {
-            LocalizedName = category.LocalizedName,
-            IsExpanded = false,
-            categories = new ObservableCollection<HandbookCategory>(category.Categories.Select(x => CopyFrom(x))),
-            items = new ObservableCollection<TarkovItem>(category.Items.Select(x => TarkovItem.CopyFrom(x)))
-        };
     }
 }
