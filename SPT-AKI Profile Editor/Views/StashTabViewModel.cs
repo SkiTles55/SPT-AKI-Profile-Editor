@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -17,13 +18,23 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
 
-        public RelayCommand RemoveItem => new(async obj =>
+        public static RelayCommand AddItem => new(obj =>
         {
-            if (obj == null)
+            if (obj == null || obj is not TarkovItem item)
                 return;
-            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir)
+            });
         });
+
+        public RelayCommand RemoveItem => new(async obj =>
+                {
+                    if (obj == null)
+                        return;
+                    if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+                        Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
+                });
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
@@ -31,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
+                    Action = () => Profile.Characters.Pmc.Inventory.RemoveAllItems(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
@@ -44,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllEquipment(); },
+                    Action = () => Profile.Characters.Pmc.Inventory.RemoveAllEquipment(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
@@ -72,7 +83,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     return;
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.AddNewItems(tpl, result.Item1, result.Item2); }
+                    Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(tpl, result.Item1, result.Item2)
                 });
             });
             RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));

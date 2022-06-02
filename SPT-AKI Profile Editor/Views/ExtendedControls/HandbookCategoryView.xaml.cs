@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -9,9 +10,18 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
     /// </summary>
     public partial class HandbookCategoryView : UserControl
     {
+        public static readonly DependencyProperty AddItemCommandProperty =
+            DependencyProperty.Register(nameof(AddItemCommand), typeof(ICommand), typeof(HandbookCategoryView), new PropertyMetadata(null));
+
         public HandbookCategoryView()
         {
             InitializeComponent();
+        }
+
+        public ICommand AddItemCommand
+        {
+            get { return (ICommand)GetValue(AddItemCommandProperty); }
+            set { SetValue(AddItemCommandProperty, value); }
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

@@ -238,7 +238,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_quest_status_issue_quest"] = "For quest {0} ({1}) requires quest {2} ({3}) with status {4}",
                     ["profile_issues_trader_loyalty_issue_quest"] = "For quest {0} ({1}) requires merchant {2} with level {3}",
                     ["weapon_build_window_export"] = "Export build",
-                    ["weapon_build_window_add"] = "Add to builds"
+                    ["weapon_build_window_add"] = "Add to builds",
+                    ["container_window_content"] = "Contents"
                 }
             },
             new AppLocalization
@@ -407,7 +408,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_quest_status_issue_quest"] = "Для квеста {0} ({1}) требуется квест {2} ({3}) со статусом {4}",
                     ["profile_issues_trader_loyalty_issue_quest"] = "Для квеста {0} ({1}) требуется торговец {2} со уровнем {3}",
                     ["weapon_build_window_export"] = "Экспорт сборки",
-                    ["weapon_build_window_add"] = "Добавить в сборки"
+                    ["weapon_build_window_add"] = "Добавить в сборки",
+                    ["container_window_content"] = "Содержимое"
                 }
             }
         };

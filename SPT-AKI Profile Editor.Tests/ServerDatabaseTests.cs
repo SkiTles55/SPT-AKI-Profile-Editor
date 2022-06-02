@@ -117,6 +117,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void SlotsCountCalculatesCorrectly() => Assert.AreEqual(4, AppData.ServerDatabase.ItemsDB["557ffd194bdc2d28148b457f"].SlotsCount);
 
         [Test]
+        public void ItemsDBFilterForPistolCaseLoadCorrectly() => Assert.True(AppData.ServerDatabase.ItemsDB["567143bf4bdc2d1a0f8b4567"].Properties.Grids[0].Props.Filters[0].Filter.Length > 0);
+
+        [Test]
+        public void ItemsDBFilterLoadCorrectly() => Assert.True(AppData.ServerDatabase.ItemsDB.Values.Any(x => x.Properties?.Grids?.Any(y => (y.Props?.Filters?[0].Filter?.Length ?? 0) > 0) ?? false));
+
+        [Test]
         public void HandbookNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Handbook);
 
         [Test]

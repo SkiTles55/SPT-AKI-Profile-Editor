@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -46,6 +47,25 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonIgnore]
         public int SlotsCount { get; }
+
+        public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
+
+        public bool CanBeAddedToContainer(TarkovItem container)
+        {
+            var filters = container.Properties?.Grids?.FirstOrDefault().Props?.Filters;
+            if (filters == null || filters.Length == 0)
+                return true;
+            if (filters[0].ExcludedFilter.Contains(Parent))
+                return false;
+            if (filters[0].Filter.Length > 0)
+            {
+                List<string> parents = new() { Parent };
+                while (AppData.ServerDatabase.ItemsDB.ContainsKey(parents.Last()))
+                    parents.Add(AppData.ServerDatabase.ItemsDB[parents.Last()].Parent);
+                return parents.Any(x => filters[0].Filter.Contains(x));
+            }
+            return true;
+        }
 
         private int CalculateSlotsCount()
         {

@@ -47,18 +47,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool IsContainer => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
 
         [JsonIgnore]
+        public bool CanAddItems => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length == 1;
+
+        [JsonIgnore]
         public bool IsWeapon => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
 
-        public static InventoryItem CopyFrom(InventoryItem item)
+        public static InventoryItem CopyFrom(InventoryItem item) => new()
         {
-            InventoryItem copy = new();
-            copy.Id = item.Id;
-            copy.Tpl = item.Tpl;
-            copy.SlotId = item.SlotId;
-            copy.Location = item.Location;
-            copy.ParentId = item.ParentId;
-            copy.Upd = item.Upd;
-            return copy;
-        }
+            Id = item.Id,
+            Tpl = item.Tpl,
+            SlotId = item.SlotId,
+            Location = item.Location,
+            ParentId = item.ParentId,
+            Upd = item.Upd
+        };
     }
 }
