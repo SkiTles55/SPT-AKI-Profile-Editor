@@ -32,11 +32,7 @@ namespace SPT_AKI_Profile_Editor
 
         public string WindowTitle { get; }
 
-        public ObservableCollection<InventoryItem> Items => _editMode switch
-        {
-            StashEditMode.Scav => new(Profile.Characters.Scav.Inventory.Items?.Where(x => x.ParentId == _item.Id)),
-            _ => new(Profile.Characters.Pmc.Inventory.Items?.Where(x => x.ParentId == _item.Id)),
-        };
+        public ObservableCollection<InventoryItem> Items => new(GetInventory().Items?.Where(x => x.ParentId == _item.Id));
 
         public bool HasItems => Items.Count > 0;
 
@@ -48,9 +44,8 @@ namespace SPT_AKI_Profile_Editor
             {
                 if (categoriesForItemsAdding == null)
                     categoriesForItemsAdding = new ObservableCollection<HandbookCategory>(ServerDatabase.Handbook.Categories
-                        .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)
                         .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x)))
-                        .Where(x => x.IsNotHidden));
+                        .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden));
                 return categoriesForItemsAdding;
             }
             set
@@ -65,19 +60,7 @@ namespace SPT_AKI_Profile_Editor
             if (obj == null)
                 return;
             if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-            {
-                switch (_editMode)
-                {
-                    case StashEditMode.Scav:
-                        Profile.Characters.Scav.Inventory.RemoveItems(new() { obj.ToString() });
-                        break;
-
-                    case StashEditMode.PMC:
-                        Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj.ToString() });
-                        break;
-                }
-                OnPropertyChanged("");
-            }
+                RemoveItemFromContainer(obj.ToString());
         });
 
         public RelayCommand RemoveAllItems => new(async obj =>
@@ -86,20 +69,7 @@ namespace SPT_AKI_Profile_Editor
             {
                 Worker.AddAction(new WorkerTask
                 {
-                    Action = () =>
-                    {
-                        switch (_editMode)
-                        {
-                            case StashEditMode.Scav:
-                                Profile.Characters.Scav.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
-                                break;
-
-                            case StashEditMode.PMC:
-                                Profile.Characters.Pmc.Inventory.RemoveItems(Items.Select(x => x.Id).ToList());
-                                break;
-                        }
-                        OnPropertyChanged("");
-                    },
+                    Action = () => RemoveAllItemsFromContainer(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
@@ -110,24 +80,35 @@ namespace SPT_AKI_Profile_Editor
         {
             if (obj == null || obj is not TarkovItem item)
                 return;
-            Worker.AddAction(new WorkerTask
-            {
-                Action = () =>
-                {
-                    switch (_editMode)
-                    {
-                        case StashEditMode.Scav:
-                            Profile.Characters.Scav.Inventory.AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
-                            break;
-
-                        case StashEditMode.PMC:
-                            Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
-                            break;
-                    }
-                    OnPropertyChanged("");
-                }
-            });
+            Worker.AddAction(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
+
+        private void RemoveItemFromContainer(string id)
+        {
+            GetInventory().RemoveItems(new() { id });
+            OnPropertyChanged("");
+        }
+
+        private void RemoveAllItemsFromContainer()
+        {
+            GetInventory().RemoveItems(Items.Select(x => x.Id).ToList());
+            OnPropertyChanged("");
+        }
+
+        private void AddItemToContainer(TarkovItem item)
+        {
+            GetInventory().AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
+            OnPropertyChanged("");
+        }
+
+        private CharacterInventory GetInventory()
+        {
+            return _editMode switch
+            {
+                StashEditMode.Scav => Profile.Characters.Scav.Inventory,
+                _ => Profile.Characters.Pmc.Inventory,
+            };
+        }
 
         private HandbookCategory FilterForConatiner(HandbookCategory category)
         {
