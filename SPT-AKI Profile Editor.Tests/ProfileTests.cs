@@ -485,6 +485,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void StashAddingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             var largestItems = AppData.ServerDatabase.ItemsDB
                 .Where(x => !AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Any(y => y.Tpl == x.Key))

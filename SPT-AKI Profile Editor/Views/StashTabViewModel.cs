@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllItems(); },
+                    Action = () => Profile.Characters.Pmc.Inventory.RemoveAllItems(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
@@ -45,7 +45,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.RemoveAllEquipment(); },
+                    Action = () => Profile.Characters.Pmc.Inventory.RemoveAllEquipment(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
@@ -58,7 +58,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 return;
             App.Worker.AddAction(new WorkerTask
             {
-                Action = () => { Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir); }
+                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item.Id, item.AddingQuantity, item.AddingFir)
             });
         });
 
@@ -83,7 +83,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     return;
                 App.Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.Characters.Pmc.Inventory.AddNewItemsToStash(tpl, result.Item1, result.Item2); }
+                    Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(tpl, result.Item1, result.Item2)
                 });
             });
             RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));
