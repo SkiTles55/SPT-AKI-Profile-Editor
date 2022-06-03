@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -561,7 +562,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+                AppData.Profile.ImportBuildFromFile(TestConstants.weaponBuild);
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
             AppData.Profile.RemoveBuild(expected);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
@@ -575,7 +576,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestConstants.profileFile);
             if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+                AppData.Profile.ImportBuildFromFile(TestConstants.weaponBuild);
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
             Profile.ExportBuild(expected.Value, testFile);
@@ -592,8 +593,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
-            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(TestConstants.weaponBuild);
+            AppData.Profile.ImportBuildFromFile(TestConstants.weaponBuild);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsImport.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
@@ -605,12 +606,28 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildCalculatingCorrectly()
         {
             AppData.Profile.Load(TestConstants.profileFile);
-            AppData.Profile.ImportBuildFromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json"));
+            AppData.Profile.ImportBuildFromFile(TestConstants.weaponBuild);
             var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
             Assert.NotNull(build);
             Assert.AreEqual(48.5, build.Value.Ergonomics);
             Assert.AreEqual(73, build.Value.RecoilForceUp);
             Assert.AreEqual(186, build.Value.RecoilForceBack);
+        }
+
+        [Test]
+        public void WeaponBuildAddedToContainerSavesCorrectly()
+        {
+            AppData.Profile.Load(TestConstants.profileFile);
+            WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(TestConstants.weaponBuild));
+            List<string> iDs = new() { weaponBuild.Root };
+            var weaponsCount = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == weaponBuild.RootTpl).Count();
+            iDs.AddRange(weaponBuild.BuildItems.Select(x => x.Id));
+            AppData.Profile.Characters.Pmc.Inventory.AddNewWeaponToStash(weaponBuild, 2, true);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingWeapons.json");
+            AppData.Profile.Save(TestConstants.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.AreEqual(weaponsCount + 2, AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == weaponBuild.RootTpl).Count());
+            Assert.False(AppData.Profile.Characters.Pmc.Inventory.Items.Select(x => x.Id).Any(y => iDs.Contains(y)));
         }
 
         [Test]

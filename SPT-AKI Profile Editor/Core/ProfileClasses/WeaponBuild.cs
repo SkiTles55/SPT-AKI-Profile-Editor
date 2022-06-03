@@ -60,6 +60,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string Weapon { get; set; }
 
         [JsonIgnore]
+        public string RootTpl { get; set; }
+
+        [JsonIgnore]
         public float Ergonomics { get; set; }
 
         [JsonIgnore]
@@ -85,7 +88,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
             BuildItems = buildItems.Where(x => x.Id != Root);
             HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
-            Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
+            var weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault();
+            Weapon = weapon.LocalizedName;
+            RootTpl = weapon.Tpl;
         }
 
         private void AddModProperties(InventoryItem item)

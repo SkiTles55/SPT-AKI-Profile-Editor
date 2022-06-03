@@ -163,6 +163,59 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return items;
         }
 
+        public void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, int count, bool fir, string slotId)
+        {
+            int[,] Stash = GetSlotsMap(container);
+            List<string> iDs = Items.Select(x => x.Id).ToList();
+            List<ItemLocation> NewItemsLocations = new(); /*GetItemLocations(tarkovItem, Stash, stacks); Change to weapon build locations */
+            if (NewItemsLocations == null)
+                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            List<InventoryItem> items = Items.ToList();
+            for (int i = 0; i < NewItemsLocations.Count; i++)
+            {
+                if (count <= 0) break;
+                string rootId = ExtMethods.GenerateNewId(iDs);
+                iDs.Add(rootId);
+                var newItem = new InventoryItem
+                {
+                    Id = rootId,
+                    ParentId = container.Id,
+                    SlotId = slotId,
+                    Tpl = weaponBuild.RootTpl,
+                    Location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true },
+                    Upd = new ItemUpd { SpawnedInSession = fir }
+                };
+                items.Add(newItem);
+                AddInnerItems(weaponBuild.Root, rootId);
+                count -= 1;
+            }
+            Items = items.ToArray();
+
+            void AddInnerItems(string rootId, string newRootId)
+            {
+                foreach (var item in weaponBuild.BuildItems.Where(x => x.ParentId == rootId))
+                {
+                    string newId = ExtMethods.GenerateNewId(iDs);
+                    iDs.Add(newId);
+                    var innerItem = new InventoryItem
+                    {
+                        Id = newId,
+                        ParentId = newRootId,
+                        SlotId = item.SlotId,
+                        Tpl = item.Tpl
+                    };
+                    items.Add(innerItem);
+                    AddInnerItems(item.Id, newId);
+                }
+            }
+        }
+
+        public void AddNewWeaponToStash(WeaponBuild weaponBuild, int count, bool fir)
+        {
+            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            AddNewWeaponToContainer(ProfileStash, weaponBuild, count, fir, "hideout");
+        }
+
         public void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, int count, bool fir, string slotId)
         {
             int[,] Stash = GetSlotsMap(container);
