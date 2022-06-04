@@ -171,7 +171,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, int count, bool fir, string slotId)
         {
             var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
-            AddItemToContainer(container, itemWidth, itemHeight, weaponBuild.RootTpl, count, fir, slotId, 1, weaponBuild.Root, weaponBuild.BuildItems);
+            AddItemToContainer(container, itemWidth, itemHeight, weaponBuild.RootTpl, count, fir, slotId, 1, weaponBuild.Name, weaponBuild.Root, weaponBuild.BuildItems);
         }
 
         public void AddNewItemsToStash(string tpl, int count, bool fir)
@@ -384,7 +384,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
         }
 
-        private void AddItemToContainer(InventoryItem container, int itemWidth, int itemHeight, string itemTpl, int count, bool fir, string slotId, int stackSize, string rootId = null, IEnumerable<InventoryItem> innerItems = null)
+        private void AddItemToContainer(InventoryItem container, int itemWidth, int itemHeight, string itemTpl, int count, bool fir, string slotId, int stackSize, string tag = null, string rootId = null, IEnumerable<InventoryItem> innerItems = null)
         {
             int stacks = count / stackSize;
             if (stackSize * stacks < count) stacks++;
@@ -401,6 +401,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 iDs.Add(rootNewId);
                 var location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true };
                 var upd = new ItemUpd { StackObjectsCount = count > stackSize ? stackSize : count, SpawnedInSession = fir };
+                if (!string.IsNullOrEmpty(tag))
+                    upd.Tag = new Tag { Name = tag };
                 AddItemToList(items, rootNewId, container.Id, slotId, itemTpl, location, upd);
                 AddInnerItems(rootId, rootNewId, fir);
                 count -= stackSize;
