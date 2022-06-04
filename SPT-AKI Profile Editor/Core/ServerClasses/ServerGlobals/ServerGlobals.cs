@@ -1,10 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ServerGlobals : BindableEntity
     {
         private ServerGlobalsConfig config;
+        private Dictionary<string, ItemPreset> itemPresets;
 
         [JsonPropertyName("config")]
         public ServerGlobalsConfig Config
@@ -14,6 +16,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             {
                 config = value;
                 OnPropertyChanged("Config");
+            }
+        }
+
+        [JsonPropertyName("ItemPresets")]
+        public Dictionary<string, ItemPreset> ItemPresets
+        {
+            get => itemPresets;
+            set
+            {
+                itemPresets = value;
+                OnPropertyChanged("ItemPresets");
             }
         }
     }
