@@ -83,6 +83,7 @@
             Margin="5,0,5,5"
             mah:ControlsHelper.ContentCharacterCasing="Normal"
             mah:HeaderedControlHelper.HeaderBackground="Transparent"
+            mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
             BorderThickness="0"
             Header="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_parts]}">
             <DataGrid
