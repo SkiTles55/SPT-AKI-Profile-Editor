@@ -91,6 +91,12 @@
                                     <Button
                                         MinWidth="110"
                                         Margin="5"
+                                        Command="{Binding Data.AddBuildToStash, Source={StaticResource proxy}}"
+                                        CommandParameter="{Binding Path=Value}"
+                                        Content="Add to stash" />
+                                    <Button
+                                        MinWidth="110"
+                                        Margin="5"
                                         Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}"
                                         CommandParameter="{Binding Path=Value}"
                                         Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" />

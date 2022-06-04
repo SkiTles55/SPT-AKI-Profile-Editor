@@ -11,6 +11,8 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class WeaponBuildsViewModel : BindableViewModel
     {
+        public static RelayCommand AddBuildToStash => new(obj => AddBuildToProfileStash(obj));
+
         public static RelayCommand ExportBuild => new(obj => ExportBuildToFile(obj));
 
         public static RelayCommand ExportBuilds => new(obj => ExportAllBuilds());
@@ -80,6 +82,18 @@ namespace SPT_AKI_Profile_Editor.Views
                     Description = AppLocalization.GetLocalizedString("tab_presets_import")
                 });
             }
+        }
+
+        private static void AddBuildToProfileStash(object obj)
+        {
+            if (obj == null || obj is not WeaponBuild build)
+                return;
+            App.Worker.AddAction(new WorkerTask
+            {
+                Action = () => Profile.Characters.Pmc.Inventory.AddNewWeaponToStash(build, 1, true),
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("tab_presets_import")
+            });
         }
 
         private async Task RemoveBuildFromProfile(object obj)
