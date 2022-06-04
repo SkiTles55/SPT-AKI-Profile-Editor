@@ -165,58 +165,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, int count, bool fir, string slotId)
         {
-            int[,] Stash = GetSlotsMap(container);
-            List<string> iDs = Items.Select(x => x.Id).ToList();
-            int stacks = count / tarkovItem.Properties.StackMaxSize;
-            if (tarkovItem.Properties.StackMaxSize * stacks < count) stacks++;
-            List<ItemLocation> NewItemsLocations = GetItemLocations(tarkovItem.Properties.Width, tarkovItem.Properties.Height, Stash, stacks);
-            if (NewItemsLocations == null)
-                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
-            List<InventoryItem> items = Items.ToList();
-            for (int i = 0; i < NewItemsLocations.Count; i++)
-            {
-                if (count <= 0) break;
-                string id = ExtMethods.GenerateNewId(iDs);
-                iDs.Add(id);
-                var location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true };
-                var upd = new ItemUpd { StackObjectsCount = count > tarkovItem.Properties.StackMaxSize ? tarkovItem.Properties.StackMaxSize : count, SpawnedInSession = fir };
-                AddItemToList(items, id, container.Id, slotId, tarkovItem.Id, location, upd);
-                count -= tarkovItem.Properties.StackMaxSize;
-            }
-            Items = items.ToArray();
+            AddItemToContainer(container, tarkovItem.Properties.Width, tarkovItem.Properties.Height, tarkovItem.Id, count, fir, slotId, tarkovItem.Properties.StackMaxSize);
         }
 
         public void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, int count, bool fir, string slotId)
         {
-            int[,] Stash = GetSlotsMap(container);
-            List<string> iDs = Items.Select(x => x.Id).ToList();
-            var (iW, iH) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
-            List<ItemLocation> NewItemsLocations = GetItemLocations(iW, iH, Stash, count);
-            if (NewItemsLocations == null)
-                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
-            List<InventoryItem> items = Items.ToList();
-            for (int i = 0; i < NewItemsLocations.Count; i++)
-            {
-                if (count <= 0) break;
-                string rootId = ExtMethods.GenerateNewId(iDs);
-                iDs.Add(rootId);
-                var location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true };
-                AddItemToList(items, rootId, container.Id, slotId, weaponBuild.RootTpl, location, new ItemUpd { SpawnedInSession = fir });
-                AddInnerItems(weaponBuild.Root, rootId, fir);
-                count -= 1;
-            }
-            Items = items.ToArray();
-
-            void AddInnerItems(string rootId, string newRootId, bool fir)
-            {
-                foreach (var item in weaponBuild.BuildItems.Where(x => x.ParentId == rootId))
-                {
-                    string newId = ExtMethods.GenerateNewId(iDs);
-                    iDs.Add(newId);
-                    AddItemToList(items, newId, newRootId, item.SlotId, item.Tpl, null, fir ? new ItemUpd { SpawnedInSession = fir } : null);
-                    AddInnerItems(item.Id, newId, fir);
-                }
-            }
+            var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
+            AddItemToContainer(container, itemWidth, itemHeight, weaponBuild.RootTpl, count, fir, slotId, 1, weaponBuild.Root, weaponBuild.BuildItems);
         }
 
         public void AddNewItemsToStash(string tpl, int count, bool fir)
@@ -360,7 +315,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return null;
         }
 
-        private static (int iW, int iH) GetSizeOfInventoryItem(string itemId, string itemTpl, IEnumerable<InventoryItem> itemsArray)
+        private static (int itemWidth, int itemHeight) GetSizeOfInventoryItem(string itemId, string itemTpl, IEnumerable<InventoryItem> itemsArray)
         {
             List<string> toDo = new() { itemId };
             TarkovItem tmpItem = AppData.ServerDatabase.ItemsDB[itemTpl];
@@ -427,6 +382,43 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
 
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
+        }
+
+        private void AddItemToContainer(InventoryItem container, int itemWidth, int itemHeight, string itemTpl, int count, bool fir, string slotId, int stackSize, string rootId = null, IEnumerable<InventoryItem> innerItems = null)
+        {
+            int stacks = count / stackSize;
+            if (stackSize * stacks < count) stacks++;
+            int[,] Stash = GetSlotsMap(container);
+            List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks);
+            if (NewItemsLocations == null)
+                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            List<string> iDs = Items.Select(x => x.Id).ToList();
+            List<InventoryItem> items = Items.ToList();
+            for (int i = 0; i < NewItemsLocations.Count; i++)
+            {
+                if (count <= 0) break;
+                string rootNewId = ExtMethods.GenerateNewId(iDs);
+                iDs.Add(rootNewId);
+                var location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true };
+                var upd = new ItemUpd { StackObjectsCount = count > stackSize ? stackSize : count, SpawnedInSession = fir };
+                AddItemToList(items, rootNewId, container.Id, slotId, itemTpl, location, upd);
+                AddInnerItems(rootId, rootNewId, fir);
+                count -= stackSize;
+            }
+            Items = items.ToArray();
+
+            void AddInnerItems(string rootId, string newRootId, bool fir)
+            {
+                if (string.IsNullOrEmpty(rootId) || innerItems == null)
+                    return;
+                foreach (var item in innerItems.Where(x => x.ParentId == rootId))
+                {
+                    string newId = ExtMethods.GenerateNewId(iDs);
+                    iDs.Add(newId);
+                    AddItemToList(items, newId, newRootId, item.SlotId, item.Tpl, null, fir ? new ItemUpd { SpawnedInSession = fir } : null);
+                    AddInnerItems(item.Id, newId, fir);
+                }
+            }
         }
 
         private InventoryItem GetEquipment(string slotId)
