@@ -60,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ServerGlobalsItemPresetsCanbeConvertedToWeaponBuilds()
         {
-            var builds = AppData.ServerDatabase.ServerGlobals.ItemPresets.Values.Select(x => new WeaponBuild(x.Id, x.Name, x.Root, x.Items));
+            var builds = AppData.ServerDatabase.ServerGlobals.ItemPresets.Values.Select(x => new WeaponBuild(x));
             Assert.False(builds.Any(x => x == null || !x.BuildItems.Any()));
         }
 

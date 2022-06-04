@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -7,6 +10,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         private ServerGlobalsConfig config;
         private Dictionary<string, ItemPreset> itemPresets;
+
+        public ServerGlobals() { }
+
+        [JsonConstructor]
+        public ServerGlobals(ServerGlobalsConfig config, Dictionary<string, ItemPreset> itemPresets)
+        {
+            Config = config;
+            ItemPresets = itemPresets;
+            GlobalBuilds = GetGlobalWeaponBuilds();
+        }
 
         [JsonPropertyName("config")]
         public ServerGlobalsConfig Config
@@ -27,7 +40,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             {
                 itemPresets = value;
                 OnPropertyChanged("ItemPresets");
+                OnPropertyChanged("GlobalBuilds");
             }
         }
+
+        [JsonIgnore]
+        public ObservableCollection<KeyValuePair<string, WeaponBuild>> GlobalBuilds { get; }
+
+        private ObservableCollection<KeyValuePair<string, WeaponBuild>> GetGlobalWeaponBuilds() => new(ItemPresets.Select(x => new KeyValuePair<string, WeaponBuild>(x.Key, new WeaponBuild(x.Value))));
     }
 }

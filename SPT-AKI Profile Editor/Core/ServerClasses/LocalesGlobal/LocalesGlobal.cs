@@ -22,5 +22,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonPropertyName("customization")]
         public Dictionary<string, LocalesGlobalTemplate> Customization { get; set; }
+
+        [JsonPropertyName("preset")]
+        public Dictionary<string, LocalesGlobalPreset> Preset { get; set; }
     }
 }

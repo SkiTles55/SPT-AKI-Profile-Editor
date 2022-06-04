@@ -36,11 +36,11 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 LoadLocalesGlobal();
                 LoadBotTypes();
+                LoadItemsDB();
                 LoadServerGlobals();
                 LoadTradersInfos();
                 LoadQuestsData();
                 LoadHideoutAreaInfos();
-                LoadItemsDB();
                 FindPockets();
                 LoadTraderSuits();
                 LoadHandbook();
