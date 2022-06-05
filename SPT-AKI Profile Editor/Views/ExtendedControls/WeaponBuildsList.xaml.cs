@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 {
@@ -58,21 +57,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             {
                 cv.Filter = o =>
                 {
-                    WeaponBuild p = o as WeaponBuild;
-                    return p.Name.ToUpper().Contains(filter.ToUpper());
+                    KeyValuePair<string, WeaponBuild>? p = o as KeyValuePair<string, WeaponBuild>?;
+                    return p != null ? p.Value.Value.Name.ToUpper().Contains(filter.ToUpper()) : true;
                 };
-            }
-        }
-
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (sender is ScrollViewer scrollViewer)
-            {
-                if (e.Delta > 0)
-                    scrollViewer.LineUp();
-                else
-                    scrollViewer.LineDown();
-                e.Handled = true;
             }
         }
 
