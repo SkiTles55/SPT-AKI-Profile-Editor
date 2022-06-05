@@ -1,13 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     internal class BotTypeAppearance
     {
-        [JsonPropertyName("head")]
+        [JsonProperty("head")]
         public string[] Heads { get; set; }
 
-        [JsonPropertyName("voice")]
+        [JsonProperty("voice")]
         public string[] Voices { get; set; }
     }
 }

@@ -1,10 +1,10 @@
-﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
@@ -36,11 +36,11 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 LoadLocalesGlobal();
                 LoadBotTypes();
+                LoadItemsDB();
                 LoadServerGlobals();
                 LoadTradersInfos();
                 LoadQuestsData();
                 LoadHideoutAreaInfos();
-                LoadItemsDB();
                 FindPockets();
                 LoadTraderSuits();
                 LoadHandbook();
@@ -61,7 +61,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], AppSettings.Language + ".json");
             try
             {
-                LocalesGlobal global = JsonSerializer.Deserialize<LocalesGlobal>(File.ReadAllText(path));
+                LocalesGlobal global = JsonConvert.DeserializeObject<LocalesGlobal>(File.ReadAllText(path));
                 ServerDatabase.LocalesGlobal = global;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase LocalesGlobal ({path}) loading error: {ex.Message}"); }
@@ -77,7 +77,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 {
                     if (!File.Exists(btype))
                         continue;
-                    BotType bot = JsonSerializer.Deserialize<BotType>(File.ReadAllText(btype));
+                    BotType bot = JsonConvert.DeserializeObject<BotType>(File.ReadAllText(btype));
                     if (bot.Appearance.Heads != null)
                         foreach (var head in bot.Appearance.Heads)
                             if (!Heads.ContainsKey(head))
@@ -99,7 +99,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_globals"]);
             try
             {
-                ServerGlobals global = JsonSerializer.Deserialize<ServerGlobals>(File.ReadAllText(path));
+                ServerGlobals global = JsonConvert.DeserializeObject<ServerGlobals>(File.ReadAllText(path));
                 ServerDatabase.ServerGlobals = global;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}"); }
@@ -117,7 +117,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     continue;
                 try
                 {
-                    traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonSerializer.Deserialize<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
+                    traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
                 }
                 catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({tbase}) loading error: {ex.Message}"); }
             }
@@ -130,7 +130,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_quests"]);
             try
             {
-                Dictionary<string, QuestData> questsData = JsonSerializer.Deserialize<Dictionary<string, QuestData>>(File.ReadAllText(path));
+                Dictionary<string, QuestData> questsData = JsonConvert.DeserializeObject<Dictionary<string, QuestData>>(File.ReadAllText(path));
                 ServerDatabase.QuestsData = questsData;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase QuestsData ({path}) loading error: {ex.Message}"); }
@@ -142,7 +142,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_areas"]);
             try
             {
-                List<HideoutAreaInfo> HideoutAreaInfos = JsonSerializer.Deserialize<List<HideoutAreaInfo>>(File.ReadAllText(path));
+                List<HideoutAreaInfo> HideoutAreaInfos = JsonConvert.DeserializeObject<List<HideoutAreaInfo>>(File.ReadAllText(path));
                 ServerDatabase.HideoutAreaInfos = HideoutAreaInfos;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase HideoutAreaInfos ({path}) loading error: {ex.Message}"); }
@@ -154,7 +154,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_items"]);
             try
             {
-                Dictionary<string, TarkovItem> itemsDB = JsonSerializer.Deserialize<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
+                Dictionary<string, TarkovItem> itemsDB = JsonConvert.DeserializeObject<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
                 ServerDatabase.ItemsDB = itemsDB;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase ItemsDB ({path}) loading error: {ex.Message}"); }
@@ -178,7 +178,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 {
                     if (!File.Exists(Path.Combine(tbase, "suits.json")))
                         continue;
-                    var traderSuitsList = JsonSerializer.Deserialize<List<TraderSuit>>(File.ReadAllText(Path.Combine(tbase, "suits.json")));
+                    var traderSuitsList = JsonConvert.DeserializeObject<List<TraderSuit>>(File.ReadAllText(Path.Combine(tbase, "suits.json")));
                     foreach (var suit in traderSuitsList.Where(x => !traderSuits.Any(y => y.SuiteId == x.SuiteId)))
                         traderSuits.Add(suit);
                 }
@@ -192,7 +192,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_handbook"]);
             try
             {
-                Handbook handbook = JsonSerializer.Deserialize<Handbook>(File.ReadAllText(path));
+                Handbook handbook = JsonConvert.DeserializeObject<Handbook>(File.ReadAllText(path));
                 ServerDatabase.Handbook = handbook;
             }
             catch (Exception ex)

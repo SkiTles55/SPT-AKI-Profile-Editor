@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <Expander
         mah:HeaderedControlHelper.HeaderBackground="Transparent"
+        mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
         BorderThickness="0"
         IsExpanded="{Binding Path=IsExpanded}">
         <Expander.Header>

@@ -1,8 +1,8 @@
-﻿using SPT_AKI_Profile_Editor.Helpers;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -22,10 +22,10 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             LocalizedName = AppData.ServerDatabase.LocalesGlobal.Handbook.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Handbook[Id] : Id;
         }
 
-        [JsonPropertyName("Id")]
+        [JsonProperty("Id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("ParentId")]
+        [JsonProperty("ParentId")]
         public string ParentId { get; set; }
 
         [JsonIgnore]

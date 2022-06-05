@@ -5,164 +5,85 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
-    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:WeaponBuildsViewModel}"
     mc:Ignorable="d">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-        <ScrollViewer
-            Grid.Row="0"
-            Grid.ColumnSpan="3"
-            CanContentScroll="True"
-            PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-            <ListBox
-                d:ItemsSource="{d:SampleData ItemCount=2}"
-                ItemContainerStyle="{StaticResource NoHoverListBox}"
-                ItemsSource="{Binding Profile.WBuilds}"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.Resources>
-                    <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </ListBox.Resources>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Margin="5"
-                            BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
-                            BorderThickness="1">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <StackPanel
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
-                                    <Label
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding Path=Value.Name}"
-                                        FontSize="14"
-                                        FontWeight="Bold" />
-                                    <Label
-                                        Margin="5"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Foreground="Red"
-                                        ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}">
-                                        <Label.Style>
-                                            <Style TargetType="Label">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=Value.HasModdedItems}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Label.Style>
-                                        <iconPacks:PackIconFontAwesome
-                                            Width="18"
-                                            Height="18"
-                                            Kind="ExclamationTriangleSolid" />
-                                    </Label>
-                                </StackPanel>
-                                <StackPanel
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal">
-                                    <Button
-                                        MinWidth="110"
-                                        Margin="5"
-                                        Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}"
-                                        CommandParameter="{Binding Path=Value}"
-                                        Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" />
-                                    <Button
-                                        MinWidth="110"
-                                        Margin="5"
-                                        Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
-                                        CommandParameter="{Binding Path=Value.Name}"
-                                        Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}" />
-                                </StackPanel>
-                                <extendedcontrols:WeaponBuildView
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Build="{Binding Value}"
-                                    LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
-        <Border
-            Grid.Row="0"
-            Grid.ColumnSpan="3"
-            Background="{DynamicResource MahApps.Brushes.Window.Background}">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Profile.HasWeaponBuilds}" Value="False">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-            <Label
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock
-                        Text="{Binding AppLocalization.Translations[tab_presets_empty]}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
-        </Border>
-        <Button
-            Grid.Row="1"
-            Grid.Column="0"
-            MinWidth="170"
-            Margin="5,10,5,0"
-            Command="{Binding ImportBuilds}"
-            Content="{Binding AppLocalization.Translations[tab_presets_import]}" />
-        <Button
-            Grid.Row="1"
-            Grid.Column="1"
-            MinWidth="170"
-            Margin="5,10,5,0"
-            Command="{Binding ExportBuilds}"
-            Content="{Binding AppLocalization.Translations[tab_presets_export_all]}"
-            IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
-        <Button
-            Grid.Row="1"
-            Grid.Column="2"
-            MinWidth="170"
-            Margin="5,10,5,0"
-            Command="{Binding RemoveBuilds}"
-            Content="{Binding AppLocalization.Translations[tab_stash_remove]}"
-            IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
-    </Grid>
+    <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_user]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <extendedcontrols:WeaponBuildsList
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding Profile.WBuilds}" />
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Background="{DynamicResource MahApps.Brushes.Window.Background}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Profile.HasWeaponBuilds}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Label
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="Bold">
+                        <Label.Content>
+                            <TextBlock
+                                Text="{Binding AppLocalization.Translations[tab_presets_empty]}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ImportBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_import]}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ExportBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_export_all]}"
+                    IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding RemoveBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_stash_remove]}"
+                    IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_global]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <extendedcontrols:WeaponBuildsList ItemsSource="{Binding ServerDatabase.ServerGlobals.GlobalBuilds}" RemoveAllowed="False" />
+        </TabItem>
+    </TabControl>
 </UserControl>

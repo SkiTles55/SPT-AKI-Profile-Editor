@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class Handbook
     {
-        [JsonPropertyName("Categories")]
+        [JsonProperty("Categories")]
         public List<HandbookCategory> Categories { get; set; }
 
-        [JsonPropertyName("Items")]
+        [JsonProperty("Items")]
         public List<HandbookItem> Items { get; set; }
 
         [JsonIgnore]

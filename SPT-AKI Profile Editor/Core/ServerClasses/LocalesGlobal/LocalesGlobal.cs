@@ -1,26 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class LocalesGlobal
     {
-        [JsonPropertyName("interface")]
+        [JsonProperty("interface")]
         public Dictionary<string, string> Interface { get; set; }
 
-        [JsonPropertyName("trading")]
+        [JsonProperty("trading")]
         public Dictionary<string, LocalesGlobalTrading> Trading { get; set; }
 
-        [JsonPropertyName("quest")]
+        [JsonProperty("quest")]
         public Dictionary<string, LocalesGlobalQuest> Quests { get; set; }
 
-        [JsonPropertyName("templates")]
+        [JsonProperty("templates")]
         public Dictionary<string, LocalesGlobalTemplate> Templates { get; set; }
 
-        [JsonPropertyName("handbook")]
+        [JsonProperty("handbook")]
         public Dictionary<string, string> Handbook { get; set; }
 
-        [JsonPropertyName("customization")]
+        [JsonProperty("customization")]
         public Dictionary<string, LocalesGlobalTemplate> Customization { get; set; }
+
+        [JsonProperty("preset")]
+        public Dictionary<string, LocalesGlobalPreset> Preset { get; set; }
     }
 }

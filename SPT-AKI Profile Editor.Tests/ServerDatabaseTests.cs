@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Linq;
 using static SPT_AKI_Profile_Editor.Core.ServerClasses.QuestData.QuestConditions.QuestCondition;
 
@@ -52,6 +53,16 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void ServerGlobalsConfigNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals.Config);
+
+        [Test]
+        public void ServerGlobalsItemPresetsNotNull() => Assert.True(AppData.ServerDatabase.ServerGlobals.ItemPresets.Any());
+
+        [Test]
+        public void ServerGlobalsItemPresetsCanbeConvertedToWeaponBuilds()
+        {
+            var builds = AppData.ServerDatabase.ServerGlobals.ItemPresets.Values.Select(x => new WeaponBuild(x));
+            Assert.False(builds.Any(x => x == null || !x.BuildItems.Any()));
+        }
 
         [Test]
         public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length > 0);

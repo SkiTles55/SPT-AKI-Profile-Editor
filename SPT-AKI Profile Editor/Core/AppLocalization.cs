@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
@@ -43,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Core
         [JsonIgnore]
         public Dictionary<string, string> Localizations { get; set; }
 
-        public static void Save(string path, AppLocalization data) => ExtMethods.SaveJson(path, data);
+        public static void Save(string path, AppLocalization data) => File.WriteAllText(path, JsonConvert.SerializeObject(data, Formatting.Indented));
 
         public string GetLocalizedString(string key, params string[] args) => Translations != null && Translations.ContainsKey(key) ? string.Format(Translations[key], args) : key;
 
@@ -85,7 +84,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        private static AppLocalization LocalizationFromFile(string path) => JsonSerializer.Deserialize<AppLocalization>(File.ReadAllText(path));
+        private static AppLocalization LocalizationFromFile(string path) => JsonConvert.DeserializeObject<AppLocalization>(File.ReadAllText(path));
 
         private void CreateLocalizationsDictionary()
         {

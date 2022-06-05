@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (!buildItems.Any())
                 return;
             CalculateBuildProperties(buildItems);
+        }
+
+        public WeaponBuild(ItemPreset itemPreset)
+        {
+            Id = itemPreset.Id;
+            Root = itemPreset.Root;
+            Items = itemPreset.Items;
+            var buildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
+            if (!buildItems.Any())
+                return;
+            CalculateBuildProperties(buildItems, true);
         }
 
         public WeaponBuild(InventoryItem item, List<InventoryItem> items)
@@ -60,6 +72,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string Weapon { get; set; }
 
         [JsonIgnore]
+        public string RootTpl { get; set; }
+
+        [JsonIgnore]
         public float Ergonomics { get; set; }
 
         [JsonIgnore]
@@ -71,7 +86,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool HasModdedItems { get; set; }
 
-        private void CalculateBuildProperties(IEnumerable<InventoryItem> buildItems)
+        private void CalculateBuildProperties(IEnumerable<InventoryItem> buildItems, bool fromTemplate = false)
         {
             foreach (var item in buildItems)
             {
@@ -85,7 +100,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
             BuildItems = buildItems.Where(x => x.Id != Root);
             HasModdedItems = buildItems.Any(x => !AppData.ServerDatabase.ItemsDB.ContainsKey(x.Tpl));
-            Weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault().LocalizedName;
+            var weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault();
+            Weapon = weapon.LocalizedName;
+            RootTpl = weapon.Tpl;
+            if (!fromTemplate)
+                return;
+            Name = Weapon;
+            if (AppData.ServerDatabase?.LocalesGlobal?.Preset?.ContainsKey(Id) ?? false)
+                Name += " " + AppData.ServerDatabase.LocalesGlobal.Preset[Id].Name;
         }
 
         private void AddModProperties(InventoryItem item)

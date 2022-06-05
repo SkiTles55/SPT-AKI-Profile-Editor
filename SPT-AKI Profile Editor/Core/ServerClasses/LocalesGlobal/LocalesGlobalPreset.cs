@@ -2,9 +2,9 @@
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class LocalesGlobalQuest
+    public class LocalesGlobalPreset
     {
-        [JsonProperty("name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
     }
 }

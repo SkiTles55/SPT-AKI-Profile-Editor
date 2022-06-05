@@ -165,32 +165,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, int count, bool fir, string slotId)
         {
-            int[,] Stash = GetSlotsMap(container);
-            List<string> iDs = Items.Select(x => x.Id).ToList();
-            int stacks = count / tarkovItem.Properties.StackMaxSize;
-            if (tarkovItem.Properties.StackMaxSize * stacks < count) stacks++;
-            List<ItemLocation> NewItemsLocations = GetItemLocations(tarkovItem, Stash, stacks);
-            if (NewItemsLocations == null)
-                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
-            List<InventoryItem> items = Items.ToList();
-            for (int i = 0; i < NewItemsLocations.Count; i++)
-            {
-                if (count <= 0) break;
-                string id = ExtMethods.GenerateNewId(iDs);
-                iDs.Add(id);
-                var newItem = new InventoryItem
-                {
-                    Id = id,
-                    ParentId = container.Id,
-                    SlotId = slotId,
-                    Tpl = tarkovItem.Id,
-                    Location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true },
-                    Upd = new ItemUpd { StackObjectsCount = count > tarkovItem.Properties.StackMaxSize ? tarkovItem.Properties.StackMaxSize : count, SpawnedInSession = fir }
-                };
-                items.Add(newItem);
-                count -= tarkovItem.Properties.StackMaxSize;
-            }
-            Items = items.ToArray();
+            AddItemToContainer(container, tarkovItem.Properties.Width, tarkovItem.Properties.Height, tarkovItem.Id, count, fir, slotId, tarkovItem.Properties.StackMaxSize);
+        }
+
+        public void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, int count, bool fir, string slotId)
+        {
+            var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
+            AddItemToContainer(container, itemWidth, itemHeight, weaponBuild.RootTpl, count, fir, slotId, 1, weaponBuild.Root, weaponBuild.BuildItems);
         }
 
         public void AddNewItemsToStash(string tpl, int count, bool fir)
@@ -198,6 +179,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
             var mItem = AppData.ServerDatabase.ItemsDB[tpl];
             AddNewItemsToContainer(ProfileStash, mItem, count, fir, "hideout");
+        }
+
+        public void AddNewWeaponToStash(WeaponBuild weaponBuild, int count, bool fir)
+        {
+            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            AddNewWeaponToContainer(ProfileStash, weaponBuild, count, fir, "hideout");
         }
 
         public void RemoveAllEquipment()
@@ -226,7 +213,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int[,] Stash2D = CreateContainerStash2D(container);
             foreach (var item in Items?.Where(x => x.ParentId == container.Id))
             {
-                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item);
+                (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item.Id, item.Tpl, Items);
                 int rotatedHeight = item.Location.R == ItemRotation.Vertical ? itemWidth : itemHeight;
                 int rotatedWidth = item.Location.R == ItemRotation.Vertical ? itemHeight : itemWidth;
                 for (int y = 0; y < rotatedHeight; y++)
@@ -245,24 +232,38 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return Stash2D;
         }
 
-        private static List<ItemLocation> GetItemLocations(TarkovItem tarkovItem, int[,] stash, int stacks)
+        private static void AddItemToList(List<InventoryItem> items, string id, string parentId, string slotId, string tpl, ItemLocation location = null, ItemUpd itemUpd = null)
+        {
+            var newItem = new InventoryItem
+            {
+                Id = id,
+                ParentId = parentId,
+                SlotId = slotId,
+                Tpl = tpl,
+                Location = location,
+                Upd = itemUpd
+            };
+            items.Add(newItem);
+        }
+
+        private static List<ItemLocation> GetItemLocations(int itemWidth, int itemHeight, int[,] stash, int stacks)
         {
             List<ItemLocation> freeSlots = GetFreeSlots(stash);
-            if (freeSlots.Count < tarkovItem.Properties.Width * tarkovItem.Properties.Height * stacks)
+            if (freeSlots.Count < itemWidth * itemHeight * stacks)
                 return null;
             List<ItemLocation> NewItemsLocations = new();
             foreach (var slot in freeSlots)
             {
-                if (tarkovItem.Properties.Width == 1 && tarkovItem.Properties.Height == 1)
+                if (itemWidth == 1 && itemHeight == 1)
                     NewItemsLocations.Add(slot);
                 else
                 {
-                    ItemLocation itemLocation = GetItemLocation(tarkovItem.Properties.Height, tarkovItem.Properties.Width, stash, slot);
+                    ItemLocation itemLocation = GetItemLocation(itemHeight, itemWidth, stash, slot);
                     if (itemLocation != null)
                         NewItemsLocations.Add(itemLocation);
                     if (NewItemsLocations.Count == stacks)
                         return NewItemsLocations;
-                    itemLocation = GetItemLocation(tarkovItem.Properties.Width, tarkovItem.Properties.Height, stash, slot);
+                    itemLocation = GetItemLocation(itemWidth, itemHeight, stash, slot);
                     if (itemLocation != null)
                     {
                         itemLocation.R = ItemRotation.Vertical;
@@ -312,10 +313,115 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return null;
         }
 
-        private InventoryItem GetEquipment(string slotId)
+        private static (int itemWidth, int itemHeight) GetSizeOfInventoryItem(string itemId, string itemTpl, IEnumerable<InventoryItem> itemsArray)
         {
-            return Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
+            List<string> toDo = new() { itemId };
+            TarkovItem tmpItem = AppData.ServerDatabase.ItemsDB[itemTpl];
+            InventoryItem rootItem = itemsArray.Where(x => x.ParentId == itemId).FirstOrDefault();
+            bool FoldableWeapon = tmpItem.Properties.Foldable;
+            string FoldedSlot = tmpItem.Properties.FoldedSlot;
+
+            int SizeUp = 0;
+            int SizeDown = 0;
+            int SizeLeft = 0;
+            int SizeRight = 0;
+
+            int ForcedUp = 0;
+            int ForcedDown = 0;
+            int ForcedLeft = 0;
+            int ForcedRight = 0;
+            int outX = tmpItem.Properties.Width;
+            int outY = tmpItem.Properties.Height;
+            if (rootItem != null)
+            {
+                List<string> skipThisItems = new() { "5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041" };
+                bool rootFolded = rootItem.Upd != null && rootItem.Upd.Foldable != null && rootItem.Upd.Foldable.Folded;
+
+                if (FoldableWeapon && string.IsNullOrEmpty(FoldedSlot) && rootFolded)
+                    outX -= tmpItem.Properties.SizeReduceRight;
+
+                if (!skipThisItems.Contains(tmpItem.Parent))
+                {
+                    while (toDo.Count > 0)
+                    {
+                        if (toDo.ElementAt(0) != null)
+                        {
+                            foreach (var item in itemsArray.Where(x => x.ParentId == toDo.ElementAt(0)))
+                            {
+                                if (!item.SlotId.Contains("mod_"))
+                                    continue;
+                                toDo.Add(item.Id);
+                                TarkovItem itm = AppData.ServerDatabase.ItemsDB[item.Tpl];
+                                bool childFoldable = itm.Properties.Foldable;
+                                bool childFolded = item.Upd != null && item.Upd.Foldable != null && item.Upd.Foldable.Folded;
+                                if (FoldableWeapon && FoldedSlot == item.SlotId && (rootFolded || childFolded))
+                                    continue;
+                                else if (childFoldable && rootFolded && childFolded)
+                                    continue;
+                                if (itm.Properties.ExtraSizeForceAdd)
+                                {
+                                    ForcedUp += itm.Properties.ExtraSizeUp;
+                                    ForcedDown += itm.Properties.ExtraSizeDown;
+                                    ForcedLeft += itm.Properties.ExtraSizeLeft;
+                                    ForcedRight += itm.Properties.ExtraSizeRight;
+                                }
+                                else
+                                {
+                                    SizeUp = (SizeUp < itm.Properties.ExtraSizeUp) ? itm.Properties.ExtraSizeUp : SizeUp;
+                                    SizeDown = (SizeDown < itm.Properties.ExtraSizeDown) ? itm.Properties.ExtraSizeDown : SizeDown;
+                                    SizeLeft = (SizeLeft < itm.Properties.ExtraSizeLeft) ? itm.Properties.ExtraSizeLeft : SizeLeft;
+                                    SizeRight = (SizeRight < itm.Properties.ExtraSizeRight) ? itm.Properties.ExtraSizeRight : SizeRight;
+                                }
+                            }
+                        }
+                        toDo.Remove(toDo.ElementAt(0));
+                    }
+                }
+            }
+
+            return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
         }
+
+        private void AddItemToContainer(InventoryItem container, int itemWidth, int itemHeight, string itemTpl, int count, bool fir, string slotId, int stackSize, string rootId = null, IEnumerable<InventoryItem> innerItems = null, string tag = null)
+        {
+            int stacks = count / stackSize;
+            if (stackSize * stacks < count) stacks++;
+            int[,] Stash = GetSlotsMap(container);
+            List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks);
+            if (NewItemsLocations == null)
+                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            List<string> iDs = Items.Select(x => x.Id).ToList();
+            List<InventoryItem> items = Items.ToList();
+            for (int i = 0; i < NewItemsLocations.Count; i++)
+            {
+                if (count <= 0) break;
+                string rootNewId = ExtMethods.GenerateNewId(iDs);
+                iDs.Add(rootNewId);
+                var location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true };
+                var upd = new ItemUpd { StackObjectsCount = count > stackSize ? stackSize : count, SpawnedInSession = fir };
+                if (!string.IsNullOrEmpty(tag))
+                    upd.Tag = new Tag { Name = tag };
+                AddItemToList(items, rootNewId, container.Id, slotId, itemTpl, location, upd);
+                AddInnerItems(rootId, rootNewId, fir);
+                count -= stackSize;
+            }
+            Items = items.ToArray();
+
+            void AddInnerItems(string rootId, string newRootId, bool fir)
+            {
+                if (string.IsNullOrEmpty(rootId) || innerItems == null)
+                    return;
+                foreach (var item in innerItems.Where(x => x.ParentId == rootId))
+                {
+                    string newId = ExtMethods.GenerateNewId(iDs);
+                    iDs.Add(newId);
+                    AddItemToList(items, newId, newRootId, item.SlotId, item.Tpl, null, fir ? new ItemUpd { SpawnedInSession = fir } : null);
+                    AddInnerItems(item.Id, newId, fir);
+                }
+            }
+        }
+
+        private InventoryItem GetEquipment(string slotId) => Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
 
         private List<string> GetCompleteItemsList(IEnumerable<string> items)
         {
@@ -350,75 +456,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     completedList.RemoveAt(0);
             }
             Items = ItemsList.ToArray();
-        }
-
-        private (int iW, int iH) GetSizeOfInventoryItem(InventoryItem inventoryItem)
-        {
-            List<InventoryItem> toDo = new() { inventoryItem };
-            TarkovItem tmpItem = AppData.ServerDatabase.ItemsDB[inventoryItem.Tpl];
-            InventoryItem rootItem = Items.Where(x => x.ParentId == inventoryItem.Id).FirstOrDefault();
-            bool FoldableWeapon = tmpItem.Properties.Foldable;
-            string FoldedSlot = tmpItem.Properties.FoldedSlot;
-
-            int SizeUp = 0;
-            int SizeDown = 0;
-            int SizeLeft = 0;
-            int SizeRight = 0;
-
-            int ForcedUp = 0;
-            int ForcedDown = 0;
-            int ForcedLeft = 0;
-            int ForcedRight = 0;
-            int outX = tmpItem.Properties.Width;
-            int outY = tmpItem.Properties.Height;
-            if (rootItem != null)
-            {
-                List<string> skipThisItems = new() { "5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041" };
-                bool rootFolded = rootItem.Upd != null && rootItem.Upd.Foldable != null && rootItem.Upd.Foldable.Folded;
-
-                if (FoldableWeapon && string.IsNullOrEmpty(FoldedSlot) && rootFolded)
-                    outX -= tmpItem.Properties.SizeReduceRight;
-
-                if (!skipThisItems.Contains(tmpItem.Parent))
-                {
-                    while (toDo.Count > 0)
-                    {
-                        if (toDo.ElementAt(0) != null)
-                        {
-                            foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0).Id))
-                            {
-                                if (!item.SlotId.Contains("mod_"))
-                                    continue;
-                                toDo.Add(item);
-                                TarkovItem itm = AppData.ServerDatabase.ItemsDB[item.Tpl];
-                                bool childFoldable = itm.Properties.Foldable;
-                                bool childFolded = item.Upd != null && item.Upd.Foldable != null && item.Upd.Foldable.Folded;
-                                if (FoldableWeapon && FoldedSlot == item.SlotId && (rootFolded || childFolded))
-                                    continue;
-                                else if (childFoldable && rootFolded && childFolded)
-                                    continue;
-                                if (itm.Properties.ExtraSizeForceAdd)
-                                {
-                                    ForcedUp += itm.Properties.ExtraSizeUp;
-                                    ForcedDown += itm.Properties.ExtraSizeDown;
-                                    ForcedLeft += itm.Properties.ExtraSizeLeft;
-                                    ForcedRight += itm.Properties.ExtraSizeRight;
-                                }
-                                else
-                                {
-                                    SizeUp = (SizeUp < itm.Properties.ExtraSizeUp) ? itm.Properties.ExtraSizeUp : SizeUp;
-                                    SizeDown = (SizeDown < itm.Properties.ExtraSizeDown) ? itm.Properties.ExtraSizeDown : SizeDown;
-                                    SizeLeft = (SizeLeft < itm.Properties.ExtraSizeLeft) ? itm.Properties.ExtraSizeLeft : SizeLeft;
-                                    SizeRight = (SizeRight < itm.Properties.ExtraSizeRight) ? itm.Properties.ExtraSizeRight : SizeRight;
-                                }
-                            }
-                        }
-                        toDo.Remove(toDo.ElementAt(0));
-                    }
-                }
-            }
-
-            return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
         }
 
         private string GetMoneyCountString(string moneys) => (Items?
