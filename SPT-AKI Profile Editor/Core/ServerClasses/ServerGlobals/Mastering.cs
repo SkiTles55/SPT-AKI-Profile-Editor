@@ -1,19 +1,19 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class Mastering
     {
-        [JsonPropertyName("Name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("Templates")]
+        [JsonProperty("Templates")]
         public string[] Templates { get; set; }
 
-        [JsonPropertyName("Level2")]
+        [JsonProperty("Level2")]
         public int Level2 { get; set; }
 
-        [JsonPropertyName("Level3")]
+        [JsonProperty("Level3")]
         public int Level3 { get; set; }
     }
 }

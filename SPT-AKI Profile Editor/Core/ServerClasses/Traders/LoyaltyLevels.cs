@@ -1,17 +1,16 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public class LoyaltyLevels
     {
-        [JsonPropertyName("minLevel")]
+        [JsonProperty("minLevel")]
         public int MinLevel { get; set; }
 
-        [JsonPropertyName("minSalesSum")]
+        [JsonProperty("minSalesSum")]
         public long MinSalesSum { get; set; }
 
-        [JsonPropertyName("minStanding")]
+        [JsonProperty("minStanding")]
         public float MinStanding { get; set; }
     }
 }

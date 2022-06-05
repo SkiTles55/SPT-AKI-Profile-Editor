@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -20,16 +20,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 && !AppData.AppSettings.BannedItems.Contains(Id);
         }
 
-        [JsonPropertyName("_id")]
+        [JsonProperty("_id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("_props")]
+        [JsonProperty("_props")]
         public TarkovItemProperties Properties { get; set; }
 
-        [JsonPropertyName("_parent")]
+        [JsonProperty("_parent")]
         public string Parent { get; set; }
 
-        [JsonPropertyName("_type")]
+        [JsonProperty("_type")]
         public string Type { get; set; }
 
         [JsonIgnore]

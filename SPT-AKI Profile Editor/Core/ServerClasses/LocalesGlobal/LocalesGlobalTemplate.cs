@@ -1,16 +1,16 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class LocalesGlobalTemplate
     {
-        [JsonPropertyName("Name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("ShortName")]
+        [JsonProperty("ShortName")]
         public object ShortName { get; set; }
 
-        [JsonPropertyName("Description")]
+        [JsonProperty("Description")]
         public string Description { get; set; }
     }
 }

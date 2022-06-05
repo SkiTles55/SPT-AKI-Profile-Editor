@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         private ConfigExp exp;
 
-        [JsonPropertyName("Mastering")]
+        [JsonProperty("Mastering")]
         public Mastering[] Mastering
         {
             get => mastering;
@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
-        [JsonPropertyName("exp")]
+        [JsonProperty("exp")]
         public ConfigExp Exp
         {
             get => exp;

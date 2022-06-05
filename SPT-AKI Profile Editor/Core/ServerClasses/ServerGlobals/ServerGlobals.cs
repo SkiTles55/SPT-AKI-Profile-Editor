@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             GlobalBuilds = GetGlobalWeaponBuilds();
         }
 
-        [JsonPropertyName("config")]
+        [JsonProperty("config")]
         public ServerGlobalsConfig Config
         {
             get => config;
@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
-        [JsonPropertyName("ItemPresets")]
+        [JsonProperty("ItemPresets")]
         public Dictionary<string, ItemPreset> ItemPresets
         {
             get => itemPresets;

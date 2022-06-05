@@ -1,19 +1,24 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : BindableEntity
     {
         public static readonly string configurationFile = Path.Combine(DefaultValues.AppDataFolder, "AppSettings.json");
+
+        [JsonIgnore]
         public readonly string repoAuthor = "SkiTles55";
+
+        [JsonIgnore]
         public readonly string repoName = "SPT-AKI-Profile-Editor";
 
+        [JsonIgnore]
         public readonly List<QuestStatus> standartQuestStatuses = new()
         {
             QuestStatus.Locked,
@@ -24,6 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
             QuestStatus.Success
         };
 
+        [JsonIgnore]
         public readonly List<QuestStatus> repeatableQuestStatuses = new()
         {
             QuestStatus.AvailableForStart,
@@ -412,7 +418,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public IssuesAction IssuesAction
         {
             get => issuesAction;
@@ -487,7 +493,7 @@ namespace SPT_AKI_Profile_Editor.Core
             LoadProfiles();
         }
 
-        public void Save() => ExtMethods.SaveJson(configurationFile, this);
+        public void Save() => File.WriteAllText(configurationFile, JsonConvert.SerializeObject(this, Formatting.Indented));
 
         public void LoadProfiles()
         {
@@ -499,7 +505,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 try
                 {
                     string profileFile = File.ReadAllText(file);
-                    ServerProfile serverProfile = JsonSerializer.Deserialize<ServerProfile>(profileFile);
+                    ServerProfile serverProfile = JsonConvert.DeserializeObject<ServerProfile>(profileFile);
                     if (serverProfile.Characters.Pmc.Info == null)
                         serverProfile.Characters.Pmc.Info = new() { Nickname = "Empty", Level = 0, Side = "Empty" };
                     Profiles.Add(Path.GetFileName(file), serverProfile.ToString() + $" [{Path.GetFileName(file)}]");
@@ -521,7 +527,7 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 string cfg = File.ReadAllText(configurationFile);
-                AppSettings loaded = JsonSerializer.Deserialize<AppSettings>(cfg);
+                AppSettings loaded = JsonConvert.DeserializeObject<AppSettings>(cfg);
                 bool _needReSave = loaded.CheckValues();
                 ApplyLoadedValues(loaded);
                 if (_needReSave)

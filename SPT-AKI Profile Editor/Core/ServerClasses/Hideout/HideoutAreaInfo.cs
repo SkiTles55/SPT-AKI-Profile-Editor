@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class HideoutAreaInfo
     {
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public int Type { get; set; }
 
-        [JsonPropertyName("stages")]
+        [JsonProperty("stages")]
         public Dictionary<string, object> Stages { get; set; }
     }
 }

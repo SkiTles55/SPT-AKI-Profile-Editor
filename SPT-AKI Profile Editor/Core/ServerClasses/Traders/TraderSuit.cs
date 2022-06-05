@@ -1,14 +1,14 @@
 ﻿using System.Linq;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class TraderSuit : BindableEntity
     {
-        [JsonPropertyName("_id")]
+        [JsonProperty("_id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("suiteId")]
+        [JsonProperty("suiteId")]
         public string SuiteId { get; set; }
 
         [JsonIgnore]

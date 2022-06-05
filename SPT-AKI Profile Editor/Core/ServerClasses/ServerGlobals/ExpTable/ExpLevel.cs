@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         private long maxExp;
 
-        [JsonPropertyName("exp_table")]
+        [JsonProperty("exp_table")]
         public LevelExpTable[] ExpTable
         {
             get => expTable;

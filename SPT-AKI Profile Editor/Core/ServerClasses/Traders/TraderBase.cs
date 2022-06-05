@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class TraderBase : BindableEntity
     {
-        [JsonPropertyName("_id")]
+        [JsonProperty("_id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("loyaltyLevels")]
+        [JsonProperty("loyaltyLevels")]
         public List<LoyaltyLevels> LoyaltyLevels { get; set; }
     }
 }

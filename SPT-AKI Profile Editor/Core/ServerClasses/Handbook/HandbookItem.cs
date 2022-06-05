@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -15,10 +15,10 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 .Value;
         }
 
-        [JsonPropertyName("Id")]
+        [JsonProperty("Id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("ParentId")]
+        [JsonProperty("ParentId")]
         public string ParentId { get; set; }
 
         [JsonIgnore]

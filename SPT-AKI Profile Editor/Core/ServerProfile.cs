@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
     internal class ServerProfile
     {
-        [JsonPropertyName("characters")]
+        [JsonProperty("characters")]
         public Characters Characters { get; set; }
 
         public override string ToString() => $"{Characters?.Pmc?.Info?.Nickname} ({Characters?.Pmc?.Info?.Side} {Characters?.Pmc?.Info?.Level} lvl)";
@@ -12,28 +12,28 @@ namespace SPT_AKI_Profile_Editor.Core
 
     internal class Characters
     {
-        [JsonPropertyName("pmc")]
+        [JsonProperty("pmc")]
         public Pmc Pmc { get; set; }
     }
 
     internal class Pmc
     {
-        [JsonPropertyName("aid")]
+        [JsonProperty("aid")]
         public string Aid { get; set; }
 
-        [JsonPropertyName("Info")]
+        [JsonProperty("Info")]
         public Info Info { get; set; }
     }
 
     internal class Info
     {
-        [JsonPropertyName("Nickname")]
+        [JsonProperty("Nickname")]
         public string Nickname { get; set; }
 
-        [JsonPropertyName("Side")]
+        [JsonProperty("Side")]
         public string Side { get; set; }
 
-        [JsonPropertyName("Level")]
+        [JsonProperty("Level")]
         public int Level { get; set; }
     }
 }

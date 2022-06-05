@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -6,7 +6,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         private ExpLevel level;
 
-        [JsonPropertyName("level")]
+        [JsonProperty("level")]
         public ExpLevel Level
         {
             get => level;

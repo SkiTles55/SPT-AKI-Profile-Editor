@@ -1,20 +1,20 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ItemPreset
     {
 
-        [JsonPropertyName("_id")]
+        [JsonProperty("_id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("_name")]
+        [JsonProperty("_name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("_parent")]
+        [JsonProperty("_parent")]
         public string Root { get; set; }
 
-        [JsonPropertyName("_items")]
+        [JsonProperty("_items")]
         public object[] Items { get; set; }
     }
 }

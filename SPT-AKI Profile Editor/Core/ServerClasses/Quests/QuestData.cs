@@ -1,24 +1,25 @@
 ﻿using SPT_AKI_Profile_Editor.Core.Enums;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class QuestData
     {
-        [JsonPropertyName("_id")]
+        [JsonProperty("_id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("traderId")]
+        [JsonProperty("traderId")]
         public string TraderId { get; set; }
 
-        [JsonPropertyName("conditions")]
+        [JsonProperty("conditions")]
         public QuestConditions Conditions { get; set; }
 
         public class QuestConditions
         {
-            [JsonPropertyName("AvailableForStart")]
+            [JsonProperty("AvailableForStart")]
             public List<QuestCondition> AvailableForStart { get; set; }
 
             public class QuestCondition
@@ -35,26 +36,25 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     TraderLoyalty
                 }
 
-                [JsonConverter(typeof(JsonStringEnumConverter))]
-                [JsonPropertyName("_parent")]
+                [JsonConverter(typeof(StringEnumConverter))]
+                [JsonProperty("_parent")]
                 public QuestConditionType Type { get; set; }
 
-                [JsonPropertyName("_props")]
+                [JsonProperty("_props")]
                 public QuestConditionProps Props { get; set; }
 
                 public class QuestConditionProps
                 {
-                    [JsonPropertyName("target")]
+                    [JsonProperty("target")]
                     public string Target { get; set; }
 
-                    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-                    [JsonPropertyName("value")]
+                    [JsonProperty("value")]
                     public int RequiredValue { get; set; }
 
-                    [JsonPropertyName("compareMethod")]
+                    [JsonProperty("compareMethod")]
                     public string CompareMethod { get; set; }
 
-                    [JsonPropertyName("status")]
+                    [JsonProperty("status")]
                     public QuestStatus[] RequiredStatuses { get; set; }
 
                     public bool CheckRequiredValue(int currentValue)

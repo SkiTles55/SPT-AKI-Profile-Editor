@@ -1,61 +1,61 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class TarkovItemProperties
     {
-        [JsonPropertyName("Width")]
+        [JsonProperty("Width")]
         public int Width { get; set; }
 
-        [JsonPropertyName("Height")]
+        [JsonProperty("Height")]
         public int Height { get; set; }
 
-        [JsonPropertyName("StackMaxSize")]
+        [JsonProperty("StackMaxSize")]
         public int StackMaxSize { get; set; }
 
-        [JsonPropertyName("ExtraSizeLeft")]
+        [JsonProperty("ExtraSizeLeft")]
         public int ExtraSizeLeft { get; set; }
 
-        [JsonPropertyName("ExtraSizeRight")]
+        [JsonProperty("ExtraSizeRight")]
         public int ExtraSizeRight { get; set; }
 
-        [JsonPropertyName("ExtraSizeUp")]
+        [JsonProperty("ExtraSizeUp")]
         public int ExtraSizeUp { get; set; }
 
-        [JsonPropertyName("ExtraSizeDown")]
+        [JsonProperty("ExtraSizeDown")]
         public int ExtraSizeDown { get; set; }
 
-        [JsonPropertyName("Grids")]
+        [JsonProperty("Grids")]
         public Grid[] Grids { get; set; }
 
-        [JsonPropertyName("Foldable")]
+        [JsonProperty("Foldable")]
         public bool Foldable { get; set; }
 
-        [JsonPropertyName("FoldedSlot")]
+        [JsonProperty("FoldedSlot")]
         public string FoldedSlot { get; set; }
 
-        [JsonPropertyName("SizeReduceRight")]
+        [JsonProperty("SizeReduceRight")]
         public int SizeReduceRight { get; set; }
 
-        [JsonPropertyName("ExtraSizeForceAdd")]
+        [JsonProperty("ExtraSizeForceAdd")]
         public bool ExtraSizeForceAdd { get; set; }
 
-        [JsonPropertyName("ExaminedByDefault")]
+        [JsonProperty("ExaminedByDefault")]
         public bool ExaminedByDefault { get; set; }
 
-        [JsonPropertyName("QuestItem")]
+        [JsonProperty("QuestItem")]
         public bool QuestItem { get; set; }
 
-        [JsonPropertyName("Ergonomics")]
+        [JsonProperty("Ergonomics")]
         public float Ergonomics { get; set; }
 
-        [JsonPropertyName("RecoilForceUp")]
+        [JsonProperty("RecoilForceUp")]
         public int RecoilForceUp { get; set; }
 
-        [JsonPropertyName("RecoilForceBack")]
+        [JsonProperty("RecoilForceBack")]
         public int RecoilForceBack { get; set; }
 
-        [JsonPropertyName("Recoil")]
+        [JsonProperty("Recoil")]
         public float Recoil { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -6,7 +6,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         private long exp;
 
-        [JsonPropertyName("exp")]
+        [JsonProperty("exp")]
         public long Exp
         {
             get => exp;

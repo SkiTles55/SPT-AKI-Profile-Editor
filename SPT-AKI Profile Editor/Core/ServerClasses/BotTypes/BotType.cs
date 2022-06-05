@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     internal class BotType
     {
-        [JsonPropertyName("appearance")]
+        [JsonProperty("appearance")]
         public BotTypeAppearance Appearance { get; set; }
     }
 }
