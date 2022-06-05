@@ -10,9 +10,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Control"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=ItemsSource}" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -37,8 +34,9 @@
             Grid.Row="1"
             d:ItemsSource="{d:SampleData ItemCount=2}"
             ItemContainerStyle="{StaticResource NoHoverListBox}"
-            ItemsSource="{Binding Source={StaticResource items}}"
+            ItemsSource="{Binding ElementName=Control, Path=ItemsSource, Mode=OneWay, NotifyOnTargetUpdated=True}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            TargetUpdated="ListBoxTargetUpdated"
             VirtualizingPanel.IsVirtualizing="true"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Standard">

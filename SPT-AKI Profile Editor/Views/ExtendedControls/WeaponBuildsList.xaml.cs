@@ -63,7 +63,8 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             }
         }
 
-        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) =>
-            ApplyFilter(itemsList.ItemsSource, FilterValue);
+        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) => ApplyFilter(itemsList.ItemsSource, FilterValue);
+
+        private void ListBoxTargetUpdated(object sender, DataTransferEventArgs e) => ApplyFilter(itemsList.ItemsSource, FilterValue);
     }
 }
