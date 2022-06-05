@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static void LoadDatabase()
         {
-            if (ExtMethods.PathIsServerFolder(AppSettings))
+            if (AppSettings.PathIsServerFolder())
             {
                 LoadLocalesGlobal();
                 LoadBotTypes();

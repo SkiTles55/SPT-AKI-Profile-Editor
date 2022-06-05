@@ -482,6 +482,19 @@ namespace SPT_AKI_Profile_Editor.Core
                 + AppData.AppSettings.MoneysRublesTpl;
         }
 
+        public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
+
+        public bool PathIsServerFolder(string path = null)
+        {
+            if (string.IsNullOrEmpty(path)) path = ServerPath;
+            if (string.IsNullOrEmpty(path)) return false;
+            if (!Directory.Exists(path)) return false;
+            if (FilesList.Any(x => !File.Exists(Path.Combine(path, x.Value)))) return false;
+            if (DirsList.Any(x => !Directory.Exists(Path.Combine(path, x.Value)))) return false;
+
+            return true;
+        }
+
         public void Load()
         {
             Loaded = false;

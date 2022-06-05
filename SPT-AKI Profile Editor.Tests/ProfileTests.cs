@@ -637,7 +637,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(TestConstants.profileFile);
-            Assert.IsFalse(ExtMethods.IsProfileChanged(AppData.Profile));
+            Assert.IsFalse(AppData.Profile.IsProfileChanged());
         }
 
         [Test]
@@ -648,7 +648,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(TestConstants.profileFile);
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
-            Assert.IsTrue(ExtMethods.IsProfileChanged(AppData.Profile));
+            Assert.IsTrue(AppData.Profile.IsProfileChanged());
         }
 
         [Test]

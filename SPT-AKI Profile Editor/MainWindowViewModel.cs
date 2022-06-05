@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor
 
         public static async void StartupEventsWorker()
         {
-            if (ExtMethods.PathIsServerFolder(AppData.AppSettings) && ServerChecker.CheckProcess())
+            if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
                 await Dialogs.ShutdownCozServerRunned(Instance);
             App.CloseAllItemViewWindows();
             App.Worker.AddAction(new WorkerTask
@@ -103,8 +103,8 @@ namespace SPT_AKI_Profile_Editor
         {
             App.ChangeTheme();
             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
-            || !ExtMethods.PathIsServerFolder(AppData.AppSettings)
-            || !ExtMethods.ServerHaveProfiles(AppData.AppSettings)
+            || !AppData.AppSettings.PathIsServerFolder()
+            || !AppData.AppSettings.ServerHaveProfiles()
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
                 await Dialogs.ShowSettingsDialog(this);
             else

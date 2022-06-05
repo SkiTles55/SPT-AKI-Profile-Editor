@@ -33,7 +33,7 @@ namespace SPT_AKI_Profile_Editor
             if (e.Cancel)
                 return;
 
-            if (ExtMethods.IsProfileChanged(AppData.Profile) && _shutdown == false)
+            if (AppData.Profile.IsProfileChanged() && _shutdown == false)
             {
                 e.Cancel = true;
                 Dispatcher.BeginInvoke(new Action(async () => await ConfirmShutdown()));

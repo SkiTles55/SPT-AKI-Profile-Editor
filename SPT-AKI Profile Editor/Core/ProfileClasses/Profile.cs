@@ -389,6 +389,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        public bool IsProfileChanged() => ProfileHash != 0 && ProfileHash != JsonConvert.SerializeObject(this).ToString().GetHashCode();
+
         private void WeaponBuildsChanged()
         {
             OnPropertyChanged("WeaponBuilds");

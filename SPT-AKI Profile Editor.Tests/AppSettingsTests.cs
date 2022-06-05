@@ -16,6 +16,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void AppSettingsServerPathIsServerBase() => Assert.IsTrue(settings.PathIsServerFolder());
+
+        [Test]
+        public void PathIsServerBaseTrue() => Assert.IsTrue(settings.PathIsServerFolder(TestConstants.serverPath));
+
+        [Test]
+        public void PathIsServerBaseFalse() => Assert.IsFalse(settings.PathIsServerFolder(@"D:\WinSetupFromUSB"));
+
+        [Test]
         public void LanguageNotEmpty() => Assert.IsNotNull(settings.Language, "Language is empty");
 
         [Test]

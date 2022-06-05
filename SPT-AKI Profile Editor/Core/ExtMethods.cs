@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
@@ -22,23 +19,6 @@ namespace SPT_AKI_Profile_Editor.Core
             };
             Process.Start(link);
         }
-
-        public static bool IsProfileChanged(Profile profile) =>
-            profile.ProfileHash != 0
-            && profile.ProfileHash != JsonConvert.SerializeObject(profile).ToString().GetHashCode();
-
-        public static bool PathIsServerFolder(AppSettings appSettings, string path = null)
-        {
-            if (string.IsNullOrEmpty(path)) path = appSettings.ServerPath;
-            if (string.IsNullOrEmpty(path)) return false;
-            if (!Directory.Exists(path)) return false;
-            if (appSettings.FilesList.Any(x => !File.Exists(Path.Combine(path, x.Value)))) return false;
-            if (appSettings.DirsList.Any(x => !Directory.Exists(Path.Combine(path, x.Value)))) return false;
-
-            return true;
-        }
-
-        public static bool ServerHaveProfiles(AppSettings appSettings) => appSettings.ServerProfiles != null && appSettings.ServerProfiles.Count > 0;
 
         public static JObject RemoveNullAndEmptyProperties(JObject jObject)
         {

@@ -39,12 +39,7 @@ namespace SPT_AKI_Profile_Editor
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
             .OrderBy(x => x.DisplayName)
-            .Select(x => new AccentItem
-            {
-                Color = x.PrimaryAccentColor.ToString(),
-                Name = x.DisplayName,
-                Scheme = x.Name
-            });
+            .Select(x => new AccentItem(x));
 
         public static AppSettings AppSettings => AppData.AppSettings;
 
@@ -170,17 +165,14 @@ namespace SPT_AKI_Profile_Editor
             Environment.Exit(0);
         }
 
-        private static Visibility GetNoAccountsIconVisibility() =>
-            ExtMethods.ServerHaveProfiles(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+        private static Visibility GetNoAccountsIconVisibility() => AppSettings.ServerHaveProfiles() ? Visibility.Hidden : Visibility.Visible;
 
-        private static bool GetAccountsBoxEnabled() =>
-            ExtMethods.ServerHaveProfiles(AppSettings);
+        private static bool GetAccountsBoxEnabled() => AppSettings.ServerHaveProfiles();
 
-        private static Visibility GetInvalidServerLocationIconVisibility() =>
-            ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Hidden : Visibility.Visible;
+        private static Visibility GetInvalidServerLocationIconVisibility() => AppSettings.PathIsServerFolder() ? Visibility.Hidden : Visibility.Visible;
 
         private static Visibility GetCloseButtonVisibility() =>
-            ExtMethods.ServerHaveProfiles(AppSettings) && ExtMethods.PathIsServerFolder(AppSettings) ? Visibility.Visible : Visibility.Collapsed;
+            AppSettings.ServerHaveProfiles() && AppSettings.PathIsServerFolder() ? Visibility.Visible : Visibility.Collapsed;
 
         private async Task ServerSelectDialog()
         {
@@ -191,16 +183,13 @@ namespace SPT_AKI_Profile_Editor
                     folderBrowserDialog.SelectedPath = ServerPath;
                 if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
                     pathOK = false;
-                if (ExtMethods.PathIsServerFolder(AppSettings, folderBrowserDialog.SelectedPath))
+                if (AppSettings.PathIsServerFolder(folderBrowserDialog.SelectedPath))
                     pathOK = true;
             } while (await PathIsNotServerFolder(pathOK));
             if (pathOK)
                 ServerPath = folderBrowserDialog.SelectedPath;
         }
 
-        private async Task<bool> PathIsNotServerFolder(bool pathOK)
-        {
-            return !pathOK && await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text");
-        }
+        private async Task<bool> PathIsNotServerFolder(bool pathOK) => !pathOK && await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text");
     }
 }
