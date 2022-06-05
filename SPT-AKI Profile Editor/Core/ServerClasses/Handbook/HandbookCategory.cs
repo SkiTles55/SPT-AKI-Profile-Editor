@@ -1,8 +1,8 @@
-﻿using SPT_AKI_Profile_Editor.Helpers;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using Newtonsoft.Json;
 using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses

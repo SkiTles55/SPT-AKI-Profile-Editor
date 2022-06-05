@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {

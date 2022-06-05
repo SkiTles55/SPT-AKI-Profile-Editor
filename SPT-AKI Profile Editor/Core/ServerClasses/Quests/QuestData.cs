@@ -1,8 +1,8 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {

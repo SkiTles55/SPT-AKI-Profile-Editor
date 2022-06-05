@@ -4,7 +4,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class ItemPreset
     {
-
         [JsonProperty("_id")]
         public string Id { get; set; }
 

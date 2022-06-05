@@ -1,8 +1,8 @@
-﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -11,7 +11,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private ServerGlobalsConfig config;
         private Dictionary<string, ItemPreset> itemPresets;
 
-        public ServerGlobals() { }
+        public ServerGlobals()
+        { }
 
         [JsonConstructor]
         public ServerGlobals(ServerGlobalsConfig config, Dictionary<string, ItemPreset> itemPresets)
