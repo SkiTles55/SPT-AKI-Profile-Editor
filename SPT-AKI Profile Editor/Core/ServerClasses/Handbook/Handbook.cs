@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -13,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public List<HandbookItem> Items { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<HandbookCategory> CategoriesForItemsAdding => Categories
-                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden);
+        public ObservableCollection<HandbookCategory> CategoriesForItemsAdding => Categories != null ? new(Categories
+                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)) : new();
     }
 }

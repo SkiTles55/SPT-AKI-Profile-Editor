@@ -11,9 +11,6 @@
     x:Name="Control"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=CategoriesForItemsAdding}" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -40,7 +37,7 @@
             <ListBox
                 x:Name="itemsList"
                 ItemContainerStyle="{StaticResource NoHoverListBox}"
-                ItemsSource="{Binding Source={StaticResource items}}"
+                ItemsSource="{Binding ElementName=Control, Path=CategoriesForItemsAdding}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.Resources>
                     <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
