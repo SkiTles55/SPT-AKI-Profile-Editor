@@ -239,12 +239,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 Id = id,
                 ParentId = parentId,
                 SlotId = slotId,
-                Tpl = tpl
+                Tpl = tpl,
+                Location = location,
+                Upd = itemUpd
             };
-            if (location != null)
-                newItem.Location = location;
-            if (itemUpd != null)
-                newItem.Upd = itemUpd;
             items.Add(newItem);
         }
 
@@ -423,10 +421,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        private InventoryItem GetEquipment(string slotId)
-        {
-            return Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
-        }
+        private InventoryItem GetEquipment(string slotId) => Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
 
         private List<string> GetCompleteItemsList(IEnumerable<string> items)
         {
