@@ -90,6 +90,7 @@
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 HeadersVisibility="None"
+                IsHitTestVisible="{Binding ElementName=Control, Path=PartsListScrollEnabled}"
                 IsReadOnly="True"
                 ItemsSource="{Binding ElementName=Control, Path=Build.BuildItems}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">

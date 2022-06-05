@@ -41,7 +41,7 @@
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             VirtualizingPanel.IsVirtualizing="true"
             VirtualizingPanel.ScrollUnit="Pixel"
-            VirtualizingPanel.VirtualizationMode="Recycling">
+            VirtualizingPanel.VirtualizationMode="Standard">
             <ListBox.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </ListBox.Resources>
@@ -136,7 +136,8 @@
                                 Grid.Column="0"
                                 Grid.ColumnSpan="3"
                                 Build="{Binding Value}"
-                                LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}" />
+                                LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}"
+                                PartsListScrollEnabled="False" />
                         </Grid>
                     </Border>
                 </DataTemplate>
