@@ -21,7 +21,9 @@
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             HeadersVisibility="{Binding ElementName=Control, Path=ShowHeaders}"
             IsReadOnly="True"
-            ItemsSource="{Binding Source={StaticResource items}}">
+            ItemsSource="{Binding Source={StaticResource items}}"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.ScrollUnit="Pixel">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
                 <helpers:BindingProxy x:Key="proxy2" Data="{Binding ElementName=Control}" />
