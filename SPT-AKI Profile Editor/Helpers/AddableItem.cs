@@ -9,6 +9,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public abstract class AddableItem
     {
+        public virtual string Id { get; set; }
         public virtual string Parent { get; set; }
 
         [JsonIgnore]

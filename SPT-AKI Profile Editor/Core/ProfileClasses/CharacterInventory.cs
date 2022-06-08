@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -172,6 +173,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
             AddItemToContainer(container, itemWidth, itemHeight, weaponBuild.RootTpl, count, fir, slotId, 1, weaponBuild.Root, weaponBuild.BuildItems);
+        }
+
+        public void AddNewItemsToStash(AddableItem item)
+        {
+            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            switch (item)
+            {
+                case TarkovItem:
+                    var mItem = AppData.ServerDatabase.ItemsDB[item.Id];
+                    AddNewItemsToContainer(ProfileStash, mItem, item.AddingQuantity, item.AddingFir, "hideout");
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void AddNewItemsToStash(string tpl, int count, bool fir)

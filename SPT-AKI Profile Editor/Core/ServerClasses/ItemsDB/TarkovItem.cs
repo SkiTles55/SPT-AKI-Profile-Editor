@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         [JsonProperty("_id")]
-        public string Id { get; set; }
+        public override string Id { get; set; }
 
         [JsonProperty("_props")]
         public TarkovItemProperties Properties { get; set; }
