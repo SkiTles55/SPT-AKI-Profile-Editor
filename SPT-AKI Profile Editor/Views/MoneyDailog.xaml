@@ -26,7 +26,7 @@
             Height="30"
             Margin="0,0,10,0"
             PreviewTextInput="NumberValidationTextBox"
-            Text="{Binding Count, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}"
+            Text="{Binding Moneys.AddingQuantity, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}"
             TextChanged="TextBox_TextChanged" />
         <iconPacks:PackIconFontAwesome
             Grid.Row="0"
@@ -44,7 +44,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{Binding AppLocalization.Translations[tab_stash_fir]}"
-            IsChecked="{Binding Fir}" />
+            IsChecked="{Binding Moneys.AddingFir}" />
         <StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="2"
@@ -54,7 +54,6 @@
             <Button
                 Margin="0,0,5,0"
                 Command="{Binding AddMoneysCommand}"
-                CommandParameter="{Binding Result}"
                 Content="{Binding AppLocalization.Translations[save_profile_dialog_ok]}"
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
             <Button

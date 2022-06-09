@@ -1,21 +1,18 @@
 ﻿using MahApps.Metro.IconPacks;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
     public class MoneyDailogViewModel : BindableViewModel
     {
-        private readonly string moneysTpl;
+        private AddableItem moneys;
 
-        private int count = 500000;
-
-        private bool fir = false;
-
-        public MoneyDailogViewModel(string tpl, RelayCommand addCommand, RelayCommand cancelCommand)
+        public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand, RelayCommand cancelCommand)
         {
-            moneysTpl = tpl;
+            moneys = money;
+            moneys.AddingQuantity = ((TarkovItem)moneys).Properties.StackMaxSize;
             AddMoneysCommand = addCommand;
             CancelCommand = cancelCommand;
         }
@@ -24,37 +21,24 @@ namespace SPT_AKI_Profile_Editor.Views
         public static RelayCommand AddMoneysCommand { get; set; }
         public static RelayCommand CancelCommand { get; set; }
         public PackIconFontAwesomeKind Сurrency => GetIconKind();
-        public Tuple<int, bool> Result => new(Count, Fir);
 
-        public int Count
+        public AddableItem Moneys
         {
-            get => count;
+            get => moneys;
             set
             {
-                count = value;
-                OnPropertyChanged("Count");
-                OnPropertyChanged("Result");
-            }
-        }
-
-        public bool Fir
-        {
-            get => fir;
-            set
-            {
-                fir = value;
-                OnPropertyChanged("Fir");
-                OnPropertyChanged("Result");
+                moneys = value;
+                OnPropertyChanged("Moneys");
             }
         }
 
         private PackIconFontAwesomeKind GetIconKind()
         {
-            return moneysTpl switch
+            return moneys switch
             {
-                _ when moneysTpl == AppSettings.MoneysRublesTpl => PackIconFontAwesomeKind.RubleSignSolid,
-                _ when moneysTpl == AppSettings.MoneysDollarsTpl => PackIconFontAwesomeKind.DollarSignSolid,
-                _ when moneysTpl == AppSettings.MoneysEurosTpl => PackIconFontAwesomeKind.EuroSignSolid,
+                _ when moneys.Id == AppSettings.MoneysRublesTpl => PackIconFontAwesomeKind.RubleSignSolid,
+                _ when moneys.Id == AppSettings.MoneysDollarsTpl => PackIconFontAwesomeKind.DollarSignSolid,
+                _ when moneys.Id == AppSettings.MoneysEurosTpl => PackIconFontAwesomeKind.EuroSignSolid,
                 _ => PackIconFontAwesomeKind.RubleSignSolid,
             };
         }

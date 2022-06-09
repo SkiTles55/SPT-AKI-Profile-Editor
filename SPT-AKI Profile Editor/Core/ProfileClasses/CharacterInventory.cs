@@ -181,19 +181,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             switch (item)
             {
                 case TarkovItem:
-                    var mItem = AppData.ServerDatabase.ItemsDB[item.Id];
-                    AddNewItemsToContainer(ProfileStash, mItem, item.AddingQuantity, item.AddingFir, "hideout");
+                    AddNewItemsToContainer(ProfileStash, (TarkovItem)item, item.AddingQuantity, item.AddingFir, "hideout");
                     break;
                 default:
                     break;
             }
-        }
-
-        public void AddNewItemsToStash(string tpl, int count, bool fir)
-        {
-            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
-            var mItem = AppData.ServerDatabase.ItemsDB[tpl];
-            AddNewItemsToContainer(ProfileStash, mItem, count, fir, "hideout");
         }
 
         public void AddNewWeaponToStash(WeaponBuild weaponBuild, int count, bool fir)

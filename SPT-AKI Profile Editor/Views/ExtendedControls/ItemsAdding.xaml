@@ -47,7 +47,7 @@
             VirtualizingPanel.IsVirtualizing="True">
             <TreeView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource MahApps.Styles.TreeViewItem}" TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsExpanded" Value="True" />
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>

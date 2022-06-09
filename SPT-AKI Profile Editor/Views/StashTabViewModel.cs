@@ -3,8 +3,8 @@ using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
@@ -60,32 +60,24 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         });
 
-        public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj));
+        public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj?.ToString()));
 
-        private async Task ShowAddMoneyDialog(object obj)
+        private async Task ShowAddMoneyDialog(string obj)
         {
-            if (obj == null)
+            if (string.IsNullOrEmpty(obj))
                 return;
-            string tpl = obj.ToString();
+            var money = TarkovItem.CopyFrom(ServerDatabase.ItemsDB[obj]);
             CustomDialog addMoneyDialog = new() { Title = AppLocalization.GetLocalizedString("tab_stash_dialog_money") };
-            RelayCommand addCommand = new(async obj => await AddMoneyDialogCommand(obj, tpl, addMoneyDialog));
+            RelayCommand addCommand = new(async obj => await AddMoneyDialogCommand(money, addMoneyDialog));
             RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));
-            addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(tpl, addCommand, cancelCommand) };
+            addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(money, addCommand, cancelCommand) };
             await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
         }
 
-        private async Task AddMoneyDialogCommand(object obj, string tpl, CustomDialog addMoneyDialog)
+        private async Task AddMoneyDialogCommand(AddableItem money, CustomDialog addMoneyDialog)
         {
             await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
-            if (obj == null)
-                return;
-            Tuple<int, bool> result = (Tuple<int, bool>)obj;
-            if (result == null || result.Item1 <= 0)
-                return;
-            App.Worker.AddAction(new WorkerTask
-            {
-                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(tpl, result.Item1, result.Item2)
-            });
+            App.Worker.AddAction(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money) });
         }
     }
 }
