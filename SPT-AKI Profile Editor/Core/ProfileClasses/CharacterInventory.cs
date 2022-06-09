@@ -164,34 +164,27 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return items;
         }
 
-        public void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, int count, bool fir, string slotId)
+        public void AddNewItemsToContainer(InventoryItem container, AddableItem item, string slotId)
         {
-            AddItemToContainer(container, tarkovItem.Properties.Width, tarkovItem.Properties.Height, tarkovItem.Id, count, fir, slotId, tarkovItem.Properties.StackMaxSize);
-        }
-
-        public void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, int count, bool fir, string slotId)
-        {
-            var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
-            AddItemToContainer(container, itemWidth, itemHeight, weaponBuild.RootTpl, count, fir, slotId, 1, weaponBuild.Root, weaponBuild.BuildItems);
-        }
-
-        public void AddNewItemsToStash(AddableItem item)
-        {
-            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
             switch (item)
             {
                 case TarkovItem:
-                    AddNewItemsToContainer(ProfileStash, (TarkovItem)item, item.AddingQuantity, item.AddingFir, "hideout");
+                    AddNewItemsToContainer(container, (TarkovItem)item, slotId);
                     break;
+
+                case WeaponBuild:
+                    AddNewWeaponToContainer(container, (WeaponBuild)item, slotId);
+                    break;
+
                 default:
                     break;
             }
         }
 
-        public void AddNewWeaponToStash(WeaponBuild weaponBuild, int count, bool fir)
+        public void AddNewItemsToStash(AddableItem item)
         {
             InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
-            AddNewWeaponToContainer(ProfileStash, weaponBuild, count, fir, "hideout");
+            AddNewItemsToContainer(ProfileStash, item, "hideout");
         }
 
         public void RemoveAllEquipment()
@@ -387,6 +380,33 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
 
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
+        }
+
+        private void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, string slotId)
+        {
+            AddItemToContainer(container,
+                               tarkovItem.Properties.Width,
+                               tarkovItem.Properties.Height,
+                               tarkovItem.Id,
+                               tarkovItem.AddingQuantity,
+                               tarkovItem.AddingFir,
+                               slotId,
+                               tarkovItem.Properties.StackMaxSize);
+        }
+
+        private void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, string slotId)
+        {
+            var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
+            AddItemToContainer(container,
+                               itemWidth,
+                               itemHeight,
+                               weaponBuild.RootTpl,
+                               weaponBuild.AddingQuantity,
+                               weaponBuild.AddingFir,
+                               slotId,
+                               1,
+                               weaponBuild.Root,
+                               weaponBuild.BuildItems);
         }
 
         private void AddItemToContainer(InventoryItem container, int itemWidth, int itemHeight, string itemTpl, int count, bool fir, string slotId, int stackSize, string rootId = null, IEnumerable<InventoryItem> innerItems = null, string tag = null)

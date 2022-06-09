@@ -529,7 +529,11 @@ namespace SPT_AKI_Profile_Editor.Tests
             var newItems = AppData.ServerDatabase.ItemsDB.Where(x => x.Value?.Properties?.Width > 2).Take(3).Select(x => x.Value);
             var tempSick = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == sick.Id).LastOrDefault();
             foreach (var newItem in newItems)
-                AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(tempSick, newItem, 1, true, "main");
+            {
+                newItem.AddingQuantity = 1;
+                newItem.AddingFir = true;
+                AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(tempSick, newItem, "main");
+            }
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingItems.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);
@@ -628,7 +632,9 @@ namespace SPT_AKI_Profile_Editor.Tests
             List<string> iDs = new() { weaponBuild.Root };
             var weaponsCount = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == weaponBuild.RootTpl).Count();
             iDs.AddRange(weaponBuild.BuildItems.Select(x => x.Id));
-            AppData.Profile.Characters.Pmc.Inventory.AddNewWeaponToStash(weaponBuild, 2, true);
+            weaponBuild.AddingQuantity = 2;
+            weaponBuild.AddingFir = true;
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(weaponBuild);
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingWeapons.json");
             AppData.Profile.Save(TestConstants.profileFile, testFile);
             AppData.Profile.Load(testFile);

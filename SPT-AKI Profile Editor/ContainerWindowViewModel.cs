@@ -78,7 +78,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand AddItem => new(obj =>
         {
-            if (obj == null || obj is not TarkovItem item)
+            if (obj == null || obj is not AddableItem item)
                 return;
             Worker.AddAction(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
@@ -95,9 +95,9 @@ namespace SPT_AKI_Profile_Editor
             OnPropertyChanged("");
         }
 
-        private void AddItemToContainer(TarkovItem item)
+        private void AddItemToContainer(AddableItem item)
         {
-            GetInventory().AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
+            GetInventory().AddNewItemsToContainer(_item, item, "main");
             OnPropertyChanged("");
         }
 

@@ -26,14 +26,6 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand RemoveItem => new(async obj => await RemoveItemFromStash(obj?.ToString()));
 
-        private async Task RemoveItemFromStash(string obj)
-        {
-            if (string.IsNullOrEmpty(obj))
-                return;
-            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj });
-        }
-
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
@@ -61,6 +53,14 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj?.ToString()));
+
+        private async Task RemoveItemFromStash(string obj)
+        {
+            if (string.IsNullOrEmpty(obj))
+                return;
+            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+                Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj });
+        }
 
         private async Task ShowAddMoneyDialog(string obj)
         {
