@@ -15,6 +15,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -24,7 +25,7 @@
         <DockPanel
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="3">
             <Label
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -43,6 +44,7 @@
             Grid.Row="1"
             Grid.Column="0"
             ItemsSource="{Binding ElementName=Control, Path=CategoriesForItemsAdding}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItemChanged="SelectedItemChanged"
             VirtualizingPanel.IsVirtualizing="True">
             <TreeView.ItemContainerStyle>
@@ -52,14 +54,19 @@
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type serverClasses:HandbookCategory}" ItemsSource="{Binding Categories}">
-                    <TextBlock Text="{Binding LocalizedName}" />
+                    <TextBlock Text="{Binding LocalizedName}" TextWrapping="Wrap" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+        <GridSplitter
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="3"
+            Background="{DynamicResource MahApps.Brushes.Accent3}" />
         <ListBox
             x:Name="selectedCategory"
             Grid.Row="1"
-            Grid.Column="1"
+            Grid.Column="2"
             ItemContainerStyle="{StaticResource NoHoverListBox}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             VirtualizingPanel.IsVirtualizing="True"
@@ -78,7 +85,7 @@
                                 <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
                             </Label.Content>
                         </Label>
-                        <WrapPanel DockPanel.Dock="Bottom">
+                        <WrapPanel MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=DockPanel}, Path=ActualWidth}" DockPanel.Dock="Bottom">
                             <WrapPanel.Style>
                                 <Style TargetType="WrapPanel">
                                     <Setter Property="IsEnabled" Value="True" />
