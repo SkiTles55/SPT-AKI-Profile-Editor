@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Core.ServerClasses;
-using SPT_AKI_Profile_Editor.Helpers;
+﻿using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
@@ -67,7 +66,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 
         private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (sender is TreeView treeView && treeView.SelectedItem != null && treeView.SelectedItem is HandbookCategory category)
+            if (sender is TreeView treeView && treeView.SelectedItem != null && treeView.SelectedItem is AddableCategory category)
                 selectedCategory.ItemsSource = category.Items;
         }
 

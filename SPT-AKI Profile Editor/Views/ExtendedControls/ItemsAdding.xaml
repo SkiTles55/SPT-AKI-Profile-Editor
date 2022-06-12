@@ -53,7 +53,7 @@
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type serverClasses:HandbookCategory}" ItemsSource="{Binding Categories}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Categories}">
                     <TextBlock Text="{Binding LocalizedName}" TextWrapping="Wrap" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
