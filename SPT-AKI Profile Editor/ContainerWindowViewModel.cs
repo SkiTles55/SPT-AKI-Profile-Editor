@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor
     {
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
-        private ObservableCollection<HandbookCategory> categoriesForItemsAdding;
+        private ObservableCollection<AddableCategory> categoriesForItemsAdding;
 
         public ContainerWindowViewModel(InventoryItem item, StashEditMode editMode, IDialogCoordinator dialogCoordinator)
         {
@@ -38,12 +38,12 @@ namespace SPT_AKI_Profile_Editor
 
         public bool ItemsAddingAllowed => _item.CanAddItems && CategoriesForItemsAdding.Count > 0;
 
-        public ObservableCollection<HandbookCategory> CategoriesForItemsAdding
+        public ObservableCollection<AddableCategory> CategoriesForItemsAdding
         {
             get
             {
                 if (categoriesForItemsAdding == null)
-                    categoriesForItemsAdding = new ObservableCollection<HandbookCategory>(ServerDatabase.Handbook.Categories
+                    categoriesForItemsAdding = new ObservableCollection<AddableCategory>(ServerDatabase.Handbook.Categories
                         .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x)))
                         .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden));
                 return categoriesForItemsAdding;
@@ -78,7 +78,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand AddItem => new(obj =>
         {
-            if (obj == null || obj is not TarkovItem item)
+            if (obj == null || obj is not AddableItem item)
                 return;
             Worker.AddAction(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
@@ -95,9 +95,9 @@ namespace SPT_AKI_Profile_Editor
             OnPropertyChanged("");
         }
 
-        private void AddItemToContainer(TarkovItem item)
+        private void AddItemToContainer(AddableItem item)
         {
-            GetInventory().AddNewItemsToContainer(_item, item, item.AddingQuantity, item.AddingFir, "main");
+            GetInventory().AddNewItemsToContainer(_item, item, "main");
             OnPropertyChanged("");
         }
 
@@ -110,12 +110,12 @@ namespace SPT_AKI_Profile_Editor
             };
         }
 
-        private HandbookCategory FilterForConatiner(HandbookCategory category)
+        private AddableCategory FilterForConatiner(AddableCategory category)
         {
             if (ServerDatabase.ItemsDB.ContainsKey(_item.Tpl))
             {
-                category.Items = new ObservableCollection<TarkovItem>(category.Items.Where(x => x.CanBeAddedToContainer(ServerDatabase.ItemsDB[_item.Tpl])));
-                category.Categories = new ObservableCollection<HandbookCategory>(category.Categories.Select(x => FilterForConatiner(x)).Where(x => x.IsNotHidden));
+                category.Items = new ObservableCollection<AddableItem>(category.Items.Where(x => x.CanBeAddedToContainer(ServerDatabase.ItemsDB[_item.Tpl])));
+                category.Categories = new ObservableCollection<AddableCategory>(category.Categories.Select(x => FilterForConatiner(x)).Where(x => x.IsNotHidden));
             }
             return category;
         }

@@ -1,6 +1,7 @@
-﻿using SPT_AKI_Profile_Editor.Core.ServerClasses;
+﻿using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,7 +18,10 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             DependencyProperty.Register(nameof(FilterName), typeof(string), typeof(ItemsAdding), new PropertyMetadata(null));
 
         public static readonly DependencyProperty CategoriesForItemsAddingProperty =
-            DependencyProperty.Register(nameof(CategoriesForItemsAdding), typeof(IEnumerable<HandbookCategory>), typeof(ItemsAdding), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(CategoriesForItemsAdding), typeof(IEnumerable<AddableCategory>), typeof(ItemsAdding), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty AddItemCommandProperty =
+            DependencyProperty.Register(nameof(AddItemCommand), typeof(ICommand), typeof(ItemsAdding), new PropertyMetadata(null));
 
         public ItemsAdding()
         {
@@ -30,10 +34,16 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             set { SetValue(FilterNameProperty, value); }
         }
 
-        public IEnumerable<HandbookCategory> CategoriesForItemsAdding
+        public IEnumerable<AddableCategory> CategoriesForItemsAdding
         {
-            get { return (IEnumerable<HandbookCategory>)GetValue(CategoriesForItemsAddingProperty); }
+            get { return (IEnumerable<AddableCategory>)GetValue(CategoriesForItemsAddingProperty); }
             set { SetValue(CategoriesForItemsAddingProperty, value); }
+        }
+
+        public ICommand AddItemCommand
+        {
+            get { return (ICommand)GetValue(AddItemCommandProperty); }
+            set { SetValue(AddItemCommandProperty, value); }
         }
 
         private void FilterBoxAdding_TextChanged(object sender, TextChangedEventArgs e) =>
@@ -48,21 +58,45 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             {
                 cv.Filter = o =>
                 {
-                    HandbookCategory p = o as HandbookCategory;
+                    AddableCategory p = o as AddableCategory;
                     return p.ContainsItemsWithTextInName(FilterName);
                 };
             }
         }
 
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (sender is ScrollViewer scrollViewer)
+            if (sender is TreeView treeView && treeView.SelectedItem != null && treeView.SelectedItem is AddableCategory category)
+                selectedCategory.ItemsSource = category.Items;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (string.IsNullOrEmpty(textBox.Text))
             {
-                if (e.Delta > 0)
-                    scrollViewer.LineUp();
-                else
-                    scrollViewer.LineDown();
-                e.Handled = true;
+                textBox.Text = "1";
+                textBox.CaretIndex = 1;
+                return;
+            }
+            if (int.TryParse(textBox.Text.Replace(",", ""), out int money))
+            {
+                if (money < 1)
+                {
+                    textBox.Text = "1";
+                    textBox.CaretIndex = 1;
+                }
+            }
+            else
+            {
+                textBox.Text = int.MaxValue.ToString();
+                textBox.CaretIndex = textBox.Text.Length;
             }
         }
     }

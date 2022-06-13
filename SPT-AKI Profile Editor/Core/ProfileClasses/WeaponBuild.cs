@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class WeaponBuild
+    public class WeaponBuild : AddableItem
     {
         private float RecoilDelta = 0;
 
@@ -54,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public override string Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

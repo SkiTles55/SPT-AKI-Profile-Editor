@@ -90,7 +90,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 return;
             App.Worker.AddAction(new WorkerTask
             {
-                Action = () => Profile.Characters.Pmc.Inventory.AddNewWeaponToStash(build, 1, true),
+                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("tab_presets_import")
             });

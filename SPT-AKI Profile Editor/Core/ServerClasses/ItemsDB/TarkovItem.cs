@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class TarkovItem
+    public class TarkovItem : AddableItem
     {
         [JsonConstructor]
         public TarkovItem(string id, TarkovItemProperties properties, string parent, string type)
@@ -21,51 +21,25 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         [JsonProperty("_id")]
-        public string Id { get; set; }
+        public override string Id { get; set; }
 
         [JsonProperty("_props")]
         public TarkovItemProperties Properties { get; set; }
 
         [JsonProperty("_parent")]
-        public string Parent { get; set; }
+        public override string Parent { get; set; }
 
         [JsonProperty("_type")]
         public string Type { get; set; }
 
         [JsonIgnore]
-        public bool CanBeAddedToStash { get; }
-
-        [JsonIgnore]
-        public int AddingQuantity { get; set; } = 1;
-
-        [JsonIgnore]
-        public bool AddingFir { get; set; } = false;
-
-        [JsonIgnore]
-        public string LocalizedName =>
+        public override string LocalizedName =>
             AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Templates[Id].Name : Id;
 
         [JsonIgnore]
         public int SlotsCount { get; }
 
         public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
-
-        public bool CanBeAddedToContainer(TarkovItem container)
-        {
-            var filters = container.Properties?.Grids?.FirstOrDefault().Props?.Filters;
-            if (filters == null || filters.Length == 0)
-                return true;
-            if (filters[0].ExcludedFilter.Contains(Parent))
-                return false;
-            if (filters[0].Filter.Length > 0)
-            {
-                List<string> parents = new() { Parent };
-                while (AppData.ServerDatabase.ItemsDB.ContainsKey(parents.Last()))
-                    parents.Add(AppData.ServerDatabase.ItemsDB[parents.Last()].Parent);
-                return parents.Any(x => filters[0].Filter.Contains(x));
-            }
-            return true;
-        }
 
         private int CalculateSlotsCount()
         {

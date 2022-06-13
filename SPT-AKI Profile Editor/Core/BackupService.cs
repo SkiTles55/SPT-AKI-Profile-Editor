@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public bool HasBackups => BackupList != null && BackupList.Count() > 0;
+        public bool HasBackups => BackupList != null && BackupList.Any();
 
         public IEnumerable<BackupFile> BackupList
         {

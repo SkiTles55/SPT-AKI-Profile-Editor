@@ -58,7 +58,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 cv.Filter = o =>
                 {
                     KeyValuePair<string, WeaponBuild>? p = o as KeyValuePair<string, WeaponBuild>?;
-                    return p != null ? p.Value.Value.Name.ToUpper().Contains(filter.ToUpper()) : true;
+                    return p == null || p.Value.Value.Name.ToUpper().Contains(filter.ToUpper());
                 };
             }
         }

@@ -24,6 +24,7 @@
                 <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
                 <extendedcontrols:ItemsAdding
                     Grid.Row="1"
+                    AddItemCommand="{Binding AddItem}"
                     CategoriesForItemsAdding="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}"
                     FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
