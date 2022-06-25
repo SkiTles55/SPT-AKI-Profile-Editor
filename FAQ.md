@@ -23,7 +23,7 @@
     "file_quests": "Aki_Data\\Server\\database\\templates\\quests.json",
     "file_areas": "Aki_Data\\Server\\database\\hideout\\areas.json",
     "file_handbook": "Aki_Data\\Server\\database\\templates\\handbook.json",
-    "file_serverexe": "Server.exe"
+    "file_serverexe": "Aki.Server.exe"
   },
 ```
 #### UPD for SPT-AKI 3.0.0: [Редактор профиля не работает с версией 3.0.0?](https://youtu.be/XO2r4dG_kpk)

@@ -67,7 +67,7 @@ namespace SPT_AKI_Profile_Editor.Core
             ["file_quests"] = "Aki_Data\\Server\\database\\templates\\quests.json",
             ["file_areas"] = "Aki_Data\\Server\\database\\hideout\\areas.json",
             ["file_handbook"] = "Aki_Data\\Server\\database\\templates\\handbook.json",
-            ["file_serverexe"] = "Server.exe"
+            ["file_serverexe"] = "Aki.Server.exe"
         };
 
         public static List<AppLocalization> DefaultLocalizations => new()
