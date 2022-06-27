@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(QuestStatusConverter))]
         [JsonProperty("status")]
         public QuestStatus Status
         {
