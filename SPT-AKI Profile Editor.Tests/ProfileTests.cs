@@ -237,7 +237,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestConstants.profileFile);
             var locked = AppData.Profile.Characters.Pmc.Quests?
                 .Where(x => x.Type == QuestType.Standart && x.Status == QuestStatus.Locked)?
-                .First();
+                .FirstOrDefault();
             Assert.IsNotNull(locked);
             locked.Status = QuestStatus.AvailableForFinish;
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");

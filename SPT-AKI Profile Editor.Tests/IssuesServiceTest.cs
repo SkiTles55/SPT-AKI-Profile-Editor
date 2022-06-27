@@ -172,7 +172,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
-            var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is TraderLoyaltyIssue).First();
+            var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is TraderLoyaltyIssue).FirstOrDefault();
             Assert.NotNull(firstIssue, "First Trader Loyalty Issue is null");
             firstIssue.FixAction.Invoke();
             AppData.IssuesService.GetIssues();

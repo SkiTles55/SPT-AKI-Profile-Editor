@@ -5,9 +5,9 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     internal class TestConstants
     {
-        public static readonly string profileFile = @"C:\SPT\user\profiles\3aabedcdece6b7093c76d410.json";
+        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\51d161ff9b7af0eabbe0f320.json";
 
-        public static readonly string serverPath = @"C:\SPT";
+        public static readonly string serverPath = @"C:\SPT-AKI";
 
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
 
