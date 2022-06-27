@@ -12,7 +12,7 @@ You can make changes to these sections as needed.
 
 An example of the DirsList and FilesList sections in the [AppSettings.json](ENGFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) file:
 ```json
-"DirsList": {
+  "DirsList": {
     "dir_globals": "Aki_Data\\Server\\database\\locales\\global",
     "dir_traders": "Aki_Data\\Server\\database\\traders",
     "dir_bots": "Aki_Data\\Server\\database\\bots\\types",
@@ -24,7 +24,7 @@ An example of the DirsList and FilesList sections in the [AppSettings.json](ENGF
     "file_quests": "Aki_Data\\Server\\database\\templates\\quests.json",
     "file_areas": "Aki_Data\\Server\\database\\hideout\\areas.json",
     "file_handbook": "Aki_Data\\Server\\database\\templates\\handbook.json",
-    "file_serverexe": "Server.exe"
+    "file_serverexe": "Aki.Server.exe"
   },
 ```
 #### UPD for SPT-AKI 3.0.0: [Profile Editor does not work with version 3.0.0?](https://youtu.be/XO2r4dG_kpk)
