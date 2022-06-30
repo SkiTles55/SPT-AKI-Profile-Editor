@@ -23,16 +23,19 @@ namespace SPT_AKI_Profile_Editor
             _editMode = editMode;
             List<InventoryItem> items = new() { _item };
             List<string> skippedSlots = new() { "patron_in_weapon", "cartridges" };
+            List<InventoryItem> innerItems = null;
             switch (editMode)
             {
                 case StashEditMode.PMC:
-                    items.AddRange(AppData.Profile.Characters.Pmc.Inventory.GetInnerItems(item.Id, skippedSlots));
+                    innerItems = AppData.Profile.Characters?.Pmc?.Inventory?.GetInnerItems(item.Id, skippedSlots);
                     break;
 
                 case StashEditMode.Scav:
-                    items.AddRange(AppData.Profile.Characters.Scav.Inventory.GetInnerItems(item.Id, skippedSlots));
+                    innerItems = AppData.Profile.Characters?.Scav?.Inventory?.GetInnerItems(item.Id, skippedSlots);
                     break;
             }
+            if (innerItems != null)
+                items.AddRange(innerItems);
             WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
         }
 
