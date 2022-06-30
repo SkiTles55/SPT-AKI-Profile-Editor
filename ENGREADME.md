@@ -13,6 +13,7 @@
 
 ### [Submit a bug report](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
+### [Version 2.3.1 for server SPT-AKI 3.0.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3.1)
 ### [Version 2.3 for server SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3)
 ### [Profile Editor does not work with version 3.0.0?](https://youtu.be/XO2r4dG_kpk)
 
