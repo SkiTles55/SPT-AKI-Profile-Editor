@@ -113,7 +113,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void AddModProperties(InventoryItem item)
         {
-            if (AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
+            if ((AppData.ServerDatabase.ItemsDB?.ContainsKey(item.Tpl) ?? false) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
             {
                 RecoilDelta += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Recoil;
                 Ergonomics += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Ergonomics;

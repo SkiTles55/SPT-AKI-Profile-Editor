@@ -27,11 +27,11 @@ namespace SPT_AKI_Profile_Editor
             switch (editMode)
             {
                 case StashEditMode.PMC:
-                    innerItems = AppData.Profile.Characters?.Pmc?.Inventory?.GetInnerItems(item.Id, skippedSlots);
+                    innerItems = Profile?.Characters?.Pmc?.Inventory?.GetInnerItems(item.Id, skippedSlots);
                     break;
 
                 case StashEditMode.Scav:
-                    innerItems = AppData.Profile.Characters?.Scav?.Inventory?.GetInnerItems(item.Id, skippedSlots);
+                    innerItems = Profile?.Characters?.Scav?.Inventory?.GetInnerItems(item.Id, skippedSlots);
                     break;
             }
             if (innerItems != null)
@@ -52,11 +52,11 @@ namespace SPT_AKI_Profile_Editor
                 switch (_editMode)
                 {
                     case StashEditMode.Scav:
-                        Profile.Characters.Scav.Inventory.RemoveItems(new() { _item.Id });
+                        Profile?.Characters?.Scav?.Inventory?.RemoveItems(new() { _item.Id });
                         break;
 
                     case StashEditMode.PMC:
-                        Profile.Characters.Pmc.Inventory.RemoveItems(new() { _item.Id });
+                        Profile?.Characters?.Pmc?.Inventory?.RemoveItems(new() { _item.Id });
                         break;
                 }
             }

@@ -30,11 +30,21 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (!isBusy)
             {
                 isBusy = true;
-                progressDialog = await _dialogCoordinator.ShowProgressAsync(_viewModel,
-                    task.Title,
-                    task.Description);
-                progressDialog.SetIndeterminate();
+                await CreateProgressDialog(task.Title, task.Description);
+                progressDialog?.SetIndeterminate();
                 RunWorkerAsync();
+            }
+        }
+
+        private async Task CreateProgressDialog(string title, string description)
+        {
+            try
+            {
+                progressDialog = await _dialogCoordinator.ShowProgressAsync(_viewModel, title, description);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"Worker CreateProgressDialog Error | {ex.Message}");
             }
         }
 
@@ -42,8 +52,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             while (tasks.Count > 0)
             {
-                progressDialog.SetTitle(tasks[0].Title);
-                progressDialog.SetMessage(tasks[0].Description);
+                progressDialog?.SetTitle(tasks[0].Title);
+                progressDialog?.SetMessage(tasks[0].Description);
                 try
                 {
                     await Task.Run(() => tasks[0].Action());
@@ -52,17 +62,17 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 }
                 catch (Exception ex)
                 {
-                    if (progressDialog.IsOpen)
-                        await progressDialog.CloseAsync();
+                    if (progressDialog?.IsOpen ?? false)
+                        await progressDialog?.CloseAsync();
                     await Dialogs.ShowOkMessageAsync(_viewModel,
                         AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
                         ex.Message);
-                    Logger.Log($"LoadDataWorker | {ex.Message}");
+                    Logger.Log($"Run Worker Error | {ex.Message}");
                 }
                 tasks.RemoveAt(0);
             }
-            if (progressDialog.IsOpen)
-                await progressDialog.CloseAsync();
+            if (progressDialog?.IsOpen ?? false)
+                await progressDialog?.CloseAsync();
             while (workerNotifications.Count > 0)
             {
                 await Dialogs.ShowOkMessageAsync(_viewModel, workerNotifications[0].NotificationTitle,
