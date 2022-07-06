@@ -100,7 +100,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
             BuildItems = buildItems.Where(x => x.Id != Root);
-            HasModdedItems = buildItems.Any(x => x.IsAddedByMods);
+            HasModdedItems = buildItems.Any(x => !x.IsInItemsDB);
             var weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault();
             Weapon = weapon.LocalizedName;
             RootTpl = weapon.Tpl;
@@ -113,7 +113,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void AddModProperties(InventoryItem item)
         {
-            if ((AppData.ServerDatabase.ItemsDB?.ContainsKey(item.Tpl) ?? false) && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
+            if (item.IsInItemsDB && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
             {
                 RecoilDelta += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Recoil;
                 Ergonomics += AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.Ergonomics;
@@ -122,7 +122,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void SetupWeaponProperties(InventoryItem item)
         {
-            if (AppData.ServerDatabase.ItemsDB?.ContainsKey(item.Tpl) ?? false && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
+            if (item.IsInItemsDB && AppData.ServerDatabase.ItemsDB[item.Tpl].Properties != null)
             {
                 RecoilForceUp = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.RecoilForceUp;
                 RecoilForceBack = AppData.ServerDatabase.ItemsDB[item.Tpl].Properties.RecoilForceBack;

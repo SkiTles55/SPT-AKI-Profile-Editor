@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 Assert.That(pmcWeaponBuild, Is.Not.Null);
                 Assert.That(pmcWeaponBuild.Worker, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(GetTestName(StashEditMode.PMC)));
+                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)));
                 Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null);
                 Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(4));
             });
@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 Assert.That(pmcWeaponBuild, Is.Not.Null);
                 Assert.That(pmcWeaponBuild.Worker, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(GetTestName(StashEditMode.Scav)));
+                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)));
                 Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null);
                 Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(6));
             });
@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.Profile.WeaponBuilds = new();
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(GetTestName(StashEditMode.PMC)),
+            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)),
                 Is.True.After(2).Seconds.PollEvery(250).MilliSeconds);
         }
 
@@ -52,50 +52,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.Profile.WeaponBuilds = new();
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(GetTestName(StashEditMode.Scav)),
+            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)),
                 Is.True.After(2).Seconds.PollEvery(250).MilliSeconds);
         }
 
         private static WeaponBuildWindowViewModel TestViewModel(StashEditMode editMode)
         {
-            CharacterInventory pmcInventory = new()
-            {
-                Items = TestConstants.GenerateTestItems(3, GetTestName(editMode))
-            };
-            CharacterInventory scavInventory = new()
-            {
-                Items = TestConstants.GenerateTestItems(5, GetTestName(editMode))
-            };
-            Character pmc = new()
-            {
-                Inventory = pmcInventory,
-            };
-            Character scav = new()
-            {
-                Inventory = scavInventory,
-            };
-            ProfileCharacters characters = new()
-            {
-                Pmc = pmc,
-                Scav = scav
-            };
+            TestConstants.SetupTestCharacters("WeaponBuildWindowViewModel", editMode);
             InventoryItem item = new()
             {
-                Id = GetTestName(editMode),
-                Tpl = GetTestName(editMode)
+                Id = TestConstants.GetTestName("WeaponBuildWindowViewModel", editMode),
+                Tpl = TestConstants.GetTestName("WeaponBuildWindowViewModel", editMode)
             };
-            AppData.Profile.Characters = characters;
             return new(item, editMode, DialogCoordinator.Instance);
-        }
-
-        private static string GetTestName(StashEditMode editMode)
-        {
-            return editMode switch
-            {
-                StashEditMode.PMC => "WeaponBuildWindowViewModel_Test_PMC",
-                StashEditMode.Scav => "WeaponBuildWindowViewModel_Test_Scav",
-                _ => "WeaponBuildWindowViewModel_Test_Unknown",
-            };
         }
     }
 }

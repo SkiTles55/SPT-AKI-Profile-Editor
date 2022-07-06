@@ -89,7 +89,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -161,7 +161,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -233,7 +233,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -305,7 +305,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -377,7 +377,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -449,7 +449,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -521,7 +521,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -593,7 +593,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -665,7 +665,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -737,7 +737,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -809,7 +809,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -902,7 +902,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -974,7 +974,7 @@
                         <Style TargetType="Label">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsAddedByMods}" Value="True">
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB}" Value="False">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>

@@ -83,7 +83,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool HasItems => InventoryItems?.Count() > 0;
 
         [JsonIgnore]
-        public bool ContainsModdedItems => InventoryItems.Any(x => x.IsAddedByMods);
+        public bool ContainsModdedItems => InventoryItems.Any(x => !x.IsInItemsDB);
 
         [JsonIgnore]
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();

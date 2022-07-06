@@ -1,4 +1,6 @@
-﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.IO;
 
@@ -26,6 +28,42 @@ namespace SPT_AKI_Profile_Editor.Tests
                 };
             }
             return items;
+        }
+
+        public static string GetTestName(string prefix, StashEditMode editMode)
+        {
+            return editMode switch
+            {
+                StashEditMode.PMC => $"{prefix}_Test_PMC",
+                StashEditMode.Scav => $"{prefix}_Test_Scav",
+                _ => $"{prefix}_Test_Unknown",
+            };
+        }
+
+        public static void SetupTestCharacters(string prefix, StashEditMode editMode)
+        {
+            CharacterInventory pmcInventory = new()
+            {
+                Items = GenerateTestItems(3, GetTestName(prefix, editMode))
+            };
+            CharacterInventory scavInventory = new()
+            {
+                Items = GenerateTestItems(5, GetTestName(prefix, editMode))
+            };
+            Character pmc = new()
+            {
+                Inventory = pmcInventory,
+            };
+            Character scav = new()
+            {
+                Inventory = scavInventory,
+            };
+            ProfileCharacters characters = new()
+            {
+                Pmc = pmc,
+                Scav = scav
+            };
+            AppData.Profile.Characters = characters;
         }
     }
 }

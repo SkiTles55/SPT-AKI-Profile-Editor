@@ -64,7 +64,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="30" SortMemberPath="IsAddedByMods">
+                <DataGridTemplateColumn Width="30" SortMemberPath="IsInItemsDB">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label
@@ -76,7 +76,7 @@
                                     <Style TargetType="Label">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsAddedByMods}" Value="True">
+                                            <DataTrigger Binding="{Binding Path=IsInItemsDB}" Value="False">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>

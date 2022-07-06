@@ -27,8 +27,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string LocalizedName => (!string.IsNullOrEmpty(Tag) ? $"[{Tag}] " : string.Empty) + GlobalName + CountString;
 
         [JsonIgnore]
-        public bool IsAddedByMods =>
-            !(AppData.ServerDatabase.ItemsDB?.ContainsKey(Tpl) ?? false);
+        public bool IsInItemsDB =>
+            AppData.ServerDatabase.ItemsDB?.ContainsKey(Tpl) ?? false;
 
         [JsonIgnore]
         public bool IsPockets => SlotId == AppData.AppSettings.PocketsSlotId;
@@ -44,13 +44,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             AppData.ServerDatabase.LocalesGlobal?.Templates?.ContainsKey(Tpl) ?? false ? AppData.ServerDatabase.LocalesGlobal.Templates[Tpl].Name : Tpl;
 
         [JsonIgnore]
-        public bool IsContainer => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
+        public bool IsContainer => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
 
         [JsonIgnore]
-        public bool CanAddItems => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length == 1;
+        public bool CanAddItems => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length == 1;
 
         [JsonIgnore]
-        public bool IsWeapon => AppData.ServerDatabase.ItemsDB.ContainsKey(Tpl) && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
+        public bool IsWeapon => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
 
         public static InventoryItem CopyFrom(InventoryItem item) => new()
         {
