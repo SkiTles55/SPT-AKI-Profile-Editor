@@ -64,17 +64,12 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand ExportBuild => new(obj =>
         {
-            SaveFileDialog saveFileDialog = new()
-            {
-                Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
-                FileName = $"Weapon preset {WeaponBuild.Name}",
-                RestoreDirectory = true
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(WeaponBuild.Name);
+            if (saveBuildDialog.ShowDialog() == DialogResult.OK)
             {
                 Worker.AddAction(new WorkerTask
                 {
-                    Action = () => { Profile.ExportBuild(WeaponBuild, saveFileDialog.FileName); },
+                    Action = () => { Profile.ExportBuild(WeaponBuild, saveBuildDialog.FileName); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("tab_presets_export")
                 });

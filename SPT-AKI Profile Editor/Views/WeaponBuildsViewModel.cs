@@ -2,7 +2,6 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,17 +26,12 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (obj == null || obj is not WeaponBuild build)
                 return;
-            SaveFileDialog saveFileDialog = new()
-            {
-                Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
-                FileName = $"Weapon preset {build.Name}",
-                RestoreDirectory = true
-            };
-            if (saveFileDialog.ShowDialog() != DialogResult.OK)
+            var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(build.Name);
+            if (saveBuildDialog.ShowDialog() != DialogResult.OK)
                 return;
             App.Worker.AddAction(new WorkerTask
             {
-                Action = () => Profile.ExportBuild(build, saveFileDialog.FileName),
+                Action = () => Profile.ExportBuild(build, saveBuildDialog.FileName),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("tab_presets_export")
             });
@@ -45,11 +39,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private static void ExportAllBuilds()
         {
-            FolderBrowserDialog folderBrowserDialog = new()
-            {
-                RootFolder = Environment.SpecialFolder.MyComputer,
-                ShowNewFolderButton = true
-            };
+            var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(true);
             if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
                 return;
             foreach (var build in Profile.WeaponBuilds)
@@ -65,12 +55,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private static void ImportBuildsFromFiles()
         {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
-                RestoreDirectory = true,
-                Multiselect = true
-            };
+            var openFileDialog = WindowsDialogs.OpenWeaponBuildDialog();
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
             foreach (var file in openFileDialog.FileNames)

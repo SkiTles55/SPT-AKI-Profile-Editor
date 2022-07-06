@@ -14,13 +14,6 @@ namespace SPT_AKI_Profile_Editor
 {
     internal class SettingsDialogViewModel : BindableViewModel
     {
-        private static readonly FolderBrowserDialog folderBrowserDialog = new()
-        {
-            Description = AppLocalization.GetLocalizedString("server_select"),
-            RootFolder = Environment.SpecialFolder.MyComputer,
-            ShowNewFolderButton = false
-        };
-
         private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
 
         private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
@@ -176,6 +169,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task ServerSelectDialog()
         {
+            var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(false, AppLocalization.GetLocalizedString("server_select"));
             bool pathOK = false;
             do
             {

@@ -29,11 +29,7 @@ namespace SPT_AKI_Profile_Editor
         {
             if (ReleaseFile == null)
                 return;
-            SaveFileDialog saveFileDialog = new()
-            {
-                FileName = ReleaseFile.Name,
-                RestoreDirectory = true
-            };
+            var saveFileDialog = WindowsDialogs.SaveFileDialog(ReleaseFile.Name);
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
