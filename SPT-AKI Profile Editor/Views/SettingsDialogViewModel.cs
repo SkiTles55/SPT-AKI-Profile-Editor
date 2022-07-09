@@ -152,6 +152,8 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand ServerSelect => new(async obj => await ServerSelectDialog());
 
+        public RelayCommand OpenLocalizationEditor => new(async obj => await Dialogs.ShowLocalizationEditorDialog(this, (AppLocalization)obj));
+
         private static void ReloadApplication()
         {
             System.Windows.Forms.Application.Restart();
