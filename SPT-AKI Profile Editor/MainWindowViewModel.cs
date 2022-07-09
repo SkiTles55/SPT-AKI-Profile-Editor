@@ -57,7 +57,7 @@ namespace SPT_AKI_Profile_Editor
         {
             if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
                 await Dialogs.ShutdownCozServerRunned(Instance);
-            App.CloseAllItemViewWindows();
+            App.CloseItemViewWindows();
             App.Worker.AddAction(new WorkerTask
             {
                 Action = AppData.StartupEvents,

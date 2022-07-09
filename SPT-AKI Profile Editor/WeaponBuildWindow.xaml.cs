@@ -13,6 +13,7 @@ namespace SPT_AKI_Profile_Editor
         {
             InitializeComponent();
             DataContext = new WeaponBuildWindowViewModel(item, editMode, DialogCoordinator);
+            this.AllowDragging();
         }
     }
 }

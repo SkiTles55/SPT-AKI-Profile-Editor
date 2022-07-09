@@ -47,14 +47,11 @@ namespace SPT_AKI_Profile_Editor
         {
             foreach (Window window in Current.Windows)
                 if (window is ItemViewWindow openedWindow && openedWindow.ItemId == itemId)
-                {
-                    openedWindow.Activate();
-                    return true;
-                }
+                    return openedWindow.Activate();
             return false;
         }
 
-        public static void CloseItemViewWindows(List<string> idsList)
+        public static void CloseItemViewWindows(List<string> idsList = null)
         {
             // Skipping in nUnit tests
             if (Current == null)
@@ -62,20 +59,7 @@ namespace SPT_AKI_Profile_Editor
             Current.Dispatcher.Invoke(() =>
             {
                 foreach (Window window in Current.Windows)
-                    if (window is ItemViewWindow containerWindow && idsList.Contains(containerWindow.ItemId))
-                        containerWindow.Close();
-            });
-        }
-
-        public static void CloseAllItemViewWindows()
-        {
-            // Skipping in nUnit tests
-            if (Current == null)
-                return;
-            Current.Dispatcher.Invoke(() =>
-            {
-                foreach (Window window in Current.Windows)
-                    if (window is ItemViewWindow containerWindow)
+                    if (window is ItemViewWindow containerWindow && (idsList == null || idsList.Contains(containerWindow.ItemId)))
                         containerWindow.Close();
             });
         }

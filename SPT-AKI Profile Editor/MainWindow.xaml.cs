@@ -18,26 +18,25 @@ namespace SPT_AKI_Profile_Editor
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             InitializeComponent();
             DataContext = new MainWindowViewModel();
+            this.AllowDragging();
         }
 
         private void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (e.ExceptionObject is Exception exception)
-                App.HandleException(exception);
-            else
-                App.HandleException(new Exception("Unknown Exception!"));
+            var exception = e.ExceptionObject as Exception;
+            App.HandleException(exception ?? new Exception("Unknown Exception!"));
         }
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (e.Cancel)
-                return;
-
-            if (AppData.Profile.IsProfileChanged() && _shutdown == false)
+            if (!e.Cancel && AppData.Profile.IsProfileChanged() && _shutdown == false)
             {
                 e.Cancel = true;
                 Dispatcher.BeginInvoke(new Action(async () => await ConfirmShutdown()));
+                return;
             }
+
+            App.CloseItemViewWindows();
         }
 
         private async Task ConfirmShutdown()
