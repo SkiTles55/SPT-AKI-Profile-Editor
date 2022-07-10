@@ -13,20 +13,20 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void InitializeCorrectly()
         {
-            Assert.That(_viewModel, Is.Not.Null);
-            Assert.That(App.DialogCoordinator, Is.Not.Null);
-            Assert.That(App.Worker, Is.Not.Null);
-            Assert.That(MainWindowViewModel.WindowTitle, Is.Not.Empty);
-            Assert.AreEqual(_viewModel, MainWindowViewModel.Instance);
+            Assert.That(_viewModel, Is.Not.Null, "MainWindowViewModel is null");
+            Assert.That(App.DialogCoordinator, Is.Not.Null, "DialogCoordinator is null");
+            Assert.That(App.Worker, Is.Not.Null, "Worker is null");
+            Assert.That(MainWindowViewModel.WindowTitle, Is.Not.Empty, "WindowTitle is empty");
+            Assert.AreEqual(_viewModel, MainWindowViewModel.Instance, "MainWindowViewModel.Instance is not MainWindowViewModel");
         }
 
         [Test]
         public void CanOpenCloseFastMode()
         {
             MainWindowViewModel.OpenFastModeCommand.Execute(null);
-            Assert.That(AppData.AppSettings.FastModeOpened, Is.True);
+            Assert.That(AppData.AppSettings.FastModeOpened, Is.True, "FastModeOpened is false");
             MainWindowViewModel.OpenFastModeCommand.Execute(null);
-            Assert.That(AppData.AppSettings.FastModeOpened, Is.False);
+            Assert.That(AppData.AppSettings.FastModeOpened, Is.False, "FastModeOpened is true");
         }
     }
 }
