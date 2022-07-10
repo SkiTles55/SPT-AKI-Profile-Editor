@@ -7,21 +7,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
-    internal class SettingsDialogViewModel : BindableViewModel
+    public class SettingsDialogViewModel : BindableViewModel
     {
-        private static Visibility invalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
-
-        private static Visibility noAccountsIcon = GetNoAccountsIconVisibility();
-
-        private static bool accountsBoxEnabled = GetAccountsBoxEnabled();
-
-        private static Visibility closeButton = GetCloseButtonVisibility();
-
         private int selectedTab;
 
         public SettingsDialogViewModel(RelayCommand command, int index = 0)
@@ -34,18 +25,11 @@ namespace SPT_AKI_Profile_Editor
             .OrderBy(x => x.DisplayName)
             .Select(x => new AccentItem(x));
 
-        public static AppSettings AppSettings => AppData.AppSettings;
-
         public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
-
         public static RelayCommand CloseCommand { get; set; }
-
         public static RelayCommand QuitCommand => App.CloseApplication;
-
         public static RelayCommand OpenAppData => new(obj => ExtMethods.OpenUrl(DefaultValues.AppDataFolder));
-
         public static RelayCommand ResetSettings => new(obj => File.Delete(AppSettings.configurationFile));
-
         public static RelayCommand ResetLocalizations => new(obj => Directory.Delete(AppLocalization.localizationsDir, true));
 
         public static RelayCommand ResetAndReload => new(async obj =>
@@ -63,6 +47,8 @@ namespace SPT_AKI_Profile_Editor
                 await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance, AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), ex.Message);
             }
         });
+
+        public AppSettings AppSettings => AppData.AppSettings;
 
         public int SelectedTab
         {
@@ -92,10 +78,8 @@ namespace SPT_AKI_Profile_Editor
             {
                 AppSettings.ServerPath = value;
                 OnPropertyChanged("ServerPath");
-                InvalidServerLocationIcon = GetInvalidServerLocationIconVisibility();
-                CloseButton = GetCloseButtonVisibility();
-                NoAccountsIcon = GetNoAccountsIconVisibility();
-                AccountsBoxEnabled = GetAccountsBoxEnabled();
+                OnPropertyChanged("ServerPathValid");
+                OnPropertyChanged("ServerHasAccounts");
             }
         }
 
@@ -110,45 +94,9 @@ namespace SPT_AKI_Profile_Editor
             }
         }
 
-        public Visibility InvalidServerLocationIcon
-        {
-            get => invalidServerLocationIcon;
-            set
-            {
-                invalidServerLocationIcon = value;
-                OnPropertyChanged("InvalidServerLocationIcon");
-            }
-        }
+        public bool ServerPathValid => AppSettings.PathIsServerFolder();
 
-        public Visibility NoAccountsIcon
-        {
-            get => noAccountsIcon;
-            set
-            {
-                noAccountsIcon = value;
-                OnPropertyChanged("NoAccountsIcon");
-            }
-        }
-
-        public bool AccountsBoxEnabled
-        {
-            get => accountsBoxEnabled;
-            set
-            {
-                accountsBoxEnabled = value;
-                OnPropertyChanged("AccountsBoxEnabled");
-            }
-        }
-
-        public Visibility CloseButton
-        {
-            get => closeButton;
-            set
-            {
-                closeButton = value;
-                OnPropertyChanged("CloseButton");
-            }
-        }
+        public bool ServerHasAccounts => AppSettings.ServerHaveProfiles();
 
         public RelayCommand ServerSelect => new(async obj => await ServerSelectDialog());
 
@@ -157,15 +105,6 @@ namespace SPT_AKI_Profile_Editor
             System.Windows.Forms.Application.Restart();
             Environment.Exit(0);
         }
-
-        private static Visibility GetNoAccountsIconVisibility() => AppSettings.ServerHaveProfiles() ? Visibility.Hidden : Visibility.Visible;
-
-        private static bool GetAccountsBoxEnabled() => AppSettings.ServerHaveProfiles();
-
-        private static Visibility GetInvalidServerLocationIconVisibility() => AppSettings.PathIsServerFolder() ? Visibility.Hidden : Visibility.Visible;
-
-        private static Visibility GetCloseButtonVisibility() =>
-            AppSettings.ServerHaveProfiles() && AppSettings.PathIsServerFolder() ? Visibility.Visible : Visibility.Collapsed;
 
         private async Task ServerSelectDialog()
         {

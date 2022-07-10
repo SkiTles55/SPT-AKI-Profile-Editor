@@ -77,12 +77,21 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Foreground="Red"
-                        ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}"
-                        Visibility="{Binding InvalidServerLocationIcon}">
+                        ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}">
                         <iconPacks:PackIconFontAwesome
                             Width="24"
                             Height="24"
                             Kind="ExclamationTriangleSolid" />
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ServerPathValid}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
                     </Label>
                     <Grid
                         Grid.Row="1"
@@ -122,12 +131,21 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Foreground="Red"
-                        ToolTip="{Binding AppLocalization.Translations[no_accounts]}"
-                        Visibility="{Binding NoAccountsIcon}">
+                        ToolTip="{Binding AppLocalization.Translations[no_accounts]}">
                         <iconPacks:PackIconFontAwesome
                             Width="24"
                             Height="24"
                             Kind="ExclamationTriangleSolid" />
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ServerHasAccounts}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
                     </Label>
                     <ComboBox
                         Grid.Row="2"
@@ -135,7 +153,7 @@
                         Margin="10,5,10,0"
                         VerticalAlignment="Center"
                         DisplayMemberPath="Value"
-                        IsEnabled="{Binding AccountsBoxEnabled}"
+                        IsEnabled="{Binding ServerHasAccounts}"
                         ItemsSource="{Binding AppSettings.ServerProfiles}"
                         SelectedValue="{Binding AppSettings.DefaultProfile}"
                         SelectedValuePath="Key" />
@@ -300,14 +318,22 @@
                 Margin="0,0,5,0"
                 Command="{Binding QuitCommand}"
                 Content="{Binding AppLocalization.Translations[button_quit]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs}"
-                Visibility="Visible" />
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding CloseCommand}"
-                Content="{Binding AppLocalization.Translations[button_close]}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
-                Visibility="{Binding CloseButton}" />
+                Content="{Binding AppLocalization.Translations[button_close]}">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource MahApps.Styles.Button.Dialogs.Accent}" TargetType="{x:Type Button}">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ServerHasAccounts}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

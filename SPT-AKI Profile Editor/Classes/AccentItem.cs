@@ -2,7 +2,7 @@
 
 namespace SPT_AKI_Profile_Editor.Classes
 {
-    internal class AccentItem
+    public class AccentItem
     {
         public AccentItem(Theme theme)
         {
