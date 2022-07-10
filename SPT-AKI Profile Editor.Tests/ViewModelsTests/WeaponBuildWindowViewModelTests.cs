@@ -14,11 +14,11 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC);
             Assert.Multiple(() =>
             {
-                Assert.That(pmcWeaponBuild, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.Worker, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)));
-                Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(4));
+                Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+                Assert.That(pmcWeaponBuild.Worker, Is.Not.Null, "Worker is null");
+                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
+                Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null, "WeaponBuild is null");
+                Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(4), "WeaponBuild.Items.Length is not 4");
             });
         }
 
@@ -28,11 +28,11 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav);
             Assert.Multiple(() =>
             {
-                Assert.That(pmcWeaponBuild, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.Worker, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)));
-                Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null);
-                Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(6));
+                Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+                Assert.That(pmcWeaponBuild.Worker, Is.Not.Null, "Worker is null");
+                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestConstants.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
+                Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null, "WeaponBuild is null");
+                Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(6), "WeaponBuild.Items.Length is not 6");
             });
         }
 

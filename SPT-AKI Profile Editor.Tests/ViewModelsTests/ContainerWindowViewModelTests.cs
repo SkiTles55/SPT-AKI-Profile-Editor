@@ -13,12 +13,27 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
             Assert.Multiple(() =>
             {
-                Assert.That(pmcContainer, Is.Not.Null);
-                Assert.That(pmcContainer.Worker, Is.Not.Null);
-                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestConstants.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)));
-                Assert.That(pmcContainer.HasItems, Is.True);
-                Assert.That(pmcContainer.Items.Count, Is.EqualTo(3));
-                Assert.That(pmcContainer.ItemsAddingAllowed, Is.False);
+                Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
+                Assert.That(pmcContainer.Worker, Is.Not.Null, "Worker is null");
+                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestConstants.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
+                Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
+                Assert.That(pmcContainer.Items.Count, Is.EqualTo(3), "Items.Count is not 3");
+                Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
+            });
+        }
+
+        [Test]
+        public void ScavWeaponBuildInitializeCorrectly()
+        {
+            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.Scav);
+            Assert.Multiple(() =>
+            {
+                Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
+                Assert.That(pmcContainer.Worker, Is.Not.Null, "Worker is null");
+                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestConstants.GetTestName("ContainerWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
+                Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
+                Assert.That(pmcContainer.Items.Count, Is.EqualTo(5), "Items.Count is not 5");
+                Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
             });
         }
 
