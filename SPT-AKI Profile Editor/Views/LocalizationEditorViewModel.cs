@@ -1,29 +1,39 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
     public class LocalizationEditorViewModel : BindableViewModel
     {
-        public LocalizationEditorViewModel(AppLocalization appLocalization = null)
+        private string selectedLocalizationKey;
+
+        public LocalizationEditorViewModel(bool isEdit = true)
         {
-            Localization = appLocalization ?? AppLocalization;
-            CanSelectKey = appLocalization == null;
-            Translations = new(Localization.Translations.Select(x => new Translation() { Key = x.Key, Value = x.Value }));
-            LoadAvailableKeys();
+            CanSelectKey = !isEdit;
+            Translations = new(AppLocalization.Translations.Select(x => new Translation() { Key = x.Key, Value = x.Value }));
+            AvailableKeys = AppData.GetAvailableKeys();
+            SelectedLocalizationKey = AppLocalization.Key;
         }
 
+        public string SelectedLocalizationKey
+        {
+            get => selectedLocalizationKey;
+            set
+            {
+                selectedLocalizationKey = value;
+                if (!string.IsNullOrEmpty(selectedLocalizationKey) && AvailableKeys.ContainsKey(selectedLocalizationKey))
+                    SelectedLocalizationValue = AvailableKeys[selectedLocalizationKey];
+                OnPropertyChanged("SelectedLocalizationKey");
+            }
+        }
+        public string SelectedLocalizationValue { get; set; }
         public static RelayCommand CancelCommand => new(obj => Cancel());
-        public AppLocalization Localization { get; set; }
         public bool CanSelectKey { get; set; }
         public Dictionary<string, string> AvailableKeys { get; set; }
-
         public ObservableCollection<Translation> Translations { get; set; }
         public RelayCommand SaveCommand => new(obj => Save());
 
@@ -35,17 +45,6 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void Save()
         {
-        }
-
-        private void LoadAvailableKeys()
-        {
-            Dictionary<string, string> availableKeys = new();
-            try
-            {
-                string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList["file_languages"]);
-            }
-            catch (Exception ex) { Logger.Log($"LoadAvailableKeys loading error: {ex.Message}"); }
-            AvailableKeys = availableKeys;
         }
     }
 

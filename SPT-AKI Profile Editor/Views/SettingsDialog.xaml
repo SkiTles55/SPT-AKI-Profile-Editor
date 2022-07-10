@@ -8,6 +8,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="clr-namespace:System;assembly=netstandard"
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:SettingsDialogViewModel}"
@@ -69,8 +70,11 @@
                             Margin="0,5,10,0"
                             VerticalAlignment="Center"
                             Command="{Binding OpenLocalizationEditor}"
-                            CommandParameter="{Binding AppLocalization}"
+                            IsEnabled="{Binding ServerPathValid}"
                             ToolTip="{Binding AppLocalization.Translations[button_edit]}">
+                            <Button.CommandParameter>
+                                <s:Boolean>True</s:Boolean>
+                            </Button.CommandParameter>
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <iconPacks:PackIconFontAwesome
@@ -87,7 +91,11 @@
                             Margin="0,5,10,0"
                             VerticalAlignment="Center"
                             Command="{Binding OpenLocalizationEditor}"
+                            IsEnabled="{Binding ServerPathValid}"
                             ToolTip="{Binding AppLocalization.Translations[tab_stash_add]}">
+                            <Button.CommandParameter>
+                                <s:Boolean>False</s:Boolean>
+                            </Button.CommandParameter>
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <iconPacks:PackIconFontAwesome

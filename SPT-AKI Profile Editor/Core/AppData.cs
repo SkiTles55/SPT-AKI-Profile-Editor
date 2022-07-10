@@ -201,5 +201,20 @@ namespace SPT_AKI_Profile_Editor.Core
                 Logger.Log($"ServerDatabase Handbook ({path}) loading error: {ex.Message}");
             }
         }
+
+        public static Dictionary<string, string> GetAvailableKeys()
+        {
+            Dictionary<string, string> availableKeys = new();
+            try
+            {
+                string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList["file_languages"]);
+                LocalesGlobalTemplate[] languages = JsonConvert.DeserializeObject<LocalesGlobalTemplate[]>(File.ReadAllText(path));
+                availableKeys = languages
+                    .Where(x => File.Exists(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], x.ShortName + ".json")))
+                    .ToDictionary(x => x.ShortName.ToString(), x => x.Name);
+            }
+            catch (Exception ex) { Logger.Log($"LoadAvailableKeys loading error: {ex.Message}"); }
+            return availableKeys;
+        }
     }
 }

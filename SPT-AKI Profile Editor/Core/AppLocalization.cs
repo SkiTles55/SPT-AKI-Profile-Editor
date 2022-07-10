@@ -70,6 +70,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     }
                     catch (Exception ex) { Logger.Log($"Localization file ({appLocalization.Key}) updating error: {ex.Message}"); }
                 }
+                Key = appLocalization.Key;
+                Name = appLocalization.Name;
                 Translations = appLocalization.Translations;
             }
             catch (Exception ex) { Logger.Log($"Localization ({key}) loading error: {ex.Message}"); }
