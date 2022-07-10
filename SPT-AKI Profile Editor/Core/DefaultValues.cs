@@ -78,6 +78,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 Name = "English",
                 Translations = new Dictionary<string, string>()
                 {
+                    ["button_edit"] = "Edit",
+                    ["button_save"] = "Save",
                     ["button_yes"] = "Yes",
                     ["button_no"] = "No",
                     ["button_close"] = "Close",
@@ -242,7 +244,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_trader_loyalty_issue_quest"] = "For quest {0} ({1}) requires merchant {2} with level {3}",
                     ["weapon_build_window_export"] = "Export build",
                     ["weapon_build_window_add"] = "Add to builds",
-                    ["container_window_content"] = "Contents"
+                    ["container_window_content"] = "Contents",
+                    ["localization_editor_title"] = "Localization editor",
+                    ["localization_editor_key"] = "Key",
+                    ["localization_editor_value"] = "Translation"
                 }
             },
             new AppLocalization
@@ -251,6 +256,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 Name = "Русский",
                 Translations = new Dictionary<string, string>()
                 {
+                    ["button_edit"] = "Редактировать",
+                    ["button_save"] = "Сохранить",
                     ["button_yes"] = "Да",
                     ["button_no"] = "Нет",
                     ["button_close"] = "Закрыть",
@@ -415,7 +422,10 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["profile_issues_trader_loyalty_issue_quest"] = "Для квеста {0} ({1}) требуется торговец {2} со уровнем {3}",
                     ["weapon_build_window_export"] = "Экспорт сборки",
                     ["weapon_build_window_add"] = "Добавить в сборки",
-                    ["container_window_content"] = "Содержимое"
+                    ["container_window_content"] = "Содержимое",
+                    ["localization_editor_title"] = "Редактор локализации",
+                    ["localization_editor_key"] = "Ключ",
+                    ["localization_editor_value"] = "Перевод"
                 }
             }
         };

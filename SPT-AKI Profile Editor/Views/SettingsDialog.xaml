@@ -59,7 +59,7 @@
                         <ComboBox
                             Grid.Column="0"
                             Margin="10,5,10,0"
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Stretch"
                             DisplayMemberPath="Value"
                             ItemsSource="{Binding LocalizationsList}"
                             SelectedValue="{Binding CurrentLocalization}"
@@ -70,7 +70,7 @@
                             VerticalAlignment="Center"
                             Command="{Binding OpenLocalizationEditor}"
                             CommandParameter="{Binding AppLocalization}"
-                            ToolTip="{Binding AppLocalization.Translations[tab_backups_remove]}">
+                            ToolTip="{Binding AppLocalization.Translations[button_edit]}">
                             <Button.ContentTemplate>
                                 <DataTemplate>
                                     <iconPacks:PackIconFontAwesome
