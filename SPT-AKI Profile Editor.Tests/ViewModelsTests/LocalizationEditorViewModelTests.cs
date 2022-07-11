@@ -34,6 +34,17 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(lEditor.AvailableKeys.Count, Is.GreaterThanOrEqualTo(1), "AvailableKeys.Count is empty");
         }
 
+        [Test]
+        public void LocalizationEditorCanSaveEditLocalization()
+        {
+            LocalizationEditorViewModel lEditor = TestViewModel();
+            lEditor.Translations.Where(x => x.Key == "button_yes").FirstOrDefault().Value = "Yes, baby";
+            lEditor.SaveCommand.Execute(null);
+            Assert.That(AppData.AppLocalization.Translations["button_yes"], Is.EqualTo("Yes, baby"), "button_yes translation not changed");
+            AppData.AppLocalization.LoadLocalization(AppData.AppSettings.Language);
+            Assert.That(AppData.AppLocalization.Translations["button_yes"], Is.EqualTo("Yes, baby"), "button_yes translation after reload not changed");
+        }
+
         private static LocalizationEditorViewModel TestViewModel(bool isEdit = true) => new(isEdit);
     }
 }

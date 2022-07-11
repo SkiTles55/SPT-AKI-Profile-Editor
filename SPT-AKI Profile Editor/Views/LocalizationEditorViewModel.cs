@@ -19,6 +19,8 @@ namespace SPT_AKI_Profile_Editor.Views
             SelectedLocalizationKey = AvailableKeys.FirstOrDefault().Key;
         }
 
+        public static RelayCommand CancelCommand => new(obj => CloseDialog());
+
         public string SelectedLocalizationKey
         {
             get => selectedLocalizationKey;
@@ -30,14 +32,14 @@ namespace SPT_AKI_Profile_Editor.Views
                 OnPropertyChanged("SelectedLocalizationKey");
             }
         }
+
         public string SelectedLocalizationValue { get; set; }
-        public static RelayCommand CancelCommand => new(obj => Cancel());
         public bool IsEdit { get; set; }
         public Dictionary<string, string> AvailableKeys { get; set; }
         public ObservableCollection<Translation> Translations { get; set; }
         public RelayCommand SaveCommand => new(obj => Save());
 
-        private static async void Cancel()
+        private static async void CloseDialog()
         {
             BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
             await App.DialogCoordinator.HideMetroDialogAsync(MainWindowViewModel.Instance, dialog);
@@ -45,6 +47,9 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void Save()
         {
+            if (IsEdit)
+                AppLocalization.Update(Translations.ToDictionary(x => x.Key, x => x.Value));
+            CloseDialog();
         }
     }
 

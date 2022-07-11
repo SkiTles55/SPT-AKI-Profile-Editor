@@ -77,6 +77,12 @@ namespace SPT_AKI_Profile_Editor.Core
             catch (Exception ex) { Logger.Log($"Localization ({key}) loading error: {ex.Message}"); }
         }
 
+        public void Update(Dictionary<string, string> newValues)
+        {
+            Translations = newValues;
+            Save(Path.Combine(localizationsDir, Key + ".json"), this);
+        }
+
         private static void CreateDefault()
         {
             foreach (var loc in DefaultValues.DefaultLocalizations.Where(x => !File.Exists(Path.Combine(localizationsDir, x.Key + ".json"))))
