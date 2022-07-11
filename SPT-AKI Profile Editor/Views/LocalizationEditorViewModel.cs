@@ -13,10 +13,10 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public LocalizationEditorViewModel(bool isEdit = true)
         {
-            CanSelectKey = !isEdit;
+            IsEdit = isEdit;
             Translations = new(AppLocalization.Translations.Select(x => new Translation() { Key = x.Key, Value = x.Value }));
             AvailableKeys = AppData.GetAvailableKeys();
-            SelectedLocalizationKey = AppLocalization.Key;
+            SelectedLocalizationKey = AvailableKeys.FirstOrDefault().Key;
         }
 
         public string SelectedLocalizationKey
@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Views
         }
         public string SelectedLocalizationValue { get; set; }
         public static RelayCommand CancelCommand => new(obj => Cancel());
-        public bool CanSelectKey { get; set; }
+        public bool IsEdit { get; set; }
         public Dictionary<string, string> AvailableKeys { get; set; }
         public ObservableCollection<Translation> Translations { get; set; }
         public RelayCommand SaveCommand => new(obj => Save());

@@ -20,7 +20,6 @@
             <ComboBox
                 DisplayMemberPath="Value"
                 DockPanel.Dock="Right"
-                IsEnabled="{Binding CanSelectKey}"
                 ItemsSource="{Binding AvailableKeys}"
                 SelectedValue="{Binding SelectedLocalizationKey}"
                 SelectedValuePath="Key" />
@@ -28,7 +27,7 @@
                 <Style TargetType="DockPanel">
                     <Setter Property="Visibility" Value="Collapsed" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding CanSelectKey}" Value="True">
+                        <DataTrigger Binding="{Binding IsEdit}" Value="False">
                             <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>

@@ -210,11 +210,15 @@ namespace SPT_AKI_Profile_Editor.Core
                 string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList["file_languages"]);
                 LocalesGlobalTemplate[] languages = JsonConvert.DeserializeObject<LocalesGlobalTemplate[]>(File.ReadAllText(path));
                 availableKeys = languages
-                    .Where(x => File.Exists(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], x.ShortName + ".json")))
+                    .Where(x => ShouldAddToAvailableKeys(x.ShortName.ToString()))
                     .ToDictionary(x => x.ShortName.ToString(), x => x.Name);
             }
             catch (Exception ex) { Logger.Log($"LoadAvailableKeys loading error: {ex.Message}"); }
             return availableKeys;
         }
+
+        public static bool ShouldAddToAvailableKeys(string key) =>
+            !AppLocalization.Localizations.ContainsKey(key)
+            && File.Exists(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], key + ".json"));
     }
 }
