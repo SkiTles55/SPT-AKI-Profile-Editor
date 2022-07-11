@@ -62,7 +62,7 @@
                             Margin="10,5,10,0"
                             VerticalAlignment="Stretch"
                             DisplayMemberPath="Value"
-                            ItemsSource="{Binding LocalizationsList}"
+                            ItemsSource="{Binding AppLocalization.Localizations}"
                             SelectedValue="{Binding CurrentLocalization}"
                             SelectedValuePath="Key" />
                         <Button

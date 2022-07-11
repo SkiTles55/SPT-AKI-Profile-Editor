@@ -49,6 +49,10 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (IsEdit)
                 AppLocalization.Update(Translations.ToDictionary(x => x.Key, x => x.Value));
+            else
+                AppLocalization.AddNew(SelectedLocalizationKey,
+                                       SelectedLocalizationValue,
+                                       Translations.ToDictionary(x => x.Key, x => x.Value));
             CloseDialog();
         }
     }

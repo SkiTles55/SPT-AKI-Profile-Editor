@@ -22,8 +22,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 dir.Create();
             }
             CreateDefault();
-            LoadLocalization(language);
             CreateLocalizationsDictionary();
+            LoadLocalization(language);
         }
 
         public string Key { get; set; }
@@ -49,7 +49,10 @@ namespace SPT_AKI_Profile_Editor.Core
         public void LoadLocalization(string key)
         {
             if (!File.Exists(Path.Combine(localizationsDir, key + ".json")))
+            {
                 key = "en";
+                AppData.AppSettings.Language = "en";
+            }
             try
             {
                 AppLocalization appLocalization = LocalizationFromFile(Path.Combine(localizationsDir, key + ".json"));
@@ -81,6 +84,15 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             Translations = newValues;
             Save(Path.Combine(localizationsDir, Key + ".json"), this);
+        }
+
+        public void AddNew(string key, string name, Dictionary<string, string> values)
+        {
+            AppLocalization newLocalization = new() { Key = key, Name = name, Translations = values };
+            Save(Path.Combine(localizationsDir, key + ".json"), newLocalization);
+            CreateLocalizationsDictionary();
+            AppData.AppSettings.Language = key;
+            LoadLocalization(key);
         }
 
         private static void CreateDefault()

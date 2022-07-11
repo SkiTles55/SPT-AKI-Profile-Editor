@@ -45,6 +45,21 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(AppData.AppLocalization.Translations["button_yes"], Is.EqualTo("Yes, baby"), "button_yes translation after reload not changed");
         }
 
+        [Test]
+        public void LocalizationEditorCanSaveNewLocalization()
+        {
+            LocalizationEditorViewModel lEditor = TestViewModel(false);
+            var newKey = lEditor.SelectedLocalizationKey;
+            Assert.That(newKey, Is.Not.EqualTo(AppData.AppSettings.Language), "Wrong new localization key");
+            lEditor.Translations.Where(x => x.Key == "button_yes").FirstOrDefault().Value = "No, baby";
+            lEditor.SaveCommand.Execute(null);
+            Assert.That(AppData.AppLocalization.Translations["button_yes"], Is.EqualTo("No, baby"), "button_yes translation not changed");
+            AppData.AppLocalization.LoadLocalization(AppData.AppSettings.Language);
+            Assert.That(AppData.AppLocalization.Translations["button_yes"], Is.EqualTo("No, baby"), "button_yes translation after reload not changed");
+            Assert.That(AppData.AppSettings.Language, Is.EqualTo(newKey), "New localization not selected");
+            Assert.That(AppData.AppLocalization.Localizations.ContainsKey(newKey), Is.True, "Localizations does not contains new localization");
+        }
+
         private static LocalizationEditorViewModel TestViewModel(bool isEdit = true) => new(isEdit);
     }
 }
