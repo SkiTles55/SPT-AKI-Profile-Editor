@@ -10,6 +10,7 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public static readonly string localizationsDir = Path.Combine(DefaultValues.AppDataFolder, "Localizations");
         private Dictionary<string, string> translations;
+        private Dictionary<string, string> localizations;
 
         public AppLocalization()
         { }
@@ -40,7 +41,15 @@ namespace SPT_AKI_Profile_Editor.Core
         }
 
         [JsonIgnore]
-        public Dictionary<string, string> Localizations { get; set; }
+        public Dictionary<string, string> Localizations
+        {
+            get => localizations;
+            set
+            {
+                localizations = value;
+                OnPropertyChanged("Localizations");
+            }
+        }
 
         public static void Save(string path, AppLocalization data) => File.WriteAllText(path, JsonConvert.SerializeObject(data, Formatting.Indented));
 
@@ -86,13 +95,13 @@ namespace SPT_AKI_Profile_Editor.Core
             Save(Path.Combine(localizationsDir, Key + ".json"), this);
         }
 
-        public void AddNew(string key, string name, Dictionary<string, string> values)
+        public void AddNew(string key, string name, Dictionary<string, string> values, SettingsDialogViewModel settingsDialog = null)
         {
             AppLocalization newLocalization = new() { Key = key, Name = name, Translations = values };
             Save(Path.Combine(localizationsDir, key + ".json"), newLocalization);
             CreateLocalizationsDictionary();
-            AppData.AppSettings.Language = key;
-            LoadLocalization(key);
+            if (settingsDialog != null)
+                settingsDialog.CurrentLocalization = key;
         }
 
         private static void CreateDefault()
@@ -108,19 +117,20 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private void CreateLocalizationsDictionary()
         {
-            Localizations = new Dictionary<string, string>();
+            Dictionary<string, string> localizations = new();
             foreach (string file in Directory.GetFiles(localizationsDir))
             {
                 try
                 {
                     AppLocalization appLocalization = LocalizationFromFile(file);
-                    if (!Localizations.ContainsKey(appLocalization.Key))
-                        Localizations.Add(appLocalization.Key, appLocalization.Name);
+                    if (!localizations.ContainsKey(appLocalization.Key))
+                        localizations.Add(appLocalization.Key, appLocalization.Name);
                     else
                         Logger.Log($"Duplicated localization file founded ({file})");
                 }
                 catch (Exception ex) { Logger.Log($"Localization file ({file}) loading error: {ex.Message}"); }
             }
+            Localizations = localizations;
         }
     }
 }

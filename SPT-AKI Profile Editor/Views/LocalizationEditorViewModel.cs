@@ -9,14 +9,16 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class LocalizationEditorViewModel : BindableViewModel
     {
+        private readonly SettingsDialogViewModel _settingsDialog;
         private string selectedLocalizationKey;
 
-        public LocalizationEditorViewModel(bool isEdit = true)
+        public LocalizationEditorViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null)
         {
             IsEdit = isEdit;
             Translations = new(AppLocalization.Translations.Select(x => new Translation() { Key = x.Key, Value = x.Value }));
             AvailableKeys = AppData.GetAvailableKeys();
             SelectedLocalizationKey = AvailableKeys.FirstOrDefault().Key;
+            _settingsDialog = settingsDialog;
         }
 
         public static RelayCommand CancelCommand => new(obj => CloseDialog());
@@ -41,6 +43,9 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private static async void CloseDialog()
         {
+            // Skipping in nUnit tests
+            if (System.Windows.Application.Current == null)
+                return;
             BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
             await App.DialogCoordinator.HideMetroDialogAsync(MainWindowViewModel.Instance, dialog);
         }
@@ -52,14 +57,9 @@ namespace SPT_AKI_Profile_Editor.Views
             else
                 AppLocalization.AddNew(SelectedLocalizationKey,
                                        SelectedLocalizationValue,
-                                       Translations.ToDictionary(x => x.Key, x => x.Value));
+                                       Translations.ToDictionary(x => x.Key, x => x.Value),
+                                       _settingsDialog);
             CloseDialog();
         }
-    }
-
-    public class Translation
-    {
-        public string Key { get; set; }
-        public string Value { get; set; }
     }
 }

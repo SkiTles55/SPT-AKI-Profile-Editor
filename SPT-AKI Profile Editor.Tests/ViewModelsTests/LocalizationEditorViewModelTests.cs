@@ -48,7 +48,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void LocalizationEditorCanSaveNewLocalization()
         {
-            LocalizationEditorViewModel lEditor = TestViewModel(false);
+            SettingsDialogViewModel settingsDialog = new(new Helpers.RelayCommand(obj => { }));
+            LocalizationEditorViewModel lEditor = TestViewModel(false, settingsDialog);
             var newKey = lEditor.SelectedLocalizationKey;
             Assert.That(newKey, Is.Not.EqualTo(AppData.AppSettings.Language), "Wrong new localization key");
             lEditor.Translations.Where(x => x.Key == "button_yes").FirstOrDefault().Value = "No, baby";
@@ -60,6 +61,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(AppData.AppLocalization.Localizations.ContainsKey(newKey), Is.True, "Localizations does not contains new localization");
         }
 
-        private static LocalizationEditorViewModel TestViewModel(bool isEdit = true) => new(isEdit);
+        private static LocalizationEditorViewModel TestViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null) => new(isEdit, settingsDialog);
     }
 }

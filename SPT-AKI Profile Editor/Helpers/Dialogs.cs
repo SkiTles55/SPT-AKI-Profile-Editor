@@ -84,7 +84,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public static async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
         {
             CustomDialog lEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("localization_editor_title"), 500);
-            await ShowCustomDialog<LocalizationEditor>(context, lEditorDialog, new LocalizationEditorViewModel(isEdit));
+            await ShowCustomDialog<LocalizationEditor>(context, lEditorDialog, new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
         }
 
         public static async Task ShowOkMessageAsync(object context, string title, string message)
