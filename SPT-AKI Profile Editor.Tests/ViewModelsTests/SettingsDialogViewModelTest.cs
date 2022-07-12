@@ -20,6 +20,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             });
         }
 
-        private static SettingsDialogViewModel TestViewModel(int index = 0) => new (null, index);
+        private static SettingsDialogViewModel TestViewModel(int index = 0) => new(null, index);
     }
 }

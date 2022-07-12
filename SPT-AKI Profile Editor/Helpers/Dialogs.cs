@@ -2,8 +2,10 @@
 using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Views;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
@@ -60,8 +62,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (startValues != newValues)
                     MainWindowViewModel.StartupEventsWorker();
             });
-            settingsDialog.Content = new SettingsDialog { DataContext = new SettingsDialogViewModel(closeCommand, index) };
-            await App.DialogCoordinator.ShowMetroDialogAsync(context, settingsDialog);
+            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, index));
         }
 
         public static async Task ShowUpdateDialog(object context, GitHubRelease release)
@@ -71,15 +72,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
             {
                 await App.DialogCoordinator.HideMetroDialogAsync(context, updateDialog);
             });
-            updateDialog.Content = new UpdateDialog { DataContext = new UpdateDialogViewModel(closeCommand, release) };
-            await App.DialogCoordinator.ShowMetroDialogAsync(context, updateDialog);
+            await ShowCustomDialog<UpdateDialog>(context, updateDialog, new UpdateDialogViewModel(closeCommand, release));
         }
 
         public static async Task ShowIssuesDialog(object context, RelayCommand saveCommand)
         {
             CustomDialog issuesDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("profile_issues_title"), 500);
-            issuesDialog.Content = new IssuesDialog { DataContext = new IssuesDialogViewModel(saveCommand) };
-            await App.DialogCoordinator.ShowMetroDialogAsync(context, issuesDialog);
+            await ShowCustomDialog<IssuesDialog>(context, issuesDialog, new IssuesDialogViewModel(saveCommand));
+        }
+
+        public static async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
+        {
+            CustomDialog lEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("localization_editor_title"), 500);
+            await ShowCustomDialog<LocalizationEditor>(context, lEditorDialog, new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
         }
 
         public static async Task ShowOkMessageAsync(object context, string title, string message)
@@ -93,5 +98,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
             Title = title,
             DialogContentWidth = new GridLength(width)
         };
+
+        private static async Task ShowCustomDialog<T>(object context, CustomDialog dialog, BindableViewModel viewModel) where T : UserControl
+        {
+            T control = (T)Activator.CreateInstance(typeof(T));
+            control.DataContext = viewModel;
+            dialog.Content = control;
+            await App.DialogCoordinator.ShowMetroDialogAsync(context, dialog);
+        }
     }
 }

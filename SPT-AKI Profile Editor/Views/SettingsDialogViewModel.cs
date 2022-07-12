@@ -25,7 +25,6 @@ namespace SPT_AKI_Profile_Editor
             .OrderBy(x => x.DisplayName)
             .Select(x => new AccentItem(x));
 
-        public static Dictionary<string, string> LocalizationsList => AppLocalization.Localizations;
         public static RelayCommand CloseCommand { get; set; }
         public static RelayCommand QuitCommand => App.CloseApplication;
         public static RelayCommand OpenAppData => new(obj => ExtMethods.OpenUrl(DefaultValues.AppDataFolder));
@@ -99,6 +98,8 @@ namespace SPT_AKI_Profile_Editor
         public bool ServerHasAccounts => AppSettings.ServerHaveProfiles();
 
         public RelayCommand ServerSelect => new(async obj => await ServerSelectDialog());
+
+        public RelayCommand OpenLocalizationEditor => new(async obj => await Dialogs.ShowLocalizationEditorDialog(this, (bool)obj));
 
         private static void ReloadApplication()
         {
