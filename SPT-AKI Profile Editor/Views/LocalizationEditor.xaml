@@ -15,7 +15,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Margin="0,10">
+        <DockPanel Grid.Row="0" Margin="0,10,0,0">
             <Label Content="{Binding AppLocalization.Translations[tab_settings_lang]}" DockPanel.Dock="Left" />
             <ComboBox
                 DisplayMemberPath="Value"
@@ -36,6 +36,8 @@
         </DockPanel>
         <DataGrid
             Grid.Row="1"
+            MinHeight="250"
+            Margin="0,10,0,0"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
@@ -66,7 +68,8 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Controls:TextBoxHelper.ClearTextButton="True"
-                                    DockPanel.Dock="Right" />
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding Data.KeyFilter, Source={StaticResource proxy}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -99,7 +102,8 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     Controls:TextBoxHelper.ClearTextButton="True"
-                                    DockPanel.Dock="Right" />
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding Data.ValueFilter, Source={StaticResource proxy}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>

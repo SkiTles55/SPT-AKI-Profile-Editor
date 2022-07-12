@@ -3,7 +3,9 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -11,6 +13,8 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private readonly SettingsDialogViewModel _settingsDialog;
         private string selectedLocalizationKey;
+        private string keyFilter;
+        private string valueFilter;
 
         public LocalizationEditorViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null)
         {
@@ -32,6 +36,28 @@ namespace SPT_AKI_Profile_Editor.Views
                 if (!string.IsNullOrEmpty(selectedLocalizationKey) && AvailableKeys.ContainsKey(selectedLocalizationKey))
                     SelectedLocalizationValue = AvailableKeys[selectedLocalizationKey];
                 OnPropertyChanged("SelectedLocalizationKey");
+            }
+        }
+
+        public string KeyFilter
+        {
+            get => keyFilter;
+            set
+            {
+                keyFilter = value;
+                OnPropertyChanged("KeyFilter");
+                Filter();
+            }
+        }
+
+        public string ValueFilter
+        {
+            get => valueFilter;
+            set
+            {
+                valueFilter = value;
+                OnPropertyChanged("ValueFilter");
+                Filter();
             }
         }
 
@@ -61,5 +87,26 @@ namespace SPT_AKI_Profile_Editor.Views
                                        _settingsDialog);
             CloseDialog();
         }
+
+        private void Filter()
+        {
+            ICollectionView cv = CollectionViewSource.GetDefaultView(Translations);
+            if (cv == null)
+                return;
+            if (string.IsNullOrEmpty(KeyFilter) && string.IsNullOrEmpty(ValueFilter))
+                cv.Filter = null;
+            else
+            {
+                cv.Filter = o =>
+                {
+                    Translation p = o as Translation;
+                    return ShouldFilterKey(p) && ShouldFilterValue(p);
+                };
+            }
+        }
+
+        private bool ShouldFilterValue(Translation p) => string.IsNullOrEmpty(ValueFilter) || p.Value.ToLower().Contains(ValueFilter.ToLower());
+
+        private bool ShouldFilterKey(Translation p) => string.IsNullOrEmpty(KeyFilter) || p.Key.ToLower().Contains(KeyFilter.ToLower());
     }
 }
