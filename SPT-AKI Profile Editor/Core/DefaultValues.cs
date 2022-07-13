@@ -248,7 +248,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["container_window_content"] = "Contents",
                     ["localization_editor_title"] = "Localization editor",
                     ["localization_editor_key"] = "Key",
-                    ["localization_editor_value"] = "Translation"
+                    ["localization_editor_value"] = "Translation",
+                    ["windows_dialogs_json_file"] = "JSON file"
                 }
             },
             new AppLocalization
@@ -426,7 +427,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["container_window_content"] = "Содержимое",
                     ["localization_editor_title"] = "Редактор локализации",
                     ["localization_editor_key"] = "Ключ",
-                    ["localization_editor_value"] = "Перевод"
+                    ["localization_editor_value"] = "Перевод",
+                    ["windows_dialogs_json_file"] = "Файл JSON"
                 }
             }
         };

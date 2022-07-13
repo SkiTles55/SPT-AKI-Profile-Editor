@@ -1,12 +1,15 @@
-﻿using System;
+﻿using SPT_AKI_Profile_Editor.Core;
+using System;
 using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class WindowsDialogs
     {
+        private static string JsonFileText => AppData.AppLocalization.GetLocalizedString("windows_dialogs_json_file");
+
         public static SaveFileDialog SaveWeaponBuildDialog(string name) =>
-            SaveFileDialog($"Weapon preset {name}", "Файл JSON (*.json)|*.json|All files (*.*)|*.*");
+            SaveFileDialog($"Weapon preset {name}", $"{JsonFileText} (*.json)|*.json");
 
         public static SaveFileDialog SaveFileDialog(string fileName, string filter = null)
         {
@@ -32,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             return new()
             {
-                Filter = "Файл JSON (*.json)|*.json|All files (*.*)|*.*",
+                Filter = $"{JsonFileText} (*.json)|*.json",
                 RestoreDirectory = true,
                 Multiselect = true
             };
