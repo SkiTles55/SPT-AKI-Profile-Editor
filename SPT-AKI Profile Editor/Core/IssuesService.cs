@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private void GetTraderIssues(Character character)
         {
-            var teadersWithIssues = character?.TraderStandingsExt?.Where(x => x.TraderBase?.LoyaltyLevels[x.LoyaltyLevel - 1].MinLevel > character?.Info?.Level);
+            var teadersWithIssues = character?.TraderStandingsExt?.Where(x => x.HasLevelIssue(character?.Info?.Level));
             foreach (var trader in teadersWithIssues)
                 profileIssues.Add(new PMCLevelIssue(trader));
         }

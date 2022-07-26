@@ -46,6 +46,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? LoyaltyLevel;
 
+        public bool HasLevelIssue(int? level) => TraderBase?.LoyaltyLevels?.Count > LoyaltyLevel - 1
+            && TraderBase?.LoyaltyLevels[LoyaltyLevel - 1].MinLevel > level;
+
         private void SetSalesSum(int value)
         {
             if (salesSumStart == null)
