@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 {
     internal class TestConstants
     {
-        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\c6179133cc7722b8c8c765b9.json";
+        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\0a055e816234414d7f19554d.json";
 
         public static readonly string serverPath = @"C:\SPT-AKI";
 

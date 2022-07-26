@@ -48,6 +48,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 FindPockets();
                 LoadTraderSuits();
                 LoadHandbook();
+                LoadHandbookHelper();
             }
         }
 
@@ -222,6 +223,19 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 ServerDatabase.Handbook = new();
                 Logger.Log($"ServerDatabase Handbook ({path}) loading error: {ex.Message}");
+            }
+        }
+
+        private static void LoadHandbookHelper()
+        {
+            try
+            {
+                ServerDatabase.HandbookHelper = new(ServerDatabase.Handbook.Categories, ServerDatabase.ItemsDB);
+            }
+            catch (Exception ex)
+            {
+                ServerDatabase.HandbookHelper = new(new List<HandbookCategory>(), new Dictionary<string, TarkovItem>());
+                Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
         }
     }
