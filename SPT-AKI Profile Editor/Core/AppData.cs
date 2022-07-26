@@ -18,13 +18,17 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly BackupService BackupService;
         public static readonly IssuesService IssuesService;
 
+        private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.ToLowerInvariant().StartsWith("nunit.framework"));
+
+        private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
+
         static AppData()
         {
             GridFilters = new();
-            AppSettings = new();
+            AppSettings = new(Path.Combine(AppDataPath, "AppSettings.json"));
             AppSettings.Load();
-            BackupService = new();
-            AppLocalization = new(AppSettings.Language);
+            BackupService = new(Path.Combine(AppDataPath, "Backups"));
+            AppLocalization = new(AppSettings.Language, Path.Combine(AppDataPath, "Localizations"));
             IssuesService = new();
             Profile = new();
             ServerDatabase = new();

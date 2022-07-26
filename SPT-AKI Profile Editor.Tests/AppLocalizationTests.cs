@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
@@ -12,9 +13,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            appSettings = new();
+            appSettings = new(Path.Combine(TestConstants.AppDataPath, "AppSettings.json"));
             appSettings.Load();
-            appLocalization = new(appSettings.Language);
+            appLocalization = new(appSettings.Language, Path.Combine(TestConstants.AppDataPath, "Localizations"));
         }
 
         [Test]

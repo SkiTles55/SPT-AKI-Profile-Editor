@@ -8,12 +8,13 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class BackupService : BindableEntity
     {
-        private static readonly string backupFolder = Path.Combine(DefaultValues.AppDataFolder, "Backups");
+        private readonly string backupFolder;
 
         private IEnumerable<BackupFile> backupList;
 
-        public BackupService()
+        public BackupService(string backupFolder)
         {
+            this.backupFolder = backupFolder;
             if (!Directory.Exists(backupFolder))
             {
                 DirectoryInfo dir = new(backupFolder);

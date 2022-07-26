@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -11,12 +12,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            settings = new();
+            settings = new(Path.Combine(TestConstants.AppDataPath, "AppSettings.json"));
             settings.Load();
         }
-
-        [Test]
-        public void AppSettingsServerPathIsServerBase() => Assert.IsTrue(settings.PathIsServerFolder());
 
         [Test]
         public void PathIsServerBaseTrue() => Assert.IsTrue(settings.PathIsServerFolder(TestConstants.serverPath));

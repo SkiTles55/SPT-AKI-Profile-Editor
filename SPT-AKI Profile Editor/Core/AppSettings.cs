@@ -10,8 +10,6 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppSettings : BindableEntity
     {
-        public static readonly string configurationFile = Path.Combine(DefaultValues.AppDataFolder, "AppSettings.json");
-
         [JsonIgnore]
         public readonly string repoAuthor = "SkiTles55";
 
@@ -38,6 +36,9 @@ namespace SPT_AKI_Profile_Editor.Core
             QuestStatus.AvailableForFinish,
             QuestStatus.Success
         };
+
+        [JsonIgnore]
+        public readonly string configurationFile;
 
         [JsonIgnore]
         public bool Loaded = false;
@@ -73,6 +74,8 @@ namespace SPT_AKI_Profile_Editor.Core
         private List<string> bannedMasterings;
         private IssuesAction issuesAction;
         private bool fastModeOpened = false;
+
+        public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
         public string ServerPath
         {

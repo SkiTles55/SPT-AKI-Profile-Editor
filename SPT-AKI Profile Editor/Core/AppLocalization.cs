@@ -8,15 +8,16 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppLocalization : BindableEntity
     {
-        public static readonly string localizationsDir = Path.Combine(DefaultValues.AppDataFolder, "Localizations");
+        public readonly string localizationsDir;
         private Dictionary<string, string> translations;
         private Dictionary<string, string> localizations;
 
         public AppLocalization()
         { }
 
-        public AppLocalization(string language)
+        public AppLocalization(string language, string localizationsDir)
         {
+            this.localizationsDir = localizationsDir;
             if (!Directory.Exists(localizationsDir))
             {
                 DirectoryInfo dir = new(localizationsDir);
@@ -104,7 +105,9 @@ namespace SPT_AKI_Profile_Editor.Core
                 settingsDialog.CurrentLocalization = key;
         }
 
-        private static void CreateDefault()
+        private static AppLocalization LocalizationFromFile(string path) => JsonConvert.DeserializeObject<AppLocalization>(File.ReadAllText(path));
+
+        private void CreateDefault()
         {
             foreach (var loc in DefaultValues.DefaultLocalizations.Where(x => !File.Exists(Path.Combine(localizationsDir, x.Key + ".json"))))
             {
@@ -112,8 +115,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 catch (Exception ex) { Logger.Log($"Localization file ({loc.Key}) creating error: {ex.Message}"); }
             }
         }
-
-        private static AppLocalization LocalizationFromFile(string path) => JsonConvert.DeserializeObject<AppLocalization>(File.ReadAllText(path));
 
         private void CreateLocalizationsDictionary()
         {
