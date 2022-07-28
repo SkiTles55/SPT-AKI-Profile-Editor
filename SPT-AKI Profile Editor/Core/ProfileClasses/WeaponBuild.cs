@@ -24,6 +24,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             CalculateBuildProperties(buildItems);
         }
 
+        public override string LocalizedName => Name;
+
         public WeaponBuild(ItemPreset itemPreset)
         {
             Id = itemPreset.Id;
