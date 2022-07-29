@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System.Linq;
 using static SPT_AKI_Profile_Editor.Core.ServerClasses.QuestData.QuestConditions.QuestCondition;
 
@@ -141,5 +142,16 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void HandbookItemsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Handbook.Items.Count == 0);
+
+        [Test]
+        public void HandbookHelperCanInitialize() => Assert.NotNull(new HandbookHelper(AppData.ServerDatabase.Handbook.Categories,
+                                                    AppData.ServerDatabase.ItemsDB,
+                                                    AppData.ServerDatabase.ServerGlobals.GlobalBuilds));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any());
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingWithFilterNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter("5c093ca986f7740a1867ab12").Any());
     }
 }

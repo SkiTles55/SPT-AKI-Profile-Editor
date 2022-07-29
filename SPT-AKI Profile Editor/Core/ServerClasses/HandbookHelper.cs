@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)) : new();
 
         public ObservableCollection<AddableCategory> CategoriesForItemsAddingWithFilter(string tpl) => new(categories
-                                .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x), tpl))
+                                        .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x), tpl))
                         .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden));
 
         private static ObservableCollection<WeaponBuildCategory> GlobalBuildsCategories(List<HandbookCategory> categories,
@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 .Select(x => new WeaponBuildCategory(x, globalBuilds))
                 .Where(x => x.IsNotHidden));
             var globalBuildsCategory = new List<WeaponBuildCategory>() {
-                new WeaponBuildCategory("GlobalBuilds", buildCategories)
+                new WeaponBuildCategory(AppData.AppLocalization.GetLocalizedString("tab_stash_global_items_presets"), buildCategories)
             };
             return new ObservableCollection<WeaponBuildCategory>(globalBuildsCategory);
         }
