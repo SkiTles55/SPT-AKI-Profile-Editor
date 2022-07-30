@@ -21,14 +21,9 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             this.globalBuilds = GlobalBuildsCategories(categories, globalBuilds);
         }
 
-        public ObservableCollection<AddableCategory> CategoriesForItemsAdding => CreateCompositeCollection();
+        public ObservableCollection<AddableCategory> CategoriesForItemsAdding => CategoriesForItemsAddingWithFilter("");
 
-        private ObservableCollection<AddableCategory> CategoriesForItemsAddingCollection => categories != null ? new(categories
-                    .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden)) : new();
-
-        public ObservableCollection<AddableCategory> CategoriesForItemsAddingWithFilter(string tpl) => new(categories
-                                        .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x), tpl))
-                        .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden));
+        public ObservableCollection<AddableCategory> CategoriesForItemsAddingWithFilter(string tpl) => CreateCompositeCollection(tpl);
 
         private static ObservableCollection<WeaponBuildCategory> GlobalBuildsCategories(List<HandbookCategory> categories,
                                                                                  ObservableCollection<KeyValuePair<string, WeaponBuild>> globalBuilds)
@@ -43,12 +38,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             return new ObservableCollection<WeaponBuildCategory>(globalBuildsCategory);
         }
 
-        private ObservableCollection<AddableCategory> CreateCompositeCollection()
+        private ObservableCollection<AddableCategory> CreateCompositeCollection(string tpl)
         {
             var compositeCollection = new ObservableCollection<AddableCategory>();
-            foreach (var item in CategoriesForItemsAddingCollection)
+            foreach (var item in categories
+                .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x), tpl))
+                .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden))
                 compositeCollection.Add(item);
-            foreach (var item in globalBuilds)
+            foreach (var item in globalBuilds
+                .Select(x => FilterForConatiner(WeaponBuildCategory.CopyFrom(x), tpl))
+                .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden))
                 compositeCollection.Add(item);
             return compositeCollection;
         }

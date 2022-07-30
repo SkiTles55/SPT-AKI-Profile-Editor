@@ -7,6 +7,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class WeaponBuildCategory : AddableCategory
     {
+        public WeaponBuildCategory()
+        { }
+
         public WeaponBuildCategory(AddableCategory category, ObservableCollection<KeyValuePair<string, WeaponBuild>> globalBuilds)
         {
             ParentId = category.ParentId;
@@ -25,5 +28,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
             Categories = categories;
             Items = new();
         }
+
+        public static WeaponBuildCategory CopyFrom(WeaponBuildCategory category) => new()
+        {
+            ParentId = category.ParentId,
+            LocalizedName = category.LocalizedName,
+            IsExpanded = false,
+            Categories = new ObservableCollection<AddableCategory>(category.Categories.Select(x => CopyFrom((WeaponBuildCategory)x))),
+            Items = new ObservableCollection<AddableItem>(category.Items.Select(x => WeaponBuild.CopyFrom((WeaponBuild)x)))
+        };
     }
 }
