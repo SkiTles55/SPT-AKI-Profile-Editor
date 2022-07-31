@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Core;
+﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +8,7 @@ using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class LocalizationEditorViewModel : BindableViewModel
+    public class LocalizationEditorViewModel : ClosableDialogViewModel
     {
         private readonly SettingsDialogViewModel _settingsDialog;
         private string selectedLocalizationKey;
@@ -24,8 +23,6 @@ namespace SPT_AKI_Profile_Editor.Views
             SelectedLocalizationKey = AvailableKeys.FirstOrDefault().Key;
             _settingsDialog = settingsDialog;
         }
-
-        public static RelayCommand CancelCommand => new(obj => CloseDialog());
 
         public string SelectedLocalizationKey
         {
@@ -64,19 +61,10 @@ namespace SPT_AKI_Profile_Editor.Views
         public string SelectedLocalizationValue { get; set; }
         public bool IsEdit { get; set; }
         public Dictionary<string, string> AvailableKeys { get; set; }
-        public ObservableCollection<Translation> Translations { get; set; }
+        public ObservableCollection<Translation> Translations { get; }
         public RelayCommand SaveCommand => new(obj => Save());
 
-        private static async void CloseDialog()
-        {
-            // Skipping in nUnit tests
-            if (System.Windows.Application.Current == null)
-                return;
-            BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
-            await App.DialogCoordinator.HideMetroDialogAsync(MainWindowViewModel.Instance, dialog);
-        }
-
-        private void Save()
+        private async void Save()
         {
             if (IsEdit)
                 AppLocalization.Update(Translations.ToDictionary(x => x.Key, x => x.Value));
@@ -85,7 +73,7 @@ namespace SPT_AKI_Profile_Editor.Views
                                        SelectedLocalizationValue,
                                        Translations.ToDictionary(x => x.Key, x => x.Value),
                                        _settingsDialog);
-            CloseDialog();
+            await CloseDialog();
         }
 
         private void Filter()

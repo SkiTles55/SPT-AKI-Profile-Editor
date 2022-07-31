@@ -5,21 +5,19 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class MoneyDailogViewModel : BindableViewModel
+    public class MoneyDailogViewModel : ClosableDialogViewModel
     {
         private AddableItem moneys;
 
-        public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand, RelayCommand cancelCommand)
+        public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand)
         {
             moneys = money;
             moneys.AddingQuantity = ((TarkovItem)moneys).Properties.StackMaxSize;
             AddMoneysCommand = addCommand;
-            CancelCommand = cancelCommand;
         }
 
         public static AppSettings AppSettings => AppData.AppSettings;
         public static RelayCommand AddMoneysCommand { get; set; }
-        public static RelayCommand CancelCommand { get; set; }
         public PackIconFontAwesomeKind Сurrency => GetIconKind();
 
         public AddableItem Moneys

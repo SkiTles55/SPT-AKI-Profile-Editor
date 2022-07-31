@@ -69,8 +69,7 @@ namespace SPT_AKI_Profile_Editor.Views
             var money = TarkovItem.CopyFrom(ServerDatabase.ItemsDB[obj]);
             CustomDialog addMoneyDialog = new() { Title = AppLocalization.GetLocalizedString("tab_stash_dialog_money") };
             RelayCommand addCommand = new(async obj => await AddMoneyDialogCommand(money, addMoneyDialog));
-            RelayCommand cancelCommand = new(async obj => await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog));
-            addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(money, addCommand, cancelCommand) };
+            addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(money, addCommand) };
             await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
         }
 
