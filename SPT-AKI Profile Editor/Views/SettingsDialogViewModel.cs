@@ -19,6 +19,7 @@ namespace SPT_AKI_Profile_Editor
         {
             CloseCommand = command;
             SelectedTab = index;
+            AppSettings = AppData.AppSettings;
         }
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
@@ -47,7 +48,7 @@ namespace SPT_AKI_Profile_Editor
         });
 
         public RelayCommand ResetSettings => new(obj => File.Delete(AppSettings.configurationFile));
-        public AppSettings AppSettings => AppData.AppSettings;
+        public AppSettings AppSettings { get; }
 
         public int SelectedTab
         {
@@ -103,27 +104,25 @@ namespace SPT_AKI_Profile_Editor
 
         private static void ReloadApplication()
         {
-            System.Windows.Forms.Application.Restart();
+            Application.Restart();
             Environment.Exit(0);
         }
 
         private async Task ServerSelectDialog()
         {
             var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(false, AppLocalization.GetLocalizedString("server_select"));
-            bool pathOK = false;
-            do
+            if (!string.IsNullOrEmpty(ServerPath) && Directory.Exists(ServerPath))
+                folderBrowserDialog.SelectedPath = ServerPath;
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+                return;
+            var checkResult = AppSettings.CheckServerPath(folderBrowserDialog.SelectedPath);
+            if (checkResult?.All(x => x.result) == true)
             {
-                if (!string.IsNullOrWhiteSpace(ServerPath) && Directory.Exists(ServerPath))
-                    folderBrowserDialog.SelectedPath = ServerPath;
-                if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
-                    pathOK = false;
-                if (AppSettings.PathIsServerFolder(folderBrowserDialog.SelectedPath))
-                    pathOK = true;
-            } while (await PathIsNotServerFolder(pathOK));
-            if (pathOK)
                 ServerPath = folderBrowserDialog.SelectedPath;
+                return;
+            }
+            if (await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text"))
+                await ServerSelectDialog();
         }
-
-        private async Task<bool> PathIsNotServerFolder(bool pathOK) => !pathOK && await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text");
     }
 }
