@@ -43,9 +43,7 @@ namespace SPT_AKI_Profile_Editor
             get
             {
                 if (categoriesForItemsAdding == null)
-                    categoriesForItemsAdding = new ObservableCollection<AddableCategory>(ServerDatabase.Handbook.Categories
-                        .Select(x => FilterForConatiner(HandbookCategory.CopyFrom(x)))
-                        .Where(x => string.IsNullOrEmpty(x.ParentId) && x.IsNotHidden));
+                    categoriesForItemsAdding = ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter(_item.Tpl);
                 return categoriesForItemsAdding;
             }
             set
@@ -108,16 +106,6 @@ namespace SPT_AKI_Profile_Editor
                 StashEditMode.Scav => Profile.Characters.Scav.Inventory,
                 _ => Profile.Characters.Pmc.Inventory,
             };
-        }
-
-        private AddableCategory FilterForConatiner(AddableCategory category)
-        {
-            if (ServerDatabase.ItemsDB.ContainsKey(_item.Tpl))
-            {
-                category.Items = new ObservableCollection<AddableItem>(category.Items.Where(x => x.CanBeAddedToContainer(ServerDatabase.ItemsDB[_item.Tpl])));
-                category.Categories = new ObservableCollection<AddableCategory>(category.Categories.Select(x => FilterForConatiner(x)).Where(x => x.IsNotHidden));
-            }
-            return category;
         }
     }
 }

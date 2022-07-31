@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -48,6 +49,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 FindPockets();
                 LoadTraderSuits();
                 LoadHandbook();
+                LoadHandbookHelper();
             }
         }
 
@@ -222,6 +224,23 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 ServerDatabase.Handbook = new();
                 Logger.Log($"ServerDatabase Handbook ({path}) loading error: {ex.Message}");
+            }
+        }
+
+        private static void LoadHandbookHelper()
+        {
+            try
+            {
+                ServerDatabase.HandbookHelper = new(ServerDatabase.Handbook.Categories,
+                                                    ServerDatabase.ItemsDB,
+                                                    ServerDatabase.ServerGlobals.GlobalBuilds);
+            }
+            catch (Exception ex)
+            {
+                ServerDatabase.HandbookHelper = new(new List<HandbookCategory>(),
+                                                    new Dictionary<string, TarkovItem>(),
+                                                    new ObservableCollection<KeyValuePair<string, WeaponBuild>>());
+                Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
         }
     }

@@ -5,26 +5,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     public class ServerDatabase : BindableEntity
     {
         private Dictionary<string, string> heads;
-
         private Dictionary<string, string> voices;
-
         private LocalesGlobal localesGlobal;
-
         private ServerGlobals serverGlobals;
-
         private Dictionary<string, TraderBase> traderInfos;
-
         private Dictionary<string, QuestData> questsData;
-
         private List<HideoutAreaInfo> hideoutAreaInfos;
-
         private Dictionary<string, TarkovItem> itemsDB;
-
         private Dictionary<string, string> pockets;
-
         private List<TraderSuit> traderSuits;
-
         private Handbook handbook;
+        private HandbookHelper handbookHelper;
 
         public Dictionary<string, string> Heads
         {
@@ -133,6 +124,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             {
                 handbook = value;
                 OnPropertyChanged("Handbook");
+            }
+        }
+
+        public HandbookHelper HandbookHelper
+        {
+            get => handbookHelper;
+            set
+            {
+                handbookHelper = value;
+                OnPropertyChanged("HandbookHelper");
             }
         }
 

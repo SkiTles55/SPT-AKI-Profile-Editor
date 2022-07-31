@@ -25,7 +25,7 @@
                 <extendedcontrols:ItemsAdding
                     Grid.Row="1"
                     AddItemCommand="{Binding AddItem}"
-                    CategoriesForItemsAdding="{Binding ServerDatabase.Handbook.CategoriesForItemsAdding}"
+                    CategoriesForItemsAdding="{Binding ServerDatabase.HandbookHelper.CategoriesForItemsAdding}"
                     FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </TabItem>

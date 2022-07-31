@@ -54,6 +54,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             CalculateBuildProperties(items);
         }
 
+        public override string LocalizedName => Name;
+
         [JsonProperty("id")]
         public override string Id { get; set; }
 
@@ -87,6 +89,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool HasModdedItems { get; set; }
 
+        public static WeaponBuild CopyFrom(WeaponBuild item) => new(item.Id, item.Name, item.Root, item.Items);
+
         private void CalculateBuildProperties(IEnumerable<InventoryItem> buildItems, bool fromTemplate = false)
         {
             foreach (var item in buildItems)
@@ -104,6 +108,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault();
             Weapon = weapon.LocalizedName;
             RootTpl = weapon.Tpl;
+            Parent = weapon.IsInItemsDB ? AppData.ServerDatabase.ItemsDB[weapon.Tpl].Parent : null;
             if (!fromTemplate)
                 return;
             Name = Weapon;
