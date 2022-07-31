@@ -24,9 +24,10 @@ namespace SPT_AKI_Profile_Editor.Tests
             {
                 DirectoryInfo dir = new(AppDataPath);
                 dir.Create();
-            } else
+            }
+            else
             {
-                DirectoryInfo di = new (AppDataPath);
+                DirectoryInfo di = new(AppDataPath);
                 foreach (FileInfo file in di.GetFiles())
                     file.Delete();
                 foreach (DirectoryInfo dir in di.GetDirectories())
