@@ -487,17 +487,17 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
 
-        public bool PathIsServerFolder(string path = null) => CheckServerPath(path)?.All(x => x.result) == true;
+        public bool PathIsServerFolder(string path = null) => CheckServerPath(path)?.All(x => x.IsFounded) == true;
 
-        public List<(string key, string path, bool result)> CheckServerPath(string path = null)
+        public List<ServerPathEntry> CheckServerPath(string path = null)
         {
             if (string.IsNullOrEmpty(path)) path = ServerPath;
             if (string.IsNullOrEmpty(path)) return null;
             if (!Directory.Exists(path)) return null;
-            var result = new List<(string key, string path, bool result)>();
+            var result = new List<ServerPathEntry>();
 
-            result.AddRange(FilesList.Select(x => (x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
-            result.AddRange(DirsList.Select(x => (x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(FilesList.Select(x => new ServerPathEntry(x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(DirsList.Select(x => new ServerPathEntry(x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
 
             return result;
         }

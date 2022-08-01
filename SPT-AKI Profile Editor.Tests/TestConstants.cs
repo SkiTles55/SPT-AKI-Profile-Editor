@@ -12,6 +12,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         public static readonly string serverPath = @"C:\SPT-AKI";
 
+        public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
+
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
 
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");

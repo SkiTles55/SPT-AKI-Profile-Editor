@@ -116,7 +116,7 @@ namespace SPT_AKI_Profile_Editor
             if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
                 return;
             var checkResult = AppSettings.CheckServerPath(folderBrowserDialog.SelectedPath);
-            if (checkResult?.All(x => x.result) == true)
+            if (checkResult?.All(x => x.IsFounded) == true)
             {
                 ServerPath = folderBrowserDialog.SelectedPath;
                 return;
