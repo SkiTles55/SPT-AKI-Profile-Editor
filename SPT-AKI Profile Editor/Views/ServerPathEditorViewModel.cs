@@ -6,14 +6,22 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class ServerPathEditorViewModel : ClosableDialogViewModel
     {
+        private readonly RelayCommand retryCommand;
+
         public ServerPathEditorViewModel(IEnumerable<ServerPathEntry> paths,
                                          RelayCommand retryCommand)
         {
             Paths = paths;
-            RetryCommand = retryCommand;
+            this.retryCommand = retryCommand;
         }
 
         public IEnumerable<ServerPathEntry> Paths { get; }
-        public RelayCommand RetryCommand { get; }
+        public RelayCommand RetryCommand => new(obj => CloseAndRunRetryCommand());
+
+        private async void CloseAndRunRetryCommand()
+        {
+            await CloseDialog();
+            retryCommand.Execute(Paths);
+        }
     }
 }

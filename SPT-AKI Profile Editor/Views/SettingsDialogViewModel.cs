@@ -43,7 +43,9 @@ namespace SPT_AKI_Profile_Editor
             }
             catch (Exception ex)
             {
-                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance, AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), ex.Message);
+                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance,
+                                                 AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                                                 ex.Message);
             }
         });
 
@@ -102,6 +104,18 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand OpenLocalizationEditor => new(async obj => await Dialogs.ShowLocalizationEditorDialog(this, (bool)obj));
 
+        private RelayCommand ServerPathEditorRetryCommand => new(async obj =>
+        {
+            if (obj is not IEnumerable<ServerPathEntry> pathList)
+                return;
+            AppSettings.FilesList = pathList.Where(x => x.Key.StartsWith("file"))
+                                            .ToDictionary(x => x.Key, y => y.Path);
+            AppSettings.DirsList = pathList.Where(x => x.Key.StartsWith("dir"))
+                                           .ToDictionary(x => x.Key, y => y.Path);
+            AppSettings.Save();
+            await ServerSelectDialog();
+        });
+
         private static void ReloadApplication()
         {
             Application.Restart();
@@ -121,8 +135,7 @@ namespace SPT_AKI_Profile_Editor
                 ServerPath = folderBrowserDialog.SelectedPath;
                 return;
             }
-            if (await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text"))
-                await ServerSelectDialog();
+            await Dialogs.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
         }
     }
 }

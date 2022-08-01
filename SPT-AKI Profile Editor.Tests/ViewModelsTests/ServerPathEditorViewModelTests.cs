@@ -49,7 +49,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void ServerPathEditorViewModelCanCallRetryCommand()
         {
             var retryCommandCalled = false;
-            RelayCommand retryCommand = new(obj => retryCommandCalled = (bool)obj);
+            RelayCommand retryCommand = new(obj => retryCommandCalled = true);
             ServerPathEditorViewModel pathEditorViewModel = TestViewModel(new List<ServerPathEntry>(), retryCommand);
             pathEditorViewModel.RetryCommand.Execute(true);
             Assert.That(retryCommandCalled, Is.True, "ServerPathEditorViewModel RetryCommand not called");
