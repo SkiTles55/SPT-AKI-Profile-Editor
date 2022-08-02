@@ -1,4 +1,4 @@
-﻿namespace SPT_AKI_Profile_Editor.Core
+﻿namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 {
     public class Translation
     {

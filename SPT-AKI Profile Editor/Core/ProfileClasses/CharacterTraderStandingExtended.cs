@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.ServerClasses;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses

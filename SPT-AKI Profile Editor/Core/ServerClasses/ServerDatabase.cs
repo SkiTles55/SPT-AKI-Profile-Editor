@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {

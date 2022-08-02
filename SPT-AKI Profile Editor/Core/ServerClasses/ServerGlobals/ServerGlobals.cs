@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

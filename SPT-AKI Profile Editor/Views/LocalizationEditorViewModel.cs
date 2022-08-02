@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

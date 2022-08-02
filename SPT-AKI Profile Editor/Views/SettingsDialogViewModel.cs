@@ -1,6 +1,7 @@
 ﻿using ControlzEx.Theming;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
