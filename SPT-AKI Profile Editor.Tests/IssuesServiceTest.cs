@@ -72,6 +72,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderLoyaltyIssuesByQuestNotEmpty()
         {
             AppData.Profile.Load(TestConstants.profileFile);
+            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
+                trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
@@ -139,6 +141,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void IssuesServiceCanFixQuestStatusIssue()
         {
             AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.Info.Level = 2;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
@@ -168,6 +171,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void IssuesServiceCanFixTraderLoyaltyIssue()
         {
             AppData.Profile.Load(TestConstants.profileFile);
+            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
+                trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
@@ -183,6 +188,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void IssuesServiceCanFixAllTraderLoyaltyIssues()
         {
             AppData.Profile.Load(TestConstants.profileFile);
+            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
+                trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");

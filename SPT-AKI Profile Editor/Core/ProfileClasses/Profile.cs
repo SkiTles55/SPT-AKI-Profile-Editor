@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;

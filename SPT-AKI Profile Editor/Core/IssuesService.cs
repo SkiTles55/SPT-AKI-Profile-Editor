@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.Issues;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.ObjectModel;

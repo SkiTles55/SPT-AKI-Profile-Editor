@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,21 +55,21 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static Dictionary<string, string> DefaultDirsList => new()
         {
-            ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",
-            ["dir_traders"] = "Aki_Data\\Server\\database\\traders",
-            ["dir_bots"] = "Aki_Data\\Server\\database\\bots\\types",
-            ["dir_profiles"] = "user\\profiles"
+            [SPTServerDir.globals] = "Aki_Data\\Server\\database\\locales\\global",
+            [SPTServerDir.traders] = "Aki_Data\\Server\\database\\traders",
+            [SPTServerDir.bots] = "Aki_Data\\Server\\database\\bots\\types",
+            [SPTServerDir.profiles] = "user\\profiles"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
         {
-            ["file_globals"] = "Aki_Data\\Server\\database\\globals.json",
-            ["file_items"] = "Aki_Data\\Server\\database\\templates\\items.json",
-            ["file_quests"] = "Aki_Data\\Server\\database\\templates\\quests.json",
-            ["file_areas"] = "Aki_Data\\Server\\database\\hideout\\areas.json",
-            ["file_handbook"] = "Aki_Data\\Server\\database\\templates\\handbook.json",
-            ["file_languages"] = "Aki_Data\\Server\\database\\locales\\languages.json",
-            ["file_serverexe"] = "Aki.Server.exe"
+            [SPTServerFile.globals] = "Aki_Data\\Server\\database\\globals.json",
+            [SPTServerFile.items] = "Aki_Data\\Server\\database\\templates\\items.json",
+            [SPTServerFile.quests] = "Aki_Data\\Server\\database\\templates\\quests.json",
+            [SPTServerFile.areas] = "Aki_Data\\Server\\database\\hideout\\areas.json",
+            [SPTServerFile.handbook] = "Aki_Data\\Server\\database\\templates\\handbook.json",
+            [SPTServerFile.languages] = "Aki_Data\\Server\\database\\locales\\languages.json",
+            [SPTServerFile.serverexe] = "Aki.Server.exe"
         };
 
         public static List<AppLocalization> DefaultLocalizations => new()
@@ -96,7 +97,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["reload_profile_dialog_caption"] = "Are you sure? All changes will be lost",
                     ["server_select"] = "Select the SPT-AKI Server directory.",
                     ["invalid_server_location_caption"] = "Error",
-                    ["invalid_server_location_text"] = "The selected path does not seem to be a SPT-AKI server location. Try again?",
+                    ["invalid_server_location_text"] = "SPT-AKI server not found",
+                    ["invalid_server_location_description"] = "SPT-AKI server not found. Select a different folder or change the relative paths to not founded server files/folders.",
                     ["no_accounts"] = "Failed to get accounts. No accounts?!",
                     ["tab_info_title"] = "Information",
                     ["tab_info_pmc"] = "PMC",
@@ -250,7 +252,20 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["localization_editor_title"] = "Localization editor",
                     ["localization_editor_key"] = "Key",
                     ["localization_editor_value"] = "Translation",
-                    ["windows_dialogs_json_file"] = "JSON file"
+                    ["windows_dialogs_json_file"] = "JSON file",
+                    ["server_path_editor_dialog_description"] = "Description",
+                    ["server_path_editor_dialog_path"] = "Relative path",
+                    ["dir_globals_description"] = "Folder containing all localizations",
+                    ["dir_traders_description"] = "Folder containing merchant settings",
+                    ["dir_bots_description"] = "Folder containing bot type settings",
+                    ["dir_profiles_description"] = "Folder containing profiles",
+                    ["file_globals_description"] = "File with main settings of server",
+                    ["file_items_description"] = "File with main settings of the items",
+                    ["file_quests_description"] = "File with main settings of quests",
+                    ["file_areas_description"] = "File with main settings of hideout areas",
+                    ["file_handbook_description"] = "File with a list of categories and items in handbook",
+                    ["file_languages_description"] = "File with list of localizations",
+                    ["file_serverexe_description"] = "Server executable"
                 }
             },
             new AppLocalization
@@ -276,7 +291,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["reload_profile_dialog_caption"] = "Вы уверены? Все изменения будут потеряны",
                     ["server_select"] = "Выберите папку с сервером SPT-AKI.",
                     ["invalid_server_location_caption"] = "Ошибка",
-                    ["invalid_server_location_text"] = "Сервер SPT-AKI не найден. Попробовать снова?",
+                    ["invalid_server_location_text"] = "Сервер SPT-AKI не найден",
+                    ["invalid_server_location_description"] = "Сервер SPT-AKI не найден. Выберите другую папку или измените относительные пути к не найденным файлам/папкам сервера.",
                     ["no_accounts"] = "Не удалось получить аккаунты. Нет аккаунтов?!",
                     ["tab_info_title"] = "Информация",
                     ["tab_info_pmc"] = "ЧВК",
@@ -430,7 +446,20 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["localization_editor_title"] = "Редактор локализации",
                     ["localization_editor_key"] = "Ключ",
                     ["localization_editor_value"] = "Перевод",
-                    ["windows_dialogs_json_file"] = "Файл JSON"
+                    ["windows_dialogs_json_file"] = "Файл JSON",
+                    ["server_path_editor_dialog_description"] = "Описание",
+                    ["server_path_editor_dialog_path"] = "Относительный путь",
+                    ["dir_globals_description"] = "Папка содержащая все локализации",
+                    ["dir_traders_description"] = "Папка содержащая настройки торговцев",
+                    ["dir_bots_description"] = "Папка содержащая настройки типов ботов",
+                    ["dir_profiles_description"] = "Папка содержащая профили",
+                    ["file_globals_description"] = "Файл с основными настройками сервера",
+                    ["file_items_description"] = "Файл с основными настройками предметов",
+                    ["file_quests_description"] = "Файл с основными настройками квестов",
+                    ["file_areas_description"] = "Файл с основными настройками зон убежища",
+                    ["file_handbook_description"] = "Файл со списком категорий и предметов в справочнике",
+                    ["file_languages_description"] = "Файл со списком локализаций",
+                    ["file_serverexe_description"] = "Исполняемый файл сервера"
                 }
             }
         };

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -487,15 +488,19 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
 
-        public bool PathIsServerFolder(string path = null)
+        public bool PathIsServerFolder(string path = null) => CheckServerPath(path)?.All(x => x.IsFounded) == true;
+
+        public List<ServerPathEntry> CheckServerPath(string path = null)
         {
             if (string.IsNullOrEmpty(path)) path = ServerPath;
-            if (string.IsNullOrEmpty(path)) return false;
-            if (!Directory.Exists(path)) return false;
-            if (FilesList.Any(x => !File.Exists(Path.Combine(path, x.Value)))) return false;
-            if (DirsList.Any(x => !Directory.Exists(Path.Combine(path, x.Value)))) return false;
+            if (string.IsNullOrEmpty(path)) return null;
+            if (!Directory.Exists(path)) return null;
+            var result = new List<ServerPathEntry>();
 
-            return true;
+            result.AddRange(FilesList.Select(x => new ServerPathEntry(x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(DirsList.Select(x => new ServerPathEntry(x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
+
+            return result;
         }
 
         public void Load()
@@ -515,8 +520,9 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             Dictionary<string, string> Profiles = new();
             if (string.IsNullOrEmpty(ServerPath)) return;
-            if (!Directory.Exists(Path.Combine(ServerPath, DirsList["dir_profiles"]))) return;
-            foreach (var file in Directory.GetFiles(Path.Combine(ServerPath, DirsList["dir_profiles"])))
+            var profilesPath = Path.Combine(ServerPath, DirsList[SPTServerDir.profiles]);
+            if (!Directory.Exists(profilesPath)) return;
+            foreach (var file in Directory.GetFiles(profilesPath))
             {
                 try
                 {

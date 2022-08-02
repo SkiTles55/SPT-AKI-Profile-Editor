@@ -1,6 +1,7 @@
 ﻿using ControlzEx.Theming;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace SPT_AKI_Profile_Editor
         {
             CloseCommand = command;
             SelectedTab = index;
+            AppSettings = AppData.AppSettings;
         }
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
@@ -42,12 +44,14 @@ namespace SPT_AKI_Profile_Editor
             }
             catch (Exception ex)
             {
-                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance, AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), ex.Message);
+                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance,
+                                                 AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                                                 ex.Message);
             }
         });
 
         public RelayCommand ResetSettings => new(obj => File.Delete(AppSettings.configurationFile));
-        public AppSettings AppSettings => AppData.AppSettings;
+        public AppSettings AppSettings { get; }
 
         public int SelectedTab
         {
@@ -101,29 +105,38 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand OpenLocalizationEditor => new(async obj => await Dialogs.ShowLocalizationEditorDialog(this, (bool)obj));
 
+        private RelayCommand ServerPathEditorRetryCommand => new(async obj =>
+        {
+            if (obj is not IEnumerable<ServerPathEntry> pathList)
+                return;
+            AppSettings.FilesList = pathList.Where(x => x.Key.StartsWith(SPTServerFile.prefix))
+                                            .ToDictionary(x => x.Key, y => y.Path);
+            AppSettings.DirsList = pathList.Where(x => x.Key.StartsWith(SPTServerDir.prefix))
+                                           .ToDictionary(x => x.Key, y => y.Path);
+            AppSettings.Save();
+            await ServerSelectDialog();
+        });
+
         private static void ReloadApplication()
         {
-            System.Windows.Forms.Application.Restart();
+            Application.Restart();
             Environment.Exit(0);
         }
 
         private async Task ServerSelectDialog()
         {
             var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(false, AppLocalization.GetLocalizedString("server_select"));
-            bool pathOK = false;
-            do
+            if (!string.IsNullOrEmpty(ServerPath) && Directory.Exists(ServerPath))
+                folderBrowserDialog.SelectedPath = ServerPath;
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+                return;
+            var checkResult = AppSettings.CheckServerPath(folderBrowserDialog.SelectedPath);
+            if (checkResult?.All(x => x.IsFounded) == true)
             {
-                if (!string.IsNullOrWhiteSpace(ServerPath) && Directory.Exists(ServerPath))
-                    folderBrowserDialog.SelectedPath = ServerPath;
-                if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
-                    pathOK = false;
-                if (AppSettings.PathIsServerFolder(folderBrowserDialog.SelectedPath))
-                    pathOK = true;
-            } while (await PathIsNotServerFolder(pathOK));
-            if (pathOK)
                 ServerPath = folderBrowserDialog.SelectedPath;
+                return;
+            }
+            await Dialogs.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
         }
-
-        private async Task<bool> PathIsNotServerFolder(bool pathOK) => !pathOK && await Dialogs.YesNoDialog(this, "invalid_server_location_caption", "invalid_server_location_text");
     }
 }

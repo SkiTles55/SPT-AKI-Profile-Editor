@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -72,6 +73,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 foreach (var st in DefaultLocalization.Translations.Where(x => !appLocalization.Translations.ContainsKey(x.Key)))
                 {
                     appLocalization.Translations.Add(st.Key, st.Value);
+                    _needReSave = true;
+                }
+                foreach (var deprecated in appLocalization.Translations.Where(x => !DefaultLocalization.Translations.ContainsKey(x.Key)))
+                {
+                    appLocalization.Translations.Remove(deprecated.Key);
                     _needReSave = true;
                 }
                 if (_needReSave)

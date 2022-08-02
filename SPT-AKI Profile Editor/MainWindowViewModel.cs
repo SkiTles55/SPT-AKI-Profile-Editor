@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.IO;
 using System.Threading.Tasks;
@@ -79,7 +80,7 @@ namespace SPT_AKI_Profile_Editor
                 Action = () =>
                 {
                     AppData.BackupService.CreateBackup();
-                    Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile));
+                    Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.profiles], AppData.AppSettings.DefaultProfile));
                 },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("save_profile_dialog_title"),

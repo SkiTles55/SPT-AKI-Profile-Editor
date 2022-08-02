@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Views;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,6 +87,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             CustomDialog lEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("localization_editor_title"), 500);
             await ShowCustomDialog<LocalizationEditor>(context, lEditorDialog, new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
+        }
+
+        public static async Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
+        {
+            CustomDialog pathEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), 500);
+            await ShowCustomDialog<ServerPathEditor>(context, pathEditorDialog, new ServerPathEditorViewModel(paths, retryCommand));
         }
 
         public static async Task ShowOkMessageAsync(object context, string title, string message)
