@@ -75,6 +75,11 @@ namespace SPT_AKI_Profile_Editor.Core
                     appLocalization.Translations.Add(st.Key, st.Value);
                     _needReSave = true;
                 }
+                foreach (var deprecated in appLocalization.Translations.Where(x => !DefaultLocalization.Translations.ContainsKey(x.Key)))
+                {
+                    appLocalization.Translations.Remove(deprecated.Key);
+                    _needReSave = true;
+                }
                 if (_needReSave)
                 {
                     try
