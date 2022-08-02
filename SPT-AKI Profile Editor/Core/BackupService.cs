@@ -64,7 +64,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public void CreateBackup(string sourcePath = null)
         {
             if (string.IsNullOrEmpty(sourcePath))
-                sourcePath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile);
+                sourcePath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.profiles], AppData.AppSettings.DefaultProfile);
             string destFolder = Path.Combine(backupFolder,
                 Path.GetFileNameWithoutExtension(sourcePath));
             if (!Directory.Exists(destFolder))
@@ -79,7 +79,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public void RestoreBackup(string file, string destPath = null)
         {
             if (string.IsNullOrEmpty(destPath))
-                destPath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList["dir_profiles"], AppData.AppSettings.DefaultProfile);
+                destPath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.profiles], AppData.AppSettings.DefaultProfile);
             File.Copy(file, destPath, true);
             File.Delete(file);
         }

@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,21 +55,21 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static Dictionary<string, string> DefaultDirsList => new()
         {
-            ["dir_globals"] = "Aki_Data\\Server\\database\\locales\\global",
-            ["dir_traders"] = "Aki_Data\\Server\\database\\traders",
-            ["dir_bots"] = "Aki_Data\\Server\\database\\bots\\types",
-            ["dir_profiles"] = "user\\profiles"
+            [SPTServerDir.globals] = "Aki_Data\\Server\\database\\locales\\global",
+            [SPTServerDir.traders] = "Aki_Data\\Server\\database\\traders",
+            [SPTServerDir.bots] = "Aki_Data\\Server\\database\\bots\\types",
+            [SPTServerDir.profiles] = "user\\profiles"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
         {
-            ["file_globals"] = "Aki_Data\\Server\\database\\globals.json",
-            ["file_items"] = "Aki_Data\\Server\\database\\templates\\items.json",
-            ["file_quests"] = "Aki_Data\\Server\\database\\templates\\quests.json",
-            ["file_areas"] = "Aki_Data\\Server\\database\\hideout\\areas.json",
-            ["file_handbook"] = "Aki_Data\\Server\\database\\templates\\handbook.json",
-            ["file_languages"] = "Aki_Data\\Server\\database\\locales\\languages.json",
-            ["file_serverexe"] = "Aki.Server.exe"
+            [SPTServerFile.globals] = "Aki_Data\\Server\\database\\globals.json",
+            [SPTServerFile.items] = "Aki_Data\\Server\\database\\templates\\items.json",
+            [SPTServerFile.quests] = "Aki_Data\\Server\\database\\templates\\quests.json",
+            [SPTServerFile.areas] = "Aki_Data\\Server\\database\\hideout\\areas.json",
+            [SPTServerFile.handbook] = "Aki_Data\\Server\\database\\templates\\handbook.json",
+            [SPTServerFile.languages] = "Aki_Data\\Server\\database\\locales\\languages.json",
+            [SPTServerFile.serverexe] = "Aki.Server.exe"
         };
 
         public static List<AppLocalization> DefaultLocalizations => new()

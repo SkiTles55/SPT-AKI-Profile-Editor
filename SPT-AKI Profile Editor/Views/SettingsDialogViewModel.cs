@@ -109,9 +109,9 @@ namespace SPT_AKI_Profile_Editor
         {
             if (obj is not IEnumerable<ServerPathEntry> pathList)
                 return;
-            AppSettings.FilesList = pathList.Where(x => x.Key.StartsWith("file"))
+            AppSettings.FilesList = pathList.Where(x => x.Key.StartsWith(SPTServerFile.prefix))
                                             .ToDictionary(x => x.Key, y => y.Path);
-            AppSettings.DirsList = pathList.Where(x => x.Key.StartsWith("dir"))
+            AppSettings.DirsList = pathList.Where(x => x.Key.StartsWith(SPTServerDir.prefix))
                                            .ToDictionary(x => x.Key, y => y.Path);
             AppSettings.Save();
             await ServerSelectDialog();

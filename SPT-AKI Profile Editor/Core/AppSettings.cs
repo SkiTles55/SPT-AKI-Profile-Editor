@@ -520,8 +520,9 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             Dictionary<string, string> Profiles = new();
             if (string.IsNullOrEmpty(ServerPath)) return;
-            if (!Directory.Exists(Path.Combine(ServerPath, DirsList["dir_profiles"]))) return;
-            foreach (var file in Directory.GetFiles(Path.Combine(ServerPath, DirsList["dir_profiles"])))
+            var profilesPath = Path.Combine(ServerPath, DirsList[SPTServerDir.profiles]);
+            if (!Directory.Exists(profilesPath)) return;
+            foreach (var file in Directory.GetFiles(profilesPath))
             {
                 try
                 {

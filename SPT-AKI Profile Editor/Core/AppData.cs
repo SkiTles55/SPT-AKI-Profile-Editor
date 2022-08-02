@@ -57,7 +57,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static void StartupEvents()
         {
             LoadDatabase();
-            Profile.Load(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_profiles"], AppSettings.DefaultProfile));
+            Profile.Load(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.profiles], AppSettings.DefaultProfile));
             BackupService.LoadBackupsList();
             GridFilters.Clear();
         }
@@ -67,7 +67,7 @@ namespace SPT_AKI_Profile_Editor.Core
             Dictionary<string, string> availableKeys = new();
             try
             {
-                string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList["file_languages"]);
+                string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList[SPTServerFile.languages]);
                 LocalesGlobalTemplate[] languages = JsonConvert.DeserializeObject<LocalesGlobalTemplate[]>(File.ReadAllText(path));
                 availableKeys = languages
                     .Where(x => ShouldAddToAvailableKeys(x.ShortName.ToString()))
@@ -79,12 +79,12 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static bool ShouldAddToAvailableKeys(string key) =>
             !AppLocalization.Localizations.ContainsKey(key)
-            && File.Exists(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], key + ".json"));
+            && File.Exists(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.globals], key + ".json"));
 
         private static void LoadLocalesGlobal()
         {
             ServerDatabase.LocalesGlobal = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_globals"], AppSettings.Language + ".json");
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.globals], AppSettings.Language + ".json");
             try
             {
                 LocalesGlobal global = JsonConvert.DeserializeObject<LocalesGlobal>(File.ReadAllText(path));
@@ -97,7 +97,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             Dictionary<string, string> Heads = new();
             Dictionary<string, string> Voices = new();
-            foreach (var btype in Directory.GetFiles(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_bots"])))
+            foreach (var btype in Directory.GetFiles(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.bots])))
             {
                 try
                 {
@@ -122,7 +122,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadServerGlobals()
         {
             ServerDatabase.ServerGlobals = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_globals"]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.globals]);
             try
             {
                 ServerGlobals global = JsonConvert.DeserializeObject<ServerGlobals>(File.ReadAllText(path));
@@ -135,7 +135,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ServerDatabase.TraderInfos = new();
             var traderInfos = new Dictionary<string, TraderBase>();
-            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_traders"])))
+            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
             {
                 if (!File.Exists(Path.Combine(tbase, "base.json")))
                     continue;
@@ -153,7 +153,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadQuestsData()
         {
             ServerDatabase.QuestsData = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_quests"]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
             try
             {
                 Dictionary<string, QuestData> questsData = JsonConvert.DeserializeObject<Dictionary<string, QuestData>>(File.ReadAllText(path));
@@ -165,7 +165,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadHideoutAreaInfos()
         {
             ServerDatabase.HideoutAreaInfos = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_areas"]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.areas]);
             try
             {
                 List<HideoutAreaInfo> HideoutAreaInfos = JsonConvert.DeserializeObject<List<HideoutAreaInfo>>(File.ReadAllText(path));
@@ -177,7 +177,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadItemsDB()
         {
             ServerDatabase.ItemsDB = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_items"]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
             try
             {
                 Dictionary<string, TarkovItem> itemsDB = JsonConvert.DeserializeObject<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
@@ -198,7 +198,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ServerDatabase.TraderSuits = new();
             var traderSuits = new List<TraderSuit>();
-            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList["dir_traders"])))
+            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
             {
                 try
                 {
@@ -215,7 +215,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHandbook()
         {
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList["file_handbook"]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
             try
             {
                 Handbook handbook = JsonConvert.DeserializeObject<Handbook>(File.ReadAllText(path));
