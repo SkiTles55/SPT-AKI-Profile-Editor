@@ -99,6 +99,27 @@
             Orientation="Horizontal">
             <Button
                 Margin="0,0,5,0"
+                Command="{Binding FAQCommand}"
+                Content="{Binding AppLocalization.Translations[button_faq]}"
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconFontAwesome
+                                Width="20"
+                                Height="22"
+                                VerticalAlignment="Center"
+                                Kind="InfoCircleSolid" />
+                            <TextBlock
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button
+                Margin="5,0,5,0"
                 Command="{Binding CancelCommand}"
                 Content="{Binding AppLocalization.Translations[button_cancel]}"
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />

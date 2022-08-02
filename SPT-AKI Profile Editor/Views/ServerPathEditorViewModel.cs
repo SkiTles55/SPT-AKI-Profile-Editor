@@ -17,6 +17,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public IEnumerable<ServerPathEntry> Paths { get; }
         public RelayCommand RetryCommand => new(obj => CloseAndRunRetryCommand());
+        public RelayCommand FAQCommand => MainWindowViewModel.OpenFAQ;
 
         private async void CloseAndRunRetryCommand()
         {

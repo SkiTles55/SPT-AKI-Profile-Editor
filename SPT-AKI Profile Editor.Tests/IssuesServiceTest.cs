@@ -157,6 +157,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void IssuesServiceCanFixAllQuestStatusIssues()
         {
             AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Characters.Pmc.Info.Level = 2;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
