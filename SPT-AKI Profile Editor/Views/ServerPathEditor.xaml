@@ -2,7 +2,6 @@
     x:Class="SPT_AKI_Profile_Editor.Views.ServerPathEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -21,7 +20,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             DockPanel.Dock="Left"
-            Text="{Binding AppLocalization.Translations[invalid_server_location_text]}"
+            FontSize="15"
+            Text="{Binding AppLocalization.Translations[invalid_server_location_description]}"
             TextWrapping="Wrap" />
         <DataGrid
             Grid.Row="1"
@@ -38,22 +38,22 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[localization_editor_key], Source={StaticResource proxy}}"
-                    SortMemberPath="Key">
+                    Width="1*"
+                    Header="{Binding Data.AppLocalization.Translations[server_path_editor_dialog_description], Source={StaticResource proxy}}"
+                    SortMemberPath="LocalizedName">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=Key}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[localization_editor_value], Source={StaticResource proxy}}"
+                    Width="2*"
+                    Header="{Binding Data.AppLocalization.Translations[server_path_editor_dialog_path], Source={StaticResource proxy}}"
                     SortMemberPath="Path">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

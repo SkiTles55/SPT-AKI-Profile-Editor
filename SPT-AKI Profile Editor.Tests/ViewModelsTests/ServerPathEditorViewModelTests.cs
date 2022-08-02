@@ -31,6 +31,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(pathEditorViewModel.Paths.Select(x => x.Key), Is.EqualTo(expectedKeys), "ServerPathEditorViewModel Paths did not contains all keys");
             var expectedPaths = settings.FilesList.Select(x => x.Value).Concat(settings.DirsList.Select(x => x.Value));
             Assert.That(pathEditorViewModel.Paths.Select(x => x.Path), Is.EqualTo(expectedPaths), "ServerPathEditorViewModel Paths did not contains all paths");
+            Assert.That(pathEditorViewModel.Paths.All(x => x.LocalizedName == x.Key), Is.False, "ServerPathEditorViewModel Paths did not have correct localized name");
         }
 
         [Test]
@@ -44,6 +45,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(pathEditorViewModel.Paths.Select(x => x.Key), Is.EqualTo(expectedKeys), "ServerPathEditorViewModel Paths did not contains all keys");
             var expectedPaths = settings.FilesList.Select(x => x.Value).Concat(settings.DirsList.Select(x => x.Value));
             Assert.That(pathEditorViewModel.Paths.Select(x => x.Path), Is.EqualTo(expectedPaths), "ServerPathEditorViewModel Paths did not contains all paths");
+            Assert.That(pathEditorViewModel.Paths.All(x => x.LocalizedName == x.Key), Is.False, "ServerPathEditorViewModel Paths did not have correct localized name");
         }
 
         [Test]
