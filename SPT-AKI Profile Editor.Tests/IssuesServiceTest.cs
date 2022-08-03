@@ -10,6 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
+            AppData.AppSettings.AutoAddMissingQuests = true;
             AppData.AppSettings.ServerPath = TestConstants.serverPath;
             AppData.LoadDatabase();
         }

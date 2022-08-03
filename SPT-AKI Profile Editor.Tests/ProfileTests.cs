@@ -102,6 +102,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HideoutAreasNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Hideout.Areas.Length == 0, "HideoutAreas is empty");
 
         [Test]
+        public void HideoutAreasHasCorrectLocalizedName() => Assert.False(AppData.Profile.Characters.Pmc.Hideout.Areas.Any(x => x.LocalizedName == $"hideout_area_{x.Type}_name"));
+
+        [Test]
         public void PmcSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Pmc skills is null");
 
         [Test]
