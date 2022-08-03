@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            DataContext = new MainWindowViewModel(App.DialogManager);
             this.AllowDragging();
         }
 
@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task ConfirmShutdown()
         {
-            _shutdown = await Dialogs.YesNoDialog(DataContext,
+            _shutdown = await App.DialogManager.YesNoDialog(DataContext,
                 AppData.AppLocalization.GetLocalizedString("app_quit"),
                 AppData.AppLocalization.GetLocalizedString("reload_profile_dialog_caption")); ;
             if (_shutdown)

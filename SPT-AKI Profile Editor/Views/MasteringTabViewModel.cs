@@ -7,8 +7,11 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class MasteringTabViewModel : BindableViewModel
     {
+        private readonly IDialogManager _dialogManager;
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
+
+        public MasteringTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
 
         public float SetAllPmcSkillsValue
         {
@@ -33,9 +36,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand SetAllPmsSkillsCommand => new(obj => Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcSkillsValue));
         public RelayCommand SetAllScavSkillsCommand => new(obj => Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavSkillsValue));
 
-        public RelayCommand OpenSettingsCommand => new(async obj =>
-         {
-             await Dialogs.ShowSettingsDialog(this, 1);
-         });
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this, 1));
     }
 }

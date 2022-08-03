@@ -3,11 +3,15 @@ using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class WeaponBuildWindowViewModelTests
     {
+        private static readonly TestsDialogManager dialogManager = new();
+
         [Test]
         public void PmcWeaponBuildInitializeCorrectly()
         {
@@ -56,6 +60,32 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Is.True.After(2).Seconds.PollEvery(250).MilliSeconds);
         }
 
+        [Test]
+        public void PmcWeaponBuildCanRemove()
+        {
+            AppData.LoadDatabase();
+            AppData.Profile.Load(TestConstants.profileFile);
+            var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
+            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, StashEditMode.PMC, DialogCoordinator.Instance, dialogManager);
+            Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+            pmcWeaponBuild.RemoveItem.Execute(null);
+            Assert.That(() => AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == weapon.Id),
+                Is.False.After(2).Seconds.PollEvery(250).MilliSeconds);
+        }
+
+        [Test]
+        public void ScavWeaponBuildCanRemove()
+        {
+            AppData.LoadDatabase();
+            AppData.Profile.Load(TestConstants.profileFile);
+            var weapon = AppData.Profile.Characters.Scav.Inventory.Items.First(x => x.IsWeapon);
+            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, StashEditMode.Scav, DialogCoordinator.Instance, dialogManager);
+            Assert.That(scavWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+            scavWeaponBuild.RemoveItem.Execute(null);
+            Assert.That(() => AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == weapon.Id),
+                Is.False.After(2).Seconds.PollEvery(250).MilliSeconds);
+        }
+
         private static WeaponBuildWindowViewModel TestViewModel(StashEditMode editMode)
         {
             TestConstants.SetupTestCharacters("WeaponBuildWindowViewModel", editMode);
@@ -64,7 +94,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestConstants.GetTestName("WeaponBuildWindowViewModel", editMode),
                 Tpl = TestConstants.GetTestName("WeaponBuildWindowViewModel", editMode)
             };
-            return new(item, editMode, DialogCoordinator.Instance);
+            return new(item, editMode, DialogCoordinator.Instance, dialogManager);
         }
     }
 }

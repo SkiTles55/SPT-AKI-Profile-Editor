@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public QuestsTab()
         {
             InitializeComponent();
-            DataContext = new QuestsTabViewModel();
+            DataContext = new QuestsTabViewModel(App.DialogManager);
         }
 
         private static bool FiltersIsEmpty() => string.IsNullOrEmpty(AppData.GridFilters.QuestsTab.QuestNameFilter)

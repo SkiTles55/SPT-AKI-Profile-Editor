@@ -2,11 +2,14 @@
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class ContainerWindowViewModelTests
     {
+        private static readonly TestsDialogManager dialogManager = new();
+
         [Test]
         public void PmcWeaponBuildInitializeCorrectly()
         {
@@ -45,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestConstants.GetTestName("ContainerWindowViewModel", editMode),
                 Tpl = TestConstants.GetTestName("ContainerWindowViewModel", editMode)
             };
-            return new(item, editMode, DialogCoordinator.Instance);
+            return new(item, editMode, DialogCoordinator.Instance, dialogManager);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public MasteringTab()
         {
             InitializeComponent();
-            DataContext = new MasteringTabViewModel();
+            DataContext = new MasteringTabViewModel(App.DialogManager);
         }
     }
 }

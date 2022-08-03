@@ -33,11 +33,7 @@
             <extendedcontrols:Equipment InventoryEquipment="{Binding Profile.Characters.Pmc.Inventory}" />
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_scav_equipment]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
-            <extendedcontrols:Equipment InventoryEquipment="{Binding Profile.Characters.Scav.Inventory}">
-                <extendedcontrols:Equipment.DataContext>
-                    <views:ScavStashTabViewModel />
-                </extendedcontrols:Equipment.DataContext>
-            </extendedcontrols:Equipment>
+            <extendedcontrols:Equipment DataContext="{Binding ScavStashTabViewModel}" InventoryEquipment="{Binding Profile.Characters.Scav.Inventory}" />
         </TabItem>
     </TabControl>
 </UserControl>

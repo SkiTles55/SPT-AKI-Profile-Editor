@@ -128,7 +128,7 @@ namespace SPT_AKI_Profile_Editor.Views
             if (AcquireAll)
                 ServerDatabase.AcquireAllClothing();
             AppSettings.FastModeOpened = false;
-            MainWindowViewModel.SaveProfileAndReload();
+            MainWindowViewModel.Instance.SaveProfileAndReload();
         });
     }
 }

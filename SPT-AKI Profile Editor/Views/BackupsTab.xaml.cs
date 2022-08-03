@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public BackupsTab()
         {
             InitializeComponent();
-            DataContext = new BackupsTabViewModel();
+            DataContext = new BackupsTabViewModel(App.DialogManager);
         }
     }
 }

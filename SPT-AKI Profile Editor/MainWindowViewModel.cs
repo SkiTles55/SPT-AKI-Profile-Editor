@@ -11,10 +11,13 @@ namespace SPT_AKI_Profile_Editor
 {
     public class MainWindowViewModel : BindableViewModel
     {
-        public MainWindowViewModel()
+        private readonly IDialogManager _dialogManager;
+
+        public MainWindowViewModel(IDialogManager dialogManager)
         {
             App.DialogCoordinator = DialogCoordinator.Instance;
-            App.Worker = new Worker(App.DialogCoordinator, this);
+            _dialogManager = dialogManager;
+            App.Worker = new Worker(App.DialogCoordinator, this, _dialogManager);
             Instance = this;
         }
 
@@ -24,17 +27,15 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
-        public static RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
-
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
-
-        public RelayCommand OpenSettingsCommand => new(async obj => await Dialogs.ShowSettingsDialog(this));
+        public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this));
 
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
         public RelayCommand ReloadButtonCommand => new(async obj => await Reload());
 
-        public static async void SaveProfileAndReload()
+        public async void SaveProfileAndReload()
         {
             AppData.IssuesService.GetIssues();
             if (AppData.IssuesService.HasIssues)
@@ -43,7 +44,7 @@ namespace SPT_AKI_Profile_Editor
                 {
                     case IssuesAction.AlwaysShow:
                         RelayCommand saveCommand = new(obj => SaveAction());
-                        await Dialogs.ShowIssuesDialog(Instance, saveCommand);
+                        await _dialogManager.ShowIssuesDialog(Instance, saveCommand);
                         return;
 
                     case IssuesAction.AlwaysFix:
@@ -54,10 +55,10 @@ namespace SPT_AKI_Profile_Editor
             SaveAction();
         }
 
-        public static async void StartupEventsWorker()
+        public async void StartupEventsWorker()
         {
             if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
-                await Dialogs.ShutdownCozServerRunned(Instance);
+                await _dialogManager.ShutdownCozServerRunned(Instance);
             App.CloseItemViewWindows();
             App.Worker.AddAction(new WorkerTask
             {
@@ -65,12 +66,6 @@ namespace SPT_AKI_Profile_Editor
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });
-        }
-
-        private static void SaveAction()
-        {
-            App.Worker.AddAction(SaveProfileTask());
-            StartupEventsWorker();
         }
 
         private static WorkerTask SaveProfileTask()
@@ -100,6 +95,12 @@ namespace SPT_AKI_Profile_Editor
             ExtMethods.OpenUrl(link);
         }
 
+        private void SaveAction()
+        {
+            App.Worker.AddAction(SaveProfileTask());
+            StartupEventsWorker();
+        }
+
         private async Task InitializeViewModel()
         {
             App.ChangeTheme();
@@ -107,7 +108,7 @@ namespace SPT_AKI_Profile_Editor
             || !AppData.AppSettings.PathIsServerFolder()
             || !AppData.AppSettings.ServerHaveProfiles()
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await Dialogs.ShowSettingsDialog(this);
+                await _dialogManager.ShowSettingsDialog(this);
             else
                 StartupEventsWorker();
             if (AppData.AppSettings.CheckUpdates == true)
@@ -118,12 +119,12 @@ namespace SPT_AKI_Profile_Editor
         {
             var release = await UpdatesChecker.CheckUpdate();
             if (release != null)
-                await Dialogs.ShowUpdateDialog(this, release);
+                await _dialogManager.ShowUpdateDialog(this, release);
         }
 
         private async Task Reload()
         {
-            if (await Dialogs.YesNoDialog(this, "reload_profile_dialog_title", "reload_profile_dialog_caption"))
+            if (await _dialogManager.YesNoDialog(this, "reload_profile_dialog_title", "reload_profile_dialog_caption"))
                 StartupEventsWorker();
         }
     }

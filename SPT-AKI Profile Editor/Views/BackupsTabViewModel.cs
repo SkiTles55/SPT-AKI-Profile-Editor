@@ -6,13 +6,17 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class BackupsTabViewModel : BindableViewModel
     {
+        private readonly IDialogManager _dialogManager;
+
+        public BackupsTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+
         public static BackupService BackupService => AppData.BackupService;
 
         public RelayCommand RemoveCommand => new(async obj =>
          {
              if (obj == null)
                  return;
-             if (await Dialogs.YesNoDialog(this, "remove_backup_dialog_title", "remove_backup_dialog_caption"))
+             if (await _dialogManager.YesNoDialog(this, "remove_backup_dialog_title", "remove_backup_dialog_caption"))
              {
                  App.Worker.AddAction(new WorkerTask
                  {
@@ -27,7 +31,7 @@ namespace SPT_AKI_Profile_Editor.Views
          {
              if (obj == null)
                  return;
-             if (await Dialogs.YesNoDialog(this, "restore_backup_dialog_title", "restore_backup_dialog_caption"))
+             if (await _dialogManager.YesNoDialog(this, "restore_backup_dialog_title", "restore_backup_dialog_caption"))
              {
                  App.Worker.AddAction(new WorkerTask
                  {

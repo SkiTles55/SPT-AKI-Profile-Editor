@@ -11,7 +11,26 @@ using System.Windows.Controls;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public class Dialogs
+    public interface IDialogManager
+    {
+        public Task<bool> YesNoDialog(object context, string title, string caption);
+
+        public Task ShutdownCozServerRunned(object context);
+
+        public Task ShowSettingsDialog(object context, int index = 0);
+
+        public Task ShowUpdateDialog(object context, GitHubRelease release);
+
+        public Task ShowIssuesDialog(object context, RelayCommand saveCommand);
+
+        public Task ShowLocalizationEditorDialog(object context, bool isEdit = true);
+
+        public Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand);
+
+        public Task ShowOkMessageAsync(object context, string title, string message);
+    }
+
+    public class MetroDialogManager : IDialogManager
     {
         private static MetroDialogSettings YesNoDialogSettings => new()
         {
@@ -36,14 +55,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
             AnimateHide = true
         };
 
-        public static async Task<bool> YesNoDialog(object context, string title, string caption) =>
+        public async Task<bool> YesNoDialog(object context, string title, string caption) =>
             await App.DialogCoordinator.ShowMessageAsync(context,
                 AppData.AppLocalization.GetLocalizedString(title),
                 AppData.AppLocalization.GetLocalizedString(caption),
                 MessageDialogStyle.AffirmativeAndNegative,
                 YesNoDialogSettings) == MessageDialogResult.Affirmative;
 
-        public static async Task ShutdownCozServerRunned(object context)
+        public async Task ShutdownCozServerRunned(object context)
         {
             if (await App.DialogCoordinator.ShowMessageAsync(context,
                 AppData.AppLocalization.GetLocalizedString("app_quit"),
@@ -53,7 +72,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 App.CloseApplication.Execute(null);
         }
 
-        public static async Task ShowSettingsDialog(object context, int index = 0)
+        public async Task ShowSettingsDialog(object context, int index = 0)
         {
             string startValues = AppSettings.GetStamp();
             CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
@@ -62,12 +81,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 await App.DialogCoordinator.HideMetroDialogAsync(context, settingsDialog);
                 string newValues = AppSettings.GetStamp();
                 if (startValues != newValues)
-                    MainWindowViewModel.StartupEventsWorker();
+                    MainWindowViewModel.Instance.StartupEventsWorker();
             });
             await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, index));
         }
 
-        public static async Task ShowUpdateDialog(object context, GitHubRelease release)
+        public async Task ShowUpdateDialog(object context, GitHubRelease release)
         {
             CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
             RelayCommand closeCommand = new(async obj =>
@@ -79,7 +98,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                  new UpdateDialogViewModel(closeCommand, release));
         }
 
-        public static async Task ShowIssuesDialog(object context, RelayCommand saveCommand)
+        public async Task ShowIssuesDialog(object context, RelayCommand saveCommand)
         {
             CustomDialog issuesDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("profile_issues_title"), 500);
             await ShowCustomDialog<IssuesDialog>(context,
@@ -87,7 +106,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                  new IssuesDialogViewModel(saveCommand));
         }
 
-        public static async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
+        public async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
         {
             CustomDialog lEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("localization_editor_title"), 500);
             await ShowCustomDialog<LocalizationEditor>(context,
@@ -95,7 +114,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                        new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
         }
 
-        public static async Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
+        public async Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
         {
             CustomDialog pathEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), 500);
             await ShowCustomDialog<ServerPathEditor>(context,
@@ -103,7 +122,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                      new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.OpenFAQ));
         }
 
-        public static async Task ShowOkMessageAsync(object context, string title, string message)
+        public async Task ShowOkMessageAsync(object context, string title, string message)
         {
             await App.DialogCoordinator.ShowMessageAsync(context, title,
                 message, MessageDialogStyle.Affirmative, OkDialogSettings);

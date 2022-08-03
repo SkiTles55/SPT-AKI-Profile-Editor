@@ -10,18 +10,20 @@ namespace SPT_AKI_Profile_Editor.Helpers
     public class Worker
     {
         private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly IDialogManager _dialogManager;
         private readonly BindableViewModel _viewModel;
         private readonly List<WorkerTask> tasks;
         private readonly List<WorkerNotification> workerNotifications;
         private ProgressDialogController progressDialog;
         private bool isBusy = false;
 
-        public Worker(IDialogCoordinator dialogCoordinator, BindableViewModel viewModel)
+        public Worker(IDialogCoordinator dialogCoordinator, BindableViewModel viewModel, IDialogManager dialogManager)
         {
             tasks = new List<WorkerTask>();
             workerNotifications = new List<WorkerNotification>();
             _dialogCoordinator = dialogCoordinator;
             _viewModel = viewModel;
+            _dialogManager = dialogManager;
         }
 
         public async void AddAction(WorkerTask task)
@@ -64,7 +66,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 {
                     if (progressDialog?.IsOpen ?? false)
                         await progressDialog?.CloseAsync();
-                    await Dialogs.ShowOkMessageAsync(_viewModel,
+                    await _dialogManager.ShowOkMessageAsync(_viewModel,
                         AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
                         ex.Message);
                     Logger.Log($"Run Worker Error | {ex.Message}");
@@ -75,7 +77,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 await progressDialog?.CloseAsync();
             while (workerNotifications.Count > 0)
             {
-                await Dialogs.ShowOkMessageAsync(_viewModel, workerNotifications[0].NotificationTitle,
+                await _dialogManager.ShowOkMessageAsync(_viewModel, workerNotifications[0].NotificationTitle,
                     workerNotifications[0].NotificationDescription);
                 workerNotifications.RemoveAt(0);
             }

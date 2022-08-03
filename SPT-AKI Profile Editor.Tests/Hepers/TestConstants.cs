@@ -4,7 +4,7 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.IO;
 
-namespace SPT_AKI_Profile_Editor.Tests
+namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestConstants
     {
