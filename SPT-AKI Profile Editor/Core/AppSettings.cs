@@ -75,6 +75,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private List<string> bannedMasterings;
         private IssuesAction issuesAction;
         private bool fastModeOpened = false;
+        private bool? checkUpdates;
 
         public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
@@ -126,6 +127,18 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 colorScheme = value;
                 OnPropertyChanged("ColorScheme");
+                if (Loaded)
+                    Save();
+            }
+        }
+
+        public bool? CheckUpdates
+        {
+            get => checkUpdates;
+            set
+            {
+                checkUpdates = value;
+                OnPropertyChanged("CheckUpdates");
                 if (Loaded)
                     Save();
             }
@@ -571,6 +584,7 @@ namespace SPT_AKI_Profile_Editor.Core
             DefaultProfile = loaded.DefaultProfile;
             Language = loaded.Language;
             ColorScheme = loaded.ColorScheme;
+            CheckUpdates = loaded.CheckUpdates;
             DirsList = loaded.DirsList;
             FilesList = loaded.FilesList;
             AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
@@ -738,6 +752,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 ArmBandSlotId = DefaultValues.ArmBandSlotId;
                 _needReSave = true;
             }
+            if (CheckUpdates == null)
+            {
+                CheckUpdates = DefaultValues.CheckUpdates;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -747,6 +766,7 @@ namespace SPT_AKI_Profile_Editor.Core
             Language = ExtMethods.WindowsCulture;
             DirsList = DefaultValues.DefaultDirsList;
             FilesList = DefaultValues.DefaultFilesList;
+            CheckUpdates = DefaultValues.CheckUpdates;
             AutoAddMissingQuests = false;
             AutoAddMissingMasterings = false;
             AutoAddMissingScavSkills = false;

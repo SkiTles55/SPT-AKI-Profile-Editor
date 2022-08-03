@@ -23,13 +23,14 @@
         </Grid.RowDefinitions>
         <TabControl
             Grid.Row="0"
-            Height="200"
+            MinHeight="200"
             mah:TabControlHelper.Underlined="TabPanel"
             SelectedIndex="{Binding SelectedTab}"
             TabStripPlacement="Left">
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_main]}" HeaderTemplate="{StaticResource SettingsTemplate}">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -237,6 +238,26 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Margin="10,5,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold">
+                        <Label.Content>
+                            <TextBlock Text="{Binding AppLocalization.Translations[tab_settings_check_updates]}" TextWrapping="Wrap" />
+                        </Label.Content>
+                    </Label>
+                    <mah:ToggleSwitch
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Margin="10,5,10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsOn="{Binding AppSettings.CheckUpdates}"
+                        OffContent="{Binding AppLocalization.Translations[button_no]}"
+                        OnContent="{Binding AppLocalization.Translations[button_yes]}" />
                 </Grid>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_additional]}" HeaderTemplate="{StaticResource SettingsTemplate}">
@@ -331,9 +352,9 @@
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_troubleshooting]}" HeaderTemplate="{StaticResource SettingsTemplate}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Button
                         Grid.Row="0"

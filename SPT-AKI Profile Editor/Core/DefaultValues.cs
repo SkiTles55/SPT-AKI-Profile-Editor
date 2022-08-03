@@ -24,6 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string HolsterSlotId = "Holster";
         public const string ScabbardSlotId = "Scabbard";
         public const string ArmBandSlotId = "ArmBand";
+        public const bool CheckUpdates = true;
         public const string MoneysDollarsTpl = "5696686a4bdc2da3298b456a";
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
@@ -143,6 +144,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_reset_settings"] = "Reset settings",
                     ["tab_settings_reset_localizations"] = "Reset localizations",
                     ["tab_settings_issues_action"] = "Default action for profile issues",
+                    ["tab_settings_check_updates"] = "Check updates",
                     ["tab_hideout_title"] = "Hideout",
                     ["tab_hideout_area"] = "Area",
                     ["tab_hideout_level"] = "Level",
@@ -337,6 +339,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_reset_settings"] = "Сброс настроек",
                     ["tab_settings_reset_localizations"] = "Сброс локализаций",
                     ["tab_settings_issues_action"] = "Действие по умолчанию для проблем с профилем",
+                    ["tab_settings_check_updates"] = "Проверка обновлений",
                     ["tab_hideout_title"] = "Убежище",
                     ["tab_hideout_area"] = "Зона",
                     ["tab_hideout_level"] = "Уровень",

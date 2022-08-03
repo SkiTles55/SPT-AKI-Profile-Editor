@@ -110,6 +110,12 @@ namespace SPT_AKI_Profile_Editor
                 await Dialogs.ShowSettingsDialog(this);
             else
                 StartupEventsWorker();
+            if (AppData.AppSettings.CheckUpdates == true)
+                await CheckForUpdates();
+        }
+
+        private async Task CheckForUpdates()
+        {
             var release = await UpdatesChecker.CheckUpdate();
             if (release != null)
                 await Dialogs.ShowUpdateDialog(this, release);
