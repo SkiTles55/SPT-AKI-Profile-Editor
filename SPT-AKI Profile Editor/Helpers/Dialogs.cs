@@ -74,25 +74,33 @@ namespace SPT_AKI_Profile_Editor.Helpers
             {
                 await App.DialogCoordinator.HideMetroDialogAsync(context, updateDialog);
             });
-            await ShowCustomDialog<UpdateDialog>(context, updateDialog, new UpdateDialogViewModel(closeCommand, release));
+            await ShowCustomDialog<UpdateDialog>(context,
+                                                 updateDialog,
+                                                 new UpdateDialogViewModel(closeCommand, release));
         }
 
         public static async Task ShowIssuesDialog(object context, RelayCommand saveCommand)
         {
             CustomDialog issuesDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("profile_issues_title"), 500);
-            await ShowCustomDialog<IssuesDialog>(context, issuesDialog, new IssuesDialogViewModel(saveCommand));
+            await ShowCustomDialog<IssuesDialog>(context,
+                                                 issuesDialog,
+                                                 new IssuesDialogViewModel(saveCommand));
         }
 
         public static async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
         {
             CustomDialog lEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("localization_editor_title"), 500);
-            await ShowCustomDialog<LocalizationEditor>(context, lEditorDialog, new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
+            await ShowCustomDialog<LocalizationEditor>(context,
+                                                       lEditorDialog,
+                                                       new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
         }
 
         public static async Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
         {
             CustomDialog pathEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), 500);
-            await ShowCustomDialog<ServerPathEditor>(context, pathEditorDialog, new ServerPathEditorViewModel(paths, retryCommand));
+            await ShowCustomDialog<ServerPathEditor>(context,
+                                                     pathEditorDialog,
+                                                     new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.OpenFAQ));
         }
 
         public static async Task ShowOkMessageAsync(object context, string title, string message)

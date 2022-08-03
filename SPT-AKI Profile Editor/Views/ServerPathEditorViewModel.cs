@@ -9,15 +9,17 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly RelayCommand retryCommand;
 
         public ServerPathEditorViewModel(IEnumerable<ServerPathEntry> paths,
-                                         RelayCommand retryCommand)
+                                         RelayCommand retryCommand,
+                                         RelayCommand faqCommand)
         {
             Paths = paths;
             this.retryCommand = retryCommand;
+            FAQCommand = faqCommand;
         }
 
         public IEnumerable<ServerPathEntry> Paths { get; }
         public RelayCommand RetryCommand => new(obj => CloseAndRunRetryCommand());
-        public RelayCommand FAQCommand => MainWindowViewModel.OpenFAQ;
+        public RelayCommand FAQCommand { get; }
 
         private async void CloseAndRunRetryCommand()
         {

@@ -25,6 +25,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
             var result = JsonConvert.DeserializeObject(File.ReadAllText(backupService.BackupList.First().Path));
             Assert.AreEqual(expected.ToString(), result.ToString());
+            Assert.True(backupService.HasBackups);
         }
 
         [Test]
@@ -32,6 +33,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
             Assert.IsTrue(backupService.BackupList.Any());
+            Assert.True(backupService.HasBackups);
         }
 
         [Test]
@@ -54,6 +56,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             backupService.RemoveBackup(backupService.BackupList.Last().Path);
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
             Assert.AreNotEqual(expected, backupService.BackupList.Count());
+            Assert.False(backupService.HasBackups);
         }
     }
 }

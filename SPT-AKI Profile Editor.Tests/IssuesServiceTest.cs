@@ -24,6 +24,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             AppData.IssuesService.FixAllIssues();
             AppData.IssuesService.GetIssues();
             Assert.False(AppData.IssuesService.HasIssues, "Profile Issues is not empty");
@@ -39,6 +40,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is PMCLevelIssue), "ProfileIssues does not have PMC Level Issues by Tarders");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.TraderInfos.ContainsKey(x.TargetId)), "ProfileIssues does not have PMC Level Issues by Tarders");
         }
@@ -52,6 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is PMCLevelIssue), "ProfileIssues does not have PMC Level Issues by Quests");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.QuestsData.ContainsKey(x.TargetId)), "ProfileIssues does not have PMC Level Issues by Quests");
         }
@@ -64,6 +67,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is QuestStatusIssue), "ProfileIssues does not have Quest Status Issues");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.QuestsData.ContainsKey(x.TargetId)), "ProfileIssues does not have Quest Status Issues");
         }
@@ -78,6 +82,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is TraderLoyaltyIssue), "ProfileIssues does not have Trader Loyalty Issues");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => AppData.ServerDatabase.QuestsData.ContainsKey(x.TargetId)), "ProfileIssues does not have Trader Loyalty Issues");
         }
@@ -91,6 +96,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is PMCLevelIssue).First();
             Assert.NotNull(firstIssue, "First PMC Level Issue is null");
             firstIssue.FixAction.Invoke();
@@ -107,6 +113,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             AppData.IssuesService.FixAllIssues();
             AppData.IssuesService.GetIssues();
             Assert.IsEmpty(AppData.IssuesService.ProfileIssues.Where(x => x is PMCLevelIssue), "PMC Level Issues not fixed");
@@ -119,6 +126,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is DuplicateItemsIDIssue), "ProfileIssues does not have Duplicate Items ID Issues");
         }
 
@@ -129,6 +137,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is DuplicateItemsIDIssue).First();
             Assert.NotNull(firstIssue, "First Duplicate Items ID Issues is null");
             Assert.True(firstIssue.TargetId == "PMC", "First Duplicate Items ID Issue is not PMC");
@@ -146,6 +155,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is QuestStatusIssue).First();
             Assert.NotNull(firstIssue, "First Quest Status Issue is null");
             firstIssue.FixAction.Invoke();
@@ -162,6 +172,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is QuestStatusIssue), "ProfileIssues does not have Quest Status Issues");
             AppData.IssuesService.FixAllIssues();
             AppData.IssuesService.GetIssues();
@@ -178,6 +189,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             var firstIssue = AppData.IssuesService.ProfileIssues.Where(x => x is TraderLoyaltyIssue).FirstOrDefault();
             Assert.NotNull(firstIssue, "First Trader Loyalty Issue is null");
             firstIssue.FixAction.Invoke();
@@ -195,6 +207,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
+            Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
             Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is TraderLoyaltyIssue), "ProfileIssues does not have Trader Loyalty Issues");
             AppData.IssuesService.FixAllIssues();
             AppData.IssuesService.GetIssues();

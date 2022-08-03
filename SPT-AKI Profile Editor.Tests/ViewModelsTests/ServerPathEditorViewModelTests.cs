@@ -58,7 +58,18 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(retryCommandCalled, Is.True, "ServerPathEditorViewModel RetryCommand not called");
         }
 
+        [Test]
+        public void ServerPathEditorViewModelCanCallFAQCommand()
+        {
+            var faqCommandCalled = false;
+            RelayCommand faqCommand = new(obj => faqCommandCalled = true);
+            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(new List<ServerPathEntry>(), null, faqCommand);
+            pathEditorViewModel.FAQCommand.Execute(true);
+            Assert.That(faqCommandCalled, Is.True, "ServerPathEditorViewModel FAQCommand not called");
+        }
+
         private static ServerPathEditorViewModel TestViewModel(IEnumerable<ServerPathEntry> paths,
-                                         RelayCommand retryCommand = null) => new(paths, retryCommand);
+                                                               RelayCommand retryCommand = null,
+                                                               RelayCommand faqCommand = null) => new(paths, retryCommand, faqCommand);
     }
 }

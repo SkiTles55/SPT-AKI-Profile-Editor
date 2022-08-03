@@ -19,9 +19,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Root = root;
             Items = items;
             var buildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
-            if (!buildItems.Any())
-                return;
-            CalculateBuildProperties(buildItems);
+            if (buildItems.Any())
+                CalculateBuildProperties(buildItems);
         }
 
         public WeaponBuild(ItemPreset itemPreset)
@@ -30,9 +29,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Root = itemPreset.Root;
             Items = itemPreset.Items;
             var buildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
-            if (!buildItems.Any())
-                return;
-            CalculateBuildProperties(buildItems, true);
+            if (buildItems.Any())
+                CalculateBuildProperties(buildItems, true);
         }
 
         public WeaponBuild(InventoryItem item, List<InventoryItem> items)

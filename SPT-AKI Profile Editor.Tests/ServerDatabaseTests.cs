@@ -63,13 +63,20 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             var builds = AppData.ServerDatabase.ServerGlobals.ItemPresets.Values.Select(x => new WeaponBuild(x));
             Assert.False(builds.Any(x => x == null || !x.BuildItems.Any()));
+            Assert.False(builds.Any(x => string.IsNullOrEmpty(x.LocalizedName)));
         }
 
         [Test]
         public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length > 0);
 
         [Test]
+        public void ServerGlobalsConfigExpLevelMaxExpNotZero() => Assert.True(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp > 0);
+
+        [Test]
         public void ServerGlobalsMasteringNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0);
+
+        [Test]
+        public void ServerGlobalsHasMaxProgressValue() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue > 0);
 
         [Test]
         public void TraderInfosNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Count == 0);

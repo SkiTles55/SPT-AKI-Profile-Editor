@@ -78,7 +78,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Quests, "Quests is null");
 
         [Test]
-        public void QuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Length == 0, "Quests is empty");
+        public void QuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.IsQuestsEmpty, "Quests is empty");
 
         [Test]
         public void RepeatableQuestsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.RepeatableQuests, "RepeatableQuests is null");
@@ -105,10 +105,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Pmc skills is null");
 
         [Test]
-        public void PmcCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common.Length == 0, "Pmc CommonSkills is empty");
+        public void PmcCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.IsCommonSkillsEmpty, "Pmc CommonSkills is empty");
 
         [Test]
-        public void PmcMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Mastering.Length == 0, "Pmc MasteringSkills is empty");
+        public void PmcMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.IsMasteringsEmpty, "Pmc MasteringSkills is empty");
 
         [Test]
         public void ScavSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Scav.Skills, "Scav skills is null");
@@ -124,6 +124,39 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void InventoryStashNotEmpty() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Stash);
+
+        [Test]
+        public void PmcInventoryHasItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.HasItems);
+
+        [Test]
+        public void ScavInventoryNotHasItems() => Assert.False(AppData.Profile.Characters.Scav.Inventory.HasItems);
+
+        [Test]
+        public void PmcInventoryNotContainsModdedItems() => Assert.False(AppData.Profile.Characters.Pmc.Inventory.ContainsModdedItems);
+
+        [Test]
+        public void ScavInventoryNotContainsModdedItems() => Assert.False(AppData.Profile.Characters.Scav.Inventory.ContainsModdedItems);
+
+        [Test]
+        public void PmcPocketsHasItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.PocketsHasItems);
+
+        [Test]
+        public void ScavPocketsHasItems() => Assert.True(AppData.Profile.Characters.Scav.Inventory.PocketsHasItems);
+
+        [Test]
+        public void PmcInventoryHasEquipment() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.HasEquipment);
+
+        [Test]
+        public void ScavInventoryHasEquipment() => Assert.True(AppData.Profile.Characters.Scav.Inventory.HasEquipment);
+
+        [Test]
+        public void PmcInventoryHaveDollarsCountString() => Assert.False(string.IsNullOrEmpty(AppData.Profile.Characters.Pmc.Inventory.DollarsCount));
+
+        [Test]
+        public void PmcInventoryHaveRoublesCountString() => Assert.False(string.IsNullOrEmpty(AppData.Profile.Characters.Pmc.Inventory.RublesCount));
+
+        [Test]
+        public void PmcInventoryHaveEurosCountString() => Assert.False(string.IsNullOrEmpty(AppData.Profile.Characters.Pmc.Inventory.EurosCount));
 
         [Test]
         public void InventoryEquipmentNotEmpty() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Equipment);
