@@ -44,6 +44,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             {
                 items[i] = new InventoryItem()
                 {
+                    Id = $"TestItem{i}",
                     ParentId = parentId,
                     Tpl = $"{parentId}_{i}"
                 };

@@ -9,6 +9,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestsDialogManager : IDialogManager
     {
+        public bool LocalizationEditorDialogOpened = false;
+
         public Task ShowIssuesDialog(object context, RelayCommand saveCommand)
         {
             throw new NotImplementedException();
@@ -16,7 +18,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
         {
-            throw new NotImplementedException();
+            LocalizationEditorDialogOpened = true;
+            return Task.CompletedTask;
         }
 
         public Task ShowOkMessageAsync(object context, string title, string message)

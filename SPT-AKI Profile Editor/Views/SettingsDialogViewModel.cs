@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor
         private readonly IDialogManager _dialogManager;
         private int selectedTab;
 
-        public SettingsDialogViewModel(RelayCommand command, int index = 0, IDialogManager dialogManager = null)
+        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, int index = 0)
         {
             CloseCommand = command;
             SelectedTab = index;

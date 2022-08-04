@@ -1,11 +1,14 @@
 ﻿using NUnit.Framework;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class SettingsDialogViewModelTest
     {
+        private static readonly TestsDialogManager dialogManager = new();
+
         [Test]
-        public void SettingsDialogViewModelInitializeCorrectly()
+        public void InitializeCorrectly()
         {
             SettingsDialogViewModel settingsVM = TestViewModel(1);
             Assert.Multiple(() =>
@@ -20,6 +23,14 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             });
         }
 
-        private static SettingsDialogViewModel TestViewModel(int index = 0) => new(null, index);
+        [Test]
+        public void CanOpenLocalizationEditorForEdit()
+        {
+            SettingsDialogViewModel settingsVM = TestViewModel();
+            settingsVM.OpenLocalizationEditor.Execute(true);
+            Assert.That(dialogManager.LocalizationEditorDialogOpened, Is.True, "LocalizationEditorDialog not opened");
+        }
+
+        private static SettingsDialogViewModel TestViewModel(int index = 0) => new(null, dialogManager, index);
     }
 }

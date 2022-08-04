@@ -51,11 +51,6 @@ namespace SPT_AKI_Profile_Editor
                     categoriesForItemsAdding = ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter(_item.Tpl);
                 return categoriesForItemsAdding;
             }
-            set
-            {
-                categoriesForItemsAdding = value;
-                OnPropertyChanged("CategoriesForItemsAdding");
-            }
         }
 
         public RelayCommand RemoveItem => new(async obj =>

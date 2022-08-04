@@ -83,7 +83,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (startValues != newValues)
                     MainWindowViewModel.Instance.StartupEventsWorker();
             });
-            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, index));
+            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, this, index));
         }
 
         public async Task ShowUpdateDialog(object context, GitHubRelease release)
