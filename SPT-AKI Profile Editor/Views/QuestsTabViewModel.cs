@@ -6,6 +6,10 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class QuestsTabViewModel : BindableViewModel
     {
+        private readonly IDialogManager _dialogManager;
+
+        public QuestsTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+
         public static QuestStatus SetAllValue { get; set; } = QuestStatus.Success;
 
         public static RelayCommand SetAllCommand => new(obj =>
@@ -15,6 +19,6 @@ namespace SPT_AKI_Profile_Editor.Views
             Profile.Characters.Pmc.SetAllQuests(SetAllValue);
         });
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await Dialogs.ShowSettingsDialog(this, 1));
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this, 1));
     }
 }

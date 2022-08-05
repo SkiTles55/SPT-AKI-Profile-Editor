@@ -75,7 +75,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (progressDialog.IsOpen)
                 await progressDialog.CloseAsync();
             if (showMessage)
-                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance, title, message);
+                await App.DialogManager.ShowOkMessageAsync(MainWindowViewModel.Instance, title, message);
         }
 
         private static async Task DownloadAsync(HttpClient client, string requestUri, Stream destination)

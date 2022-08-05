@@ -16,9 +16,9 @@ namespace SPT_AKI_Profile_Editor
 
     public partial class App : Application
     {
+        public static readonly IDialogManager DialogManager = new MetroDialogManager();
         public static RelayCommand CloseApplication => new(obj => Current.Shutdown());
         public static IDialogCoordinator DialogCoordinator { get; set; }
-
         public static Worker Worker { get; set; }
 
         public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);

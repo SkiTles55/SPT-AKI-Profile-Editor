@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
 using System.Collections.Generic;
 using System.IO;

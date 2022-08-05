@@ -14,13 +14,15 @@ namespace SPT_AKI_Profile_Editor
 {
     public class SettingsDialogViewModel : BindableViewModel
     {
+        private readonly IDialogManager _dialogManager;
         private int selectedTab;
 
-        public SettingsDialogViewModel(RelayCommand command, int index = 0)
+        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, int index = 0)
         {
             CloseCommand = command;
             SelectedTab = index;
             AppSettings = AppData.AppSettings;
+            _dialogManager = dialogManager;
         }
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
@@ -32,7 +34,7 @@ namespace SPT_AKI_Profile_Editor
         public static RelayCommand OpenAppData => new(obj => ExtMethods.OpenUrl(DefaultValues.AppDataFolder));
         public static RelayCommand ResetLocalizations => new(obj => Directory.Delete(AppLocalization.localizationsDir, true));
 
-        public static RelayCommand ResetAndReload => new(async obj =>
+        public RelayCommand ResetAndReload => new(async obj =>
         {
             try
             {
@@ -44,7 +46,7 @@ namespace SPT_AKI_Profile_Editor
             }
             catch (Exception ex)
             {
-                await Dialogs.ShowOkMessageAsync(MainWindowViewModel.Instance,
+                await _dialogManager.ShowOkMessageAsync(MainWindowViewModel.Instance,
                                                  AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
                                                  ex.Message);
             }
@@ -103,7 +105,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand ServerSelect => new(async obj => await ServerSelectDialog());
 
-        public RelayCommand OpenLocalizationEditor => new(async obj => await Dialogs.ShowLocalizationEditorDialog(this, (bool)obj));
+        public RelayCommand OpenLocalizationEditor => new(async obj => await _dialogManager.ShowLocalizationEditorDialog(this, (bool)obj));
 
         private RelayCommand ServerPathEditorRetryCommand => new(async obj =>
         {
@@ -136,7 +138,7 @@ namespace SPT_AKI_Profile_Editor
                 ServerPath = folderBrowserDialog.SelectedPath;
                 return;
             }
-            await Dialogs.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
+            await _dialogManager.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
         }
     }
 }

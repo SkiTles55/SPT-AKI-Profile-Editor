@@ -1,14 +1,16 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class MainWindowViewModelTests
     {
+        private static readonly TestsDialogManager dialogManager = new();
         private MainWindowViewModel _viewModel;
 
         [OneTimeSetUp]
-        public void Setup() => _viewModel = new();
+        public void Setup() => _viewModel = new(dialogManager);
 
         [Test]
         public void InitializeCorrectly()

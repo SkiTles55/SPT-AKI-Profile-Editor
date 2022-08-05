@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Issues;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests

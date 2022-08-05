@@ -11,10 +11,12 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class StashTabViewModel : BindableViewModel
     {
+        private readonly IDialogManager _dialogManager;
+
+        public StashTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+
         public static AppSettings AppSettings => AppData.AppSettings;
-
         public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.PMC));
-
         public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
 
         public static RelayCommand AddItem => new(obj =>
@@ -24,11 +26,12 @@ namespace SPT_AKI_Profile_Editor.Views
             App.Worker.AddAction(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
         });
 
+        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager);
         public RelayCommand RemoveItem => new(async obj => await RemoveItemFromStash(obj?.ToString()));
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
-            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
+            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
             {
                 App.Worker.AddAction(new WorkerTask
                 {
@@ -41,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand RemoveAllEquipment => new(async obj =>
         {
-            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_equipment_items_caption"))
+            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_equipment_items_caption"))
             {
                 App.Worker.AddAction(new WorkerTask
                 {
@@ -58,7 +61,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (string.IsNullOrEmpty(obj))
                 return;
-            if (await Dialogs.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
                 Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj });
         }
 
