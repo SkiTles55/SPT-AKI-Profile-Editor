@@ -15,12 +15,10 @@ namespace SPT_AKI_Profile_Editor.Views
         public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.Scav));
 
         public RelayCommand RemoveItem => new(async obj =>
-         {
-             if (obj == null)
-                 return;
-             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-                 Profile.Characters.Scav.Inventory.RemoveItems(new() { obj.ToString() });
-         });
+        {
+            if (obj is string id && await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+                Profile.Characters.Scav.Inventory.RemoveItems(new() { id });
+        });
 
         public RelayCommand RemoveAllEquipment => new(async obj =>
         {

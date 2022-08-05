@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void LocalizationEditorCanSaveNewLocalization()
         {
-            SettingsDialogViewModel settingsDialog = new(new Helpers.RelayCommand(obj => { }), null);
+            SettingsDialogViewModel settingsDialog = new(null, null);
             LocalizationEditorViewModel lEditor = TestViewModel(false, settingsDialog);
             var newKey = lEditor.SelectedLocalizationKey;
             Assert.That(newKey, Is.Not.EqualTo(AppData.AppSettings.Language), "Wrong new localization key");

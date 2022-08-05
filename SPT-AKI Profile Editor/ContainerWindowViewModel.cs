@@ -55,30 +55,25 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand RemoveItem => new(async obj =>
         {
-            if (obj == null)
-                return;
-            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+            if (obj is string id && await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
                 RemoveItemFromContainer(obj.ToString());
         });
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
-            {
                 Worker.AddAction(new WorkerTask
                 {
                     Action = () => RemoveAllItemsFromContainer(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("remove_stash_item_title")
                 });
-            }
         });
 
         public RelayCommand AddItem => new(obj =>
         {
-            if (obj == null || obj is not AddableItem item)
-                return;
-            Worker.AddAction(new WorkerTask { Action = () => AddItemToContainer(item) });
+            if (obj is AddableItem item)
+                Worker.AddAction(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
 
         private void RemoveItemFromContainer(string id)
@@ -99,13 +94,10 @@ namespace SPT_AKI_Profile_Editor
             OnPropertyChanged("");
         }
 
-        private CharacterInventory GetInventory()
+        private CharacterInventory GetInventory() => _editMode switch
         {
-            return _editMode switch
-            {
-                StashEditMode.Scav => Profile.Characters.Scav.Inventory,
-                _ => Profile.Characters.Pmc.Inventory,
-            };
-        }
+            StashEditMode.Scav => Profile.Characters.Scav.Inventory,
+            _ => Profile.Characters.Pmc.Inventory,
+        };
     }
 }
