@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class FastModeViewModel : BindableViewModel
+    public class FastModeViewModel : BindableViewModel
     {
         private CharacterInfo pmc = new();
 
@@ -128,7 +128,7 @@ namespace SPT_AKI_Profile_Editor.Views
             if (AcquireAll)
                 ServerDatabase.AcquireAllClothing();
             AppSettings.FastModeOpened = false;
-            MainWindowViewModel.Instance.SaveProfileAndReload();
+            MainWindowViewModel.Instance?.SaveProfileAndReload();
         });
     }
 }
