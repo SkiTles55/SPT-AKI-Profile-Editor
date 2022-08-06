@@ -8,12 +8,13 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     internal class IssuesDialogViewModel : ClosableDialogViewModel
     {
-        public IssuesDialogViewModel(RelayCommand saveCommand)
+        public IssuesDialogViewModel(RelayCommand saveCommand, IIssuesService issuesService)
         {
             SaveCommand = saveCommand;
+            IssuesService = issuesService;
         }
 
-        public static IssuesService IssuesService => AppData.IssuesService;
+        public IIssuesService IssuesService { get; }
         public RelayCommand SaveCommand { get; }
         public RelayCommand FixCommand => new(async obj => await ExecuteFixCommand(obj));
         public RelayCommand IgnoreCommand => new(obj => ExecuteSaveCommand(IssuesAction.AlwaysIgnore));

@@ -1,4 +1,5 @@
 ﻿using ReleaseChecker.GitHub;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -11,7 +12,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     {
         public bool LocalizationEditorDialogOpened = false;
 
-        public Task ShowIssuesDialog(object context, RelayCommand saveCommand)
+        public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
         {
             throw new NotImplementedException();
         }

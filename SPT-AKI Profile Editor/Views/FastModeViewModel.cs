@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Views
@@ -70,7 +71,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllPmcSkillsValue;
             set
             {
-                setAllPmcSkillsValue = value > AppSettings.CommonSkillMaxValue ? AppSettings.CommonSkillMaxValue : value;
+                setAllPmcSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
                 OnPropertyChanged("SetAllPmcSkillsValue");
             }
         }
@@ -80,7 +81,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllScavSkillsValue;
             set
             {
-                setAllScavSkillsValue = value > AppSettings.CommonSkillMaxValue ? AppSettings.CommonSkillMaxValue : value;
+                setAllScavSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
                 OnPropertyChanged("SetAllScavSkillsValue");
             }
         }
@@ -90,7 +91,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllPmcMasteringsValue;
             set
             {
-                setAllPmcMasteringsValue = value > ServerDatabase.ServerGlobals.Config.MaxProgressValue ? ServerDatabase.ServerGlobals.Config.MaxProgressValue : value;
+                setAllPmcMasteringsValue = Math.Min(ServerDatabase.ServerGlobals.Config.MaxProgressValue, value);
                 OnPropertyChanged("SetAllPmcMasteringsValue");
             }
         }
@@ -100,7 +101,7 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllScavMasteringsValue;
             set
             {
-                setAllScavMasteringsValue = value > ServerDatabase.ServerGlobals.Config.MaxProgressValue ? ServerDatabase.ServerGlobals.Config.MaxProgressValue : value;
+                setAllScavMasteringsValue = Math.Min(ServerDatabase.ServerGlobals.Config.MaxProgressValue, value);
                 OnPropertyChanged("SetAllScavMasteringsValue");
             }
         }

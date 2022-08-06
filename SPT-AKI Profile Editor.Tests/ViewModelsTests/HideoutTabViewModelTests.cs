@@ -6,24 +6,23 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
-    internal class ExaminedItemsTabViewModelTests
+    internal class HideoutTabViewModelTests
     {
         [Test]
         public void CanInitialize()
         {
-            ExaminedItemsTabViewModel viewModel = new();
+            HideoutTabViewModel viewModel = new();
             Assert.That(viewModel, Is.Not.Null);
         }
 
         [Test]
-        public void CanExamineAll()
+        public void CanSetAllMax()
         {
             AppData.AppSettings.ServerPath = TestConstants.serverPath;
             AppData.LoadDatabase();
             AppData.Profile.Load(TestConstants.profileFile);
-            var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
-            ExaminedItemsTabViewModel.ExamineAllCommand.Execute(null);
-            Assert.That(AppData.Profile.Characters.Pmc.ExaminedItems.Count(), Is.Not.EqualTo(expected));
+            HideoutTabViewModel.SetAllMaxCommand.Execute(null);
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas.All(x => x.Level == x.MaxLevel), Is.True);
         }
     }
 }

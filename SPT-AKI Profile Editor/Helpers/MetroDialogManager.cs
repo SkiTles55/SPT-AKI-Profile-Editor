@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task ShowUpdateDialog(object context, GitHubRelease release);
 
-        public Task ShowIssuesDialog(object context, RelayCommand saveCommand);
+        public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService);
 
         public Task ShowLocalizationEditorDialog(object context, bool isEdit = true);
 
@@ -98,12 +98,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                  new UpdateDialogViewModel(closeCommand, release));
         }
 
-        public async Task ShowIssuesDialog(object context, RelayCommand saveCommand)
+        public async Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
         {
             CustomDialog issuesDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("profile_issues_title"), 500);
             await ShowCustomDialog<IssuesDialog>(context,
                                                  issuesDialog,
-                                                 new IssuesDialogViewModel(saveCommand));
+                                                 new IssuesDialogViewModel(saveCommand, issuesService));
         }
 
         public async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)

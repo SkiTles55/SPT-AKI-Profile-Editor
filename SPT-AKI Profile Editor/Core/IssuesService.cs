@@ -8,7 +8,16 @@ using static SPT_AKI_Profile_Editor.Core.ServerClasses.QuestData.QuestConditions
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class IssuesService : BindableEntity
+    public interface IIssuesService
+    {
+        public ObservableCollection<ProfileIssue> ProfileIssues { get; set; }
+        public bool HasIssues { get; }
+        public void GetIssues();
+        public void UpdateIssues();
+        public void FixAllIssues();
+    }
+
+    public class IssuesService : BindableEntity, IIssuesService
     {
         private ObservableCollection<ProfileIssue> profileIssues = new();
 

@@ -156,10 +156,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
 
         [JsonIgnore]
-        public bool IsCommonSkillsEmpty => Skills == null || Skills.Common == null || Skills.Common.Length == 0;
+        public bool IsCommonSkillsEmpty => Skills?.Common == null || Skills.Common.Length == 0;
 
         [JsonIgnore]
-        public bool IsMasteringsEmpty => Skills == null || Skills.Mastering == null || Skills.Mastering.Length == 0;
+        public bool IsMasteringsEmpty => Skills?.Mastering == null || Skills.Mastering.Length == 0;
 
         public void SetAllTradersMax()
         {
@@ -177,7 +177,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void SetAllHideoutAreasMax()
         {
-            foreach (var area in Hideout.Areas)
+            foreach (var area in Hideout?.Areas)
                 area.Level = area.MaxLevel;
         }
 

@@ -42,10 +42,10 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.Pmc.Experience, Is.GreaterThan(0));
             Assert.That(viewModel.Scav.Experience, Is.GreaterThan(0));
-            Assert.That(viewModel.SetAllPmcSkillsValue, Is.GreaterThan(0f));
-            Assert.That(viewModel.SetAllScavSkillsValue, Is.GreaterThan(0f));
-            Assert.That(viewModel.SetAllPmcMasteringsValue, Is.GreaterThan(0f));
-            Assert.That(viewModel.SetAllScavMasteringsValue, Is.GreaterThan(0f));
+            Assert.That(viewModel.SetAllPmcSkillsValue, Is.Not.GreaterThan(AppData.AppSettings.CommonSkillMaxValue));
+            Assert.That(viewModel.SetAllScavSkillsValue, Is.Not.GreaterThan(AppData.AppSettings.CommonSkillMaxValue));
+            Assert.That(viewModel.SetAllPmcMasteringsValue, Is.Not.GreaterThan(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue));
+            Assert.That(viewModel.SetAllScavMasteringsValue, Is.Not.GreaterThan(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue));
         }
 
         [Test]
