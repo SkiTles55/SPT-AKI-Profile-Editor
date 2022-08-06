@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class ExaminedItemsTabViewModel : BindableViewModel
+    public class ExaminedItemsTabViewModel : BindableViewModel
     {
         public static RelayCommand ExamineAllCommand => new(obj => Profile.Characters.Pmc.ExamineAll());
     }

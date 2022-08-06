@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Tests.Hepers;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
-    internal class SettingsDialogViewModelTest
+    internal class SettingsDialogViewModelTests
     {
         private static readonly TestsDialogManager dialogManager = new();
 

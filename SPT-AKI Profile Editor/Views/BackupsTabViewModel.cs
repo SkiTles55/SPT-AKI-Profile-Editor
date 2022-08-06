@@ -4,7 +4,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class BackupsTabViewModel : BindableViewModel
+    public class BackupsTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
 
@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand RemoveCommand => new(async obj =>
         {
             if (obj is string file && await _dialogManager.YesNoDialog(this, "remove_backup_dialog_title", "remove_backup_dialog_caption"))
-                RemoRemoveBackupAction(file);
+                RemoveBackupAction(file);
         });
 
         public RelayCommand RestoreCommand => new(async obj =>
@@ -24,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 RestoreBackupAction(obj);
         });
 
-        private static void RemoRemoveBackupAction(string file)
+        private static void RemoveBackupAction(string file)
         {
             App.Worker.AddAction(new WorkerTask
             {

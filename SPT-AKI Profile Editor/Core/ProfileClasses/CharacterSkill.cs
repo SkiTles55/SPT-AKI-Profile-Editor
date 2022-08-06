@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private float GetMaxProgress()
         {
-            var mastering = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => x.Name == Id).FirstOrDefault();
+            var mastering = AppData.ServerDatabase?.ServerGlobals?.Config?.Mastering.Where(x => x.Name == Id).FirstOrDefault();
             if (mastering != null)
                 return mastering.Level2 + mastering.Level3;
             else
