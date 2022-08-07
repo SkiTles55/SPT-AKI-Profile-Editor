@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class IssuesDialogViewModel : ClosableDialogViewModel
+    public class IssuesDialogViewModel : ClosableDialogViewModel
     {
         public IssuesDialogViewModel(RelayCommand saveCommand, IIssuesService issuesService)
         {
