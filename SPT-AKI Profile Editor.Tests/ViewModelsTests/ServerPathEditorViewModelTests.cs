@@ -22,7 +22,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ServerPathEditorViewModelWithRightPathInitializeCorrectly()
+        public void InitializeCorrectlyWithRightPath()
         {
             ServerPathEditorViewModel pathEditorViewModel = TestViewModel(settings.CheckServerPath(TestConstants.serverPath));
             Assert.That(pathEditorViewModel, Is.Not.Null, "ServerPathEditorViewModel is null");
@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ServerPathEditorViewModelWithWrongPathInitializeCorrectly()
+        public void InitializeCorrectlyWithWrongPath()
         {
             ServerPathEditorViewModel pathEditorViewModel = TestViewModel(settings.CheckServerPath(TestConstants.wrongServerPath));
             Assert.That(pathEditorViewModel, Is.Not.Null, "ServerPathEditorViewModel is null");
@@ -50,7 +50,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ServerPathEditorViewModelCanCallRetryCommand()
+        public void CanCallRetryCommand()
         {
             var retryCommandCalled = false;
             RelayCommand retryCommand = new(obj => retryCommandCalled = true);
@@ -60,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ServerPathEditorViewModelCanCallFAQCommand()
+        public void CanCallFAQCommand()
         {
             var faqCommandCalled = false;
             RelayCommand faqCommand = new(obj => faqCommandCalled = true);

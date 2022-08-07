@@ -8,6 +8,9 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class MerchantsTabViewModelTests
     {
+        [OneTimeSetUp]
+        public void Setup() => TestConstants.LoadDatabaseAndProfile();
+
         [Test]
         public void CanInitialize()
         {
@@ -21,9 +24,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanExecuteSetAllMaxCommand()
         {
-            AppData.AppSettings.ServerPath = TestConstants.serverPath;
-            AppData.LoadDatabase();
-            AppData.Profile.Load(TestConstants.profileFile);
             MerchantsTabViewModel.SetAllMaxCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.All(x => x.LoyaltyLevel == x.MaxLevel), Is.True);
         }

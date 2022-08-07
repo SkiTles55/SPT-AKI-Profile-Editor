@@ -1,6 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using NUnit.Framework;
-using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
@@ -11,8 +10,11 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     {
         private static readonly TestsDialogManager dialogManager = new();
 
+        [OneTimeSetUp]
+        public void Setup() => TestConstants.LoadDatabase();
+
         [Test]
-        public void PmcContainerWindowInitializeCorrectly()
+        public void InitializeCorrectlyForPmc()
         {
             ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
             Assert.Multiple(() =>
@@ -28,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ScavContainerWindowInitializeCorrectly()
+        public void InitializeCorrectlyForScav()
         {
             ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.Scav);
             Assert.Multiple(() =>
@@ -44,7 +46,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void PmcContainerWindowCanRemoveItem()
+        public void CanRemoveItem()
         {
             ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
             var item = pmcContainer.Items[0];
@@ -54,8 +56,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static ContainerWindowViewModel TestViewModel(StashEditMode editMode)
         {
-            AppData.AppSettings.ServerPath = TestConstants.serverPath;
-            AppData.LoadDatabase();
             TestConstants.SetupTestCharacters("ContainerWindowViewModel", editMode);
             InventoryItem item = new()
             {

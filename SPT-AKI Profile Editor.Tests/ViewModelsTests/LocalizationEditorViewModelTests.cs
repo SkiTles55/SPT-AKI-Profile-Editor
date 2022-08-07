@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class LocalizationEditorViewModelTests
     {
         [Test]
-        public void LocalizationEditorViewModelForEditInitializeCorrectly()
+        public void InitializeCorrectlyForEdit()
         {
             LocalizationEditorViewModel lEditor = TestViewModel();
             Assert.That(lEditor, Is.Not.Null, "LocalizationEditorViewModel is null");
@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void LocalizationEditorViewModelForNewInitializeCorrectly()
+        public void InitializeCorrectlyForNew()
         {
             LocalizationEditorViewModel lEditor = TestViewModel(false);
             Assert.That(lEditor, Is.Not.Null, "LocalizationEditorViewModel is null");
@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void LocalizationEditorCanSaveEditLocalization()
+        public void CanSaveEditedLocalization()
         {
             LocalizationEditorViewModel lEditor = TestViewModel();
             lEditor.Translations.Where(x => x.Key == "button_yes").FirstOrDefault().Value = "Yes, baby";
@@ -52,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void LocalizationEditorCanSaveNewLocalization()
+        public void CanSaveNewLocalization()
         {
             SettingsDialogViewModel settingsDialog = new(null, null);
             LocalizationEditorViewModel lEditor = TestViewModel(false, settingsDialog);
@@ -67,9 +67,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(AppData.AppLocalization.Localizations.ContainsKey(newKey), Is.True, "Localizations does not contains new localization");
         }
 
-
         [Test]
-        public void LocalizationEditorViewModelCanFilterByKey()
+        public void CanFilterByKey()
         {
             var filterText = "button";
             LocalizationEditorViewModel lEditor = TestViewModel();
@@ -80,9 +79,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(filtered.Any(x => !x.Key.Contains(filterText)), Is.True, "Translations is still filtered after remove filter text");
         }
 
-
         [Test]
-        public void LocalizationEditorViewModelCanFilterByValue()
+        public void CanFilterByValue()
         {
             var filterText = "SPT";
             LocalizationEditorViewModel lEditor = TestViewModel();

@@ -4,7 +4,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class QuestsTabViewModel : BindableViewModel
+    public class QuestsTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
 
@@ -12,12 +12,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static QuestStatus SetAllValue { get; set; } = QuestStatus.Success;
 
-        public static RelayCommand SetAllCommand => new(obj =>
-        {
-            if (Profile.Characters?.Pmc?.Quests == null)
-                return;
-            Profile.Characters.Pmc.SetAllQuests(SetAllValue);
-        });
+        public static RelayCommand SetAllCommand => new(obj => Profile.Characters?.Pmc?.SetAllQuests(SetAllValue));
 
         public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this, 1));
     }

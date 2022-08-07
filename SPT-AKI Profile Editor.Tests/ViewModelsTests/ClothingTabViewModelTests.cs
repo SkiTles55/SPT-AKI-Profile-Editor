@@ -18,9 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanAcquireAll()
         {
-            AppData.LoadDatabase();
-            AppData.Profile.Load(TestConstants.profileFile);
-            Assert.That(AppData.ServerDatabase.TraderSuits.All(x => x.Boughted), Is.False);
+            TestConstants.LoadDatabaseAndProfile();
             ClothingTabViewModel.AcquireAllCommand.Execute(null);
             Assert.That(AppData.ServerDatabase.TraderSuits.All(x => x.Boughted), Is.True);
         }

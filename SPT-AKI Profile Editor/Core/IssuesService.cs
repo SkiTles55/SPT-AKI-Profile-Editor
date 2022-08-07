@@ -12,8 +12,11 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public ObservableCollection<ProfileIssue> ProfileIssues { get; set; }
         public bool HasIssues { get; }
+
         public void GetIssues();
+
         public void UpdateIssues();
+
         public void FixAllIssues();
     }
 

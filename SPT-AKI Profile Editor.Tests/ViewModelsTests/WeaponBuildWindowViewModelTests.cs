@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         private static readonly TestsDialogManager dialogManager = new();
 
         [Test]
-        public void PmcWeaponBuildInitializeCorrectly()
+        public void InitializeCorrectlyForPmc()
         {
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC);
             Assert.Multiple(() =>
@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ScavWeaponBuildInitializeCorrectly()
+        public void InitializeCorrectlyForScav()
         {
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav);
             Assert.Multiple(() =>
@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void PmcWeaponBuildCanAddWeaponToWeaponBuilds()
+        public void CanAddWeaponToWeaponBuildsFromPmc()
         {
             AppData.Profile.WeaponBuilds = new();
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC);
@@ -51,7 +51,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ScavWeaponBuildCanAddWeaponToWeaponBuilds()
+        public void CanAddWeaponToWeaponBuildsFromScav()
         {
             AppData.Profile.WeaponBuilds = new();
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav);
@@ -61,7 +61,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void PmcWeaponBuildCanRemove()
+        public void CanRemoveFromPmc()
         {
             AppData.LoadDatabase();
             AppData.Profile.Load(TestConstants.profileFile);
@@ -74,7 +74,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void ScavWeaponBuildCanRemove()
+        public void CanRemoveFromScav()
         {
             AppData.LoadDatabase();
             AppData.Profile.Load(TestConstants.profileFile);

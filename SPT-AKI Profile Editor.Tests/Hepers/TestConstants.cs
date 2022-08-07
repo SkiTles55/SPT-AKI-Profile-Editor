@@ -87,5 +87,17 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             };
             AppData.Profile.Characters = characters;
         }
+
+        public static void LoadDatabaseAndProfile()
+        {
+            LoadDatabase();
+            AppData.Profile.Load(profileFile);
+        }
+
+        public static void LoadDatabase()
+        {
+            AppData.AppSettings.ServerPath = serverPath;
+            AppData.LoadDatabase();
+        }
     }
 }

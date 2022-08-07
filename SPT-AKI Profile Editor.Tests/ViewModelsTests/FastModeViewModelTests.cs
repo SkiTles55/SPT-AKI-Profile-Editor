@@ -8,6 +8,9 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class FastModeViewModelTests
     {
+        [OneTimeSetUp]
+        public void Setup() => TestConstants.LoadDatabaseAndProfile();
+
         [Test]
         public void CanInitialize()
         {
@@ -36,7 +39,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanDidOpenningRefresh()
         {
-            AppData.LoadDatabase();
             FastModeViewModel viewModel = new();
             viewModel.OpenningRefresh.Execute(null);
             Assert.That(viewModel, Is.Not.Null);
@@ -51,9 +53,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanSaveProfile()
         {
-            AppData.AppSettings.ServerPath = TestConstants.serverPath;
-            AppData.LoadDatabase();
-            AppData.Profile.Load(TestConstants.profileFile);
             FastModeViewModel viewModel = new();
             viewModel.OpenningRefresh.Execute(null);
             var expectedExp = viewModel.Pmc.Experience;

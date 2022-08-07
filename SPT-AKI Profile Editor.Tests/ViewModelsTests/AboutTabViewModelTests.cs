@@ -11,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AboutTabViewModel viewModel = new();
             Assert.That(viewModel, Is.Not.Null);
         }
+
         [Test]
         public void HasNeededData()
         {
