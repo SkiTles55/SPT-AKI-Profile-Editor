@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Views;
 using System.Linq;
+using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
@@ -19,6 +21,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(lEditor.AvailableKeys, Is.Not.Null, "AvailableKeys is null");
             Assert.That(lEditor.AvailableKeys.Count, Is.GreaterThanOrEqualTo(1), "AvailableKeys.Count is empty");
             Assert.That(lEditor.AvailableKeys.Any(x => AppData.AppLocalization.Translations.ContainsKey(x.Key)), Is.False, "AvailableKeys contains exist localization keys");
+            Assert.That(string.IsNullOrEmpty(lEditor.KeyFilter), Is.True, "KeyFilter not null or empty");
+            Assert.That(string.IsNullOrEmpty(lEditor.ValueFilter), Is.True, "ValueFilter null or not empty");
         }
 
         [Test]
@@ -32,6 +36,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(lEditor.IsEdit, Is.False, "IsEdit is true");
             Assert.That(lEditor.AvailableKeys, Is.Not.Null, "AvailableKeys is null");
             Assert.That(lEditor.AvailableKeys.Count, Is.GreaterThanOrEqualTo(1), "AvailableKeys.Count is empty");
+            Assert.That(string.IsNullOrEmpty(lEditor.KeyFilter), Is.True, "KeyFilter not null or empty");
+            Assert.That(string.IsNullOrEmpty(lEditor.ValueFilter), Is.True, "ValueFilter null or not empty");
         }
 
         [Test]
@@ -59,6 +65,32 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(AppData.AppLocalization.Translations["button_yes"], Is.EqualTo("No, baby"), "button_yes translation after reload not changed");
             Assert.That(AppData.AppSettings.Language, Is.EqualTo(newKey), "New localization not selected");
             Assert.That(AppData.AppLocalization.Localizations.ContainsKey(newKey), Is.True, "Localizations does not contains new localization");
+        }
+
+
+        [Test]
+        public void LocalizationEditorViewModelCanFilterByKey()
+        {
+            var filterText = "button";
+            LocalizationEditorViewModel lEditor = TestViewModel();
+            lEditor.KeyFilter = filterText;
+            var filtered = CollectionViewSource.GetDefaultView(lEditor.Translations).Cast<Translation>();
+            Assert.That(filtered.Any(x => !x.Key.Contains(filterText)), Is.False, "Translations is not filtered");
+            lEditor.KeyFilter = "";
+            Assert.That(filtered.Any(x => !x.Key.Contains(filterText)), Is.True, "Translations is still filtered after remove filter text");
+        }
+
+
+        [Test]
+        public void LocalizationEditorViewModelCanFilterByValue()
+        {
+            var filterText = "SPT";
+            LocalizationEditorViewModel lEditor = TestViewModel();
+            lEditor.ValueFilter = filterText;
+            var filtered = CollectionViewSource.GetDefaultView(lEditor.Translations).Cast<Translation>();
+            Assert.That(filtered.Any(x => !x.Value.Contains(filterText)), Is.False, "Translations is not filtered");
+            lEditor.ValueFilter = "";
+            Assert.That(filtered.Any(x => !x.Value.Contains(filterText)), Is.True, "Translations is still filtered after remove filter text");
         }
 
         private static LocalizationEditorViewModel TestViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null) => new(isEdit, settingsDialog);

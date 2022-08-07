@@ -11,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     internal class TestsDialogManager : IDialogManager
     {
         public bool LocalizationEditorDialogOpened = false;
+        public bool SettingsDialogOpened = false;
 
         public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
         {
@@ -35,7 +36,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowSettingsDialog(object context, int index = 0)
         {
-            throw new NotImplementedException();
+            SettingsDialogOpened = true;
+            return Task.CompletedTask;
         }
 
         public Task ShowUpdateDialog(object context, GitHubRelease release)

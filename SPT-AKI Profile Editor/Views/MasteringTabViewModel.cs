@@ -5,7 +5,7 @@ using System;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class MasteringTabViewModel : BindableViewModel
+    public class MasteringTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
         private float setAllPmcSkillsValue;
