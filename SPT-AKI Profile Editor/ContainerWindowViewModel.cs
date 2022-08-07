@@ -22,11 +22,11 @@ namespace SPT_AKI_Profile_Editor
                                         IDialogCoordinator dialogCoordinator,
                                         IDialogManager dialogManager)
         {
+            _dialogManager = dialogManager;
             Worker = new Worker(dialogCoordinator, this, _dialogManager);
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
-            _dialogManager = dialogManager;
         }
 
         public Worker Worker { get; }
