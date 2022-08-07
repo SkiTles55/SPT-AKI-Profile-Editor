@@ -7,37 +7,27 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class MoneyDailogViewModel : ClosableDialogViewModel
     {
-        private AddableItem moneys;
-
         public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand)
         {
-            moneys = money;
-            moneys.AddingQuantity = ((TarkovItem)moneys).Properties.StackMaxSize;
+            Moneys = money;
+            Moneys.AddingQuantity = ((TarkovItem)Moneys).Properties.StackMaxSize;
             AddMoneysCommand = addCommand;
         }
 
         public static AppSettings AppSettings => AppData.AppSettings;
-        public static RelayCommand AddMoneysCommand { get; set; }
+        public RelayCommand AddMoneysCommand { get; }
         public PackIconFontAwesomeKind Сurrency => GetIconKind();
 
-        public AddableItem Moneys
-        {
-            get => moneys;
-            set
-            {
-                moneys = value;
-                OnPropertyChanged("Moneys");
-            }
-        }
+        public AddableItem Moneys { get; }
 
         private PackIconFontAwesomeKind GetIconKind()
         {
-            return moneys switch
+            return Moneys switch
             {
-                _ when moneys.Id == AppSettings.MoneysRublesTpl => PackIconFontAwesomeKind.RubleSignSolid,
-                _ when moneys.Id == AppSettings.MoneysDollarsTpl => PackIconFontAwesomeKind.DollarSignSolid,
-                _ when moneys.Id == AppSettings.MoneysEurosTpl => PackIconFontAwesomeKind.EuroSignSolid,
-                _ => PackIconFontAwesomeKind.RubleSignSolid,
+                _ when Moneys.Id == AppSettings.MoneysRublesTpl => PackIconFontAwesomeKind.RubleSignSolid,
+                _ when Moneys.Id == AppSettings.MoneysDollarsTpl => PackIconFontAwesomeKind.DollarSignSolid,
+                _ when Moneys.Id == AppSettings.MoneysEurosTpl => PackIconFontAwesomeKind.EuroSignSolid,
+                _ => PackIconFontAwesomeKind.ExclamationTriangleSolid,
             };
         }
     }

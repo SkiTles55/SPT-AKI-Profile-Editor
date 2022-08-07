@@ -143,7 +143,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public ObservableCollection<CharacterTraderStandingExtended> TraderStandingsExt =>
-            new(TraderStandings.Select(x => new CharacterTraderStandingExtended(x.Value,
+            new(TraderStandings?.Select(x => new CharacterTraderStandingExtended(x.Value,
                                                                                 x.Key,
                                                                                 GetTraderInfo(x.Key))));
 
