@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private static void RemoveBackupAction(string file)
         {
-            App.Worker.AddAction(new WorkerTask
+            App.Worker.AddTask(new WorkerTask
             {
                 Action = () => { BackupService.RemoveBackup(file); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -36,13 +36,13 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private static void RestoreBackupAction(object obj)
         {
-            App.Worker.AddAction(new WorkerTask
+            App.Worker.AddTask(new WorkerTask
             {
                 Action = () => { BackupService.RestoreBackup(obj.ToString()); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("restore_backup_dialog_title")
             });
-            App.Worker.AddAction(new WorkerTask
+            App.Worker.AddTask(new WorkerTask
             {
                 Action = AppData.StartupEvents,
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
-                Worker.AddAction(new WorkerTask
+                Worker.AddTask(new WorkerTask
                 {
                     Action = () => RemoveAllItemsFromContainer(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -73,7 +73,7 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand AddItem => new(obj =>
         {
             if (obj is AddableItem item)
-                Worker.AddAction(new WorkerTask { Action = () => AddItemToContainer(item) });
+                Worker.AddTask(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
 
         private void RemoveItemFromContainer(string id)

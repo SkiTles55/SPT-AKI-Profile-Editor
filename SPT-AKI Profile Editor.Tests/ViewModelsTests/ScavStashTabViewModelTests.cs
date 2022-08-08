@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            ScavStashTabViewModel viewModel = new(null);
+            ScavStashTabViewModel viewModel = new(null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.RemoveItem, Is.Not.Null);
             Assert.That(viewModel.RemoveAllEquipment, Is.Not.Null);
@@ -28,23 +28,21 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanRemoveItem()
         {
             TestHelpers.LoadDatabaseAndProfile();
-            ScavStashTabViewModel viewModel = new(new TestsDialogManager());
+            ScavStashTabViewModel viewModel = new(new TestsDialogManager(), null);
             var item = AppData.Profile.Characters.Scav.Inventory.Items.Where(x => x.IsWeapon).FirstOrDefault();
             Assert.That(item, Is.Not.Null);
             viewModel.RemoveItem.Execute(item.Id);
             Assert.That(AppData.Profile.Characters.Scav.Inventory.Items.Where(x => x.Id == item.Id).FirstOrDefault(), Is.Null, "Item is not removed");
         }
 
-        //[Test]
-        //public void CanRemoveAllEquipment()
-        //{
-        //    var dialogManager = new TestsDialogManager();
-        //    TestConstants.LoadDatabaseAndProfile();
-        //    ScavStashTabViewModel viewModel = new(dialogManager);
-        //    App.Worker = new(null, viewModel, dialogManager);
-        //    var characterEquipment = ScavStashTabViewModel.Profile.Characters.Scav;
-        //    viewModel.RemoveAllEquipment.Execute(null);
-        //    Assert.That(characterEquipment.Inventory.HasEquipment, Is.False.After(10).Seconds, "All equipment not removed");
-        //}
+        [Test]
+        public void CanRemoveAllEquipment()
+        {
+            var dialogManager = new TestsDialogManager();
+            TestHelpers.LoadDatabaseAndProfile();
+            ScavStashTabViewModel viewModel = new(dialogManager, new TestsWorker());
+            viewModel.RemoveAllEquipment.Execute(null);
+            Assert.That(AppData.Profile.Characters.Scav.Inventory.HasEquipment, Is.False, "All equipment not removed");
+        }
     }
 }

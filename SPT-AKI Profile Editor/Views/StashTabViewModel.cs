@@ -23,17 +23,17 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (obj == null || obj is not AddableItem item)
                 return;
-            App.Worker.AddAction(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
+            App.Worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
         });
 
-        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager);
+        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager, App.Worker);
         public RelayCommand RemoveItem => new(async obj => await RemoveItemFromStash(obj?.ToString()));
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
             {
-                App.Worker.AddAction(new WorkerTask
+                App.Worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.Characters.Pmc.Inventory.RemoveAllItems(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -46,7 +46,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_equipment_items_caption"))
             {
-                App.Worker.AddAction(new WorkerTask
+                App.Worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.Characters.Pmc.Inventory.RemoveAllEquipment(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -79,7 +79,7 @@ namespace SPT_AKI_Profile_Editor.Views
         private async Task AddMoneyDialogCommand(AddableItem money, CustomDialog addMoneyDialog)
         {
             await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
-            App.Worker.AddAction(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money) });
+            App.Worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money) });
         }
     }
 }

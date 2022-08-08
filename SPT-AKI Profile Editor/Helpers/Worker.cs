@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public class Worker
+    public interface IWorker
+    {
+        public void AddTask(WorkerTask task);
+    }
+
+    public class Worker : IWorker
     {
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IDialogManager _dialogManager;
@@ -26,7 +31,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             _dialogManager = dialogManager;
         }
 
-        public async void AddAction(WorkerTask task)
+        public async void AddTask(WorkerTask task)
         {
             tasks.Add(task);
             if (!isBusy)

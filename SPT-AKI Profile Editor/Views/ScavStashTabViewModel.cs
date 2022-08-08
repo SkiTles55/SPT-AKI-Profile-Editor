@@ -7,8 +7,13 @@ namespace SPT_AKI_Profile_Editor.Views
     public class ScavStashTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IWorker _worker;
 
-        public ScavStashTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+        public ScavStashTabViewModel(IDialogManager dialogManager, IWorker worker)
+        {
+            _dialogManager = dialogManager;
+            _worker = worker;
+        }
 
         public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.Scav));
 
@@ -24,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_equipment_items_caption"))
             {
-                App.Worker.AddAction(new WorkerTask
+                _worker.AddTask(new WorkerTask
                 {
                     Action = () => { Profile.Characters.Scav.Inventory.RemoveAllEquipment(); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

@@ -73,7 +73,7 @@ namespace SPT_AKI_Profile_Editor
             var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(WeaponBuild.Name);
             if (saveBuildDialog.ShowDialog() == DialogResult.OK)
             {
-                Worker.AddAction(new WorkerTask
+                Worker.AddTask(new WorkerTask
                 {
                     Action = () => { Profile.ExportBuild(WeaponBuild, saveBuildDialog.FileName); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -84,7 +84,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand AddToWeaponBuilds => new(obj =>
         {
-            Worker.AddAction(new WorkerTask
+            Worker.AddTask(new WorkerTask
             {
                 Action = () => { Profile.ImportBuild(WeaponBuild); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

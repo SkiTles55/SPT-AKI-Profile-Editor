@@ -33,7 +33,7 @@ namespace SPT_AKI_Profile_Editor.Views
             var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(build.Name);
             if (saveBuildDialog.ShowDialog() != DialogResult.OK)
                 return;
-            App.Worker.AddAction(new WorkerTask
+            App.Worker.AddTask(new WorkerTask
             {
                 Action = () => Profile.ExportBuild(build, saveBuildDialog.FileName),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 return;
             foreach (var build in Profile.WeaponBuilds)
             {
-                App.Worker.AddAction(new WorkerTask
+                App.Worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.ExportBuild(build.Value, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -64,7 +64,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 return;
             foreach (var file in openFileDialog.FileNames)
             {
-                App.Worker.AddAction(new WorkerTask
+                App.Worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.ImportBuildFromFile(file),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -77,7 +77,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (obj == null || obj is not WeaponBuild build)
                 return;
-            App.Worker.AddAction(new WorkerTask
+            App.Worker.AddTask(new WorkerTask
             {
                 Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

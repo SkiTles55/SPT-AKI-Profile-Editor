@@ -58,7 +58,7 @@ namespace SPT_AKI_Profile_Editor
             if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
                 await _dialogManager.ShutdownCozServerRunned(Instance);
             App.CloseItemViewWindows();
-            App.Worker.AddAction(new WorkerTask
+            App.Worker.AddTask(new WorkerTask
             {
                 Action = AppData.StartupEvents,
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -95,7 +95,7 @@ namespace SPT_AKI_Profile_Editor
 
         private void SaveAction()
         {
-            App.Worker.AddAction(SaveProfileTask());
+            App.Worker.AddTask(SaveProfileTask());
             StartupEventsWorker();
         }
 
