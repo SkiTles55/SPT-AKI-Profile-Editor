@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestConstants
     {
-        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\0a055e816234414d7f19554d.json";
+        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\37462bb6cc951e67bf41d45e.json";
 
         public static readonly string serverPath = @"C:\SPT-AKI";
 

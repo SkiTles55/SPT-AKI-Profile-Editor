@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Classes;
+﻿using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
@@ -15,7 +14,6 @@ namespace SPT_AKI_Profile_Editor
 
         public MainWindowViewModel(IDialogManager dialogManager)
         {
-            App.DialogCoordinator = DialogCoordinator.Instance;
             _dialogManager = dialogManager;
             App.Worker = new Worker(App.DialogCoordinator, this, _dialogManager);
             Instance = this;

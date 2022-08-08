@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             try
             {
-                progressDialog = await _dialogCoordinator.ShowProgressAsync(_viewModel, title, description);
+                progressDialog = await _dialogCoordinator?.ShowProgressAsync(_viewModel, title, description);
             }
             catch (Exception ex)
             {

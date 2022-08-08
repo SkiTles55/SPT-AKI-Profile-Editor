@@ -4,7 +4,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class ScavStashTabViewModel : BindableViewModel
+    public class ScavStashTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
 
