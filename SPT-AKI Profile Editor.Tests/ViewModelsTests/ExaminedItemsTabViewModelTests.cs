@@ -18,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanExamineAll()
         {
-            TestConstants.LoadDatabaseAndProfile();
+            TestHelpers.LoadDatabaseAndProfile();
             var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
             ExaminedItemsTabViewModel.ExamineAllCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.ExaminedItems.Count(), Is.Not.EqualTo(expected));

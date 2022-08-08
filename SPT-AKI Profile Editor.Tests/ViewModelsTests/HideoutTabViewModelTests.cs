@@ -18,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanSetAllMax()
         {
-            TestConstants.LoadDatabase();
+            TestHelpers.LoadDatabase();
             HideoutTabViewModel.SetAllMaxCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas.All(x => x.Level == x.MaxLevel), Is.True);
         }

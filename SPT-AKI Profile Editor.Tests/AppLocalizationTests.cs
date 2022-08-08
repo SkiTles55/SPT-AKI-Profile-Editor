@@ -14,9 +14,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            appSettings = new(Path.Combine(TestConstants.AppDataPath, "AppSettings.json"));
+            appSettings = new(Path.Combine(TestHelpers.AppDataPath, "AppSettings.json"));
             appSettings.Load();
-            appLocalization = new(appSettings.Language, Path.Combine(TestConstants.AppDataPath, "Localizations"));
+            appLocalization = new(appSettings.Language, Path.Combine(TestHelpers.AppDataPath, "Localizations"));
         }
 
         [Test]

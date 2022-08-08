@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class QuestsTabViewModelTests
     {
         [OneTimeSetUp]
-        public void Setup() => TestConstants.LoadDatabaseAndProfile();
+        public void Setup() => TestHelpers.LoadDatabaseAndProfile();
 
         [Test]
         public void CanInitialize()

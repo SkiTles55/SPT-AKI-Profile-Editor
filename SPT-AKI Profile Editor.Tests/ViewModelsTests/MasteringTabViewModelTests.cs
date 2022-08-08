@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class MasteringTabViewModelTests
     {
         [OneTimeSetUp]
-        public void Setup() => TestConstants.LoadDatabase();
+        public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
         public void CanInitialize()
@@ -47,7 +47,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteSetAllPmsSkillsCommand()
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             MasteringTabViewModel viewModel = new(null)
             {
                 SetAllPmcSkillsValue = 500f
@@ -60,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteSetAllScavSkillsCommand()
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             MasteringTabViewModel viewModel = new(null)
             {
                 SetAllScavSkillsValue = 500f

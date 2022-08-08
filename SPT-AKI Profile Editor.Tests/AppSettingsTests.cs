@@ -13,15 +13,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            settings = new(Path.Combine(TestConstants.AppDataPath, "AppSettings.json"));
+            settings = new(Path.Combine(TestHelpers.AppDataPath, "AppSettings.json"));
             settings.Load();
         }
 
         [Test]
-        public void PathIsServerBaseTrue() => Assert.IsTrue(settings.PathIsServerFolder(TestConstants.serverPath));
+        public void PathIsServerBaseTrue() => Assert.IsTrue(settings.PathIsServerFolder(TestHelpers.serverPath));
 
         [Test]
-        public void PathIsServerBaseFalse() => Assert.IsFalse(settings.PathIsServerFolder(TestConstants.wrongServerPath));
+        public void PathIsServerBaseFalse() => Assert.IsFalse(settings.PathIsServerFolder(TestHelpers.wrongServerPath));
 
         [Test]
         public void LanguageNotEmpty() => Assert.IsNotNull(settings.Language, "Language is empty");

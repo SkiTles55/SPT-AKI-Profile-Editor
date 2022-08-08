@@ -6,7 +6,7 @@ using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
-    internal class TestConstants
+    internal class TestHelpers
     {
         public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\37462bb6cc951e67bf41d45e.json";
 
@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public static readonly string AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData");
 
-        static TestConstants()
+        static TestHelpers()
         {
             if (!Directory.Exists(AppDataPath))
             {

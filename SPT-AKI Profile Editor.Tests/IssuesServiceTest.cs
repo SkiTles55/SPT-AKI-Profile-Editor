@@ -12,14 +12,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void Setup()
         {
             AppData.AppSettings.AutoAddMissingQuests = true;
-            AppData.AppSettings.ServerPath = TestConstants.serverPath;
+            AppData.AppSettings.ServerPath = TestHelpers.serverPath;
             AppData.LoadDatabase();
         }
 
         [Test]
         public void IssuesServiceCanFixAllIssues()
         {
-            AppData.Profile.Load(TestConstants.profileWithDuplicatedItems);
+            AppData.Profile.Load(TestHelpers.profileWithDuplicatedItems);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void PMCLevelIssuesByTradersNotEmpty()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
             AppData.IssuesService.GetIssues();
@@ -50,7 +50,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void PMCLevelIssuesByQuestsNotEmpty()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
             AppData.IssuesService.GetIssues();
@@ -64,7 +64,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void QuestStatusIssuesByQuestNotEmpty()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
@@ -77,7 +77,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void TraderLoyaltyIssuesByQuestNotEmpty()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
                 trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
@@ -92,7 +92,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixPMCLevelIssue()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
             AppData.IssuesService.GetIssues();
@@ -109,7 +109,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixAllPMCLevelIssues()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
             AppData.IssuesService.GetIssues();
@@ -124,7 +124,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void DuplicateItemsIDIssuesNotEmpty()
         {
-            AppData.Profile.Load(TestConstants.profileWithDuplicatedItems);
+            AppData.Profile.Load(TestHelpers.profileWithDuplicatedItems);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
@@ -135,7 +135,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixDuplicateItemsIDIssue()
         {
-            AppData.Profile.Load(TestConstants.profileWithDuplicatedItems);
+            AppData.Profile.Load(TestHelpers.profileWithDuplicatedItems);
             AppData.IssuesService.GetIssues();
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
@@ -151,7 +151,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixQuestStatusIssue()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 2;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
@@ -168,7 +168,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixAllQuestStatusIssues()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 2;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             AppData.IssuesService.GetIssues();
@@ -184,7 +184,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixTraderLoyaltyIssue()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
                 trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
@@ -202,7 +202,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixAllTraderLoyaltyIssues()
         {
-            AppData.Profile.Load(TestConstants.profileFile);
+            AppData.Profile.Load(TestHelpers.profileFile);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
                 trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);

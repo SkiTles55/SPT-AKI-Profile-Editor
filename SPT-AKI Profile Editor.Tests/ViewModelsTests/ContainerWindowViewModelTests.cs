@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         private static readonly TestsDialogManager dialogManager = new();
 
         [OneTimeSetUp]
-        public void Setup() => TestConstants.LoadDatabase();
+        public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
         public void InitializeCorrectlyForPmc()
@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
                 Assert.That(pmcContainer.Worker, Is.Not.Null, "Worker is null");
-                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestConstants.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
+                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
                 Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
                 Assert.That(pmcContainer.Items.Count, Is.EqualTo(3), "Items.Count is not 3");
                 Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
@@ -37,7 +37,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
                 Assert.That(pmcContainer.Worker, Is.Not.Null, "Worker is null");
-                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestConstants.GetTestName("ContainerWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
+                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
                 Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
                 Assert.That(pmcContainer.Items.Count, Is.EqualTo(5), "Items.Count is not 5");
                 Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
@@ -56,11 +56,11 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static ContainerWindowViewModel TestViewModel(StashEditMode editMode)
         {
-            TestConstants.SetupTestCharacters("ContainerWindowViewModel", editMode);
+            TestHelpers.SetupTestCharacters("ContainerWindowViewModel", editMode);
             InventoryItem item = new()
             {
-                Id = TestConstants.GetTestName("ContainerWindowViewModel", editMode),
-                Tpl = TestConstants.GetTestName("ContainerWindowViewModel", editMode)
+                Id = TestHelpers.GetTestName("ContainerWindowViewModel", editMode),
+                Tpl = TestHelpers.GetTestName("ContainerWindowViewModel", editMode)
             };
             return new(item, editMode, DialogCoordinator.Instance, dialogManager);
         }

@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class MoneyDailogViewModelTests
     {
         [OneTimeSetUp]
-        public void Setup() => TestConstants.LoadDatabase();
+        public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
         public void CanInitializeForRoubles()

@@ -17,14 +17,14 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [OneTimeSetUp]
         public void Setup()
         {
-            settings = new(Path.Combine(TestConstants.AppDataPath, "AppSettings.json"));
+            settings = new(Path.Combine(TestHelpers.AppDataPath, "AppSettings.json"));
             settings.Load();
         }
 
         [Test]
         public void InitializeCorrectlyWithRightPath()
         {
-            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(settings.CheckServerPath(TestConstants.serverPath));
+            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(settings.CheckServerPath(TestHelpers.serverPath));
             Assert.That(pathEditorViewModel, Is.Not.Null, "ServerPathEditorViewModel is null");
             Assert.That(pathEditorViewModel.Paths.Any(), Is.True, "ServerPathEditorViewModel Paths is empty");
             Assert.That(pathEditorViewModel.Paths.All(x => x.IsFounded), Is.True, "ServerPathEditorViewModel Paths wrong values");
@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void InitializeCorrectlyWithWrongPath()
         {
-            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(settings.CheckServerPath(TestConstants.wrongServerPath));
+            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(settings.CheckServerPath(TestHelpers.wrongServerPath));
             Assert.That(pathEditorViewModel, Is.Not.Null, "ServerPathEditorViewModel is null");
             Assert.That(pathEditorViewModel.Paths.Any(), Is.True, "ServerPathEditorViewModel Paths is empty");
             Assert.That(pathEditorViewModel.Paths.All(x => !x.IsFounded), Is.True, "ServerPathEditorViewModel Paths wrong values");

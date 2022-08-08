@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            AppData.AppSettings.ServerPath = TestConstants.serverPath;
+            AppData.AppSettings.ServerPath = TestHelpers.serverPath;
             AppData.LoadDatabase();
         }
 

@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanRemoveItem()
         {
-            TestConstants.LoadDatabaseAndProfile();
+            TestHelpers.LoadDatabaseAndProfile();
             ScavStashTabViewModel viewModel = new(new TestsDialogManager());
             var item = AppData.Profile.Characters.Scav.Inventory.Items.Where(x => x.IsWeapon).FirstOrDefault();
             Assert.That(item, Is.Not.Null);

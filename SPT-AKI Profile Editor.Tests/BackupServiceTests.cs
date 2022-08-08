@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private BackupService backupService;
 
         [OneTimeSetUp]
-        public void Setup() => backupService = new(Path.Combine(TestConstants.AppDataPath, "Backups"));
+        public void Setup() => backupService = new(Path.Combine(TestHelpers.AppDataPath, "Backups"));
 
         [Test]
         public void BackupServiceIsNotNull() => Assert.IsNotNull(backupService);
@@ -21,9 +21,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void BackupCreatingCorrectly()
         {
-            var expected = JsonConvert.DeserializeObject(File.ReadAllText(TestConstants.profileFile));
-            backupService.CreateBackup(TestConstants.profileFile);
-            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
+            var expected = JsonConvert.DeserializeObject(File.ReadAllText(TestHelpers.profileFile));
+            backupService.CreateBackup(TestHelpers.profileFile);
+            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             var result = JsonConvert.DeserializeObject(File.ReadAllText(backupService.BackupList.First().Path));
             Assert.AreEqual(expected.ToString(), result.ToString());
             Assert.True(backupService.HasBackups);
@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void BackupListNotEmpty()
         {
-            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
+            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             Assert.IsTrue(backupService.BackupList.Any());
             Assert.True(backupService.HasBackups);
         }
@@ -40,8 +40,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void BackupRestoringCorrectly()
         {
-            backupService.CreateBackup(TestConstants.profileFile);
-            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
+            backupService.CreateBackup(TestHelpers.profileFile);
+            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             var expected = JsonConvert.DeserializeObject(File.ReadAllText(backupService.BackupList.First().Path));
             string testPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testBackup.json");
             backupService.RestoreBackup(backupService.BackupList.First().Path, testPath);
@@ -52,10 +52,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void BackupRemovingCorrectly()
         {
-            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
+            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             var expected = backupService.BackupList.Count();
             backupService.RemoveBackup(backupService.BackupList.Last().Path);
-            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestConstants.profileFile));
+            backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             Assert.AreNotEqual(expected, backupService.BackupList.Count());
             Assert.False(backupService.HasBackups);
         }
