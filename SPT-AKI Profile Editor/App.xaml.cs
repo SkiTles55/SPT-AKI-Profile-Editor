@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor
         public static readonly IDialogManager DialogManager = new MetroDialogManager();
         public static RelayCommand CloseApplication => new(obj => Current.Shutdown());
         public static IDialogCoordinator DialogCoordinator => MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
-        public static Worker Worker { get; set; }
+        public static IWorker Worker { get; set; }
 
         public static void ChangeTheme() => ThemeManager.Current.ChangeTheme(Current, AppData.AppSettings.ColorScheme);
 

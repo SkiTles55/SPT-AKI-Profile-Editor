@@ -16,6 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void InitializeCorrectly()
         {
             Assert.That(_viewModel, Is.Not.Null, "MainWindowViewModel is null");
+            Assert.That(_viewModel.BackupsTabViewModel, Is.Not.Null, "BackupsTabViewModel is null");
             Assert.That(App.DialogCoordinator, Is.Not.Null, "DialogCoordinator is null");
             Assert.That(App.Worker, Is.Not.Null, "Worker is null");
             Assert.That(MainWindowViewModel.WindowTitle, Is.Not.Empty, "WindowTitle is empty");

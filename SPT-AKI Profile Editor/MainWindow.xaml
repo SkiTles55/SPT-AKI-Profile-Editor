@@ -136,7 +136,7 @@
                 <views:WeaponBuilds />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:BackupsTab />
+                <views:BackupsTab DataContext="{Binding BackupsTabViewModel}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_about_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:AboutTab />

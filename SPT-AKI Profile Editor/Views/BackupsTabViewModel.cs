@@ -7,8 +7,13 @@ namespace SPT_AKI_Profile_Editor.Views
     public class BackupsTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IWorker _worker;
 
-        public BackupsTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+        public BackupsTabViewModel(IDialogManager dialogManager, IWorker worker)
+        {
+            _dialogManager = dialogManager;
+            _worker = worker;
+        }
 
         public static BackupService BackupService => AppData.BackupService;
 
@@ -21,12 +26,12 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand RestoreCommand => new(async obj =>
         {
             if (obj is string file && await _dialogManager.YesNoDialog(this, "restore_backup_dialog_title", "restore_backup_dialog_caption"))
-                RestoreBackupAction(obj);
+                RestoreBackupAction(file);
         });
 
-        private static void RemoveBackupAction(string file)
+        private void RemoveBackupAction(string file)
         {
-            App.Worker.AddTask(new WorkerTask
+            _worker.AddTask(new WorkerTask
             {
                 Action = () => { BackupService.RemoveBackup(file); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -34,15 +39,15 @@ namespace SPT_AKI_Profile_Editor.Views
             });
         }
 
-        private static void RestoreBackupAction(object obj)
+        private void RestoreBackupAction(string file)
         {
-            App.Worker.AddTask(new WorkerTask
+            _worker.AddTask(new WorkerTask
             {
-                Action = () => { BackupService.RestoreBackup(obj.ToString()); },
+                Action = () => { BackupService.RestoreBackup(file); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("restore_backup_dialog_title")
             });
-            App.Worker.AddTask(new WorkerTask
+            _worker.AddTask(new WorkerTask
             {
                 Action = AppData.StartupEvents,
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),

@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using SPT_AKI_Profile_Editor.Views;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -26,7 +27,11 @@ namespace SPT_AKI_Profile_Editor
         public static RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
+
+        public BackupsTabViewModel BackupsTabViewModel => new(_dialogManager, App.Worker);
+
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
+
         public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this));
 
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
