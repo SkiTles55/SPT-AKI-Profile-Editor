@@ -47,8 +47,8 @@ namespace SPT_AKI_Profile_Editor.Views
             get => pmc;
             set
             {
-                OnPropertyChanged("Pmc");
                 pmc = value;
+                OnPropertyChanged("Pmc");
             }
         }
 
@@ -57,8 +57,8 @@ namespace SPT_AKI_Profile_Editor.Views
             get => scav;
             set
             {
-                OnPropertyChanged("Scav");
                 scav = value;
+                OnPropertyChanged("Scav");
             }
         }
 

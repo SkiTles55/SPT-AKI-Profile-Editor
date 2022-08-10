@@ -1,26 +1,27 @@
-﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Helpers;
+﻿using SPT_AKI_Profile_Editor.Helpers;
 using System;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class SkillsTabViewModel : BindableViewModel
+    public class SkillsTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
 
-        public SkillsTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+        public SkillsTabViewModel(IDialogManager dialogManager)
+        {
+            _dialogManager = dialogManager;
+        }
 
-        public static AppSettings AppSettings => AppData.AppSettings;
+        public virtual float MaxSkillsValue { get; }
 
         public float SetAllPmcSkillsValue
         {
             get => setAllPmcSkillsValue;
             set
             {
-                setAllPmcSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
+                setAllPmcSkillsValue = Math.Min(MaxSkillsValue, value);
                 OnPropertyChanged("SetAllPmcSkillsValue");
             }
         }
@@ -30,13 +31,13 @@ namespace SPT_AKI_Profile_Editor.Views
             get => setAllScavSkillsValue;
             set
             {
-                setAllScavSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
+                setAllScavSkillsValue = Math.Min(MaxSkillsValue, value);
                 OnPropertyChanged("SetAllScavSkillsValue");
             }
         }
 
-        public RelayCommand SetAllPmsSkillsCommand => new(obj => Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue));
-        public RelayCommand SetAllScavSkillsCommand => new(obj => Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue));
+        public virtual RelayCommand SetAllPmsSkillsCommand { get; }
+        public virtual RelayCommand SetAllScavSkillsCommand { get; }
 
         public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this, 1));
     }
