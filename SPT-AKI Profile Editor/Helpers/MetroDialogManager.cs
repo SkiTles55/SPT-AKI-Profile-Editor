@@ -28,6 +28,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand);
 
         public Task ShowOkMessageAsync(object context, string title, string message);
+
+        public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand);
     }
 
     public class MetroDialogManager : IDialogManager
@@ -120,6 +122,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
             await ShowCustomDialog<ServerPathEditor>(context,
                                                      pathEditorDialog,
                                                      new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.OpenFAQ));
+        }
+
+        public async Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
+        {
+            CustomDialog addMoneyDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_stash_dialog_money"), 500);
+            await ShowCustomDialog<MoneyDailog>(context, addMoneyDialog, new MoneyDailogViewModel(money, addCommand));
         }
 
         public async Task ShowOkMessageAsync(object context, string title, string message)

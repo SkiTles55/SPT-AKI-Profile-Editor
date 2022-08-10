@@ -13,6 +13,12 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool LocalizationEditorDialogOpened = false;
         public bool SettingsDialogOpened = false;
 
+        public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
+        {
+            addCommand.Execute(null);
+            return Task.CompletedTask;
+        }
+
         public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
         {
             throw new NotImplementedException();

@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysRublesTpl];
             MoneyDailogViewModel viewModel = new(money, null);
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Null);
+            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.RubleSignSolid));
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysDollarsTpl];
             MoneyDailogViewModel viewModel = new(money, null);
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Null);
+            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.DollarSignSolid));
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
@@ -43,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysEurosTpl];
             MoneyDailogViewModel viewModel = new(money, null);
             Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Null);
+            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.EuroSignSolid));
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);

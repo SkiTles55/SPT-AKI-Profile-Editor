@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Classes;
+﻿using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
@@ -9,31 +8,36 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class StashTabViewModel : BindableViewModel
+    public class StashTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IWorker _worker;
 
-        public StashTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+        public StashTabViewModel(IDialogManager dialogManager, IWorker worker)
+        {
+            _dialogManager = dialogManager;
+            _worker = worker;
+        }
 
         public static AppSettings AppSettings => AppData.AppSettings;
         public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.PMC));
         public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
 
-        public static RelayCommand AddItem => new(obj =>
+        public RelayCommand AddItem => new(obj =>
         {
             if (obj == null || obj is not AddableItem item)
                 return;
-            App.Worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
+            _worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
         });
 
-        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager, App.Worker);
+        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager, _worker);
         public RelayCommand RemoveItem => new(async obj => await RemoveItemFromStash(obj?.ToString()));
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
             {
-                App.Worker.AddTask(new WorkerTask
+                _worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.Characters.Pmc.Inventory.RemoveAllItems(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -46,7 +50,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_equipment_items_caption"))
             {
-                App.Worker.AddTask(new WorkerTask
+                _worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.Characters.Pmc.Inventory.RemoveAllEquipment(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -70,16 +74,12 @@ namespace SPT_AKI_Profile_Editor.Views
             if (string.IsNullOrEmpty(obj))
                 return;
             var money = TarkovItem.CopyFrom(ServerDatabase.ItemsDB[obj]);
-            CustomDialog addMoneyDialog = new() { Title = AppLocalization.GetLocalizedString("tab_stash_dialog_money") };
-            RelayCommand addCommand = new(async obj => await AddMoneyDialogCommand(money, addMoneyDialog));
-            addMoneyDialog.Content = new MoneyDailog { DataContext = new MoneyDailogViewModel(money, addCommand) };
-            await App.DialogCoordinator.ShowMetroDialogAsync(this, addMoneyDialog);
+            await _dialogManager.ShowAddMoneyDialog(this, money, AddMoneyDialogCommand(money));
         }
 
-        private async Task AddMoneyDialogCommand(AddableItem money, CustomDialog addMoneyDialog)
+        private RelayCommand AddMoneyDialogCommand(AddableItem money) => new(obj => _worker.AddTask(new WorkerTask
         {
-            await App.DialogCoordinator.HideMetroDialogAsync(this, addMoneyDialog);
-            App.Worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money) });
-        }
+            Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money)
+        }));
     }
 }

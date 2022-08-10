@@ -7,15 +7,23 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class MoneyDailogViewModel : ClosableDialogViewModel
     {
+        private readonly RelayCommand addMoneysCommand;
+
         public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand)
         {
             Moneys = money;
             Moneys.AddingQuantity = ((TarkovItem)Moneys).Properties.StackMaxSize;
-            AddMoneysCommand = addCommand;
+            addMoneysCommand = addCommand;
         }
 
         public static AppSettings AppSettings => AppData.AppSettings;
-        public RelayCommand AddMoneysCommand { get; }
+
+        public RelayCommand AddMoneysCommand => new(async obj =>
+        {
+            await CloseDialog();
+            addMoneysCommand.Execute(null);
+        });
+
         public PackIconFontAwesomeKind Сurrency => GetIconKind();
 
         public AddableItem Moneys { get; }
