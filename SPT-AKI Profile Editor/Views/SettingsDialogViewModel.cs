@@ -15,14 +15,16 @@ namespace SPT_AKI_Profile_Editor
     public class SettingsDialogViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IApplicationManager _applicationManager;
         private int selectedTab;
 
-        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, int index = 0)
+        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, IApplicationManager applicationManager, int index = 0)
         {
             CloseCommand = command;
             SelectedTab = index;
             AppSettings = AppData.AppSettings;
             _dialogManager = dialogManager;
+            _applicationManager = applicationManager;
         }
 
         public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
@@ -30,9 +32,9 @@ namespace SPT_AKI_Profile_Editor
             .Select(x => new AccentItem(x));
 
         public static RelayCommand CloseCommand { get; set; }
-        public static RelayCommand QuitCommand => App.CloseApplication;
         public static RelayCommand OpenAppData => new(obj => ExtMethods.OpenUrl(DefaultValues.AppDataFolder));
         public static RelayCommand ResetLocalizations => new(obj => Directory.Delete(AppLocalization.localizationsDir, true));
+        public RelayCommand QuitCommand => _applicationManager.CloseApplication;
 
         public RelayCommand ResetAndReload => new(async obj =>
         {
@@ -95,7 +97,7 @@ namespace SPT_AKI_Profile_Editor
             {
                 AppSettings.ColorScheme = value;
                 OnPropertyChanged("ColorScheme");
-                App.ChangeTheme();
+                _applicationManager.ChangeTheme();
             }
         }
 

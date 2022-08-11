@@ -8,16 +8,18 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private readonly IDialogManager _dialogManager;
         private readonly IWorker _worker;
+        private readonly IApplicationManager _applicationManager;
 
-        public ScavStashTabViewModel(IDialogManager dialogManager, IWorker worker)
+        public ScavStashTabViewModel(IDialogManager dialogManager, IWorker worker, IApplicationManager applicationManager)
         {
             _dialogManager = dialogManager;
             _worker = worker;
+            _applicationManager = applicationManager;
         }
 
-        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.Scav));
+        public RelayCommand OpenContainer => new(obj => _applicationManager.OpenContainerWindow(obj, StashEditMode.Scav));
 
-        public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.Scav));
+        public RelayCommand InspectWeapon => new(obj => _applicationManager.OpenWeaponBuildWindow(obj, StashEditMode.Scav));
 
         public RelayCommand RemoveItem => new(async obj =>
         {

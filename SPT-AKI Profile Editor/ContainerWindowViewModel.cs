@@ -15,25 +15,28 @@ namespace SPT_AKI_Profile_Editor
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
         private readonly IDialogManager _dialogManager;
+        private readonly IWorker _worker;
+        private readonly IApplicationManager _applicationManager;
         private ObservableCollection<AddableCategory> categoriesForItemsAdding;
 
         public ContainerWindowViewModel(InventoryItem item,
                                         StashEditMode editMode,
                                         IDialogCoordinator dialogCoordinator,
-                                        IDialogManager dialogManager)
+                                        IDialogManager dialogManager,
+                                        IApplicationManager applicationManager,
+                                        IWorker worker = null)
         {
             _dialogManager = dialogManager;
-            Worker = new Worker(dialogCoordinator, this, _dialogManager);
+            _worker = worker ?? new Worker(dialogCoordinator, this, _dialogManager);
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
+            _applicationManager = applicationManager;
         }
 
-        public IWorker Worker { get; }
+        public RelayCommand OpenContainer => new(obj => _applicationManager.OpenContainerWindow(obj, _editMode));
 
-        public RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, _editMode));
-
-        public RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, _editMode));
+        public RelayCommand InspectWeapon => new(obj => _applicationManager.OpenWeaponBuildWindow(obj, _editMode));
 
         public string WindowTitle { get; }
 
@@ -56,13 +59,13 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand RemoveItem => new(async obj =>
         {
             if (obj is string id && await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-                RemoveItemFromContainer(obj.ToString());
+                RemoveItemFromContainer(id);
         });
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
-                Worker.AddTask(new WorkerTask
+                _worker.AddTask(new WorkerTask
                 {
                     Action = () => RemoveAllItemsFromContainer(),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -73,7 +76,7 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand AddItem => new(obj =>
         {
             if (obj is AddableItem item)
-                Worker.AddTask(new WorkerTask { Action = () => AddItemToContainer(item) });
+                _worker.AddTask(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
 
         private void RemoveItemFromContainer(string id)

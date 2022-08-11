@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor
                 return;
             }
 
-            App.CloseItemViewWindows();
+            App.ApplicationManager.CloseItemViewWindows();
         }
 
         private async Task ConfirmShutdown()

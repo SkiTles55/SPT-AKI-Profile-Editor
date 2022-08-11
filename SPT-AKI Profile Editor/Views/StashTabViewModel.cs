@@ -12,16 +12,18 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private readonly IDialogManager _dialogManager;
         private readonly IWorker _worker;
+        private readonly IApplicationManager _applicationManager;
 
-        public StashTabViewModel(IDialogManager dialogManager, IWorker worker)
+        public StashTabViewModel(IDialogManager dialogManager, IWorker worker, IApplicationManager applicationManager)
         {
             _dialogManager = dialogManager;
             _worker = worker;
+            _applicationManager = applicationManager;
         }
 
         public static AppSettings AppSettings => AppData.AppSettings;
-        public static RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, StashEditMode.PMC));
-        public static RelayCommand InspectWeapon => new(obj => App.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
+        public RelayCommand OpenContainer => new(obj => _applicationManager.OpenContainerWindow(obj, StashEditMode.PMC));
+        public RelayCommand InspectWeapon => new(obj => _applicationManager.OpenWeaponBuildWindow(obj, StashEditMode.PMC));
 
         public RelayCommand AddItem => new(obj =>
         {
@@ -30,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Views
             _worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
         });
 
-        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager, _worker);
+        public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager, _worker, _applicationManager);
         public RelayCommand RemoveItem => new(async obj => await RemoveItemFromStash(obj?.ToString()));
 
         public RelayCommand RemoveAllItems => new(async obj =>

@@ -1,14 +1,16 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
     internal class ContainerWindowViewModelTests
     {
         private static readonly TestsDialogManager dialogManager = new();
+        private static readonly TestsWorker worker = new();
 
         [OneTimeSetUp]
         public void Setup() => TestHelpers.LoadDatabase();
@@ -20,7 +22,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.Multiple(() =>
             {
                 Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
-                Assert.That(pmcContainer.Worker, Is.Not.Null, "Worker is null");
                 Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
                 Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
                 Assert.That(pmcContainer.Items.Count, Is.EqualTo(3), "Items.Count is not 3");
@@ -36,7 +37,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.Multiple(() =>
             {
                 Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
-                Assert.That(pmcContainer.Worker, Is.Not.Null, "Worker is null");
                 Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
                 Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
                 Assert.That(pmcContainer.Items.Count, Is.EqualTo(5), "Items.Count is not 5");
@@ -54,6 +54,29 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(pmcContainer.Items.IndexOf(item), Is.EqualTo(-1), "Item not removed");
         }
 
+        [Test]
+        public void CanRemoveAllItems()
+        {
+            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
+            Assert.That(pmcContainer.HasItems, Is.True, "ContainerWindowViewModel does not contains items");
+            pmcContainer.RemoveAllItems.Execute(null);
+            Assert.That(pmcContainer.HasItems, Is.False, "ContainerWindowViewModel contains items after RemoveAllItems");
+        }
+
+        [Test]
+        public void CanAddItem()
+        {
+            TestHelpers.LoadDatabaseAndProfile();
+            var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer).FirstOrDefault();
+            Assert.That(container, Is.Not.Null);
+            ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, dialogManager, null, worker);
+            var painkiller = AppData.ServerDatabase.ItemsDB["544fb37f4bdc2dee738b4567"];
+            pmcContainer.RemoveAllItems.Execute(null);
+            pmcContainer.AddItem.Execute(painkiller);
+            Assert.That(pmcContainer.Items.Count, Is.EqualTo(1));
+            Assert.That(pmcContainer.Items.Where(x => x.Tpl == "544fb37f4bdc2dee738b4567").FirstOrDefault(), Is.Not.Null, "Item not added");
+        }
+
         private static ContainerWindowViewModel TestViewModel(StashEditMode editMode)
         {
             TestHelpers.SetupTestCharacters("ContainerWindowViewModel", editMode);
@@ -62,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestHelpers.GetTestName("ContainerWindowViewModel", editMode),
                 Tpl = TestHelpers.GetTestName("ContainerWindowViewModel", editMode)
             };
-            return new(item, editMode, DialogCoordinator.Instance, dialogManager);
+            return new(item, editMode, null, dialogManager, null, worker);
         }
     }
 }

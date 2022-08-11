@@ -13,12 +13,16 @@ namespace SPT_AKI_Profile_Editor
     {
         private readonly IDialogManager _dialogManager;
         private readonly IWorker _worker;
+        private readonly IApplicationManager _applicationManager;
 
-        public MainWindowViewModel(IDialogManager dialogManager, IWorker worker = null)
+        public MainWindowViewModel(IDialogManager dialogManager,
+                                   IWorker worker = null,
+                                   IApplicationManager applicationManager = null)
         {
             _dialogManager = dialogManager;
             _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
             Instance = this;
+            _applicationManager = applicationManager ?? App.ApplicationManager;
         }
 
         public static MainWindowViewModel Instance { get; set; }
@@ -31,7 +35,7 @@ namespace SPT_AKI_Profile_Editor
 
         public BackupsTabViewModel BackupsTabViewModel => new(_dialogManager, _worker);
 
-        public StashTabViewModel StashTabViewModel => new(_dialogManager, _worker);
+        public StashTabViewModel StashTabViewModel => new(_dialogManager, _worker, _applicationManager);
 
         public WeaponBuildsViewModel WeaponBuildsViewModel => new(_dialogManager, _worker);
 
@@ -67,7 +71,7 @@ namespace SPT_AKI_Profile_Editor
         {
             if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
                 await _dialogManager.ShutdownCozServerRunned(Instance);
-            App.CloseItemViewWindows();
+            _applicationManager.CloseItemViewWindows();
             _worker.AddTask(new WorkerTask
             {
                 Action = AppData.StartupEvents,
@@ -111,7 +115,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task InitializeViewModel()
         {
-            App.ChangeTheme();
+            _applicationManager.ChangeTheme();
             if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
             || !AppData.AppSettings.PathIsServerFolder()
             || !AppData.AppSettings.ServerHaveProfiles()

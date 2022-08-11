@@ -71,7 +71,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 AppData.AppLocalization.GetLocalizedString("server_runned"),
                 MessageDialogStyle.Affirmative,
                 ShutdownDialogSettings) == MessageDialogResult.Affirmative)
-                App.CloseApplication.Execute(null);
+                App.ApplicationManager.CloseApplication.Execute(null);
         }
 
         public async Task ShowSettingsDialog(object context, int index = 0)
@@ -85,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (startValues != newValues)
                     MainWindowViewModel.Instance.StartupEventsWorker();
             });
-            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, this, index));
+            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.ApplicationManager, index));
         }
 
         public async Task ShowUpdateDialog(object context, GitHubRelease release)
