@@ -8,32 +8,37 @@ using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    internal class WeaponBuildsViewModel : BindableViewModel
+    public class WeaponBuildsViewModel : BindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
+        public readonly IDialogManager _dialogManager;
+        public readonly IWorker _worker;
 
-        public WeaponBuildsViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+        public WeaponBuildsViewModel(IDialogManager dialogManager, IWorker worker)
+        {
+            _dialogManager = dialogManager;
+            _worker = worker;
+        }
 
-        public static RelayCommand AddBuildToStash => new(obj => AddBuildToProfileStash(obj));
+        public RelayCommand AddBuildToStash => new(obj => AddBuildToProfileStash(obj));
 
-        public static RelayCommand ExportBuild => new(obj => ExportBuildToFile(obj));
+        public RelayCommand ExportBuild => new(obj => ExportBuildToFile(obj));
 
-        public static RelayCommand ExportBuilds => new(obj => ExportAllBuilds());
+        public RelayCommand ExportBuilds => new(obj => ExportAllBuilds());
 
-        public static RelayCommand ImportBuilds => new(obj => ImportBuildsFromFiles());
+        public RelayCommand ImportBuilds => new(obj => ImportBuildsFromFiles());
 
         public RelayCommand RemoveBuild => new(async obj => await RemoveBuildFromProfile(obj));
 
         public RelayCommand RemoveBuilds => new(async obj => await RemoveAllBuildsFromProfile());
 
-        private static void ExportBuildToFile(object obj)
+        private void ExportBuildToFile(object obj)
         {
             if (obj == null || obj is not WeaponBuild build)
                 return;
             var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(build.Name);
             if (saveBuildDialog.ShowDialog() != DialogResult.OK)
                 return;
-            App.Worker.AddTask(new WorkerTask
+            _worker.AddTask(new WorkerTask
             {
                 Action = () => Profile.ExportBuild(build, saveBuildDialog.FileName),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -41,14 +46,14 @@ namespace SPT_AKI_Profile_Editor.Views
             });
         }
 
-        private static void ExportAllBuilds()
+        private void ExportAllBuilds()
         {
             var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(true);
             if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
                 return;
             foreach (var build in Profile.WeaponBuilds)
             {
-                App.Worker.AddTask(new WorkerTask
+                _worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.ExportBuild(build.Value, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -57,14 +62,14 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        private static void ImportBuildsFromFiles()
+        private void ImportBuildsFromFiles()
         {
             var openFileDialog = WindowsDialogs.OpenWeaponBuildDialog();
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
             foreach (var file in openFileDialog.FileNames)
             {
-                App.Worker.AddTask(new WorkerTask
+                _worker.AddTask(new WorkerTask
                 {
                     Action = () => Profile.ImportBuildFromFile(file),
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -73,16 +78,17 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        private static void AddBuildToProfileStash(object obj)
+        private void AddBuildToProfileStash(object obj)
         {
-            if (obj == null || obj is not WeaponBuild build)
-                return;
-            App.Worker.AddTask(new WorkerTask
+            if (obj is WeaponBuild build)
             {
-                Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build),
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("tab_presets_import")
-            });
+                _worker.AddTask(new WorkerTask
+                {
+                    Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build),
+                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                    Description = AppLocalization.GetLocalizedString("tab_presets_import")
+                });
+            }
         }
 
         private async Task RemoveBuildFromProfile(object obj)

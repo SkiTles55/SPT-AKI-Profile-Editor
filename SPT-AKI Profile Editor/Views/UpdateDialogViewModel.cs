@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using ReleaseChecker.GitHub;
+﻿using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
@@ -8,19 +7,13 @@ using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
-    internal class UpdateDialogViewModel : BindableViewModel
+    public class UpdateDialogViewModel : ClosableDialogViewModel
     {
-        public UpdateDialogViewModel(RelayCommand command, GitHubRelease release)
-        {
-            CloseCommand = command;
-            Release = release;
-        }
-
-        public static RelayCommand CloseCommand { get; set; }
+        public UpdateDialogViewModel(GitHubRelease release) => Release = release;
 
         public RelayCommand DownloadRelease => new(async obj => await Download());
         public RelayCommand OpenReleaseUrl => new(obj => ExtMethods.OpenUrl(Release.Url));
-        public GitHubRelease Release { get; set; }
+        public GitHubRelease Release { get; }
         public GithubReleaseFile ReleaseFile => Release.Files?.First();
 
         public string FormatedDate => Release.PublishDate.ToString("dd.MM.yyyy");
@@ -32,8 +25,7 @@ namespace SPT_AKI_Profile_Editor
             var saveFileDialog = WindowsDialogs.SaveFileDialog(ReleaseFile.Name);
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
-                await App.DialogCoordinator.HideMetroDialogAsync(MainWindowViewModel.Instance, dialog);
+                await CloseDialog();
                 await FileDownloader.Download(ReleaseFile.Url, saveFileDialog.FileName);
             }
         }

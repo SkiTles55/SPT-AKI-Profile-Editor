@@ -91,13 +91,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public async Task ShowUpdateDialog(object context, GitHubRelease release)
         {
             CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
-            RelayCommand closeCommand = new(async obj =>
-            {
-                await App.DialogCoordinator.HideMetroDialogAsync(context, updateDialog);
-            });
             await ShowCustomDialog<UpdateDialog>(context,
                                                  updateDialog,
-                                                 new UpdateDialogViewModel(closeCommand, release));
+                                                 new UpdateDialogViewModel(release));
         }
 
         public async Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
