@@ -45,7 +45,7 @@ namespace SPT_AKI_Profile_Editor
             _dialogManager = dialogManager;
         }
 
-        public Worker Worker { get; }
+        public IWorker Worker { get; }
 
         public string WindowTitle { get; }
 

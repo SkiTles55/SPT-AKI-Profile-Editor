@@ -10,7 +10,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public StashTab()
         {
             InitializeComponent();
-            DataContext = new StashTabViewModel(App.DialogManager, App.Worker);
         }
     }
 }

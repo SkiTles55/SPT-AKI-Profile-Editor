@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor
             _editMode = editMode;
         }
 
-        public Worker Worker { get; }
+        public IWorker Worker { get; }
 
         public RelayCommand OpenContainer => new(obj => App.OpenContainerWindow(obj, _editMode));
 

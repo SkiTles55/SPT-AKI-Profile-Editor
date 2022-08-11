@@ -15,10 +15,9 @@ namespace SPT_AKI_Profile_Editor
 
         public MainWindow()
         {
-            var viewModel = new MainWindowViewModel(App.DialogManager);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             InitializeComponent();
-            DataContext = viewModel;
+            DataContext = new MainWindowViewModel(App.DialogManager);
             this.AllowDragging();
         }
 

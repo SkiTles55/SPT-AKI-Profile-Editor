@@ -12,11 +12,12 @@ namespace SPT_AKI_Profile_Editor
     public class MainWindowViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IWorker _worker;
 
-        public MainWindowViewModel(IDialogManager dialogManager)
+        public MainWindowViewModel(IDialogManager dialogManager, IWorker worker = null)
         {
             _dialogManager = dialogManager;
-            App.Worker = new Worker(App.DialogCoordinator, this, _dialogManager);
+            _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
             Instance = this;
         }
 
@@ -28,7 +29,11 @@ namespace SPT_AKI_Profile_Editor
 
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
 
-        public BackupsTabViewModel BackupsTabViewModel => new(_dialogManager, App.Worker);
+        public BackupsTabViewModel BackupsTabViewModel => new(_dialogManager, _worker);
+
+        public StashTabViewModel StashTabViewModel => new(_dialogManager, _worker);
+
+        public WeaponBuildsViewModel WeaponBuildsViewModel => new(_dialogManager, _worker);
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
@@ -63,7 +68,7 @@ namespace SPT_AKI_Profile_Editor
             if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
                 await _dialogManager.ShutdownCozServerRunned(Instance);
             App.CloseItemViewWindows();
-            App.Worker.AddTask(new WorkerTask
+            _worker.AddTask(new WorkerTask
             {
                 Action = AppData.StartupEvents,
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
@@ -100,7 +105,7 @@ namespace SPT_AKI_Profile_Editor
 
         private void SaveAction()
         {
-            App.Worker.AddTask(SaveProfileTask());
+            _worker.AddTask(SaveProfileTask());
             StartupEventsWorker();
         }
 

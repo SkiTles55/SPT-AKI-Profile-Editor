@@ -10,7 +10,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public WeaponBuilds()
         {
             InitializeComponent();
-            DataContext = new WeaponBuildsViewModel(App.DialogManager, App.Worker);
         }
     }
 }

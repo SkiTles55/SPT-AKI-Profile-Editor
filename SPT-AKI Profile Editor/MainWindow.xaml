@@ -124,7 +124,7 @@
                 <views:ExaminedItemsTab />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:StashTab />
+                <views:StashTab DataContext="{Binding StashTabViewModel}" />
             </TabItem>
             <TabItem
                 Name="tabclothing"
@@ -133,7 +133,7 @@
                 <views:ClothingTab />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:WeaponBuilds />
+                <views:WeaponBuilds DataContext="{Binding WeaponBuildsViewModel}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:BackupsTab DataContext="{Binding BackupsTabViewModel}" />
