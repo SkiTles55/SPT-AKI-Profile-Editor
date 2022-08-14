@@ -28,6 +28,7 @@ An example of the DirsList and FilesList sections in the [AppSettings.json](ENGF
   },
 ```
 #### UPD for SPT-AKI 3.0.0: [Profile Editor does not work with version 3.0.0?](https://youtu.be/XO2r4dG_kpk)
+#### UPD: Starting from version 2.4 the program a dialog with a list of files\folders that could not be found in the selected folder. If necessary, you can edit the relative paths in this dialog.
 </br></br>
 
 ### Some items are missing in the "Adding items" window
@@ -75,3 +76,4 @@ Turn on "Adding missing Scav skills to the profile \ Adding missing weapon maste
 
 ### Names of items, quests, skills, etc. do not match the names in the game
 The language selected in the game does not match to the selected localization in the profile editor. If the required localization is missing, you can create the necessary one, using the English localization as a basis: [(Editing \ creating localization files)](/Guidelines/LocalizationsENG.md)
+#### UPD: Starting from version 2.4, you can create a new localization in the settings by clicking on the "+" button next to the selected language.

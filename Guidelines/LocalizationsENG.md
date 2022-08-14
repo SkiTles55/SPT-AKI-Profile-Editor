@@ -1,6 +1,8 @@
 ### Editing \ creating localization files:
 [RU version](/Guidelines/LocalizationsRu.md)
 
+#### UPD: Starting from version 2.4, you can create and edit localizations in the settings.
+
 Localization files are generated in the [Localizations](/ENGFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) folder when the application is first launched.
 Files can be edited and new ones created.
 When the application starts, they will be loaded and displayed in the corresponding field of the settings dialog.
