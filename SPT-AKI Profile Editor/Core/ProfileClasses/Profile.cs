@@ -73,7 +73,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
                 JsonSerializer serializer = JsonSerializer.Create(seriSettings);
-                var build = ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(weaponBuild, serializer));
+                var build = JObject.FromObject(weaponBuild, serializer).RemoveNullAndEmptyProperties();
                 File.WriteAllText(path, JsonConvert.SerializeObject(build, Formatting.Indented));
             }
             catch (Exception ex)
@@ -275,7 +275,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             WriteStash(pmc, Characters.Pmc.Inventory);
             WriteStash(scav, Characters.Scav.Inventory);
-            jobject.SelectToken("weaponbuilds").Replace(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(WeaponBuilds)));
+            jobject.SelectToken("weaponbuilds").Replace(JObject.FromObject(WeaponBuilds).RemoveNullAndEmptyProperties());
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
@@ -343,7 +343,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     JsonSerializer serializer = JsonSerializer.Create(seriSettings);
                     foreach (var item in inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
                         characterToken.SelectToken("Inventory")?.SelectToken("items")?.LastOrDefault()?
-                            .AddAfterSelf(ExtMethods.RemoveNullAndEmptyProperties(JObject.FromObject(item, serializer)));
+                            .AddAfterSelf(JObject.FromObject(item, serializer).RemoveNullAndEmptyProperties());
                 }
             }
 

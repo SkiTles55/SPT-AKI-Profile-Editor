@@ -46,7 +46,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonProperty("statusTimers")]
-        public Dictionary<QuestStatus, int> StatusTimers { get; set; }
+        public Dictionary<QuestStatus, double> StatusTimers { get; set; }
 
         [JsonIgnore]
         public string LocalizedTraderName => AppData.ServerDatabase.LocalesGlobal.Trading.ContainsKey(QuestTrader) ? AppData.ServerDatabase.LocalesGlobal.Trading[QuestTrader].Nickname : QuestTrader;

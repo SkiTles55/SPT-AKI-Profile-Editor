@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,15 +9,7 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();
 
-        public static int GetTimestamp => (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-        public static JObject RemoveNullAndEmptyProperties(JObject jObject)
-        {
-            while (jObject.Descendants().Any(IsNullOrEmptyProperty()))
-                foreach (var jt in jObject.Descendants().Where(IsNullOrEmptyProperty()).ToArray())
-                    jt.Remove();
-            return jObject;
-        }
+        public static double GetTimestamp => Math.Floor(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
 
         public static string GenerateNewId(IEnumerable<string> ids)
         {
@@ -34,13 +25,6 @@ namespace SPT_AKI_Profile_Editor.Core
             } while (ids.Contains(id));
             return id;
         }
-
-        private static Func<JToken, bool> IsNullOrEmptyProperty() =>
-            jt => jt.Type == JTokenType.Property && IsNullOrEmpty(jt);
-
-        private static bool IsNullOrEmpty(JToken jt) =>
-            jt.Values()
-            .All(a => a.Type == JTokenType.Null) || !jt.Values().Any();
 
         private static string MakeSign(int length, Random random)
         {
