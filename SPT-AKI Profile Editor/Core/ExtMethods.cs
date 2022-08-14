@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 
@@ -11,14 +10,6 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();
 
-        public static void OpenUrl(string url)
-        {
-            ProcessStartInfo link = new(url)
-            {
-                UseShellExecute = true
-            };
-            Process.Start(link);
-        }
 
         public static JObject RemoveNullAndEmptyProperties(JObject jObject)
         {

@@ -93,7 +93,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
             await ShowCustomDialog<UpdateDialog>(context,
                                                  updateDialog,
-                                                 new UpdateDialogViewModel(release));
+                                                 new UpdateDialogViewModel(App.ApplicationManager, release));
         }
 
         public async Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
@@ -117,7 +117,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog pathEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), 500);
             await ShowCustomDialog<ServerPathEditor>(context,
                                                      pathEditorDialog,
-                                                     new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.OpenFAQ));
+                                                     new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.Instance.OpenFAQ));
         }
 
         public async Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)

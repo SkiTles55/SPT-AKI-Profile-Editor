@@ -16,22 +16,22 @@ namespace SPT_AKI_Profile_Editor
         private readonly IApplicationManager _applicationManager;
 
         public MainWindowViewModel(IDialogManager dialogManager,
-                                   IWorker worker = null,
-                                   IApplicationManager applicationManager = null)
+                                   IApplicationManager applicationManager,
+                                   IWorker worker = null)
         {
             _dialogManager = dialogManager;
+            _applicationManager = applicationManager;
             _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
             Instance = this;
-            _applicationManager = applicationManager ?? App.ApplicationManager;
         }
 
         public static MainWindowViewModel Instance { get; set; }
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
 
-        public static RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
-
         public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
+
+        public RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
         public BackupsTabViewModel BackupsTabViewModel => new(_dialogManager, _worker);
 
@@ -101,10 +101,10 @@ namespace SPT_AKI_Profile_Editor
 
         private static void ChangeMode() => AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
 
-        private static void OpenFAQUrl()
+        private void OpenFAQUrl()
         {
             var link = $"https://github.com/{AppData.AppSettings.repoAuthor}/{AppData.AppSettings.repoName}/blob/master/{(AppData.AppSettings.Language == "ru" ? "FAQ" : "ENGFAQ")}.md";
-            ExtMethods.OpenUrl(link);
+            _applicationManager.OpenUrl(link);
         }
 
         private void SaveAction()

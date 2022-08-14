@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 
 namespace SPT_AKI_Profile_Editor.Helpers
@@ -18,6 +19,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void CloseItemViewWindows(List<string> idsList = null);
 
         public void ChangeTheme();
+
+        public void OpenUrl(string url);
     }
 
     public class ApplicationManager : IApplicationManager
@@ -58,6 +61,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
         }
 
         public void ChangeTheme() => ThemeManager.Current.ChangeTheme(Application.Current, AppData.AppSettings.ColorScheme);
+
+        public void OpenUrl(string url)
+        {
+            ProcessStartInfo link = new(url)
+            {
+                UseShellExecute = true
+            };
+            Process.Start(link);
+        }
 
         private static bool CheckForOpenedWindow(string itemId)
         {

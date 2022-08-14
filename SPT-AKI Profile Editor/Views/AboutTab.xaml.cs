@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Core;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Navigation;
 
 namespace SPT_AKI_Profile_Editor.Views
@@ -17,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            ExtMethods.OpenUrl(e.Uri.AbsoluteUri);
+            App.ApplicationManager.OpenUrl(e.Uri.AbsoluteUri);
             e.Handled = true;
         }
     }

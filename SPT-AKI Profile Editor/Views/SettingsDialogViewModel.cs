@@ -32,8 +32,8 @@ namespace SPT_AKI_Profile_Editor
             .Select(x => new AccentItem(x));
 
         public static RelayCommand CloseCommand { get; set; }
-        public static RelayCommand OpenAppData => new(obj => ExtMethods.OpenUrl(DefaultValues.AppDataFolder));
         public static RelayCommand ResetLocalizations => new(obj => Directory.Delete(AppLocalization.localizationsDir, true));
+        public RelayCommand OpenAppData => new(obj => _applicationManager.OpenUrl(DefaultValues.AppDataFolder));
         public RelayCommand QuitCommand => _applicationManager.CloseApplication;
 
         public RelayCommand ResetAndReload => new(async obj =>

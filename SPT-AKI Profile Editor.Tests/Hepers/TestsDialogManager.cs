@@ -12,6 +12,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     {
         public bool LocalizationEditorDialogOpened = false;
         public bool SettingsDialogOpened = false;
+        public bool UpdateDialogOpened = false;
+        public bool ShutdownCozServerRunnedOpened = false;
 
         public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
         {
@@ -48,12 +50,14 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowUpdateDialog(object context, GitHubRelease release)
         {
-            throw new NotImplementedException();
+            UpdateDialogOpened = true;
+            return Task.CompletedTask;
         }
 
         public Task ShutdownCozServerRunned(object context)
         {
-            throw new NotImplementedException();
+            ShutdownCozServerRunnedOpened = true;
+            return Task.CompletedTask;
         }
 
         public Task<bool> YesNoDialog(object context, string title, string caption) => Task.FromResult(true);

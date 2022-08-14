@@ -1,5 +1,4 @@
 ﻿using ReleaseChecker.GitHub;
-using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +8,16 @@ namespace SPT_AKI_Profile_Editor
 {
     public class UpdateDialogViewModel : ClosableDialogViewModel
     {
-        public UpdateDialogViewModel(GitHubRelease release) => Release = release;
+        private readonly IApplicationManager applicationManager;
+
+        public UpdateDialogViewModel(IApplicationManager applicationManager, GitHubRelease release)
+        {
+            this.applicationManager = applicationManager;
+            Release = release;
+        }
 
         public RelayCommand DownloadRelease => new(async obj => await Download());
-        public RelayCommand OpenReleaseUrl => new(obj => ExtMethods.OpenUrl(Release.Url));
+        public RelayCommand OpenReleaseUrl => new(obj => applicationManager.OpenUrl(Release.Url));
         public GitHubRelease Release { get; }
         public GithubReleaseFile ReleaseFile => Release.Files?.First();
 

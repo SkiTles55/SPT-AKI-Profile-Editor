@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.Linq;
 
@@ -46,6 +47,24 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
+        public void CanOpenContainer()
+        {
+            var applicationManager = new TestsApplicationManager();
+            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC, applicationManager);
+            pmcContainer.OpenContainer.Execute(null);
+            Assert.That(applicationManager.ContainerWindowOpened, Is.True);
+        }
+
+        [Test]
+        public void CanInspectWeapon()
+        {
+            var applicationManager = new TestsApplicationManager();
+            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC, applicationManager);
+            pmcContainer.InspectWeapon.Execute(null);
+            Assert.That(applicationManager.WeaponBuildWindowOpened, Is.True);
+        }
+
+        [Test]
         public void CanRemoveItem()
         {
             ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
@@ -77,7 +96,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(pmcContainer.Items.Where(x => x.Tpl == "544fb37f4bdc2dee738b4567").FirstOrDefault(), Is.Not.Null, "Item not added");
         }
 
-        private static ContainerWindowViewModel TestViewModel(StashEditMode editMode)
+        private static ContainerWindowViewModel TestViewModel(StashEditMode editMode, IApplicationManager applicationManager = null)
         {
             TestHelpers.SetupTestCharacters("ContainerWindowViewModel", editMode);
             InventoryItem item = new()
@@ -85,7 +104,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestHelpers.GetTestName("ContainerWindowViewModel", editMode),
                 Tpl = TestHelpers.GetTestName("ContainerWindowViewModel", editMode)
             };
-            return new(item, editMode, null, dialogManager, null, worker);
+            return new(item, editMode, null, dialogManager, applicationManager, worker);
         }
     }
 }
