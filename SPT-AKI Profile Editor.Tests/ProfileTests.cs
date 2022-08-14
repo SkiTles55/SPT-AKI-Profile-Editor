@@ -264,6 +264,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == QuestStatus.Fail)
+                && AppData.Profile.Characters.Pmc.Quests.All(x => x.StatusTimers.ContainsKey(QuestStatus.Fail))
                 && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() >= AppData.ServerDatabase.QuestsData.Count);
         }
 

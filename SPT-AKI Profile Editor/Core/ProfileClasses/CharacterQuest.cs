@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -36,9 +37,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (!Type.GetAvailableStatuses().Contains(newStatus))
                     newStatus = GetNewStatus(newStatus);
                 status = newStatus;
+                if (StatusTimers == null)
+                    StatusTimers = new();
+                if (!StatusTimers.ContainsKey(newStatus))
+                    StatusTimers.Add(newStatus, ExtMethods.GetTimestamp);
                 OnPropertyChanged("Status");
             }
         }
+
+        [JsonProperty("statusTimers")]
+        public Dictionary<QuestStatus, int> StatusTimers { get; set; }
 
         [JsonIgnore]
         public string LocalizedTraderName => AppData.ServerDatabase.LocalesGlobal.Trading.ContainsKey(QuestTrader) ? AppData.ServerDatabase.LocalesGlobal.Trading[QuestTrader].Nickname : QuestTrader;

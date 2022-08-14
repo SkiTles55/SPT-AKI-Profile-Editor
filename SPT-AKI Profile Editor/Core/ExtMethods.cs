@@ -10,6 +10,7 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public static string WindowsCulture => CultureInfo.CurrentCulture.Parent.ToString();
 
+        public static int GetTimestamp => (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
         public static JObject RemoveNullAndEmptyProperties(JObject jObject)
         {

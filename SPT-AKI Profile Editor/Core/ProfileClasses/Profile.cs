@@ -289,7 +289,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         var quest = pmc.SelectToken("Quests")[index].ToObject<CharacterQuest>();
                         var edited = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
                         if (edited != null && quest != null)
+                        {
                             pmc.SelectToken("Quests")[index]["status"] = edited.Status.ToString();
+                            pmc.SelectToken("Quests")[index]["statusTimers"] = JObject.FromObject(edited.StatusTimers);
+                        }
                     }
                     foreach (var quest in Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
                         pmc.SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
