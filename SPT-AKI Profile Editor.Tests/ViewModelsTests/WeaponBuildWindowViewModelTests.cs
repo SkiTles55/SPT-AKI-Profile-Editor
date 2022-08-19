@@ -66,7 +66,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.LoadDatabase();
             AppData.Profile.Load(TestHelpers.profileFile);
             var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, StashEditMode.PMC, DialogCoordinator.Instance, dialogManager);
+            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, StashEditMode.PMC, DialogCoordinator.Instance, dialogManager, null);
             Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             pmcWeaponBuild.RemoveItem.Execute(null);
             Assert.That(() => AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == weapon.Id),
@@ -79,7 +79,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.LoadDatabase();
             AppData.Profile.Load(TestHelpers.profileFile);
             var weapon = AppData.Profile.Characters.Scav.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, StashEditMode.Scav, DialogCoordinator.Instance, dialogManager);
+            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, StashEditMode.Scav, DialogCoordinator.Instance, dialogManager, null);
             Assert.That(scavWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             scavWeaponBuild.RemoveItem.Execute(null);
             Assert.That(() => AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == weapon.Id),
@@ -94,7 +94,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestHelpers.GetTestName("WeaponBuildWindowViewModel", editMode),
                 Tpl = TestHelpers.GetTestName("WeaponBuildWindowViewModel", editMode)
             };
-            return new(item, editMode, DialogCoordinator.Instance, dialogManager);
+            return new(item, editMode, DialogCoordinator.Instance, dialogManager, null);
         }
     }
 }

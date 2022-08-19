@@ -2,17 +2,18 @@
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
     public class UpdateDialogViewModel : ClosableDialogViewModel
     {
         private readonly IApplicationManager applicationManager;
+        private readonly IWindowsDialogs _windowsDialogs;
 
-        public UpdateDialogViewModel(IApplicationManager applicationManager, GitHubRelease release)
+        public UpdateDialogViewModel(IApplicationManager applicationManager, IWindowsDialogs windowsDialogs, GitHubRelease release)
         {
             this.applicationManager = applicationManager;
+            _windowsDialogs = windowsDialogs;
             Release = release;
         }
 
@@ -25,13 +26,14 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task Download()
         {
-            if (ReleaseFile == null)
-                return;
-            var saveFileDialog = WindowsDialogs.SaveFileDialog(ReleaseFile.Name);
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (ReleaseFile != null)
             {
-                await CloseDialog();
-                await FileDownloader.Download(ReleaseFile.Url, saveFileDialog.FileName);
+                var (success, path) = _windowsDialogs.SaveFileDialog(ReleaseFile.Name);
+                if (success)
+                {
+                    await CloseDialog();
+                    await FileDownloader.Download(ReleaseFile.Url, path);
+                }
             }
         }
     }

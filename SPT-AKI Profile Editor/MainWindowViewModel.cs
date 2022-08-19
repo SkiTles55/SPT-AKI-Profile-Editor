@@ -12,14 +12,17 @@ namespace SPT_AKI_Profile_Editor
     public class MainWindowViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IWindowsDialogs _windowsDialogs;
         private readonly IWorker _worker;
         private readonly IApplicationManager _applicationManager;
 
         public MainWindowViewModel(IDialogManager dialogManager,
                                    IApplicationManager applicationManager,
+                                   IWindowsDialogs windowsDialogs,
                                    IWorker worker = null)
         {
             _dialogManager = dialogManager;
+            _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
             Instance = this;
@@ -37,7 +40,7 @@ namespace SPT_AKI_Profile_Editor
 
         public StashTabViewModel StashTabViewModel => new(_dialogManager, _worker, _applicationManager);
 
-        public WeaponBuildsViewModel WeaponBuildsViewModel => new(_dialogManager, _worker);
+        public WeaponBuildsViewModel WeaponBuildsViewModel => new(_dialogManager, _worker, _windowsDialogs);
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 

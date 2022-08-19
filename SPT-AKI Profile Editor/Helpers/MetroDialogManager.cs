@@ -85,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (startValues != newValues)
                     MainWindowViewModel.Instance.StartupEventsWorker();
             });
-            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.ApplicationManager, index));
+            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.WindowsDialogs, App.ApplicationManager, index));
         }
 
         public async Task ShowUpdateDialog(object context, GitHubRelease release)
@@ -93,7 +93,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
             await ShowCustomDialog<UpdateDialog>(context,
                                                  updateDialog,
-                                                 new UpdateDialogViewModel(App.ApplicationManager, release));
+                                                 new UpdateDialogViewModel(App.ApplicationManager, App.WindowsDialogs, release));
         }
 
         public async Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)

@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), null);
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.RemoveBuild, Is.Not.Null);
             Assert.That(viewModel.RemoveBuilds, Is.Not.Null);
@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             TestHelpers.LoadDatabaseAndProfile();
             if (!AppData.Profile.HasWeaponBuilds)
                 AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             var build = AppData.Profile.WeaponBuilds.Values.FirstOrDefault();
             Assert.That(build, Is.Not.Null);
             var count = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Tpl == build.RootTpl).Count();
@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             TestHelpers.LoadDatabaseAndProfile();
             if (!AppData.Profile.HasWeaponBuilds)
                 AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             var buildId = AppData.Profile.WeaponBuilds.Keys.FirstOrDefault();
             Assert.That(string.IsNullOrEmpty(buildId), Is.False);
             viewModel.RemoveBuild.Execute(buildId);
@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             if (!AppData.Profile.HasWeaponBuilds)
                 AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
             Assert.That(AppData.Profile.HasWeaponBuilds, Is.True);
-            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             viewModel.RemoveBuilds.Execute(null);
             Assert.That(AppData.Profile.HasWeaponBuilds, Is.False);
         }

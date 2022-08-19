@@ -15,15 +15,17 @@ namespace SPT_AKI_Profile_Editor
     public class SettingsDialogViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
+        private readonly IWindowsDialogs _windowsDialogs;
         private readonly IApplicationManager _applicationManager;
         private int selectedTab;
 
-        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, IApplicationManager applicationManager, int index = 0)
+        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, IWindowsDialogs windowsDialogs, IApplicationManager applicationManager, int index = 0)
         {
             CloseCommand = command;
             SelectedTab = index;
             AppSettings = AppData.AppSettings;
             _dialogManager = dialogManager;
+            _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
         }
 
@@ -129,18 +131,20 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task ServerSelectDialog()
         {
-            var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(false, AppLocalization.GetLocalizedString("server_select"));
+            string startPath = null;
             if (!string.IsNullOrEmpty(ServerPath) && Directory.Exists(ServerPath))
-                folderBrowserDialog.SelectedPath = ServerPath;
-            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
-                return;
-            var checkResult = AppSettings.CheckServerPath(folderBrowserDialog.SelectedPath);
-            if (checkResult?.All(x => x.IsFounded) == true)
+                startPath = ServerPath;
+            var (success, path) = _windowsDialogs.FolderBrowserDialog(false, startPath, AppLocalization.GetLocalizedString("server_select"));
+            if (success)
             {
-                ServerPath = folderBrowserDialog.SelectedPath;
-                return;
+                var checkResult = AppSettings.CheckServerPath(path);
+                if (checkResult?.All(x => x.IsFounded) == true)
+                {
+                    ServerPath = path;
+                    return;
+                }
+                await _dialogManager.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
             }
-            await _dialogManager.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
         }
     }
 }

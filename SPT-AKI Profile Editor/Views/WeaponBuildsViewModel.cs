@@ -4,18 +4,19 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
     public class WeaponBuildsViewModel : BindableViewModel
     {
-        public readonly IDialogManager _dialogManager;
-        public readonly IWorker _worker;
+        private readonly IDialogManager _dialogManager;
+        private readonly IWindowsDialogs _windowsDialogs;
+        private readonly IWorker _worker;
 
-        public WeaponBuildsViewModel(IDialogManager dialogManager, IWorker worker)
+        public WeaponBuildsViewModel(IDialogManager dialogManager, IWorker worker, IWindowsDialogs windowsDialogs)
         {
             _dialogManager = dialogManager;
+            _windowsDialogs = windowsDialogs;
             _worker = worker;
         }
 
@@ -33,48 +34,52 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void ExportBuildToFile(object obj)
         {
-            if (obj == null || obj is not WeaponBuild build)
-                return;
-            var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(build.Name);
-            if (saveBuildDialog.ShowDialog() != DialogResult.OK)
-                return;
-            _worker.AddTask(new WorkerTask
+            if (obj != null && obj is WeaponBuild build)
             {
-                Action = () => Profile.ExportBuild(build, saveBuildDialog.FileName),
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("tab_presets_export")
-            });
+                var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(build.Name);
+                if (success)
+                {
+                    _worker.AddTask(new WorkerTask
+                    {
+                        Action = () => Profile.ExportBuild(build, path),
+                        Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                        Description = AppLocalization.GetLocalizedString("tab_presets_export")
+                    });
+                }
+            }
         }
 
         private void ExportAllBuilds()
         {
-            var folderBrowserDialog = WindowsDialogs.FolderBrowserDialog(true);
-            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
-                return;
-            foreach (var build in Profile.WeaponBuilds)
+            var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
+            if (success)
             {
-                _worker.AddTask(new WorkerTask
+                foreach (var build in Profile.WeaponBuilds)
                 {
-                    Action = () => Profile.ExportBuild(build.Value, Path.Combine(folderBrowserDialog.SelectedPath, $"Weapon preset {build.Value.Name}.json")),
-                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                    Description = AppLocalization.GetLocalizedString("tab_presets_export")
-                });
+                    _worker.AddTask(new WorkerTask
+                    {
+                        Action = () => Profile.ExportBuild(build.Value, Path.Combine(path, $"Weapon preset {build.Value.Name}.json")),
+                        Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                        Description = AppLocalization.GetLocalizedString("tab_presets_export")
+                    });
+                }
             }
         }
 
         private void ImportBuildsFromFiles()
         {
-            var openFileDialog = WindowsDialogs.OpenWeaponBuildDialog();
-            if (openFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-            foreach (var file in openFileDialog.FileNames)
+            var (success, path, paths) = _windowsDialogs.OpenWeaponBuildDialog();
+            if (success)
             {
-                _worker.AddTask(new WorkerTask
+                foreach (var file in paths)
                 {
-                    Action = () => Profile.ImportBuildFromFile(file),
-                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                    Description = AppLocalization.GetLocalizedString("tab_presets_import")
-                });
+                    _worker.AddTask(new WorkerTask
+                    {
+                        Action = () => Profile.ImportBuildFromFile(file),
+                        Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                        Description = AppLocalization.GetLocalizedString("tab_presets_import")
+                    });
+                }
             }
         }
 

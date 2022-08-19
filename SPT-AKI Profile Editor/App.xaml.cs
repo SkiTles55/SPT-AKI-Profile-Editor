@@ -15,6 +15,7 @@ namespace SPT_AKI_Profile_Editor
         public static readonly IDialogManager DialogManager = new MetroDialogManager();
         public static readonly IApplicationManager ApplicationManager = new ApplicationManager();
         public static readonly IDialogCoordinator DialogCoordinator = MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
+        public static readonly IWindowsDialogs WindowsDialogs = new WindowsDialogs();
 
         public static void HandleException(Exception exception)
         {

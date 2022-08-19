@@ -31,6 +31,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(dialogManager.LocalizationEditorDialogOpened, Is.True, "LocalizationEditorDialog not opened");
         }
 
-        private static SettingsDialogViewModel TestViewModel(int index = 0) => new(null, dialogManager, null, index);
+        private static SettingsDialogViewModel TestViewModel(int index = 0) => new(null, dialogManager, null, null, index);
     }
 }

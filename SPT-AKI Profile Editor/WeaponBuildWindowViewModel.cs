@@ -6,7 +6,6 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace SPT_AKI_Profile_Editor
 {
@@ -15,13 +14,16 @@ namespace SPT_AKI_Profile_Editor
         private readonly InventoryItem _item;
         private readonly StashEditMode _editMode;
         private readonly IDialogManager _dialogManager;
+        private readonly IWindowsDialogs _windowsDialogs;
 
         public WeaponBuildWindowViewModel(InventoryItem item,
                                           StashEditMode editMode,
                                           IDialogCoordinator dialogCoordinator,
-                                          IDialogManager dialogManager)
+                                          IDialogManager dialogManager,
+                                          IWindowsDialogs windowsDialogs)
         {
             _dialogManager = dialogManager;
+            _windowsDialogs = windowsDialogs;
             Worker = new Worker(dialogCoordinator, this, _dialogManager);
             WindowTitle = item.LocalizedName;
             _item = item;
@@ -42,7 +44,6 @@ namespace SPT_AKI_Profile_Editor
             if (innerItems != null)
                 items.AddRange(innerItems);
             WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
-            _dialogManager = dialogManager;
         }
 
         public IWorker Worker { get; }
@@ -70,12 +71,12 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand ExportBuild => new(obj =>
         {
-            var saveBuildDialog = WindowsDialogs.SaveWeaponBuildDialog(WeaponBuild.Name);
-            if (saveBuildDialog.ShowDialog() == DialogResult.OK)
+            var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(WeaponBuild.Name);
+            if (success)
             {
                 Worker.AddTask(new WorkerTask
                 {
-                    Action = () => { Profile.ExportBuild(WeaponBuild, saveBuildDialog.FileName); },
+                    Action = () => { Profile.ExportBuild(WeaponBuild, path); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("tab_presets_export")
                 });
