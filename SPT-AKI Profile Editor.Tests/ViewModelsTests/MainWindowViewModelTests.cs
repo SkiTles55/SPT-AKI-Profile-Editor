@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(_viewModel.StashTabViewModel, Is.Not.Null, "StashTabViewModel is null");
             Assert.That(_viewModel.WeaponBuildsViewModel, Is.Not.Null, "WeaponBuildsViewModel is null");
             Assert.That(App.DialogCoordinator, Is.Not.Null, "DialogCoordinator is null");
-            Assert.That(MainWindowViewModel.WindowTitle, Is.Not.Empty, "WindowTitle is empty");
+            Assert.That(_viewModel.WindowTitle, Is.EqualTo("TestTitle"), "MainWindowViewModel has wrong title");
             Assert.AreEqual(_viewModel, MainWindowViewModel.Instance, "MainWindowViewModel.Instance is not MainWindowViewModel");
         }
 
@@ -84,6 +84,42 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.Profile.Characters.Pmc.Info.Nickname = "TestNickname";
             _viewModel.ReloadButtonCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.Info.Nickname, Is.EqualTo(expected).And.Not.EqualTo("TestNickname"));
+        }
+
+        [Test]
+        public void CanShowIssuesDialog()
+        {
+            dialogManager.IssuesDialogOpened = false;
+            AppData.AppSettings.IssuesAction = Core.Enums.IssuesAction.AlwaysShow;
+            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            _viewModel.InitializeViewModelCommand.Execute(null);
+            AppData.Profile.Characters.Pmc.Info.Level = 1;
+            AppData.Profile.Characters.Pmc.SetAllTradersMax();
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
+            _viewModel.SaveButtonCommand.Execute(null);
+            Assert.That(dialogManager.IssuesDialogOpened, Is.True);
+        }
+
+        [Test]
+        public void CanShowShutdownCozServerRunned()
+        {
+            dialogManager.ShutdownCozServerRunnedOpened = false;
+            applicationManager.ServerRunned = true;
+            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            _viewModel.InitializeViewModelCommand.Execute(null);
+            Assert.That(dialogManager.ShutdownCozServerRunnedOpened, Is.True);
+            applicationManager.ServerRunned = false;
+        }
+
+        [Test]
+        public void CanShowUpdateDialog()
+        {
+            dialogManager.UpdateDialogOpened = false;
+            applicationManager.HasUpdate = true;
+            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            _viewModel.InitializeViewModelCommand.Execute(null);
+            Assert.That(dialogManager.UpdateDialogOpened, Is.True);
+            applicationManager.HasUpdate = false;
         }
     }
 }

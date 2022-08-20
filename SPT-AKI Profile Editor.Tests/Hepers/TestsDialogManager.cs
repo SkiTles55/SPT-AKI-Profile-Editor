@@ -14,6 +14,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool SettingsDialogOpened = false;
         public bool UpdateDialogOpened = false;
         public bool ShutdownCozServerRunnedOpened = false;
+        public bool IssuesDialogOpened = false;
 
         public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
         {
@@ -23,7 +24,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
         {
-            throw new NotImplementedException();
+            IssuesDialogOpened = true;
+            return Task.CompletedTask;
         }
 
         public Task ShowLocalizationEditorDialog(object context, bool isEdit = true)

@@ -32,7 +32,7 @@ namespace SPT_AKI_Profile_Editor
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
 
-        public static string WindowTitle => UpdatesChecker.GetAppTitleWithVersion();
+        public string WindowTitle => _applicationManager.GetAppTitleWithVersion();
 
         public RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
@@ -72,7 +72,7 @@ namespace SPT_AKI_Profile_Editor
 
         public async void StartupEventsWorker()
         {
-            if (AppData.AppSettings.PathIsServerFolder() && ServerChecker.CheckProcess())
+            if (AppData.AppSettings.PathIsServerFolder() && _applicationManager.CheckProcess())
                 await _dialogManager.ShutdownCozServerRunned(Instance);
             _applicationManager.CloseItemViewWindows();
             _worker.AddTask(new WorkerTask
@@ -132,7 +132,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task CheckForUpdates()
         {
-            var release = await UpdatesChecker.CheckUpdate();
+            var release = await _applicationManager.CheckUpdate();
             if (release != null)
                 await _dialogManager.ShowUpdateDialog(this, release);
         }
