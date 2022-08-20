@@ -1,7 +1,10 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
+using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -58,6 +61,50 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             viewModel.RemoveBuilds.Execute(null);
             Assert.That(AppData.Profile.HasWeaponBuilds, Is.False);
+        }
+
+        [Test]
+        public void CanExportBuildToFile()
+        {
+            TestsWindowsDialogs windowsDialogs = new();
+            TestHelpers.LoadDatabaseAndProfile();
+            if (!AppData.Profile.HasWeaponBuilds)
+                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
+            var build = AppData.Profile.WeaponBuilds.Values.FirstOrDefault();
+            Assert.That(build, Is.Not.Null);
+            viewModel.ExportBuild.Execute(build);
+            Assert.That(File.Exists(windowsDialogs.weaponBuildExportPath), "WeaponBuild not exported");
+            WeaponBuild exportedBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(windowsDialogs.weaponBuildExportPath));
+            Assert.That(exportedBuild, Is.Not.Null, "Unable to read exported weapon build");
+            Assert.That(exportedBuild.RootTpl, Is.EqualTo(build.RootTpl), "Exported wrong weapon");
+        }
+
+        [Test]
+        public void CanExportBuilds()
+        {
+            TestsWindowsDialogs windowsDialogs = new()
+            {
+                folderBrowserDialogMode = FolderBrowserDialogMode.weaponBuildsExport
+            };
+            TestHelpers.LoadDatabaseAndProfile();
+            if (!AppData.Profile.HasWeaponBuilds)
+                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
+            var expectedCount = AppData.Profile.WeaponBuilds.Count;
+            viewModel.ExportBuilds.Execute(null);
+            Assert.That(Directory.EnumerateFiles(windowsDialogs.weaponBuildsExportPath).Count(), Is.EqualTo(expectedCount));
+        }
+
+        [Test]
+        public void CanImportBuilds()
+        {
+            TestsWindowsDialogs windowsDialogs = new();
+            TestHelpers.LoadDatabaseAndProfile();
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
+            var startCount = AppData.Profile.WeaponBuilds.Count;
+            viewModel.ImportBuilds.Execute(null);
+            Assert.That(AppData.Profile.WeaponBuilds.Count, Is.EqualTo(startCount + 2));
         }
     }
 }

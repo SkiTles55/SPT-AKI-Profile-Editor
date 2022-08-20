@@ -27,9 +27,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand AddItem => new(obj =>
         {
-            if (obj == null || obj is not AddableItem item)
-                return;
-            _worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
+            if (obj != null && obj is AddableItem item)
+                _worker.AddTask(new WorkerTask { Action = () => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item) });
         });
 
         public ScavStashTabViewModel ScavStashTabViewModel => new(_dialogManager, _worker, _applicationManager);
@@ -65,18 +64,17 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private async Task RemoveItemFromStash(string obj)
         {
-            if (string.IsNullOrEmpty(obj))
-                return;
-            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+            if (!string.IsNullOrEmpty(obj) && await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
                 Profile.Characters.Pmc.Inventory.RemoveItems(new() { obj });
         }
 
         private async Task ShowAddMoneyDialog(string obj)
         {
-            if (string.IsNullOrEmpty(obj))
-                return;
-            var money = TarkovItem.CopyFrom(ServerDatabase.ItemsDB[obj]);
-            await _dialogManager.ShowAddMoneyDialog(this, money, AddMoneyDialogCommand(money));
+            if (!string.IsNullOrEmpty(obj))
+            {
+                var money = TarkovItem.CopyFrom(ServerDatabase.ItemsDB[obj]);
+                await _dialogManager.ShowAddMoneyDialog(this, money, AddMoneyDialogCommand(money));
+            }
         }
 
         private RelayCommand AddMoneyDialogCommand(AddableItem money) => new(obj => _worker.AddTask(new WorkerTask

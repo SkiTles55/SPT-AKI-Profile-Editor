@@ -20,18 +20,18 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");
 
-        public static readonly string AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData");
+        public static readonly string appDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData");
 
         static TestHelpers()
         {
-            if (!Directory.Exists(AppDataPath))
+            if (!Directory.Exists(appDataPath))
             {
-                DirectoryInfo dir = new(AppDataPath);
+                DirectoryInfo dir = new(appDataPath);
                 dir.Create();
             }
             else
             {
-                DirectoryInfo di = new(AppDataPath);
+                DirectoryInfo di = new(appDataPath);
                 foreach (FileInfo file in di.GetFiles())
                     file.Delete();
                 foreach (DirectoryInfo dir in di.GetDirectories())

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
@@ -48,6 +49,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
             Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysEurosTpl));
+        }
+
+        [Test]
+        public void CanInitializeForWrongItem()
+        {
+            var money = AppData.ServerDatabase.ItemsDB.Values.First();
+            MoneyDailogViewModel viewModel = new(money, null);
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
+            Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.EuroSignSolid));
+            Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
+            Assert.That(viewModel.Moneys, Is.Not.Null);
+            Assert.That(viewModel.Moneys.Id, Is.Not.EqualTo(AppData.AppSettings.MoneysEurosTpl));
         }
 
         [Test]

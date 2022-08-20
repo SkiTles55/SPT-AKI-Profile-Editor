@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private BackupService backupService;
 
         [OneTimeSetUp]
-        public void Setup() => backupService = new(Path.Combine(TestHelpers.AppDataPath, "Backups"));
+        public void Setup() => backupService = new(Path.Combine(TestHelpers.appDataPath, "Backups"));
 
         [Test]
         public void BackupServiceIsNotNull() => Assert.IsNotNull(backupService);

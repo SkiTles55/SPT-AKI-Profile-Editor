@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [OneTimeSetUp]
         public void Setup()
         {
-            settings = new(Path.Combine(TestHelpers.AppDataPath, "AppSettings.json"));
+            settings = new(Path.Combine(TestHelpers.appDataPath, "AppSettings.json"));
             settings.Load();
         }
 

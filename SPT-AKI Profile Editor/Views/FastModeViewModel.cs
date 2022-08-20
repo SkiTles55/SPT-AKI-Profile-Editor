@@ -10,9 +10,9 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class FastModeViewModel : BindableViewModel
     {
-        private CharacterInfo pmc = new();
+        private CharacterInfo pmc;
 
-        private CharacterInfo scav = new();
+        private CharacterInfo scav;
 
         private bool firstOpen = true;
 
@@ -23,6 +23,12 @@ namespace SPT_AKI_Profile_Editor.Views
         private float setAllScavSkillsValue;
 
         private float setAllScavMasteringsValue;
+
+        public FastModeViewModel()
+        {
+            Pmc = new();
+            Scav = new();
+        }
 
         public static AppSettings AppSettings => AppData.AppSettings;
 
