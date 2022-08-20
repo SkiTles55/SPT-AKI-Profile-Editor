@@ -1,9 +1,12 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
+using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -11,11 +14,13 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class WeaponBuildWindowViewModelTests
     {
         private static readonly TestsDialogManager dialogManager = new();
+        private static readonly TestsWindowsDialogs windowsDialogs = new();
+        private static readonly TestsWorker worker = new();
 
         [Test]
         public void InitializeCorrectlyForPmc()
         {
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC);
+            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC, worker);
             Assert.Multiple(() =>
             {
                 Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
@@ -29,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void InitializeCorrectlyForScav()
         {
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav);
+            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav, worker);
             Assert.Multiple(() =>
             {
                 Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
@@ -44,49 +49,65 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanAddWeaponToWeaponBuildsFromPmc()
         {
             AppData.Profile.WeaponBuilds = new();
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC);
+            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC, worker);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)),
-                Is.True.After(2).Seconds.PollEvery(250).MilliSeconds);
+            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)), Is.True);
         }
 
         [Test]
         public void CanAddWeaponToWeaponBuildsFromScav()
         {
             AppData.Profile.WeaponBuilds = new();
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav);
+            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav, worker);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)),
-                Is.True.After(2).Seconds.PollEvery(250).MilliSeconds);
+            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)), Is.True);
         }
 
         [Test]
         public void CanRemoveFromPmc()
         {
-            AppData.LoadDatabase();
-            AppData.Profile.Load(TestHelpers.profileFile);
+            TestHelpers.LoadDatabaseAndProfile();
             var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, StashEditMode.PMC, DialogCoordinator.Instance, dialogManager, null);
+            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, StashEditMode.PMC, DialogCoordinator.Instance, dialogManager, null, worker);
             Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             pmcWeaponBuild.RemoveItem.Execute(null);
-            Assert.That(() => AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == weapon.Id),
-                Is.False.After(2).Seconds.PollEvery(250).MilliSeconds);
+            Assert.That(() => AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
         }
 
         [Test]
         public void CanRemoveFromScav()
         {
-            AppData.LoadDatabase();
-            AppData.Profile.Load(TestHelpers.profileFile);
+            TestHelpers.LoadDatabaseAndProfile();
             var weapon = AppData.Profile.Characters.Scav.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, StashEditMode.Scav, DialogCoordinator.Instance, dialogManager, null);
+            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, StashEditMode.Scav, DialogCoordinator.Instance, dialogManager, null, worker);
             Assert.That(scavWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             scavWeaponBuild.RemoveItem.Execute(null);
-            Assert.That(() => AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == weapon.Id),
-                Is.False.After(2).Seconds.PollEvery(250).MilliSeconds);
+            Assert.That(() => AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
         }
 
-        private static WeaponBuildWindowViewModel TestViewModel(StashEditMode editMode)
+        [Test]
+        public void CanExportPmcBuild()
+        {
+            TestHelpers.LoadDatabaseAndProfile();
+            var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
+            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, StashEditMode.PMC, DialogCoordinator.Instance, dialogManager, windowsDialogs, worker);
+            Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+            pmcWeaponBuild.ExportBuild.Execute(null);
+            Assert.That(File.Exists(windowsDialogs.weaponBuildExportPath), "WeaponBuild not exported");
+            WeaponBuild build = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(windowsDialogs.weaponBuildExportPath));
+            Assert.That(build, Is.Not.Null, "Unable to read exported weapon build");
+            Assert.That(build.RootTpl, Is.EqualTo(weapon.Tpl), "Exported wrong weapon");
+        }
+
+        [Test]
+        public void CanInitializeWorker()
+        {
+            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC, null);
+            Assert.That(pmcWeaponBuild.Worker, Is.Not.Null);
+            Assert.That(pmcWeaponBuild.Worker is Worker, Is.True);
+        }
+
+        private static WeaponBuildWindowViewModel TestViewModel(StashEditMode editMode, IWorker worker)
         {
             TestHelpers.SetupTestCharacters("WeaponBuildWindowViewModel", editMode);
             InventoryItem item = new()
@@ -94,7 +115,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestHelpers.GetTestName("WeaponBuildWindowViewModel", editMode),
                 Tpl = TestHelpers.GetTestName("WeaponBuildWindowViewModel", editMode)
             };
-            return new(item, editMode, DialogCoordinator.Instance, dialogManager, null);
+            return new(item, editMode, DialogCoordinator.Instance, dialogManager, null, worker);
         }
     }
 }

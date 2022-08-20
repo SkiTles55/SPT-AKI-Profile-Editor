@@ -20,11 +20,12 @@ namespace SPT_AKI_Profile_Editor
                                           StashEditMode editMode,
                                           IDialogCoordinator dialogCoordinator,
                                           IDialogManager dialogManager,
-                                          IWindowsDialogs windowsDialogs)
+                                          IWindowsDialogs windowsDialogs,
+                                          IWorker worker = null)
         {
             _dialogManager = dialogManager;
             _windowsDialogs = windowsDialogs;
-            Worker = new Worker(dialogCoordinator, this, _dialogManager);
+            Worker = worker ?? new Worker(dialogCoordinator, this, _dialogManager);
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
