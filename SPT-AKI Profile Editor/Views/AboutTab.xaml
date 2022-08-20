@@ -20,10 +20,7 @@
                 </Label.Content>
             </Label>
             <TextBlock Margin="6,0,0,5">
-                <Hyperlink
-                    NavigateUri="{Binding AuthorURL}"
-                    RequestNavigate="Hyperlink_RequestNavigate"
-                    Style="{DynamicResource LinkStyle}">
+                <Hyperlink Command="{Binding OpenAutorGitHubUrl}" Style="{DynamicResource LinkStyle}">
                     <TextBlock Text="{Binding AuthorURL}" />
                 </Hyperlink>
             </TextBlock>
@@ -33,10 +30,7 @@
                 </Label.Content>
             </Label>
             <TextBlock Margin="6,0,0,5">
-                <Hyperlink
-                    NavigateUri="{Binding RepositoryURL}"
-                    RequestNavigate="Hyperlink_RequestNavigate"
-                    Style="{DynamicResource LinkStyle}">
+                <Hyperlink Command="{Binding OpenRepositoryGitHubUrl}" Style="{DynamicResource LinkStyle}">
                     <TextBlock Text="{Binding RepositoryURL}" />
                 </Hyperlink>
             </TextBlock>
@@ -46,32 +40,23 @@
                 </Label.Content>
             </Label>
             <TextBlock Margin="6,0,0,5">
-                <Hyperlink
-                    NavigateUri="https://yoomoney.ru/to/410015658095326"
-                    RequestNavigate="Hyperlink_RequestNavigate"
-                    Style="{DynamicResource LinkStyle}">
-                    https://yoomoney.ru/to/410015658095326
+                <Hyperlink Command="{Binding OpenYoomoneyUrl}" Style="{DynamicResource LinkStyle}">
+                    <TextBlock Text="{Binding YoomoneyUrl}" />
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="6,0,0,5">
-                <Hyperlink
-                    NavigateUri="https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR"
-                    RequestNavigate="Hyperlink_RequestNavigate"
-                    Style="{DynamicResource LinkStyle}">
-                    Steam Trade Offer Link
+                <Hyperlink Command="{Binding OpenSteamUrl}" Style="{DynamicResource LinkStyle}">
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_about_steam_trade_url]}" TextWrapping="Wrap" />
                 </Hyperlink>
             </TextBlock>
             <Label Margin="0,5,0,0" Style="{DynamicResource DescriptionHeaderStyle}">
                 <Label.Content>
-                    <TextBlock Text="SPT-AKI Project Site" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_about_spt_aki_project_url]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
             <TextBlock Margin="6,0,0,5">
-                <Hyperlink
-                    NavigateUri="https://www.sp-tarkov.com/"
-                    RequestNavigate="Hyperlink_RequestNavigate"
-                    Style="{DynamicResource LinkStyle}">
-                    https://www.sp-tarkov.com/
+                <Hyperlink Command="{Binding OpenSptAkiProjectUrl}" Style="{DynamicResource LinkStyle}">
+                    <TextBlock Text="{Binding SptAkiProjectUrl}" />
                 </Hyperlink>
             </TextBlock>
         </StackPanel>

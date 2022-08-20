@@ -18,6 +18,15 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string repoName = "SPT-AKI-Profile-Editor";
 
         [JsonIgnore]
+        public readonly string steamTradeUrl = "https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR";
+
+        [JsonIgnore]
+        public readonly string yoomoneyUrl = "https://yoomoney.ru/to/410015658095326";
+
+        [JsonIgnore]
+        public readonly string sptAkiProjectUrl = "https://www.sp-tarkov.com/";
+
+        [JsonIgnore]
         public readonly List<QuestStatus> standartQuestStatuses = new()
         {
             QuestStatus.Locked,

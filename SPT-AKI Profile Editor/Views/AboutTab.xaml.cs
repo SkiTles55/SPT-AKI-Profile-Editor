@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Navigation;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -11,13 +10,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public AboutTab()
         {
             InitializeComponent();
-            DataContext = new AboutTabViewModel();
-        }
-
-        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-            App.ApplicationManager.OpenUrl(e.Uri.AbsoluteUri);
-            e.Handled = true;
+            DataContext = new AboutTabViewModel(App.ApplicationManager);
         }
     }
 }
