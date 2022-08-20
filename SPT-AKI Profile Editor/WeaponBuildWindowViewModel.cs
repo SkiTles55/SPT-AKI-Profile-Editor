@@ -32,16 +32,7 @@ namespace SPT_AKI_Profile_Editor
             List<InventoryItem> items = new() { _item };
             List<string> skippedSlots = new() { "patron_in_weapon", "cartridges" };
             List<InventoryItem> innerItems = null;
-            switch (editMode)
-            {
-                case StashEditMode.PMC:
-                    innerItems = Profile?.Characters?.Pmc?.Inventory?.GetInnerItems(item.Id, skippedSlots);
-                    break;
-
-                case StashEditMode.Scav:
-                    innerItems = Profile?.Characters?.Scav?.Inventory?.GetInnerItems(item.Id, skippedSlots);
-                    break;
-            }
+            innerItems = GetInventory()?.GetInnerItems(item.Id, skippedSlots);
             if (innerItems != null)
                 items.AddRange(innerItems);
             WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
@@ -56,18 +47,7 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand RemoveItem => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
-            {
-                switch (_editMode)
-                {
-                    case StashEditMode.Scav:
-                        Profile?.Characters?.Scav?.Inventory?.RemoveItems(new() { _item.Id });
-                        break;
-
-                    case StashEditMode.PMC:
-                        Profile?.Characters?.Pmc?.Inventory?.RemoveItems(new() { _item.Id });
-                        break;
-                }
-            }
+                GetInventory()?.RemoveItems(new() { _item.Id });
         });
 
         public RelayCommand ExportBuild => new(obj =>
@@ -93,5 +73,11 @@ namespace SPT_AKI_Profile_Editor
                 Description = AppLocalization.GetLocalizedString("tab_presets_export")
             });
         });
+
+        private CharacterInventory GetInventory() => _editMode switch
+        {
+            StashEditMode.Scav => Profile?.Characters?.Scav?.Inventory,
+            _ => Profile?.Characters?.Pmc?.Inventory,
+        };
     }
 }

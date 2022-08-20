@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
 using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System.Threading;
@@ -9,11 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class UserControlsTests
     {
         [OneTimeSetUp]
-        public void Setup()
-        {
-            var app = new App();
-            app.InitializeComponent();
-        }
+        public void Setup() => TestHelpers.SetupApp();
 
         [Test]
         public void AboutTabConstructorDoesNotThrow() => Assert.DoesNotThrow(() => new AboutTab());
@@ -86,5 +83,11 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void WeaponBuildsConstructorDoesNotThrow() => Assert.DoesNotThrow(() => new WeaponBuilds());
+
+        [Test]
+        public void UpdateDialogConstructorDoesNotThrow() => Assert.DoesNotThrow(() => new UpdateDialog());
+
+        [Test]
+        public void SettingsDialogConstructorDoesNotThrow() => Assert.DoesNotThrow(() => new SettingsDialog());
     }
 }

@@ -8,6 +8,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
+        private static App _app;
+
         public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\37462bb6cc951e67bf41d45e.json";
 
         public static readonly string serverPath = @"C:\SPT-AKI";
@@ -35,6 +37,15 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
                 foreach (DirectoryInfo dir in di.GetDirectories())
                     dir.Delete(true);
             }
+        }
+
+        public static void SetupApp()
+        {
+            if (_app == null)
+            {
+                _app = new App();
+                _app.InitializeComponent();
+            }            
         }
 
         public static InventoryItem[] GenerateTestItems(int count, string parentId)

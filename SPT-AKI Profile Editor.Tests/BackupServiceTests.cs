@@ -44,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             var expected = JsonConvert.DeserializeObject(File.ReadAllText(backupService.BackupList.First().Path));
             string testPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testBackup.json");
-            backupService.RestoreBackup(backupService.BackupList.First().Path, testPath);
+            BackupService.RestoreBackup(backupService.BackupList.First().Path, testPath);
             var result = JsonConvert.DeserializeObject(File.ReadAllText(testPath));
             Assert.AreEqual(expected.ToString(), result.ToString());
         }

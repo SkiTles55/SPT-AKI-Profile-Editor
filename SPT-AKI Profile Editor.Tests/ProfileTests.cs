@@ -299,6 +299,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void HideoutAreaLevelCantBeSettedGreatherThanMax()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var firstArea = AppData.Profile.Characters.Pmc.Hideout.Areas.First();
+            var max = firstArea.MaxLevel;
+            firstArea.Level = max + 3;
+            Assert.IsTrue(firstArea.Level == max);
+        }
+
+        [Test]
         public void PmcCommonSkillsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);

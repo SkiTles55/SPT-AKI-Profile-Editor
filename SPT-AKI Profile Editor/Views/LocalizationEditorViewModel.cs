@@ -80,17 +80,18 @@ namespace SPT_AKI_Profile_Editor.Views
         private void Filter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(Translations);
-            if (cv == null)
-                return;
-            if (string.IsNullOrEmpty(KeyFilter) && string.IsNullOrEmpty(ValueFilter))
-                cv.Filter = null;
-            else
+            if (cv != null)
             {
-                cv.Filter = o =>
+                if (string.IsNullOrEmpty(KeyFilter) && string.IsNullOrEmpty(ValueFilter))
+                    cv.Filter = null;
+                else
                 {
-                    Translation p = o as Translation;
-                    return ShouldFilterKey(p) && ShouldFilterValue(p);
-                };
+                    cv.Filter = o =>
+                    {
+                        Translation p = o as Translation;
+                        return ShouldFilterKey(p) && ShouldFilterValue(p);
+                    };
+                }
             }
         }
 
