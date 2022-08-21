@@ -12,7 +12,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public MerchantsTab()
         {
             InitializeComponent();
-            DataContext = new MerchantsTabViewModel();
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

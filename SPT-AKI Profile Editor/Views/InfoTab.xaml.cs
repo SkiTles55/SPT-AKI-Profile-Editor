@@ -12,7 +12,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public InfoTab()
         {
             InitializeComponent();
-            DataContext = new InfoTabViewModel();
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
 
@@ -14,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            FastModeViewModel viewModel = new();
+            FastModeViewModel viewModel = new(null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.Pmc, Is.Not.Null);
             Assert.That(viewModel.Scav, Is.Not.Null);
@@ -39,7 +40,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanDidOpenningRefresh()
         {
-            FastModeViewModel viewModel = new();
+            FastModeViewModel viewModel = new(null);
             viewModel.OpenningRefresh.Execute(null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.Pmc.Experience, Is.GreaterThan(0));
@@ -53,12 +54,15 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanSaveProfile()
         {
-            FastModeViewModel viewModel = new();
+            bool saveExecuted = false;
+            RelayCommand command = new((obj) => saveExecuted = true);
+            FastModeViewModel viewModel = new(command);
             viewModel.OpenningRefresh.Execute(null);
             var expectedExp = viewModel.Pmc.Experience;
             Assert.That(AppData.Profile.Characters.Pmc.Info.Experience, Is.Not.EqualTo(expectedExp));
             viewModel.SaveProfile.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.Info.Experience, Is.EqualTo(expectedExp));
+            Assert.That(saveExecuted, Is.True);
         }
     }
 }

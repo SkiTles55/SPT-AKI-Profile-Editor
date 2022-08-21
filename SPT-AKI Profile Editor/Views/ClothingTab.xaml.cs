@@ -14,7 +14,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public ClothingTab()
         {
             InitializeComponent();
-            DataContext = new ClothingTabViewModel();
         }
 
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) =>

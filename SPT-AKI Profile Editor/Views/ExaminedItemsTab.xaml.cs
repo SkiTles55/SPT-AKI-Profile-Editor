@@ -13,7 +13,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public ExaminedItemsTab()
         {
             InitializeComponent();
-            DataContext = new ExaminedItemsTabViewModel();
         }
 
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) =>

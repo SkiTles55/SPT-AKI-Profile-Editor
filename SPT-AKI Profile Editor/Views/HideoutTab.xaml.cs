@@ -16,7 +16,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public HideoutTab()
         {
             InitializeComponent();
-            DataContext = new HideoutTabViewModel();
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

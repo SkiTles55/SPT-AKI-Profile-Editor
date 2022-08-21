@@ -10,7 +10,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public SkillsTab()
         {
             InitializeComponent();
-            DataContext = new CommonSkillsTabViewModel(App.DialogManager);
         }
     }
 }

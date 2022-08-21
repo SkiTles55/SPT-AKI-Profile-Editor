@@ -29,7 +29,7 @@
                 <DataGridTemplateColumn
                     Width="*"
                     Header="{Binding Data.AppLocalization.Translations[tab_merchants_name], Source={StaticResource proxy}}"
-                    SortMemberPath="Value.LocalizedName">
+                    SortMemberPath="LocalizedName">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -43,7 +43,7 @@
                 <DataGridTemplateColumn
                     Width="*"
                     Header="{Binding Data.AppLocalization.Translations[tab_merchants_enabled], Source={StaticResource proxy}}"
-                    SortMemberPath="Value.Unlocked">
+                    SortMemberPath="TraderStanding.Unlocked">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=TraderStanding.Unlocked}" />
@@ -53,7 +53,7 @@
                 <DataGridTemplateColumn
                     Width="*"
                     Header="{Binding Data.AppLocalization.Translations[tab_merchants_standing], Source={StaticResource proxy}}"
-                    SortMemberPath="Value.Standing">
+                    SortMemberPath="TraderStanding.Standing">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -67,7 +67,7 @@
                 <DataGridTemplateColumn
                     Width="*"
                     Header="{Binding Data.AppLocalization.Translations[tab_merchants_sales_sum], Source={StaticResource proxy}}"
-                    SortMemberPath="Value.SalesSum">
+                    SortMemberPath="TraderStanding.SalesSum">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Label HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -81,7 +81,7 @@
                 <DataGridTemplateColumn
                     Width="230"
                     Header="{Binding Data.AppLocalization.Translations[tab_merchants_level], Source={StaticResource proxy}}"
-                    SortMemberPath="Value.Level">
+                    SortMemberPath="LoyaltyLevel">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DockPanel>

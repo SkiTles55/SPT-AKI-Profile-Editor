@@ -9,10 +9,7 @@ namespace SPT_AKI_Profile_Editor.Views
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
 
-        public SkillsTabViewModel(IDialogManager dialogManager)
-        {
-            _dialogManager = dialogManager;
-        }
+        public SkillsTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
 
         public virtual float MaxSkillsValue { get; }
 

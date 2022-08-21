@@ -3,7 +3,6 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using SPT_AKI_Profile_Editor.Views;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -25,6 +24,7 @@ namespace SPT_AKI_Profile_Editor
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
+            ViewModels = new(_dialogManager, _worker, _applicationManager, _windowsDialogs, SaveButtonCommand);
             Instance = this;
         }
 
@@ -36,11 +36,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
-        public BackupsTabViewModel BackupsTabViewModel => new(_dialogManager, _worker);
-
-        public StashTabViewModel StashTabViewModel => new(_dialogManager, _worker, _applicationManager);
-
-        public WeaponBuildsViewModel WeaponBuildsViewModel => new(_dialogManager, _worker, _windowsDialogs);
+        public ViewModelsFactory ViewModels { get; }
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 

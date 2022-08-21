@@ -10,24 +10,20 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class FastModeViewModel : BindableViewModel
     {
+        private readonly RelayCommand _saveCommand;
         private CharacterInfo pmc;
-
         private CharacterInfo scav;
-
         private bool firstOpen = true;
-
         private float setAllPmcSkillsValue;
-
         private float setAllPmcMasteringsValue;
-
         private float setAllScavSkillsValue;
-
         private float setAllScavMasteringsValue;
 
-        public FastModeViewModel()
+        public FastModeViewModel(RelayCommand saveCommand)
         {
             Pmc = new();
             Scav = new();
+            _saveCommand = saveCommand;
         }
 
         public static AppSettings AppSettings => AppData.AppSettings;
@@ -69,7 +65,9 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         public bool SetMerchantsMax { get; set; } = true;
+
         public QuestStatus SetAllQuestsValue { get; set; } = QuestStatus.Success;
+
         public bool SetHideoutMax { get; set; } = true;
 
         public float SetAllPmcSkillsValue
@@ -113,6 +111,7 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         public bool ExamineAll { get; set; } = true;
+
         public bool AcquireAll { get; set; } = true;
 
         public RelayCommand SaveProfile => new(obj =>
@@ -135,7 +134,7 @@ namespace SPT_AKI_Profile_Editor.Views
             if (AcquireAll)
                 ServerDatabase.AcquireAllClothing();
             AppSettings.FastModeOpened = false;
-            MainWindowViewModel.Instance?.SaveProfileAndReload();
+            _saveCommand.Execute(null);
         });
     }
 }

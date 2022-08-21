@@ -10,7 +10,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public AboutTab()
         {
             InitializeComponent();
-            DataContext = new AboutTabViewModel(App.ApplicationManager);
         }
     }
 }

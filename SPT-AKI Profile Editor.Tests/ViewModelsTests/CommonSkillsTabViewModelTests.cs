@@ -16,6 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             CommonSkillsTabViewModel viewModel = new(null);
             Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.MaxSkillsValue, Is.EqualTo(AppData.AppSettings.CommonSkillMaxValue));
             Assert.That(viewModel.SetAllPmcSkillsValue, Is.EqualTo(0f));
             Assert.That(viewModel.SetAllScavSkillsValue, Is.EqualTo(0f));
             Assert.That(viewModel.SetAllPmsSkillsCommand, Is.Not.Null);

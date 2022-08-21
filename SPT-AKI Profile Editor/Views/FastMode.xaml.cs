@@ -12,7 +12,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public FastMode()
         {
             InitializeComponent();
-            DataContext = new FastModeViewModel();
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

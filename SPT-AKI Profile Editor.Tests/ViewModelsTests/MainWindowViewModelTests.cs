@@ -15,9 +15,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null);
             Assert.That(_viewModel, Is.Not.Null, "MainWindowViewModel is null");
-            Assert.That(_viewModel.BackupsTabViewModel, Is.Not.Null, "BackupsTabViewModel is null");
-            Assert.That(_viewModel.StashTabViewModel, Is.Not.Null, "StashTabViewModel is null");
-            Assert.That(_viewModel.WeaponBuildsViewModel, Is.Not.Null, "WeaponBuildsViewModel is null");
+            Assert.That(_viewModel.ViewModels, Is.Not.Null, "ViewModels Factory is null");
             Assert.That(App.DialogCoordinator, Is.Not.Null, "DialogCoordinator is null");
             Assert.That(_viewModel.WindowTitle, Is.EqualTo("TestTitle"), "MainWindowViewModel has wrong title");
             Assert.AreEqual(_viewModel, MainWindowViewModel.Instance, "MainWindowViewModel.Instance is not MainWindowViewModel");

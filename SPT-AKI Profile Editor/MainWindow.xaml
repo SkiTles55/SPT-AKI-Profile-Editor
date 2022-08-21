@@ -82,7 +82,7 @@
     </mah:MetroWindow.RightWindowCommands>
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
-            <views:FastMode />
+            <views:FastMode DataContext="{Binding ViewModels.FastMode}" />
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
     <Grid>
@@ -103,43 +103,40 @@
             TabStripPlacement="Left"
             Visibility="Visible">
             <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:InfoTab />
+                <views:InfoTab DataContext="{Binding ViewModels.InfoTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_merchants_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:MerchantsTab />
+                <views:MerchantsTab DataContext="{Binding ViewModels.MerchantsTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_quests_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:QuestsTab />
+                <views:QuestsTab DataContext="{Binding ViewModels.QuestsTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:HideoutTab />
+                <views:HideoutTab DataContext="{Binding ViewModels.HideoutTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_skills_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:SkillsTab />
+                <views:SkillsTab DataContext="{Binding ViewModels.SkillsTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_mastering_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:MasteringTab />
+                <views:MasteringTab DataContext="{Binding ViewModels.MasteringTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_examined_items_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:ExaminedItemsTab />
+                <views:ExaminedItemsTab DataContext="{Binding ViewModels.ExaminedItemsTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:StashTab DataContext="{Binding StashTabViewModel}" />
+                <views:StashTab DataContext="{Binding ViewModels.StashTab}" />
             </TabItem>
-            <TabItem
-                Name="tabclothing"
-                Header="{Binding AppLocalization.Translations[tab_clothing_title]}"
-                HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:ClothingTab />
+            <TabItem Header="{Binding AppLocalization.Translations[tab_clothing_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+                <views:ClothingTab DataContext="{Binding ViewModels.ClothingTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:WeaponBuilds DataContext="{Binding WeaponBuildsViewModel}" />
+                <views:WeaponBuilds DataContext="{Binding ViewModels.WeaponBuildsTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:BackupsTab DataContext="{Binding BackupsTabViewModel}" />
+                <views:BackupsTab DataContext="{Binding ViewModels.BackupsTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_about_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:AboutTab />
+                <views:AboutTab DataContext="{Binding ViewModels.AboutTab}" />
             </TabItem>
         </TabControl>
         <StackPanel
