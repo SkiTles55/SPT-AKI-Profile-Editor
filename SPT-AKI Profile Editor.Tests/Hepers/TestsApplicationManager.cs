@@ -1,7 +1,7 @@
 ﻿using ReleaseChecker.GitHub;
+using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,8 +16,12 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public string LastOpenedUrl = null;
         public bool ServerRunned = false;
         public bool HasUpdate = false;
+        public bool CloseApplicationExecuted = false;
+        public bool LocalizationsDeleted = false;
+        public bool SettingsDeleted = false;
+        public bool ApplicationRestarted = false;
 
-        public RelayCommand CloseApplication => throw new NotImplementedException();
+        public RelayCommand CloseApplication => new(obj => CloseApplicationExecuted = true);
 
         public void ChangeTheme() => ThemeChanged = true;
 
@@ -32,12 +36,26 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public void CloseItemViewWindows(List<string> idsList = null) => ItemViewWindowsClosed = true;
 
+        public void DeleteLocalizations() => LocalizationsDeleted = true;
+
+        public void DeleteSettings() => SettingsDeleted = true;
+
         public string GetAppTitleWithVersion() => "TestTitle";
+
+        public IEnumerable<AccentItem> GetColorSchemes()
+        {
+            return new List<AccentItem>() {
+                new AccentItem("test1", "test1", "test1"),
+                new AccentItem("test2", "test2", "test2")
+            };
+        }
 
         public void OpenContainerWindow(object obj, StashEditMode editMode) => ContainerWindowOpened = true;
 
         public void OpenUrl(string url) => LastOpenedUrl = url;
 
         public void OpenWeaponBuildWindow(object obj, StashEditMode editMode) => WeaponBuildWindowOpened = true;
+
+        public void RestartApplication() => ApplicationRestarted = true;
     }
 }

@@ -36,6 +36,14 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public static void RestoreBackup(string file, string destPath = null)
+        {
+            if (string.IsNullOrEmpty(destPath))
+                destPath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.profiles], AppData.AppSettings.DefaultProfile);
+            File.Copy(file, destPath, true);
+            File.Delete(file);
+        }
+
         public void LoadBackupsList(string profile = null)
         {
             if (string.IsNullOrEmpty(profile) && !string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
@@ -74,14 +82,6 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             string destPath = Path.Combine(destFolder, $"{Path.GetFileNameWithoutExtension(sourcePath)}-backup-{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.json");
             File.Copy(sourcePath, destPath, true);
-        }
-
-        public static void RestoreBackup(string file, string destPath = null)
-        {
-            if (string.IsNullOrEmpty(destPath))
-                destPath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.profiles], AppData.AppSettings.DefaultProfile);
-            File.Copy(file, destPath, true);
-            File.Delete(file);
         }
 
         public void RemoveBackup(string file)

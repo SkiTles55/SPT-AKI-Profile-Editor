@@ -8,19 +8,13 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
-        private static App _app;
-
         public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\37462bb6cc951e67bf41d45e.json";
-
         public static readonly string serverPath = @"C:\SPT-AKI";
-
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
-
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
-
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");
-
         public static readonly string appDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData");
+        private static App _app;
 
         static TestHelpers()
         {
@@ -45,7 +39,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             {
                 _app = new App();
                 _app.InitializeComponent();
-            }            
+            }
         }
 
         public static InventoryItem[] GenerateTestItems(int count, string parentId)

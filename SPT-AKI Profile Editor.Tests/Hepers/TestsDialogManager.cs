@@ -2,7 +2,6 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,6 +14,9 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool UpdateDialogOpened = false;
         public bool ShutdownCozServerRunnedOpened = false;
         public bool IssuesDialogOpened = false;
+        public bool ServerPathEditorDialogOpened = false;
+        public bool ShouldExecuteServerPathEditorRetryCommand = false;
+        public string LastOkMessage = null;
 
         public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
         {
@@ -36,12 +38,22 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowOkMessageAsync(object context, string title, string message)
         {
-            throw new NotImplementedException();
+            LastOkMessage = message;
+            return Task.CompletedTask;
         }
 
         public Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
         {
-            throw new NotImplementedException();
+            ServerPathEditorDialogOpened = true;
+            if (ShouldExecuteServerPathEditorRetryCommand)
+            {
+                ShouldExecuteServerPathEditorRetryCommand = false;
+                foreach (var path in paths)
+                    if (path.Key == SPTServerFile.serverexe)
+                        path.Path = "Test.exe";
+                retryCommand.Execute(paths);
+            }
+            return Task.CompletedTask;
         }
 
         public Task ShowSettingsDialog(object context, int index = 0)

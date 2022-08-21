@@ -4,9 +4,11 @@ using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
-    enum FolderBrowserDialogMode
+    internal enum FolderBrowserDialogMode
     {
-        weaponBuildsExport
+        weaponBuildsExport,
+        serverFolder,
+        wrongServerFolder
     }
 
     internal class TestsWindowsDialogs : IWindowsDialogs
@@ -35,6 +37,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return folderBrowserDialogMode switch
             {
                 FolderBrowserDialogMode.weaponBuildsExport => (true, weaponBuildsExportPath),
+                FolderBrowserDialogMode.serverFolder => (true, TestHelpers.serverPath),
+                FolderBrowserDialogMode.wrongServerFolder => (true, TestHelpers.wrongServerPath),
                 _ => throw new NotImplementedException(),
             };
         }

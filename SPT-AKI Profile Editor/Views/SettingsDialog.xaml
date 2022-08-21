@@ -9,9 +9,9 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="clr-namespace:System;assembly=netstandard"
-    xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
-    d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:SettingsDialogViewModel}"
+    d:DataContext="{d:DesignInstance Type=views:SettingsDialogViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:IssuesActionValueConverter x:Key="IssuesActionValueConverter" />

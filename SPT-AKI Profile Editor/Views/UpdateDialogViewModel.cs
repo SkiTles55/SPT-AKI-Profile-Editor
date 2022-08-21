@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SPT_AKI_Profile_Editor
+namespace SPT_AKI_Profile_Editor.Views
 {
     public class UpdateDialogViewModel : ClosableDialogViewModel
     {

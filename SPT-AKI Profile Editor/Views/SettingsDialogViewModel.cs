@@ -1,5 +1,4 @@
-﻿using ControlzEx.Theming;
-using SPT_AKI_Profile_Editor.Classes;
+﻿using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
@@ -8,9 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace SPT_AKI_Profile_Editor
+namespace SPT_AKI_Profile_Editor.Views
 {
     public class SettingsDialogViewModel : BindableViewModel
     {
@@ -29,34 +27,36 @@ namespace SPT_AKI_Profile_Editor
             _applicationManager = applicationManager;
         }
 
-        public static IEnumerable<AccentItem> ColorSchemes => ThemeManager.Current.Themes
-            .OrderBy(x => x.DisplayName)
-            .Select(x => new AccentItem(x));
+        public RelayCommand ResetLocalizations => new(obj => _applicationManager.DeleteLocalizations());
 
-        public static RelayCommand CloseCommand { get; set; }
-        public static RelayCommand ResetLocalizations => new(obj => Directory.Delete(AppLocalization.localizationsDir, true));
+        public IEnumerable<AccentItem> ColorSchemes => _applicationManager.GetColorSchemes();
+
+        public RelayCommand CloseCommand { get; private set; }
+
         public RelayCommand OpenAppData => new(obj => _applicationManager.OpenUrl(DefaultValues.AppDataFolder));
+
         public RelayCommand QuitCommand => _applicationManager.CloseApplication;
 
         public RelayCommand ResetAndReload => new(async obj =>
         {
-            try
+            if (obj is RelayCommand command)
             {
-                if (obj is RelayCommand command)
+                try
                 {
                     command.Execute(null);
-                    ReloadApplication();
+                    _applicationManager.RestartApplication();
                 }
-            }
-            catch (Exception ex)
-            {
-                await _dialogManager.ShowOkMessageAsync(MainWindowViewModel.Instance,
-                                                 AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                                                 ex.Message);
+                catch (Exception ex)
+                {
+                    await _dialogManager.ShowOkMessageAsync(MainWindowViewModel.Instance,
+                                                     AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                                                     ex.Message);
+                }
             }
         });
 
-        public RelayCommand ResetSettings => new(obj => File.Delete(AppSettings.configurationFile));
+        public RelayCommand ResetSettings => new(obj => _applicationManager.DeleteSettings());
+
         public AppSettings AppSettings { get; }
 
         public int SelectedTab
@@ -113,21 +113,16 @@ namespace SPT_AKI_Profile_Editor
 
         private RelayCommand ServerPathEditorRetryCommand => new(async obj =>
         {
-            if (obj is not IEnumerable<ServerPathEntry> pathList)
-                return;
-            AppSettings.FilesList = pathList.Where(x => x.Key.StartsWith(SPTServerFile.prefix))
+            if (obj is IEnumerable<ServerPathEntry> pathList)
+            {
+                AppSettings.FilesList = pathList.Where(x => x.Key.StartsWith(SPTServerFile.prefix))
                                             .ToDictionary(x => x.Key, y => y.Path);
-            AppSettings.DirsList = pathList.Where(x => x.Key.StartsWith(SPTServerDir.prefix))
-                                           .ToDictionary(x => x.Key, y => y.Path);
-            AppSettings.Save();
-            await ServerSelectDialog();
+                AppSettings.DirsList = pathList.Where(x => x.Key.StartsWith(SPTServerDir.prefix))
+                                               .ToDictionary(x => x.Key, y => y.Path);
+                AppSettings.Save();
+                await ServerSelectDialog();
+            }
         });
-
-        private static void ReloadApplication()
-        {
-            Application.Restart();
-            Environment.Exit(0);
-        }
 
         private async Task ServerSelectDialog()
         {

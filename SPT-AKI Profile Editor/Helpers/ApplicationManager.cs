@@ -1,5 +1,6 @@
 ﻿using ControlzEx.Theming;
 using ReleaseChecker.GitHub;
+using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
@@ -34,6 +35,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task<GitHubRelease> CheckUpdate();
 
         public string GetAppTitleWithVersion();
+
+        public IEnumerable<AccentItem> GetColorSchemes();
+
+        public void DeleteLocalizations();
+
+        public void DeleteSettings();
+
+        public void RestartApplication();
     }
 
     public class ApplicationManager : IApplicationManager
@@ -118,6 +127,20 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             Version version = GetVersion();
             return $"SPT-AKI Profile Editor {$" {version.Major}.{version.Minor}"}" + (version.Build != 0 ? "." + version.Build.ToString() : "");
+        }
+
+        public IEnumerable<AccentItem> GetColorSchemes() => ThemeManager.Current.Themes
+            .OrderBy(x => x.DisplayName)
+            .Select(x => new AccentItem(x));
+
+        public void DeleteLocalizations() => Directory.Delete(AppData.AppLocalization.localizationsDir, true);
+
+        public void DeleteSettings() => File.Delete(AppData.AppSettings.configurationFile);
+
+        public void RestartApplication()
+        {
+            System.Windows.Forms.Application.Restart();
+            Environment.Exit(0);
         }
 
         private static bool CheckForOpenedWindow(string itemId)
