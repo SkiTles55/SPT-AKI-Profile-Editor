@@ -22,11 +22,11 @@ namespace SPT_AKI_Profile_Editor
         public ContainerWindowViewModel(InventoryItem item,
                                         StashEditMode editMode,
                                         IDialogCoordinator dialogCoordinator,
-                                        IDialogManager dialogManager,
                                         IApplicationManager applicationManager,
+                                        IDialogManager dialogManager = null,
                                         IWorker worker = null)
         {
-            _dialogManager = dialogManager;
+            _dialogManager = dialogManager ?? new MetroDialogManager(this);
             _worker = worker ?? new Worker(dialogCoordinator, this, _dialogManager);
             WindowTitle = item.LocalizedName;
             _item = item;
@@ -58,13 +58,13 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand RemoveItem => new(async obj =>
         {
-            if (obj is string id && await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+            if (obj is string id && await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_item_caption"))
                 RemoveItemFromContainer(id);
         });
 
         public RelayCommand RemoveAllItems => new(async obj =>
         {
-            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_items_caption"))
+            if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_items_caption"))
                 _worker.AddTask(new WorkerTask
                 {
                     Action = () => RemoveAllItemsFromContainer(),

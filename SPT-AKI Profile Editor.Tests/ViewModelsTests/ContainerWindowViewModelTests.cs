@@ -88,7 +88,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             TestHelpers.LoadDatabaseAndProfile();
             var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer).FirstOrDefault();
             Assert.That(container, Is.Not.Null);
-            ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, dialogManager, null, worker);
+            ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, worker);
             var painkiller = AppData.ServerDatabase.ItemsDB["544fb37f4bdc2dee738b4567"];
             pmcContainer.RemoveAllItems.Execute(null);
             pmcContainer.AddItem.Execute(painkiller);
@@ -104,7 +104,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Id = TestHelpers.GetTestName("ContainerWindowViewModel", editMode),
                 Tpl = TestHelpers.GetTestName("ContainerWindowViewModel", editMode)
             };
-            return new(item, editMode, null, dialogManager, applicationManager, worker);
+            return new(item, editMode, null, applicationManager, dialogManager, worker);
         }
     }
 }

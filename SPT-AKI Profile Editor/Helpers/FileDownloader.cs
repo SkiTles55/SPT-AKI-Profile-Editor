@@ -10,10 +10,17 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     internal class FileDownloader
     {
-        private static readonly CancellationTokenSource cancelTokenSource = new();
-        private static readonly CancellationToken cancellationToken = cancelTokenSource.Token;
-        private static ProgressDialogController progressDialog;
-        private static IProgress<float> progressIndicator;
+        private readonly CancellationTokenSource cancelTokenSource = new();
+        private readonly CancellationToken cancellationToken;
+        private readonly IDialogManager dialogManager;
+        private ProgressDialogController progressDialog;
+        private IProgress<float> progressIndicator;
+
+        public FileDownloader(IDialogManager dialogManager)
+        {
+            this.dialogManager = dialogManager;
+            cancellationToken = cancelTokenSource.Token;
+        }
 
         private static MetroDialogSettings DialogSettings => new()
         {
@@ -21,7 +28,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             DialogResultOnCancel = MessageDialogResult.Canceled,
         };
 
-        public static async Task Download(string url, string filePath)
+        public async Task Download(string url, string filePath)
         {
             progressDialog = await App.DialogCoordinator.ShowProgressAsync(
                 MainWindowViewModel.Instance,
@@ -38,9 +45,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private static string GetProgressString(float value) => string.Format("{0} {1:P2}.", AppData.AppLocalization.GetLocalizedString("download_dialog_downloaded"), value);
 
-        private static void DownloadCanceled(object sender, EventArgs e) => cancelTokenSource.Cancel();
+        private void DownloadCanceled(object sender, EventArgs e) => cancelTokenSource.Cancel();
 
-        private static void ReportProgress(float value)
+        private void ReportProgress(float value)
         {
             if (progressDialog != null)
             {
@@ -49,7 +56,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
         }
 
-        private static async Task<bool> DownloadFromUrl(string url, string filePath)
+        private async Task<bool> DownloadFromUrl(string url, string filePath)
         {
             try
             {
@@ -70,15 +77,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
         }
 
-        private static async Task CloseProgressWithMessage(string title, string message, bool showMessage = true)
+        private async Task CloseProgressWithMessage(string title, string message, bool showMessage = true)
         {
             if (progressDialog.IsOpen)
                 await progressDialog.CloseAsync();
             if (showMessage)
-                await App.DialogManager.ShowOkMessageAsync(MainWindowViewModel.Instance, title, message);
+                await dialogManager.ShowOkMessageAsync(title, message);
         }
 
-        private static async Task DownloadAsync(HttpClient client, string requestUri, Stream destination)
+        private async Task DownloadAsync(HttpClient client, string requestUri, Stream destination)
         {
             using var response = await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
             var contentLength = response.Content.Headers.ContentLength;
@@ -94,7 +101,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             progressIndicator.Report(1);
         }
 
-        private static async Task CopyToAsync(Stream source, Stream destination, int bufferSize, IProgress<long> progress = null)
+        private async Task CopyToAsync(Stream source, Stream destination, int bufferSize, IProgress<long> progress = null)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));

@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanInitializeForRoubles()
         {
             var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysRublesTpl];
-            MoneyDailogViewModel viewModel = new(money, null);
+            MoneyDailogViewModel viewModel = new(money, null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.RubleSignSolid));
@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanInitializeForDollars()
         {
             var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysDollarsTpl];
-            MoneyDailogViewModel viewModel = new(money, null);
+            MoneyDailogViewModel viewModel = new(money, null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.DollarSignSolid));
@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanInitializeForEuros()
         {
             var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysEurosTpl];
-            MoneyDailogViewModel viewModel = new(money, null);
+            MoneyDailogViewModel viewModel = new(money, null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.EuroSignSolid));
@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanInitializeForWrongItem()
         {
             var money = AppData.ServerDatabase.ItemsDB.Values.First();
-            MoneyDailogViewModel viewModel = new(money, null);
+            MoneyDailogViewModel viewModel = new(money, null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.EuroSignSolid));
@@ -72,7 +72,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             var addMoneysCommandExecuted = false;
             var roubles = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysRublesTpl];
-            MoneyDailogViewModel viewModel = new(roubles, new((_) => addMoneysCommandExecuted = true));
+            MoneyDailogViewModel viewModel = new(roubles, new((_) => addMoneysCommandExecuted = true), null);
             viewModel.AddMoneysCommand.Execute(null);
             Assert.That(addMoneysCommandExecuted, Is.True);
         }

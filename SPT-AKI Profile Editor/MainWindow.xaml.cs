@@ -11,13 +11,15 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private readonly MainWindowViewModel mainWindowViewModel;
         private bool _shutdown;
 
         public MainWindow()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             InitializeComponent();
-            DataContext = new MainWindowViewModel(App.DialogManager, App.ApplicationManager, App.WindowsDialogs);
+            mainWindowViewModel = new MainWindowViewModel(App.ApplicationManager, App.WindowsDialogs);
+            DataContext = mainWindowViewModel;
             this.AllowDragging();
         }
 
@@ -41,9 +43,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task ConfirmShutdown()
         {
-            _shutdown = await App.DialogManager.YesNoDialog(DataContext,
-                AppData.AppLocalization.GetLocalizedString("app_quit"),
-                AppData.AppLocalization.GetLocalizedString("reload_profile_dialog_caption")); ;
+            _shutdown = await mainWindowViewModel.ConfirmShutdown();
             if (_shutdown)
                 System.Windows.Application.Current.Shutdown();
         }

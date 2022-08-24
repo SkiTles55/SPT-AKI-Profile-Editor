@@ -12,7 +12,7 @@ namespace SPT_AKI_Profile_Editor
         public WeaponBuildWindow(InventoryItem item, StashEditMode editMode) : base(item.Id)
         {
             InitializeComponent();
-            DataContext = new WeaponBuildWindowViewModel(item, editMode, DialogCoordinator, App.DialogManager, App.WindowsDialogs);
+            DataContext = new WeaponBuildWindowViewModel(item, editMode, DialogCoordinator, App.WindowsDialogs);
             this.AllowDragging();
         }
     }

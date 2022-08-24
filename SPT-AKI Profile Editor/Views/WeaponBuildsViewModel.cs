@@ -98,13 +98,13 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private async Task RemoveBuildFromProfile(object obj)
         {
-            if (!string.IsNullOrEmpty(obj?.ToString()) && await _dialogManager.YesNoDialog(this, "remove_preset_dialog_title", "remove_preset_dialog_caption"))
+            if (!string.IsNullOrEmpty(obj?.ToString()) && await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_preset_dialog_caption"))
                 Profile.RemoveBuild(obj.ToString());
         }
 
         private async Task RemoveAllBuildsFromProfile()
         {
-            if (await _dialogManager.YesNoDialog(this, "remove_preset_dialog_title", "remove_presets_dialog_caption"))
+            if (await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption"))
                 Profile.RemoveBuilds();
         }
     }

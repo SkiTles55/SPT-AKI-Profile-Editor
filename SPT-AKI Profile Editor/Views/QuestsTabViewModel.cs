@@ -14,6 +14,6 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static RelayCommand SetAllCommand => new(obj => Profile.Characters?.Pmc?.SetAllQuests(SetAllValue));
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this, 1));
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(1));
     }
 }

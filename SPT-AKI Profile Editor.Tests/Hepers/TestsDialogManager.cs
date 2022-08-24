@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using SPT_AKI_Profile_Editor.Views;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,31 +19,31 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool ShouldExecuteServerPathEditorRetryCommand = false;
         public string LastOkMessage = null;
 
-        public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
+        public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand)
         {
             addCommand.Execute(null);
             return Task.CompletedTask;
         }
 
-        public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
+        public Task ShowIssuesDialog(RelayCommand saveCommand, IIssuesService issuesService)
         {
             IssuesDialogOpened = true;
             return Task.CompletedTask;
         }
 
-        public Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
+        public Task ShowLocalizationEditorDialog(SettingsDialogViewModel settingsDialog, bool isEdit = true)
         {
             LocalizationEditorDialogOpened = true;
             return Task.CompletedTask;
         }
 
-        public Task ShowOkMessageAsync(object context, string title, string message)
+        public Task ShowOkMessageAsync(string title, string message)
         {
             LastOkMessage = message;
             return Task.CompletedTask;
         }
 
-        public Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
+        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
         {
             ServerPathEditorDialogOpened = true;
             if (ShouldExecuteServerPathEditorRetryCommand)
@@ -56,24 +57,24 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task ShowSettingsDialog(object context, int index = 0)
+        public Task ShowSettingsDialog(int index = 0)
         {
             SettingsDialogOpened = true;
             return Task.CompletedTask;
         }
 
-        public Task ShowUpdateDialog(object context, GitHubRelease release)
+        public Task ShowUpdateDialog(GitHubRelease release)
         {
             UpdateDialogOpened = true;
             return Task.CompletedTask;
         }
 
-        public Task ShutdownCozServerRunned(object context)
+        public Task ShutdownCozServerRunned()
         {
             ShutdownCozServerRunnedOpened = true;
             return Task.CompletedTask;
         }
 
-        public Task<bool> YesNoDialog(object context, string title, string caption) => Task.FromResult(true);
+        public Task<bool> YesNoDialog(string title, string caption) => Task.FromResult(true);
     }
 }

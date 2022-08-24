@@ -5,15 +5,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class ClosableDialogViewModel : BindableViewModel
     {
-        public static RelayCommand CancelCommand => new(async obj => await CloseDialog());
+        private readonly object context;
 
-        public static async Task CloseDialog()
+        public ClosableDialogViewModel(object context) => this.context = context;
+
+        public RelayCommand CancelCommand => new(async obj => await CloseDialog());
+
+        public async Task CloseDialog()
         {
             // Skipping in nUnit tests
             if (System.Windows.Application.Current == null)
                 return;
-            BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(MainWindowViewModel.Instance);
-            await App.DialogCoordinator.HideMetroDialogAsync(MainWindowViewModel.Instance, dialog);
+            BaseMetroDialog dialog = await App.DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(context);
+            await App.DialogCoordinator.HideMetroDialogAsync(context, dialog);
         }
     }
 }

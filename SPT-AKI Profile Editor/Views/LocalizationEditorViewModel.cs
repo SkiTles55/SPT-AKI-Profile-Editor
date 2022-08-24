@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Views
         private string keyFilter;
         private string valueFilter;
 
-        public LocalizationEditorViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null)
+        public LocalizationEditorViewModel(bool isEdit, SettingsDialogViewModel settingsDialog, object context) : base(context)
         {
             IsEdit = isEdit;
             Translations = new(AppLocalization.Translations.Select(x => new Translation() { Key = x.Key, Value = x.Value }));

@@ -48,9 +48,8 @@ namespace SPT_AKI_Profile_Editor.Views
                 }
                 catch (Exception ex)
                 {
-                    await _dialogManager.ShowOkMessageAsync(MainWindowViewModel.Instance,
-                                                     AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                                                     ex.Message);
+                    await _dialogManager.ShowOkMessageAsync(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                                                            ex.Message);
                 }
             }
         });
@@ -138,7 +137,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     ServerPath = path;
                     return;
                 }
-                await _dialogManager.ShowServerPathEditorDialog(this, checkResult, ServerPathEditorRetryCommand);
+                await _dialogManager.ShowServerPathEditorDialog(checkResult, ServerPathEditorRetryCommand);
             }
         }
     }

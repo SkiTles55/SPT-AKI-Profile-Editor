@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private readonly RelayCommand addMoneysCommand;
 
-        public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand)
+        public MoneyDailogViewModel(AddableItem money, RelayCommand addCommand, object context) : base(context)
         {
             Moneys = money;
             Moneys.AddingQuantity = ((TarkovItem)Moneys).Properties.StackMaxSize;

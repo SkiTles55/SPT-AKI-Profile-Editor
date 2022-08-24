@@ -71,6 +71,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static ServerPathEditorViewModel TestViewModel(IEnumerable<ServerPathEntry> paths,
                                                                RelayCommand retryCommand = null,
-                                                               RelayCommand faqCommand = null) => new(paths, retryCommand, faqCommand);
+                                                               RelayCommand faqCommand = null) => new(paths, retryCommand, faqCommand, null);
     }
 }

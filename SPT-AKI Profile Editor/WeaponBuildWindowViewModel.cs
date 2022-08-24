@@ -19,11 +19,11 @@ namespace SPT_AKI_Profile_Editor
         public WeaponBuildWindowViewModel(InventoryItem item,
                                           StashEditMode editMode,
                                           IDialogCoordinator dialogCoordinator,
-                                          IDialogManager dialogManager,
                                           IWindowsDialogs windowsDialogs,
+                                          IDialogManager dialogManager = null,
                                           IWorker worker = null)
         {
-            _dialogManager = dialogManager;
+            _dialogManager = dialogManager ?? new MetroDialogManager(this);
             _windowsDialogs = windowsDialogs;
             Worker = worker ?? new Worker(dialogCoordinator, this, _dialogManager);
             WindowTitle = item.LocalizedName;
@@ -46,7 +46,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand RemoveItem => new(async obj =>
         {
-            if (await _dialogManager.YesNoDialog(this, "remove_stash_item_title", "remove_stash_item_caption"))
+            if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_item_caption"))
                 GetInventory()?.RemoveItems(new() { _item.Id });
         });
 

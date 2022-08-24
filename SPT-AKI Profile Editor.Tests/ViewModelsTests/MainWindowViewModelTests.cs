@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void InitializeCorrectly()
         {
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager);
             Assert.That(_viewModel, Is.Not.Null, "MainWindowViewModel is null");
             Assert.That(_viewModel.ViewModels, Is.Not.Null, "ViewModels Factory is null");
             Assert.That(App.DialogCoordinator, Is.Not.Null, "DialogCoordinator is null");
@@ -34,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanOpenFAQ()
         {
             applicationManager.LastOpenedUrl = null;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager);
             _viewModel.OpenFAQ.Execute(null);
             Assert.That(string.IsNullOrEmpty(applicationManager.LastOpenedUrl), Is.False);
         }
@@ -43,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanOpenSettings()
         {
             dialogManager.SettingsDialogOpened = false;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager);
             _viewModel.OpenSettingsCommand.Execute(null);
             Assert.That(dialogManager.SettingsDialogOpened, Is.True);
         }
@@ -52,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanInitializeViewModel()
         {
             dialogManager.SettingsDialogOpened = false;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager, worker);
             _viewModel.InitializeViewModelCommand.Execute(null);
             Assert.That(applicationManager.ThemeChanged, Is.True, "Theme Not Changed");
             Assert.That(dialogManager.SettingsDialogOpened, Is.False, "SettingsDialog Opened");
@@ -67,7 +67,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             AppData.AppSettings.ServerPath = TestHelpers.wrongServerPath;
             dialogManager.SettingsDialogOpened = false;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager, worker);
             _viewModel.InitializeViewModelCommand.Execute(null);
             Assert.That(dialogManager.SettingsDialogOpened, Is.True, "SettingsDialog not Opened");
             AppData.AppSettings.ServerPath = TestHelpers.serverPath;
@@ -76,7 +76,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanReload()
         {
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager, worker);
             _viewModel.InitializeViewModelCommand.Execute(null);
             var expected = AppData.Profile.Characters.Pmc.Info.Nickname;
             AppData.Profile.Characters.Pmc.Info.Nickname = "TestNickname";
@@ -89,7 +89,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             dialogManager.IssuesDialogOpened = false;
             AppData.AppSettings.IssuesAction = Core.Enums.IssuesAction.AlwaysShow;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager, worker);
             _viewModel.InitializeViewModelCommand.Execute(null);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
@@ -103,7 +103,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             dialogManager.ShutdownCozServerRunnedOpened = false;
             applicationManager.ServerRunned = true;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager, worker);
             _viewModel.InitializeViewModelCommand.Execute(null);
             Assert.That(dialogManager.ShutdownCozServerRunnedOpened, Is.True);
             applicationManager.ServerRunned = false;
@@ -114,7 +114,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             dialogManager.UpdateDialogOpened = false;
             applicationManager.HasUpdate = true;
-            MainWindowViewModel _viewModel = new(dialogManager, applicationManager, null, worker);
+            MainWindowViewModel _viewModel = new(applicationManager, null, dialogManager, worker);
             _viewModel.InitializeViewModelCommand.Execute(null);
             Assert.That(dialogManager.UpdateDialogOpened, Is.True);
             applicationManager.HasUpdate = false;

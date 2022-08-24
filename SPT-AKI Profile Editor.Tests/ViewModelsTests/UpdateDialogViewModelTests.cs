@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            UpdateDialogViewModel viewModel = new(null, null, GetTestRelease());
+            UpdateDialogViewModel viewModel = new(null, null, GetTestRelease(), null, null);
             Assert.That(viewModel, Is.Not.Null, "UpdateDialogViewModel is null");
             Assert.That(viewModel.DownloadRelease, Is.Not.Null, "DownloadRelease is null");
             Assert.That(viewModel.OpenReleaseUrl, Is.Not.Null, "OpenReleaseUrl is null");

@@ -36,6 +36,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public virtual RelayCommand SetAllPmsSkillsCommand { get; }
         public virtual RelayCommand SetAllScavSkillsCommand { get; }
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this, 1));
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(1));
     }
 }

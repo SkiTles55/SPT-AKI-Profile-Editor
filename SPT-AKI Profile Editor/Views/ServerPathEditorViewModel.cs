@@ -10,7 +10,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public ServerPathEditorViewModel(IEnumerable<ServerPathEntry> paths,
                                          RelayCommand retryCommand,
-                                         RelayCommand faqCommand)
+                                         RelayCommand faqCommand,
+                                         object context) : base(context)
         {
             Paths = paths;
             this.retryCommand = retryCommand;

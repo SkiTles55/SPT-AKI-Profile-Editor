@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class IssuesDialogViewModel : ClosableDialogViewModel
     {
-        public IssuesDialogViewModel(RelayCommand saveCommand, IIssuesService issuesService)
+        public IssuesDialogViewModel(RelayCommand saveCommand, IIssuesService issuesService, object context) : base(context)
         {
             SaveCommand = saveCommand;
             IssuesService = issuesService;

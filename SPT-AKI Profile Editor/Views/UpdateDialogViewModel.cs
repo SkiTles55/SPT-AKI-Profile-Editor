@@ -9,12 +9,18 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private readonly IApplicationManager applicationManager;
         private readonly IWindowsDialogs _windowsDialogs;
+        private readonly IDialogManager _dialogManager;
 
-        public UpdateDialogViewModel(IApplicationManager applicationManager, IWindowsDialogs windowsDialogs, GitHubRelease release)
+        public UpdateDialogViewModel(IApplicationManager applicationManager,
+                                     IWindowsDialogs windowsDialogs,
+                                     GitHubRelease release,
+                                     object context,
+                                     IDialogManager dialogManager) : base(context)
         {
             this.applicationManager = applicationManager;
             _windowsDialogs = windowsDialogs;
             Release = release;
+            _dialogManager = dialogManager;
         }
 
         public RelayCommand DownloadRelease => new(async obj => await Download());
@@ -32,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 if (success)
                 {
                     await CloseDialog();
-                    await FileDownloader.Download(ReleaseFile.Url, path);
+                    await new FileDownloader(_dialogManager).Download(ReleaseFile.Url, path);
                 }
             }
         }

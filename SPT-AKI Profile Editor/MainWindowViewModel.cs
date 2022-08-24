@@ -15,12 +15,12 @@ namespace SPT_AKI_Profile_Editor
         private readonly IWorker _worker;
         private readonly IApplicationManager _applicationManager;
 
-        public MainWindowViewModel(IDialogManager dialogManager,
-                                   IApplicationManager applicationManager,
+        public MainWindowViewModel(IApplicationManager applicationManager,
                                    IWindowsDialogs windowsDialogs,
+                                   IDialogManager dialogManager = null,
                                    IWorker worker = null)
         {
-            _dialogManager = dialogManager;
+            _dialogManager = dialogManager ?? new MetroDialogManager(this);
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
@@ -40,7 +40,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(this));
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog());
 
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor
                 {
                     case IssuesAction.AlwaysShow:
                         RelayCommand saveCommand = new(obj => SaveAction());
-                        await _dialogManager.ShowIssuesDialog(Instance, saveCommand, AppData.IssuesService);
+                        await _dialogManager.ShowIssuesDialog(saveCommand, AppData.IssuesService);
                         return;
 
                     case IssuesAction.AlwaysFix:
@@ -69,7 +69,7 @@ namespace SPT_AKI_Profile_Editor
         public async void StartupEventsWorker()
         {
             if (AppData.AppSettings.PathIsServerFolder() && _applicationManager.CheckProcess())
-                await _dialogManager.ShutdownCozServerRunned(Instance);
+                await _dialogManager.ShutdownCozServerRunned();
             _applicationManager.CloseItemViewWindows();
             _worker.AddTask(new WorkerTask
             {
@@ -78,6 +78,9 @@ namespace SPT_AKI_Profile_Editor
                 Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });
         }
+
+        public async Task<bool> ConfirmShutdown() => await _dialogManager.YesNoDialog(AppLocalization.GetLocalizedString("app_quit"),
+                                                                                      AppLocalization.GetLocalizedString("reload_profile_dialog_caption"));
 
         private static WorkerTask SaveProfileTask()
         {
@@ -119,7 +122,7 @@ namespace SPT_AKI_Profile_Editor
             || !AppData.AppSettings.PathIsServerFolder()
             || !AppData.AppSettings.ServerHaveProfiles()
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await _dialogManager.ShowSettingsDialog(this);
+                await _dialogManager.ShowSettingsDialog();
             else
                 StartupEventsWorker();
             if (AppData.AppSettings.CheckUpdates == true)
@@ -130,12 +133,12 @@ namespace SPT_AKI_Profile_Editor
         {
             var release = await _applicationManager.CheckUpdate();
             if (release != null)
-                await _dialogManager.ShowUpdateDialog(this, release);
+                await _dialogManager.ShowUpdateDialog(release);
         }
 
         private async Task Reload()
         {
-            if (await _dialogManager.YesNoDialog(this, "reload_profile_dialog_title", "reload_profile_dialog_caption"))
+            if (await _dialogManager.YesNoDialog("reload_profile_dialog_title", "reload_profile_dialog_caption"))
                 StartupEventsWorker();
         }
     }

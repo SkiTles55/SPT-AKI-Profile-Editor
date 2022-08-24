@@ -12,7 +12,7 @@ namespace SPT_AKI_Profile_Editor
         public ContainerWindow(InventoryItem item, StashEditMode editMode) : base(item.Id)
         {
             InitializeComponent();
-            DataContext = new ContainerWindowViewModel(item, editMode, DialogCoordinator, App.DialogManager, App.ApplicationManager);
+            DataContext = new ContainerWindowViewModel(item, editMode, DialogCoordinator, App.ApplicationManager);
             this.AllowDragging();
         }
     }

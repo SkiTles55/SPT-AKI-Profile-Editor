@@ -19,13 +19,13 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand RemoveCommand => new(async obj =>
         {
-            if (obj is string file && await _dialogManager.YesNoDialog(this, "remove_backup_dialog_title", "remove_backup_dialog_caption"))
+            if (obj is string file && await _dialogManager.YesNoDialog("remove_backup_dialog_title", "remove_backup_dialog_caption"))
                 RemoveBackupAction(file);
         });
 
         public RelayCommand RestoreCommand => new(async obj =>
         {
-            if (obj is string file && await _dialogManager.YesNoDialog(this, "restore_backup_dialog_title", "restore_backup_dialog_caption"))
+            if (obj is string file && await _dialogManager.YesNoDialog("restore_backup_dialog_title", "restore_backup_dialog_caption"))
                 RestoreBackupAction(file);
         });
 

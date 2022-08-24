@@ -91,6 +91,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(filtered.Any(x => !x.Value.Contains(filterText)), Is.True, "Translations is still filtered after remove filter text");
         }
 
-        private static LocalizationEditorViewModel TestViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null) => new(isEdit, settingsDialog);
+        private static LocalizationEditorViewModel TestViewModel(bool isEdit = true, SettingsDialogViewModel settingsDialog = null) => new(isEdit, settingsDialog, null);
     }
 }

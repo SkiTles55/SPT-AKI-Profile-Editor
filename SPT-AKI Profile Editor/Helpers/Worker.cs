@@ -71,9 +71,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 {
                     if (progressDialog?.IsOpen ?? false)
                         await progressDialog?.CloseAsync();
-                    await _dialogManager.ShowOkMessageAsync(_viewModel,
-                        AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                        ex.Message);
+                    await _dialogManager.ShowOkMessageAsync(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                                                            ex.Message);
                     Logger.Log($"Run Worker Error | {ex.Message}");
                 }
                 tasks.RemoveAt(0);
@@ -82,8 +81,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 await progressDialog?.CloseAsync();
             while (workerNotifications.Count > 0)
             {
-                await _dialogManager.ShowOkMessageAsync(_viewModel, workerNotifications[0].NotificationTitle,
-                    workerNotifications[0].NotificationDescription);
+                await _dialogManager.ShowOkMessageAsync(workerNotifications[0].NotificationTitle,
+                                                        workerNotifications[0].NotificationDescription);
                 workerNotifications.RemoveAt(0);
             }
             isBusy = false;

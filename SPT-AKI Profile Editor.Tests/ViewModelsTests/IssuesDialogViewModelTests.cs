@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            IssuesDialogViewModel viewModel = new(null, new TestsIssuesService());
+            IssuesDialogViewModel viewModel = new(null, new TestsIssuesService(), null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.SaveCommand, Is.Null);
             Assert.That(viewModel.IssuesService, Is.Not.Null);
@@ -24,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteSaveCommand()
         {
             var saveCommandExecuted = false;
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), new TestsIssuesService());
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), new TestsIssuesService(), null);
             viewModel.SaveCommand.Execute(null);
             Assert.That(saveCommandExecuted, Is.True, "SaveCommand not executed");
         }
@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var issuesService = new TestsIssuesService();
             var testIssue = new TestsProfileIssue(new(() => fixActionExecuted = true), "testIssue");
             issuesService.ProfileIssues.Add(testIssue);
-            IssuesDialogViewModel viewModel = new(null, issuesService);
+            IssuesDialogViewModel viewModel = new(null, issuesService, null);
             viewModel.FixCommand.Execute(testIssue.FixAction);
             Assert.That(fixActionExecuted, Is.True, "FixCommand not executed");
         }
@@ -49,7 +49,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var issuesService = new TestsIssuesService();
             var testIssue = new TestsProfileIssue(new(() => fixActionExecuted = true), "testIssue");
             issuesService.ProfileIssues.Add(testIssue);
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService);
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService, null);
             viewModel.FixCommand.Execute(testIssue.FixAction);
             Assert.That(fixActionExecuted, Is.True, "FixCommand not executed");
             Assert.That(saveCommandExecuted, Is.False, "SaveCommand executed");
@@ -67,7 +67,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 issuesService.ProfileIssues.Clear();
             }), "testIssue");
             issuesService.ProfileIssues.Add(testIssue);
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService);
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService, null);
             viewModel.FixCommand.Execute(testIssue.FixAction);
             Assert.That(fixActionExecuted, Is.True, "FixCommand not executed");
             Assert.That(saveCommandExecuted, Is.True, "SaveCommand not executed");
@@ -81,7 +81,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var issuesService = new TestsIssuesService();
             var testIssue = new TestsProfileIssue(new(() => fixActionExecuted = true), "testIssue");
             issuesService.ProfileIssues.Add(testIssue);
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService);
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService, null);
             viewModel.IgnoreCommand.Execute(null);
             Assert.That(fixActionExecuted, Is.False, "FixCommand executed");
             Assert.That(saveCommandExecuted, Is.True, "SaveCommand not executed");
@@ -99,7 +99,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 issuesService.ProfileIssues.Clear();
             }), "testIssue");
             issuesService.ProfileIssues.Add(testIssue);
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService);
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService, null);
             viewModel.FixAllCommand.Execute(null);
             Assert.That(fixActionExecuted, Is.True, "FixCommand not executed");
             Assert.That(saveCommandExecuted, Is.True, "SaveCommand not executed");
@@ -111,7 +111,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var saveCommandExecuted = false;
             AppData.AppSettings.IssuesAction = Core.Enums.IssuesAction.AlwaysShow;
             var issuesService = new TestsIssuesService();
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService)
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService, null)
             {
                 RemeberAction = true
             };
@@ -126,7 +126,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             var saveCommandExecuted = false;
             AppData.AppSettings.IssuesAction = Core.Enums.IssuesAction.AlwaysShow;
             var issuesService = new TestsIssuesService();
-            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService)
+            IssuesDialogViewModel viewModel = new(new(obj => saveCommandExecuted = true), issuesService, null)
             {
                 RemeberAction = false
             };

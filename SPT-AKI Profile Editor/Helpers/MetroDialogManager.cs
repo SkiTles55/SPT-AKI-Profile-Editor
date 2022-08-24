@@ -13,27 +13,31 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public interface IDialogManager
     {
-        public Task<bool> YesNoDialog(object context, string title, string caption);
+        public Task<bool> YesNoDialog(string title, string caption);
 
-        public Task ShutdownCozServerRunned(object context);
+        public Task ShutdownCozServerRunned();
 
-        public Task ShowSettingsDialog(object context, int index = 0);
+        public Task ShowSettingsDialog(int index = 0);
 
-        public Task ShowUpdateDialog(object context, GitHubRelease release);
+        public Task ShowUpdateDialog(GitHubRelease release);
 
-        public Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService);
+        public Task ShowIssuesDialog(RelayCommand saveCommand, IIssuesService issuesService);
 
-        public Task ShowLocalizationEditorDialog(object context, bool isEdit = true);
+        public Task ShowLocalizationEditorDialog(SettingsDialogViewModel settingsDialog, bool isEdit = true);
 
-        public Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand);
+        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand);
 
-        public Task ShowOkMessageAsync(object context, string title, string message);
+        public Task ShowOkMessageAsync(string title, string message);
 
-        public Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand);
+        public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand);
     }
 
     public class MetroDialogManager : IDialogManager
     {
+        private readonly object viewModel;
+
+        public MetroDialogManager(object viewModel) => this.viewModel = viewModel;
+
         private static MetroDialogSettings YesNoDialogSettings => new()
         {
             DefaultButtonFocus = MessageDialogResult.Affirmative,
@@ -57,78 +61,78 @@ namespace SPT_AKI_Profile_Editor.Helpers
             AnimateHide = true
         };
 
-        public async Task<bool> YesNoDialog(object context, string title, string caption) =>
-            await App.DialogCoordinator.ShowMessageAsync(context,
-                AppData.AppLocalization.GetLocalizedString(title),
-                AppData.AppLocalization.GetLocalizedString(caption),
-                MessageDialogStyle.AffirmativeAndNegative,
-                YesNoDialogSettings) == MessageDialogResult.Affirmative;
+        public async Task<bool> YesNoDialog(string title, string caption) =>
+            await App.DialogCoordinator.ShowMessageAsync(viewModel,
+                                                         AppData.AppLocalization.GetLocalizedString(title),
+                                                         AppData.AppLocalization.GetLocalizedString(caption),
+                                                         MessageDialogStyle.AffirmativeAndNegative,
+                                                         YesNoDialogSettings) == MessageDialogResult.Affirmative;
 
-        public async Task ShutdownCozServerRunned(object context)
+        public async Task ShutdownCozServerRunned()
         {
-            if (await App.DialogCoordinator.ShowMessageAsync(context,
-                AppData.AppLocalization.GetLocalizedString("app_quit"),
-                AppData.AppLocalization.GetLocalizedString("server_runned"),
-                MessageDialogStyle.Affirmative,
-                ShutdownDialogSettings) == MessageDialogResult.Affirmative)
+            if (await App.DialogCoordinator.ShowMessageAsync(viewModel,
+                                                             AppData.AppLocalization.GetLocalizedString("app_quit"),
+                                                             AppData.AppLocalization.GetLocalizedString("server_runned"),
+                                                             MessageDialogStyle.Affirmative,
+                                                             ShutdownDialogSettings) == MessageDialogResult.Affirmative)
                 App.ApplicationManager.CloseApplication.Execute(null);
         }
 
-        public async Task ShowSettingsDialog(object context, int index = 0)
+        public async Task ShowSettingsDialog(int index = 0)
         {
             string startValues = AppSettings.GetStamp();
             CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
             RelayCommand closeCommand = new(async obj =>
             {
-                await App.DialogCoordinator.HideMetroDialogAsync(context, settingsDialog);
+                await App.DialogCoordinator.HideMetroDialogAsync(viewModel, settingsDialog);
                 string newValues = AppSettings.GetStamp();
                 if (startValues != newValues)
                     MainWindowViewModel.Instance.StartupEventsWorker();
             });
-            await ShowCustomDialog<SettingsDialog>(context, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.WindowsDialogs, App.ApplicationManager, index));
+            await ShowCustomDialog<SettingsDialog>(viewModel, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.WindowsDialogs, App.ApplicationManager, index));
         }
 
-        public async Task ShowUpdateDialog(object context, GitHubRelease release)
+        public async Task ShowUpdateDialog(GitHubRelease release)
         {
             CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
-            await ShowCustomDialog<UpdateDialog>(context,
+            await ShowCustomDialog<UpdateDialog>(viewModel,
                                                  updateDialog,
-                                                 new UpdateDialogViewModel(App.ApplicationManager, App.WindowsDialogs, release));
+                                                 new UpdateDialogViewModel(App.ApplicationManager, App.WindowsDialogs, release, viewModel, this));
         }
 
-        public async Task ShowIssuesDialog(object context, RelayCommand saveCommand, IIssuesService issuesService)
+        public async Task ShowIssuesDialog(RelayCommand saveCommand, IIssuesService issuesService)
         {
             CustomDialog issuesDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("profile_issues_title"), 500);
-            await ShowCustomDialog<IssuesDialog>(context,
+            await ShowCustomDialog<IssuesDialog>(viewModel,
                                                  issuesDialog,
-                                                 new IssuesDialogViewModel(saveCommand, issuesService));
+                                                 new IssuesDialogViewModel(saveCommand, issuesService, viewModel));
         }
 
-        public async Task ShowLocalizationEditorDialog(object context, bool isEdit = true)
+        public async Task ShowLocalizationEditorDialog(SettingsDialogViewModel settingsDialog, bool isEdit = true)
         {
             CustomDialog lEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("localization_editor_title"), 500);
-            await ShowCustomDialog<LocalizationEditor>(context,
+            await ShowCustomDialog<LocalizationEditor>(viewModel,
                                                        lEditorDialog,
-                                                       new LocalizationEditorViewModel(isEdit, (SettingsDialogViewModel)context));
+                                                       new LocalizationEditorViewModel(isEdit, settingsDialog, viewModel));
         }
 
-        public async Task ShowServerPathEditorDialog(object context, IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
+        public async Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
         {
             CustomDialog pathEditorDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"), 500);
-            await ShowCustomDialog<ServerPathEditor>(context,
+            await ShowCustomDialog<ServerPathEditor>(viewModel,
                                                      pathEditorDialog,
-                                                     new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.Instance.OpenFAQ));
+                                                     new ServerPathEditorViewModel(paths, retryCommand, MainWindowViewModel.Instance.OpenFAQ, viewModel));
         }
 
-        public async Task ShowAddMoneyDialog(object context, AddableItem money, RelayCommand addCommand)
+        public async Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand)
         {
             CustomDialog addMoneyDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_stash_dialog_money"), 500);
-            await ShowCustomDialog<MoneyDailog>(context, addMoneyDialog, new MoneyDailogViewModel(money, addCommand));
+            await ShowCustomDialog<MoneyDailog>(viewModel, addMoneyDialog, new MoneyDailogViewModel(money, addCommand, viewModel));
         }
 
-        public async Task ShowOkMessageAsync(object context, string title, string message)
+        public async Task ShowOkMessageAsync(string title, string message)
         {
-            await App.DialogCoordinator.ShowMessageAsync(context, title,
+            await App.DialogCoordinator.ShowMessageAsync(viewModel, title,
                 message, MessageDialogStyle.Affirmative, OkDialogSettings);
         }
 
