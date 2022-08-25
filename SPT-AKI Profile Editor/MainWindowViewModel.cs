@@ -20,10 +20,10 @@ namespace SPT_AKI_Profile_Editor
                                    IDialogManager dialogManager = null,
                                    IWorker worker = null)
         {
-            _dialogManager = dialogManager ?? new MetroDialogManager(this);
+            _dialogManager = dialogManager ?? new MetroDialogManager(this, App.DialogCoordinator);
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
-            _worker = worker ?? new Worker(App.DialogCoordinator, this, _dialogManager);
+            _worker = worker ?? new Worker(_dialogManager);
             ViewModels = new(_dialogManager, _worker, _applicationManager, _windowsDialogs, SaveButtonCommand);
             Instance = this;
         }

@@ -13,6 +13,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public interface IDialogManager
     {
+        public event EventHandler ProgressDialogCanceled;
+
         public Task<bool> YesNoDialog(string title, string caption);
 
         public Task ShutdownCozServerRunned();
@@ -30,13 +32,30 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task ShowOkMessageAsync(string title, string message);
 
         public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand);
+
+        public Task ShowProgressDialog(string title,
+                                       string description,
+                                       bool indeterminate = true,
+                                       double progress = 0,
+                                       bool cancelable = false,
+                                       MetroDialogSettings dialogSettings = null);
+
+        public Task HideProgressDialog();
     }
 
     public class MetroDialogManager : IDialogManager
     {
         private readonly object viewModel;
+        private readonly IDialogCoordinator _dialogCoordinator;
+        private ProgressDialogController progressDialog;
 
-        public MetroDialogManager(object viewModel) => this.viewModel = viewModel;
+        public MetroDialogManager(object viewModel, IDialogCoordinator dialogCoordinator)
+        {
+            this.viewModel = viewModel;
+            _dialogCoordinator = dialogCoordinator;
+        }
+
+        public event EventHandler ProgressDialogCanceled;
 
         private static MetroDialogSettings YesNoDialogSettings => new()
         {
@@ -62,7 +81,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         };
 
         public async Task<bool> YesNoDialog(string title, string caption) =>
-            await App.DialogCoordinator.ShowMessageAsync(viewModel,
+            await _dialogCoordinator.ShowMessageAsync(viewModel,
                                                          AppData.AppLocalization.GetLocalizedString(title),
                                                          AppData.AppLocalization.GetLocalizedString(caption),
                                                          MessageDialogStyle.AffirmativeAndNegative,
@@ -70,7 +89,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public async Task ShutdownCozServerRunned()
         {
-            if (await App.DialogCoordinator.ShowMessageAsync(viewModel,
+            if (await _dialogCoordinator.ShowMessageAsync(viewModel,
                                                              AppData.AppLocalization.GetLocalizedString("app_quit"),
                                                              AppData.AppLocalization.GetLocalizedString("server_runned"),
                                                              MessageDialogStyle.Affirmative,
@@ -84,7 +103,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
             RelayCommand closeCommand = new(async obj =>
             {
-                await App.DialogCoordinator.HideMetroDialogAsync(viewModel, settingsDialog);
+                await _dialogCoordinator.HideMetroDialogAsync(viewModel, settingsDialog);
                 string newValues = AppSettings.GetStamp();
                 if (startValues != newValues)
                     MainWindowViewModel.Instance.StartupEventsWorker();
@@ -132,8 +151,29 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public async Task ShowOkMessageAsync(string title, string message)
         {
-            await App.DialogCoordinator.ShowMessageAsync(viewModel, title,
+            await _dialogCoordinator.ShowMessageAsync(viewModel, title,
                 message, MessageDialogStyle.Affirmative, OkDialogSettings);
+        }
+
+        public async Task ShowProgressDialog(string title,
+                                             string description,
+                                             bool indeterminate = true,
+                                             double progress = 0,
+                                             bool cancelable = false,
+                                             MetroDialogSettings dialogSettings = null)
+        {
+            if (progressDialog != null && progressDialog.IsOpen)
+                UpdateProgressDialog(title, description);
+            else
+                await CreateProgressDialog(title, description, cancelable, dialogSettings);
+            SetProgress(indeterminate, progress);
+        }
+
+        public async Task HideProgressDialog()
+        {
+            if (progressDialog?.IsOpen ?? false)
+                await progressDialog?.CloseAsync();
+            progressDialog = null;
         }
 
         private static CustomDialog CustomDialog(string title, double width) => new()
@@ -142,12 +182,36 @@ namespace SPT_AKI_Profile_Editor.Helpers
             DialogContentWidth = new GridLength(width)
         };
 
-        private static async Task ShowCustomDialog<T>(object context, CustomDialog dialog, BindableViewModel viewModel) where T : UserControl
+        private async Task ShowCustomDialog<T>(object context, CustomDialog dialog, BindableViewModel viewModel) where T : UserControl
         {
             T control = (T)Activator.CreateInstance(typeof(T));
             control.DataContext = viewModel;
             dialog.Content = control;
-            await App.DialogCoordinator.ShowMetroDialogAsync(context, dialog);
+            await _dialogCoordinator.ShowMetroDialogAsync(context, dialog);
+        }
+
+        private void UpdateProgressDialog(string title, string description)
+        {
+            progressDialog?.SetTitle(title);
+            progressDialog?.SetMessage(description);
+        }
+
+        private async Task CreateProgressDialog(string title, string description, bool cancelable, MetroDialogSettings dialogSettings)
+        {
+            progressDialog = await _dialogCoordinator.ShowProgressAsync(viewModel,
+                                                                        title,
+                                                                        description,
+                                                                        cancelable,
+                                                                        dialogSettings);
+            progressDialog.Canceled += ProgressDialogCanceled;
+        }
+
+        private void SetProgress(bool indeterminate, double progress)
+        {
+            if (indeterminate)
+                progressDialog?.SetIndeterminate();
+            else
+                progressDialog?.SetProgress(progress);
         }
     }
 }

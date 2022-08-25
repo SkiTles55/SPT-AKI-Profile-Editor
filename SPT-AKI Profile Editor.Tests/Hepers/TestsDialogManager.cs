@@ -1,8 +1,10 @@
-﻿using ReleaseChecker.GitHub;
+﻿using MahApps.Metro.Controls.Dialogs;
+using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Views;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,6 +20,13 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool ServerPathEditorDialogOpened = false;
         public bool ShouldExecuteServerPathEditorRetryCommand = false;
         public string LastOkMessage = null;
+
+        public event EventHandler ProgressDialogCanceled;
+
+        public Task HideProgressDialog()
+        {
+            return Task.CompletedTask;
+        }
 
         public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand)
         {
@@ -40,6 +49,11 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public Task ShowOkMessageAsync(string title, string message)
         {
             LastOkMessage = message;
+            return Task.CompletedTask;
+        }
+
+        public Task ShowProgressDialog(string title, string description, bool indeterminate = true, double progress = 0, bool cancelable = false, MetroDialogSettings dialogSettings = null)
+        {
             return Task.CompletedTask;
         }
 

@@ -13,7 +13,6 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private readonly CancellationTokenSource cancelTokenSource = new();
         private readonly CancellationToken cancellationToken;
         private readonly IDialogManager dialogManager;
-        private ProgressDialogController progressDialog;
         private IProgress<float> progressIndicator;
 
         public FileDownloader(IDialogManager dialogManager)
@@ -30,14 +29,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public async Task Download(string url, string filePath)
         {
-            progressDialog = await App.DialogCoordinator.ShowProgressAsync(
-                MainWindowViewModel.Instance,
-                AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
-                GetProgressString(0),
-                true,
-                DialogSettings);
+            ReportProgress(0);
             progressIndicator = new Progress<float>(ReportProgress);
-            progressDialog.Canceled += DownloadCanceled;
+            dialogManager.ProgressDialogCanceled += DownloadCanceled;
+
             if (await DownloadFromUrl(url, filePath))
                 await CloseProgressWithMessage(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
                                                AppData.AppLocalization.GetLocalizedString("download_dialog_success"));
@@ -47,13 +42,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private void DownloadCanceled(object sender, EventArgs e) => cancelTokenSource.Cancel();
 
-        private void ReportProgress(float value)
+        private async void ReportProgress(float value)
         {
-            if (progressDialog != null)
-            {
-                progressDialog.SetProgress(value);
-                progressDialog.SetMessage(GetProgressString(value));
-            }
+            await dialogManager.ShowProgressDialog(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
+                                                   GetProgressString(value),
+                                                   false,
+                                                   value,
+                                                   true,
+                                                   DialogSettings);
         }
 
         private async Task<bool> DownloadFromUrl(string url, string filePath)
@@ -79,8 +75,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private async Task CloseProgressWithMessage(string title, string message, bool showMessage = true)
         {
-            if (progressDialog.IsOpen)
-                await progressDialog.CloseAsync();
+            await dialogManager.HideProgressDialog();
             if (showMessage)
                 await dialogManager.ShowOkMessageAsync(title, message);
         }

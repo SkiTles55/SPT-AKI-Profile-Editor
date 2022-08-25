@@ -26,8 +26,8 @@ namespace SPT_AKI_Profile_Editor
                                         IDialogManager dialogManager = null,
                                         IWorker worker = null)
         {
-            _dialogManager = dialogManager ?? new MetroDialogManager(this);
-            _worker = worker ?? new Worker(dialogCoordinator, this, _dialogManager);
+            _dialogManager = dialogManager ?? new MetroDialogManager(this, dialogCoordinator);
+            _worker = worker ?? new Worker(_dialogManager);
             WindowTitle = item.LocalizedName;
             _item = item;
             _editMode = editMode;
