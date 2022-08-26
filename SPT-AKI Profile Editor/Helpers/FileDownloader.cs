@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    internal class FileDownloader
+    public class FileDownloader
     {
         private readonly CancellationTokenSource cancelTokenSource = new();
         private readonly CancellationToken cancellationToken;

@@ -20,6 +20,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool ServerPathEditorDialogOpened = false;
         public bool ShouldExecuteServerPathEditorRetryCommand = false;
         public string LastOkMessage = null;
+        public double LastProgress = 0;
 
         public event EventHandler ProgressDialogCanceled;
 
@@ -54,6 +55,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowProgressDialog(string title, string description, bool indeterminate = true, double progress = 0, bool cancelable = false, MetroDialogSettings dialogSettings = null)
         {
+            LastProgress = progress;
             return Task.CompletedTask;
         }
 
