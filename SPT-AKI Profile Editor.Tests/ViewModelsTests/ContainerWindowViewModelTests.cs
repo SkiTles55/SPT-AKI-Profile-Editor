@@ -25,6 +25,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
                 Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
                 Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
+                Assert.That(pmcContainer.Items, Is.Not.Null, "Items is not null");
                 Assert.That(pmcContainer.Items.Count, Is.EqualTo(3), "Items.Count is not 3");
                 Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
                 Assert.That(pmcContainer.CategoriesForItemsAdding.Count, Is.GreaterThan(0), "CategoriesForItemsAdding is empty");
@@ -40,6 +41,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
                 Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
                 Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
+                Assert.That(pmcContainer.Items, Is.Not.Null, "Items is not null");
                 Assert.That(pmcContainer.Items.Count, Is.EqualTo(5), "Items.Count is not 5");
                 Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
                 Assert.That(pmcContainer.CategoriesForItemsAdding.Count, Is.GreaterThan(0), "CategoriesForItemsAdding is empty");
@@ -86,9 +88,10 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanAddItem()
         {
             TestHelpers.LoadDatabaseAndProfile();
-            var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer).FirstOrDefault();
+            var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer && x.CanAddItems).FirstOrDefault();
             Assert.That(container, Is.Not.Null);
             ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, worker);
+            Assert.That(pmcContainer.ItemsAddingAllowed, Is.True);
             var painkiller = AppData.ServerDatabase.ItemsDB["544fb37f4bdc2dee738b4567"];
             pmcContainer.RemoveAllItems.Execute(null);
             pmcContainer.AddItem.Execute(painkiller);

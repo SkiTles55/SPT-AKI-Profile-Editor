@@ -41,16 +41,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public static string[] Strings => GetStrings();
 
-        public static string GetString(QuestStatus status) => status.ToString();
-
-        public static string[] GetStrings()
-        {
-            List<string> list = new();
-            foreach (QuestStatus format in AppData.AppSettings.standartQuestStatuses)
-                list.Add(GetString(format));
-
-            return list.ToArray();
-        }
+        public static string GetString(object status) => status.ToString();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -68,21 +59,20 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 return Enum.Parse(typeof(QuestStatus), s);
             return null;
         }
+
+        private static string[] GetStrings()
+        {
+            List<string> list = new();
+            foreach (QuestStatus format in AppData.AppSettings.standartQuestStatuses)
+                list.Add(GetString(format));
+
+            return list.ToArray();
+        }
     }
 
     public class IssuesActionValueConverter : IValueConverter
     {
         public static Dictionary<string, string> Strings => GetStrings();
-
-        public static string GetString(IssuesAction action) => action.ToString();
-
-        public static Dictionary<string, string> GetStrings()
-        {
-            Dictionary<string, string> list = new();
-            foreach (IssuesAction format in Enum.GetValues(typeof(IssuesAction)))
-                list.Add(GetString(format), AppData.AppLocalization.GetLocalizedString($"issue_action_{GetString(format).ToLower()}"));
-            return list;
-        }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -97,6 +87,16 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (value is string s)
                 return Enum.Parse(typeof(IssuesAction), s);
             return null;
+        }
+
+        private static string GetString(IssuesAction action) => action.ToString();
+
+        private static Dictionary<string, string> GetStrings()
+        {
+            Dictionary<string, string> list = new();
+            foreach (IssuesAction action in Enum.GetValues(typeof(IssuesAction)))
+                list.Add(GetString(action), AppData.AppLocalization.GetLocalizedString($"issue_action_{GetString(action).ToLower()}"));
+            return list;
         }
     }
 }

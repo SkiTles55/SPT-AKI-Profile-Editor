@@ -52,5 +52,23 @@ namespace SPT_AKI_Profile_Editor.Tests
             var expected = DefaultValues.DefaultLocalizations.ToDictionary(x => x.Key, x => x.Name);
             Assert.AreEqual(expected, appLocalization.Localizations, "Localizations dictionary not correct");
         }
+
+        [Test]
+        public void CanGetLocalizedString()
+        {
+            appLocalization.LoadLocalization("en");
+            var expected = DefaultValues.DefaultLocalizations.First(x => x.Key == "en").Translations.First();
+            Assert.That(appLocalization.GetLocalizedString(expected.Key), Is.EqualTo(expected.Value), "Existing LocalizedString not correct");
+            Assert.That(appLocalization.GetLocalizedString("TestNonExistedKey"), Is.EqualTo("TestNonExistedKey"), "Non existing LocalizedString not correct");
+        }
+
+        [Test]
+        public void CanLoadEnInsteadOfUnknown()
+        {
+            appLocalization.LoadLocalization("unknown");
+            var expected = DefaultValues.DefaultLocalizations.First(x => x.Key == "en").Translations.First();
+            Assert.That(appLocalization.GetLocalizedString(expected.Key), Is.EqualTo(expected.Value), "En LocalizedString not correct");
+            Assert.That(AppData.AppSettings.Language, Is.EqualTo("en"), "En not loaded");
+        }
     }
 }
