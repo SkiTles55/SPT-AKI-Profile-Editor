@@ -18,7 +18,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(_viewModel.ViewModels, Is.Not.Null, "ViewModels Factory is null");
             Assert.That(App.DialogCoordinator, Is.Not.Null, "DialogCoordinator is null");
             Assert.That(_viewModel.WindowTitle, Is.EqualTo("TestTitle"), "MainWindowViewModel has wrong title");
-            Assert.AreEqual(_viewModel, MainWindowViewModel.Instance, "MainWindowViewModel.Instance is not MainWindowViewModel");
         }
 
         [Test]

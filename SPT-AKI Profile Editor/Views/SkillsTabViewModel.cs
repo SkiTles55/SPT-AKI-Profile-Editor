@@ -8,8 +8,15 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly IDialogManager _dialogManager;
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
+        private readonly RelayCommand _reloadCommand;
+        private readonly RelayCommand _faqCommand;
 
-        public SkillsTabViewModel(IDialogManager dialogManager) => _dialogManager = dialogManager;
+        public SkillsTabViewModel(IDialogManager dialogManager, RelayCommand reloadCommand, RelayCommand faqCommand)
+        {
+            _dialogManager = dialogManager;
+            _reloadCommand = reloadCommand;
+            _faqCommand = faqCommand;
+        }
 
         public virtual float MaxSkillsValue { get; }
 
@@ -36,6 +43,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public virtual RelayCommand SetAllPmsSkillsCommand { get; }
         public virtual RelayCommand SetAllScavSkillsCommand { get; }
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(1));
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(_reloadCommand, _faqCommand, 1));
     }
 }

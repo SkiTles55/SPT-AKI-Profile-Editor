@@ -15,16 +15,23 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly IDialogManager _dialogManager;
         private readonly IWindowsDialogs _windowsDialogs;
         private readonly IApplicationManager _applicationManager;
+        private readonly RelayCommand _faqCommand;
         private int selectedTab;
 
-        public SettingsDialogViewModel(RelayCommand command, IDialogManager dialogManager, IWindowsDialogs windowsDialogs, IApplicationManager applicationManager, int index = 0)
+        public SettingsDialogViewModel(RelayCommand closeCommand,
+                                       IDialogManager dialogManager,
+                                       IWindowsDialogs windowsDialogs,
+                                       IApplicationManager applicationManager,
+                                       RelayCommand faqCommand,
+                                       int index = 0)
         {
-            CloseCommand = command;
+            CloseCommand = closeCommand;
             SelectedTab = index;
             AppSettings = AppData.AppSettings;
             _dialogManager = dialogManager;
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
+            _faqCommand = faqCommand;
         }
 
         public RelayCommand ResetLocalizations => new(obj => _applicationManager.DeleteLocalizations());
@@ -137,7 +144,7 @@ namespace SPT_AKI_Profile_Editor.Views
                     ServerPath = path;
                     return;
                 }
-                await _dialogManager.ShowServerPathEditorDialog(checkResult, ServerPathEditorRetryCommand);
+                await _dialogManager.ShowServerPathEditorDialog(checkResult, ServerPathEditorRetryCommand, _faqCommand);
             }
         }
     }

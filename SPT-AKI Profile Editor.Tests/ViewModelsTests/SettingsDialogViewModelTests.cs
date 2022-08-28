@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void InitializeCorrectly()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, 1);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null, 1);
             Assert.Multiple(() =>
             {
                 Assert.That(settingsVM, Is.Not.Null, "SettingsDialogViewModel is null");
@@ -34,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanOpenLocalizationEditorForEdit()
         {
             dialogManager.LocalizationEditorDialogOpened = false;
-            SettingsDialogViewModel settingsVM = new(null, dialogManager, null, null);
+            SettingsDialogViewModel settingsVM = new(null, dialogManager, null, null, null);
             settingsVM.OpenLocalizationEditor.Execute(true);
             Assert.That(dialogManager.LocalizationEditorDialogOpened, Is.True, "LocalizationEditorDialog not opened");
         }
@@ -44,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             bool closeCommandCalled = false;
             RelayCommand closeCommand = new(obj => closeCommandCalled = true);
-            SettingsDialogViewModel settingsVM = new(closeCommand, null, null, null);
+            SettingsDialogViewModel settingsVM = new(closeCommand, null, null, null, null);
             settingsVM.CloseCommand.Execute(null);
             Assert.That(closeCommandCalled, Is.True);
         }
@@ -53,7 +53,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanOpenAppData()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             settingsVM.OpenAppData.Execute(null);
             Assert.That(applicationManager.LastOpenedUrl, Is.EqualTo(DefaultValues.AppDataFolder));
         }
@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteQuitCommand()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             settingsVM.QuitCommand.Execute(null);
             Assert.That(applicationManager.CloseApplicationExecuted, Is.True);
         }
@@ -71,7 +71,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanChangeColorScheme()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             applicationManager.ThemeChanged = false;
             var colorScheme = settingsVM.ColorSchemes.Where(x => x.Scheme != settingsVM.ColorScheme).FirstOrDefault();
             settingsVM.ColorScheme = colorScheme.Scheme;
@@ -85,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 folderBrowserDialogMode = FolderBrowserDialogMode.serverFolder
             };
-            SettingsDialogViewModel settingsVM = new(null, dialogManager, windowsDialogs, null);
+            SettingsDialogViewModel settingsVM = new(null, dialogManager, windowsDialogs, null, null);
             AppData.AppSettings.ServerPath = null;
             settingsVM.ServerSelect.Execute(null);
             Assert.That(settingsVM.ServerPath, Is.EqualTo(TestHelpers.serverPath));
@@ -100,7 +100,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 folderBrowserDialogMode = FolderBrowserDialogMode.wrongServerFolder
             };
-            SettingsDialogViewModel settingsVM = new(null, dialogManager, windowsDialogs, null);
+            SettingsDialogViewModel settingsVM = new(null, dialogManager, windowsDialogs, null, null);
             settingsVM.ServerSelect.Execute(null);
             Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.True);
             Assert.That(settingsVM.ServerPath, Is.Not.EqualTo(TestHelpers.wrongServerPath));
@@ -116,7 +116,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 folderBrowserDialogMode = FolderBrowserDialogMode.wrongServerFolder
             };
-            SettingsDialogViewModel settingsVM = new(null, dialogManager, windowsDialogs, null);
+            SettingsDialogViewModel settingsVM = new(null, dialogManager, windowsDialogs, null, null);
             settingsVM.ServerSelect.Execute(null);
             Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.True);
             Assert.That(settingsVM.AppSettings.FilesList[SPTServerFile.serverexe], Is.EqualTo("Test.exe"));
@@ -128,7 +128,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanResetLocalizations()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             settingsVM.ResetLocalizations.Execute(null);
             Assert.That(applicationManager.LocalizationsDeleted, Is.True);
         }
@@ -137,7 +137,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanResetLocalizationsAndReload()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             settingsVM.ResetAndReload.Execute(settingsVM.ResetLocalizations);
             Assert.That(applicationManager.LocalizationsDeleted, Is.True);
             Assert.That(applicationManager.ApplicationRestarted, Is.True);
@@ -147,7 +147,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanResetSettings()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             settingsVM.ResetSettings.Execute(null);
             Assert.That(applicationManager.SettingsDeleted, Is.True);
         }
@@ -156,7 +156,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanResetSettingsAndReload()
         {
             TestsApplicationManager applicationManager = new();
-            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager);
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null);
             settingsVM.ResetAndReload.Execute(settingsVM.ResetSettings);
             Assert.That(applicationManager.SettingsDeleted, Is.True);
             Assert.That(applicationManager.ApplicationRestarted, Is.True);
@@ -167,7 +167,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             dialogManager.LastOkMessage = null;
             RelayCommand badCommand = new(obj => throw new System.Exception("Bad command exception"));
-            SettingsDialogViewModel settingsVM = new(null, dialogManager, null, null);
+            SettingsDialogViewModel settingsVM = new(null, dialogManager, null, null, null);
             settingsVM.ResetAndReload.Execute(badCommand);
             Assert.That(dialogManager.LastOkMessage, Is.EqualTo("Bad command exception"));
         }

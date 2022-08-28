@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool HasWeaponBuilds => WBuilds.Count > 0;
 
         [JsonIgnore]
-        public bool IsProfileEmpty => Characters?.Pmc.Info == null;
+        public bool IsProfileEmpty => Characters?.Pmc?.Info == null;
 
         [JsonIgnore]
         public int ProfileHash => profileHash;

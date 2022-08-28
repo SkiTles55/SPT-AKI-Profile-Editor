@@ -59,7 +59,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand)
+        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand, RelayCommand faqCommand)
         {
             ServerPathEditorDialogOpened = true;
             if (ShouldExecuteServerPathEditorRetryCommand)
@@ -73,7 +73,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task ShowSettingsDialog(int index = 0)
+        public Task ShowSettingsDialog(RelayCommand reloadCommand, RelayCommand faqCommand, int index = 0)
         {
             SettingsDialogOpened = true;
             return Task.CompletedTask;

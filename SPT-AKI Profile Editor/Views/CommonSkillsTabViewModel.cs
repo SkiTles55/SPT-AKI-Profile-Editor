@@ -5,7 +5,7 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class CommonSkillsTabViewModel : SkillsTabViewModel
     {
-        public CommonSkillsTabViewModel(IDialogManager dialogManager) : base(dialogManager)
+        public CommonSkillsTabViewModel(IDialogManager dialogManager, RelayCommand reloadCommand, RelayCommand faqCommand) : base(dialogManager, reloadCommand, faqCommand)
         {
         }
 

@@ -25,6 +25,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void CharactersNotNull() => Assert.IsNotNull(AppData.Profile.Characters);
 
         [Test]
+        public void ProfileNotEmpty() => Assert.IsFalse(AppData.Profile.IsProfileEmpty, "Profile is empty");
+
+        [Test]
         public void SuitsNotEmpty() => Assert.IsFalse(AppData.Profile.Suits.Length == 0);
 
         [Test]
@@ -112,16 +115,28 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.IsCommonSkillsEmpty, "Pmc CommonSkills is empty");
 
         [Test]
+        public void PmcCommonSkillsHaveLocalizedNames() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common.Any(x => string.IsNullOrEmpty(x.LocalizedName)), "Not all Pmc CommonSkills have localized name");
+
+        [Test]
         public void PmcMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.IsMasteringsEmpty, "Pmc MasteringSkills is empty");
+
+        [Test]
+        public void PmcMasteringSkillsHaveLocalizedNames() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Mastering.Any(x => string.IsNullOrEmpty(x.LocalizedName)), "Not all Pmc Masterings have localized name");
 
         [Test]
         public void ScavSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Scav.Skills, "Scav skills is null");
 
         [Test]
-        public void ScavCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Common.Length == 0, "Scav CommonSkills is empty");
+        public void ScavCommonSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Scav.IsCommonSkillsEmpty, "Scav CommonSkills is empty");
 
         [Test]
-        public void ScavMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Mastering.Length == 0, "Scav MasteringSkills is empty");
+        public void ScavCommonSkillsHaveLocalizedNames() => Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Common.Any(x => string.IsNullOrEmpty(x.LocalizedName)), "Not all Scav CommonSkills have localized name");
+
+        [Test]
+        public void ScavMasteringSkillsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Scav.IsMasteringsEmpty, "Scav MasteringSkills is empty");
+
+        [Test]
+        public void ScavMasteringSkillsHaveLocalizedNames() => Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Mastering.Any(x => string.IsNullOrEmpty(x.LocalizedName)), "Not all Scav Masterings have localized name");
 
         [Test]
         public void InventoryNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Inventory);

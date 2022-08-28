@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            CommonSkillsTabViewModel viewModel = new(null);
+            CommonSkillsTabViewModel viewModel = new(null, null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.MaxSkillsValue, Is.EqualTo(AppData.AppSettings.CommonSkillMaxValue));
             Assert.That(viewModel.SetAllPmcSkillsValue, Is.EqualTo(0f));
@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CantSetAllPmcSkillsValueGreatherThanInServerDatabase()
         {
-            CommonSkillsTabViewModel viewModel = new(null)
+            CommonSkillsTabViewModel viewModel = new(null, null, null)
             {
                 SetAllPmcSkillsValue = float.MaxValue
             };
@@ -37,7 +37,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CantSetAllScavSkillsValueGreatherThanInServerDatabase()
         {
-            CommonSkillsTabViewModel viewModel = new(null)
+            CommonSkillsTabViewModel viewModel = new(null, null, null)
             {
                 SetAllScavSkillsValue = float.MaxValue
             };
@@ -49,7 +49,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
             AppData.Profile.Load(TestHelpers.profileFile);
-            CommonSkillsTabViewModel viewModel = new(null)
+            CommonSkillsTabViewModel viewModel = new(null, null, null)
             {
                 SetAllPmcSkillsValue = 200f
             };
@@ -63,7 +63,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
             AppData.Profile.Load(TestHelpers.profileFile);
-            CommonSkillsTabViewModel viewModel = new(null)
+            CommonSkillsTabViewModel viewModel = new(null, null, null)
             {
                 SetAllScavSkillsValue = 200f
             };
@@ -76,7 +76,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteOpenSettingsCommand()
         {
             TestsDialogManager dialogManager = new();
-            CommonSkillsTabViewModel viewModel = new(dialogManager);
+            CommonSkillsTabViewModel viewModel = new(dialogManager, null, null);
             viewModel.OpenSettingsCommand.Execute(null);
             Assert.That(dialogManager.SettingsDialogOpened, Is.True);
         }

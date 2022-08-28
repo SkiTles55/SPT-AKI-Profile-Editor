@@ -19,6 +19,20 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void HasNeededData() => Assert.That(BackupsTabViewModel.BackupService, Is.Not.Null);
 
         [Test]
+        public void CanCreateBackup()
+        {
+            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            BackupsTabViewModel.BackupService.LoadBackupsList();
+            var startCount = BackupsTabViewModel.BackupService.BackupList.Count();
+            BackupsTabViewModel.BackupService.CreateBackup();
+            BackupsTabViewModel.BackupService.LoadBackupsList();
+            Assert.That(BackupsTabViewModel.BackupService.BackupList.Count(), Is.EqualTo(startCount + 1), "New backup not created");
+            Assert.That(BackupsTabViewModel.BackupService.BackupList.All(x => !string.IsNullOrEmpty(x.Path)), Is.True, "Backups does not have path");
+            Assert.That(BackupsTabViewModel.BackupService.BackupList.All(x => x.Date < System.DateTime.Now), Is.True, "Backups have wrong date");
+            Assert.That(BackupsTabViewModel.BackupService.BackupList.All(x => !string.IsNullOrEmpty(x.FormatedDate)), Is.True, "Backups does not have formatted date");
+        }
+
+        [Test]
         public void CanRemoveBackup()
         {
             BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());

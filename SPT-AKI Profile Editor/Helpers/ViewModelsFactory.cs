@@ -8,15 +8,17 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                  IWorker worker,
                                  IApplicationManager applicationManager,
                                  IWindowsDialogs windowsDialogs,
-                                 RelayCommand saveCommand)
+                                 RelayCommand saveCommand,
+                                 RelayCommand reloadCommand,
+                                 RelayCommand faqCommand)
         {
             FastMode = new(saveCommand);
             InfoTab = new();
             MerchantsTab = new();
-            QuestsTab = new(dialogManager);
+            QuestsTab = new(dialogManager, reloadCommand, faqCommand);
             HideoutTab = new();
-            SkillsTab = new(dialogManager);
-            MasteringTab = new(dialogManager);
+            SkillsTab = new(dialogManager, reloadCommand, faqCommand);
+            MasteringTab = new(dialogManager, reloadCommand, faqCommand);
             ExaminedItemsTab = new();
             StashTab = new(dialogManager, worker, applicationManager);
             ClothingTab = new();

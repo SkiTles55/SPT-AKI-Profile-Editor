@@ -24,11 +24,14 @@ namespace SPT_AKI_Profile_Editor
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(_dialogManager);
-            ViewModels = new(_dialogManager, _worker, _applicationManager, _windowsDialogs, SaveButtonCommand);
-            Instance = this;
+            ViewModels = new(_dialogManager,
+                             _worker,
+                             _applicationManager,
+                             _windowsDialogs,
+                             SaveButtonCommand,
+                             ReloadCommand,
+                             OpenFAQ);
         }
-
-        public static MainWindowViewModel Instance { get; set; }
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
 
@@ -40,11 +43,13 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog());
-
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ));
+        
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
         public RelayCommand ReloadButtonCommand => new(async obj => await Reload());
+
+        private RelayCommand ReloadCommand => new(obj => StartupEventsWorker());
 
         public async void SaveProfileAndReload()
         {
@@ -122,7 +127,7 @@ namespace SPT_AKI_Profile_Editor
             || !AppData.AppSettings.PathIsServerFolder()
             || !AppData.AppSettings.ServerHaveProfiles()
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await _dialogManager.ShowSettingsDialog();
+                await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ);
             else
                 StartupEventsWorker();
             if (AppData.AppSettings.CheckUpdates == true)

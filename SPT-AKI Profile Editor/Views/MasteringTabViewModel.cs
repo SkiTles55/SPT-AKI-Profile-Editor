@@ -5,7 +5,7 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class MasteringTabViewModel : SkillsTabViewModel
     {
-        public MasteringTabViewModel(IDialogManager dialogManager) : base(dialogManager)
+        public MasteringTabViewModel(IDialogManager dialogManager, RelayCommand reloadCommand, RelayCommand faqCommand) : base(dialogManager, reloadCommand, faqCommand)
         {
         }
 
