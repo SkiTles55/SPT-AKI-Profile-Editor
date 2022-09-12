@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
-        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\37462bb6cc951e67bf41d45e.json";
+        public static readonly string profileFile = @"C:\SPT-AKI\user\profiles\ea45e166ce23575eb625cb9a.json";
         public static readonly string serverPath = @"C:\SPT-AKI";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");

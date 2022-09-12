@@ -548,11 +548,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void StashAddingItemsSavesCorrectly()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
+            TestHelpers.LoadDatabaseAndProfile();
             AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             var largestItems = AppData.ServerDatabase.ItemsDB
                 .Where(x => !AppData.Profile.Characters.Pmc.Inventory.InventoryItems
-                .Any(y => y.Tpl == x.Key))
+                .Any(y => y.Tpl == x.Key) && x.Value.CanBeAddedToStash)
                 .OrderByDescending(x => x.Value.Properties?.Width + x.Value.Properties?.Height)
                 .ToArray();
             var item1 = largestItems[0].Value;
