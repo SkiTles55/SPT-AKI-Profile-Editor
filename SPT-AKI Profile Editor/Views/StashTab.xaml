@@ -25,6 +25,7 @@
                 <extendedcontrols:ItemsAdding
                     Grid.Row="1"
                     AddItemCommand="{Binding AddItem}"
+                    AddItemsBlocked="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems}"
                     CategoriesForItemsAdding="{Binding ServerDatabase.HandbookHelper.CategoriesForItemsAdding}"
                     FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>

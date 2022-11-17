@@ -88,10 +88,10 @@
                         <WrapPanel MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=DockPanel}, Path=ActualWidth}" DockPanel.Dock="Bottom">
                             <WrapPanel.Style>
                                 <Style TargetType="WrapPanel">
-                                    <Setter Property="IsEnabled" Value="True" />
+                                    <Setter Property="IsEnabled" Value="False" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Data.Profile.Characters.Pmc.Inventory.ContainsModdedItems, Source={StaticResource proxy}}" Value="True">
-                                            <Setter Property="IsEnabled" Value="False" />
+                                        <DataTrigger Binding="{Binding ElementName=Control, Path=AddItemsBlocked, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                            <Setter Property="IsEnabled" Value="True" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

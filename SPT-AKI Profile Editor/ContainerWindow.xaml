@@ -78,7 +78,10 @@
                     </Style.Triggers>
                 </Style>
             </TabItem.Style>
-            <extendedcontrols:ItemsAdding AddItemCommand="{Binding AddItem}" CategoriesForItemsAdding="{Binding CategoriesForItemsAdding}" />
+            <extendedcontrols:ItemsAdding
+                AddItemCommand="{Binding AddItem}"
+                AddItemsBlocked="{Binding ItemsAddingBlocked}"
+                CategoriesForItemsAdding="{Binding CategoriesForItemsAdding}" />
         </TabItem>
     </TabControl>
 </helpers:ItemViewWindow>

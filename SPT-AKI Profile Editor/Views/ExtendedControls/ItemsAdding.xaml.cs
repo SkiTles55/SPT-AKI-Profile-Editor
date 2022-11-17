@@ -23,6 +23,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty AddItemCommandProperty =
             DependencyProperty.Register(nameof(AddItemCommand), typeof(ICommand), typeof(ItemsAdding), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty AddItemsBlockedProperty =
+            DependencyProperty.Register(nameof(AddItemsBlocked), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
+
         public ItemsAdding()
         {
             InitializeComponent();
@@ -44,6 +47,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (ICommand)GetValue(AddItemCommandProperty); }
             set { SetValue(AddItemCommandProperty, value); }
+        }
+
+        public bool AddItemsBlocked
+        {
+            get { return (bool)GetValue(AddItemsBlockedProperty); }
+            set { SetValue(AddItemsBlockedProperty, value); }
         }
 
         private void FilterBoxAdding_TextChanged(object sender, TextChangedEventArgs e) =>

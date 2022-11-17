@@ -46,6 +46,8 @@ namespace SPT_AKI_Profile_Editor
 
         public bool ItemsAddingAllowed => _item.CanAddItems && CategoriesForItemsAdding.Count > 0;
 
+        public bool ItemsAddingBlocked => !ItemsAddingAllowed || Items.Where(x => !x.IsInItemsDB).Any();
+
         public ObservableCollection<AddableCategory> CategoriesForItemsAdding
         {
             get
