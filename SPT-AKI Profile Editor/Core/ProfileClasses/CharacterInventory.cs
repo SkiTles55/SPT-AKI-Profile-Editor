@@ -333,7 +333,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int ForcedRight = 0;
             int outX = tmpItem.Properties.Width;
             int outY = tmpItem.Properties.Height;
-            if (rootItem != null)
+            if (rootItem != null && rootItem.IsWeapon)
             {
                 List<string> skipThisItems = new() { "5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041" };
                 bool rootFolded = rootItem.Upd != null && rootItem.Upd.Foldable != null && rootItem.Upd.Foldable.Folded;
