@@ -45,12 +45,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? LoyaltyLevel;
+        public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? 0;
 
         public bool HasLevelIssue(int? level)
         {
-            var currentLoyalityLevel = Math.Min(Math.Max(0, LoyaltyLevel - 1), MaxLevel);
-            return TraderBase?.LoyaltyLevels[currentLoyalityLevel].MinLevel > level;
+            var currentLevelIndex = Math.Min(Math.Max(0, LoyaltyLevel - 1), MaxLevel - 1);
+            return TraderBase?.LoyaltyLevels[currentLevelIndex].MinLevel > level;
         }
 
         private void SetSalesSum(int value)
