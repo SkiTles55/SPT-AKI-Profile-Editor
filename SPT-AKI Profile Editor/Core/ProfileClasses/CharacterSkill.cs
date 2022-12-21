@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Linq;
 
@@ -37,8 +38,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public float MaxValue => GetMaxProgress();
 
         [JsonIgnore]
-        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.Interface.ContainsKey(Id)
-            ? AppData.ServerDatabase.LocalesGlobal.Interface[Id] : MasteringLocalizedName();
+        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id)
+            ? AppData.ServerDatabase.LocalesGlobal[Id] : MasteringLocalizedName();
 
         private float GetMaxProgress()
         {
@@ -55,8 +56,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 .Where(x => x.Name == Id).FirstOrDefault();
             if (mastering != null)
                 return string.Join(Environment.NewLine, mastering.Templates
-                    .Where(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x))
-                    .Select(y => AppData.ServerDatabase.LocalesGlobal.Templates[y].Name));
+                    .Where(x => AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Name()))
+                    .Select(y => AppData.ServerDatabase.LocalesGlobal[y.Name()]));
             else
                 return Id;
         }

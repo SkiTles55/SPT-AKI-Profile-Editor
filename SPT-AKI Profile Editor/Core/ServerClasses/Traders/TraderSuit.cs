@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -14,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonIgnore]
         public string LocalizedName =>
-            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(SuiteId) ? AppData.ServerDatabase.LocalesGlobal.Templates[SuiteId].Name : SuiteId;
+            AppData.ServerDatabase.LocalesGlobal.ContainsKey(SuiteId.Name()) ? AppData.ServerDatabase.LocalesGlobal[SuiteId.Name()] : SuiteId;
 
         [JsonIgnore]
         public bool Boughted

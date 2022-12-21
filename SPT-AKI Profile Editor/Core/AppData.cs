@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,10 +69,10 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList[SPTServerFile.languages]);
-                LocalesGlobalTemplate[] languages = JsonConvert.DeserializeObject<LocalesGlobalTemplate[]>(File.ReadAllText(path));
+                Dictionary<string, string> languages = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
                 availableKeys = languages
-                    .Where(x => ShouldAddToAvailableKeys(x.ShortName.ToString()))
-                    .ToDictionary(x => x.ShortName.ToString(), x => x.Name);
+                    .Where(x => x.Key.Length == 2 && ShouldAddToAvailableKeys(x.Key))
+                    .ToDictionary(x => x.Key, x => x.Value);
             }
             catch (Exception ex) { Logger.Log($"LoadAvailableKeys loading error: {ex.Message}"); }
             return availableKeys;
@@ -87,7 +88,7 @@ namespace SPT_AKI_Profile_Editor.Core
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.globals], AppSettings.Language + ".json");
             try
             {
-                LocalesGlobal global = JsonConvert.DeserializeObject<LocalesGlobal>(File.ReadAllText(path));
+                Dictionary<string, string> global = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
                 ServerDatabase.LocalesGlobal = global;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase LocalesGlobal ({path}) loading error: {ex.Message}"); }
@@ -107,7 +108,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     if (bot.Appearance.Heads != null)
                         foreach (var head in bot.Appearance.Heads)
                             if (!Heads.ContainsKey(head))
-                                Heads.Add(head, ServerDatabase.LocalesGlobal.Customization.ContainsKey(head) ? ServerDatabase.LocalesGlobal.Customization[head].Name : head);
+                                Heads.Add(head, ServerDatabase.LocalesGlobal.ContainsKey(head.Name()) ? ServerDatabase.LocalesGlobal[head.Name()] : head);
                     if (bot.Appearance.Voices != null)
                         foreach (var voice in bot.Appearance.Voices)
                             if (!Voices.ContainsKey(voice))

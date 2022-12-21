@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             Parent = parent;
             Type = type;
             SlotsCount = CalculateSlotsCount();
-            CanBeAddedToStash = AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Id)
+            CanBeAddedToStash = AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Name())
                 && !Properties.QuestItem
                 && !AppData.AppSettings.BannedItems.Contains(Parent)
                 && !AppData.AppSettings.BannedItems.Contains(Id);
@@ -34,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonIgnore]
         public override string LocalizedName =>
-            AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Templates[Id].Name : Id;
+            AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Name()) ? AppData.ServerDatabase.LocalesGlobal[Id.Name()] : Id;
 
         [JsonIgnore]
         public int SlotsCount { get; }

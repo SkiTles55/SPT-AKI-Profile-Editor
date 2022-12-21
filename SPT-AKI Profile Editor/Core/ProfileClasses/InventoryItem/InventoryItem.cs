@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -42,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public string GlobalName =>
-            AppData.ServerDatabase.LocalesGlobal?.Templates?.ContainsKey(Tpl) ?? false ? AppData.ServerDatabase.LocalesGlobal.Templates[Tpl].Name : Tpl;
+            AppData.ServerDatabase.LocalesGlobal?.ContainsKey(Tpl.Name()) ?? false ? AppData.ServerDatabase.LocalesGlobal[Tpl.Name()] : Tpl;
 
         [JsonIgnore]
         public bool IsContainer => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;

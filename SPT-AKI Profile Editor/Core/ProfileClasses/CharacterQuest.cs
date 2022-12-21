@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,10 +50,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public Dictionary<QuestStatus, double> StatusTimers { get; set; }
 
         [JsonIgnore]
-        public string LocalizedTraderName => AppData.ServerDatabase.LocalesGlobal.Trading.ContainsKey(QuestTrader) ? AppData.ServerDatabase.LocalesGlobal.Trading[QuestTrader].Nickname : QuestTrader;
+        public string LocalizedTraderName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestTrader.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[QuestTrader.Nickname()] : QuestTrader;
 
         [JsonIgnore]
-        public string LocalizedQuestName => AppData.ServerDatabase.LocalesGlobal.Quests.ContainsKey(QuestName) ? AppData.ServerDatabase.LocalesGlobal.Quests[QuestName].Name : QuestName;
+        public string LocalizedQuestName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestQid.QuestName()) ? AppData.ServerDatabase.LocalesGlobal[QuestQid.QuestName()] : QuestQid;
 
         [JsonIgnore]
         public QuestType Type
@@ -75,7 +76,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public QuestData QuestData { get; set; }
 
         [JsonIgnore]
-        public string QuestName { get; set; } = "unknown";
+        public string QuestQid { get; set; } = "unknown";
 
         private QuestStatus GetNewStatus(QuestStatus newStatus)
         {

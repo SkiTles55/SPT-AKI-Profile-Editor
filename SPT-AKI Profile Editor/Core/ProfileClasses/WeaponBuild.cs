@@ -110,8 +110,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (!fromTemplate)
                 return;
             Name = Weapon;
-            if (AppData.ServerDatabase?.LocalesGlobal?.Preset?.ContainsKey(Id) ?? false)
-                Name += " " + AppData.ServerDatabase.LocalesGlobal.Preset[Id].Name;
+            if (AppData.ServerDatabase?.LocalesGlobal?.ContainsKey(Id) ?? false)
+                Name += " " + AppData.ServerDatabase.LocalesGlobal[Id];
         }
 
         private void AddModProperties(InventoryItem item)

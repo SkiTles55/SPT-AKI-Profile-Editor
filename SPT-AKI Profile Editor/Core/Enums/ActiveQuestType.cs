@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         public static string LocalizedName(this ActiveQuestType type)
         {
             var key = $"DailyQuestName/{type}";
-            return AppData.ServerDatabase.LocalesGlobal.Interface.ContainsKey(key) ? AppData.ServerDatabase.LocalesGlobal.Interface[key] : type.ToString();
+            return AppData.ServerDatabase.LocalesGlobal.ContainsKey(key) ? AppData.ServerDatabase.LocalesGlobal[key] : type.ToString();
         }
     }
 }

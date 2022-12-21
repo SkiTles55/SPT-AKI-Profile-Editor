@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         {
             Id = id;
             ParentId = parentId;
-            LocalizedName = AppData.ServerDatabase.LocalesGlobal.Handbook.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Handbook[Id] : Id;
+            LocalizedName = AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Name()) ? AppData.ServerDatabase.LocalesGlobal[Id.Name()] : Id;
         }
 
         [JsonProperty("Id")]
