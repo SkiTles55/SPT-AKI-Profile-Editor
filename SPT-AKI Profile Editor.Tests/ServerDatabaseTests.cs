@@ -33,22 +33,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void LocalesGlobalNotNull() => Assert.IsNotNull(AppData.ServerDatabase.LocalesGlobal);
 
         [Test]
-        public void LocalesGlobalTradingNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Trading.Count == 0);
-
-        [Test]
-        public void LocalesGlobalTemplatesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Templates.Count == 0);
-
-        [Test]
-        public void LocalesGlobalHandbookNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Handbook.Count == 0);
-
-        [Test]
-        public void LocalesGlobalCustomizationNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Customization.Count == 0);
-
-        [Test]
-        public void LocalesGlobalQuestNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Quests.Count == 0);
-
-        [Test]
-        public void LocalesGlobalInterfaceNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Interface.Count == 0);
+        public void LocalesGlobalNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Count == 0);
 
         [Test]
         public void ServerGlobalsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals);

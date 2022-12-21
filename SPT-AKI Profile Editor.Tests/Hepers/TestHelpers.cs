@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     internal class TestHelpers
     {
         public static readonly string profileFile = @"D:\SPT-AKI\user\profiles\7afb96d8e3bdde115271c283.json";
-        public static readonly string serverPath = @"D:\SPT-AKIO";
+        public static readonly string serverPath = @"D:\SPT-AKI";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");

@@ -6,10 +6,10 @@ namespace SPT_AKI_Profile_Editor.Views
     public class SkillsTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
-        private float setAllPmcSkillsValue;
-        private float setAllScavSkillsValue;
         private readonly RelayCommand _reloadCommand;
         private readonly RelayCommand _faqCommand;
+        private float setAllPmcSkillsValue;
+        private float setAllScavSkillsValue;
 
         public SkillsTabViewModel(IDialogManager dialogManager, RelayCommand reloadCommand, RelayCommand faqCommand)
         {
