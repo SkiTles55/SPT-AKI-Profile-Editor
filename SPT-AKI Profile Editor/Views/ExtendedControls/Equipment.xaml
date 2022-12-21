@@ -54,7 +54,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Earpiece]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Earpiece]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Earpiece Info-->
@@ -126,7 +126,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Headwear]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Headwear]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Headwear Info-->
@@ -198,7 +198,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[FaceCover]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[FaceCover]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region FaceCover Info-->
@@ -270,7 +270,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Eyewear]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Eyewear]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Eyewear Info-->
@@ -342,7 +342,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Armband]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Armband]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region ArmBand Info-->
@@ -414,7 +414,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[ArmorVest]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[ArmorVest]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region ArmorVest Info-->
@@ -486,7 +486,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[TacticalVest]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[TacticalVest]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region TacticalVest Info-->
@@ -558,7 +558,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[PrimaryWeaponFirst]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponFirst]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region First primary weapon Info-->
@@ -630,7 +630,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[PrimaryWeaponSecond]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponSecond]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region SecondPrimaryWeapon Info-->
@@ -702,7 +702,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Holster]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Holster]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Holster Info-->
@@ -774,7 +774,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Scabbard]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Scabbard]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Scabbard Info-->
@@ -846,7 +846,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Pockets]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Pockets]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <extendedcontrols:ItemsGrid
@@ -867,7 +867,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[Backpack]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Backpack]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Backpack Info-->
@@ -939,7 +939,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal.Interface[SecuredContainer]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[SecuredContainer]}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region SecuredContainer Info-->
