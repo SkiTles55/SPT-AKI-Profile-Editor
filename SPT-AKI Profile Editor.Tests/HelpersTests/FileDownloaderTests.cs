@@ -28,7 +28,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         [Test]
         public async Task CanCatchException()
         {
-            TestsDialogManager dialogManager = new ();
+            TestsDialogManager dialogManager = new();
             FileDownloader fileDownloader = new(dialogManager);
             await fileDownloader.Download("https://test.com/nonExistigFile.md", TestHelpers.fileDownloaderTestSavePath);
             Assert.That(dialogManager.LastOkMessage, Is.Not.Null);

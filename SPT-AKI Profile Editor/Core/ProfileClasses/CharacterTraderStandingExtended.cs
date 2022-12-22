@@ -1,5 +1,6 @@
 ﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -26,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public CharacterTraderStanding TraderStanding { get; }
         public TraderBase TraderBase { get; }
 
-        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.Trading.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal.Trading[Id].Nickname : Id;
+        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[Id.Nickname()] : Id;
 
         public int LoyaltyLevel
         {

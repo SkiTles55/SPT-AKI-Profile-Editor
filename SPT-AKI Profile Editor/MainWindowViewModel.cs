@@ -44,7 +44,7 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
         public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ));
-        
+
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
         public RelayCommand ReloadButtonCommand => new(async obj => await Reload());

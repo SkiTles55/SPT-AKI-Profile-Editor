@@ -7,7 +7,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         private Dictionary<string, string> heads;
         private Dictionary<string, string> voices;
-        private LocalesGlobal localesGlobal;
+        private Dictionary<string, string> localesGlobal;
         private ServerGlobals serverGlobals;
         private Dictionary<string, TraderBase> traderInfos;
         private Dictionary<string, QuestData> questsData;
@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
-        public LocalesGlobal LocalesGlobal
+        public Dictionary<string, string> LocalesGlobal
         {
             get => localesGlobal;
             set

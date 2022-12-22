@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -149,8 +150,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public IEnumerable<string> ExaminedItems => Encyclopedia?
-            .Select(x => AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)
-            ? AppData.ServerDatabase.LocalesGlobal.Templates[x.Key].Name : x.Key);
+            .Select(x => AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Key.Name())
+            ? AppData.ServerDatabase.LocalesGlobal[x.Key.Name()] : x.Key);
 
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
@@ -201,7 +202,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 && x.Value.Type == "Item"
                 && !x.Value.Properties.ExaminedByDefault
                 && !Encyclopedia.Any(c => c.Key == x.Key)
-                && AppData.ServerDatabase.LocalesGlobal.Templates.ContainsKey(x.Key)))
+                && AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Key.Name())))
                 Encyclopedia.Add(item.Key, true);
             OnPropertyChanged("ExaminedItems");
         }
