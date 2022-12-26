@@ -13,11 +13,10 @@
     mc:Ignorable="d">
     <ScrollViewer
         CanContentScroll="True"
-        PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
         VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition>
+                <RowDefinition Height="*">
                     <RowDefinition.Style>
                         <Style TargetType="{x:Type RowDefinition}">
                             <Setter Property="MaxHeight" Value="50" />
