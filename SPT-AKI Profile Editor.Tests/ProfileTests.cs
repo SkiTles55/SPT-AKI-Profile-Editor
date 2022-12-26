@@ -67,7 +67,28 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void GameVersionNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Info.GameVersion, "GameVersion is empty");
 
         [Test]
-        public void CustomizationNotNully() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Customization);
+        public void CustomizationNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Customization);
+
+        [Test]
+        public void HealthNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health);
+
+        [Test]
+        public void HydrationNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.Hydration);
+
+        [Test]
+        public void HydrationCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Hydration.Current == 0);
+
+        [Test]
+        public void HydrationMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Hydration.Maximum == 0);
+
+        [Test]
+        public void EnergyNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.Energy);
+
+        [Test]
+        public void EnergyCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Current == 0);
+
+        [Test]
+        public void EnergynMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Maximum == 0);
 
         [Test]
         public void HeadNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Customization.Head, "Head is empty");
@@ -291,7 +312,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var locked = AppData.Profile.Characters.Pmc.Quests?
                 .Where(x => x.Type == QuestType.Standart && x.Status == QuestStatus.Locked)?
                 .FirstOrDefault();
-            Assert.IsNotNull(locked);
+            Assert.IsNotNull(locked, "Cant find locked quest");
             locked.Status = QuestStatus.AvailableForFinish;
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
@@ -737,6 +758,21 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems);
+        }
+
+        [Test]
+        public void ProfileHealthSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.Health.Energy.Current = 300;
+            AppData.Profile.Characters.Pmc.Health.Hydration.Current = 350;
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testHealth.json");
+            AppData.Profile.Save(TestHelpers.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.AreEqual(300, AppData.Profile.Characters.Pmc.Health.Energy.Current, "Health.Energy.Current is not 300");
+            Assert.AreEqual(300, AppData.Profile.Characters.Pmc.Health.Energy.Maximum, "Health.Energy.Maximum is not 300");
+            Assert.AreEqual(350, AppData.Profile.Characters.Pmc.Health.Hydration.Current, "Health.Hydration.Current is not 350");
+            Assert.AreEqual(350, AppData.Profile.Characters.Pmc.Health.Hydration.Maximum, "Health.Hydration.Maximum is not 350");
         }
     }
 }

@@ -21,6 +21,7 @@
                     <RowDefinition MaxHeight="50" />
                     <RowDefinition MaxHeight="50" />
                     <RowDefinition MaxHeight="50" />
+                    <RowDefinition MaxHeight="50" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150" />
@@ -216,6 +217,17 @@
                     ItemsSource="{Binding ServerDatabase.Pockets}"
                     SelectedValue="{Binding Profile.Characters.Pmc.Inventory.Pockets}"
                     SelectedValuePath="Key" />
+                <Label
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_info_health]}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">

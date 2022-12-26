@@ -1,0 +1,271 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.Info"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    x:Name="Control"
+    d:DataContext="{d:DesignInstance Type=views:InfoTabViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <ScrollViewer
+        CanContentScroll="True"
+        PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+        VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition>
+                    <RowDefinition.Style>
+                        <Style TargetType="{x:Type RowDefinition}">
+                            <Setter Property="MaxHeight" Value="50" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
+                                    <Setter Property="MaxHeight" Value="0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RowDefinition.Style>
+                </RowDefinition>
+                <RowDefinition MaxHeight="50" />
+                <RowDefinition>
+                    <RowDefinition.Style>
+                        <Style TargetType="{x:Type RowDefinition}">
+                            <Setter Property="MaxHeight" Value="50" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
+                                    <Setter Property="MaxHeight" Value="0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RowDefinition.Style>
+                </RowDefinition>
+                <RowDefinition MaxHeight="50" />
+                <RowDefinition MaxHeight="50" />
+                <RowDefinition MaxHeight="50" />
+                <RowDefinition>
+                    <RowDefinition.Style>
+                        <Style TargetType="{x:Type RowDefinition}">
+                            <Setter Property="MaxHeight" Value="50" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
+                                    <Setter Property="MaxHeight" Value="0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RowDefinition.Style>
+                </RowDefinition>
+                <RowDefinition MaxHeight="50" />
+                <RowDefinition MaxHeight="50" />
+                <RowDefinition MaxHeight="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_id]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                IsEnabled="False"
+                Text="{Binding ElementName=Control, Path=Character.Aid, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_nickname]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                Text="{Binding ElementName=Control, Path=Character.Info.Nickname, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_side]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <ComboBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Sides}"
+                SelectedItem="{Binding ElementName=Control, Path=Character.Info.Side, UpdateSourceTrigger=PropertyChanged}" />
+            <Label
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_voice]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <ComboBox
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Value"
+                ItemsSource="{Binding ServerDatabase.Voices}"
+                SelectedValue="{Binding ElementName=Control, Path=Character.Info.Voice, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValuePath="Key" />
+            <Label
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <TextBox
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                PreviewTextInput="NumberValidationTextBox"
+                Text="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
+            <Label
+                Grid.Row="5"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_experience]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <Grid
+                Grid.Row="5"
+                Grid.Column="1"
+                Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    MinWidth="80"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    PreviewTextInput="NumberValidationTextBox"
+                    Text="{Binding ElementName=Control, Path=Character.Info.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                <Slider
+                    Grid.Column="1"
+                    Margin="2,0"
+                    VerticalAlignment="Center"
+                    Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
+                    TickFrequency="300000"
+                    TickPlacement="BottomRight"
+                    Value="{Binding ElementName=Control, Path=Character.Info.Experience}" />
+            </Grid>
+            <Label
+                Grid.Row="6"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_game_version]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <TextBox
+                Grid.Row="6"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                IsEnabled="False"
+                Text="{Binding ElementName=Control, Path=Character.Info.GameVersion}"
+                TextWrapping="Wrap" />
+            <Label
+                Grid.Row="7"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_head]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <ComboBox
+                Grid.Row="7"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Value"
+                ItemsSource="{Binding ServerDatabase.Heads}"
+                SelectedValue="{Binding ElementName=Control, Path=Character.Customization.Head}"
+                SelectedValuePath="Key" />
+            <Label
+                Grid.Row="8"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_pockets]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+            <ComboBox
+                Grid.Row="8"
+                Grid.Column="1"
+                Margin="10,0"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Value"
+                ItemsSource="{Binding ServerDatabase.Pockets}"
+                SelectedValue="{Binding ElementName=Control, Path=Character.Inventory.Pockets}"
+                SelectedValuePath="Key" />
+            <Label
+                Grid.Row="9"
+                Grid.Column="0"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_health]}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

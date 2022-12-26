@@ -140,8 +140,6 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 if (!File.Exists(Path.Combine(tbase, "base.json")))
                     continue;
-                if (Path.GetFileNameWithoutExtension(tbase) == "ragfair")
-                    continue;
                 try
                 {
                     traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
