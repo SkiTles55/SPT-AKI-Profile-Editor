@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -12,12 +10,6 @@ namespace SPT_AKI_Profile_Editor.Views
         public InfoTab()
         {
             InitializeComponent();
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
