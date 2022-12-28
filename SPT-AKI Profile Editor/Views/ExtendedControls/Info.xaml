@@ -58,9 +58,6 @@
                 <RowDefinition MaxHeight="50" />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
@@ -261,49 +258,31 @@
                 Grid.Column="0"
                 Margin="10,0,0,0"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 FontWeight="Bold">
                 <Label.Content>
                     <TextBlock Text="tab_info_health" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <local:MetricView
+            <WrapPanel
                 Grid.Row="9"
                 Grid.Column="1"
-                HorizontalAlignment="Center"
-                MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
-            <StackPanel
-                Grid.Row="10"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
                 Orientation="Horizontal">
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
                 <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
                 <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
-            </StackPanel>
-            <StackPanel
-                Grid.Row="11"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
                 <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
                 <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
-            </StackPanel>
-            <StackPanel
-                Grid.Row="12"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                Orientation="Horizontal">
                 <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
                 <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
-            </StackPanel>
-            <StackPanel
-                Grid.Row="13"
+            </WrapPanel>
+            <WrapPanel
+                Grid.Row="10"
                 Grid.Column="1"
-                HorizontalAlignment="Center"
                 Orientation="Horizontal">
                 <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION]}" />
                 <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY]}" />
-            </StackPanel>
+            </WrapPanel>
         </Grid>
     </ScrollViewer>
 </UserControl>
