@@ -11,9 +11,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <ScrollViewer
-        CanContentScroll="True"
-        VerticalScrollBarVisibility="Auto">
+    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*">
@@ -58,7 +56,11 @@
                 </RowDefinition>
                 <RowDefinition MaxHeight="50" />
                 <RowDefinition MaxHeight="50" />
-                <RowDefinition MaxHeight="50" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
@@ -78,7 +80,7 @@
             <TextBox
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 IsEnabled="False"
                 Text="{Binding ElementName=Control, Path=Character.Aid, UpdateSourceTrigger=PropertyChanged}"
@@ -97,7 +99,7 @@
             <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 Text="{Binding ElementName=Control, Path=Character.Info.Nickname, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
@@ -115,7 +117,7 @@
             <ComboBox
                 Grid.Row="2"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 ItemsSource="{Binding Sides}"
                 SelectedItem="{Binding ElementName=Control, Path=Character.Info.Side, UpdateSourceTrigger=PropertyChanged}" />
@@ -133,7 +135,7 @@
             <ComboBox
                 Grid.Row="3"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding ServerDatabase.Voices}"
@@ -153,7 +155,7 @@
             <TextBox
                 Grid.Row="4"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 PreviewTextInput="NumberValidationTextBox"
                 Text="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}"
@@ -172,7 +174,7 @@
             <Grid
                 Grid.Row="5"
                 Grid.Column="1"
-                Margin="10,0">
+                Margin="10,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -209,7 +211,7 @@
             <TextBox
                 Grid.Row="6"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 IsEnabled="False"
                 Text="{Binding ElementName=Control, Path=Character.Info.GameVersion}"
@@ -228,7 +230,7 @@
             <ComboBox
                 Grid.Row="7"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding ServerDatabase.Heads}"
@@ -248,7 +250,7 @@
             <ComboBox
                 Grid.Row="8"
                 Grid.Column="1"
-                Margin="10,0"
+                Margin="10,5"
                 VerticalAlignment="Center"
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding ServerDatabase.Pockets}"
@@ -262,9 +264,46 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold">
                 <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_health]}" TextWrapping="Wrap" />
+                    <TextBlock Text="tab_info_health" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
+            <local:MetricView
+                Grid.Row="9"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
+            <StackPanel
+                Grid.Row="10"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="11"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="12"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
+                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="13"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY]}" />
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 </UserControl>
