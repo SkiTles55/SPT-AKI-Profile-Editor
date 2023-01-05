@@ -280,6 +280,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 character.SelectToken("Health")["Energy"]["Maximum"] = profileCharacter.Health.Energy.Maximum;
                 character.SelectToken("Health")["Hydration"]["Current"] = profileCharacter.Health.Hydration.Current;
                 character.SelectToken("Health")["Hydration"]["Maximum"] = profileCharacter.Health.Hydration.Maximum;
+                character.SelectToken("Health")["BodyParts"]["Head"]["Health"]["Current"] = profileCharacter.Health.BodyParts.Head.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["Head"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.Head.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["Chest"]["Health"]["Current"] = profileCharacter.Health.BodyParts.Chest.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["Chest"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.Chest.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["Stomach"]["Health"]["Current"] = profileCharacter.Health.BodyParts.Stomach.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["Stomach"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.Stomach.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["LeftArm"]["Health"]["Current"] = profileCharacter.Health.BodyParts.LeftArm.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["LeftArm"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.LeftArm.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["RightArm"]["Health"]["Current"] = profileCharacter.Health.BodyParts.RightArm.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["RightArm"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.RightArm.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["LeftLeg"]["Health"]["Current"] = profileCharacter.Health.BodyParts.LeftLeg.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["LeftLeg"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.LeftLeg.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["RightLeg"]["Health"]["Current"] = profileCharacter.Health.BodyParts.RightLeg.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["RightLeg"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.RightLeg.Health.Maximum;
 
                 if (!profileCharacter.IsScav)
                 {

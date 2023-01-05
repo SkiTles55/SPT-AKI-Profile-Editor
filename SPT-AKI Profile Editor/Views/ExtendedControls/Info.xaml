@@ -268,13 +268,13 @@
                 Grid.Row="9"
                 Grid.Column="1"
                 Orientation="Horizontal">
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
-                <local:MetricView MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Stomach.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
+                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
             </WrapPanel>
             <WrapPanel
                 Grid.Row="10"

@@ -88,7 +88,73 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void EnergyCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Current == 0);
 
         [Test]
-        public void EnergynMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Maximum == 0);
+        public void EnergyMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Maximum == 0);
+
+        [Test]
+        public void BodyPartsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts);
+
+        [Test]
+        public void BodyPartsHeadNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.Head);
+
+        [Test]
+        public void BodyPartsHeadCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsHeadMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Maximum == 0);
+
+        [Test]
+        public void BodyPartsChestNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest);
+
+        [Test]
+        public void BodyPartsChestCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsChestMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Maximum == 0);
+
+        [Test]
+        public void BodyPartsStomachNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach);
+
+        [Test]
+        public void BodyPartsStomachCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsStomachMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Maximum == 0);
+
+        [Test]
+        public void BodyPartsLeftArmNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm);
+
+        [Test]
+        public void BodyPartsLeftArmCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsLeftArmMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Maximum == 0);
+
+        [Test]
+        public void BodyPartsRightArmNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm);
+
+        [Test]
+        public void BodyPartsRightArmCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsRightArmMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Maximum == 0);
+
+        [Test]
+        public void BodyPartsLeftLegNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg);
+
+        [Test]
+        public void BodyPartsLeftLegCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsLeftLegMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum == 0);
+
+        [Test]
+        public void BodyPartsRightLegNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg);
+
+        [Test]
+        public void BodyPartsRightLegCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current == 0);
+
+        [Test]
+        public void BodyPartsRightLegMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum == 0);
 
         [Test]
         public void HeadNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Customization.Head, "Head is empty");
@@ -766,6 +832,13 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Health.Energy.Current = 300;
             AppData.Profile.Characters.Pmc.Health.Hydration.Current = 350;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Current = 400;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Current = 450;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Current = 500;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Current = 550;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Current = 600;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Current = 650;
+            AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current = 700;
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testHealth.json");
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
             AppData.Profile.Load(testFile);
@@ -773,6 +846,20 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.AreEqual(300, AppData.Profile.Characters.Pmc.Health.Energy.Maximum, "Health.Energy.Maximum is not 300");
             Assert.AreEqual(350, AppData.Profile.Characters.Pmc.Health.Hydration.Current, "Health.Hydration.Current is not 350");
             Assert.AreEqual(350, AppData.Profile.Characters.Pmc.Health.Hydration.Maximum, "Health.Hydration.Maximum is not 350");
+            Assert.AreEqual(400, AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Current, "Health.BodyParts.Head.Health.Current is not 400");
+            Assert.AreEqual(400, AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Maximum, "Health.BodyParts.Head.Health.Maximum is not 400");
+            Assert.AreEqual(450, AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Current, "Health.BodyParts.Chest.Health.Current is not 450");
+            Assert.AreEqual(450, AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Maximum, "Health.BodyParts.Chest.Health.Maximum is not 450");
+            Assert.AreEqual(500, AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Current, "Health.BodyParts.Stomach.Health.Current is not 500");
+            Assert.AreEqual(500, AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Maximum, "Health.BodyParts.Stomach.Health.Maximum is not 500");
+            Assert.AreEqual(550, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Current, "Health.BodyParts.LeftArm.Health.Current is not 550");
+            Assert.AreEqual(550, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Maximum, "Health.BodyParts.LeftArm.Health.Maximum is not 550");
+            Assert.AreEqual(600, AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Current, "Health.BodyParts.RightArm.Health.Current is not 600");
+            Assert.AreEqual(600, AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Maximum, "Health.BodyParts.RightArm.Health.Maximum is not 600");
+            Assert.AreEqual(650, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Current, "Health.BodyParts.LeftLeg.Health.Current is not 650");
+            Assert.AreEqual(650, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum, "Health.BodyParts.LeftLeg.Health.Maximum is not 650");
+            Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current, "Health.BodyParts.RightLeg.Health.Current is not 700");
+            Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum, "Health.BodyParts.RightLeg.Health.Maximum is not 700");
         }
     }
 }
