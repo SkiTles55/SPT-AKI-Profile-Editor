@@ -27,12 +27,12 @@
             Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Center"
-            Content="Current" />
+            Content="{Binding AppLocalization.Translations[tab_info_health_current]}" />
         <Label
             Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Center"
-            Content="Maximum" />
+            Content="{Binding AppLocalization.Translations[tab_info_health_maximum]}" />
         <TextBox
             Grid.Row="2"
             Grid.Column="0"
