@@ -89,13 +89,13 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             TestHelpers.LoadDatabaseAndProfile();
             var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer && x.CanAddItems).FirstOrDefault();
-            Assert.That(container, Is.Not.Null);
+            Assert.That(container, Is.Not.Null, "Cant find container");
             ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, worker);
-            Assert.That(pmcContainer.ItemsAddingAllowed, Is.True);
+            Assert.That(pmcContainer.ItemsAddingAllowed, Is.True, "Items adding not allowed for opened container");
             var painkiller = AppData.ServerDatabase.ItemsDB["544fb37f4bdc2dee738b4567"];
             pmcContainer.RemoveAllItems.Execute(null);
             pmcContainer.AddItem.Execute(painkiller);
-            Assert.That(pmcContainer.Items.Count, Is.EqualTo(1));
+            Assert.That(pmcContainer.Items.Count, Is.EqualTo(1), "Item not added");
             Assert.That(pmcContainer.Items.Where(x => x.Tpl == "544fb37f4bdc2dee738b4567").FirstOrDefault(), Is.Not.Null, "Item not added");
         }
 

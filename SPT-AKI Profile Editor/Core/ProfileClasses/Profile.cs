@@ -242,18 +242,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             JObject jobject = JObject.Parse(File.ReadAllText(targetPath));
             JToken pmc = jobject.SelectToken("characters")["pmc"];
             JToken scav = jobject.SelectToken("characters")["scav"];
-            pmc.SelectToken("Info")["Nickname"] = Characters.Pmc.Info.Nickname;
-            pmc.SelectToken("Info")["LowerNickname"] = Characters.Pmc.Info.Nickname.ToLower();
-            pmc.SelectToken("Info")["Side"] = Characters.Pmc.Info.Side;
-            pmc.SelectToken("Info")["Voice"] = Characters.Pmc.Info.Voice;
-            pmc.SelectToken("Info")["Level"] = Characters.Pmc.Info.Level;
-            pmc.SelectToken("Info")["Experience"] = Characters.Pmc.Info.Experience;
-            pmc.SelectToken("Customization")["Head"] = Characters.Pmc.Customization.Head;
-            scav.SelectToken("Info")["Nickname"] = Characters.Scav.Info.Nickname;
-            scav.SelectToken("Info")["Voice"] = Characters.Scav.Info.Voice;
-            scav.SelectToken("Info")["Level"] = Characters.Scav.Info.Level;
-            scav.SelectToken("Info")["Experience"] = Characters.Scav.Info.Experience;
-            scav.SelectToken("Customization")["Head"] = Characters.Scav.Customization.Head;
+            WriteCharacterInfo(pmc, Characters.Pmc);
+            WriteCharacterInfo(scav, Characters.Scav);
             pmc.SelectToken("Encyclopedia").Replace(JToken.FromObject(Characters.Pmc.Encyclopedia));
             JToken TradersInfo = pmc.SelectToken("TradersInfo");
             foreach (var trader in AppData.ServerDatabase.TraderInfos)
@@ -279,6 +269,39 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
+            void WriteCharacterInfo(JToken character, Character profileCharacter)
+            {
+                character.SelectToken("Info")["Nickname"] = profileCharacter.Info.Nickname;
+                character.SelectToken("Info")["Voice"] = profileCharacter.Info.Voice;
+                character.SelectToken("Info")["Level"] = profileCharacter.Info.Level;
+                character.SelectToken("Info")["Experience"] = profileCharacter.Info.Experience;
+                character.SelectToken("Customization")["Head"] = profileCharacter.Customization.Head;
+                character.SelectToken("Health")["Energy"]["Current"] = profileCharacter.Health.Energy.Current;
+                character.SelectToken("Health")["Energy"]["Maximum"] = profileCharacter.Health.Energy.Maximum;
+                character.SelectToken("Health")["Hydration"]["Current"] = profileCharacter.Health.Hydration.Current;
+                character.SelectToken("Health")["Hydration"]["Maximum"] = profileCharacter.Health.Hydration.Maximum;
+                character.SelectToken("Health")["BodyParts"]["Head"]["Health"]["Current"] = profileCharacter.Health.BodyParts.Head.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["Head"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.Head.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["Chest"]["Health"]["Current"] = profileCharacter.Health.BodyParts.Chest.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["Chest"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.Chest.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["Stomach"]["Health"]["Current"] = profileCharacter.Health.BodyParts.Stomach.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["Stomach"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.Stomach.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["LeftArm"]["Health"]["Current"] = profileCharacter.Health.BodyParts.LeftArm.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["LeftArm"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.LeftArm.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["RightArm"]["Health"]["Current"] = profileCharacter.Health.BodyParts.RightArm.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["RightArm"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.RightArm.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["LeftLeg"]["Health"]["Current"] = profileCharacter.Health.BodyParts.LeftLeg.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["LeftLeg"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.LeftLeg.Health.Maximum;
+                character.SelectToken("Health")["BodyParts"]["RightLeg"]["Health"]["Current"] = profileCharacter.Health.BodyParts.RightLeg.Health.Current;
+                character.SelectToken("Health")["BodyParts"]["RightLeg"]["Health"]["Maximum"] = profileCharacter.Health.BodyParts.RightLeg.Health.Maximum;
+
+                if (!profileCharacter.IsScav)
+                {
+                    character.SelectToken("Info")["LowerNickname"] = profileCharacter.Info.Nickname.ToLower();
+                    character.SelectToken("Info")["Side"] = profileCharacter.Info.Side;
+                }
+            }
+
             void WriteQuests()
             {
                 var questsObject = pmc.SelectToken("Quests").ToObject<CharacterQuest[]>();
@@ -288,7 +311,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     {
                         var quest = pmc.SelectToken("Quests")[index].ToObject<CharacterQuest>();
                         var edited = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
-                        if (edited != null && quest != null)
+                        if (edited != null && quest != null && quest.Status != edited.Status)
                         {
                             pmc.SelectToken("Quests")[index]["status"] = edited.Status.ToString();
                             pmc.SelectToken("Quests")[index]["statusTimers"] = JObject.FromObject(edited.StatusTimers);

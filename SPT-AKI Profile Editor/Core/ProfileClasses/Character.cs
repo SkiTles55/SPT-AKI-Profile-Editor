@@ -17,6 +17,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private CharacterCustomization customization;
 
+        private CharacterHealth health;
+
         private Dictionary<string, CharacterTraderStanding> traderStandings;
 
         private CharacterHideout hideout;
@@ -30,6 +32,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private Dictionary<string, bool> encyclopedia;
 
         private CharacterInventory inventory;
+
+        [JsonIgnore]
+        public bool IsScav => Info.Side == "Savage";
 
         [JsonProperty("aid")]
         public string Aid
@@ -61,6 +66,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 customization = value;
                 OnPropertyChanged("Customization");
+            }
+        }
+
+        [JsonProperty("Health")]
+        public CharacterHealth Health
+        {
+            get => health;
+            set
+            {
+                health = value;
+                OnPropertyChanged("Health");
             }
         }
 
