@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Control"
@@ -95,15 +96,36 @@
                 ItemsSource="{Binding ElementName=Control, Path=Build.BuildItems}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="*" Binding="{Binding Path=LocalizedName}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                <Setter Property="TextBlock.TextAlignment" Value="Left" />
-                                <Setter Property="TextBlock.Padding" Value="5 0 0 0" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <extendedcontrols:IconWithBackground
+                                        Width="30"
+                                        Height="30"
+                                        Margin="2"
+                                        Source="{Binding CategoryIcon}">
+                                        <extendedcontrols:IconWithBackground.Style>
+                                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </extendedcontrols:IconWithBackground.Style>
+                                    </extendedcontrols:IconWithBackground>
+                                    <TextBlock
+                                        Margin="2,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        DockPanel.Dock="Right"
+                                        Text="{Binding LocalizedName}"
+                                        TextWrapping="Wrap" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Expander>
