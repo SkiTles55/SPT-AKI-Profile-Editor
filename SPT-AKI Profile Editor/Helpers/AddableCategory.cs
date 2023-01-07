@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
@@ -19,6 +20,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         [JsonProperty("ParentId")]
         public string ParentId { get; set; }
+
+        [JsonProperty("Icon")]
+        public string Icon { get; set; }
+
+        [JsonIgnore]
+        public BitmapImage BitmapIcon { get; set; }
 
         [JsonIgnore]
         public string LocalizedName

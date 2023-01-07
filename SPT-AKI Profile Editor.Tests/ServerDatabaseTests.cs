@@ -146,5 +146,29 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void HandbookHelperCategoriesForItemsAddingWithFilterNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter("5c093ca986f7740a1867ab12").Any());
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingHaveCategories() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.Categories.Any()));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingHaveItems() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.Items.Any()));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingHaveBitmapImages() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.BitmapIcon != null));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingHaveLocalizedNames() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !string.IsNullOrEmpty(x.LocalizedName)));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingHaveIconPath() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => !string.IsNullOrEmpty(x.Icon)));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingPrimaryNotHaveParentId() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => string.IsNullOrEmpty(x.ParentId)));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingHaveNotHidden() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => x.IsNotHidden));
+
+        [Test]
+        public void HandbookHelperCategoriesForItemsAddingNotExpanded() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !x.IsExpanded));
     }
 }

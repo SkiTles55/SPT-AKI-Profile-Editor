@@ -20,6 +20,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             Items = new(globalBuilds
                 .Where(x => category.Items.Any(y => y.Id == x.Value.RootTpl))
                 .Select(x => x.Value));
+            BitmapIcon = category.BitmapIcon;
         }
 
         public WeaponBuildCategory(string name, ObservableCollection<AddableCategory> categories)
@@ -35,7 +36,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
             LocalizedName = category.LocalizedName,
             IsExpanded = false,
             Categories = new ObservableCollection<AddableCategory>(category.Categories.Select(x => CopyFrom((WeaponBuildCategory)x))),
-            Items = new ObservableCollection<AddableItem>(category.Items.Select(x => WeaponBuild.CopyFrom((WeaponBuild)x)))
+            Items = new ObservableCollection<AddableItem>(category.Items.Select(x => WeaponBuild.CopyFrom((WeaponBuild)x))),
+            BitmapIcon = category.BitmapIcon
         };
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -11,11 +14,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private ObservableCollection<AddableItem> items;
 
         [JsonConstructor]
-        public HandbookCategory(string id, string parentId)
+        public HandbookCategory(string id, string parentId, string icon)
         {
             Id = id;
             ParentId = parentId;
+            Icon = icon;
             LocalizedName = AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal[Id] : Id;
+            LoadBitmapIcon();
         }
 
         [JsonProperty("Id")]
@@ -56,12 +61,26 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             }
         }
 
-        public static HandbookCategory CopyFrom(HandbookCategory category) => new(category.Id, category.ParentId)
+        public static HandbookCategory CopyFrom(HandbookCategory category) => new(category.Id, category.ParentId, category.Icon)
         {
             LocalizedName = category.LocalizedName,
             IsExpanded = false,
             categories = new ObservableCollection<AddableCategory>(category.Categories.Select(x => CopyFrom((HandbookCategory)x))),
             items = new ObservableCollection<AddableItem>(category.Items.Select(x => TarkovItem.CopyFrom((TarkovItem)x)))
         };
+
+        private void LoadBitmapIcon()
+        {
+            var iconPath = Path.Combine(AppData.AppSettings.ServerPath, "Aki_Data\\Server\\images\\handbook", Path.GetFileName(Icon));
+            if (File.Exists(iconPath))
+            {
+                try
+                {
+                    BitmapIcon = new BitmapImage(new Uri(iconPath));
+                    BitmapIcon.Freeze();
+                }
+                catch { }
+            }
+        }
     }
 }
