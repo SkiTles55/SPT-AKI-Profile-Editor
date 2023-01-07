@@ -18,6 +18,13 @@ namespace SPT_AKI_Profile_Editor.Views
         private float setAllPmcMasteringsValue;
         private float setAllScavSkillsValue;
         private float setAllScavMasteringsValue;
+        private bool pmcLevel = true;
+        private bool scavLevel = true;
+        private bool pmcQuests = true;
+        private bool pmcCommonSkills = true;
+        private bool scavCommonSkills = true;
+        private bool pmcMasteringsSkills = true;
+        private bool scavMasteringsSkills = true;
 
         public FastModeViewModel(RelayCommand saveCommand)
         {
@@ -114,21 +121,102 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public bool AcquireAll { get; set; } = true;
 
+        public bool PmcLevel
+        {
+            get => pmcLevel;
+            set
+            {
+                pmcLevel = value;
+                OnPropertyChanged("PmcLevel");
+            }
+        }
+
+        public bool ScavLevel
+        {
+            get => scavLevel;
+            set
+            {
+                scavLevel = value;
+                OnPropertyChanged("ScavLevel");
+            }
+        }
+
+        public bool PmcQuests
+        {
+            get => pmcQuests;
+            set
+            {
+                pmcQuests = value;
+                OnPropertyChanged("PmcQuests");
+            }
+        }
+
+        public bool PmcCommonSkills
+        {
+            get => pmcCommonSkills;
+            set
+            {
+                pmcCommonSkills = value;
+                OnPropertyChanged("PmcCommonSkills");
+            }
+        }
+
+        public bool ScavCommonSkills
+        {
+            get => scavCommonSkills;
+            set
+            {
+                scavCommonSkills = value;
+                OnPropertyChanged("ScavCommonSkills");
+            }
+        }
+
+        public bool PmcMasteringsSkills
+        {
+            get => pmcMasteringsSkills;
+            set
+            {
+                pmcMasteringsSkills = value;
+                OnPropertyChanged("PmcMasteringsSkills");
+            }
+        }
+
+        public bool ScavMasteringsSkills
+        {
+            get => scavMasteringsSkills;
+            set
+            {
+                scavMasteringsSkills = value;
+                OnPropertyChanged("ScavMasteringsSkills");
+            }
+        }
+
         public RelayCommand SaveProfile => new(obj =>
         {
-            Profile.Characters.Pmc.Info.Level = Pmc.Level;
-            Profile.Characters.Scav.Info.Level = Scav.Level;
-            Profile.Characters.Pmc.Info.Experience = Pmc.Experience;
-            Profile.Characters.Scav.Info.Experience = Scav.Experience;
+            if (PmcLevel)
+            {
+                Profile.Characters.Pmc.Info.Level = Pmc.Level;
+                Profile.Characters.Pmc.Info.Experience = Pmc.Experience;
+            }
+            if (ScavLevel)
+            {
+                Profile.Characters.Scav.Info.Level = Scav.Level;
+                Profile.Characters.Scav.Info.Experience = Scav.Experience;
+            }
             if (SetMerchantsMax)
                 Profile.Characters.Pmc.SetAllTradersMax();
-            Profile.Characters.Pmc.SetAllQuests(SetAllQuestsValue);
+            if (PmcQuests)
+                Profile.Characters.Pmc.SetAllQuests(SetAllQuestsValue);
             if (SetHideoutMax)
                 Profile.Characters.Pmc.SetAllHideoutAreasMax();
-            Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue);
-            Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue);
-            Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcMasteringsValue);
-            Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavMasteringsValue);
+            if (PmcCommonSkills)
+                Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue);
+            if (ScavCommonSkills)
+                Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue);
+            if (PmcMasteringsSkills)
+                Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcMasteringsValue);
+            if (ScavMasteringsSkills)
+                Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavMasteringsValue);
             if (ExamineAll)
                 Profile.Characters.Pmc.ExamineAll();
             if (AcquireAll)
