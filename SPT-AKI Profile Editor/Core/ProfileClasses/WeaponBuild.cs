@@ -70,7 +70,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public IEnumerable<InventoryItem> BuildItems { get; set; }
 
         [JsonIgnore]
-        public string Weapon { get; set; }
+        public InventoryItem Weapon { get; set; }
 
         [JsonIgnore]
         public string RootTpl { get; set; }
@@ -104,12 +104,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             BuildItems = buildItems.Where(x => x.Id != Root);
             HasModdedItems = buildItems.Any(x => !x.IsInItemsDB);
             var weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault();
-            Weapon = weapon.LocalizedName;
-            RootTpl = weapon.Tpl;
-            Parent = weapon.IsInItemsDB ? AppData.ServerDatabase.ItemsDB[weapon.Tpl].Parent : null;
+            Weapon = weapon;
+            RootTpl = weapon?.Tpl;
+            Parent = weapon?.IsInItemsDB ?? false ? AppData.ServerDatabase.ItemsDB[weapon?.Tpl].Parent : null;
             if (!fromTemplate)
                 return;
-            Name = Weapon;
+            Name = weapon?.LocalizedName;
             if (AppData.ServerDatabase?.LocalesGlobal?.ContainsKey(Id) ?? false)
                 Name += " " + AppData.ServerDatabase.LocalesGlobal[Id];
         }

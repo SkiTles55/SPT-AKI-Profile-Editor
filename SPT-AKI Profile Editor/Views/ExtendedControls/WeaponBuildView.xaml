@@ -21,16 +21,33 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label
+        <DockPanel
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="2"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center">
-            <Label.Content>
-                <TextBlock Text="{Binding ElementName=Control, Path=Build.Weapon}" TextWrapping="Wrap" />
-            </Label.Content>
-        </Label>
+            Grid.ColumnSpan="2">
+            <extendedcontrols:IconWithBackground
+                Width="30"
+                Height="30"
+                Margin="2"
+                Source="{Binding ElementName=Control, Path=Build.Weapon.CategoryIcon}">
+                <extendedcontrols:IconWithBackground.Style>
+                    <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </extendedcontrols:IconWithBackground.Style>
+            </extendedcontrols:IconWithBackground>
+            <TextBlock
+                Margin="2,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                Text="{Binding ElementName=Control, Path=Build.Weapon.LocalizedName}"
+                TextWrapping="Wrap" />
+        </DockPanel>
         <Label
             Grid.Row="1"
             Grid.Column="0"
