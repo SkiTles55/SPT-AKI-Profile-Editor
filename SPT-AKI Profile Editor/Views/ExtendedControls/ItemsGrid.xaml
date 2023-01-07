@@ -56,11 +56,29 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                            <DockPanel Margin="2,0,0,0">
+                                <extendedcontrols:IconWithBackground
+                                    Width="30"
+                                    Height="30"
+                                    Margin="2"
+                                    Source="{Binding CategoryIcon}">
+                                    <extendedcontrols:IconWithBackground.Style>
+                                        <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </extendedcontrols:IconWithBackground.Style>
+                                </extendedcontrols:IconWithBackground>
+                                <TextBlock
+                                    Margin="2,0,0,0"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding LocalizedName}"
+                                    TextWrapping="Wrap" />
+                            </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

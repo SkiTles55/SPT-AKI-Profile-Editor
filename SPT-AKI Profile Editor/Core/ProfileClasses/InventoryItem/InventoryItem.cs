@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -31,6 +32,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool IsInItemsDB =>
             AppData.ServerDatabase.ItemsDB?.ContainsKey(Tpl) ?? false;
+
+        [JsonIgnore]
+        public BitmapSource CategoryIcon => AppData.ServerDatabase?.HandbookHelper?.GetItemCategory(Tpl)?.BitmapIcon;
 
         [JsonIgnore]
         public bool IsPockets => SlotId == AppData.AppSettings.PocketsSlotId;

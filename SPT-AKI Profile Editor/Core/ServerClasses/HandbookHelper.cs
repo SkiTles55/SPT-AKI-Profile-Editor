@@ -25,6 +25,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         public ObservableCollection<AddableCategory> CategoriesForItemsAddingWithFilter(string tpl) => CreateCompositeCollection(tpl);
 
+        public AddableCategory GetItemCategory(string itemTpl) => categories.Where(x => x.Items.Any(i => i.Id == itemTpl)).FirstOrDefault();
+
         private static ObservableCollection<WeaponBuildCategory> GlobalBuildsCategories(List<HandbookCategory> categories,
                                                                                  ObservableCollection<KeyValuePair<string, WeaponBuild>> globalBuilds)
         {
