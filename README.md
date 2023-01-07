@@ -11,7 +11,7 @@
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)
 [Ссылка на обмен Steam](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)
 
-### [Отправить баг репорт](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
+### [Отправить баг репорт \ Предложить новую функцию](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
 ### [Версия 2.5 для сервера SPT-AKI 3.4.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.5)
 ### [Версия 2.4.2 для сервера SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
