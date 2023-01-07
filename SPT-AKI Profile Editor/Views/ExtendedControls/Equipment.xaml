@@ -58,26 +58,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region Earpiece Info-->
-                <Label
+                <DockPanel
                     Grid.Row="0"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="0"
                     Grid.Column="2"
@@ -130,26 +146,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region Headwear Info-->
-                <Label
+                <DockPanel
                     Grid.Row="1"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Headwear}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Headwear}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="1"
                     Grid.Column="2"
@@ -202,26 +234,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region FaceCover Info-->
-                <Label
+                <DockPanel
                     Grid.Row="2"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="2"
                     Grid.Column="2"
@@ -274,26 +322,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region Eyewear Info-->
-                <Label
+                <DockPanel
                     Grid.Row="3"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="3"
                     Grid.Column="2"
@@ -346,26 +410,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region ArmBand Info-->
-                <Label
+                <DockPanel
                     Grid.Row="4"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="4"
                     Grid.Column="2"
@@ -418,26 +498,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region ArmorVest Info-->
-                <Label
+                <DockPanel
                     Grid.Row="5"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="5"
                     Grid.Column="2"
@@ -490,26 +586,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region TacticalVest Info-->
-                <Label
+                <DockPanel
                     Grid.Row="6"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="6"
                     Grid.Column="2"
@@ -562,26 +674,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region First primary weapon Info-->
-                <Label
+                <DockPanel
                     Grid.Row="7"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="7"
                     Grid.Column="2"
@@ -634,26 +762,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region SecondPrimaryWeapon Info-->
-                <Label
+                <DockPanel
                     Grid.Row="8"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="8"
                     Grid.Column="2"
@@ -706,26 +850,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region Holster Info-->
-                <Label
+                <DockPanel
                     Grid.Row="9"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Holster.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Holster}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Holster.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Holster.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Holster}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="9"
                     Grid.Column="2"
@@ -778,26 +938,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region Scabbard Info-->
-                <Label
+                <DockPanel
                     Grid.Row="10"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="10"
                     Grid.Column="2"
@@ -871,26 +1047,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region Backpack Info-->
-                <Label
+                <DockPanel
                     Grid.Row="12"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Backpack}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Backpack}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="12"
                     Grid.Column="2"
@@ -943,26 +1135,42 @@
                     </Label.Content>
                 </Label>
                 <!--#region SecuredContainer Info-->
-                <Label
+                <DockPanel
                     Grid.Row="13"
                     Grid.Column="1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.LocalizedName}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer}" Value="{x:Null}">
-                                            <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                    Margin="2,0,2,0">
+                    <extendedcontrols:IconWithBackground
+                        Width="30"
+                        Height="30"
+                        Margin="2"
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.CategoryIcon}">
+                        <extendedcontrols:IconWithBackground.Style>
+                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </extendedcontrols:IconWithBackground.Style>
+                    </extendedcontrols:IconWithBackground>
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label.Content>
+                            <TextBlock TextWrapping="Wrap">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.LocalizedName}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer}" Value="{x:Null}">
+                                                <Setter Property="Text" Value="{Binding AppLocalization.Translations[tab_stash_empty_slot]}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
+                </DockPanel>
                 <Label
                     Grid.Row="13"
                     Grid.Column="2"
