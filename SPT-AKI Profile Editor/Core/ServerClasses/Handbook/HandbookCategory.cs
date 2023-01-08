@@ -50,8 +50,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 if (items == null)
                     items = new(AppData.ServerDatabase.Handbook.Items
                         .Where(x => x.ParentId == Id)
-                        .Select(x => x.Item)
-                        .Where(x => x.CanBeAddedToStash));
+                        .Select(x => x.Item));
                 return items;
             }
             set

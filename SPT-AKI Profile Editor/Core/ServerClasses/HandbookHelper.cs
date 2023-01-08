@@ -59,11 +59,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             if (itemsDB.ContainsKey(tpl))
             {
                 category.Items = new ObservableCollection<AddableItem>(category.Items
-                    .Where(x => x.CanBeAddedToContainer(itemsDB[tpl])));
-                category.Categories = new ObservableCollection<AddableCategory>(category.Categories
-                    .Select(x => FilterForConatiner(x, tpl))
-                    .Where(x => x.IsNotHidden));
+                    .Where(x => x.CanBeAddedToStash && x.CanBeAddedToContainer(itemsDB[tpl])));
             }
+            else
+            {
+                category.Items = new ObservableCollection<AddableItem>(category.Items
+                    .Where(x => x.CanBeAddedToStash));
+            }
+            category.Categories = new ObservableCollection<AddableCategory>(category.Categories
+                .Select(x => FilterForConatiner(x, tpl))
+                .Where(x => x.IsNotHidden));
             return category;
         }
     }

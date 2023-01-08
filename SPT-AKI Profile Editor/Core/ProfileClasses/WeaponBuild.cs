@@ -21,6 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var buildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             if (buildItems.Any())
                 CalculateBuildProperties(buildItems);
+            CanBeAddedToStash = true;
         }
 
         public WeaponBuild(ItemPreset itemPreset)
@@ -31,6 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var buildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             if (buildItems.Any())
                 CalculateBuildProperties(buildItems, true);
+            CanBeAddedToStash = true;
         }
 
         public WeaponBuild(InventoryItem item, List<InventoryItem> items)
@@ -50,6 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             Items = items.ToArray();
             CalculateBuildProperties(items);
+            CanBeAddedToStash = true;
         }
 
         public override string LocalizedName => Name;
