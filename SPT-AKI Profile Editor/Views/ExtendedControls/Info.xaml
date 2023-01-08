@@ -265,6 +265,7 @@
             <WrapPanel
                 Grid.Row="9"
                 Grid.Column="1"
+                Margin="10,5"
                 Orientation="Horizontal">
                 <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
                 <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
@@ -277,6 +278,7 @@
             <WrapPanel
                 Grid.Row="10"
                 Grid.Column="1"
+                Margin="10,5"
                 Orientation="Horizontal">
                 <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION]}" />
                 <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY]}" />

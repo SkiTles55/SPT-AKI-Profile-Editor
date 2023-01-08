@@ -22,7 +22,7 @@
             Grid.ColumnSpan="3"
             Margin="3"
             BorderBrush="{DynamicResource MahApps.Brushes.TextBox.Border}"
-            BorderThickness="2" />
+            BorderThickness="1" />
         <Label
             Grid.Row="0"
             Grid.Column="0"
