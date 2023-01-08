@@ -59,7 +59,8 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerDir.globals] = "Aki_Data\\Server\\database\\locales\\global",
             [SPTServerDir.traders] = "Aki_Data\\Server\\database\\traders",
             [SPTServerDir.bots] = "Aki_Data\\Server\\database\\bots\\types",
-            [SPTServerDir.profiles] = "user\\profiles"
+            [SPTServerDir.profiles] = "user\\profiles",
+            [SPTServerDir.handbookIcons] = "Aki_Data\\Server\\images\\handbook"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
@@ -264,6 +265,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["dir_traders_description"] = "Folder containing merchant settings",
                     ["dir_bots_description"] = "Folder containing bot type settings",
                     ["dir_profiles_description"] = "Folder containing profiles",
+                    ["dir_handbookIcons_description"] = "Folder containing icons for handbook",
                     ["file_globals_description"] = "File with main settings of server",
                     ["file_items_description"] = "File with main settings of the items",
                     ["file_quests_description"] = "File with main settings of quests",
@@ -462,6 +464,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["dir_traders_description"] = "Папка содержащая настройки торговцев",
                     ["dir_bots_description"] = "Папка содержащая настройки типов ботов",
                     ["dir_profiles_description"] = "Папка содержащая профили",
+                    ["dir_handbookIcons_description"] = "Папка с иконками для справочника предметов",
                     ["file_globals_description"] = "Файл с основными настройками сервера",
                     ["file_items_description"] = "Файл с основными настройками предметов",
                     ["file_quests_description"] = "Файл с основными настройками квестов",

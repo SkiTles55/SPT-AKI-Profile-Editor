@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -70,7 +71,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         private void LoadBitmapIcon()
         {
-            var iconPath = Path.Combine(AppData.AppSettings.ServerPath, "Aki_Data\\Server\\images\\handbook", Path.GetFileName(Icon));
+            var iconPath = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.handbookIcons], Path.GetFileName(Icon));
             if (File.Exists(iconPath))
             {
                 try
