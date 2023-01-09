@@ -348,6 +348,17 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void TradersLoadedCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => string.IsNullOrEmpty(x.Id)), "Traders id's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.TraderStanding == null), "Traders TraderStanding's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.TraderBase == null), "Traders TraderBase's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => string.IsNullOrEmpty(x.TraderBase.Id)), "Traders TraderBase id's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => !x.TraderBase.LoyaltyLevels.Any()), "Traders TraderBase LoyaltyLevels's not loaded");
+        }
+
+        [Test]
         public void TradersSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -356,7 +367,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandingsExt
-                .All(x => x.LoyaltyLevel == x.MaxLevel));
+                .All(x => x.LoyaltyLevel == x.MaxLevel), "TraderStandingsExt not in max levels");
         }
 
         [Test]

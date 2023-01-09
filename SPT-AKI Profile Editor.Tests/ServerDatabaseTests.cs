@@ -71,6 +71,21 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.TraderInfos);
 
         [Test]
+        public void TradersInfosHaveIds() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.Id)));
+
+        [Test]
+        public void TradersInfosHaveLoyaltyLevels() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => !x.Value.LoyaltyLevels.Any()));
+
+        [Test]
+        public void TradersInfosLoyaltyLevelsHaveMinLevel() => Assert.IsTrue(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinLevel > 0)));
+
+        [Test]
+        public void TradersInfosLoyaltyLevelsHaveMinSalesSum() => Assert.IsTrue(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinSalesSum > 0)));
+
+        [Test]
+        public void TradersInfosLoyaltyLevelsHaveMinStanding() => Assert.IsTrue(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinStanding > 0)));
+
+        [Test]
         public void QuestsDataNotNul() => Assert.IsNotNull(AppData.ServerDatabase.QuestsData);
 
         [Test]
