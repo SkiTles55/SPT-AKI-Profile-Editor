@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -39,7 +41,12 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonIgnore]
         public int SlotsCount { get; }
 
+        [JsonIgnore]
+        public BitmapSource CategoryIcon => AppData.ServerDatabase?.HandbookHelper?.GetItemCategory(Id)?.BitmapIcon;
+
         public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
+
+        public ExaminedItem GetExaminedItem() => new(Id, LocalizedName, CategoryIcon);
 
         private int CalculateSlotsCount()
         {

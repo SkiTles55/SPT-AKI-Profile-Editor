@@ -122,6 +122,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ItemsDBNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.ItemsDB.Count == 0);
 
         [Test]
+        public void ItemsDBHaveItemsWithCategoryIcon() => Assert.IsTrue(AppData.ServerDatabase.ItemsDB.Any(x => x.Value.CategoryIcon != null));
+
+        [Test]
         public void PocketsNotNul() => Assert.IsNotNull(AppData.ServerDatabase.Pockets);
 
         [Test]

@@ -187,6 +187,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void EncyclopediaNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Encyclopedia.Count == 0, "Encyclopedia is empty");
 
         [Test]
+        public void ExaminedItemsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.ExaminedItems, "ExaminedItems is null");
+
+        [Test]
+        public void ExaminedItemsNotEmpty() => Assert.IsTrue(AppData.Profile.Characters.Pmc.ExaminedItems.Any(), "ExaminedItems is empty");
+
+        [Test]
+        public void ExaminedItemsLoadedCorrectly() => Assert.IsTrue(AppData.Profile.Characters.Pmc.ExaminedItems
+            .Any(x => !string.IsNullOrEmpty(x.Id) && x.Id != x.Name && x.Name != null), "ExaminedItems is not loaded correctly");
+
+        [Test]
         public void HideoutNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Hideout, "Hideout is null");
 
         [Test]

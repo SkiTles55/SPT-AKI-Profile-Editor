@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,8 +30,8 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 cv.Filter = o =>
                 {
-                    string p = o as string;
-                    return p.ToUpper().Contains(AppData.GridFilters.ExaminedItemsFilter.ToUpper());
+                    ExaminedItem p = o as ExaminedItem;
+                    return p.Name.ToUpper().Contains(AppData.GridFilters.ExaminedItemsFilter.ToUpper());
                 };
             }
         }

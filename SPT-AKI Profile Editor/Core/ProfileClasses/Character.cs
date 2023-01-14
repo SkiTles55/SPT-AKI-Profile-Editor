@@ -165,9 +165,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                                                                 GetTraderInfo(x.Key))));
 
         [JsonIgnore]
-        public IEnumerable<string> ExaminedItems => Encyclopedia?
-            .Select(x => AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Key.Name())
-            ? AppData.ServerDatabase.LocalesGlobal[x.Key.Name()] : x.Key);
+        public IEnumerable<ExaminedItem> ExaminedItems => Encyclopedia?
+            .Select(x => AppData.ServerDatabase.ItemsDB.ContainsKey(x.Key)
+            ? AppData.ServerDatabase.ItemsDB[x.Key].GetExaminedItem() : new ExaminedItem(x.Key, x.Key, null));
 
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
