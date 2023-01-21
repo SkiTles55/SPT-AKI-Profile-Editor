@@ -564,8 +564,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ScavStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            string expectedId1 = AppData.Profile.Characters.Scav.Inventory.TacticalVest.Id;
-            string expectedId2 = AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon.Id;
+            string expectedId1 = AppData.Profile.Characters.Scav.Inventory.TacticalVest?.Id;
+            string expectedId2 = AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon?.Id ?? AppData.Profile.Characters.Scav.Inventory.Holster?.Id;
+            Assert.IsNotNull(expectedId1, "TacticalVest is null");
+            Assert.IsNotNull(expectedId2, "FirstPrimaryWeapon is null");
             AppData.Profile.Characters.Scav.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavStashRemovingItems.json");
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
