@@ -246,15 +246,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteCharacterInfo(scav, Characters.Scav);
             pmc.SelectToken("Encyclopedia").Replace(JToken.FromObject(Characters.Pmc.Encyclopedia));
             JToken TradersInfo = pmc.SelectToken("TradersInfo");
-            foreach (var trader in AppData.ServerDatabase.TraderInfos)
+            foreach (var trader in Characters.Pmc.TraderStandings)
             {
-                var current = TradersInfo.SelectToken(trader.Key).ToObject<CharacterTraderStanding>();
-                if (current.LoyaltyLevel == Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel)
-                    continue;
                 TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
                 TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
                 TradersInfo.SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
                 TradersInfo.SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
+                if (trader.Key == "ragfair")
+                    pmc.SelectToken("RagfairInfo")["rating"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
             }
             WriteQuests();
             WriteHideout();

@@ -74,6 +74,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TradersInfosHaveIds() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.Id)));
 
         [Test]
+        public void TradersInfosHaveImageUrl() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.ImageUrl)));
+
+        [Test]
         public void TradersInfosHaveLoyaltyLevels() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => !x.Value.LoyaltyLevels.Any()));
 
         [Test]

@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    x:Name="Control"
     d:DataContext="{d:DesignInstance Type=views:MerchantsTabViewModel}"
     mc:Ignorable="d">
     <Grid>
@@ -13,103 +15,130 @@
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <DataGrid
+        <ListBox
             Grid.Row="0"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-            IsReadOnly="True"
+            d:ItemsSource="{d:SampleData ItemCount=2}"
+            ItemContainerStyle="{StaticResource NoHoverListBox}"
             ItemsSource="{Binding Profile.Characters.Pmc.TraderStandingsExt}"
-            VirtualizingPanel.IsVirtualizing="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            VirtualizingPanel.IsVirtualizing="true"
             VirtualizingPanel.ScrollUnit="Pixel">
-            <DataGrid.Resources>
+            <ListBox.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_merchants_name], Source={StaticResource proxy}}"
-                    SortMemberPath="LocalizedName">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="{Binding ElementName=Control, Path=BorderMargin}"
+                        BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+                        BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Width="120"
+                                Margin="3"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                DockPanel.Dock="Left"
+                                Source="{Binding Path=BitmapImage}" />
+                            <CheckBox
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="3"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                FlowDirection="RightToLeft"
+                                IsChecked="{Binding Path=TraderStanding.Unlocked}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold">
                                 <Label.Content>
                                     <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_merchants_enabled], Source={StaticResource proxy}}"
-                    SortMemberPath="TraderStanding.Unlocked">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=TraderStanding.Unlocked}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_merchants_standing], Source={StaticResource proxy}}"
-                    SortMemberPath="TraderStanding.Standing">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=TraderStanding.Standing}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_level], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_merchants_sales_sum], Source={StaticResource proxy}}"
-                    SortMemberPath="TraderStanding.SalesSum">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <mah:NumericUpDown
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="3"
+                                VerticalAlignment="Center"
+                                Interval="1"
+                                Maximum="{Binding Path=MaxLevel}"
+                                PreviewTextInput="NumberValidationTextBox"
+                                Value="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=TraderStanding.SalesSum, ConverterCulture=ru-RU, StringFormat=N0}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_standing], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="230"
-                    Header="{Binding Data.AppLocalization.Translations[tab_merchants_level], Source={StaticResource proxy}}"
-                    SortMemberPath="LoyaltyLevel">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <TextBox
-                                    MinWidth="30"
-                                    Margin="5"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Left"
-                                    FontWeight="Bold"
-                                    PreviewTextInput="NumberValidationTextBox"
-                                    Text="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
-                                <Slider
-                                    Margin="5,5,10,5"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="{Binding Path=MaxLevel}"
-                                    Minimum="1"
-                                    TickFrequency="1"
-                                    TickPlacement="BottomRight"
-                                    Value="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                            <mah:NumericUpDown
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Margin="3"
+                                VerticalAlignment="Center"
+                                Interval="0.01"
+                                StringFormat="N2"
+                                Value="{Binding Path=Standing}" />
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_sales_sum], Source={StaticResource proxy}}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
+                            <mah:NumericUpDown
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Margin="3"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Interval="100"
+                                StringFormat="N2"
+                                Value="{Binding Path=SalesSum}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid VerticalAlignment="Top" Columns="{Binding ElementName=Control, Path=CollumnsCount}" SizeChanged="UniformGrid_SizeChanged" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
         <Button
             Grid.Row="1"
             Width="200"

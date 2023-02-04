@@ -366,6 +366,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.TraderBase == null), "Traders TraderBase's not loaded");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => string.IsNullOrEmpty(x.TraderBase.Id)), "Traders TraderBase id's not loaded");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => !x.TraderBase.LoyaltyLevels.Any()), "Traders TraderBase LoyaltyLevels's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.BitmapImage == null), "Traders BitmapImage's not loaded");
         }
 
         [Test]
@@ -836,6 +837,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
+            AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
+            AppData.Profile.Characters.Pmc.SetAllQuests(QuestStatus.Fail);
             Assert.IsTrue(AppData.Profile.IsProfileChanged());
         }
 

@@ -60,7 +60,8 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerDir.traders] = "Aki_Data\\Server\\database\\traders",
             [SPTServerDir.bots] = "Aki_Data\\Server\\database\\bots\\types",
             [SPTServerDir.profiles] = "user\\profiles",
-            [SPTServerDir.handbookIcons] = "Aki_Data\\Server\\images\\handbook"
+            [SPTServerDir.handbookIcons] = "Aki_Data\\Server\\images\\handbook",
+            [SPTServerDir.traderImages] = "Aki_Data\\Server\\images\\traders"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
@@ -116,9 +117,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_info_head"] = "Head",
                     ["tab_info_health"] = "Health",
                     ["tab_merchants_title"] = "Merchants",
-                    ["tab_merchants_name"] = "Name",
                     ["tab_merchants_level"] = "Level",
-                    ["tab_merchants_enabled"] = "Enabled",
                     ["tab_merchants_sales_sum"] = "Sales sum",
                     ["tab_merchants_standing"] = "Standing",
                     ["tab_quests_title"] = "Quests",
@@ -266,6 +265,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["dir_bots_description"] = "Folder containing bot type settings",
                     ["dir_profiles_description"] = "Folder containing profiles",
                     ["dir_handbookIcons_description"] = "Folder containing icons for handbook",
+                    ["dir_tradersImages_description"] = "Folder containing images for traders",
                     ["file_globals_description"] = "File with main settings of server",
                     ["file_items_description"] = "File with main settings of the items",
                     ["file_quests_description"] = "File with main settings of quests",
@@ -315,9 +315,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_info_head"] = "Голова",
                     ["tab_info_health"] = "Здоровье",
                     ["tab_merchants_title"] = "Торговцы",
-                    ["tab_merchants_name"] = "Имя",
                     ["tab_merchants_level"] = "Уровень",
-                    ["tab_merchants_enabled"] = "Включен",
                     ["tab_merchants_sales_sum"] = "Сумма оборота",
                     ["tab_merchants_standing"] = "Отношение",
                     ["tab_quests_title"] = "Квесты",
@@ -465,6 +463,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["dir_bots_description"] = "Папка содержащая настройки типов ботов",
                     ["dir_profiles_description"] = "Папка содержащая профили",
                     ["dir_handbookIcons_description"] = "Папка с иконками для справочника предметов",
+                    ["dir_tradersImages_description"] = "Папка с изображениями торговцев",
                     ["file_globals_description"] = "Файл с основными настройками сервера",
                     ["file_items_description"] = "Файл с основными настройками предметов",
                     ["file_quests_description"] = "Файл с основными настройками квестов",

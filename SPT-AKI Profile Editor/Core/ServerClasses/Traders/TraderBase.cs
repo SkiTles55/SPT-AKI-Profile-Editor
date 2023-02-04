@@ -9,6 +9,9 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonProperty("_id")]
         public string Id { get; set; }
 
+        [JsonProperty("avatar")]
+        public string ImageUrl { get; set; }
+
         [JsonProperty("loyaltyLevels")]
         public List<LoyaltyLevels> LoyaltyLevels { get; set; }
     }
