@@ -5,12 +5,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterMetric : BindableEntity
     {
-        private int current;
+        private float current;
 
-        private int maximum;
+        private float maximum;
 
         [JsonProperty("Current")]
-        public int Current
+        public float Current
         {
             get => current;
             set
@@ -23,7 +23,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonProperty("Maximum")]
-        public int Maximum
+        public float Maximum
         {
             get => maximum;
             set
