@@ -147,14 +147,16 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <TextBox
+            <local:NumericUpDownExt
                 Grid.Row="4"
                 Grid.Column="1"
                 Margin="10,5"
                 VerticalAlignment="Center"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                Interval="1"
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel}"
+                Minimum="1"
+                TextAlignment="Left"
+                Value="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Grid.Row="5"
                 Grid.Column="0"

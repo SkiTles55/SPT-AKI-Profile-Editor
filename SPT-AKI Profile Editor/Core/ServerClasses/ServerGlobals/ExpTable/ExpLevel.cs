@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using System;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -7,7 +9,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
     {
         private LevelExpTable[] expTable;
 
-        private long maxExp;
+        [JsonConstructor]
+        public ExpLevel(LevelExpTable[] expTable)
+        {
+            ExpTable = expTable;
+            MaxLevel = Math.Max(1, expTable.Length - 1);
+            MaxExp = expTable.Select(x => x.Exp).Sum();
+        }
 
         [JsonProperty("exp_table")]
         public LevelExpTable[] ExpTable
@@ -17,27 +25,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             {
                 expTable = value;
                 OnPropertyChanged("ExpTable");
-                MaxExp = CalculateMaxExp();
             }
         }
 
         [JsonIgnore]
-        public long MaxExp
-        {
-            get => maxExp;
-            set
-            {
-                maxExp = value;
-                OnPropertyChanged("MaxExp");
-            }
-        }
+        public long MaxExp { get; }
 
-        private long CalculateMaxExp()
-        {
-            long experience = 0;
-            foreach (var exp in expTable)
-                experience += exp.Exp;
-            return experience;
-        }
+        [JsonIgnore]
+        public int MaxLevel { get; }
     }
 }

@@ -59,6 +59,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ServerGlobalsConfigExpLevelMaxExpNotZero() => Assert.True(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp > 0);
 
         [Test]
+        public void ServerGlobalsConfigExpLevelMaxLevelGreaterThanOne() => Assert.True(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel > 1);
+
+        [Test]
         public void ServerGlobalsMasteringNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0);
 
         [Test]

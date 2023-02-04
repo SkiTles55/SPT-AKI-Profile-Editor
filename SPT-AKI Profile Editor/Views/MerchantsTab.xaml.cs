@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -31,12 +29,6 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             get { return (int)GetValue(CollumnsCountProperty); }
             set { SetValue(CollumnsCountProperty, value); }
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void UniformGrid_SizeChanged(object sender, SizeChangedEventArgs e) =>
