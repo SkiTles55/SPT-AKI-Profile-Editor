@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -74,23 +75,28 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <TextBox
-                                        MinWidth="50"
+                                    <extendedcontrols:NumericUpDownExt
+                                        Width="90"
                                         Margin="5,0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
+                                        Culture="ru-RU"
                                         DockPanel.Dock="Left"
                                         FontWeight="Bold"
-                                        PreviewTextInput="NumberValidationTextBox"
-                                        Text="{Binding Progress, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                                        Interval="100"
+                                        Maximum="{Binding MaxValue}"
+                                        Minimum="0"
+                                        NumericInputMode="Numbers"
+                                        StringFormat="N0"
+                                        TextAlignment="Left"
+                                        Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" />
                                     <Slider
                                         Margin="5,5,10,5"
                                         VerticalAlignment="Center"
                                         DockPanel.Dock="Right"
-                                        IsSnapToTickEnabled="True"
                                         Maximum="{Binding MaxValue}"
-                                        TickFrequency="1"
-                                        TickPlacement="None"
+                                        TickFrequency="200"
+                                        TickPlacement="BottomRight"
                                         Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" />
                                 </DockPanel>
                             </DataTemplate>
@@ -113,23 +119,28 @@
                 Margin="10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <TextBox
-                    Width="50"
+                <extendedcontrols:NumericUpDownExt
+                    Width="100"
                     Margin="5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
+                    Culture="ru-RU"
                     FontWeight="Bold"
-                    PreviewTextInput="NumberValidationTextBox"
-                    Text="{Binding ElementName=Control, Path=SetAllValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                    Interval="100"
+                    Maximum="{Binding ElementName=Control, Path=MaxValue}"
+                    Minimum="0"
+                    NumericInputMode="Numbers"
+                    StringFormat="N0"
+                    TextAlignment="Left"
+                    Value="{Binding ElementName=Control, Path=SetAllValue, UpdateSourceTrigger=PropertyChanged}" />
                 <Slider
                     Grid.Column="1"
                     Width="200"
-                    Margin="5"
+                    Margin="5,0"
                     VerticalAlignment="Center"
-                    IsSnapToTickEnabled="True"
                     Maximum="{Binding ElementName=Control, Path=MaxValue}"
-                    TickFrequency="1"
-                    TickPlacement="None"
+                    TickFrequency="100"
+                    TickPlacement="BottomRight"
                     Value="{Binding ElementName=Control, Path=SetAllValue, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Width="100"

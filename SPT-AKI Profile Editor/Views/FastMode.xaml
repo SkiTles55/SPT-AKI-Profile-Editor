@@ -3,9 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -68,16 +68,20 @@
                 <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <local:NumericUpDownExt
+        <extendedcontrols:NumericUpDownExt
             Grid.Row="1"
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Margin="0,5"
             VerticalAlignment="Center"
+            Culture="ru-RU"
+            FontWeight="Bold"
             Interval="1"
             IsEnabled="{Binding PmcLevel}"
             Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel}"
             Minimum="1"
+            NumericInputMode="Numbers"
+            StringFormat="N0"
             TextAlignment="Left"
             Value="{Binding Pmc.Level, UpdateSourceTrigger=PropertyChanged}" />
         <CheckBox
@@ -104,23 +108,29 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox
+            <extendedcontrols:NumericUpDownExt
                 Grid.Column="0"
-                MinWidth="80"
+                Width="120"
                 Margin="0,5,10,5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                Culture="ru-RU"
                 FontWeight="Bold"
+                Interval="1000"
                 IsEnabled="{Binding PmcLevel}"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding Pmc.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
+                Minimum="0"
+                NumericInputMode="Numbers"
+                StringFormat="N0"
+                TextAlignment="Left"
+                Value="{Binding Pmc.Experience, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="2,5"
                 VerticalAlignment="Center"
                 IsEnabled="{Binding PmcLevel}"
                 Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
-                TickFrequency="300000"
+                TickFrequency="2000000"
                 TickPlacement="BottomRight"
                 Value="{Binding Pmc.Experience}" />
         </Grid>
@@ -147,26 +157,31 @@
         </Label>
         <Grid Grid.Row="3" Grid.Column="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="90" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox
+            <extendedcontrols:NumericUpDownExt
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Culture="ru-RU"
                 FontWeight="Bold"
+                Interval="100"
                 IsEnabled="{Binding PmcCommonSkills}"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllPmcSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                Maximum="{Binding AppSettings.CommonSkillMaxValue}"
+                Minimum="0"
+                NumericInputMode="Numbers"
+                StringFormat="N0"
+                TextAlignment="Left"
+                Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 IsEnabled="{Binding PmcCommonSkills}"
-                IsSnapToTickEnabled="True"
                 Maximum="{Binding AppSettings.CommonSkillMaxValue}"
-                TickFrequency="1"
-                TickPlacement="None"
+                TickFrequency="200"
+                TickPlacement="BottomRight"
                 Value="{Binding SetAllPmcSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <CheckBox
@@ -199,26 +214,31 @@
         </Label>
         <Grid Grid.Row="4" Grid.Column="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="90" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox
+            <extendedcontrols:NumericUpDownExt
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Culture="ru-RU"
                 FontWeight="Bold"
+                Interval="100"
                 IsEnabled="{Binding PmcMasteringsSkills}"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllPmcMasteringsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
+                Minimum="0"
+                NumericInputMode="Numbers"
+                StringFormat="N0"
+                TextAlignment="Left"
+                Value="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 IsEnabled="{Binding PmcMasteringsSkills}"
-                IsSnapToTickEnabled="True"
                 Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
-                TickFrequency="1"
-                TickPlacement="None"
+                TickFrequency="200"
+                TickPlacement="BottomRight"
                 Value="{Binding SetAllPmcMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <CheckBox
@@ -380,16 +400,20 @@
                 <TextBlock Text="{Binding AppLocalization.Translations[tab_info_scav]}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
-        <local:NumericUpDownExt
+        <extendedcontrols:NumericUpDownExt
             Grid.Row="1"
             Grid.Column="4"
             Grid.ColumnSpan="2"
             Margin="0,5"
             VerticalAlignment="Center"
+            Culture="ru-RU"
+            FontWeight="Bold"
             Interval="1"
             IsEnabled="{Binding ScavLevel}"
             Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel}"
             Minimum="1"
+            NumericInputMode="Numbers"
+            StringFormat="N0"
             TextAlignment="Left"
             Value="{Binding Scav.Level, UpdateSourceTrigger=PropertyChanged}" />
         <CheckBox
@@ -407,23 +431,29 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox
+            <extendedcontrols:NumericUpDownExt
                 Grid.Column="0"
-                MinWidth="80"
+                Width="120"
                 Margin="0,5,10,5"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                Culture="ru-RU"
                 FontWeight="Bold"
+                Interval="1000"
                 IsEnabled="{Binding ScavLevel}"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding Scav.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
+                Minimum="0"
+                NumericInputMode="Numbers"
+                StringFormat="N0"
+                TextAlignment="Left"
+                Value="{Binding Scav.Experience, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="2,5"
                 VerticalAlignment="Center"
                 IsEnabled="{Binding ScavLevel}"
                 Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
-                TickFrequency="300000"
+                TickFrequency="2000000"
                 TickPlacement="BottomRight"
                 Value="{Binding Scav.Experience}" />
         </Grid>
@@ -440,26 +470,31 @@
         </Label>
         <Grid Grid.Row="3" Grid.Column="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="90" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox
+            <extendedcontrols:NumericUpDownExt
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Culture="ru-RU"
                 FontWeight="Bold"
+                Interval="100"
                 IsEnabled="{Binding ScavCommonSkills}"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllScavSkillsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                Maximum="{Binding AppSettings.CommonSkillMaxValue}"
+                Minimum="0"
+                NumericInputMode="Numbers"
+                StringFormat="N0"
+                TextAlignment="Left"
+                Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 IsEnabled="{Binding ScavCommonSkills}"
-                IsSnapToTickEnabled="True"
                 Maximum="{Binding AppSettings.CommonSkillMaxValue}"
-                TickFrequency="1"
-                TickPlacement="None"
+                TickFrequency="200"
+                TickPlacement="BottomRight"
                 Value="{Binding SetAllScavSkillsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <CheckBox
@@ -482,26 +517,31 @@
         </Label>
         <Grid Grid.Row="4" Grid.Column="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="90" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBox
+            <extendedcontrols:NumericUpDownExt
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Culture="ru-RU"
                 FontWeight="Bold"
+                Interval="100"
                 IsEnabled="{Binding ScavMasteringsSkills}"
-                PreviewTextInput="NumberValidationTextBox"
-                Text="{Binding SetAllScavMasteringsValue, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
+                Minimum="0"
+                NumericInputMode="Numbers"
+                StringFormat="N0"
+                TextAlignment="Left"
+                Value="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
             <Slider
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 IsEnabled="{Binding ScavMasteringsSkills}"
-                IsSnapToTickEnabled="True"
                 Maximum="{Binding ServerDatabase.ServerGlobals.Config.MaxProgressValue}"
-                TickFrequency="1"
-                TickPlacement="None"
+                TickFrequency="200"
+                TickPlacement="BottomRight"
                 Value="{Binding SetAllScavMasteringsValue, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <CheckBox

@@ -13,6 +13,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             Moneys = money;
             Moneys.AddingQuantity = ((TarkovItem)Moneys).Properties.StackMaxSize;
+            AddingInterval = Moneys.AddingQuantity;
             addMoneysCommand = addCommand;
         }
 
@@ -27,6 +28,8 @@ namespace SPT_AKI_Profile_Editor.Views
         public PackIconFontAwesomeKind Сurrency => GetIconKind();
 
         public AddableItem Moneys { get; }
+
+        public double AddingInterval { get; }
 
         private PackIconFontAwesomeKind GetIconKind()
         {

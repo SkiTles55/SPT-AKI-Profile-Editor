@@ -250,7 +250,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
                 TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
-                TradersInfo.SelectToken(trader.Key)["standing"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
+                TradersInfo.SelectToken(trader.Key)["standing"] = Math.Round(Characters.Pmc.TraderStandings[trader.Key].Standing, 2);
                 TradersInfo.SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
                 if (trader.Key == "ragfair")
                     pmc.SelectToken("RagfairInfo")["rating"] = Characters.Pmc.TraderStandings[trader.Key].Standing;

@@ -37,7 +37,6 @@
             Margin="3"
             Background="Transparent"
             BorderThickness="0"
-            FontWeight="Bold"
             PreviewTextInput="NumberValidationTextBox"
             Text="{Binding ElementName=Control, Path=CharacterMetric.Current, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}"
             TextAlignment="Center" />
@@ -46,8 +45,7 @@
             Grid.Column="1"
             Margin="0,3"
             VerticalAlignment="Center"
-            Content="/"
-            FontWeight="Bold" />
+            Content="/" />
         <TextBox
             Grid.Row="1"
             Grid.Column="2"
@@ -55,7 +53,6 @@
             Margin="3"
             Background="Transparent"
             BorderThickness="0"
-            FontWeight="Bold"
             PreviewTextInput="NumberValidationTextBox"
             Text="{Binding ElementName=Control, Path=CharacterMetric.Maximum, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}"
             TextAlignment="Center" />

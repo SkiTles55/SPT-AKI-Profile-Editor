@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
@@ -90,6 +89,8 @@
                                 VerticalAlignment="Center"
                                 Interval="1"
                                 Maximum="{Binding Path=MaxLevel}"
+                                Minimum="1"
+                                NumericInputMode="Numbers"
                                 TextAlignment="Left"
                                 Value="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
@@ -102,15 +103,16 @@
                                     <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_standing], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                            <mah:NumericUpDown
+                            <Label
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Margin="3"
-                                VerticalAlignment="Center"
-                                Interval="0.01"
-                                StringFormat="N2"
-                                TextAlignment="Left"
-                                Value="{Binding Path=Standing}" />
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=Standing, StringFormat=N2, ConverterCulture=en-US}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
                             <Label
                                 Grid.Row="4"
                                 Grid.Column="0"
@@ -121,16 +123,16 @@
                                     <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_sales_sum], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                            <mah:NumericUpDown
+                            <Label
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Margin="3"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Right"
-                                Interval="100"
-                                StringFormat="N2"
-                                TextAlignment="Left"
-                                Value="{Binding Path=SalesSum}" />
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=SalesSum, StringFormat=N0, ConverterCulture=ru-RU}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
                         </Grid>
                     </Border>
                 </DataTemplate>

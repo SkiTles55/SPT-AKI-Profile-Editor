@@ -1,10 +1,8 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -13,16 +11,7 @@ namespace SPT_AKI_Profile_Editor.Views
     /// </summary>
     public partial class HideoutTab : UserControl
     {
-        public HideoutTab()
-        {
-            InitializeComponent();
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
+        public HideoutTab() => InitializeComponent();
 
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) => ApplyHideoutFilter();
 

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -20,14 +21,17 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox
+        <extendedcontrols:NumericUpDownExt
             Grid.Row="0"
             Grid.Column="0"
-            Height="30"
             Margin="0,0,10,0"
-            PreviewTextInput="NumberValidationTextBox"
-            Text="{Binding Moneys.AddingQuantity, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}"
-            TextChanged="TextBox_TextChanged" />
+            Culture="ru-RU"
+            Interval="{Binding AddingInterval}"
+            Minimum="1"
+            NumericInputMode="Numbers"
+            StringFormat="N0"
+            TextAlignment="Left"
+            Value="{Binding Moneys.AddingQuantity, UpdateSourceTrigger=PropertyChanged}" />
         <iconPacks:PackIconFontAwesome
             Grid.Row="0"
             Grid.Column="1"

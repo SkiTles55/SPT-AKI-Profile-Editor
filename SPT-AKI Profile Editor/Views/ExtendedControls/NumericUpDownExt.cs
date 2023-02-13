@@ -1,5 +1,5 @@
 ﻿using MahApps.Metro.Controls;
-using System.Text.RegularExpressions;
+using System.Linq;
 using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
@@ -9,8 +9,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         protected override void OnPreviewTextInput(TextCompositionEventArgs e)
         {
             base.OnPreviewTextInput(e);
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            e.Handled = e.Text.Any(x => char.IsLetter(x) || x == ',');
         }
     }
 }

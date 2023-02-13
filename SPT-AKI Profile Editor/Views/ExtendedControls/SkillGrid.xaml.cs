@@ -2,7 +2,6 @@
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -107,12 +106,6 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                     return p.LocalizedName.ToUpper().Contains(filter.ToUpper());
                 };
             }
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void FilterBox_TextChanged(object sender, TextChangedEventArgs e) =>

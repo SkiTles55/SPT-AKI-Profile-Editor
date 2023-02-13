@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
@@ -147,7 +147,7 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <local:NumericUpDownExt
+            <extendedcontrols:NumericUpDownExt
                 Grid.Row="4"
                 Grid.Column="1"
                 Margin="10,5"
@@ -155,6 +155,7 @@
                 Interval="1"
                 Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel}"
                 Minimum="1"
+                NumericInputMode="Numbers"
                 TextAlignment="Left"
                 Value="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}" />
             <Label
@@ -176,21 +177,26 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBox
+                <extendedcontrols:NumericUpDownExt
                     Grid.Column="0"
-                    MinWidth="80"
+                    Width="120"
                     Margin="0,0,10,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    FontWeight="Bold"
-                    PreviewTextInput="NumberValidationTextBox"
-                    Text="{Binding ElementName=Control, Path=Character.Info.Experience, ConverterCulture=ru-RU, StringFormat=N0, UpdateSourceTrigger=PropertyChanged}" />
+                    Culture="ru-RU"
+                    Interval="1000"
+                    Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
+                    Minimum="0"
+                    NumericInputMode="Numbers"
+                    StringFormat="N0"
+                    TextAlignment="Left"
+                    Value="{Binding ElementName=Control, Path=Character.Info.Experience, UpdateSourceTrigger=PropertyChanged}" />
                 <Slider
                     Grid.Column="1"
                     Margin="2,0"
                     VerticalAlignment="Center"
                     Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp}"
-                    TickFrequency="300000"
+                    TickFrequency="1000000"
                     TickPlacement="BottomRight"
                     Value="{Binding ElementName=Control, Path=Character.Info.Experience}" />
             </Grid>
@@ -269,21 +275,21 @@
                 Grid.Column="1"
                 Margin="10,5"
                 Orientation="Horizontal">
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Stomach.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Stomach.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
             </WrapPanel>
             <WrapPanel
                 Grid.Row="10"
                 Grid.Column="1"
                 Margin="10,5"
                 Orientation="Horizontal">
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION]}" />
-                <local:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY]}" />
             </WrapPanel>
         </Grid>
     </ScrollViewer>

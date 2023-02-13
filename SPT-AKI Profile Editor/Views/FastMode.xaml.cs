@@ -1,6 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -9,15 +7,6 @@ namespace SPT_AKI_Profile_Editor.Views
     /// </summary>
     public sealed partial class FastMode : Flyout
     {
-        public FastMode()
-        {
-            InitializeComponent();
-        }
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
+        public FastMode() => InitializeComponent();
     }
 }
