@@ -96,6 +96,17 @@ namespace SPT_AKI_Profile_Editor.Core
                                 profileIssues.Add(new TraderLoyaltyIssue(quest, targetTrader, requiredLoyaltyLevel));
                             }
                             break;
+
+                        case QuestConditionType.TraderStanding:
+                            var targetTrader2 = character.TraderStandingsExt.Where(x => x.Id == condition.Props?.Target).FirstOrDefault();
+                            if (targetTrader2 != null && !(condition.Props?.CheckRequiredValue((int)targetTrader2.TraderStanding.Standing) ?? true))
+                            {
+                                var requiredStanding = condition.Props.GetNearestFloatValue();
+                                if (requiredStanding < 0.01f)
+                                    continue;
+                                profileIssues.Add(new TraderStandingIssue(quest, targetTrader2, requiredStanding));
+                            }
+                            break;
                     }
                 }
             }

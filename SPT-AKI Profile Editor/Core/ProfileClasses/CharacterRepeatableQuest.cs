@@ -5,6 +5,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterRepeatableQuest
     {
+        [JsonConverter(typeof(QuestTypeConverter))]
         [JsonProperty("name")]
         public QuestType Type { get; set; }
 

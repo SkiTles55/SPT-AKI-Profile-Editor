@@ -110,7 +110,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=Standing, StringFormat=N2, ConverterCulture=en-US}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Path=TraderStanding.Standing, StringFormat=N2, ConverterCulture=en-US}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
                             <Label
@@ -130,7 +130,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
                                 <Label.Content>
-                                    <TextBlock Text="{Binding Path=SalesSum, StringFormat=N0, ConverterCulture=ru-RU}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Path=TraderStanding.SalesSum, StringFormat=N0, ConverterCulture=ru-RU}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
                         </Grid>

@@ -51,10 +51,10 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.Profile.Load(TestHelpers.profileFile);
             MasteringTabViewModel viewModel = new(null, null, null)
             {
-                SetAllPmcSkillsValue = 500f
+                SetAllPmcSkillsValue = 160f
             };
             viewModel.SetAllPmsSkillsCommand.Execute(null);
-            Assert.That(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == 500f), Is.True);
+            Assert.That(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == 160f), Is.True);
         }
 
         [Test]
@@ -64,10 +64,10 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             AppData.Profile.Load(TestHelpers.profileFile);
             MasteringTabViewModel viewModel = new(null, null, null)
             {
-                SetAllScavSkillsValue = 500f
+                SetAllScavSkillsValue = 160f
             };
             viewModel.SetAllScavSkillsCommand.Execute(null);
-            Assert.That(AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == 500f), Is.True);
+            Assert.That(AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == 160f), Is.True);
         }
 
         [Test]

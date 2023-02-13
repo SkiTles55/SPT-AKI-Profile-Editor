@@ -150,16 +150,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     quest.QuestData = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid] : null;
                     return;
                 }
-                var dailyQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == QuestType.Daily).First();
-                if (SetupQuestFromArray(dailyQuests.ActiveQuests, QuestType.Daily))
-                    return;
-                if (SetupQuestFromArray(dailyQuests.InactiveQuests, QuestType.Daily))
-                    return;
-                var weeklyQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == QuestType.Weekly).First();
-                if (SetupQuestFromArray(weeklyQuests.ActiveQuests, QuestType.Weekly))
-                    return;
-                if (SetupQuestFromArray(weeklyQuests.InactiveQuests, QuestType.Weekly))
-                    return;
+
+                foreach (QuestType type in Enum.GetValues(typeof(QuestType)))
+                {
+                    var typeQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == type).First();
+                    if (SetupQuestFromArray(typeQuests.ActiveQuests, type))
+                        return;
+                    if (SetupQuestFromArray(typeQuests.InactiveQuests, type))
+                        return;
+                }
 
                 bool SetupQuestFromArray(ActiveQuest[] array, QuestType type)
                 {

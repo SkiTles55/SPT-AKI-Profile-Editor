@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.Enums
@@ -12,7 +14,13 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         Weekly,
 
         [EnumMember(Value = "Daily")]
-        Daily
+        Daily,
+
+        [EnumMember(Value = "Daily_Savage")]
+        DailySavage,
+
+        [EnumMember(Value = "Unknown")]
+        Unknown
     }
 
     public static class QuestTypeExtension
@@ -27,7 +35,42 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         {
             QuestType.Daily => AppData.AppLocalization.GetLocalizedString("tab_quests_daily_group"),
             QuestType.Weekly => AppData.AppLocalization.GetLocalizedString("tab_quests_weekly_group"),
+            QuestType.DailySavage => AppData.AppLocalization.GetLocalizedString("tab_quests_daily_savage_group"),
+            QuestType.Unknown => AppData.AppLocalization.GetLocalizedString("tab_quests_unknown_group"),
             _ => AppData.AppLocalization.GetLocalizedString("tab_quests_standart_group")
         };
+    }
+
+    public class QuestTypeConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType) => objectType == typeof(QuestType);
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            try
+            {
+                string value = reader.Value?.ToString();
+
+                if (reader.TokenType == JsonToken.String)
+                {
+                    if (string.IsNullOrEmpty(value))
+                        return null;
+
+                    return Enum.Parse(typeof(QuestType), value);
+                }
+
+                return QuestType.Standart;
+            }
+            catch
+            {
+                return QuestType.Standart;
+            }
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var status = (QuestType)value;
+            writer.WriteValue(status.ToString());
+        }
     }
 }

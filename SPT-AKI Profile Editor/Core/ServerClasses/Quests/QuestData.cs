@@ -33,7 +33,10 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     Quest,
 
                     [EnumMember(Value = "TraderLoyalty")]
-                    TraderLoyalty
+                    TraderLoyalty,
+
+                    [EnumMember(Value = "TraderStanding")]
+                    TraderStanding
                 }
 
                 [JsonConverter(typeof(StringEnumConverter))]
@@ -80,6 +83,20 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                             "<=" => RequiredValue,
                             "<" => RequiredValue - 1,
                             "!=" => RequiredValue + 1,
+                            "==" => RequiredValue,
+                            _ => RequiredValue,
+                        };
+                    }
+
+                    public float GetNearestFloatValue()
+                    {
+                        return CompareMethod switch
+                        {
+                            ">=" => RequiredValue,
+                            ">" => RequiredValue + 0.01f,
+                            "<=" => RequiredValue,
+                            "<" => RequiredValue - 0.01f,
+                            "!=" => RequiredValue + 0.01f,
                             "==" => RequiredValue,
                             _ => RequiredValue,
                         };

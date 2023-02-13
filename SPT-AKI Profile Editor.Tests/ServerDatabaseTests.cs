@@ -110,6 +110,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsDataConditionsTraderLoyaltyNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.TraderLoyalty)));
 
         [Test]
+        public void QuestsDataConditionsTraderStandingNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.TraderStanding)));
+
+        [Test]
         public void QuestsDataConditionsCompareMethodGreaterOrEqualNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == ">=")));
 
         [Test]
