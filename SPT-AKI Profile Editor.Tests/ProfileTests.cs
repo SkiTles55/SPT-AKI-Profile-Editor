@@ -178,7 +178,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void RepeatableQuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.RepeatableQuests.Length == 0, "RepeatableQuests is empty");
 
         [Test]
-        public void RepeatableQuestsActiveQuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.RepeatableQuests.Any(x => x.ActiveQuests.Length == 0), "RepeatableQuests ActiveQuests is empty");
+        public void RepeatableQuestsActiveQuestsNotEmpty() => Assert.IsTrue(AppData.Profile.Characters.Pmc.RepeatableQuests.Any(x => x.ActiveQuests.Length > 0), "RepeatableQuests ActiveQuests is empty");
+
+        [Test]
+        public void RepeatableQuestsUnknownTypeIsEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.RepeatableQuests.Any(x => x.Type == QuestType.Unknown), "RepeatableQuests Unknown type is not empty");
+
+        [Test]
+        public void RepeatableQuestsActiveQuestsWithActiveQuestTypeUnknownIsEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.RepeatableQuests.Any(x => x.ActiveQuests.Any(q => q.Type == ActiveQuestType.Unknown)), "RepeatableQuests ActiveQuests with ActiveQuestType Unknown is not empty");
 
         [Test]
         public void EncyclopediaNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Encyclopedia, "Encyclopedia is null");
@@ -328,7 +334,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void WeaponBuildsNotEmpty()
         {
-
             AppData.Profile.Load(TestHelpers.profileFile);
             Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
         }

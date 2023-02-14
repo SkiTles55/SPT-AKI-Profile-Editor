@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
@@ -24,22 +22,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
             public class QuestCondition
             {
-                public enum QuestConditionType
-                {
-                    [EnumMember(Value = "Level")]
-                    Level,
-
-                    [EnumMember(Value = "Quest")]
-                    Quest,
-
-                    [EnumMember(Value = "TraderLoyalty")]
-                    TraderLoyalty,
-
-                    [EnumMember(Value = "TraderStanding")]
-                    TraderStanding
-                }
-
-                [JsonConverter(typeof(StringEnumConverter))]
+                [JsonConverter(typeof(QuestConditionTypeConverter))]
                 [JsonProperty("_parent")]
                 public QuestConditionType Type { get; set; }
 

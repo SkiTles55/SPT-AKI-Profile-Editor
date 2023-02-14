@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.Linq;
-using static SPT_AKI_Profile_Editor.Core.ServerClasses.QuestData.QuestConditions.QuestCondition;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -111,6 +111,9 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void QuestsDataConditionsTraderStandingNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.TraderStanding)));
+
+        [Test]
+        public void QuestsDataConditionsUnknownIsEmpty() => Assert.False(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.Unknown)));
 
         [Test]
         public void QuestsDataConditionsCompareMethodGreaterOrEqualNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == ">=")));

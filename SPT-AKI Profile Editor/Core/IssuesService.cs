@@ -4,7 +4,6 @@ using SPT_AKI_Profile_Editor.Core.Issues;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static SPT_AKI_Profile_Editor.Core.ServerClasses.QuestData.QuestConditions.QuestCondition;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
@@ -106,6 +105,9 @@ namespace SPT_AKI_Profile_Editor.Core
                                     continue;
                                 profileIssues.Add(new TraderStandingIssue(quest, targetTrader2, requiredStanding));
                             }
+                            break;
+
+                        default:
                             break;
                     }
                 }
