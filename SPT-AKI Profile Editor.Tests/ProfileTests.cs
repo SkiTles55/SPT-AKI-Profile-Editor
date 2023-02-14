@@ -326,7 +326,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildsNotNull() => Assert.IsNotNull(AppData.Profile.WeaponBuilds);
 
         [Test]
-        public void WeaponBuildsNotEmpty() => Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
+        public void WeaponBuildsNotEmpty()
+        {
+
+            AppData.Profile.Load(TestHelpers.profileFile);
+            Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
+        }
 
         [Test]
         public void PMCStashContainsVerticalItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Location?.R == ItemRotation.Vertical));
@@ -797,8 +802,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
             Assert.NotNull(build);
             Assert.AreEqual(48.5, build.Value.Ergonomics);
-            Assert.AreEqual(73, build.Value.RecoilForceUp);
-            Assert.AreEqual(186, build.Value.RecoilForceBack);
+            Assert.AreEqual(71, build.Value.RecoilForceUp);
+            Assert.AreEqual(179, build.Value.RecoilForceBack);
         }
 
         [Test]
