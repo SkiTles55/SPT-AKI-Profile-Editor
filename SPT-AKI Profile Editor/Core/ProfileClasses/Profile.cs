@@ -153,7 +153,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
                 foreach (QuestType type in Enum.GetValues(typeof(QuestType)))
                 {
-                    var typeQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == type).First();
+                    var typeQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == type).FirstOrDefault();
+                    if (typeQuests == null)
+                        continue;
                     if (SetupQuestFromArray(typeQuests.ActiveQuests, type))
                         return;
                     if (SetupQuestFromArray(typeQuests.InactiveQuests, type))

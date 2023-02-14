@@ -17,7 +17,7 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         Daily,
 
         [EnumMember(Value = "Daily_Savage")]
-        DailySavage,
+        Daily_Savage,
 
         [EnumMember(Value = "Unknown")]
         Unknown
@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         {
             QuestType.Daily => AppData.AppLocalization.GetLocalizedString("tab_quests_daily_group"),
             QuestType.Weekly => AppData.AppLocalization.GetLocalizedString("tab_quests_weekly_group"),
-            QuestType.DailySavage => AppData.AppLocalization.GetLocalizedString("tab_quests_daily_savage_group"),
+            QuestType.Daily_Savage => AppData.AppLocalization.GetLocalizedString("tab_quests_daily_savage_group"),
             QuestType.Unknown => AppData.AppLocalization.GetLocalizedString("tab_quests_unknown_group"),
             _ => AppData.AppLocalization.GetLocalizedString("tab_quests_standart_group")
         };
@@ -59,11 +59,11 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
                     return Enum.Parse(typeof(QuestType), value);
                 }
 
-                return QuestType.Standart;
+                return QuestType.Unknown;
             }
             catch
             {
-                return QuestType.Standart;
+                return QuestType.Unknown;
             }
         }
 
