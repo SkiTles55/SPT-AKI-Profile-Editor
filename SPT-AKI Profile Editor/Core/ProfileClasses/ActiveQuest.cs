@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonProperty("traderId")]
         public string TraderId { get; set; }
 
-        [JsonConverter(typeof(ActiveQuestTypeConverter))]
+        [JsonConverter(typeof(SafeEnumConverter<ActiveQuestType>))]
         [JsonProperty("type")]
         public ActiveQuestType Type { get; set; }
     }

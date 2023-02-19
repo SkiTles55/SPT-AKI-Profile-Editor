@@ -158,13 +158,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ItemsDBFilterLoadCorrectly() => Assert.True(AppData.ServerDatabase.ItemsDB.Values.Any(x => x.Properties?.Grids?.Any(y => (y.Props?.Filters?[0].Filter?.Length ?? 0) > 0) ?? false));
 
         [Test]
-        public void HandbookNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Handbook);
-
-        [Test]
-        public void HandbookCategoriesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Handbook.Categories.Count == 0);
-
-        [Test]
-        public void HandbookItemsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Handbook.Items.Count == 0);
+        public void HandbookLoadsCorrectly()
+        {
+            Assert.IsNotNull(AppData.ServerDatabase.Handbook, "Handbook is null");
+            Assert.IsFalse(AppData.ServerDatabase.Handbook.Categories.Count == 0, "Handbook Categories empty");
+            Assert.IsFalse(AppData.ServerDatabase.Handbook.Categories.Any(x => string.IsNullOrEmpty(x.Id)), "Handbook Categories doesnt have id's");
+            Assert.IsFalse(AppData.ServerDatabase.Handbook.Items.Count == 0, "Handbook Items empty");
+        }
 
         [Test]
         public void HandbookHelperCanInitialize() => Assert.NotNull(new HandbookHelper(AppData.ServerDatabase.Handbook.Categories,

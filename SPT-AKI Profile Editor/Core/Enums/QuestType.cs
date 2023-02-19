@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace SPT_AKI_Profile_Editor.Core.Enums
@@ -39,38 +37,5 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
             QuestType.Unknown => AppData.AppLocalization.GetLocalizedString("tab_quests_unknown_group"),
             _ => AppData.AppLocalization.GetLocalizedString("tab_quests_standart_group")
         };
-    }
-
-    public class QuestTypeConverter : JsonConverter
-    {
-        public override bool CanConvert(Type objectType) => objectType == typeof(QuestType);
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            try
-            {
-                string value = reader.Value?.ToString();
-
-                if (reader.TokenType == JsonToken.String)
-                {
-                    if (string.IsNullOrEmpty(value))
-                        return null;
-
-                    return Enum.Parse(typeof(QuestType), value);
-                }
-
-                return QuestType.Unknown;
-            }
-            catch
-            {
-                return QuestType.Unknown;
-            }
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var status = (QuestType)value;
-            writer.WriteValue(status.ToString());
-        }
     }
 }

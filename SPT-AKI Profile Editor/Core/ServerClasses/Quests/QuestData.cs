@@ -22,7 +22,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
             public class QuestCondition
             {
-                [JsonConverter(typeof(QuestConditionTypeConverter))]
+                [JsonConverter(typeof(SafeEnumConverter<QuestConditionType>))]
                 [JsonProperty("_parent")]
                 public QuestConditionType Type { get; set; }
 

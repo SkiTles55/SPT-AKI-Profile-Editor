@@ -92,6 +92,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(container, Is.Not.Null, "Cant find container");
             ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, worker);
             Assert.That(pmcContainer.ItemsAddingAllowed, Is.True, "Items adding not allowed for opened container");
+            Assert.That(pmcContainer.ItemsAddingBlocked, Is.False, "Items adding blocked for opened container");
             var painkiller = AppData.ServerDatabase.ItemsDB["544fb37f4bdc2dee738b4567"];
             pmcContainer.RemoveAllItems.Execute(null);
             pmcContainer.AddItem.Execute(painkiller);

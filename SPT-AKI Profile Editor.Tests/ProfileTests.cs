@@ -22,6 +22,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void ProfileHashNotZero() => Assert.IsFalse(AppData.Profile.ProfileHash == 0);
+
+        [Test]
         public void CharactersNotNull() => Assert.IsNotNull(AppData.Profile.Characters);
 
         [Test]
@@ -166,10 +169,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderStandingsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
 
         [Test]
-        public void QuestsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Quests, "Quests is null");
-
-        [Test]
-        public void QuestsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.IsQuestsEmpty, "Quests is empty");
+        public void QuestsLoadCorrectly()
+        {
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.Quests, "Quests is null");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.IsQuestsEmpty, "Quests is empty");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Any(x => x.LocalizedTraderName == x.QuestTrader), "Quests Localized TraderName's not loaded");
+            var temp = AppData.Profile.Characters.Pmc.Quests.Where(x => x.LocalizedQuestName == x.QuestQid);
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Any(x => x.LocalizedQuestName == x.Qid), "Quests Localized QuestName's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.Quests.Any(x => x.LocalizedQuestType == AppData.AppLocalization.GetLocalizedString("tab_quests_unknown_group")), "Quests Localized QuestType's not loaded");
+        }
 
         [Test]
         public void RepeatableQuestsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.RepeatableQuests, "RepeatableQuests is null");
@@ -251,13 +259,28 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcInventoryHasItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.HasItems);
 
         [Test]
+        public void PmcInventoryHasPockets() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.IsPockets));
+
+        [Test]
         public void ScavInventoryNotHasItems() => Assert.False(AppData.Profile.Characters.Scav.Inventory.HasItems);
+
+        [Test]
+        public void ScavInventoryHasPockets() => Assert.True(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.IsPockets));
 
         [Test]
         public void PmcInventoryNotContainsModdedItems() => Assert.False(AppData.Profile.Characters.Pmc.Inventory.ContainsModdedItems);
 
         [Test]
         public void PmcInventoryContainsItemsWithIcons() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => x.CategoryIcon != null));
+
+        [Test]
+        public void PmcInventoryContainsItemsWithTag() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => !string.IsNullOrEmpty(x.Tag)));
+
+        [Test]
+        public void PmcInventoryContainsItemsWithCountString() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => !string.IsNullOrEmpty(x.CountString)));
+
+        [Test]
+        public void PmcInventoryItemsHaveCorrectLocalizedNames() => Assert.False(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => x.LocalizedName == x.Tpl));
 
         [Test]
         public void ScavInventoryNotContainsModdedItems() => Assert.False(AppData.Profile.Characters.Scav.Inventory.ContainsModdedItems);
@@ -336,6 +359,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
+            Assert.IsFalse(AppData.Profile.WBuilds.Count == 0);
         }
 
         [Test]
@@ -377,6 +401,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => string.IsNullOrEmpty(x.TraderBase.Id)), "Traders TraderBase id's not loaded");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => !x.TraderBase.LoyaltyLevels.Any()), "Traders TraderBase LoyaltyLevels's not loaded");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.BitmapImage == null), "Traders BitmapImage's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.Id != "ragfair" && x.LocalizedName == x.Id), "Traders LocalizedName's not loaded");
         }
 
         [Test]
@@ -572,6 +597,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void PmsStashCanGetInnerItems()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var weaponId = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.First(x => x.IsWeapon)?.Id;
+            Assert.IsFalse(string.IsNullOrEmpty(weaponId), "Weapon not found in pmc stash");
+            var innerItems = AppData.Profile.Characters.Pmc.Inventory.GetInnerItems(weaponId);
+            Assert.IsNotEmpty(innerItems, "Inner items of weapon empty");
+        }
+
+        [Test]
         public void ScavStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -762,10 +797,23 @@ namespace SPT_AKI_Profile_Editor.Tests
                 AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
             AppData.Profile.RemoveBuild(expected);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildRemove.json");
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
             AppData.Profile.Load(testFile);
             Assert.IsFalse(AppData.Profile.WeaponBuilds.ContainsKey(expected));
+        }
+
+        [Test]
+        public void WeaponBuildsRemoveSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            if (AppData.Profile.WeaponBuilds.Count == 0)
+                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            AppData.Profile.RemoveBuilds();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
+            AppData.Profile.Save(TestHelpers.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            Assert.IsFalse(AppData.Profile.WeaponBuilds.Any());
         }
 
         [Test]

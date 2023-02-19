@@ -23,6 +23,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
             Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysRublesTpl));
+            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
         }
 
         [Test]
@@ -36,6 +37,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
             Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysDollarsTpl));
+            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
         }
 
         [Test]
@@ -49,6 +51,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
             Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysEurosTpl));
+            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
         }
 
         [Test]
@@ -62,6 +65,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
             Assert.That(viewModel.Moneys, Is.Not.Null);
             Assert.That(viewModel.Moneys.Id, Is.Not.EqualTo(AppData.AppSettings.MoneysEurosTpl));
+            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
         }
 
         [Test]

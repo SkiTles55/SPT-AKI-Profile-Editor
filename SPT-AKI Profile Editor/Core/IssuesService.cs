@@ -106,9 +106,6 @@ namespace SPT_AKI_Profile_Editor.Core
                                 profileIssues.Add(new TraderStandingIssue(quest, targetTrader2, requiredStanding));
                             }
                             break;
-
-                        default:
-                            break;
                     }
                 }
             }

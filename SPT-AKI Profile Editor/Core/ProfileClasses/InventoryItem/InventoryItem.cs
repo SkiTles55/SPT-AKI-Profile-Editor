@@ -46,10 +46,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string CountString => (Upd?.StackObjectsCount ?? 1) > 1 ? $" [{Upd.StackObjectsCount}]" : string.Empty;
 
         [JsonIgnore]
-        public string GlobalName =>
-            AppData.ServerDatabase.LocalesGlobal?.ContainsKey(Tpl.Name()) ?? false ? AppData.ServerDatabase.LocalesGlobal[Tpl.Name()] : Tpl;
-
-        [JsonIgnore]
         public bool IsContainer => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length > 0;
 
         [JsonIgnore]
@@ -57,6 +53,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public bool IsWeapon => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
+
+        [JsonIgnore]
+        private string GlobalName =>
+            AppData.ServerDatabase.LocalesGlobal?.ContainsKey(Tpl.Name()) ?? false ? AppData.ServerDatabase.LocalesGlobal[Tpl.Name()] : Tpl;
 
         public static InventoryItem CopyFrom(InventoryItem item) => new()
         {
