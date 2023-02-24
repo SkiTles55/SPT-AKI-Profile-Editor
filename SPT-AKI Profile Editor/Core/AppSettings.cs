@@ -85,6 +85,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private IssuesAction issuesAction;
         private bool fastModeOpened = false;
         private bool? checkUpdates;
+        private string ragfairTraderId;
 
         public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
@@ -111,9 +112,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 defaultProfile = value;
-                OnPropertyChanged("DefaultProfile");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("DefaultProfile");
             }
         }
 
@@ -123,9 +122,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 language = value;
-                OnPropertyChanged("Language");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("Language");
             }
         }
 
@@ -135,9 +132,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 colorScheme = value;
-                OnPropertyChanged("ColorScheme");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("ColorScheme");
             }
         }
 
@@ -147,13 +142,12 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 checkUpdates = value;
-                OnPropertyChanged("CheckUpdates");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("CheckUpdates");
             }
         }
 
         public Dictionary<string, string> DirsList { get; set; }
+
         public Dictionary<string, string> FilesList { get; set; }
 
         public bool AutoAddMissingQuests
@@ -162,9 +156,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 autoAddMissingQuests = value;
-                OnPropertyChanged("AutoAddMissingQuests");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("AutoAddMissingQuests");
             }
         }
 
@@ -174,9 +166,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 autoAddMissingMasterings = value;
-                OnPropertyChanged("AutoAddMissingWeaponSkills");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("AutoAddMissingWeaponSkills");
             }
         }
 
@@ -186,9 +176,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 autoAddMissingScavSkills = value;
-                OnPropertyChanged("AutoAddMissingScavSkills");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("AutoAddMissingScavSkills");
             }
         }
 
@@ -198,9 +186,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 pocketsContainerTpl = value;
-                OnPropertyChanged("PocketsContainerTpl");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("PocketsContainerTpl");
             }
         }
 
@@ -210,9 +196,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 commonSkillMaxValue = value;
-                OnPropertyChanged("CommonSkillMaxValue");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("CommonSkillMaxValue");
             }
         }
 
@@ -222,9 +206,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 pocketsSlotId = value;
-                OnPropertyChanged("PocketsSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("PocketsSlotId");
             }
         }
 
@@ -234,9 +216,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 firstPrimaryWeaponSlotId = value;
-                OnPropertyChanged("FirstPrimaryWeaponSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("FirstPrimaryWeaponSlotId");
             }
         }
 
@@ -246,9 +226,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 headwearSlotId = value;
-                OnPropertyChanged("HeadwearSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("HeadwearSlotId");
             }
         }
 
@@ -258,9 +236,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 tacticalVestSlotId = value;
-                OnPropertyChanged("TacticalVestSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("TacticalVestSlotId");
             }
         }
 
@@ -270,9 +246,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 securedContainerSlotId = value;
-                OnPropertyChanged("SecuredContainerSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("SecuredContainerSlotId");
             }
         }
 
@@ -282,9 +256,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 backpackSlotId = value;
-                OnPropertyChanged("BackpackSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("BackpackSlotId");
             }
         }
 
@@ -294,9 +266,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 earpieceSlotId = value;
-                OnPropertyChanged("EarpieceSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("EarpieceSlotId");
             }
         }
 
@@ -306,9 +276,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 faceCoverSlotId = value;
-                OnPropertyChanged("FaceCoverSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("FaceCoverSlotId");
             }
         }
 
@@ -318,9 +286,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 eyewearSlotId = value;
-                OnPropertyChanged("EyewearSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("EyewearSlotId");
             }
         }
 
@@ -330,9 +296,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 armorVestSlotId = value;
-                OnPropertyChanged("ArmorVestSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("ArmorVestSlotId");
             }
         }
 
@@ -342,9 +306,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 secondPrimaryWeaponSlotId = value;
-                OnPropertyChanged("SecondPrimaryWeaponSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("SecondPrimaryWeaponSlotId");
             }
         }
 
@@ -354,9 +316,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 holsterSlotId = value;
-                OnPropertyChanged("HolsterSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("HolsterSlotId");
             }
         }
 
@@ -366,9 +326,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 scabbardSlotId = value;
-                OnPropertyChanged("ScabbardSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("ScabbardSlotId");
             }
         }
 
@@ -378,9 +336,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 armBandSlotId = value;
-                OnPropertyChanged("ArmBandSlotId");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("ArmBandSlotId");
             }
         }
 
@@ -390,9 +346,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 moneysDollarsTpl = value;
-                OnPropertyChanged("MoneysDollarsTpl");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("MoneysDollarsTpl");
             }
         }
 
@@ -402,9 +356,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 moneysRublesTpl = value;
-                OnPropertyChanged("MoneysRublesTpl");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("MoneysRublesTpl");
             }
         }
 
@@ -414,9 +366,17 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 moneysEurosTpl = value;
-                OnPropertyChanged("MoneysEurosTpl");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("MoneysEurosTpl");
+            }
+        }
+
+        public string RagfairTraderId
+        {
+            get => ragfairTraderId;
+            set
+            {
+                ragfairTraderId = value;
+                NotifyPropertyChangedAndSave("RagfairTraderId");
             }
         }
 
@@ -426,9 +386,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 bannedItems = value;
-                OnPropertyChanged("BannedItems");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("BannedItems");
             }
         }
 
@@ -438,9 +396,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 bannedMasterings = value;
-                OnPropertyChanged("BannedMasterings");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("BannedMasterings");
             }
         }
 
@@ -451,9 +407,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 issuesAction = value;
-                OnPropertyChanged("IssuesAction");
-                if (Loaded)
-                    Save();
+                NotifyPropertyChangedAndSave("IssuesAction");
             }
         }
 
@@ -479,33 +433,34 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public static string GetStamp()
+        public string GetStamp()
         {
-            return AppData.AppSettings.ServerPath
-                + AppData.AppSettings.DefaultProfile
-                + AppData.AppSettings.Language
-                + AppData.AppSettings.AutoAddMissingQuests.ToString()
-                + AppData.AppSettings.AutoAddMissingMasterings.ToString()
-                + AppData.AppSettings.AutoAddMissingScavSkills.ToString()
-                + AppData.AppSettings.CommonSkillMaxValue.ToString()
-                + AppData.AppSettings.PocketsContainerTpl
-                + AppData.AppSettings.PocketsSlotId
-                + AppData.AppSettings.EarpieceSlotId
-                + AppData.AppSettings.HeadwearSlotId
-                + AppData.AppSettings.FaceCoverSlotId
-                + AppData.AppSettings.TacticalVestSlotId
-                + AppData.AppSettings.FirstPrimaryWeaponSlotId
-                + AppData.AppSettings.BackpackSlotId
-                + AppData.AppSettings.SecuredContainerSlotId
-                + AppData.AppSettings.EyewearSlotId
-                + AppData.AppSettings.ArmorVestSlotId
-                + AppData.AppSettings.SecondPrimaryWeaponSlotId
-                + AppData.AppSettings.HolsterSlotId
-                + AppData.AppSettings.ScabbardSlotId
-                + AppData.AppSettings.ArmBandSlotId
-                + AppData.AppSettings.MoneysDollarsTpl
-                + AppData.AppSettings.MoneysEurosTpl
-                + AppData.AppSettings.MoneysRublesTpl;
+            return ServerPath
+                + DefaultProfile
+                + Language
+                + AutoAddMissingQuests.ToString()
+                + AutoAddMissingMasterings.ToString()
+                + AutoAddMissingScavSkills.ToString()
+                + CommonSkillMaxValue.ToString()
+                + PocketsContainerTpl
+                + PocketsSlotId
+                + EarpieceSlotId
+                + HeadwearSlotId
+                + FaceCoverSlotId
+                + TacticalVestSlotId
+                + FirstPrimaryWeaponSlotId
+                + BackpackSlotId
+                + SecuredContainerSlotId
+                + EyewearSlotId
+                + ArmorVestSlotId
+                + SecondPrimaryWeaponSlotId
+                + HolsterSlotId
+                + ScabbardSlotId
+                + ArmBandSlotId
+                + MoneysDollarsTpl
+                + MoneysEurosTpl
+                + MoneysRublesTpl
+                + RagfairTraderId;
         }
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
@@ -566,6 +521,13 @@ namespace SPT_AKI_Profile_Editor.Core
             ServerProfiles = Profiles;
         }
 
+        private void NotifyPropertyChangedAndSave(string prop)
+        {
+            OnPropertyChanged(prop);
+            if (Loaded)
+                Save();
+        }
+
         private void LoadFromFile()
         {
             try
@@ -618,6 +580,7 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysDollarsTpl = loaded.MoneysDollarsTpl;
             MoneysEurosTpl = loaded.MoneysEurosTpl;
             MoneysRublesTpl = loaded.MoneysRublesTpl;
+            RagfairTraderId = loaded.RagfairTraderId;
             BannedItems = loaded.BannedItems;
             BannedMasterings = loaded.bannedMasterings;
             IssuesAction = loaded.IssuesAction;
@@ -766,6 +729,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 CheckUpdates = DefaultValues.CheckUpdates;
                 _needReSave = true;
             }
+            if (RagfairTraderId == null)
+            {
+                RagfairTraderId = DefaultValues.RagfairTraderId;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -798,6 +766,7 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
+            RagfairTraderId = DefaultValues.RagfairTraderId;
             BannedItems = DefaultValues.BannedItems;
             BannedMasterings = DefaultValues.BannedMasterings;
             IssuesAction = DefaultValues.DefaultIssuesAction;

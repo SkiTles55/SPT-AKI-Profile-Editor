@@ -144,7 +144,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.True(AppData.IssuesService.HasIssues, "Profile Issues is empty");
             Assert.IsNotEmpty(AppData.IssuesService.ProfileIssues, "Profile Issues is empty");
             Assert.False(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)), "Profile Issues has no description");
-            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is DuplicateItemsIDIssue), "ProfileIssues does not have Duplicate Items ID Issues");
+            Assert.True(AppData.IssuesService.ProfileIssues.Any(x => x is DuplicateItemsIDIssue && x.TargetId == "PMC"), "ProfileIssues does not have Duplicate Items ID Issues");
         }
 
         [Test]

@@ -14,9 +14,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private bool? unlockedStart;
         private int? levelStart;
 
-        public CharacterTraderStandingExtended(CharacterTraderStanding standing, string id, TraderBase traderBase)
+        public CharacterTraderStandingExtended(CharacterTraderStanding standing, string id, TraderBase traderBase, float ragfairRating)
         {
             TraderStanding = standing;
+            Standing = id == AppData.AppSettings.RagfairTraderId ? ragfairRating : standing.Standing;
             Id = id;
             TraderBase = traderBase;
             LoadBitmapImage();
@@ -46,6 +47,28 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        public float Standing
+        {
+            get => TraderStanding.Standing;
+            set
+            {
+                TraderStanding.Standing = value;
+                OnPropertyChanged("Standing");
+                SetLevel();
+            }
+        }
+
+        public long SalesSum
+        {
+            get => TraderStanding.SalesSum;
+            set
+            {
+                TraderStanding.SalesSum = value;
+                OnPropertyChanged("SalesSum");
+                SetLevel();
+            }
+        }
+
         public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? 0;
 
         public bool HasLevelIssue(int? level)
@@ -60,6 +83,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 salesSumStart = TraderStanding.SalesSum;
             var minSalesSum = TraderBase?.LoyaltyLevels[level - 1].MinSalesSum ?? TraderStanding.SalesSum;
             TraderStanding.SalesSum = level >= levelStart ? Math.Max(minSalesSum, salesSumStart.Value) : Math.Min(minSalesSum, salesSumStart.Value);
+            OnPropertyChanged("SalesSum");
         }
 
         private void SetStanding(int level)
@@ -68,13 +92,30 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 staindingStart = TraderStanding.Standing;
             var minStanding = TraderBase?.LoyaltyLevels[level - 1].MinStanding ?? TraderStanding.Standing;
             TraderStanding.Standing = level >= levelStart ? Math.Max(minStanding, staindingStart.Value) : Math.Min(minStanding, staindingStart.Value);
+            OnPropertyChanged("Standing");
         }
 
-        private void SetUnlocked(int value)
+        private void SetUnlocked(int level)
         {
             if (unlockedStart == null)
                 unlockedStart = TraderStanding.Unlocked;
-            TraderStanding.Unlocked = value > 1 || unlockedStart.Value;
+            TraderStanding.Unlocked = level > 1 || unlockedStart.Value;
+        }
+
+        private void SetLevel()
+        {
+            if (TraderBase?.LoyaltyLevels == null)
+                return;
+            int newLevel = 1;
+            foreach (var level in TraderBase.LoyaltyLevels)
+            {
+                if (Standing >= level.MinStanding && SalesSum >= level.MinSalesSum && LoyaltyLevel != newLevel)
+                {
+                    TraderStanding.LoyaltyLevel = newLevel;
+                    OnPropertyChanged("LoyaltyLevel");
+                }
+                newLevel++;
+            }
         }
 
         private void LoadBitmapImage()

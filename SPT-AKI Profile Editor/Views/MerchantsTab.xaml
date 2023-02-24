@@ -103,16 +103,17 @@
                                     <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_standing], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                            <Label
+                            <extendedcontrols:NumericUpDownExt
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Margin="3"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=TraderStanding.Standing, StringFormat=N2, ConverterCulture=en-US}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                                VerticalAlignment="Center"
+                                Interval="0.01"
+                                Minimum="-20"
+                                NumericInputMode="Decimal"
+                                StringFormat="N2"
+                                TextAlignment="Left"
+                                Value="{Binding Path=Standing, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Grid.Row="4"
                                 Grid.Column="0"
@@ -123,16 +124,18 @@
                                     <TextBlock Text="{Binding Data.AppLocalization.Translations[tab_merchants_sales_sum], Source={StaticResource proxy}}" TextWrapping="Wrap" />
                                 </Label.Content>
                             </Label>
-                            <Label
+                            <extendedcontrols:NumericUpDownExt
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Margin="3"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=TraderStanding.SalesSum, StringFormat=N0, ConverterCulture=ru-RU}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                                VerticalAlignment="Center"
+                                Culture="ru-RU"
+                                Interval="1000"
+                                Minimum="0"
+                                NumericInputMode="Decimal"
+                                StringFormat="N0"
+                                TextAlignment="Left"
+                                Value="{Binding Path=SalesSum, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Border>
                 </DataTemplate>

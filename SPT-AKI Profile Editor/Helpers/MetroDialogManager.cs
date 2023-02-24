@@ -99,12 +99,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public async Task ShowSettingsDialog(RelayCommand reloadCommand, RelayCommand faqCommand, int index = 0)
         {
-            string startValues = AppSettings.GetStamp();
+            string startValues = AppData.AppSettings.GetStamp();
             CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
             RelayCommand closeCommand = new(async obj =>
             {
                 await _dialogCoordinator.HideMetroDialogAsync(viewModel, settingsDialog);
-                string newValues = AppSettings.GetStamp();
+                string newValues = AppData.AppSettings.GetStamp();
                 if (startValues != newValues)
                     reloadCommand.Execute(null);
             });

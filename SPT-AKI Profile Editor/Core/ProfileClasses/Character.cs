@@ -12,25 +12,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class Character : BindableEntity
     {
         private string aid;
-
         private CharacterInfo info;
-
         private CharacterCustomization customization;
-
         private CharacterHealth health;
-
         private Dictionary<string, CharacterTraderStanding> traderStandings;
-
+        private RagfairInfo ragfairInfo;
         private CharacterHideout hideout;
-
         private CharacterQuest[] quests;
-
         private CharacterRepeatableQuest[] repeatableQuests;
-
         private CharacterSkills skills;
-
         private Dictionary<string, bool> encyclopedia;
-
         private CharacterInventory inventory;
 
         [JsonIgnore]
@@ -88,6 +79,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 traderStandings = value;
                 OnPropertyChanged("TraderStandings");
+                OnPropertyChanged("TraderStandingsExt");
+            }
+        }
+
+        public RagfairInfo RagfairInfo
+        {
+            get => ragfairInfo;
+            set
+            {
+                ragfairInfo = value;
+                OnPropertyChanged("RagfairInfo");
                 OnPropertyChanged("TraderStandingsExt");
             }
         }
@@ -162,7 +164,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public ObservableCollection<CharacterTraderStandingExtended> TraderStandingsExt =>
             new(TraderStandings?.Select(x => new CharacterTraderStandingExtended(x.Value,
                                                                                 x.Key,
-                                                                                GetTraderInfo(x.Key))));
+                                                                                GetTraderInfo(x.Key),
+                                                                                RagfairInfo?.Rating ?? 0f)));
 
         [JsonIgnore]
         public IEnumerable<ExaminedItem> ExaminedItems => Encyclopedia?

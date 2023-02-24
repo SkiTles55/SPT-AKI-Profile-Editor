@@ -19,10 +19,9 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
 
     public static class ActiveQuestTypeExtension
     {
-        public static string LocalizedName(this ActiveQuestType type)
-        {
-            var key = $"DailyQuestName/{type}";
-            return AppData.ServerDatabase.LocalesGlobal.ContainsKey(key) ? AppData.ServerDatabase.LocalesGlobal[key] : type.ToString();
-        }
+        public static string LocalizationKey(this ActiveQuestType type) => $"DailyQuestName/{type}";
+
+        public static string LocalizedName(this ActiveQuestType type) =>
+            AppData.ServerDatabase.LocalesGlobal.ContainsKey(type.LocalizationKey()) ? AppData.ServerDatabase.LocalesGlobal[type.LocalizationKey()] : type.ToString();
     }
 }

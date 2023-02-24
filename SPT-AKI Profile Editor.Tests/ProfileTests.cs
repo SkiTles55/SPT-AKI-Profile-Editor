@@ -169,6 +169,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderStandingsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
 
         [Test]
+        public void RagfairInfoNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.RagfairInfo, "RagfairInfo is null");
+
+        [Test]
+        public void RagfairStandingLoadCorrectly() =>
+            Assert.AreEqual(AppData.Profile.Characters.Pmc.RagfairInfo.Rating,
+                            AppData.Profile.Characters.Pmc.TraderStandingsExt.First(x => x.Id == AppData.AppSettings.RagfairTraderId).Standing,
+                            "Ragfair standing not load correctly");
+
+        [Test]
         public void QuestsLoadCorrectly()
         {
             Assert.IsNotNull(AppData.Profile.Characters.Pmc.Quests, "Quests is null");
@@ -392,6 +401,18 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void TraderSalesSumAndStandingCanIncreaseLevel()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var firstTrader = AppData.Profile.Characters.Pmc.TraderStandingsExt.First(x => x.Id != AppData.AppSettings.RagfairTraderId && x.LoyaltyLevel < 2 && x.TraderBase.LoyaltyLevels.Count > x.LoyaltyLevel);
+            Assert.IsNotNull(firstTrader, "Trader for test not found");
+            var currentLevel = firstTrader.LoyaltyLevel;
+            firstTrader.SalesSum = firstTrader.TraderBase.LoyaltyLevels[currentLevel].MinSalesSum;
+            firstTrader.Standing = firstTrader.TraderBase.LoyaltyLevels[currentLevel].MinStanding;
+            Assert.IsTrue(firstTrader.LoyaltyLevel == currentLevel + 1);
+        }
+
+        [Test]
         public void TradersLoadedCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -401,7 +422,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => string.IsNullOrEmpty(x.TraderBase.Id)), "Traders TraderBase id's not loaded");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => !x.TraderBase.LoyaltyLevels.Any()), "Traders TraderBase LoyaltyLevels's not loaded");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.BitmapImage == null), "Traders BitmapImage's not loaded");
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.Id != "ragfair" && x.LocalizedName == x.Id), "Traders LocalizedName's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.Id != AppData.AppSettings.RagfairTraderId && x.LocalizedName == x.Id), "Traders LocalizedName's not loaded");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.SalesSum != x.TraderStanding.SalesSum), "Traders SalesSum's not loaded correctly");
         }
 
         [Test]

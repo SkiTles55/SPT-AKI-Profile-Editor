@@ -44,10 +44,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private float GetMaxProgress()
         {
             var mastering = AppData.ServerDatabase?.ServerGlobals?.Config?.Mastering.Where(x => x.Name == Id).FirstOrDefault();
-            if (mastering != null)
-                return mastering.Level2 + mastering.Level3;
-            else
-                return AppData.AppSettings.CommonSkillMaxValue;
+            return mastering != null ? mastering.Level2 + mastering.Level3 : AppData.AppSettings.CommonSkillMaxValue;
         }
 
         private string MasteringLocalizedName()
@@ -58,8 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return string.Join(Environment.NewLine, mastering.Templates
                     .Where(x => AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Name()))
                     .Select(y => AppData.ServerDatabase.LocalesGlobal[y.Name()]));
-            else
-                return Id;
+            return Id;
         }
     }
 }

@@ -48,8 +48,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ServerGlobalsItemPresetsCanbeConvertedToWeaponBuilds()
         {
             var builds = AppData.ServerDatabase.ServerGlobals.ItemPresets.Values.Select(x => new WeaponBuild(x));
-            Assert.False(builds.Any(x => x == null || !x.BuildItems.Any()));
-            Assert.False(builds.Any(x => string.IsNullOrEmpty(x.LocalizedName)));
+            Assert.False(builds.Any(x => x == null || !x.BuildItems.Any()), "BuildItems is empty");
+            Assert.False(builds.Any(x => string.IsNullOrEmpty(x.LocalizedName)), "LocalizedName wrong");
+            Assert.False(builds.Any(x => x.Weapon == null), "Weapon is null");
+            Assert.False(builds.Any(x => x.HasModdedItems), "WeaponBuild has modded items");
         }
 
         [Test]

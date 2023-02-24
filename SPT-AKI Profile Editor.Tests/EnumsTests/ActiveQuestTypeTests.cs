@@ -20,7 +20,16 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         public void ActiveQuestTypeHaveLocalizedNames()
         {
             foreach (ActiveQuestType questType in allEnumValues)
-                Assert.IsFalse(questType != ActiveQuestType.Unknown && questType.LocalizedName() == questType.ToString());
+                switch (questType)
+                {
+                    case ActiveQuestType.Unknown:
+                        Assert.IsTrue(questType.LocalizedName() == questType.ToString());
+                        break;
+
+                    default:
+                        Assert.IsTrue(questType.LocalizedName() == AppData.ServerDatabase.LocalesGlobal[questType.LocalizationKey()]);
+                        break;
+                }
         }
 
         [Test]

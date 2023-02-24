@@ -18,9 +18,6 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
     internal class Pmc
     {
-        [JsonProperty("aid")]
-        public string Aid { get; set; }
-
         [JsonProperty("Info")]
         public Info Info { get; set; }
     }
