@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 var getTime = DateTime.Now;
                 Random rnd = new();
                 var random = rnd.Next(100000000, 999999999).ToString();
-                var retVal = $"I{getTime:MM}{getTime:dd}{getTime:HH}{getTime:mm}{getTime:ss}{random}";
+                var retVal = $"{getTime:MM}{getTime:dd}{getTime:HH}{getTime:mm}{getTime:ss}{random}";
                 var sign = MakeSign(24 - retVal.Length, rnd);
                 id = retVal + sign;
             } while (ids.Contains(id));
@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static string MakeSign(int length, Random random)
         {
             var result = "";
-            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var characters = "0123456789abcdef";
             for (int i = 0; i < length; i++)
                 result += characters.ElementAt((int)Math.Floor(random.NextDouble() * characters.Length));
             return result;
