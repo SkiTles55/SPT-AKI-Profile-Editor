@@ -315,6 +315,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         {
                             pmc.SelectToken("Quests")[index]["status"] = edited.Status.ToString();
                             pmc.SelectToken("Quests")[index]["statusTimers"] = JObject.FromObject(edited.StatusTimers);
+                            if (edited.Status <= QuestStatus.AvailableForStart)
+                                pmc.SelectToken("Quests")[index]["completedConditions"].Replace(JToken.FromObject(Array.Empty<string>()));
                         }
                     }
                     foreach (var quest in Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
@@ -404,7 +406,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                         break;
 
                                     case "MaximumEnergyReserve":
-                                        pmc.SelectToken("Health").SelectToken("Energy")["Maximum"] = 110;
+                                        pmc.SelectToken("Health").SelectToken("Energy")["Maximum"] = Math.Max(110, AppData.Profile.Characters.Pmc.Health.Energy.Maximum);
                                         break;
                                 }
                                 pmc.SelectToken("Bonuses").LastOrDefault().AddAfterSelf(JObject.FromObject(listItem));

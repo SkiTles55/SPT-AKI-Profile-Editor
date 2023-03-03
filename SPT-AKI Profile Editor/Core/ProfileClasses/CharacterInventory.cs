@@ -407,7 +407,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                weaponBuild.BuildItems);
         }
 
-        private void AddItemToContainer(InventoryItem container, int itemWidth, int itemHeight, string itemTpl, int count, bool fir, string slotId, int stackSize, string rootId = null, IEnumerable<InventoryItem> innerItems = null, string tag = null)
+        private void AddItemToContainer(InventoryItem container,
+                                        int itemWidth,
+                                        int itemHeight,
+                                        string itemTpl,
+                                        int count,
+                                        bool fir,
+                                        string slotId,
+                                        int stackSize,
+                                        string rootId = null,
+                                        IEnumerable<InventoryItem> innerItems = null,
+                                        string tag = null)
         {
             int stacks = count / stackSize;
             if (stackSize * stacks < count) stacks++;

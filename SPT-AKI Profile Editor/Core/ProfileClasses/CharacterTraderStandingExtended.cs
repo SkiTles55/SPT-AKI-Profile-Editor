@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public CharacterTraderStanding TraderStanding { get; }
         public TraderBase TraderBase { get; }
-        public BitmapImage BitmapImage { get; set; }
+        public BitmapImage BitmapImage { get; private set; }
 
         public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[Id.Nickname()] : Id;
 

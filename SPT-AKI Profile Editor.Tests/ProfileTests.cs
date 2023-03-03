@@ -283,7 +283,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcInventoryContainsItemsWithIcons() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => x.CategoryIcon != null));
 
         [Test]
-        public void PmcInventoryContainsItemsWithTag() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => !string.IsNullOrEmpty(x.Tag)));
+        public void PmcInventoryContainsItemsWithTag()
+        {
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => !string.IsNullOrEmpty(x.Upd?.Tag?.Name)));
+            Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => !string.IsNullOrEmpty(x.Tag)));
+        }
 
         [Test]
         public void PmcInventoryContainsItemsWithCountString() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(x => !string.IsNullOrEmpty(x.CountString)));
