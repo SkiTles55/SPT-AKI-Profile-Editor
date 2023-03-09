@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class Character : BindableEntity
+    public class Character : TemplateableEntity
     {
         private string aid;
         private CharacterInfo info;
@@ -180,6 +180,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public bool IsMasteringsEmpty => Skills?.Mastering == null || Skills.Mastering.Length == 0;
+
+        [JsonIgnore]
+        public override string TemplateEntityId => Info.Side;
+
+        [JsonIgnore]
+        public override string TemplateEntityLocalizedName => Aid;
 
         public void SetAllTradersMax()
         {

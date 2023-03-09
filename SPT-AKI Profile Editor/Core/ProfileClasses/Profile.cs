@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class Profile : BindableEntity
+    public class Profile : TemplateableEntity
     {
         private ProfileCharacters characters;
 
@@ -66,6 +66,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public int ProfileHash => profileHash;
+
+        [JsonIgnore]
+        public override string TemplateEntityId => "Profile";
+
+        [JsonIgnore]
+        public override string TemplateEntityLocalizedName => "Profile";
 
         public static void ExportBuild(WeaponBuild weaponBuild, string path)
         {

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterSkill : BindableEntity
+    public class CharacterSkill : TemplateableEntity
     {
         private string id;
 
@@ -27,11 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public float Progress
         {
             get => progress;
-            set
-            {
-                progress = value > MaxValue ? MaxValue : value;
-                OnPropertyChanged("Progress");
-            }
+            set => SetProperty(nameof(Progress), ref progress, value > MaxValue ? MaxValue : value);
         }
 
         [JsonIgnore]
@@ -40,6 +36,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id)
             ? AppData.ServerDatabase.LocalesGlobal[Id] : MasteringLocalizedName();
+
+        [JsonIgnore]
+        public override string TemplateEntityId => id;
+
+        [JsonIgnore]
+        public override string TemplateEntityLocalizedName => LocalizedName;
 
         private float GetMaxProgress()
         {
