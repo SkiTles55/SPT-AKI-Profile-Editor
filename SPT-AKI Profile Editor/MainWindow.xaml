@@ -100,8 +100,8 @@
             Grid.ColumnSpan="2"
             Margin="10,5,0,5"
             mah:TabControlHelper.Underlined="TabPanel"
-            TabStripPlacement="Left"
-            Visibility="Visible">
+            Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
+            TabStripPlacement="Left">
             <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:InfoTab DataContext="{Binding ViewModels.InfoTab}" />
             </TabItem>

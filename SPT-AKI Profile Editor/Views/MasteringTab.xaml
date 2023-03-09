@@ -11,7 +11,11 @@
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:MasteringTabViewModel}"
     mc:Ignorable="d">
-    <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
+    <TabControl
+        mah:TabControlHelper.Transition="Up"
+        mah:TabControlHelper.Underlined="SelectedTabItem"
+        Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
+        TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <extendedcontrols:SkillGrid

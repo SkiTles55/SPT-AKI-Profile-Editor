@@ -24,8 +24,10 @@
         <TabControl
             Grid.Row="0"
             MinHeight="200"
+            mah:TabControlHelper.Transition="Up"
             mah:TabControlHelper.Underlined="TabPanel"
             SelectedIndex="{Binding SelectedTab}"
+            Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
             TabStripPlacement="Left">
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_main]}" HeaderTemplate="{StaticResource SettingsTemplate}">
                 <Grid>
