@@ -12,42 +12,43 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
         public abstract string TemplateEntityId { get; }
 
-        public List<TemplateEntity> GetAllChanges()
+        public TemplateEntity GetAllChanges()
         {
-            List<TemplateEntity> templateEntities = new();
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                var propertyValue = property.GetValue(this, null);
-                TemplateEntity templateEntity = null;
-
-                if (propertyValue is TemplateableEntity entity)
-                    templateEntity = GetTemplateEntity(entity);
-
-                if (propertyValue is IEnumerable<TemplateableEntity> entityList)
-                    templateEntity = GetTemplateEntity(entityList, property.Name);
-
-                if (templateEntity != null)
-                    templateEntities.Add(templateEntity);
-            }
-            return templateEntities.Count > 0 ? templateEntities : null;
-        }
-
-        public void ApplyTemplates(List<TemplateEntity> templates)
-        {
-            foreach (PropertyInfo property in GetType().GetProperties())
-            {
-                if (property.GetValue(this, null) is TemplateableEntity entity)
-                {
-                    var template = templates.Where(x => x.Id == entity.TemplateEntityId).FirstOrDefault();
-                    if (template != null)
-                        entity.ApplyTemplate(template);
-                }
-            }
+            var templateEntities = GetChangesList();
+            if (changedValues.Count > 0 || templateEntities != null)
+                return new(TemplateEntityId,
+                           changedValues.Count > 0 ? changedValues : null,
+                           templateEntities);
+            return null;
         }
 
         public TemplateEntity GetTemplateEntity() => new(TemplateEntityId,
                                                          changedValues,
-                                                         GetAllChanges());
+                                                         GetChangesList());
+
+        public void ApplyTemplate(TemplateEntity template)
+        {
+            if (template == null || template.Id != TemplateEntityId)
+                return;
+
+            foreach (PropertyInfo property in GetType().GetProperties())
+            {
+                var changedValue = template
+                    .Values?
+                    .Where(x => x.Key == property.Name)
+                    .FirstOrDefault()
+                    .Value;
+                if (changedValue != null)
+                    property.SetValue(this, Convert.ChangeType(changedValue, property.PropertyType));
+
+                var propertyValue = property.GetValue(this, null);
+                if (propertyValue is TemplateableEntity entity)
+                    ApplyTemplateToEntity(template, entity);
+
+                if (propertyValue is IEnumerable<TemplateableEntity> entityList)
+                    ApplyTemplateToEntityList(template, property, entityList);
+            }
+        }
 
         protected void SetProperty<T>(string name, ref T oldValue, T newValue) where T : IComparable<T>
         {
@@ -104,6 +105,17 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                 entity.ApplyTemplate(innerTemplate);
         }
 
+        private static TemplateEntity GetTemplateEntity(TemplateableEntity item)
+        {
+            var changedValues = item.changedValues;
+            var templateEntities = item.GetChangesList();
+            if (changedValues?.Count > 0 || templateEntities?.Count > 0)
+                return new(item.TemplateEntityId,
+                           changedValues?.Count > 0 ? changedValues : null,
+                           templateEntities?.Count > 0 ? templateEntities : null);
+            return null;
+        }
+
         //protected void SetProperty<T>(string name, ref T? oldValue, T? newValue) where T : struct, IComparable<T>
         //{
         //    if (oldValue.HasValue != newValue.HasValue || (newValue.HasValue && oldValue.Value.CompareTo(newValue.Value) != 0))
@@ -113,18 +125,6 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
         //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         //    }
         //}
-
-        private static TemplateEntity GetTemplateEntity(TemplateableEntity item)
-        {
-            var changedValues = item.changedValues;
-            var templateEntities = item.GetAllChanges();
-            if (changedValues?.Count > 0 || templateEntities?.Count > 0)
-                return new(item.TemplateEntityId,
-                           changedValues?.Count > 0 ? changedValues : null,
-                           templateEntities?.Count > 0 ? templateEntities : null);
-            return null;
-        }
-
         private static TemplateEntity GetTemplateEntity(IEnumerable<TemplateableEntity> item,
                                                         string propertyName)
         {
@@ -139,25 +139,24 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
             return null;
         }
 
-        private void ApplyTemplate(TemplateEntity template)
+        private List<TemplateEntity> GetChangesList()
         {
+            List<TemplateEntity> templateEntities = new();
             foreach (PropertyInfo property in GetType().GetProperties())
             {
-                var changedValue = template
-                    .Values?
-                    .Where(x => x.Key == property.Name)
-                    .FirstOrDefault()
-                    .Value;
-                if (changedValue != null)
-                    property.SetValue(this, Convert.ChangeType(changedValue, property.PropertyType));
-
                 var propertyValue = property.GetValue(this, null);
+                TemplateEntity templateEntity = null;
+
                 if (propertyValue is TemplateableEntity entity)
-                    ApplyTemplateToEntity(template, entity);
+                    templateEntity = GetTemplateEntity(entity);
 
                 if (propertyValue is IEnumerable<TemplateableEntity> entityList)
-                    ApplyTemplateToEntityList(template, property, entityList);
+                    templateEntity = GetTemplateEntity(entityList, property.Name);
+
+                if (templateEntity != null)
+                    templateEntities.Add(templateEntity);
             }
+            return templateEntities.Count > 0 ? templateEntities : null;
         }
 
         private bool NeedSkip<T>(string name, T newValue) where T : IComparable<T>

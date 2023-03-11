@@ -26,22 +26,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string Side
         {
             get => side;
-            set
-            {
-                side = value;
-                OnPropertyChanged("Side");
-            }
+            set => SetProperty(nameof(Side), ref side, value);
         }
 
         [JsonProperty("Voice")]
         public string Voice
         {
             get => voice;
-            set
-            {
-                voice = value;
-                OnPropertyChanged("Voice");
-            }
+            set => SetProperty(nameof(Voice), ref voice, value);
         }
 
         [JsonProperty("Level")]
