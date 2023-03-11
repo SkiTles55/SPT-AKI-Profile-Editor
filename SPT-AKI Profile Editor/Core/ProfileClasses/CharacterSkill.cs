@@ -38,10 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             ? AppData.ServerDatabase.LocalesGlobal[Id] : MasteringLocalizedName();
 
         [JsonIgnore]
-        public override string TemplateEntityId => id;
-
-        [JsonIgnore]
-        public override string TemplateEntityLocalizedName => LocalizedName;
+        public override string TemplateEntityId => Id;
 
         private float GetMaxProgress()
         {

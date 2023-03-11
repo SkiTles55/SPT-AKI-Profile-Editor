@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterSkills : BindableEntity
+    public class CharacterSkills : TemplateableEntity
     {
         private CharacterSkill[] common;
 
@@ -30,5 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Mastering");
             }
         }
+
+        public override string TemplateEntityId => "Skills";
     }
 }

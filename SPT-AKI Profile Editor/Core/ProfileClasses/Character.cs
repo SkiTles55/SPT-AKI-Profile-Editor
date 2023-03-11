@@ -182,10 +182,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool IsMasteringsEmpty => Skills?.Mastering == null || Skills.Mastering.Length == 0;
 
         [JsonIgnore]
-        public override string TemplateEntityId => Info.Side;
-
-        [JsonIgnore]
-        public override string TemplateEntityLocalizedName => Aid;
+        public override string TemplateEntityId => IsScav ? "Scav" : "Pmc";
 
         public void SetAllTradersMax()
         {

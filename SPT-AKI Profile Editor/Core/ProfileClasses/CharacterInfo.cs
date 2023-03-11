@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterInfo : BindableEntity
+    public class CharacterInfo : TemplateableEntity
     {
         private string nickname;
 
@@ -19,11 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string Nickname
         {
             get => nickname;
-            set
-            {
-                nickname = value;
-                OnPropertyChanged("Nickname");
-            }
+            set => SetProperty(nameof(Nickname), ref nickname, value);
         }
 
         [JsonProperty("Side")]
@@ -56,8 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (level != value)
                 {
-                    level = value;
-                    OnPropertyChanged("Level");
+                    SetProperty(nameof(Level), ref level, value);
                     Experience = LevelToExperience();
                 }
             }
@@ -71,8 +66,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (experience != value)
                 {
-                    experience = value;
-                    OnPropertyChanged("Experience");
+                    SetProperty(nameof(Experience), ref experience, value);
                     Level = ExperienceToLevel();
                 }
             }
@@ -80,6 +74,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("GameVersion")]
         public string GameVersion { get; set; }
+
+        public override string TemplateEntityId => "Info";
 
         private long LevelToExperience()
         {

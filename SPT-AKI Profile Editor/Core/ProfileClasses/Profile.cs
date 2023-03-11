@@ -68,10 +68,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public int ProfileHash => profileHash;
 
         [JsonIgnore]
-        public override string TemplateEntityId => "Profile";
-
-        [JsonIgnore]
-        public override string TemplateEntityLocalizedName => "Profile";
+        public override string TemplateEntityId => GetType().Name;
 
         public static void ExportBuild(WeaponBuild weaponBuild, string path)
         {
