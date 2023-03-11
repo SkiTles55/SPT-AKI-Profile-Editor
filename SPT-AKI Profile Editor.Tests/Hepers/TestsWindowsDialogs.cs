@@ -21,6 +21,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public FolderBrowserDialogMode folderBrowserDialogMode = FolderBrowserDialogMode.weaponBuildsExport;
 
+        public string SavedFilePath = null;
+
         public TestsWindowsDialogs()
         {
             if (File.Exists(weaponBuildExportPath))
@@ -50,7 +52,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null)
         {
-            throw new NotImplementedException();
+            SavedFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
+            return (true, SavedFilePath);
         }
 
         public (bool success, string path) SaveWeaponBuildDialog(string name) => (true, weaponBuildExportPath);

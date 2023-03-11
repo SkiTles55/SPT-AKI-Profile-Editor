@@ -123,9 +123,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         private static TemplateEntity SaveLoadAndCheckChanges(TemplateEntity profileChanges, string testFile)
         {
-            string json = JsonConvert.SerializeObject(profileChanges, new JsonSerializerSettings() { Formatting = Formatting.Indented, NullValueHandling = NullValueHandling.Ignore });
-            File.WriteAllText(testFile, json);
-            var result = JsonConvert.DeserializeObject<TemplateEntity>(File.ReadAllText(testFile));
+            profileChanges.Save(testFile);
+            var result = TemplateEntity.Load(testFile);
             Assert.That(result == null, Is.False, "Saved template not loaded");
             return result;
         }

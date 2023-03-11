@@ -26,6 +26,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(factory.StashTab, Is.Not.Null, "StashTab is null");
             Assert.That(factory.ClothingTab, Is.Not.Null, "ClothingTab is null");
             Assert.That(factory.WeaponBuildsTab, Is.Not.Null, "WeaponBuildsTab is null");
+            Assert.That(factory.ChangesTab, Is.Not.Null, "ChangesTab is null");
             Assert.That(factory.BackupsTab, Is.Not.Null, "BackupsTab is null");
             Assert.That(factory.AboutTab, Is.Not.Null, "AboutTab is null");
         }
