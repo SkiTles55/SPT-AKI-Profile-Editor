@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.TemplateEntityView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Core.HelperClasses"
+    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=helpers:TemplateEntity}"
+    mc:Ignorable="d">
+    <Expander
+        mah:HeaderedControlHelper.HeaderBackground="Transparent"
+        BorderThickness="0"
+        Header="{Binding Id}"
+        IsExpanded="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding Values}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{Binding Key}" />
+                            <Label Grid.Column="1" Content="{Binding Value}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding TemplateEntities}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:TemplateEntityView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Expander>
+</UserControl>

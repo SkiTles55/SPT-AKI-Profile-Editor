@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -61,15 +62,9 @@
                 </Button.ContentTemplate>
             </Button>
         </WrapPanel>
-        <DataGrid
-            Grid.Row="1"
-            AutoGenerateColumns="True"
-            CanUserAddRows="False"
-            ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-            IsReadOnly="True"
-            ItemsSource="{Binding ProfileChanges.TemplateEntities}"
-            VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.ScrollUnit="Pixel" />
+        <ScrollViewer Grid.Row="1">
+            <extendedcontrols:TemplateEntityView DataContext="{Binding ProfileChanges}" />
+        </ScrollViewer>
         <Border
             Grid.Row="0"
             Grid.RowSpan="2"
