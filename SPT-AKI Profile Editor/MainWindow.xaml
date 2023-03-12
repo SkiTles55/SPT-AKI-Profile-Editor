@@ -158,7 +158,7 @@
                                 Width="22"
                                 Height="22"
                                 VerticalAlignment="Center"
-                                Kind="RedoSolid" />
+                                Kind="UndoSolid" />
                             <TextBlock
                                 Margin="10,0,0,0"
                                 VerticalAlignment="Center"
