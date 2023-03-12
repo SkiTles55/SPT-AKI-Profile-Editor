@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -49,8 +51,52 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.ProfileChanges, Is.Not.Null, "ProfileChanges null");
             Assert.That(viewModel.HasChanges, Is.True, "Profile has not changed");
             viewModel.SaveAsTemplate.Execute(null);
-            Assert.That(string.IsNullOrEmpty(testsWindowsDialogs.SavedFilePath), Is.False, "SavedFilePath is null");
-            Assert.That(File.Exists(testsWindowsDialogs.SavedFilePath), Is.True, "Changes not saved to file");
+            Assert.That(File.Exists(testsWindowsDialogs.templateExportPath), Is.True, "Changes not saved to file");
+            TemplateEntity templateEntity = TemplateEntity.Load(testsWindowsDialogs.templateExportPath);
+            Assert.That(templateEntity, Is.Not.Null, "Load saving template failed");
+        }
+
+        [Test]
+        public void CanLoadTemplate()
+        {
+            AppData.AppSettings.AutoAddMissingScavSkills = true;
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var expectedChanges = TemplateEntity.Load(TestHelpers.template);
+            Assert.That(expectedChanges, Is.Not.Null, "Test template is null");
+            ChangesTabViewModel viewModel = new(new TestsWindowsDialogs(), new TestsWorker());
+            viewModel.LoadTemplate.Execute(null);
+            Assert.That(viewModel.ProfileChanges, Is.Not.Null, "ProfileChanges is null");
+            Assert.That(TemplatesEqual(viewModel.ProfileChanges, expectedChanges), Is.True, "ProfileChanges not equal to test template");
+        }
+
+        private bool TemplatesEqual(TemplateEntity first, TemplateEntity second)
+        {
+            if (first.Id != second.Id)
+                return false;
+            if ((first.Values?.Count ?? 0) != (second.Values?.Count ?? 0))
+                return false;
+
+            for (int i = 0; i < (first.Values?.Count ?? 0); i++)
+            {
+                var firstValue = first.Values?.ElementAt(i);
+                var secondValue = second.Values?.Where(x => x.Key == firstValue?.Key).FirstOrDefault();
+                if (firstValue == null && secondValue == null)
+                    continue;
+                var firstType = firstValue!.Value.Value.GetType();
+                if (firstValue?.Key != secondValue?.Key || firstValue!.Value.Value.CompareTo(Convert.ChangeType(secondValue!.Value.Value, firstType)) != 0)
+                    return false;
+            }
+
+            if ((first.TemplateEntities?.Count ?? 0) != (second.TemplateEntities?.Count ?? 0))
+                return false;
+
+            for (int i = 0; i < (first.TemplateEntities?.Count ?? 0); i++)
+            {
+                if (!TemplatesEqual(first.TemplateEntities[i], second.TemplateEntities[i]))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

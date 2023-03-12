@@ -16,12 +16,13 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public readonly string weaponBuildExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                                     "testBuildExport.json");
 
+        public readonly string templateExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                                 "testTemplateExport.json");
+
         public readonly string weaponBuildsExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                                      "TestWeaponBuildsExport");
 
         public FolderBrowserDialogMode folderBrowserDialogMode = FolderBrowserDialogMode.weaponBuildsExport;
-
-        public string SavedFilePath = null;
 
         public TestsWindowsDialogs()
         {
@@ -45,6 +46,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             };
         }
 
+        public (bool success, string path) OpenTemplateDialog() => (true, TestHelpers.template);
+
         public (bool success, string path, string[] paths) OpenWeaponBuildDialog()
         {
             return (true, null, new string[2] { TestHelpers.weaponBuild, TestHelpers.weaponBuild });
@@ -52,9 +55,10 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null)
         {
-            SavedFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            return (true, SavedFilePath);
+            throw new NotImplementedException();
         }
+
+        public (bool success, string path) SaveTemplateDialog() => (true, templateExportPath);
 
         public (bool success, string path) SaveWeaponBuildDialog(string name) => (true, weaponBuildExportPath);
     }

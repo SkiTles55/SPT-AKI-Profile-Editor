@@ -29,12 +29,33 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        public static TemplateEntity Load(string path) => JsonConvert.DeserializeObject<TemplateEntity>(File.ReadAllText(path));
+        public static TemplateEntity Load(string path)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<TemplateEntity>(File.ReadAllText(path));
+            }
+            catch (Exception ex)
+            {
+
+                Logger.Log($"Template load error: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+        }
 
         public void Save(string path)
         {
-            string json = JsonConvert.SerializeObject(this, SerializerSettings);
-            File.WriteAllText(path, json);
+            try
+            {
+                string json = JsonConvert.SerializeObject(this, SerializerSettings);
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+
+                Logger.Log($"Template save error: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

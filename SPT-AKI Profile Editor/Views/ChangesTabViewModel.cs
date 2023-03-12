@@ -31,18 +31,15 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand LoadTemplate => new(obj =>
         {
-            var (success, path, paths) = _windowsDialogs.OpenWeaponBuildDialog();
+            var (success, path) = _windowsDialogs.OpenTemplateDialog();
             if (success)
             {
-                foreach (var file in paths)
+                _worker.AddTask(new WorkerTask
                 {
-                    _worker.AddTask(new WorkerTask
-                    {
-                        Action = () => Profile.ImportBuildFromFile(file),
-                        Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                        Description = AppLocalization.GetLocalizedString("tab_presets_import")
-                    });
-                }
+                    Action = () => ApplySelectedTemplate(path),
+                    Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                    Description = AppLocalization.GetLocalizedString("tab_changes_load")
+                });
             }
         });
 
@@ -50,7 +47,7 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (profileChanges != null)
             {
-                var (success, path) = _windowsDialogs.SaveFileDialog("ProfileEditorTemplate.json", "*.json");
+                var (success, path) = _windowsDialogs.SaveTemplateDialog();
                 if (success)
                 {
                     _worker.AddTask(new WorkerTask
@@ -64,5 +61,12 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         public bool HasChanges => ProfileChanges?.NotEmpty == true;
+
+        private void ApplySelectedTemplate(string path)
+        {
+            var template = TemplateEntity.Load(path);
+            Profile.ApplyTemplate(template);
+            GetAllChanges.Execute(null);
+        }
     }
 }

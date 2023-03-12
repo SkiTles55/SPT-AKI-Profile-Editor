@@ -8,21 +8,28 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public (bool success, string path) SaveWeaponBuildDialog(string name);
 
+        public (bool success, string path) SaveTemplateDialog();
+
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null);
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true, string startPath = null, string description = null);
 
         public (bool success, string path, string[] paths) OpenWeaponBuildDialog();
+
+        public (bool success, string path) OpenTemplateDialog();
     }
 
     public class WindowsDialogs : IWindowsDialogs
     {
-        private static string JsonFileText => AppData.AppLocalization.GetLocalizedString("windows_dialogs_json_file");
-
         public (bool success, string path, string[] paths) OpenWeaponBuildDialog()
         {
             var dialog = OpenFileWindowsDialog();
             return dialog.ShowDialog() == DialogResult.OK ? (true, dialog.FileName, dialog.FileNames) : (false, dialog.FileName, dialog.FileNames);
+        }
+        public (bool success, string path) OpenTemplateDialog()
+        {
+            var dialog = OpenFileWindowsDialog(false);
+            return dialog.ShowDialog() == DialogResult.OK ? (true, dialog.FileName) : (false, dialog.FileName);
         }
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true, string startPath = null, string description = null)
@@ -34,13 +41,18 @@ namespace SPT_AKI_Profile_Editor.Helpers
         }
 
         public (bool success, string path) SaveWeaponBuildDialog(string name) =>
-                            SaveFileDialog($"Weapon preset {name}", $"{JsonFileText} (*.json)|*.json");
+                            SaveFileDialog($"Weapon preset {name}", GetJsonFilter());
+
+        public (bool success, string path) SaveTemplateDialog() =>
+                            SaveFileDialog($"ProfileEditorTemplate", GetJsonFilter());
 
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null)
         {
             var dialog = SaveFileWindowsDialog(fileName, filter);
             return dialog.ShowDialog() == DialogResult.OK ? (true, dialog.FileName) : (false, dialog.FileName);
         }
+
+        private static string GetJsonFilter() => $"{AppData.AppLocalization.GetLocalizedString("windows_dialogs_json_file")} (*.json)|*.json";
 
         private static SaveFileDialog SaveFileWindowsDialog(string fileName, string filter = null) => new()
         {
@@ -49,11 +61,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
             Filter = filter
         };
 
-        private static OpenFileDialog OpenFileWindowsDialog() => new()
+        private static OpenFileDialog OpenFileWindowsDialog(bool multiselect = true) => new()
         {
-            Filter = $"{JsonFileText} (*.json)|*.json",
+            Filter = GetJsonFilter(),
             RestoreDirectory = true,
-            Multiselect = true
+            Multiselect = multiselect
         };
 
         private static FolderBrowserDialog FolderBrowserWindowsDialog(bool showNewFolderButton, string description) => new()

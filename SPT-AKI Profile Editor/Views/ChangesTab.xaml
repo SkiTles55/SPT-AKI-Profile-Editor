@@ -20,7 +20,10 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0">
-            <Button Margin="3,3,12,6" Content="{Binding AppLocalization.Translations[tab_changes_load_template]}">
+            <Button
+                Margin="3,3,12,6"
+                Command="{Binding LoadTemplate}"
+                Content="{Binding AppLocalization.Translations[tab_changes_load_template]}">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
