@@ -70,6 +70,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public override string TemplateEntityId => GetType().Name;
 
+        public override string TemplateLocalizedName => TemplateEntityId;
+
         public static void ExportBuild(WeaponBuild weaponBuild, string path)
         {
             try

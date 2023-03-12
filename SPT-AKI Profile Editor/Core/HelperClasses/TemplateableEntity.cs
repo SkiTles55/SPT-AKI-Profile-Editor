@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPT_AKI_Profile_Editor.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,19 +13,25 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
         public abstract string TemplateEntityId { get; }
 
+        public abstract string TemplateLocalizedName { get; }
+
         public TemplateEntity GetAllChanges()
         {
             var templateEntities = GetChangesList();
             if (changedValues.Count > 0 || templateEntities != null)
                 return new(TemplateEntityId,
                            changedValues.Count > 0 ? changedValues : null,
-                           templateEntities);
+                           templateEntities,
+                           TemplateLocalizedName,
+                           startValues);
             return null;
         }
 
         public TemplateEntity GetTemplateEntity() => new(TemplateEntityId,
                                                          changedValues,
-                                                         GetChangesList());
+                                                         GetChangesList(),
+                                                         TemplateLocalizedName,
+                                                         startValues);
 
         public void ApplyTemplate(TemplateEntity template)
         {
@@ -112,7 +119,9 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
             if (changedValues?.Count > 0 || templateEntities?.Count > 0)
                 return new(item.TemplateEntityId,
                            changedValues?.Count > 0 ? changedValues : null,
-                           templateEntities?.Count > 0 ? templateEntities : null);
+                           templateEntities?.Count > 0 ? templateEntities : null,
+                           item.TemplateLocalizedName,
+                           item.startValues);
             return null;
         }
 
@@ -135,7 +144,9 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
             if (changedValues.Count > 0)
                 return new(propertyName,
                            null,
-                           changedValues.Count > 0 ? changedValues : null);
+                           changedValues.Count > 0 ? changedValues : null,
+                           TemplateEntityLocalizationHelper.GetPropertyLocalizedName(propertyName),
+                           null);
             return null;
         }
 

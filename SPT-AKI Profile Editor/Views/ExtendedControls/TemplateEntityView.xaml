@@ -11,28 +11,56 @@
     mc:Ignorable="d">
     <Expander
         mah:HeaderedControlHelper.HeaderBackground="Transparent"
+        mah:HeaderedControlHelper.HeaderFontWeight="Bold"
         BorderThickness="0"
-        Header="{Binding Id}"
+        Header="{Binding LocalizedName}"
         IsExpanded="True">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ItemsControl Grid.Row="0" ItemsSource="{Binding Values}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="{Binding Key}" />
-                            <Label Grid.Column="1" Content="{Binding Value}" />
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <Border
+                Grid.Row="0"
+                Margin="0,5"
+                BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                BorderThickness="1">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ChangedValues}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <ItemsControl Grid.IsSharedSizeScope="True" ItemsSource="{Binding ChangedValues}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateValueName" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateValueOld" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateArrow" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateValueNew" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Content="{Binding Name}"
+                                    FontWeight="Bold" />
+                                <Label Grid.Column="1" Content="{Binding StartValue}" />
+                                <Label
+                                    Grid.Column="2"
+                                    Content="-&gt;"
+                                    FontWeight="Bold" />
+                                <Label Grid.Column="3" Content="{Binding NewValue}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+
             <ItemsControl Grid.Row="1" ItemsSource="{Binding TemplateEntities}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

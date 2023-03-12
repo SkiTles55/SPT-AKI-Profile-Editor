@@ -32,5 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public override string TemplateEntityId => "Skills";
+
+        public override string TemplateLocalizedName => AppData.AppLocalization.Translations["tab_changes_skills_and_masterings"];
     }
 }

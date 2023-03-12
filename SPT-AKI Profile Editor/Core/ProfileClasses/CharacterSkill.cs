@@ -40,6 +40,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public override string TemplateEntityId => Id;
 
+        public override string TemplateLocalizedName => LocalizedName;
+
         private float GetMaxProgress()
         {
             var mastering = AppData.ServerDatabase?.ServerGlobals?.Config?.Mastering.Where(x => x.Name == Id).FirstOrDefault();

@@ -82,6 +82,12 @@ namespace SPT_AKI_Profile_Editor
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () => { ViewModels.ChangesTab.GetAllChanges.Execute(null); },
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
+            });
         }
 
         public async Task<bool> ConfirmShutdown() => await _dialogManager.YesNoDialog(AppLocalization.GetLocalizedString("app_quit"),

@@ -184,6 +184,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public override string TemplateEntityId => IsScav ? "Scav" : "Pmc";
 
+        public override string TemplateLocalizedName => AppData.AppLocalization.Translations[IsScav ? "tab_info_scav" : "tab_info_pmc"];
+
         public void SetAllTradersMax()
         {
             foreach (var trader in TraderStandingsExt)

@@ -32,5 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public override string TemplateEntityId => "Characters";
+
+        public override string TemplateLocalizedName => TemplateEntityId;
     }
 }

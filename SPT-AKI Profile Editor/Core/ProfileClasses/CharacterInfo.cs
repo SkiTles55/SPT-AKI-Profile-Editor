@@ -69,6 +69,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public override string TemplateEntityId => "Info";
 
+        public override string TemplateLocalizedName => AppData.AppLocalization.Translations["tab_info_title"];
+
         private long LevelToExperience()
         {
             if (AppData.ServerDatabase.ServerGlobals?.Config?.Exp?.Level?.ExpTable == null) return 1;
