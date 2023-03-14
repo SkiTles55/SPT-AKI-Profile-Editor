@@ -5,8 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     x:Name="Control"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -75,17 +79,8 @@
             VerticalAlignment="Center"
             Command="{Binding ElementName=Control, Path=RemoveItem}"
             CommandParameter="{Binding ElementName=Control, Path=Item.Id}"
-            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_backups_remove]}">
-            <Button.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=Control, Path=Item}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_backups_remove]}"
+            Visibility="{Binding ElementName=Control, Path=Item, Converter={StaticResource NullToVisibilityConverter}}">
             <Button.ContentTemplate>
                 <DataTemplate>
                     <iconPacks:PackIconFontAwesome

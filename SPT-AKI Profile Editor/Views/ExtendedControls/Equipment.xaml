@@ -7,11 +7,15 @@
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -66,17 +70,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -154,17 +149,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -242,17 +228,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -330,17 +307,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -418,17 +386,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -506,17 +465,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -594,17 +544,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -682,17 +623,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -770,17 +702,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -858,17 +781,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Holster.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Holster.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -946,17 +860,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -1055,17 +960,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -1143,17 +1039,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">

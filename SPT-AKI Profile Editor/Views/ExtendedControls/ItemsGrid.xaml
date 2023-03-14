@@ -11,6 +11,7 @@
     x:Name="Control"
     mc:Ignorable="d">
     <helpers:GridControl.Resources>
+        <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
         <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=ItemsSource}" />
     </helpers:GridControl.Resources>
     <Grid>
@@ -61,17 +62,8 @@
                                     Width="30"
                                     Height="30"
                                     Margin="2"
-                                    Source="{Binding CategoryIcon}">
-                                    <extendedcontrols:IconWithBackground.Style>
-                                        <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </extendedcontrols:IconWithBackground.Style>
-                                </extendedcontrols:IconWithBackground>
+                                    Source="{Binding CategoryIcon}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                                 <TextBlock
                                     Margin="2,0,0,0"
                                     VerticalAlignment="Center"
