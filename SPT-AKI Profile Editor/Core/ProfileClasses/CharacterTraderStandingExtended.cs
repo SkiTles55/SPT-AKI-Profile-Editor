@@ -53,6 +53,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 TraderStanding.Standing = value;
+                if (Id == AppData.AppSettings.RagfairTraderId)
+                    AppData.Profile.Characters.Pmc.RagfairInfo.Rating = value;
                 OnPropertyChanged("Standing");
                 SetLevel();
             }
