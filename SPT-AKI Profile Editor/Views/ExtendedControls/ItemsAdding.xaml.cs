@@ -67,7 +67,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 cv.Filter = o =>
                 {
                     AddableCategory p = o as AddableCategory;
-                    return p.ContainsItemsWithTextInName(FilterName);
+                    return p.ContainsItemsWithTextInName(FilterName ?? "");
                 };
             }
         }
