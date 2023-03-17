@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using System;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -9,6 +10,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private int type;
 
         private int level;
+
+        [JsonConstructor]
+        public HideoutArea(int type, int level)
+        {
+            Type = type;
+            Level = level;
+        }
 
         [JsonProperty("type")]
         public int Type
@@ -27,9 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get => level;
             set
             {
-                if (value > MaxLevel)
-                    value = MaxLevel;
-                level = value;
+                level = Math.Min(value, MaxLevel);
                 OnPropertyChanged("Level");
             }
         }
