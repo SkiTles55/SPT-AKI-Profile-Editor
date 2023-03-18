@@ -13,7 +13,7 @@
 
 ### [Отправить баг репорт \ Предложить новую функцию](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Версия 2.6.1 для сервера SPT-AKI 3.4.0 - 3.5.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.6.1)
+### [Версия 2.6.2 для сервера SPT-AKI 3.4.0 - 3.5.3](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.6.2)
 ### [Версия 2.4.2 для сервера SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
 ### [Версия 2.3.1 для сервера SPT-AKI 3.0.0 - 3.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3.1)
 ### [Версия 2.3 для сервера SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3)

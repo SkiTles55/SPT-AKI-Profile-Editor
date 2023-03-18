@@ -28,17 +28,7 @@
                     SetAllCommand="{Binding SetAllPmsSkillsCommand}"
                     SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
                     SetAllValue="{Binding SetAllPmcSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Profile.Characters.Pmc.IsMasteringsEmpty}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+                <Border Background="{DynamicResource MahApps.Brushes.Window.Background}" Visibility="{Binding Profile.Characters.Pmc.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <views:NoDataPanel />
                 </Border>
             </Grid>
@@ -55,17 +45,7 @@
                     SetAllCommand="{Binding SetAllScavSkillsCommand}"
                     SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
                     SetAllValue="{Binding SetAllScavSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Profile.Characters.Scav.IsMasteringsEmpty}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+                <Border Background="{DynamicResource MahApps.Brushes.Window.Background}" Visibility="{Binding Profile.Characters.Scav.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <views:NoDataPanel />
                 </Border>
             </Grid>

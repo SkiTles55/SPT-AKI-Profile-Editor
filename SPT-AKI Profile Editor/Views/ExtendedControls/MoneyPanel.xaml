@@ -15,17 +15,8 @@
             Grid.Row="0"
             Margin="5"
             Background="{DynamicResource MahApps.Brushes.AccentBase}"
-            CornerRadius="10">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+            CornerRadius="10"
+            Visibility="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Label
                 Margin="5"
                 HorizontalContentAlignment="Stretch"

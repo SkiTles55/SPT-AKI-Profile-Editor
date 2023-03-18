@@ -7,11 +7,16 @@
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -66,17 +71,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -100,17 +96,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -154,17 +141,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -188,17 +166,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -242,17 +211,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -276,17 +236,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -330,17 +281,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -364,17 +306,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -418,17 +351,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -452,17 +376,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -506,17 +421,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -540,17 +446,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -594,17 +491,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -628,17 +516,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -682,17 +561,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -716,17 +586,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -770,17 +631,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -804,17 +656,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -858,17 +701,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Holster.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Holster.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -892,17 +726,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -946,17 +771,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -980,17 +796,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -1055,17 +862,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -1089,17 +887,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -1143,17 +932,8 @@
                         Width="30"
                         Height="30"
                         Margin="2"
-                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.CategoryIcon}">
-                        <extendedcontrols:IconWithBackground.Style>
-                            <Style TargetType="{x:Type extendedcontrols:IconWithBackground}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source)}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </extendedcontrols:IconWithBackground.Style>
-                    </extendedcontrols:IconWithBackground>
+                        Source="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.CategoryIcon}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Label.Content>
                             <TextBlock TextWrapping="Wrap">
@@ -1177,17 +957,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"

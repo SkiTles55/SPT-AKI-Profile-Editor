@@ -57,7 +57,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             bool categories = false;
             foreach (var category in Categories)
             {
-                if (category.ContainsItemsWithTextInName(text))
+                if (category.ContainsItemsWithTextInName(text ?? ""))
                     categories = true;
             }
             ICollectionView cv = CollectionViewSource.GetDefaultView(Categories);
@@ -68,7 +68,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             cv.Filter = o =>
             {
                 AddableCategory p = o as AddableCategory;
-                return p.ContainsItemsWithTextInName(text);
+                return p.ContainsItemsWithTextInName(text ?? "");
             };
             return categories;
         }
@@ -77,7 +77,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             FilterItems();
             return Items.Any(x => x.LocalizedName.ToUpper().Contains(text.ToUpper()))
-            || ApplyFilter(text);
+                || ApplyFilter(text);
 
             void FilterItems()
             {

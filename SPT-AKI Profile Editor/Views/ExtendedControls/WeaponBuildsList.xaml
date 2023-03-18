@@ -78,17 +78,8 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Foreground="Red"
-                                ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}">
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=Value.HasModdedItems}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Label.Style>
+                                ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}"
+                                Visibility="{Binding Path=Value.HasModdedItems, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <iconPacks:PackIconFontAwesome
                                     Width="18"
                                     Height="18"
@@ -117,18 +108,8 @@
                                     Margin="5"
                                     Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding Path=Value.Name}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}">
-                                    <Button.Style>
-                                        <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=Control, Path=RemoveAllowed}" Value="False">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
+                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}"
+                                    Visibility="{Binding ElementName=Control, Path=RemoveAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </StackPanel>
                             <local:WeaponBuildView
                                 Grid.Row="1"

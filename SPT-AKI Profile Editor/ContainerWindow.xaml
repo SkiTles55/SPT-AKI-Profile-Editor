@@ -22,17 +22,10 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[container_window_content]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
-            <TabItem.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.TabItem}" TargetType="TabItem">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ItemsAddingAllowed}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TabItem.Style>
+        <TabItem
+            Header="{Binding AppLocalization.Translations[container_window_content]}"
+            HeaderTemplate="{StaticResource CharacterHeaderTemplate}"
+            Visibility="{Binding ItemsAddingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -67,17 +60,7 @@
         <TabItem
             Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}"
             HeaderTemplate="{StaticResource CharacterHeaderTemplate}"
-            IsEnabled="{Binding ItemsAddingAllowed}">
-            <TabItem.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.TabItem}" TargetType="TabItem">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ItemsAddingAllowed}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TabItem.Style>
+            Visibility="{Binding ItemsAddingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}">
             <extendedcontrols:ItemsAdding
                 AddItemCommand="{Binding AddItem}"
                 AddItemsBlocked="{Binding ItemsAddingBlocked}"

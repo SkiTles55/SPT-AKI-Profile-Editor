@@ -258,9 +258,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
                 TradersInfo.SelectToken(trader.Key)["standing"] = Math.Round(Characters.Pmc.TraderStandings[trader.Key].Standing, 2);
                 TradersInfo.SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
-                if (trader.Key == AppData.AppSettings.RagfairTraderId)
-                    pmc.SelectToken("RagfairInfo")["rating"] = Characters.Pmc.TraderStandings[trader.Key].Standing;
             }
+            pmc.SelectToken("RagfairInfo")["rating"] = Math.Round(Characters.Pmc.RagfairInfo.Rating, 2);
             WriteQuests();
             WriteHideout();
             WriteSkills(Characters.Pmc.Skills.Common, pmc, "Common");
