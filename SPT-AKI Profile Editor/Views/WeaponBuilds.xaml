@@ -7,10 +7,14 @@
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:WeaponBuildsViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <TabControl
         mah:TabControlHelper.Transition="Up"
         mah:TabControlHelper.Underlined="SelectedTabItem"
@@ -36,17 +40,8 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Background="{DynamicResource MahApps.Brushes.Window.Background}">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Profile.HasWeaponBuilds}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+                    Background="{DynamicResource MahApps.Brushes.Window.Background}"
+                    Visibility="{Binding Profile.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Label
                         Margin="10"
                         HorizontalAlignment="Center"

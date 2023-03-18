@@ -15,6 +15,10 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:IssuesActionValueConverter x:Key="IssuesActionValueConverter" />
+        <helpers:BooleanToVisibilityConverter
+            x:Key="FalseToVisibleConverter"
+            False="Visible"
+            True="Hidden" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -129,21 +133,12 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Foreground="Red"
-                        ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}">
+                        ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}"
+                        Visibility="{Binding ServerPathValid, Converter={StaticResource FalseToVisibleConverter}}">
                         <iconPacks:PackIconFontAwesome
                             Width="24"
                             Height="24"
                             Kind="ExclamationTriangleSolid" />
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Setter Property="Visibility" Value="Hidden" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ServerPathValid}" Value="False">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Style>
                     </Label>
                     <Grid
                         Grid.Row="1"
@@ -183,21 +178,12 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Foreground="Red"
-                        ToolTip="{Binding AppLocalization.Translations[no_accounts]}">
+                        ToolTip="{Binding AppLocalization.Translations[no_accounts]}"
+                        Visibility="{Binding ServerHasAccounts, Converter={StaticResource FalseToVisibleConverter}}">
                         <iconPacks:PackIconFontAwesome
                             Width="24"
                             Height="24"
                             Kind="ExclamationTriangleSolid" />
-                        <Label.Style>
-                            <Style TargetType="Label">
-                                <Setter Property="Visibility" Value="Hidden" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ServerHasAccounts}" Value="False">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Label.Style>
                     </Label>
                     <ComboBox
                         Grid.Row="2"
@@ -394,18 +380,9 @@
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding CloseCommand}"
-                Content="{Binding AppLocalization.Translations[button_close]}">
-                <Button.Style>
-                    <Style BasedOn="{StaticResource MahApps.Styles.Button.Dialogs.Accent}" TargetType="{x:Type Button}">
-                        <Setter Property="Visibility" Value="Visible" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ServerHasAccounts}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                Content="{Binding AppLocalization.Translations[button_close]}"
+                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}"
+                Visibility="{Binding ServerHasAccounts, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </UserControl>

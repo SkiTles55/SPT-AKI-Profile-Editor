@@ -40,6 +40,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 DockPanel.Dock="Right"
+                Foreground="{DynamicResource MahApps.Brushes.Text}"
                 Text="{Binding ElementName=Control, Path=Build.Weapon.LocalizedName}"
                 TextWrapping="Wrap" />
         </DockPanel>

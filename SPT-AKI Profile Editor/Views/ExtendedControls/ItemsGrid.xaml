@@ -12,6 +12,7 @@
     mc:Ignorable="d">
     <helpers:GridControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=ItemsSource}" />
     </helpers:GridControl.Resources>
     <Grid>
@@ -81,17 +82,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Foreground="Red"
-                                ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_is_modded_item], Source={StaticResource proxy}}">
-                                <Label.Style>
-                                    <Style TargetType="Label">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsInItemsDB}" Value="False">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Label.Style>
+                                ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_is_modded_item], Source={StaticResource proxy}}"
+                                Visibility="{Binding Path=IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <iconPacks:PackIconFontAwesome
                                     Width="18"
                                     Height="18"
@@ -152,17 +144,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=Control, Path=HasItems}" Value="False">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+        <Border Background="{DynamicResource MahApps.Brushes.Window.Background}" Visibility="{Binding ElementName=Control, Path=HasItems, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Label
                 HorizontalAlignment="{Binding ElementName=Control, Path=PromptHorizontalAlignment}"
                 VerticalAlignment="Center"

@@ -10,6 +10,9 @@
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=views:BackupsTabViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <DataGrid
             AutoGenerateColumns="False"
@@ -57,17 +60,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding BackupService.HasBackups}" Value="False">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+        <Border Background="{DynamicResource MahApps.Brushes.Window.Background}" Visibility="{Binding BackupService.HasBackups, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Label
                 Margin="10"
                 HorizontalAlignment="Center"

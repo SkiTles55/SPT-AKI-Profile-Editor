@@ -14,6 +14,7 @@
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
@@ -95,17 +96,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -174,17 +166,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -253,17 +236,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -332,17 +306,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -411,17 +376,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -490,17 +446,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -569,17 +516,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -648,17 +586,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -727,17 +656,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -806,17 +726,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -885,17 +796,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -985,17 +887,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"
@@ -1064,17 +957,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
+                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                     <iconPacks:PackIconFontAwesome
                         Width="18"
                         Height="18"

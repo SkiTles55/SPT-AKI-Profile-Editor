@@ -47,17 +47,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Foreground="Red"
-            ToolTip="{Binding AppLocalization.Translations[tab_presets_modded_items]}">
-            <Label.Style>
-                <Style TargetType="Label">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=WeaponBuild.HasModdedItems}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Label.Style>
+            ToolTip="{Binding AppLocalization.Translations[tab_presets_modded_items]}"
+            Visibility="{Binding Path=WeaponBuild.HasModdedItems, Converter={StaticResource BooleanToVisibilityConverter}}">
             <iconPacks:PackIconFontAwesome
                 Width="18"
                 Height="18"

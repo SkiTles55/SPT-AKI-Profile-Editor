@@ -23,17 +23,8 @@
             VerticalAlignment="Center"
             Command="{Binding ElementName=Control, Path=InspectWeapon}"
             CommandParameter="{Binding ElementName=Control, Path=Item}"
-            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_inspect]}">
-            <Button.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=Control, Path=Item.IsWeapon}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_inspect]}"
+            Visibility="{Binding ElementName=Control, Path=Item.IsWeapon, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Button.ContentTemplate>
                 <DataTemplate>
                     <iconPacks:PackIconFontAwesome
@@ -51,17 +42,8 @@
             VerticalAlignment="Center"
             Command="{Binding ElementName=Control, Path=OpenContainer}"
             CommandParameter="{Binding ElementName=Control, Path=Item}"
-            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_open]}">
-            <Button.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=Control, Path=Item.IsContainer}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_open]}"
+            Visibility="{Binding ElementName=Control, Path=Item.IsContainer, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Button.ContentTemplate>
                 <DataTemplate>
                     <iconPacks:PackIconFontAwesome
