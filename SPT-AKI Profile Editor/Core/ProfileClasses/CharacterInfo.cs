@@ -22,6 +22,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set => SetProperty(nameof(Nickname), ref nickname, value);
         }
 
+        [JsonIgnore]
+        public bool IsNicknameChanged => changedValues.ContainsKey(nameof(Nickname));
+
         [JsonProperty("Side")]
         public string Side
         {
@@ -29,12 +32,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set => SetProperty(nameof(Side), ref side, value);
         }
 
+        [JsonIgnore]
+        public bool IsSideChanged => changedValues.ContainsKey(nameof(Side));
+
         [JsonProperty("Voice")]
         public string Voice
         {
             get => voice;
             set => SetProperty(nameof(Voice), ref voice, value);
         }
+
+        [JsonIgnore]
+        public bool IsVoiceChanged => changedValues.ContainsKey(nameof(Voice));
 
         [JsonProperty("Level")]
         public int Level
@@ -50,6 +59,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        [JsonIgnore]
+        public bool IsLevelChanged => changedValues.ContainsKey(nameof(Level));
+
         [JsonProperty("Experience")]
         public long Experience
         {
@@ -63,6 +75,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
         }
+
+        [JsonIgnore]
+        public bool IsExperienceChanged => changedValues.ContainsKey(nameof(Experience));
 
         [JsonProperty("GameVersion")]
         public string GameVersion { get; set; }

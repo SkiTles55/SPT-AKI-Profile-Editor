@@ -73,17 +73,17 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             if (first.Id != second.Id)
                 return false;
-            if ((first.Values?.Count ?? 0) != (second.Values?.Count ?? 0))
+            if ((first.ChangedValues?.Count ?? 0) != (second.ChangedValues?.Count ?? 0))
                 return false;
 
-            for (int i = 0; i < (first.Values?.Count ?? 0); i++)
+            for (int i = 0; i < (first.ChangedValues?.Count ?? 0); i++)
             {
-                var firstValue = first.Values?.ElementAt(i);
-                var secondValue = second.Values?.Where(x => x.Key == firstValue?.Key).FirstOrDefault();
+                var firstValue = first.ChangedValues?.ElementAt(i);
+                var secondValue = second.ChangedValues?.Where(x => x.Name == firstValue?.Name).FirstOrDefault();
                 if (firstValue == null && secondValue == null)
                     continue;
-                var firstType = firstValue!.Value.Value.GetType();
-                if (firstValue?.Key != secondValue?.Key || firstValue!.Value.Value.CompareTo(Convert.ChangeType(secondValue!.Value.Value, firstType)) != 0)
+                var firstType = firstValue!.NewValue.GetType();
+                if (firstValue?.Name != secondValue?.Name || firstValue!.NewValue.CompareTo(Convert.ChangeType(secondValue!.NewValue, firstType)) != 0)
                     return false;
             }
 

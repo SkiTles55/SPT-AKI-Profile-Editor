@@ -2,20 +2,21 @@
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 {
-    public class TemplateEntity
+    public class TemplateEntity: BindableEntity
     {
         public TemplateEntity(string id,
                               Dictionary<string, IComparable> values,
                               List<TemplateEntity> templateEntities,
                               string localizedName,
-                              Dictionary<string, IComparable> startValues)
+                              Dictionary<string, IComparable> startValues,
+                              RelayCommand revertCommand)
         {
             Id = id;
-            Values = values;
             TemplateEntities = templateEntities;
             LocalizedName = localizedName;
             if (values != null && startValues != null)
@@ -27,28 +28,49 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                     {
                         var startValue = startValues[value.Key];
                         var localizedkey = TemplateEntityLocalizationHelper.GetValueKeyLocalizedName(value.Key);
-                        changedValues.Add(new ChangedValue(localizedkey,
+                        changedValues.Add(new ChangedValue(value.Key,
+                                                           localizedkey,
                                                            startValue,
-                                                           value.Value));
+                                                           value.Value,
+                                                           revertCommand));
                     }
                 }
-                ChangedValues = changedValues;
+                ChangedValues = changedValues != null ? new(changedValues) : null;
             }
         }
 
+        [JsonConstructor]
+        public TemplateEntity(string id,
+                              List<ChangedValue> changedValues,
+                              List<TemplateEntity> templateEntities)
+        {
+            Id = id;
+            ChangedValues = changedValues != null ? new(changedValues) : null;
+            TemplateEntities = templateEntities;
+        }
+
         public string Id { get; }
-        public Dictionary<string, IComparable> Values { get; }
+        public ObservableCollection<ChangedValue> ChangedValues { get; private set; }
         public List<TemplateEntity> TemplateEntities { get; }
 
         [JsonIgnore]
-        public bool NotEmpty => Values?.Count > 0 || TemplateEntities?.Count > 0;
+        public bool NotEmpty => ChangedValues?.Count > 0 || TemplateEntities?.Count > 0;
 
         [JsonIgnore]
         public string LocalizedName { get; }
 
         [JsonIgnore]
-        public List<ChangedValue> ChangedValues { get; }
-
+        public RelayCommand RevertChangedValue => new(obj =>
+        {
+            if (obj is ChangedValue value)
+            {
+                value.RevertCommand?.Execute(value.Name);
+                ChangedValues?.Remove(value);
+                if (ChangedValues?.Count == 0)
+                    ChangedValues = null;
+                OnPropertyChanged(nameof(ChangedValues));
+            }
+        });
 
         private static JsonSerializerSettings SerializerSettings => new()
         {
@@ -88,15 +110,30 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
     public class ChangedValue
     {
-        public ChangedValue(string name, IComparable startValue, IComparable newValue)
+        public ChangedValue(string name,
+                            string localizedName,
+                            IComparable startValue,
+                            IComparable newValue,
+                            RelayCommand revertCommand)
         {
             Name = name;
+            LocalizedName = localizedName;
             StartValue = startValue;
             NewValue = newValue;
+            RevertCommand = revertCommand;
         }
 
         public string Name { get; }
+
+        [JsonIgnore]
+        public string LocalizedName { get; }
+
+        [JsonIgnore]
         public IComparable StartValue { get; }
+
         public IComparable NewValue { get; }
+
+        [JsonIgnore]
+        public RelayCommand RevertCommand { get; }
     }
 }

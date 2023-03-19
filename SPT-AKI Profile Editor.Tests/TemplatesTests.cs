@@ -94,8 +94,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.Info.Level = existLevel + 2;
             var changes = AppData.Profile.Characters.Pmc.Info.GetAllChanges();
             Assert.That(changes, Is.Not.Null, "Changes is null");
-            Assert.That(changes.Values, Is.Not.Null, "Changes Values is null");
-            Assert.That(changes.Values.Count, Is.EqualTo(5), "Changes Values wrong count");
+            Assert.That(changes.ChangedValues, Is.Not.Null, "Changes ChangedValues is null");
+            Assert.That(changes.ChangedValues.Count, Is.EqualTo(5), "Changes ChangedValues wrong count");
             TemplateEntity profileChanges = GetAndCheckProfileChanges();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testChangesCharacterInfo.json");
             TemplateEntity result = SaveLoadAndCheckChanges(profileChanges, testFile);
@@ -103,8 +103,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.ApplyTemplate(result);
             var newChanges = AppData.Profile.Characters.Pmc.Info.GetAllChanges();
             Assert.That(newChanges, Is.Not.Null, "Changes after apply template is null");
-            Assert.That(newChanges.Values, Is.Not.Null, "Changes Values after apply template is null");
-            Assert.That(newChanges.Values.Count, Is.EqualTo(5), "Changes Values after apply template wrong count");
+            Assert.That(newChanges.ChangedValues, Is.Not.Null, "Changes ChangedValues after apply template is null");
+            Assert.That(newChanges.ChangedValues.Count, Is.EqualTo(5), "Changes ChangedValues after apply template wrong count");
             Assert.That(AppData.Profile.Characters.Pmc.Info.Nickname, Is.EqualTo("TestCharacterInfoChange"), "Nickname not changed");
             Assert.That(AppData.Profile.Characters.Pmc.Info.Side, Is.EqualTo(newSide), "Side not changed");
             Assert.That(AppData.Profile.Characters.Pmc.Info.Voice, Is.EqualTo(newVoice), "Voice not changed");

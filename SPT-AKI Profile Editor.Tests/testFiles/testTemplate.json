@@ -8,99 +8,19 @@
           "Id": "Pmc",
           "TemplateEntities": [
             {
-              "Id": "Info",
-              "Values": {
-                "Experience": 6108589,
-                "Level": 53,
-                "Nickname": "SkiTlesTest"
-              }
-            },
-            {
               "Id": "Skills",
               "TemplateEntities": [
                 {
-                  "Id": "Common",
+                  "Id": "Mastering",
                   "TemplateEntities": [
                     {
-                      "Id": "BotSound",
-                      "Values": {
-                        "Progress": 1879.9502
-                      }
-                    },
-                    {
-                      "Id": "Health",
-                      "Values": {
-                        "Progress": 2844.9263
-                      }
-                    },
-                    {
-                      "Id": "Perception",
-                      "Values": {
-                        "Progress": 1592.9791
-                      }
-                    },
-                    {
-                      "Id": "Melee",
-                      "Values": {
-                        "Progress": 2667.4968
-                      }
-                    },
-                    {
-                      "Id": "RecoilControl",
-                      "Values": {
-                        "Progress": 1829.4072
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "Id": "Scav",
-          "TemplateEntities": [
-            {
-              "Id": "Info",
-              "Values": {
-                "Voice": "Scav_2"
-              }
-            },
-            {
-              "Id": "Skills",
-              "TemplateEntities": [
-                {
-                  "Id": "Common",
-                  "TemplateEntities": [
-                    {
-                      "Id": "Strength",
-                      "Values": {
-                        "Progress": 2794.5205
-                      }
-                    },
-                    {
-                      "Id": "StressResistance",
-                      "Values": {
-                        "Progress": 2438.8542
-                      }
-                    },
-                    {
-                      "Id": "Metabolism",
-                      "Values": {
-                        "Progress": 2184.807
-                      }
-                    },
-                    {
-                      "Id": "Perception",
-                      "Values": {
-                        "Progress": 2210.2117
-                      }
-                    },
-                    {
-                      "Id": "Attention",
-                      "Values": {
-                        "Progress": 1981.5691
-                      }
+                      "Id": "UMP45",
+                      "ChangedValues": [
+                        {
+                          "Name": "Progress",
+                          "NewValue": 146.04317
+                        }
+                      ]
                     }
                   ]
                 }

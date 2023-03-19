@@ -8,12 +8,21 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 {
     public abstract class TemplateableEntity : BindableEntity
     {
-        private readonly Dictionary<string, IComparable> changedValues = new();
+        public readonly Dictionary<string, IComparable> changedValues = new();
         private readonly Dictionary<string, IComparable> startValues = new();
 
         public abstract string TemplateEntityId { get; }
 
         public abstract string TemplateLocalizedName { get; }
+
+        public RelayCommand RevertChange => new(obj =>
+        {
+            if (obj is string propertyName && startValues.ContainsKey(propertyName))
+            {
+                var property = GetType().GetProperty(propertyName);
+                property?.SetValue(this, Convert.ChangeType(startValues[propertyName], property.PropertyType));
+            }
+        });
 
         public TemplateEntity GetAllChanges()
         {
@@ -23,7 +32,8 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                            changedValues.Count > 0 ? changedValues : null,
                            templateEntities,
                            TemplateLocalizedName,
-                           startValues);
+                           startValues,
+                           null);
             return null;
         }
 
@@ -31,7 +41,8 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                                                          changedValues,
                                                          GetChangesList(),
                                                          TemplateLocalizedName,
-                                                         startValues);
+                                                         startValues,
+                                                         null);
 
         public void ApplyTemplate(TemplateEntity template)
         {
@@ -41,10 +52,10 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
             foreach (PropertyInfo property in GetType().GetProperties())
             {
                 var changedValue = template
-                    .Values?
-                    .Where(x => x.Key == property.Name)
-                    .FirstOrDefault()
-                    .Value;
+                    .ChangedValues?
+                    .Where(x => x.Name == property.Name)
+                    .FirstOrDefault()?
+                    .NewValue;
                 if (changedValue != null)
                     property.SetValue(this, Convert.ChangeType(changedValue, property.PropertyType));
 
@@ -77,6 +88,7 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
                 oldValue = newValue;
                 OnPropertyChanged(name);
+                OnPropertyChanged($"Is{name}Changed");
             }
         }
 
@@ -121,7 +133,8 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                            changedValues?.Count > 0 ? changedValues : null,
                            templateEntities?.Count > 0 ? templateEntities : null,
                            item.TemplateLocalizedName,
-                           item.startValues);
+                           item.startValues,
+                           item.RevertChange);
             return null;
         }
 
@@ -146,6 +159,7 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                            null,
                            changedValues.Count > 0 ? changedValues : null,
                            TemplateEntityLocalizationHelper.GetPropertyLocalizedName(propertyName),
+                           null, 
                            null);
             return null;
         }

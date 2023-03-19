@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
@@ -91,13 +92,36 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_nickname]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <TextBox
+            <DockPanel
                 Grid.Row="1"
                 Grid.Column="1"
-                Margin="10,5"
-                VerticalAlignment="Center"
-                Text="{Binding ElementName=Control, Path=Character.Info.Nickname, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                Margin="10,5">
+                <Button
+                    Width="26"
+                    Height="26"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
+                    CommandParameter="Nickname"
+                    DockPanel.Dock="Right"
+                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsNicknameChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="UndoSolid" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <TextBox
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Left"
+                    Text="{Binding ElementName=Control, Path=Character.Info.Nickname, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+            </DockPanel>
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
@@ -109,13 +133,35 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_side]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <ComboBox
+            <DockPanel
                 Grid.Row="2"
                 Grid.Column="1"
-                Margin="10,5"
-                VerticalAlignment="Center"
-                ItemsSource="{Binding Sides}"
-                SelectedItem="{Binding ElementName=Control, Path=Character.Info.Side, UpdateSourceTrigger=PropertyChanged}" />
+                Margin="10,5">
+                <Button
+                    Width="26"
+                    Height="26"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
+                    CommandParameter="Side"
+                    DockPanel.Dock="Right"
+                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsSideChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="UndoSolid" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <ComboBox
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding Sides}"
+                    SelectedItem="{Binding ElementName=Control, Path=Character.Info.Side, UpdateSourceTrigger=PropertyChanged}" />
+            </DockPanel>
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
@@ -127,15 +173,37 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_voice]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <ComboBox
+            <DockPanel
                 Grid.Row="3"
                 Grid.Column="1"
-                Margin="10,5"
-                VerticalAlignment="Center"
-                DisplayMemberPath="Value"
-                ItemsSource="{Binding ServerDatabase.Voices}"
-                SelectedValue="{Binding ElementName=Control, Path=Character.Info.Voice, UpdateSourceTrigger=PropertyChanged}"
-                SelectedValuePath="Key" />
+                Margin="10,5">
+                <Button
+                    Width="26"
+                    Height="26"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
+                    CommandParameter="Voice"
+                    DockPanel.Dock="Right"
+                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsVoiceChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="UndoSolid" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <ComboBox
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="Value"
+                    ItemsSource="{Binding ServerDatabase.Voices}"
+                    SelectedValue="{Binding ElementName=Control, Path=Character.Info.Voice, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Key" />
+            </DockPanel>
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
@@ -147,17 +215,39 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <extendedcontrols:NumericUpDownExt
+            <DockPanel
                 Grid.Row="4"
                 Grid.Column="1"
-                Margin="10,5"
-                VerticalAlignment="Center"
-                Interval="1"
-                Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel}"
-                Minimum="1"
-                NumericInputMode="Numbers"
-                TextAlignment="Left"
-                Value="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}" />
+                Margin="10,5">
+                <Button
+                    Width="26"
+                    Height="26"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
+                    CommandParameter="Level"
+                    DockPanel.Dock="Right"
+                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsLevelChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="UndoSolid" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <extendedcontrols:NumericUpDownExt
+                    VerticalAlignment="Center"
+                    Interval="1"
+                    Maximum="{Binding ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel}"
+                    Minimum="1"
+                    NumericInputMode="Numbers"
+                    TextAlignment="Left"
+                    Value="{Binding ElementName=Control, Path=Character.Info.Level, UpdateSourceTrigger=PropertyChanged}" />
+            </DockPanel>
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
@@ -176,6 +266,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <extendedcontrols:NumericUpDownExt
                     Grid.Column="0"
@@ -199,6 +290,27 @@
                     TickFrequency="1000000"
                     TickPlacement="BottomRight"
                     Value="{Binding ElementName=Control, Path=Character.Info.Experience}" />
+                <Button
+                    Grid.Column="2"
+                    Width="26"
+                    Height="26"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
+                    CommandParameter="Experience"
+                    DockPanel.Dock="Right"
+                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsExperienceChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="UndoSolid" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
             </Grid>
             <Label
                 Grid.Row="6"
