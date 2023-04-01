@@ -72,7 +72,7 @@
                     SortMemberPath="Boughted">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=Boughted}" />
+                            <CheckBox IsChecked="{Binding Path=Boughted, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
