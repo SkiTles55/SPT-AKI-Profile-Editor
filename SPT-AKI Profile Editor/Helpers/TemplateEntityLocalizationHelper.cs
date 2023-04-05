@@ -14,6 +14,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 "Level" => AppData.AppLocalization.Translations["tab_info_level"],
                 "Experience" => AppData.AppLocalization.Translations["tab_info_experience"],
                 "Progress" => AppData.AppLocalization.Translations["tab_skills_exp"],
+                "Head" => AppData.AppLocalization.Translations["tab_info_head"],
                 _ => propertyName,
             };
         }

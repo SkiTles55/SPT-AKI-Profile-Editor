@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -7,15 +8,18 @@ using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterTraderStandingExtended : BindableEntity
+    public class CharacterTraderStandingExtended : TemplateableEntity
     {
         private long? salesSumStart;
         private float? staindingStart;
         private bool? unlockedStart;
         private int? levelStart;
 
+        private int loyaltyLevel;
+
         public CharacterTraderStandingExtended(CharacterTraderStanding standing, string id, TraderBase traderBase, float ragfairRating)
         {
+            loyaltyLevel = standing.LoyaltyLevel;
             TraderStanding = standing;
             Standing = id == AppData.AppSettings.RagfairTraderId ? ragfairRating : standing.Standing;
             Id = id;
@@ -33,14 +37,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public int LoyaltyLevel
         {
-            get => TraderStanding.LoyaltyLevel;
+            get => loyaltyLevel;
             set
             {
                 if (levelStart == null)
                     levelStart = TraderStanding.LoyaltyLevel;
                 value = Math.Min(Math.Max(value, 1), MaxLevel);
+                SetProperty(nameof(LoyaltyLevel), ref loyaltyLevel, value);
                 TraderStanding.LoyaltyLevel = value;
-                OnPropertyChanged("LoyaltyLevel");
                 SetSalesSum(value);
                 SetStanding(value);
                 SetUnlocked(value);
@@ -60,6 +64,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        [JsonIgnore]
+        public bool IsStandingChanged => changedValues.ContainsKey(nameof(Standing));
+
         public long SalesSum
         {
             get => TraderStanding.SalesSum;
@@ -72,6 +79,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? 0;
+
+        public override string TemplateEntityId => Id;
+
+        public override string TemplateLocalizedName => LocalizedName;
 
         public bool HasLevelIssue(int? level)
         {

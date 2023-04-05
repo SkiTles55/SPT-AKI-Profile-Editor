@@ -104,7 +104,7 @@
                     Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
                     CommandParameter="Nickname"
                     DockPanel.Dock="Right"
-                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsNicknameChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    IsEnabled="{Binding ElementName=Control, Path=Character.Info.IsNicknameChanged}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <iconPacks:PackIconFontAwesome
@@ -145,7 +145,7 @@
                     Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
                     CommandParameter="Side"
                     DockPanel.Dock="Right"
-                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsSideChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    IsEnabled="{Binding ElementName=Control, Path=Character.Info.IsSideChanged}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <iconPacks:PackIconFontAwesome
@@ -185,7 +185,7 @@
                     Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
                     CommandParameter="Voice"
                     DockPanel.Dock="Right"
-                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsVoiceChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    IsEnabled="{Binding ElementName=Control, Path=Character.Info.IsVoiceChanged}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <iconPacks:PackIconFontAwesome
@@ -227,7 +227,7 @@
                     Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
                     CommandParameter="Level"
                     DockPanel.Dock="Right"
-                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsLevelChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    IsEnabled="{Binding ElementName=Control, Path=Character.Info.IsLevelChanged}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <iconPacks:PackIconFontAwesome
@@ -299,7 +299,7 @@
                     Command="{Binding ElementName=Control, Path=Character.Info.RevertChange}"
                     CommandParameter="Experience"
                     DockPanel.Dock="Right"
-                    Visibility="{Binding ElementName=Control, Path=Character.Info.IsExperienceChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    IsEnabled="{Binding ElementName=Control, Path=Character.Info.IsExperienceChanged}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <iconPacks:PackIconFontAwesome
@@ -342,15 +342,37 @@
                     <TextBlock Text="{Binding AppLocalization.Translations[tab_info_head]}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
-            <ComboBox
+            <DockPanel
                 Grid.Row="7"
                 Grid.Column="1"
-                Margin="10,5"
-                VerticalAlignment="Center"
-                DisplayMemberPath="Value"
-                ItemsSource="{Binding ServerDatabase.Heads}"
-                SelectedValue="{Binding ElementName=Control, Path=Character.Customization.Head}"
-                SelectedValuePath="Key" />
+                Margin="10,5">
+                <Button
+                    Width="26"
+                    Height="26"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ElementName=Control, Path=Character.Customization.RevertChange}"
+                    CommandParameter="Head"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding ElementName=Control, Path=Character.Customization.IsHeadChanged}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="UndoSolid" />
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <ComboBox
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="Value"
+                    ItemsSource="{Binding ServerDatabase.Heads}"
+                    SelectedValue="{Binding ElementName=Control, Path=Character.Customization.Head}"
+                    SelectedValuePath="Key" />
+            </DockPanel>
             <Label
                 Grid.Row="8"
                 Grid.Column="0"

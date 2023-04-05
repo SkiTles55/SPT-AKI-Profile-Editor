@@ -6,14 +6,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterInfo : TemplateableEntity
     {
         private string nickname;
-
         private string side;
-
         private string voice;
-
         private int level;
-
         private long experience;
+        private int experienceChangesCount = 0;
 
         [JsonProperty("Nickname")]
         public string Nickname
@@ -68,8 +65,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get => experience;
             set
             {
-                if (experience != value)
+                if (experience != value || experienceChangesCount == 0)
                 {
+                    experienceChangesCount++;
                     SetProperty(nameof(Experience), ref experience, value);
                     Level = ExperienceToLevel();
                 }
