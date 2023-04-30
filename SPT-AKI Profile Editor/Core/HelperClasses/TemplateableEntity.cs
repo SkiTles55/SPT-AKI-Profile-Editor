@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
     public abstract class TemplateableEntity : BindableEntity
     {
         public readonly Dictionary<string, IComparable> changedValues = new();
-        private readonly Dictionary<string, IComparable> startValues = new();
+        public readonly Dictionary<string, IComparable> startValues = new();
 
         public abstract string TemplateEntityId { get; }
 
@@ -186,6 +186,9 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
         private bool NeedSkip<T>(string name, T newValue) where T : IComparable<T>
         {
+            if (newValue is int check && check == 0 && !startValues.ContainsKey(name))
+                return true;
+
             if (!startValues.ContainsKey(name))
             {
                 startValues.Add(name, (IComparable)newValue);

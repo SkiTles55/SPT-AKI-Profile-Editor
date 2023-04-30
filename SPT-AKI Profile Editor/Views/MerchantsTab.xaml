@@ -95,6 +95,28 @@
                                 NumericInputMode="Numbers"
                                 TextAlignment="Left"
                                 Value="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="26"
+                                Height="26"
+                                Margin="3,0,6,0"
+                                VerticalAlignment="Center"
+                                Command="{Binding Path=RevertChange}"
+                                CommandParameter="LoyaltyLevel"
+                                DockPanel.Dock="Right"
+                                IsEnabled="{Binding Path=IsLoyaltyLevelChanged}">
+                                <Button.ContentTemplate>
+                                    <DataTemplate>
+                                        <iconPacks:PackIconFontAwesome
+                                            Width="10"
+                                            Height="10"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Kind="UndoSolid" />
+                                    </DataTemplate>
+                                </Button.ContentTemplate>
+                            </Button>
                             <Label
                                 Grid.Row="3"
                                 Grid.Column="0"
@@ -123,10 +145,10 @@
                                 Height="26"
                                 Margin="3,0,6,0"
                                 VerticalAlignment="Center"
-                                Command="{Binding ElementName=Control, Path=Character.Customization.RevertChange}"
-                                CommandParameter="Head"
+                                Command="{Binding Path=RevertChange}"
+                                CommandParameter="Standing"
                                 DockPanel.Dock="Right"
-                                IsEnabled="{Binding ElementName=Control, Path=Character.Customization.IsStandingChanged}">
+                                IsEnabled="{Binding Path=IsStandingChanged}">
                                 <Button.ContentTemplate>
                                     <DataTemplate>
                                         <iconPacks:PackIconFontAwesome
