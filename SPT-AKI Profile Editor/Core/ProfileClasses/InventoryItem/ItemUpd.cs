@@ -15,5 +15,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("SpawnedInSession")]
         public bool SpawnedInSession { get; set; }
+
+        [JsonProperty("Dogtag")]
+        public DogtagProperties Dogtag { get; set; }
     }
 }

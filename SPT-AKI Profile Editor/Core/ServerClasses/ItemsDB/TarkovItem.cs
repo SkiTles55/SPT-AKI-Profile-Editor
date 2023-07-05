@@ -44,7 +44,12 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonIgnore]
         public BitmapSource CategoryIcon => AppData.ServerDatabase?.HandbookHelper?.GetItemCategory(Id)?.BitmapIcon;
 
-        public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
+        public static TarkovItem CopyFrom(TarkovItem item)
+        {
+            TarkovItem tarkovItem = new(item.Id, item.Properties, item.Parent, item.Type);
+            tarkovItem.AppendDogtagProperties();
+            return tarkovItem;
+        }
 
         public ExaminedItem GetExaminedItem() => new(Id, LocalizedName, CategoryIcon);
 
@@ -57,6 +62,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     slots += grid.Props.CellsH * grid.Props.CellsV;
             }
             return slots;
+        }
+
+        private void AppendDogtagProperties()
+        {
+            if (Properties == null || !Properties.DogTagQualities)
+                return;
+            DogtagProperties = new(Id == "59f32bb586f774757e1e8442" ? "Bear" : "Usec",
+                                   "Nickname",
+                                   1,
+                                   "5447a9cd4bdc2dbd208b4567");
         }
     }
 }

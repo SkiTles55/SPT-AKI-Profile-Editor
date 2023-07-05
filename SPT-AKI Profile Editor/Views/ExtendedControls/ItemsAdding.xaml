@@ -137,6 +137,30 @@
                                     StringFormat="N0"
                                     TextAlignment="Left"
                                     Value="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" />
+                                <Border
+                                    Margin="5"
+                                    BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+                                    BorderThickness="1">
+                                    <WrapPanel>
+                                        <TextBox
+                                            Width="140"
+                                            Margin="5"
+                                            Text="{Binding Path=DogtagProperties.Nickname}" />
+                                        <extendedcontrols:NumericUpDownExt
+                                            Width="80"
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Culture="ru-RU"
+                                            FontWeight="Bold"
+                                            Interval="1"
+                                            Minimum="1"
+                                            NumericInputMode="Numbers"
+                                            StringFormat="N0"
+                                            TextAlignment="Left"
+                                            Value="{Binding Path=DogtagProperties.Level, UpdateSourceTrigger=PropertyChanged}" />
+                                    </WrapPanel>
+                                </Border>
                                 <Button
                                     Margin="5"
                                     Command="{Binding ElementName=Control, Path=AddItemCommand}"
