@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
@@ -71,10 +72,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         {
             if (Properties == null || !Properties.DogTagQualities)
                 return;
-            DogtagProperties = new(Id == "59f32bb586f774757e1e8442" ? "Bear" : "Usec",
-                                   "Nickname",
-                                   1,
-                                   "5447a9cd4bdc2dbd208b4567");
+            var side = Id == AppData.AppSettings.BearDogtagTpl ? PMCSide.Bear.ToString() : PMCSide.Usec.ToString();
+            DogtagProperties = new(side, "Nickname", 1);
         }
     }
 }

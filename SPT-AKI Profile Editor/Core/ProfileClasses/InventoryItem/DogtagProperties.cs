@@ -8,14 +8,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class DogtagProperties
     {
-        public DogtagProperties(string side, string nickname, int level, string weaponName)
+        public DogtagProperties(string side, string nickname, int level)
         {
             Nickname = nickname;
             Side = side;
             Level = level;
             Status = "Killed by ";
-            WeaponName = weaponName;
             AvailableWeapons = AppData.ServerDatabase.ItemsDB.Values.Where(x => x.IsWeapon).ToList();
+            WeaponName = AvailableWeapons.FirstOrDefault()?.Id;
         }
 
         [JsonProperty("AccountId")]

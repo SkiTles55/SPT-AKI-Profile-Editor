@@ -29,6 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const string RagfairTraderId = "ragfair";
+        public const string BearDogtagTpl = "59f32bb586f774757e1e8442";
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
 
