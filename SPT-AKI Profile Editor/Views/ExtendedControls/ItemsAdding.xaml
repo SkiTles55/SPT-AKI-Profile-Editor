@@ -120,6 +120,69 @@
                                         </Style.Triggers>
                                     </Style>
                                 </WrapPanel.Style>
+                                <DockPanel Width="180" Visibility="{Binding Path=DogtagProperties, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <Label
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        DockPanel.Dock="Left">
+                                        <Label.Content>
+                                            <TextBlock
+                                                FontWeight="Bold"
+                                                Text="{Binding Data.AppLocalization.Translations[tab_info_nickname], Source={StaticResource proxy}}"
+                                                TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                    <TextBox
+                                        Margin="5"
+                                        DockPanel.Dock="Right"
+                                        Text="{Binding Path=DogtagProperties.Nickname}" />
+                                </DockPanel>
+                                <DockPanel Width="150" Visibility="{Binding Path=DogtagProperties, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <Label
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        DockPanel.Dock="Left">
+                                        <Label.Content>
+                                            <TextBlock
+                                                FontWeight="Bold"
+                                                Text="{Binding Data.AppLocalization.Translations[tab_info_level], Source={StaticResource proxy}}"
+                                                TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                    <extendedcontrols:NumericUpDownExt
+                                        Margin="5"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Culture="ru-RU"
+                                        DockPanel.Dock="Right"
+                                        FontWeight="Bold"
+                                        Interval="1"
+                                        Minimum="1"
+                                        NumericInputMode="Numbers"
+                                        StringFormat="N0"
+                                        TextAlignment="Left"
+                                        Value="{Binding Path=DogtagProperties.Level, UpdateSourceTrigger=PropertyChanged}" />
+                                </DockPanel>
+                                <DockPanel Width="280" Visibility="{Binding Path=DogtagProperties, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <Label
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        DockPanel.Dock="Left">
+                                        <Label.Content>
+                                            <TextBlock
+                                                FontWeight="Bold"
+                                                Text="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}"
+                                                TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                    <ComboBox
+                                        Margin="5"
+                                        DisplayMemberPath="LocalizedName"
+                                        DockPanel.Dock="Right"
+                                        ItemsSource="{Binding Path=DogtagProperties.AvailableWeapons}"
+                                        SelectedValue="{Binding Path=DogtagProperties.WeaponName}"
+                                        SelectedValuePath="Id" />
+                                </DockPanel>
                                 <CheckBox
                                     Margin="5"
                                     Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}"
@@ -128,7 +191,6 @@
                                     Width="80"
                                     Margin="5"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
                                     Culture="ru-RU"
                                     FontWeight="Bold"
                                     Interval="1"
@@ -137,30 +199,6 @@
                                     StringFormat="N0"
                                     TextAlignment="Left"
                                     Value="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" />
-                                <Border
-                                    Margin="5"
-                                    BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
-                                    BorderThickness="1">
-                                    <WrapPanel>
-                                        <TextBox
-                                            Width="140"
-                                            Margin="5"
-                                            Text="{Binding Path=DogtagProperties.Nickname}" />
-                                        <extendedcontrols:NumericUpDownExt
-                                            Width="80"
-                                            Margin="5"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            Culture="ru-RU"
-                                            FontWeight="Bold"
-                                            Interval="1"
-                                            Minimum="1"
-                                            NumericInputMode="Numbers"
-                                            StringFormat="N0"
-                                            TextAlignment="Left"
-                                            Value="{Binding Path=DogtagProperties.Level, UpdateSourceTrigger=PropertyChanged}" />
-                                    </WrapPanel>
-                                </Border>
                                 <Button
                                     Margin="5"
                                     Command="{Binding ElementName=Control, Path=AddItemCommand}"

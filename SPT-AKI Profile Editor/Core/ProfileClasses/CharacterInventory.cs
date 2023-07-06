@@ -389,10 +389,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                tarkovItem.AddingQuantity,
                                tarkovItem.AddingFir,
                                slotId,
-                               tarkovItem.Properties.StackMaxSize, 
-                               null, 
-                               null, 
-                               null, 
+                               tarkovItem.Properties.StackMaxSize,
+                               null,
+                               null,
+                               null,
                                tarkovItem.DogtagProperties);
         }
 

@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -12,6 +15,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Level = level;
             Status = "Killed by ";
             WeaponName = weaponName;
+            AvailableWeapons = AppData.ServerDatabase.ItemsDB.Values.Where(x => x.IsWeapon).ToList();
         }
 
         [JsonProperty("AccountId")]
@@ -46,6 +50,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("WeaponName")]
         public string WeaponName { get; set; }
+
+        [JsonIgnore]
+        public List<TarkovItem> AvailableWeapons { get; }
 
         public void UpdateProperties()
         {

@@ -42,6 +42,9 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public int SlotsCount { get; }
 
         [JsonIgnore]
+        public bool IsWeapon => Properties?.RecoilForceUp != 0;
+
+        [JsonIgnore]
         public BitmapSource CategoryIcon => AppData.ServerDatabase?.HandbookHelper?.GetItemCategory(Id)?.BitmapIcon;
 
         public static TarkovItem CopyFrom(TarkovItem item)
