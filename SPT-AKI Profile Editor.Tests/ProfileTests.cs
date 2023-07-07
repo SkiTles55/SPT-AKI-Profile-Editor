@@ -3,6 +3,8 @@ using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System;
 using System.Collections.Generic;
@@ -813,6 +815,35 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Any(y => y.Id != x.Id && y.Location.X == x.Location.X && y.Location.Y == x.Location.Y))
                 .Any());
+        }
+
+        [Test]
+        public void StashAddingDogtagWithPropertiesSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var dogtag = AppData.ServerDatabase.ItemsDB.Values.Where(x => x.Properties?.DogTagQualities == true).FirstOrDefault();
+            var newDogtag = TarkovItem.CopyFrom(dogtag);
+            newDogtag.DogtagProperties.Nickname = "Test";
+            newDogtag.DogtagProperties.Level = 69;
+            newDogtag.DogtagProperties.UpdateProperties();
+            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(newDogtag);
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingDogtag.json");
+            AppData.Profile.Save(TestHelpers.profileFile, testFile);
+            AppData.Profile.Load(testFile);
+            var addedDogtag = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Tpl == newDogtag.Id).LastOrDefault();
+            Assert.NotNull(addedDogtag, "Added dogtag not founded");
+            Assert.AreNotEqual(addedDogtag.Upd.Dogtag.AccountId, AppData.Profile.Characters.Pmc.Aid);
+            Assert.AreNotEqual(addedDogtag.Upd.Dogtag.ProfileId, AppData.Profile.Characters.Pmc.Aid);
+            Assert.AreEqual(addedDogtag.Upd.Dogtag.KillerAccountId, AppData.Profile.Characters.Pmc.Aid);
+            Assert.AreEqual(addedDogtag.Upd.Dogtag.KillerProfileId, AppData.Profile.Characters.Pmc.PmcId);
+            Assert.IsFalse(string.IsNullOrEmpty(addedDogtag.Upd.Dogtag.Time));
+            Assert.AreEqual(addedDogtag.Upd.Dogtag.KillerName, AppData.Profile.Characters.Pmc.Info.Nickname);
+            Assert.IsTrue(addedDogtag.Upd.Dogtag.WeaponName.EndsWith(" Name"));
+            Assert.IsTrue(addedDogtag.Upd.Dogtag.WeaponName.Length > " Name".Length);
+            Assert.AreEqual(addedDogtag.Upd.Dogtag.Nickname, "Test");
+            Assert.AreEqual(addedDogtag.Upd.Dogtag.Level, 69);
+            Assert.IsFalse(string.IsNullOrEmpty(addedDogtag.Upd.Dogtag.Status));
+            Assert.IsFalse(string.IsNullOrEmpty(addedDogtag.Upd.Dogtag.Side));
         }
 
         [Test]
