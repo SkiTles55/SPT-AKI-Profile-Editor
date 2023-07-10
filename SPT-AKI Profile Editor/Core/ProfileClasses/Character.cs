@@ -12,6 +12,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class Character : TemplateableEntity
     {
         private string aid;
+        private string pmcId;
         private CharacterInfo info;
         private CharacterCustomization customization;
         private CharacterHealth health;
@@ -35,6 +36,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 aid = value;
                 OnPropertyChanged("Aid");
+            }
+        }
+
+        [JsonProperty("_id")]
+        public string PmcId
+        {
+            get => pmcId;
+            set
+            {
+                pmcId = value;
+                OnPropertyChanged("PmcId");
             }
         }
 

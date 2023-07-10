@@ -389,7 +389,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                tarkovItem.AddingQuantity,
                                tarkovItem.AddingFir,
                                slotId,
-                               tarkovItem.Properties.StackMaxSize);
+                               tarkovItem.Properties.StackMaxSize,
+                               null,
+                               null,
+                               null,
+                               tarkovItem.DogtagProperties);
         }
 
         private void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, string slotId)
@@ -417,7 +421,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                         int stackSize,
                                         string rootId = null,
                                         IEnumerable<InventoryItem> innerItems = null,
-                                        string tag = null)
+                                        string tag = null,
+                                        DogtagProperties dogtagProperties = null)
         {
             int stacks = count / stackSize;
             if (stackSize * stacks < count) stacks++;
@@ -436,6 +441,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 var upd = new ItemUpd { StackObjectsCount = count > stackSize ? stackSize : count, SpawnedInSession = fir };
                 if (!string.IsNullOrEmpty(tag))
                     upd.Tag = new Tag { Name = tag };
+                if (dogtagProperties != null)
+                {
+                    dogtagProperties.UpdateProperties();
+                    upd.Dogtag = dogtagProperties;
+                }
                 AddItemToList(items, rootNewId, container.Id, slotId, itemTpl, location, upd);
                 AddInnerItems(rootId, rootNewId, fir);
                 count -= stackSize;

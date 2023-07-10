@@ -57,5 +57,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonProperty("Recoil")]
         public float Recoil { get; set; }
+
+        [JsonProperty("DogTagQualities")]
+        public bool DogTagQualities { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         [JsonIgnore]
         public bool AddingFir { get; set; } = false;
+
+        [JsonIgnore]
+        public DogtagProperties DogtagProperties { get; set; }
 
         [JsonIgnore]
         public virtual string LocalizedName { get; set; }

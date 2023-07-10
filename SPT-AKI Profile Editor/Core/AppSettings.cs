@@ -86,6 +86,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private bool fastModeOpened = false;
         private bool? checkUpdates;
         private string ragfairTraderId;
+        private string bearDogtagTpl;
 
         public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
@@ -380,6 +381,16 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public string BearDogtagTpl
+        {
+            get => bearDogtagTpl;
+            set
+            {
+                bearDogtagTpl = value;
+                NotifyPropertyChangedAndSave("BearDogtagTpl");
+            }
+        }
+
         public List<string> BannedItems
         {
             get => bannedItems;
@@ -460,7 +471,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 + MoneysDollarsTpl
                 + MoneysEurosTpl
                 + MoneysRublesTpl
-                + RagfairTraderId;
+                + RagfairTraderId
+                + BearDogtagTpl;
         }
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
@@ -584,6 +596,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BannedItems = loaded.BannedItems;
             BannedMasterings = loaded.bannedMasterings;
             IssuesAction = loaded.IssuesAction;
+            BearDogtagTpl = loaded.BearDogtagTpl;
         }
 
         private bool CheckValues()
@@ -734,6 +747,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 RagfairTraderId = DefaultValues.RagfairTraderId;
                 _needReSave = true;
             }
+            if (BearDogtagTpl == null)
+            {
+                BearDogtagTpl = DefaultValues.BearDogtagTpl;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -770,6 +788,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BannedItems = DefaultValues.BannedItems;
             BannedMasterings = DefaultValues.BannedMasterings;
             IssuesAction = DefaultValues.DefaultIssuesAction;
+            BearDogtagTpl = DefaultValues.BearDogtagTpl;
             Logger.Log($"Default configuration file created");
             Save();
         }
