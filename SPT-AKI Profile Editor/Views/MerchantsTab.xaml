@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
@@ -34,9 +33,8 @@
                         BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -95,28 +93,6 @@
                                 NumericInputMode="Numbers"
                                 TextAlignment="Left"
                                 Value="{Binding Path=LoyaltyLevel, UpdateSourceTrigger=PropertyChanged}" />
-                            <Button
-                                Grid.Row="2"
-                                Grid.Column="2"
-                                Width="26"
-                                Height="26"
-                                Margin="3,0,6,0"
-                                VerticalAlignment="Center"
-                                Command="{Binding Path=RevertChange}"
-                                CommandParameter="LoyaltyLevel"
-                                DockPanel.Dock="Right"
-                                IsEnabled="{Binding Path=IsLoyaltyLevelChanged}">
-                                <Button.ContentTemplate>
-                                    <DataTemplate>
-                                        <iconPacks:PackIconFontAwesome
-                                            Width="10"
-                                            Height="10"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Kind="UndoSolid" />
-                                    </DataTemplate>
-                                </Button.ContentTemplate>
-                            </Button>
                             <Label
                                 Grid.Row="3"
                                 Grid.Column="0"
@@ -138,28 +114,6 @@
                                 StringFormat="N2"
                                 TextAlignment="Left"
                                 Value="{Binding Path=Standing, UpdateSourceTrigger=PropertyChanged}" />
-                            <Button
-                                Grid.Row="3"
-                                Grid.Column="2"
-                                Width="26"
-                                Height="26"
-                                Margin="3,0,6,0"
-                                VerticalAlignment="Center"
-                                Command="{Binding Path=RevertChange}"
-                                CommandParameter="Standing"
-                                DockPanel.Dock="Right"
-                                IsEnabled="{Binding Path=IsStandingChanged}">
-                                <Button.ContentTemplate>
-                                    <DataTemplate>
-                                        <iconPacks:PackIconFontAwesome
-                                            Width="10"
-                                            Height="10"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Kind="UndoSolid" />
-                                    </DataTemplate>
-                                </Button.ContentTemplate>
-                            </Button>
                             <Label
                                 Grid.Row="4"
                                 Grid.Column="0"
