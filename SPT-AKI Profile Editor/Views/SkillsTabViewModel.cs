@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 setAllPmcSkillsValue = Math.Min(MaxSkillsValue, value);
-                OnPropertyChanged("SetAllPmcSkillsValue");
+                OnPropertyChanged(nameof(SetAllPmcSkillsValue));
             }
         }
 
@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 setAllScavSkillsValue = Math.Min(MaxSkillsValue, value);
-                OnPropertyChanged("SetAllScavSkillsValue");
+                OnPropertyChanged(nameof(SetAllScavSkillsValue));
             }
         }
 

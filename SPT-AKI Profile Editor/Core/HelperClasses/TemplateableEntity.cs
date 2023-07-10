@@ -15,6 +15,8 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
 
         public abstract string TemplateLocalizedName { get; }
 
+        public bool HasChanges => changedValues.Any();
+
         public RelayCommand RevertChange => new(obj =>
         {
             if (obj is string propertyName && startValues.ContainsKey(propertyName))
@@ -27,9 +29,9 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
         public TemplateEntity GetAllChanges()
         {
             var templateEntities = GetChangesList();
-            if (changedValues.Count > 0 || templateEntities != null)
+            if (HasChanges || templateEntities != null)
                 return new(TemplateEntityId,
-                           changedValues.Count > 0 ? changedValues : null,
+                           HasChanges ? changedValues : null,
                            templateEntities,
                            TemplateLocalizedName,
                            startValues,
@@ -42,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                                                          GetChangesList(),
                                                          TemplateLocalizedName,
                                                          startValues,
-                                                         null);
+                                                         RevertChange);
 
         public void ApplyTemplate(TemplateEntity template)
         {
@@ -89,6 +91,7 @@ namespace SPT_AKI_Profile_Editor.Core.HelperClasses
                 oldValue = newValue;
                 OnPropertyChanged(name);
                 OnPropertyChanged($"Is{name}Changed");
+                OnPropertyChanged(nameof(HasChanges));
             }
         }
 
