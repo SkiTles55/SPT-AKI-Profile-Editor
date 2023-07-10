@@ -52,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool CanAddItems => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.Grids?.Length == 1;
 
         [JsonIgnore]
-        public bool IsWeapon => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].Properties?.RecoilForceUp != 0;
+        public bool IsWeapon => IsInItemsDB && AppData.ServerDatabase.ItemsDB[Tpl].IsWeapon;
 
         [JsonIgnore]
         private string GlobalName =>

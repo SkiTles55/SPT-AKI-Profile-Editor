@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
@@ -42,9 +43,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public int SlotsCount { get; }
 
         [JsonIgnore]
+        public bool IsWeapon => Properties?.RecoilForceUp != 0;
+
+        [JsonIgnore]
         public BitmapSource CategoryIcon => AppData.ServerDatabase?.HandbookHelper?.GetItemCategory(Id)?.BitmapIcon;
 
-        public static TarkovItem CopyFrom(TarkovItem item) => new(item.Id, item.Properties, item.Parent, item.Type);
+        public static TarkovItem CopyFrom(TarkovItem item)
+        {
+            TarkovItem tarkovItem = new(item.Id, item.Properties, item.Parent, item.Type);
+            tarkovItem.AppendDogtagProperties();
+            return tarkovItem;
+        }
 
         public ExaminedItem GetExaminedItem() => new(Id, LocalizedName, CategoryIcon);
 
@@ -57,6 +66,14 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     slots += grid.Props.CellsH * grid.Props.CellsV;
             }
             return slots;
+        }
+
+        private void AppendDogtagProperties()
+        {
+            if (Properties == null || !Properties.DogTagQualities)
+                return;
+            var side = Id == AppData.AppSettings.BearDogtagTpl ? PMCSide.Bear.ToString() : PMCSide.Usec.ToString();
+            DogtagProperties = new(side, "Nickname", 1);
         }
     }
 }
