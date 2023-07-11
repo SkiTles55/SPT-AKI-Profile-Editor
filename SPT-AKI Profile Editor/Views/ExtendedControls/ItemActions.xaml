@@ -24,7 +24,7 @@
             Command="{Binding ElementName=Control, Path=InspectWeapon}"
             CommandParameter="{Binding ElementName=Control, Path=Item}"
             ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_inspect]}"
-            Visibility="{Binding ElementName=Control, Path=Item.IsWeapon, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Visibility="{Binding ElementName=Control, Path=Item.IsWeapon, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
             <Button.ContentTemplate>
                 <DataTemplate>
                     <iconPacks:PackIconFontAwesome
@@ -43,7 +43,7 @@
             Command="{Binding ElementName=Control, Path=OpenContainer}"
             CommandParameter="{Binding ElementName=Control, Path=Item}"
             ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_open]}"
-            Visibility="{Binding ElementName=Control, Path=Item.IsContainer, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Visibility="{Binding ElementName=Control, Path=Item.IsContainer, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
             <Button.ContentTemplate>
                 <DataTemplate>
                     <iconPacks:PackIconFontAwesome
