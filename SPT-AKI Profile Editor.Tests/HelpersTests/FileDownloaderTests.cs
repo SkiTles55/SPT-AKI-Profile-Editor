@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.IO;
@@ -8,6 +9,10 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
 {
     internal class FileDownloaderTests
     {
+        [OneTimeSetUp]
+        public void Setup() => AppData.AppSettings.Load();
+
+
         [Test]
         public void CanInitialize()
         {

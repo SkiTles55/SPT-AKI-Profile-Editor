@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
@@ -55,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             ReloadProfileAndCheckChanges();
             AppData.Profile.ApplyTemplate(result);
             CheckSkillChanges(3, true, "Common");
-            Assert.That(AppData.Profile.Characters.Pmc.Skills.Common.All(x => !skills.Any(s => s.Id == x.Id) || x.Progress == 900),
+            Assert.That(AppData.Profile.Characters.Pmc.Skills.Common.All(x => !skills.Any(s => s.Id == x.Id) || x.Progress == Math.Min(900, x.MaxValue)),
                         Is.True,
                         "Skills progress changes not applied");
         }
@@ -75,7 +74,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             ReloadProfileAndCheckChanges();
             AppData.Profile.ApplyTemplate(result);
             CheckSkillChanges(5, true, "Mastering");
-            Assert.That(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => !skills.Any(s => s.Id == x.Id) || x.Progress == 300),
+            Assert.That(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => !skills.Any(s => s.Id == x.Id) || x.Progress == Math.Min(300, x.MaxValue)),
                         Is.True,
                         "Skills progress changes not applied");
         }
