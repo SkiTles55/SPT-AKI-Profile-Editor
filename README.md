@@ -55,3 +55,6 @@
 ![Скриншот5](/screenshots/5.PNG?raw=true)
 ![Скриншот6](/screenshots/6.PNG?raw=true)
 ![Скриншот7](/screenshots/7.PNG?raw=true)
+
+### Полезное
+[Сборки оружия для квестов Механика (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)
