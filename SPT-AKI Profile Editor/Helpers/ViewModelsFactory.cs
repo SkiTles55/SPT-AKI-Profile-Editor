@@ -23,6 +23,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             StashTab = new(dialogManager, worker, applicationManager);
             ClothingTab = new();
             WeaponBuildsTab = new(dialogManager, worker, windowsDialogs);
+            CleaningFromModsTab = new();
             BackupsTab = new(dialogManager, worker);
             AboutTab = new(applicationManager);
         }
@@ -48,6 +49,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public ClothingTabViewModel ClothingTab { get; }
 
         public WeaponBuildsViewModel WeaponBuildsTab { get; }
+
+        public CleaningFromModsViewModel CleaningFromModsTab { get; }
 
         public BackupsTabViewModel BackupsTab { get; }
 

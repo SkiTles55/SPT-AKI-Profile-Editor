@@ -16,6 +16,8 @@
 
         private StashTab stashTab;
 
+        private CleaningFromModsTab cleaningFromModsTab;
+
         public GridFilters()
         {
             QuestsTab = new();
@@ -23,6 +25,7 @@
             SkillsTab = new();
             MasteringTab = new();
             StashTab = new();
+            CleaningFromModsTab = new();
         }
 
         public QuestsTab QuestsTab
@@ -95,6 +98,16 @@
             }
         }
 
+        public CleaningFromModsTab CleaningFromModsTab
+        {
+            get => cleaningFromModsTab;
+            set
+            {
+                cleaningFromModsTab = value;
+                OnPropertyChanged("CleaningFromModsTab");
+            }
+        }
+
         public void Clear()
         {
             QuestsTab = new();
@@ -104,6 +117,7 @@
             StashTab = new();
             ExaminedItemsFilter = string.Empty;
             ClothingNameFilter = string.Empty;
+            CleaningFromModsTab = new();
         }
     }
 }
