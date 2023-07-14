@@ -55,3 +55,6 @@
 ![Screenshot5](/screenshots/5EN.PNG?raw=true)
 ![Screenshot6](/screenshots/6EN.PNG?raw=true)
 ![Screenshot7](/screenshots/7EN.PNG?raw=true)
+
+### Helpful
+[Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)
