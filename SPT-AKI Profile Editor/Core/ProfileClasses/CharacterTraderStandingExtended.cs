@@ -36,8 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get => TraderStanding.LoyaltyLevel;
             set
             {
-                if (levelStart == null)
-                    levelStart = TraderStanding.LoyaltyLevel;
+                levelStart ??= TraderStanding.LoyaltyLevel;
                 value = Math.Min(Math.Max(value, 1), MaxLevel);
                 TraderStanding.LoyaltyLevel = value;
                 OnPropertyChanged("LoyaltyLevel");
@@ -81,8 +80,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void SetSalesSum(int level)
         {
-            if (salesSumStart == null)
-                salesSumStart = TraderStanding.SalesSum;
+            salesSumStart ??= TraderStanding.SalesSum;
             var minSalesSum = TraderBase?.LoyaltyLevels[level - 1].MinSalesSum ?? TraderStanding.SalesSum;
             TraderStanding.SalesSum = level >= levelStart ? Math.Max(minSalesSum, salesSumStart.Value) : Math.Min(minSalesSum, salesSumStart.Value);
             OnPropertyChanged("SalesSum");
@@ -90,8 +88,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void SetStanding(int level)
         {
-            if (staindingStart == null)
-                staindingStart = TraderStanding.Standing;
+            staindingStart ??= TraderStanding.Standing;
             var minStanding = TraderBase?.LoyaltyLevels[level - 1].MinStanding ?? TraderStanding.Standing;
             TraderStanding.Standing = level >= levelStart ? Math.Max(minStanding, staindingStart.Value) : Math.Min(minStanding, staindingStart.Value);
             OnPropertyChanged("Standing");
@@ -99,8 +96,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void SetUnlocked(int level)
         {
-            if (unlockedStart == null)
-                unlockedStart = TraderStanding.Unlocked;
+            unlockedStart ??= TraderStanding.Unlocked;
             TraderStanding.Unlocked = level > 1 || unlockedStart.Value;
         }
 

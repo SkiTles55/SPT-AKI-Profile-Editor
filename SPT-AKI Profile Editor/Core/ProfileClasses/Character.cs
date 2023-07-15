@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 aid = value;
-                OnPropertyChanged("Aid");
+                OnPropertyChanged(nameof(Aid));
             }
         }
 
@@ -46,40 +46,37 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 pmcId = value;
-                OnPropertyChanged("PmcId");
+                OnPropertyChanged(nameof(PmcId));
             }
         }
 
-        [JsonProperty("Info")]
         public CharacterInfo Info
         {
             get => info;
             set
             {
                 info = value;
-                OnPropertyChanged("Info");
+                OnPropertyChanged(nameof(Info));
             }
         }
 
-        [JsonProperty("Customization")]
         public CharacterCustomization Customization
         {
             get => customization;
             set
             {
                 customization = value;
-                OnPropertyChanged("Customization");
+                OnPropertyChanged(nameof(Customization));
             }
         }
 
-        [JsonProperty("Health")]
         public CharacterHealth Health
         {
             get => health;
             set
             {
                 health = value;
-                OnPropertyChanged("Health");
+                OnPropertyChanged(nameof(Health));
             }
         }
 
@@ -90,8 +87,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 traderStandings = value;
-                OnPropertyChanged("TraderStandings");
-                OnPropertyChanged("TraderStandingsExt");
+                OnPropertyChanged(nameof(TraderStandings));
+                OnPropertyChanged(nameof(TraderStandingsExt));
             }
         }
 
@@ -101,74 +98,68 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 ragfairInfo = value;
-                OnPropertyChanged("RagfairInfo");
-                OnPropertyChanged("TraderStandingsExt");
+                OnPropertyChanged(nameof(RagfairInfo));
+                OnPropertyChanged(nameof(TraderStandingsExt));
             }
         }
 
-        [JsonProperty("Hideout")]
         public CharacterHideout Hideout
         {
             get => hideout;
             set
             {
                 hideout = value;
-                OnPropertyChanged("Hideout");
+                OnPropertyChanged(nameof(Hideout));
             }
         }
 
-        [JsonProperty("Quests")]
         public CharacterQuest[] Quests
         {
             get => quests;
             set
             {
                 quests = value;
-                OnPropertyChanged("Quests");
+                OnPropertyChanged(nameof(Quests));
             }
         }
 
-        [JsonProperty("RepeatableQuests")]
         public CharacterRepeatableQuest[] RepeatableQuests
         {
             get => repeatableQuests;
             set
             {
                 repeatableQuests = value;
-                OnPropertyChanged("RepeatableQuests");
+                OnPropertyChanged(nameof(RepeatableQuests));
             }
         }
 
-        [JsonProperty("Skills")]
         public CharacterSkills Skills
         {
             get => skills;
             set
             {
                 skills = value;
-                OnPropertyChanged("Skills");
+                OnPropertyChanged(nameof(Skills));
             }
         }
 
-        [JsonProperty("Encyclopedia")]
         public Dictionary<string, bool> Encyclopedia
         {
             get => encyclopedia;
             set
             {
                 encyclopedia = value;
-                OnPropertyChanged("Encyclopedia");
+                OnPropertyChanged(nameof(Encyclopedia));
             }
         }
 
-        [JsonProperty("Inventory")]
         public CharacterInventory Inventory
         {
             get => inventory;
             set
             {
                 inventory = value;
-                OnPropertyChanged("Inventory");
+                OnPropertyChanged(nameof(Inventory));
             }
         }
 
@@ -197,8 +188,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             foreach (var trader in TraderStandingsExt)
                 trader.LoyaltyLevel = trader.MaxLevel;
-            OnPropertyChanged("TraderStandings");
-            OnPropertyChanged("TraderStandingsExt");
+            OnPropertyChanged(nameof(TraderStandings));
+            OnPropertyChanged(nameof(TraderStandingsExt));
         }
 
         public void SetAllQuests(QuestStatus status)
@@ -235,9 +226,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 && !Encyclopedia.Any(c => c.Key == x.Key)
                 && AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Key.Name())))
                 Encyclopedia.Add(item.Key, true);
-            OnPropertyChanged("ExaminedItems");
+            OnPropertyChanged(nameof(ExaminedItems));
         }
 
-        private static TraderBase GetTraderInfo(string key) => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
+        private static TraderBase GetTraderInfo(string key)
+            => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
     }
 }

@@ -38,8 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (!Type.GetAvailableStatuses().Contains(newStatus))
                     newStatus = GetNewStatus(newStatus);
                 status = newStatus;
-                if (StatusTimers == null)
-                    StatusTimers = new();
+                StatusTimers ??= new();
                 if (!StatusTimers.ContainsKey(newStatus))
                     StatusTimers.Add(newStatus, ExtMethods.GetTimestamp);
                 OnPropertyChanged("Status");
