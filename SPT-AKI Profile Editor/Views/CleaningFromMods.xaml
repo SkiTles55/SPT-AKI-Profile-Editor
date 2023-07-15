@@ -67,7 +67,61 @@
                                             Loaded="Expander_Loaded">
                                             <Expander.Header>
                                                 <DockPanel>
-                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+                                                    <TextBlock
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        DockPanel.Dock="Left"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding Path=Name}" />
+                                                    <StackPanel
+                                                        Margin="5,0,0,0"
+                                                        DockPanel.Dock="Right"
+                                                        Orientation="Horizontal">
+                                                        <Button
+                                                            MaxHeight="15"
+                                                            Margin="5"
+                                                            Command="{Binding Data.SelectAll, Source={StaticResource proxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="{Binding Data.AppLocalization.Translations[button_select_all], Source={StaticResource proxy}}">
+                                                            <Button.ContentTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <iconPacks:PackIconFontAwesome
+                                                                            Width="15"
+                                                                            Height="15"
+                                                                            VerticalAlignment="Center"
+                                                                            Kind="TasksSolid" />
+                                                                        <TextBlock
+                                                                            Margin="5,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </Button.ContentTemplate>
+                                                        </Button>
+                                                        <Button
+                                                            MaxHeight="15"
+                                                            Margin="5"
+                                                            Command="{Binding Data.DeselectAll, Source={StaticResource proxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="{Binding Data.AppLocalization.Translations[button_deselect_all], Source={StaticResource proxy}}">
+                                                            <Button.ContentTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <iconPacks:PackIconFontAwesome
+                                                                            Width="15"
+                                                                            Height="15"
+                                                                            VerticalAlignment="Center"
+                                                                            Kind="ListSolid" />
+                                                                        <TextBlock
+                                                                            Margin="5,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </Button.ContentTemplate>
+                                                        </Button>
+                                                    </StackPanel>
                                                 </DockPanel>
                                             </Expander.Header>
                                             <ItemsPresenter />

@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public void LoadEntitiesList();
 
-        public void MarkAll(bool forRemoving);
+        public void MarkAll(bool forRemoving, ModdedEntityType? type = null);
 
         public void RemoveSelected(RelayCommand saveCommand, IDialogManager dialogManager);
     }
@@ -56,9 +56,9 @@ namespace SPT_AKI_Profile_Editor.Core
             ModdedEntities = compositeCollection;
         }
 
-        public void MarkAll(bool forRemoving)
+        public void MarkAll(bool forRemoving, ModdedEntityType? type = null)
         {
-            foreach (var entity in ModdedEntities)
+            foreach (var entity in ModdedEntities.Where(x => type == null || x.Type == type))
                 entity.MarkedForRemoving = forRemoving;
         }
 
