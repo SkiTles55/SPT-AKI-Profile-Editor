@@ -4,11 +4,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class ModdedEntity
     {
-        public ModdedEntity(string id, ModdedEntityType type, bool canBeRemovedWithoutSave)
+        public ModdedEntity(string id,
+                            ModdedEntityType type,
+                            bool canBeRemovedWithoutSave,
+                            bool markedForRemoving)
         {
             Id = id;
             Type = type;
             CanBeRemovedWithoutSave = canBeRemovedWithoutSave;
+            MarkedForRemoving = markedForRemoving;
         }
 
         public string Id { get; }

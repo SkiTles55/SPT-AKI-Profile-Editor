@@ -23,8 +23,20 @@
         </CollectionViewSource>
     </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
         <DataGrid
             x:Name="itemsGrid"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"

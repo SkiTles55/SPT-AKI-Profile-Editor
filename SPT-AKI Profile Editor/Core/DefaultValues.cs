@@ -29,6 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const string RagfairTraderId = "ragfair";
+        public const string EndlessDevBackpackId = "56e294cdd2720b603a8b4575";
         public const string BearDogtagTpl = "59f32bb586f774757e1e8442";
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
@@ -185,7 +186,9 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_clearing_from_mods_title"] = "Clearing from mods",
                     ["tab_clearing_from_mods_pmc_inventory_item"] = "PMC Inventory item",
                     ["tab_clearing_from_mods_scav_inventory_item"] = "Scav Inventory item",
-                    ["tab_clearing_from_mods_scav_quest"] = "Quest",
+                    ["tab_clearing_from_mods_quest"] = "Quest",
+                    ["tab_clearing_from_mods_examined_item"] = "Examined item",
+                    ["tab_clearing_from_mods_merchant"] = "Merchant",
                     ["tab_backups_title"] = "Backups",
                     ["tab_backups_date"] = "Date",
                     ["tab_backups_actions"] = "Actions",
@@ -390,7 +393,9 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_clearing_from_mods_title"] = "Очистка от модов",
                     ["tab_clearing_from_mods_pmc_inventory_item"] = "Предмет в инвентаре ЧВК",
                     ["tab_clearing_from_mods_scav_inventory_item"] = "Предмет в инвентаре Дикого",
-                    ["tab_clearing_from_mods_scav_quest"] = "Квест",
+                    ["tab_clearing_from_mods_quest"] = "Квест",
+                    ["tab_clearing_from_mods_examined_item"] = "Изученный предмет",
+                    ["tab_clearing_from_mods_merchant"] = "Торговец",
                     ["tab_backups_title"] = "Бэкапы",
                     ["tab_backups_date"] = "Дата",
                     ["tab_backups_actions"] = "Действия",
