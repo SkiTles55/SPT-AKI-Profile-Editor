@@ -5,12 +5,14 @@ using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
     public class CleaningService : BindableEntity
     {
+        private readonly List<PropertyChangedEventHandler> changedHandlers = new();
         private ObservableCollection<ModdedEntity> moddedEntities;
 
         public ObservableCollection<ModdedEntity> ModdedEntities
@@ -20,8 +22,14 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 moddedEntities = value;
                 OnPropertyChanged(nameof(ModdedEntities));
+                OnPropertyChanged(nameof(CanDeselectAny));
+                OnPropertyChanged(nameof(CanSelectAll));
             }
         }
+
+        public bool CanDeselectAny => ModdedEntities?.Any(x => x.MarkedForRemoving) ?? false;
+
+        public bool CanSelectAll => ModdedEntities?.Any(x => !x.MarkedForRemoving) ?? false;
 
         public void LoadEntitesList()
         {
@@ -39,8 +47,44 @@ namespace SPT_AKI_Profile_Editor.Core
             ModdedEntities = compositeCollection;
         }
 
+        public void MarkAll(bool forRemoving)
+        {
+            foreach (var entity in ModdedEntities)
+                entity.MarkedForRemoving = forRemoving;
+        }
+
+        public void RemoveSelected()
+        {
+            foreach (var entity in ModdedEntities.Where(x => x.MarkedForRemoving))
+            {
+                switch (entity.Type)
+                {
+                    case ModdedEntityType.PmcInventoryItem:
+                        AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new() { entity.Id });
+                        break;
+
+                    case ModdedEntityType.ScavInventoryItem:
+                        AppData.Profile.Characters.Scav.Inventory.RemoveItems(new() { entity.Id });
+                        break;
+
+                    case ModdedEntityType.ExaminedItem:
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            LoadEntitesList();
+        }
+
+        private void ChildChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(CanDeselectAny));
+            OnPropertyChanged(nameof(CanSelectAll));
+        }
+
         private void GetModdedInventoryItems(InventoryItem[] inventoryItems,
-                                             ModdedEntityType type,
+                                                                             ModdedEntityType type,
                                              ObservableCollection<ModdedEntity> compositeCollection)
         {
             if (inventoryItems != null)
@@ -91,10 +135,13 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 var id = idSelector.Invoke(value);
                 var existedEntity = ModdedEntities?.FirstOrDefault(x => x.Id == id);
-                compositeCollection.Add(new ModdedEntity(id,
-                                                         type,
-                                                         type.CanBeRemovedWithoutSave(),
-                                                         existedEntity?.MarkedForRemoving ?? false));
+                ModdedEntity newEntity = new(id,
+                                              type,
+                                              existedEntity?.MarkedForRemoving ?? false);
+                compositeCollection.Add(newEntity);
+                PropertyChangedEventHandler eventHandler = new(ChildChanged);
+                newEntity.PropertyChanged += eventHandler;
+                changedHandlers.Add(eventHandler);
             }
         }
     }

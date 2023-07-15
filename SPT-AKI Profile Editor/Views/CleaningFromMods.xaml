@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -90,6 +91,16 @@
             </DataGrid.GroupStyle>
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="Auto" SortMemberPath="MarkedForRemoving">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="CheckSquareRegular" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox Margin="5" IsChecked="{Binding Path=MarkedForRemoving, UpdateSourceTrigger=PropertyChanged}" />
@@ -133,5 +144,77 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            MinWidth="170"
+            Margin="5,10,5,0"
+            Command="{Binding SelectAll}"
+            Content="{Binding AppLocalization.Translations[button_select_all]}"
+            IsEnabled="{Binding CleaningService.CanSelectAll}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFontAwesome
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Kind="TasksSolid" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            MinWidth="170"
+            Margin="5,10,5,0"
+            Command="{Binding DeselectAll}"
+            Content="{Binding AppLocalization.Translations[button_deselect_all]}"
+            IsEnabled="{Binding CleaningService.CanDeselectAny}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFontAwesome
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Kind="ListSolid" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            MinWidth="170"
+            Margin="5,10,5,0"
+            Command="{Binding RemoveSelected}"
+            Content="{Binding AppLocalization.Translations[button_remove_selected]}"
+            IsEnabled="{Binding CleaningService.CanDeselectAny}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFontAwesome
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Kind="TrashAltSolid" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
     </Grid>
 </UserControl>
