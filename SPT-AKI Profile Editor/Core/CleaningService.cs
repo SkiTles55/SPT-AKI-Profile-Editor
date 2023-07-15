@@ -10,7 +10,16 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class CleaningService : BindableEntity
+    public interface ICleaningService
+    {
+        public void LoadEntitiesList();
+
+        public void MarkAll(bool forRemoving);
+
+        public void RemoveSelected(RelayCommand saveCommand, IDialogManager dialogManager);
+    }
+
+    public class CleaningService : BindableEntity, ICleaningService
     {
         private readonly List<PropertyChangedEventHandler> changedHandlers = new();
         private ObservableCollection<ModdedEntity> moddedEntities;
@@ -31,7 +40,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public bool CanSelectAll => ModdedEntities?.Any(x => !x.MarkedForRemoving) ?? false;
 
-        public void LoadEntitesList()
+        public void LoadEntitiesList()
         {
             var compositeCollection = new ObservableCollection<ModdedEntity>();
             GetModdedInventoryItems(AppData.Profile?.Characters?.Pmc?.Inventory.Items,
@@ -53,9 +62,16 @@ namespace SPT_AKI_Profile_Editor.Core
                 entity.MarkedForRemoving = forRemoving;
         }
 
-        public void RemoveSelected()
+        public async void RemoveSelected(RelayCommand saveCommand, IDialogManager dialogManager)
         {
-            foreach (var entity in ModdedEntities.Where(x => x.MarkedForRemoving))
+            var entitiesForRemove = ModdedEntities.Where(x => x.MarkedForRemoving);
+            var needToSaveProfile = entitiesForRemove.Any(x => !x.Type.CanBeRemovedWithoutSave());
+            var saveAllowed = needToSaveProfile && await dialogManager.YesNoDialog("Test1", "Test2");
+
+            if (needToSaveProfile && !saveAllowed)
+                return;
+
+            foreach (var entity in entitiesForRemove.Where(x => x.MarkedForRemoving))
             {
                 switch (entity.Type)
                 {
@@ -80,7 +96,14 @@ namespace SPT_AKI_Profile_Editor.Core
                         break;
                 }
             }
-            LoadEntitesList();
+
+            if (saveAllowed)
+            {
+                saveCommand.Execute(null);
+                return;
+            }
+
+            LoadEntitiesList();
         }
 
         private void ChildChanged(object sender, PropertyChangedEventArgs e)

@@ -1,7 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using SPT_AKI_Profile_Editor.Views.ExtendedControls;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;

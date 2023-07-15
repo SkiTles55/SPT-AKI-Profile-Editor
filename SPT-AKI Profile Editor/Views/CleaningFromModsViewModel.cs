@@ -5,14 +5,25 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class CleaningFromModsViewModel : BindableViewModel
     {
-        public CleaningService CleaningService { get; } = new();
+        private readonly IDialogManager _dialogManager;
+        private readonly RelayCommand _saveCommand;
 
-        public RelayCommand UpdateEntityList => new(obj => CleaningService.LoadEntitesList());
+        public CleaningFromModsViewModel(IDialogManager dialogManager,
+                                         RelayCommand saveCommand,
+                                         ICleaningService cleaningService)
+        {
+            _dialogManager = dialogManager;
+            _saveCommand = saveCommand;
+            CleaningService = cleaningService;
+        }
 
-        public RelayCommand SelectAll => new(obj => CleaningService.MarkAll(true));
+        public ICleaningService CleaningService { get; }
+        public RelayCommand UpdateEntityList => new(obj => CleaningService?.LoadEntitiesList());
 
-        public RelayCommand DeselectAll => new(obj => CleaningService.MarkAll(false));
+        public RelayCommand SelectAll => new(obj => CleaningService?.MarkAll(true));
 
-        public RelayCommand RemoveSelected => new(obj => CleaningService.RemoveSelected());
+        public RelayCommand DeselectAll => new(obj => CleaningService?.MarkAll(false));
+
+        public RelayCommand RemoveSelected => new(obj => CleaningService?.RemoveSelected(_saveCommand, _dialogManager));
     }
 }

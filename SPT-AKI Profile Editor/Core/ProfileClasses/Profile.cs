@@ -13,6 +13,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Profile : BindableEntity
     {
+        [JsonIgnore]
+        public List<ModdedEntity> ModdedEntitiesForRemoving = new();
+
         private ProfileCharacters characters;
 
         private string[] suits;
@@ -66,9 +69,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public int ProfileHash => profileHash;
-
-        [JsonIgnore]
-        public List<ModdedEntity> ModdedEntitiesForRemoving = new();
 
         public static void ExportBuild(WeaponBuild weaponBuild, string path)
         {
