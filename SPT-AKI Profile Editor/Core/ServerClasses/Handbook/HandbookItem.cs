@@ -15,10 +15,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 .Value;
         }
 
-        [JsonProperty("Id")]
         public string Id { get; set; }
 
-        [JsonProperty("ParentId")]
         public string ParentId { get; set; }
 
         [JsonIgnore]

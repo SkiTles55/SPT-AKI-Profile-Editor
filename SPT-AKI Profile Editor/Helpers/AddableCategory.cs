@@ -18,10 +18,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         [JsonIgnore]
         public virtual ObservableCollection<AddableItem> Items { get; set; }
 
-        [JsonProperty("ParentId")]
         public string ParentId { get; set; }
 
-        [JsonProperty("Icon")]
         public string Icon { get; set; }
 
         [JsonIgnore]
@@ -34,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             set
             {
                 localizedName = value;
-                OnPropertyChanged("LocalizedName");
+                OnPropertyChanged(nameof(LocalizedName));
             }
         }
 
@@ -45,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             set
             {
                 isExpanded = value;
-                OnPropertyChanged("IsExpanded");
+                OnPropertyChanged(nameof(IsExpanded));
             }
         }
 

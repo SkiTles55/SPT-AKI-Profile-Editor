@@ -52,8 +52,7 @@ namespace SPT_AKI_Profile_Editor
         {
             get
             {
-                if (categoriesForItemsAdding == null)
-                    categoriesForItemsAdding = ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter(_item.Tpl);
+                categoriesForItemsAdding ??= ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter(_item.Tpl);
                 return categoriesForItemsAdding;
             }
         }

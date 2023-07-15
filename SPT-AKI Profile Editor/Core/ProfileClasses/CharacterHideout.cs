@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -7,14 +6,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     {
         private HideoutArea[] areas;
 
-        [JsonProperty("Areas")]
         public HideoutArea[] Areas
         {
             get => areas;
             set
             {
                 areas = value;
-                OnPropertyChanged("Areas");
+                OnPropertyChanged(nameof(Areas));
             }
         }
     }
