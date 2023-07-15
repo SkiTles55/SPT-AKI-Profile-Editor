@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            BackupsTabViewModel viewModel = new(new TestsDialogManager(), null);
+            BackupsTabViewModel viewModel = new(new TestsDialogManager(), null, null);
             Assert.That(viewModel, Is.Not.Null);
         }
 
@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanCreateBackup()
         {
-            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             BackupsTabViewModel.BackupService.LoadBackupsList();
             var startCount = BackupsTabViewModel.BackupService.BackupList.Count();
             BackupsTabViewModel.BackupService.CreateBackup();
@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanRemoveBackup()
         {
-            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             BackupsTabViewModel.BackupService.CreateBackup();
             BackupsTabViewModel.BackupService.LoadBackupsList();
             var backupFile = BackupsTabViewModel.BackupService.BackupList.FirstOrDefault()?.Path;
@@ -49,7 +49,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             TestHelpers.LoadDatabaseAndProfile();
             var startValue = AppData.Profile.Characters.Scav.Info.Experience;
-            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker());
+            BackupsTabViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
             BackupsTabViewModel.BackupService.CreateBackup();
             BackupsTabViewModel.BackupService.LoadBackupsList();
             var backupFile = BackupsTabViewModel.BackupService.BackupList.FirstOrDefault()?.Path;
