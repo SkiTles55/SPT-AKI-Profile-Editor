@@ -252,7 +252,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var tradersIdsForRemove = ModdedEntitiesForRemoving
                 .Where(x => x.Type == ModdedEntityType.Merchant)
                 .Select(x => x.Id);
-            TradersInfo.RemoveFields(tradersIdsForRemove);
+            if (tradersIdsForRemove.Any())
+                TradersInfo.RemoveFields(tradersIdsForRemove);
             foreach (var trader in Characters.Pmc.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
             {
                 TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
@@ -309,12 +310,25 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
             void WriteQuests()
             {
+                var questQidsForRemove = ModdedEntitiesForRemoving
+                    .Where(x => x.Type == ModdedEntityType.Quest)
+                    .Select(x => x.Id);
+                List<JToken> questsForRemove = new();
+
                 var questsObject = pmc.SelectToken("Quests").ToObject<CharacterQuest[]>();
                 if (questsObject.Length > 0)
                 {
                     for (int index = 0; index < questsObject.Length; ++index)
                     {
-                        var quest = pmc.SelectToken("Quests")[index].ToObject<CharacterQuest>();
+                        var questToken = pmc.SelectToken("Quests")[index];
+                        var quest = questToken.ToObject<CharacterQuest>();
+
+                        if (questQidsForRemove.Contains(quest.Qid))
+                        {
+                            questsForRemove.Add(questToken);
+                            continue;
+                        }
+
                         var edited = Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
                         if (edited != null && quest != null && quest.Status != edited.Status)
                         {
@@ -324,6 +338,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                 pmc.SelectToken("Quests")[index]["completedConditions"].Replace(JToken.FromObject(Array.Empty<string>()));
                         }
                     }
+
+                    foreach (var token in questsForRemove)
+                        token.Remove();
+
                     foreach (var quest in Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
                         pmc.SelectToken("Quests").LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
                 }
