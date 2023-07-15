@@ -66,7 +66,8 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             var entitiesForRemove = ModdedEntities.Where(x => x.MarkedForRemoving);
             var needToSaveProfile = entitiesForRemove.Any(x => !x.Type.CanBeRemovedWithoutSave());
-            var saveAllowed = needToSaveProfile && await dialogManager.YesNoDialog("Test1", "Test2");
+            var saveAllowed = needToSaveProfile && await dialogManager.YesNoDialog(AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_title"),
+                                                                                   AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_save_dialog"));
 
             if (needToSaveProfile && !saveAllowed)
                 return;
