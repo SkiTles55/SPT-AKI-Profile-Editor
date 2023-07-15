@@ -68,6 +68,12 @@ namespace SPT_AKI_Profile_Editor.Core
                         break;
 
                     case ModdedEntityType.ExaminedItem:
+                        AppData.Profile.Characters.Pmc.RemoveExaminedItem(entity.Id);
+                        break;
+
+                    case ModdedEntityType.Merchant:
+                    case ModdedEntityType.Quest:
+                        AppData.Profile.ModdedEntitiesForRemoving.Add(entity);
                         break;
 
                     default:

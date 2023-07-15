@@ -229,6 +229,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             OnPropertyChanged(nameof(ExaminedItems));
         }
 
+        public void RemoveExaminedItem(string id)
+        {
+            if (Encyclopedia.ContainsKey(id))
+                Encyclopedia.Remove(id);
+            OnPropertyChanged(nameof(ExaminedItems));
+        }
+
         private static TraderBase GetTraderInfo(string key)
             => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
     }

@@ -67,6 +67,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public int ProfileHash => profileHash;
 
+        [JsonIgnore]
+        public List<ModdedEntity> ModdedEntitiesForRemoving = new();
+
         public static void ExportBuild(WeaponBuild weaponBuild, string path)
         {
             try
@@ -222,8 +225,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void ImportBuild(WeaponBuild weaponBuild)
         {
-            if (WeaponBuilds == null)
-                WeaponBuilds = new();
+            WeaponBuilds ??= new();
             int count = 1;
             string tempFileName = weaponBuild.Name;
             while (WeaponBuilds.ContainsKey(tempFileName))
@@ -247,7 +249,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteCharacterInfo(scav, Characters.Scav);
             pmc.SelectToken("Encyclopedia").Replace(JToken.FromObject(Characters.Pmc.Encyclopedia));
             JToken TradersInfo = pmc.SelectToken("TradersInfo");
-            foreach (var trader in Characters.Pmc.TraderStandings)
+            var tradersIdsForRemove = ModdedEntitiesForRemoving
+                .Where(x => x.Type == ModdedEntityType.Merchant)
+                .Select(x => x.Id);
+            TradersInfo.RemoveFields(tradersIdsForRemove);
+            foreach (var trader in Characters.Pmc.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
             {
                 TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
                 TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
