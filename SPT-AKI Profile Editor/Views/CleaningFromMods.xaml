@@ -189,7 +189,38 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <extendedcontrols:TextField DataContext="{Binding Path=Id}" />
+                            <extendedcontrols:TextField Margin="0,0,15,0" DataContext="{Binding Path=Id}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    Width="*"
+                    Header="{Binding Data.AppLocalization.Translations[tab_clearing_from_mods_tpl], Source={StaticResource proxy}}"
+                    SortMemberPath="Tpl">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock
+                                    Margin="5,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    Margin="5"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    mah:TextBoxHelper.ClearTextButton="True"
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding Data.GridFilters.CleaningFromModsTab.TplFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="FilterBox_TextChanged" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <extendedcontrols:TextField Margin="0,0,15,0" DataContext="{Binding Path=Tpl}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

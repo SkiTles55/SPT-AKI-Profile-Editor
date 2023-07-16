@@ -44,16 +44,17 @@ namespace SPT_AKI_Profile_Editor.Views
             ICollectionView cv = CollectionViewSource.GetDefaultView(itemsGrid.ItemsSource);
             if (cv == null)
                 return;
-            var IdFilter = AppData.GridFilters.CleaningFromModsTab.IdFilter;
-            if (string.IsNullOrEmpty(IdFilter))
+            var idFilter = AppData.GridFilters.CleaningFromModsTab.IdFilter;
+            var tplFilter = AppData.GridFilters.CleaningFromModsTab.TplFilter;
+            if (string.IsNullOrEmpty(idFilter) && string.IsNullOrEmpty(tplFilter))
                 cv.Filter = null;
             else
             {
                 cv.Filter = o =>
                 {
                     ModdedEntity p = o as ModdedEntity;
-                    return string.IsNullOrEmpty(IdFilter)
-                    || p.Id.ToUpper().Contains(IdFilter.ToUpper());
+                    return (string.IsNullOrEmpty(idFilter) || p.Id.ToUpper().Contains(idFilter.ToUpper()))
+                    && (string.IsNullOrEmpty(tplFilter) || (p.Tpl?.ToUpper().Contains(tplFilter.ToUpper()) ?? false));
                 };
             }
         }

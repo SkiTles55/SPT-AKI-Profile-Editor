@@ -119,7 +119,8 @@ namespace SPT_AKI_Profile_Editor.Core
                                 x => !x.IsInItemsDB,
                                 x => x.Id,
                                 type,
-                                compositeCollection);
+                                compositeCollection,
+                                x => x.Tpl);
         }
 
         private void GetModdedQuests(CharacterQuest[] quests, ObservableCollection<ModdedEntity> compositeCollection)
@@ -156,15 +157,18 @@ namespace SPT_AKI_Profile_Editor.Core
                                         Func<T, bool> predicate,
                                         Func<T, string> idSelector,
                                         ModdedEntityType type,
-                                        ObservableCollection<ModdedEntity> compositeCollection)
+                                        ObservableCollection<ModdedEntity> compositeCollection,
+                                        Func<T, string> tplSelector = null)
         {
             foreach (var value in values.Where(predicate))
             {
                 var id = idSelector.Invoke(value);
+                var tpl = tplSelector?.Invoke(value);
                 var existedEntity = ModdedEntities?.FirstOrDefault(x => x.Id == id);
                 ModdedEntity newEntity = new(id,
-                                              type,
-                                              existedEntity?.MarkedForRemoving ?? false);
+                                             type,
+                                             existedEntity?.MarkedForRemoving ?? false, 
+                                             tpl);
                 compositeCollection.Add(newEntity);
                 PropertyChangedEventHandler eventHandler = new(ChildChanged);
                 newEntity.PropertyChanged += eventHandler;

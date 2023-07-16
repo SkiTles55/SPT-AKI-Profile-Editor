@@ -9,14 +9,18 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public ModdedEntity(string id,
                             ModdedEntityType type,
-                            bool markedForRemoving)
+                            bool markedForRemoving,
+                            string tpl = null)
         {
             Id = id;
             Type = type;
             MarkedForRemoving = markedForRemoving;
+            Tpl = tpl;
         }
 
         public string Id { get; }
+
+        public string Tpl { get; }
         public ModdedEntityType Type { get; }
 
         public bool MarkedForRemoving
