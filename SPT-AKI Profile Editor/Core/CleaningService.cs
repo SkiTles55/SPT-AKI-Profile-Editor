@@ -111,7 +111,7 @@ namespace SPT_AKI_Profile_Editor.Core
         }
 
         private void GetModdedInventoryItems(InventoryItem[] inventoryItems,
-                                                                             ModdedEntityType type,
+                                             ModdedEntityType type,
                                              ObservableCollection<ModdedEntity> compositeCollection)
         {
             if (inventoryItems != null)
