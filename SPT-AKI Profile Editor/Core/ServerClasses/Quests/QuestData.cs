@@ -17,7 +17,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         public class QuestConditions
         {
-            [JsonProperty("AvailableForStart")]
             public List<QuestCondition> AvailableForStart { get; set; }
 
             public class QuestCondition

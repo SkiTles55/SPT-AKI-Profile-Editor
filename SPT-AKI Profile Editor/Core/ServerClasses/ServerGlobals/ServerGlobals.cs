@@ -30,19 +30,18 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 config = value;
-                OnPropertyChanged("Config");
+                OnPropertyChanged(nameof(Config));
             }
         }
 
-        [JsonProperty("ItemPresets")]
         public Dictionary<string, ItemPreset> ItemPresets
         {
             get => itemPresets;
             set
             {
                 itemPresets = value;
-                OnPropertyChanged("ItemPresets");
-                OnPropertyChanged("GlobalBuilds");
+                OnPropertyChanged(nameof(ItemPresets));
+                OnPropertyChanged(nameof(GlobalBuilds));
             }
         }
 

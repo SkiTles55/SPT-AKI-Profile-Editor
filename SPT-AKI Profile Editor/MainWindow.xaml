@@ -132,6 +132,9 @@
             <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:WeaponBuilds DataContext="{Binding ViewModels.WeaponBuildsTab}" />
             </TabItem>
+            <TabItem Header="{Binding AppLocalization.Translations[tab_clearing_from_mods_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+                <views:CleaningFromMods DataContext="{Binding ViewModels.CleaningFromModsTab}" />
+            </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:BackupsTab DataContext="{Binding ViewModels.BackupsTab}" />
             </TabItem>

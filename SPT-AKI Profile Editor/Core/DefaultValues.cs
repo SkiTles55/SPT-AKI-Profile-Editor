@@ -29,6 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MoneysRublesTpl = "5449016a4bdc2d6f028b456f";
         public const string MoneysEurosTpl = "569668774bdc2da2298b4568";
         public const string RagfairTraderId = "ragfair";
+        public const string EndlessDevBackpackId = "56e294cdd2720b603a8b4575";
         public const string BearDogtagTpl = "59f32bb586f774757e1e8442";
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
@@ -91,6 +92,9 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["button_no"] = "No",
                     ["button_close"] = "Close",
                     ["button_select"] = "Select",
+                    ["button_select_all"] = "Select all",
+                    ["button_deselect_all"] = "Deselect all",
+                    ["button_remove_selected"] = "Remove selected",
                     ["button_settings"] = "SETTINGS",
                     ["button_save_profile"] = "SAVE PROFILE",
                     ["button_reload_profile"] = "RESET CHANGES",
@@ -182,6 +186,13 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_empty_slot"] = "Empty slot",
                     ["tab_stash_no_items"] = "There are no items",
                     ["tab_stash_global_items_presets"] = "Global items presets",
+                    ["tab_clearing_from_mods_title"] = "Clearing from mods",
+                    ["tab_clearing_from_mods_pmc_inventory_item"] = "PMC Inventory item",
+                    ["tab_clearing_from_mods_scav_inventory_item"] = "Scav Inventory item",
+                    ["tab_clearing_from_mods_quest"] = "Quest",
+                    ["tab_clearing_from_mods_examined_item"] = "Examined item",
+                    ["tab_clearing_from_mods_merchant"] = "Merchant",
+                    ["tab_clearing_from_mods_save_dialog"] = "Profile will be saved for delete some objects. All changes in other sections will also be saved. Continue?",
                     ["tab_backups_title"] = "Backups",
                     ["tab_backups_date"] = "Date",
                     ["tab_backups_actions"] = "Actions",
@@ -292,6 +303,9 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["button_no"] = "Нет",
                     ["button_close"] = "Закрыть",
                     ["button_select"] = "Выбрать",
+                    ["button_select_all"] = "Выделить все",
+                    ["button_deselect_all"] = "Снять выделение",
+                    ["button_remove_selected"] = "Удалить выделенное",
                     ["button_settings"] = "НАСТРОЙКИ",
                     ["button_save_profile"] = "СОХРАНИТЬ ПРОФИЛЬ",
                     ["button_reload_profile"] = "СБРОСИТЬ ИЗМЕНЕНИЯ",
@@ -383,6 +397,13 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_stash_empty_slot"] = "Пустой слот",
                     ["tab_stash_no_items"] = "Предметы отсутствуют",
                     ["tab_stash_global_items_presets"] = "Глабальные пресеты предметов",
+                    ["tab_clearing_from_mods_title"] = "Очистка от модов",
+                    ["tab_clearing_from_mods_pmc_inventory_item"] = "Предмет в инвентаре ЧВК",
+                    ["tab_clearing_from_mods_scav_inventory_item"] = "Предмет в инвентаре Дикого",
+                    ["tab_clearing_from_mods_quest"] = "Квест",
+                    ["tab_clearing_from_mods_examined_item"] = "Изученный предмет",
+                    ["tab_clearing_from_mods_merchant"] = "Торговец",
+                    ["tab_clearing_from_mods_save_dialog"] = "Для удаления некоторых объектов необходимо сохранить профиль. Все изменения в других разделах так же будут сохранены. Продолжить?",
                     ["tab_backups_title"] = "Бэкапы",
                     ["tab_backups_date"] = "Дата",
                     ["tab_backups_actions"] = "Действия",

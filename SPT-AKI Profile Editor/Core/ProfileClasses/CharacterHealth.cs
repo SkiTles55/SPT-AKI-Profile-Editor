@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -9,36 +8,33 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterMetric energy;
         private CharacterBodyParts bodyParts;
 
-        [JsonProperty("Hydration")]
         public CharacterMetric Hydration
         {
             get => hydration;
             set
             {
                 hydration = value;
-                OnPropertyChanged("Hydration");
+                OnPropertyChanged(nameof(Hydration));
             }
         }
 
-        [JsonProperty("Energy")]
         public CharacterMetric Energy
         {
             get => energy;
             set
             {
                 energy = value;
-                OnPropertyChanged("Energy");
+                OnPropertyChanged(nameof(Energy));
             }
         }
 
-        [JsonProperty("BodyParts")]
         public CharacterBodyParts BodyParts
         {
             get => bodyParts;
             set
             {
                 bodyParts = value;
-                OnPropertyChanged("BodyParts");
+                OnPropertyChanged(nameof(BodyParts));
             }
         }
     }
@@ -53,80 +49,73 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private WrappedCharacterMetric leftLeg;
         private WrappedCharacterMetric rightLeg;
 
-        [JsonProperty("Head")]
         public WrappedCharacterMetric Head
         {
             get => head;
             set
             {
                 head = value;
-                OnPropertyChanged("Head");
+                OnPropertyChanged(nameof(Head));
             }
         }
 
-        [JsonProperty("Chest")]
         public WrappedCharacterMetric Chest
         {
             get => chest;
             set
             {
                 chest = value;
-                OnPropertyChanged("Chest");
+                OnPropertyChanged(nameof(Chest));
             }
         }
 
-        [JsonProperty("Stomach")]
         public WrappedCharacterMetric Stomach
         {
             get => stomach;
             set
             {
                 stomach = value;
-                OnPropertyChanged("Stomach");
+                OnPropertyChanged(nameof(Stomach));
             }
         }
 
-        [JsonProperty("LeftArm")]
         public WrappedCharacterMetric LeftArm
         {
             get => leftArm;
             set
             {
                 leftArm = value;
-                OnPropertyChanged("LeftArm");
+                OnPropertyChanged(nameof(LeftArm));
             }
         }
 
-        [JsonProperty("RightArm")]
         public WrappedCharacterMetric RightArm
         {
             get => rightArm;
             set
             {
                 rightArm = value;
-                OnPropertyChanged("RightArm");
+                OnPropertyChanged(nameof(RightArm));
             }
         }
 
-        [JsonProperty("LeftLeg")]
         public WrappedCharacterMetric LeftLeg
         {
             get => leftLeg;
             set
             {
                 leftLeg = value;
-                OnPropertyChanged("LeftLeg");
+                OnPropertyChanged(nameof(LeftLeg));
             }
         }
 
-        [JsonProperty("RightLeg")]
         public WrappedCharacterMetric RightLeg
         {
             get => rightLeg;
             set
             {
                 rightLeg = value;
-                OnPropertyChanged("RightLeg");
+                OnPropertyChanged(nameof(RightLeg));
             }
         }
 
@@ -134,14 +123,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             private CharacterMetric health;
 
-            [JsonProperty("Health")]
             public CharacterMetric Health
             {
                 get => health;
                 set
                 {
                     health = value;
-                    OnPropertyChanged("Health");
+                    OnPropertyChanged(nameof(Health));
                 }
             }
         }

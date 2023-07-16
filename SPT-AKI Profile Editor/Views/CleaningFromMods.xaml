@@ -1,0 +1,274 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.CleaningFromMods"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=local:CleaningFromModsViewModel}"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateEntityList}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="entities" Source="{Binding CleaningService.ModdedEntities}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="LocalizedType" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <DataGrid
+            x:Name="itemsGrid"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+            IsReadOnly="True"
+            ItemsSource="{Binding Source={StaticResource entities}}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+            VirtualizingPanel.ScrollUnit="Pixel">
+            <DataGrid.Resources>
+                <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.GroupStyle>
+                <GroupStyle HidesIfEmpty="True">
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander
+                                            mah:HeaderedControlHelper.HeaderBackground="Transparent"
+                                            mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
+                                            BorderThickness="0"
+                                            Collapsed="Expander_Expanded"
+                                            Expanded="Expander_Expanded"
+                                            Loaded="Expander_Loaded">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        DockPanel.Dock="Left"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding Path=Name}" />
+                                                    <StackPanel
+                                                        Margin="5,0,0,0"
+                                                        DockPanel.Dock="Right"
+                                                        Orientation="Horizontal">
+                                                        <Button
+                                                            MaxHeight="15"
+                                                            Margin="5"
+                                                            Command="{Binding Data.SelectAll, Source={StaticResource proxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="{Binding Data.AppLocalization.Translations[button_select_all], Source={StaticResource proxy}}">
+                                                            <Button.ContentTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <iconPacks:PackIconFontAwesome
+                                                                            Width="15"
+                                                                            Height="15"
+                                                                            VerticalAlignment="Center"
+                                                                            Kind="TasksSolid" />
+                                                                        <TextBlock
+                                                                            Margin="5,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </Button.ContentTemplate>
+                                                        </Button>
+                                                        <Button
+                                                            MaxHeight="15"
+                                                            Margin="5"
+                                                            Command="{Binding Data.DeselectAll, Source={StaticResource proxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="{Binding Data.AppLocalization.Translations[button_deselect_all], Source={StaticResource proxy}}">
+                                                            <Button.ContentTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <iconPacks:PackIconFontAwesome
+                                                                            Width="15"
+                                                                            Height="15"
+                                                                            VerticalAlignment="Center"
+                                                                            Kind="ListSolid" />
+                                                                        <TextBlock
+                                                                            Margin="5,0,0,0"
+                                                                            VerticalAlignment="Center"
+                                                                            Text="{Binding}" />
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </Button.ContentTemplate>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" Text="Test" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto" SortMemberPath="MarkedForRemoving">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <iconPacks:PackIconFontAwesome
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Kind="CheckSquareRegular" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Margin="5" IsChecked="{Binding Path=MarkedForRemoving, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    Width="*"
+                    Header="{Binding Data.AppLocalization.Translations[tab_info_id], Source={StaticResource proxy}}"
+                    SortMemberPath="Id">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock
+                                    Margin="5,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    Margin="5"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    mah:TextBoxHelper.ClearTextButton="True"
+                                    DockPanel.Dock="Right"
+                                    Text="{Binding Data.GridFilters.CleaningFromModsTab.IdFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                    TextChanged="FilterBox_TextChanged" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding Path=Id}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            MinWidth="170"
+            Margin="5,10,5,0"
+            Command="{Binding SelectAll}"
+            Content="{Binding AppLocalization.Translations[button_select_all]}"
+            IsEnabled="{Binding CleaningService.CanSelectAll}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFontAwesome
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Kind="TasksSolid" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            MinWidth="170"
+            Margin="5,10,5,0"
+            Command="{Binding DeselectAll}"
+            Content="{Binding AppLocalization.Translations[button_deselect_all]}"
+            IsEnabled="{Binding CleaningService.CanDeselectAny}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFontAwesome
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Kind="ListSolid" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            MinWidth="170"
+            Margin="5,10,5,0"
+            Command="{Binding RemoveSelected}"
+            Content="{Binding AppLocalization.Translations[button_remove_selected]}"
+            IsEnabled="{Binding CleaningService.CanDeselectAny}">
+            <Button.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconFontAwesome
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Kind="TrashAltSolid" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Button.ContentTemplate>
+        </Button>
+    </Grid>
+</UserControl>

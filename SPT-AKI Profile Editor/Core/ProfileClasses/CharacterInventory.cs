@@ -427,9 +427,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int stacks = count / stackSize;
             if (stackSize * stacks < count) stacks++;
             int[,] Stash = GetSlotsMap(container);
-            List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks);
-            if (NewItemsLocations == null)
-                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks)
+                ?? throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
             List<string> iDs = Items.Select(x => x.Id).ToList();
             List<InventoryItem> items = Items.ToList();
             for (int i = 0; i < NewItemsLocations.Count; i++)

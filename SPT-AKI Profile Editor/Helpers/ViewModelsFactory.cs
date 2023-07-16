@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Views;
+﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Views;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
@@ -10,7 +11,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                  IWindowsDialogs windowsDialogs,
                                  RelayCommand saveCommand,
                                  RelayCommand reloadCommand,
-                                 RelayCommand faqCommand)
+                                 RelayCommand faqCommand,
+                                 ICleaningService cleaningService)
         {
             FastMode = new(saveCommand);
             InfoTab = new();
@@ -23,7 +25,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
             StashTab = new(dialogManager, worker, applicationManager);
             ClothingTab = new();
             WeaponBuildsTab = new(dialogManager, worker, windowsDialogs);
-            BackupsTab = new(dialogManager, worker);
+            CleaningFromModsTab = new(dialogManager, saveCommand, cleaningService);
+            BackupsTab = new(dialogManager, worker, cleaningService);
             AboutTab = new(applicationManager);
         }
 
@@ -48,6 +51,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public ClothingTabViewModel ClothingTab { get; }
 
         public WeaponBuildsViewModel WeaponBuildsTab { get; }
+
+        public CleaningFromModsViewModel CleaningFromModsTab { get; }
 
         public BackupsTabViewModel BackupsTab { get; }
 

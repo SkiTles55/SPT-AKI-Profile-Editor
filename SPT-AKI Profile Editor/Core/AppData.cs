@@ -55,12 +55,14 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public static void StartupEvents()
+        public static void StartupEvents(ICleaningService cleaningService)
         {
             LoadDatabase();
             Profile.Load(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.profiles], AppSettings.DefaultProfile));
             BackupService.LoadBackupsList();
             GridFilters.Clear();
+            cleaningService?.MarkAll(false);
+            cleaningService?.LoadEntitiesList();
         }
 
         public static Dictionary<string, string> GetAvailableKeys()
@@ -68,7 +70,7 @@ namespace SPT_AKI_Profile_Editor.Core
             Dictionary<string, string> availableKeys = new();
             try
             {
-                string path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList[SPTServerFile.languages]);
+                string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.languages]);
                 Dictionary<string, string> languages = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
                 availableKeys = languages
                     .Where(x => x.Key.Length == 2 && ShouldAddToAvailableKeys(x.Key))

@@ -14,23 +14,27 @@ namespace SPT_AKI_Profile_Editor
         private readonly IWindowsDialogs _windowsDialogs;
         private readonly IWorker _worker;
         private readonly IApplicationManager _applicationManager;
+        private readonly ICleaningService _cleaningService;
 
         public MainWindowViewModel(IApplicationManager applicationManager,
                                    IWindowsDialogs windowsDialogs,
                                    IDialogManager dialogManager = null,
-                                   IWorker worker = null)
+                                   IWorker worker = null,
+                                   ICleaningService cleaningService = null)
         {
             _dialogManager = dialogManager ?? new MetroDialogManager(this, App.DialogCoordinator);
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(_dialogManager);
+            _cleaningService = cleaningService;
             ViewModels = new(_dialogManager,
                              _worker,
                              _applicationManager,
                              _windowsDialogs,
                              SaveButtonCommand,
                              ReloadCommand,
-                             OpenFAQ);
+                             OpenFAQ,
+                             _cleaningService);
         }
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
@@ -78,7 +82,7 @@ namespace SPT_AKI_Profile_Editor
             _applicationManager.CloseItemViewWindows();
             _worker.AddTask(new WorkerTask
             {
-                Action = AppData.StartupEvents,
+                Action = () => AppData.StartupEvents(_cleaningService),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });
