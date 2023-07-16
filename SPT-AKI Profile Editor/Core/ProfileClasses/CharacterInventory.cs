@@ -302,10 +302,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (size == Width * Height)
             {
                 for (int y = 0; y < Width; y++)
-                {
                     for (int z = slot.X; z < slot.X + Height; z++)
                         Stash[slot.Y + y, z] = 1;
-                }
                 return new ItemLocation { X = slot.X, Y = slot.Y };
             }
             return null;
@@ -349,6 +347,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                 if (!item.SlotId.Contains("mod_"))
                                     continue;
                                 toDo.Add(item.Id);
+                                if (!AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl))
+                                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_modded_item_founded_error"));
                                 TarkovItem itm = AppData.ServerDatabase.ItemsDB[item.Tpl];
                                 bool childFoldable = itm.Properties.Foldable;
                                 bool childFolded = item.Upd != null && item.Upd.Foldable != null && item.Upd.Foldable.Folded;
