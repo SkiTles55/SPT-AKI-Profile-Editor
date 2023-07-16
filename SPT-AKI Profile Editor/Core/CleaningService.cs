@@ -92,9 +92,6 @@ namespace SPT_AKI_Profile_Editor.Core
                     case ModdedEntityType.Quest:
                         AppData.Profile.ModdedEntitiesForRemoving.Add(entity);
                         break;
-
-                    default:
-                        break;
                 }
             }
 

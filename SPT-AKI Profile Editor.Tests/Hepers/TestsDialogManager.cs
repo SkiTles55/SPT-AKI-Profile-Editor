@@ -21,6 +21,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool ShouldExecuteServerPathEditorRetryCommand = false;
         public string LastOkMessage = null;
         public double LastProgress = 0;
+        public bool YesNoDialogResult = true;
 
         public event EventHandler ProgressDialogCanceled;
 
@@ -91,6 +92,6 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task<bool> YesNoDialog(string title, string caption) => Task.FromResult(true);
+        public Task<bool> YesNoDialog(string title, string caption) => Task.FromResult(YesNoDialogResult);
     }
 }

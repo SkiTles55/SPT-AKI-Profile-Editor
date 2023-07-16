@@ -16,6 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class CleaningServiceTest
     {
         private readonly string testProfilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testProfileWithModdedItems.json");
+        private readonly string testSaveProfilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testSaveProfileWithModdedItems.json");
         private readonly string pmcModdedInventoryItemTpl = "pmcModdedInventoryItemObject";
         private readonly string pmcModdedInventoryItemId = "pmcModdedInventoryItemObjectId";
         private readonly string scavModdedInventoryItemTpl = "scavModdedInventoryItemObject";
@@ -34,9 +35,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void CleaningServiceCanLoadEntitiesList()
         {
-            AppData.Profile.Load(testProfilePath);
-            var cleaningService = new CleaningService();
-            cleaningService.LoadEntitiesList();
+            var cleaningService = GetPreparedCleaningService();
             CheckModdedEntityType(cleaningService, ModdedEntityType.PmcInventoryItem, pmcModdedInventoryItemId);
             CheckModdedEntityType(cleaningService, ModdedEntityType.ScavInventoryItem, scavModdedInventoryItemId);
             CheckModdedEntityType(cleaningService, ModdedEntityType.ExaminedItem, pmcModdedExaminedItemId);
@@ -46,15 +45,64 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void CleaningServiceCanRemovePmcInventoryItems()
-            => CheckModdedEntityRemoveWithoutSave(ModdedEntityType.PmcInventoryItem, pmcModdedInventoryItemId);
+            => CheckModdedEntityRemove(ModdedEntityType.PmcInventoryItem, pmcModdedInventoryItemId);
 
         [Test]
         public void CleaningServiceCanRemoveScavInventoryItems()
-            => CheckModdedEntityRemoveWithoutSave(ModdedEntityType.ScavInventoryItem, scavModdedInventoryItemId);
+            => CheckModdedEntityRemove(ModdedEntityType.ScavInventoryItem, scavModdedInventoryItemId);
 
         [Test]
         public void CleaningServiceCanRemoveExaminedItems()
-            => CheckModdedEntityRemoveWithoutSave(ModdedEntityType.ExaminedItem, pmcModdedExaminedItemId);
+            => CheckModdedEntityRemove(ModdedEntityType.ExaminedItem, pmcModdedExaminedItemId);
+
+        [Test]
+        public void CleaningServiceCanRemoveQuest()
+            => CheckModdedEntityRemove(ModdedEntityType.Quest, pmcModdedQuestQid);
+
+        [Test]
+        public void CleaningServiceCanRemoveMerchant()
+            => CheckModdedEntityRemove(ModdedEntityType.Merchant, pmcModdedMerchantId);
+
+        [Test]
+        public void CleaningServiceCanOperateWithSelection()
+        {
+            AppData.Profile.Load(testProfilePath);
+            var cleaningService = new CleaningService();
+            Assert.That(cleaningService.CanDeselectAny, Is.False, "Deselect enabled while entities list not loaded");
+            Assert.That(cleaningService.CanSelectAll, Is.False, "SelectAll enabled while entities list not loaded");
+            cleaningService.LoadEntitiesList();
+            Assert.That(cleaningService.CanDeselectAny, Is.False, "Deselect enabled while no elements selected");
+            Assert.That(cleaningService.CanSelectAll, Is.True, "SelectAll not enabled while all elements not selected");
+            cleaningService.MarkAll(true, ModdedEntityType.Merchant);
+            Assert.That(cleaningService.CanDeselectAny, Is.True, "Deselect not enabled after selecting 1 group");
+            Assert.That(cleaningService.CanSelectAll, Is.True, "SelectAll not enabled while selected only 1 group");
+            cleaningService.MarkAll(true);
+            Assert.That(cleaningService.CanDeselectAny, Is.True, "Deselect not enabled after selecting all elements");
+            Assert.That(cleaningService.CanSelectAll, Is.False, "SelectAll enabled while all elements selected");
+            cleaningService.MarkAll(false);
+            Assert.That(cleaningService.CanDeselectAny, Is.False, "Deselect enabled after unmark all objects");
+            Assert.That(cleaningService.CanSelectAll, Is.True, "SelectAll not enabled after unmark all objects");
+        }
+
+        [Test]
+        public void CleaningServiceRemovingCanBeCanceledByDialog()
+        {
+            bool saveCalled = false;
+            var cleaningService = GetPreparedCleaningService();
+            cleaningService.MarkAll(true);
+            var expectedCount = cleaningService.ModdedEntities.Count;
+            var dialogManager = new TestsDialogManager
+            {
+                YesNoDialogResult = false
+            };
+            RelayCommand saveCommand = new(obj =>
+            {
+                saveCalled = true;
+            });
+            cleaningService.RemoveSelected(saveCommand, dialogManager);
+            Assert.That(saveCalled, Is.False, "Save profile called");
+            Assert.That(cleaningService.ModdedEntities.Count, Is.EqualTo(expectedCount), "Some modded entities removed");
+        }
 
         private static void AddModdedInventoryItem(JObject profileJObject, string character, string itemId, string itemTpl)
         {
@@ -104,32 +152,72 @@ namespace SPT_AKI_Profile_Editor.Tests
                         $"Id for {type} type not correct");
         }
 
-        private void CheckModdedEntityRemoveWithoutSave(ModdedEntityType type, string expectedItemId)
+        private static void CheckRemovingResult(CleaningService cleaningService, ModdedEntityType type, string expectedItemId)
         {
-            AppData.Profile.Load(testProfilePath);
-            var cleaningService = new CleaningService();
-            cleaningService.LoadEntitiesList();
-            cleaningService.MarkAll(true, type);
-            cleaningService.RemoveSelected(null, null);
-            Assert.That(cleaningService.ModdedEntities.Where(x => x.Type == type), Is.Empty, $"{type} not removed from cleaningService.ModdedEntities");
+            Assert.That(cleaningService.ModdedEntities.Where(x => x.Type == type),
+                        Is.Empty,
+                        $"{type} not removed from cleaningService.ModdedEntities");
             switch (type)
             {
                 case ModdedEntityType.PmcInventoryItem:
-                    Assert.That(AppData.Profile.Characters.Pmc.Inventory.Items.FirstOrDefault(x => x.Id == expectedItemId), Is.Null, $"{type} not removed from Pmc.Inventory.Items");
+                    Assert.That(AppData.Profile.Characters.Pmc.Inventory.Items.FirstOrDefault(x => x.Id == expectedItemId),
+                                Is.Null,
+                                $"{type} not removed from Pmc.Inventory.Items");
                     break;
 
                 case ModdedEntityType.ScavInventoryItem:
-                    Assert.That(AppData.Profile.Characters.Scav.Inventory.Items.FirstOrDefault(x => x.Id == expectedItemId), Is.Null, $"{type} not removed from Scav.Inventory.Items");
+                    Assert.That(AppData.Profile.Characters.Scav.Inventory.Items.FirstOrDefault(x => x.Id == expectedItemId),
+                                Is.Null,
+                                $"{type} not removed from Scav.Inventory.Items");
                     break;
 
                 case ModdedEntityType.ExaminedItem:
-                    Assert.That(AppData.Profile.Characters.Pmc.Encyclopedia.ContainsKey(expectedItemId), Is.False, $"{type} not removed from Pmc.Encyclopedia");
+                    Assert.That(AppData.Profile.Characters.Pmc.Encyclopedia.ContainsKey(expectedItemId),
+                                Is.False,
+                                $"{type} not removed from Pmc.Encyclopedia");
+                    break;
+
+                case ModdedEntityType.Quest:
+                    Assert.That(AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => x.Qid == expectedItemId),
+                                Is.Null,
+                                $"{type} not removed from Pmc.Quests");
+                    break;
+
+                case ModdedEntityType.Merchant:
+                    Assert.That(AppData.Profile.Characters.Pmc.TraderStandings.ContainsKey(expectedItemId),
+                                Is.False,
+                                $"{type} not removed from Pmc.TraderStandings");
                     break;
 
                 default:
                     Assert.Fail($"unsupported type: {type}");
                     break;
             }
+        }
+
+        private CleaningService GetPreparedCleaningService()
+        {
+            AppData.Profile.Load(testProfilePath);
+            var cleaningService = new CleaningService();
+            cleaningService.LoadEntitiesList();
+            return cleaningService;
+        }
+
+        private void CheckModdedEntityRemove(ModdedEntityType type, string expectedItemId)
+        {
+            bool profileResaved = false;
+            var cleaningService = GetPreparedCleaningService();
+            cleaningService.MarkAll(true, type);
+            RelayCommand saveCommand = new(obj =>
+            {
+                profileResaved = true;
+                AppData.Profile.Save(testProfilePath, testSaveProfilePath);
+                AppData.Profile.Load(testSaveProfilePath);
+                cleaningService.LoadEntitiesList();
+            });
+            cleaningService.RemoveSelected(saveCommand, new TestsDialogManager());
+            CheckRemovingResult(cleaningService, type, expectedItemId);
+            Assert.That(profileResaved, Is.EqualTo(!type.CanBeRemovedWithoutSave()), $"Profile resaved for {type}. That not expected");
         }
 
         private void PrepareTestProfile()
