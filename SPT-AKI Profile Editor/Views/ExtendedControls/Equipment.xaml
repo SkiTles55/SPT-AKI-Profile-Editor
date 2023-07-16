@@ -103,15 +103,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="0"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="0"
                     Grid.Column="4"
@@ -173,15 +168,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="1"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="1"
                     Grid.Column="4"
@@ -243,15 +233,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="2"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="2"
                     Grid.Column="4"
@@ -313,15 +298,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="3"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="3"
                     Grid.Column="4"
@@ -383,15 +363,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="4"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="4"
                     Grid.Column="4"
@@ -453,15 +428,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="5"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="5"
                     Grid.Column="4"
@@ -523,15 +493,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="6"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="6"
                     Grid.Column="4"
@@ -593,15 +558,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="7"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="7"
                     Grid.Column="4"
@@ -663,15 +623,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="8"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="8"
                     Grid.Column="4"
@@ -733,15 +688,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="9"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Holster.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Holster.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="9"
                     Grid.Column="4"
@@ -803,15 +753,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="10"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="10"
                     Grid.Column="4"
@@ -894,15 +839,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="12"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="12"
                     Grid.Column="4"
@@ -964,15 +904,10 @@
                         Height="18"
                         Kind="ExclamationTriangleSolid" />
                 </Label>
-                <Label
+                <extendedcontrols:TextField
                     Grid.Row="13"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="13"
                     Grid.Column="4"

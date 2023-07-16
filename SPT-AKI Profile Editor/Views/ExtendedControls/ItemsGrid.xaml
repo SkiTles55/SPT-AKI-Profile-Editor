@@ -119,11 +119,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=Id}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                            <extendedcontrols:TextField DataContext="{Binding Path=Id}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

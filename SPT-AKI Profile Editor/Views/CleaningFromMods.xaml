@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -188,11 +189,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=Id}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                            <extendedcontrols:TextField DataContext="{Binding Path=Id}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
