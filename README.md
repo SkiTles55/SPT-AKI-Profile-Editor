@@ -8,8 +8,10 @@
   ![GitHub last commit](https://img.shields.io/github/last-commit/SkiTles55/SPT-AKI-Profile-Editor)
 
 #### Поддержать разработчика:
-[yoomoney.ru](https://yoomoney.ru/to/410015658095326)
-[Ссылка на обмен Steam](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)
+[yoomoney.ru](https://yoomoney.ru/to/410015658095326)\
+[Ссылка на обмен Steam](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)\
+LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
+![LTCWallet](SPT-AKI%20Profile%20Editor/Images/ltcWallet.png?raw=true)
 
 ### [Отправить баг репорт \ Предложить новую функцию](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 

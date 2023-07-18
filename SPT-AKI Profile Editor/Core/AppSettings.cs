@@ -24,6 +24,9 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string yoomoneyUrl = "https://yoomoney.ru/to/410015658095326";
 
         [JsonIgnore]
+        public readonly string ltcWallet = "MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif";
+
+        [JsonIgnore]
         public readonly string sptAkiProjectUrl = "https://www.sp-tarkov.com/";
 
         [JsonIgnore]

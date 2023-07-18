@@ -40,6 +40,13 @@
                 <Setter Property="HorizontalAlignment" Value="Left" />
             </Style>
             <Style
+                x:Key="NonLinkStyle"
+                BasedOn="{StaticResource {x:Type Label}}"
+                TargetType="{x:Type Label}">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+            <Style
                 x:Key="NoHoverListBox"
                 BasedOn="{StaticResource {x:Type ListBoxItem}}"
                 TargetType="{x:Type ListBoxItem}">

@@ -1,5 +1,7 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
+using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -17,6 +19,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static string YoomoneyUrl => AppSettings.yoomoneyUrl;
 
+        public static string LtcWallet => AppSettings.ltcWallet;
+
         public static string SptAkiProjectUrl => AppSettings.sptAkiProjectUrl;
 
         public RelayCommand OpenAutorGitHubUrl => new(obj => OpenUrl(AuthorURL));
@@ -28,6 +32,8 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand OpenSteamUrl => new(obj => OpenUrl(AppSettings.steamTradeUrl));
 
         public RelayCommand OpenSptAkiProjectUrl => new(obj => OpenUrl(SptAkiProjectUrl));
+
+        public static RelayCommand CopyLtcWallet => new(obj => Clipboard.SetText(LtcWallet));
 
         private void OpenUrl(string url) => _applicationManager.OpenUrl(url);
     }
