@@ -18,8 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void Setup()
         {
             AppData.AppSettings.ServerPath = TestHelpers.serverPath;
-            AppData.LoadDatabase();
-            AppData.Profile.Load(TestHelpers.profileFile);
+            TestHelpers.LoadDatabaseAndProfile();
         }
 
         [Test]
@@ -77,88 +76,34 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HealthNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health);
 
         [Test]
-        public void HydrationNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.Hydration);
+        public void HydrationLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.Hydration);
 
         [Test]
-        public void HydrationCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Hydration.Current == 0);
-
-        [Test]
-        public void HydrationMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Hydration.Maximum == 0);
-
-        [Test]
-        public void EnergyNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.Energy);
-
-        [Test]
-        public void EnergyCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Current == 0);
-
-        [Test]
-        public void EnergyMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.Energy.Maximum == 0);
+        public void EnergyLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.Energy);
 
         [Test]
         public void BodyPartsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts);
 
         [Test]
-        public void BodyPartsHeadNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.Head);
+        public void BodyPartsHeadLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.Head?.Health);
 
         [Test]
-        public void BodyPartsHeadCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Current == 0);
+        public void BodyPartsChestLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest?.Health);
 
         [Test]
-        public void BodyPartsHeadMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Head.Health.Maximum == 0);
+        public void BodyPartsStomachLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach?.Health);
 
         [Test]
-        public void BodyPartsChestNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest);
+        public void BodyPartsLeftArmLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm?.Health);
 
         [Test]
-        public void BodyPartsChestCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Current == 0);
+        public void BodyPartsRightArmLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm?.Health);
 
         [Test]
-        public void BodyPartsChestMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Chest.Health.Maximum == 0);
+        public void BodyPartsLeftLegLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg?.Health);
 
         [Test]
-        public void BodyPartsStomachNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach);
-
-        [Test]
-        public void BodyPartsStomachCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Current == 0);
-
-        [Test]
-        public void BodyPartsStomachMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.Stomach.Health.Maximum == 0);
-
-        [Test]
-        public void BodyPartsLeftArmNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm);
-
-        [Test]
-        public void BodyPartsLeftArmCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Current == 0);
-
-        [Test]
-        public void BodyPartsLeftArmMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftArm.Health.Maximum == 0);
-
-        [Test]
-        public void BodyPartsRightArmNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm);
-
-        [Test]
-        public void BodyPartsRightArmCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Current == 0);
-
-        [Test]
-        public void BodyPartsRightArmMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Maximum == 0);
-
-        [Test]
-        public void BodyPartsLeftLegNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg);
-
-        [Test]
-        public void BodyPartsLeftLegCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Current == 0);
-
-        [Test]
-        public void BodyPartsLeftLegMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum == 0);
-
-        [Test]
-        public void BodyPartsRightLegNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg);
-
-        [Test]
-        public void BodyPartsRightLegCurrentNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current == 0);
-
-        [Test]
-        public void BodyPartsRightLegMaximumNotZero() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum == 0);
+        public void BodyPartsRightLegLoadCorrectly() => CheckCharacterMetric(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg?.Health);
 
         [Test]
         public void HeadNotEmpty() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Customization.Head, "Head is empty");
@@ -436,9 +381,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testTraders.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testTraders.json");
             Assert.IsTrue(AppData.Profile.Characters.Pmc.TraderStandingsExt
                 .All(x => x.LoyaltyLevel == x.MaxLevel), "TraderStandingsExt not in max levels");
         }
@@ -449,9 +392,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingQuests = true;
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllQuests(QuestStatus.Fail);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testQuests.json");
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == QuestStatus.Fail)
                 && AppData.Profile.Characters.Pmc.Quests.All(x => x.StatusTimers.ContainsKey(QuestStatus.Fail))
                 && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() >= AppData.ServerDatabase.QuestsData.Count);
@@ -467,9 +408,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .FirstOrDefault();
             Assert.IsNotNull(locked, "Cant find locked quest");
             locked.Status = QuestStatus.AvailableForFinish;
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testQuests.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testQuests.json");
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests?
                 .Where(x => x.Qid == locked.Qid)?
                 .First().Status == QuestStatus.AvailableForFinish);
@@ -480,9 +419,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testHideouts.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testHideouts.json");
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Hideout.Areas
                 .All(x => x.Level == x.MaxLevel));
         }
@@ -498,35 +435,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void PmcCommonSkillsSavesCorrectly()
-        {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.Characters.Pmc.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcCommonSkills.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Skills.Common
-                .Where(x => x.Id.ToLower().StartsWith("bot"))
-                .Any(x => x.Progress > 0));
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Skills.Common
-                .All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
-        }
+        public void PmcCommonSkillsSavesCorrectly() => CommonSkillsSavesCorrectly(AppData.Profile.Characters.Pmc, "testPmcCommonSkills.json");
 
         [Test]
         public void ScavCommonSkillsSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingScavSkills = true;
-            AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.Characters.Scav.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavCommonSkills.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.IsFalse(AppData.Profile.Characters.Scav.Skills.Common
-                .Where(x => x.Id.ToLower().StartsWith("bot"))
-                .Any(x => x.Progress > 0));
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common
-                .All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == x.MaxValue)
-                && AppData.Profile.Characters.Scav.Skills.Common.Length >= AppData.Profile.Characters.Pmc.Skills.Common.Length);
+            CommonSkillsSavesCorrectly(AppData.Profile.Characters.Scav, "testScavCommonSkills.json");
+            Assert.IsTrue(AppData.Profile.Characters.Scav.Skills.Common.Length >= AppData.Profile.Characters.Pmc.Skills.Common.Length);
         }
 
         [Test]
@@ -535,9 +451,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingMasterings = true;
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllMasteringsSkills(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Max(x => x.Level2 + x.Level3));
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcMasteringSkills.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testPmcMasteringSkills.json");
             var isAllSkillsProgressMax = AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == x.MaxValue);
             var profileSkillsCount = AppData.Profile.Characters.Pmc.Skills.Mastering.Length;
             var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name)).Count();
@@ -550,9 +464,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingMasterings = true;
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Scav.SetAllMasteringsSkills(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Max(x => x.Level2 + x.Level3));
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavMasteringSkills.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testScavMasteringSkills.json");
             var isAllSkillsProgressMax = AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == x.MaxValue);
             var profileSkillsCount = AppData.Profile.Characters.Scav.Skills.Mastering.Length;
             var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name)).Count();
@@ -566,9 +478,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.Encyclopedia = new();
             var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
             AppData.Profile.Characters.Pmc.ExamineAll();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testExaminedItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testExaminedItems.json");
             Assert.AreNotEqual(expected, AppData.Profile.Characters.Pmc.ExaminedItems.Count());
         }
 
@@ -577,51 +487,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.ServerDatabase.AcquireAllClothing();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testSuits.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testSuits.json");
             Assert.IsTrue(AppData.Profile.Suits.Length == AppData.ServerDatabase.TraderSuits.Count);
         }
 
         [Test]
-        public void PmcPocketsSavesCorrectly()
-        {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            string expected = AppData.ServerDatabase.Pockets.Last().Key;
-            AppData.Profile.Characters.Pmc.Inventory.Pockets = expected;
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testPmcPockets.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Pmc.Inventory.Pockets == expected);
-        }
+        public void PmcPocketsSavesCorrectly() => PocketsSavesCorrectly(AppData.Profile.Characters.Pmc.Inventory, "testPmcPockets.json");
 
         [Test]
-        public void ScavPocketsSavesCorrectly()
-        {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            string expected = AppData.ServerDatabase.Pockets.Last().Key;
-            AppData.Profile.Characters.Scav.Inventory.Pockets = expected;
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavPockets.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.IsTrue(AppData.Profile.Characters.Scav.Inventory.Pockets == expected);
-        }
-
-        [Test]
-        public void PmcStashRemovingItemsSavesCorrectly()
-        {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.First().Id;
-            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Id != expectedId1 && x.ParentId != expectedId1).First().Id;
-            AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId1), "expectedId1 not removed");
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == expectedId2), "expectedId2 not removed");
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId1), "expectedId1 child items not removed");
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.ParentId == expectedId2), "expectedId2 child items not removed");
-        }
+        public void ScavPocketsSavesCorrectly() => PocketsSavesCorrectly(AppData.Profile.Characters.Scav.Inventory, "testScavPockets.json");
 
         [Test]
         public void PmsStashCanGetInnerItems()
@@ -634,6 +508,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void PmcStashRemovingItemsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            string expectedId1 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.First().Id;
+            string expectedId2 = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Id != expectedId1 && x.ParentId != expectedId1).First().Id;
+            RemovingItemsSavesCorrectly(new() { expectedId1, expectedId2 }, AppData.Profile.Characters.Pmc.Inventory, "testStashRemovingItems.json");
+        }
+
+        [Test]
         public void ScavStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -641,14 +524,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             string expectedId2 = AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon?.Id ?? AppData.Profile.Characters.Scav.Inventory.Holster?.Id;
             Assert.IsNotNull(expectedId1, "TacticalVest is null");
             Assert.IsNotNull(expectedId2, "FirstPrimaryWeapon is null");
-            AppData.Profile.Characters.Scav.Inventory.RemoveItems(new() { expectedId1, expectedId2 });
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavStashRemovingItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == expectedId1), "expectedId1 not removed");
-            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == expectedId2), "expectedId2 not removed");
-            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.ParentId == expectedId1), "expectedId1 child items not removed");
-            Assert.IsFalse(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.ParentId == expectedId2), "expectedId2 child items not removed");
+            RemovingItemsSavesCorrectly(new() { expectedId1, expectedId2 }, AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingItems.json");
         }
 
         [Test]
@@ -656,9 +532,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingAllItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testStashRemovingAllItems.json");
             Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Count());
         }
 
@@ -675,51 +549,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void PmcStashRemovingAllEquipmentSavesCorrectly()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.Characters.Pmc.Inventory.RemoveAllEquipment();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashRemovingAllEquipment.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.FirstPrimaryWeapon);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Headwear);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Backpack);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Earpiece);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.FaceCover);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Eyewear);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmorVest);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.SecondPrimaryWeapon);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Holster);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.Scabbard);
-            Assert.Null(AppData.Profile.Characters.Pmc.Inventory.ArmBand);
-            Assert.AreEqual(0, AppData.Profile.Characters.Pmc.Inventory.PocketsItems.Count());
+            RemovingAllEquipmentSavesCorrectly(AppData.Profile.Characters.Pmc.Inventory, "testStashRemovingAllEquipment.json");
             Assert.True(AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any());
         }
 
         [Test]
         public void ScavStashRemovingAllEquipmentSavesCorrectly()
-        {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.Characters.Scav.Inventory.RemoveAllEquipment();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testScavStashRemovingAllEquipment.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Headwear);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Backpack);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Earpiece);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.FaceCover);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Eyewear);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmorVest);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecondPrimaryWeapon);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Holster);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.Scabbard);
-            Assert.Null(AppData.Profile.Characters.Scav.Inventory.ArmBand);
-            Assert.AreEqual(0, AppData.Profile.Characters.Scav.Inventory.PocketsItems.Count());
-        }
+            => RemovingAllEquipmentSavesCorrectly(AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingAllEquipment.json");
 
         [Test]
         public void Stash2DMapCalculatingCorrectly()
@@ -734,7 +570,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void StashAddingItemsSavesCorrectly()
         {
-            TestHelpers.LoadDatabaseAndProfile();
+            AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
             var largestItems = AppData.ServerDatabase.ItemsDB
                 .Where(x => !AppData.Profile.Characters.Pmc.Inventory.InventoryItems
@@ -749,9 +585,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             item2.AddingFir = true;
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item2);
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item1);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testStashAddingItems.json");
             var savedItems = AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Where(x => x.Tpl == item1.Id || x.Tpl == item2.Id).ToArray();
             Assert.AreEqual(3, savedItems.Length);
@@ -783,9 +617,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 newItem.AddingFir = true;
                 AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(tempSick, newItem, "main");
             }
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testStashAddingItems.json");
             var addedSick = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == sick.Id).LastOrDefault();
             Assert.NotNull(addedSick);
             Assert.False(sickCases.Contains(addedSick.Id));
@@ -803,9 +635,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var roubles = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysRublesTpl];
             roubles.AddingQuantity = 2000000;
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(roubles);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingMoneys.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testStashAddingMoneys.json");
             var endValue = AppData.Profile.Characters.Pmc.Inventory.Items
                 .Where(x => x.Tpl == AppData.AppSettings.MoneysRublesTpl)
                 .Sum(x => x.Upd.StackObjectsCount ?? 0);
@@ -826,9 +656,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             newDogtag.DogtagProperties.Level = 69;
             newDogtag.DogtagProperties.UpdateProperties();
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(newDogtag);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingDogtag.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testStashAddingDogtag.json");
             var addedDogtag = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.Tpl == newDogtag.Id).LastOrDefault();
             Assert.NotNull(addedDogtag, "Added dogtag not founded");
             Assert.AreNotEqual(addedDogtag.Upd.Dogtag.AccountId, AppData.Profile.Characters.Pmc.Aid);
@@ -848,36 +676,26 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void WeaponBuildRemoveSavesCorrectly()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            LoadProfileAndPrepareWeaponBuilds();
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
             AppData.Profile.RemoveBuild(expected);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildRemove.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testWeaponBuildRemove.json");
             Assert.IsFalse(AppData.Profile.WeaponBuilds.ContainsKey(expected));
         }
 
         [Test]
         public void WeaponBuildsRemoveSavesCorrectly()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            LoadProfileAndPrepareWeaponBuilds();
             AppData.Profile.RemoveBuilds();
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsRemove.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testWeaponBuildsRemove.json");
             Assert.IsFalse(AppData.Profile.WeaponBuilds.Any());
         }
 
         [Test]
         public void WeaponBuildExportCorrectly()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            LoadProfileAndPrepareWeaponBuilds();
             var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
             Profile.ExportBuild(expected.Value, testFile);
@@ -896,9 +714,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
             AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildsImport.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testWeaponBuildsImport.json");
             Assert.IsTrue(AppData.Profile.WeaponBuilds.ContainsKey("TestBuild"));
             Assert.AreEqual(2, AppData.Profile.WeaponBuilds.Where(x => x.Value.Name.StartsWith("Test")).Count());
         }
@@ -926,9 +742,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             weaponBuild.AddingQuantity = 2;
             weaponBuild.AddingFir = true;
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(weaponBuild);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testStashAddingWeapons.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testStashAddingWeapons.json");
             Assert.AreEqual(weaponsCount + 2, AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == weaponBuild.RootTpl).Count());
             Assert.False(AppData.Profile.Characters.Pmc.Inventory.Items.Select(x => x.Id).Any(y => iDs.Contains(y)));
         }
@@ -936,9 +750,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ProfileNotChangedAfterLoading()
         {
-            AppData.AppSettings.AutoAddMissingQuests = false;
-            AppData.AppSettings.AutoAddMissingMasterings = false;
-            AppData.AppSettings.AutoAddMissingScavSkills = false;
+            DisableAutoAddDataInSettings();
             AppData.Profile.Load(TestHelpers.profileFile);
             Assert.IsFalse(AppData.Profile.IsProfileChanged());
         }
@@ -946,9 +758,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ProfileChangedAfterEditings()
         {
-            AppData.AppSettings.AutoAddMissingQuests = false;
-            AppData.AppSettings.AutoAddMissingMasterings = false;
-            AppData.AppSettings.AutoAddMissingScavSkills = false;
+            DisableAutoAddDataInSettings();
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
             AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
@@ -963,9 +773,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems);
             AppData.Profile.Characters.Pmc.Inventory.RemoveDuplicatedItems();
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems);
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testRemoveDuplicatedItems.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testRemoveDuplicatedItems.json");
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems);
         }
 
@@ -982,9 +790,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Current = 600;
             AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Current = 650;
             AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current = 700;
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testHealth.json");
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
+            SaveAndLoadProfile("testHealth.json");
             Assert.AreEqual(300, AppData.Profile.Characters.Pmc.Health.Energy.Current, "Health.Energy.Current is not 300");
             Assert.AreEqual(300, AppData.Profile.Characters.Pmc.Health.Energy.Maximum, "Health.Energy.Maximum is not 300");
             Assert.AreEqual(350, AppData.Profile.Characters.Pmc.Health.Hydration.Current, "Health.Hydration.Current is not 350");
@@ -1003,6 +809,87 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.AreEqual(650, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum, "Health.BodyParts.LeftLeg.Health.Maximum is not 650");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current, "Health.BodyParts.RightLeg.Health.Current is not 700");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum, "Health.BodyParts.RightLeg.Health.Maximum is not 700");
+        }
+
+        private static void CheckCharacterMetric(CharacterMetric metric)
+        {
+            Assert.IsNotNull(metric);
+            Assert.IsFalse(metric.Current == 0);
+            Assert.IsFalse(metric.Maximum == 0);
+        }
+
+        private static void LoadProfileAndPrepareWeaponBuilds()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            if (AppData.Profile.WeaponBuilds.Count == 0)
+                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+        }
+
+        private static void CommonSkillsSavesCorrectly(Character character, string filename)
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            character.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
+            SaveAndLoadProfile(filename);
+            Assert.IsFalse(character.Skills.Common
+                .Where(x => x.Id.ToLower().StartsWith("bot"))
+                .Any(x => x.Progress > 0));
+            Assert.IsTrue(character.Skills.Common
+                .All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue));
+        }
+
+        private static void PocketsSavesCorrectly(CharacterInventory inventory, string filename)
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            string expected = AppData.ServerDatabase.Pockets.Last().Key;
+            inventory.Pockets = expected;
+            SaveAndLoadProfile(filename);
+            Assert.IsTrue(inventory.Pockets == expected);
+        }
+
+        private static void RemovingItemsSavesCorrectly(List<string> itemIds, CharacterInventory inventory, string filename)
+        {
+            inventory.RemoveItems(itemIds);
+            SaveAndLoadProfile(filename);
+            foreach (var id in itemIds)
+            {
+                Assert.IsFalse(inventory.Items.Any(x => x.Id == id), "id not removed");
+                Assert.IsFalse(inventory.Items.Any(x => x.ParentId == id), "id child items not removed");
+            }
+        }
+
+        private static void RemovingAllEquipmentSavesCorrectly(CharacterInventory inventory, string filename)
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            inventory.RemoveAllEquipment();
+            SaveAndLoadProfile(filename);
+            Assert.Null(inventory.FirstPrimaryWeapon);
+            Assert.Null(inventory.Headwear);
+            Assert.Null(inventory.TacticalVest);
+            Assert.Null(inventory.SecuredContainer);
+            Assert.Null(inventory.Backpack);
+            Assert.Null(inventory.Earpiece);
+            Assert.Null(inventory.FaceCover);
+            Assert.Null(inventory.Eyewear);
+            Assert.Null(inventory.ArmorVest);
+            Assert.Null(inventory.SecondPrimaryWeapon);
+            Assert.Null(inventory.Holster);
+            Assert.Null(inventory.Scabbard);
+            Assert.Null(inventory.ArmBand);
+            Assert.AreEqual(0, inventory.PocketsItems.Count());
+        }
+
+        private static void DisableAutoAddDataInSettings()
+        {
+            AppData.AppSettings.AutoAddMissingQuests = false;
+            AppData.AppSettings.AutoAddMissingMasterings = false;
+            AppData.AppSettings.AutoAddMissingScavSkills = false;
+        }
+
+        private static void SaveAndLoadProfile(string filename)
+        {
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+            AppData.Profile.Save(TestHelpers.profileFile, testFile);
+            AppData.Profile.Load(testFile);
         }
     }
 }
