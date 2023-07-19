@@ -15,11 +15,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class ProfileTests
     {
         [OneTimeSetUp]
-        public void Setup()
-        {
-            AppData.AppSettings.ServerPath = TestHelpers.serverPath;
-            TestHelpers.LoadDatabaseAndProfile();
-        }
+        public void Setup() => TestHelpers.LoadDatabaseAndProfile();
 
         [Test]
         public void ProfileHashNotZero() => Assert.IsFalse(AppData.Profile.ProfileHash == 0);

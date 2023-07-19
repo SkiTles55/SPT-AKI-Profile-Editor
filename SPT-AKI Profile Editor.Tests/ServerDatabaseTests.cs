@@ -11,11 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class ServerDatabaseTests
     {
         [OneTimeSetUp]
-        public void Setup()
-        {
-            AppData.AppSettings.ServerPath = TestHelpers.serverPath;
-            AppData.LoadDatabase();
-        }
+        public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
         public void BotTypesHeadsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Heads.Count == 0);
