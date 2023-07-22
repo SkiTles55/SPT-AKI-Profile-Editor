@@ -579,22 +579,29 @@ namespace SPT_AKI_Profile_Editor.Tests
             item1.AddingFir = false;
             item2.AddingQuantity = 2;
             item2.AddingFir = true;
-            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item2);
-            AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item1);
-            SaveAndLoadProfile("testStashAddingItems.json");
-            var savedItems = AppData.Profile.Characters.Pmc.Inventory.InventoryItems
-                .Where(x => x.Tpl == item1.Id || x.Tpl == item2.Id).ToArray();
-            Assert.AreEqual(3, savedItems.Length);
+            var savedItems = AddAndGetItemsToProfileStash(new TarkovItem[] { item2, item1 },
+                                                          "testStashAddingItems.json",
+                                                          AppData.Profile.Characters.Pmc.Inventory.Stash);
             Assert.AreEqual(true, savedItems[0].Upd.SpawnedInSession);
             Assert.AreEqual(true, savedItems[1].Upd.SpawnedInSession);
             Assert.AreEqual(false, savedItems[2].Upd.SpawnedInSession);
-            Assert.AreNotEqual(savedItems[0].Id, savedItems[1].Id);
-            Assert.AreNotEqual(savedItems[2].Id, savedItems[1].Id);
             Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Any(y => y.Id != x.Id && y.Location.X == x.Location.X && y.Location.Y == x.Location.Y))
                 .Any());
         }
+
+        [Test]
+        public void StashAddingItemsToQuestRaidItemsSavesCorrectly()
+            => TestAddingItemsToQuestStash(StashType.QuestRaidItems,
+                                           "testQuestRaidItemsAddingItems.json",
+                                           AppData.Profile.Characters.Pmc.Inventory.QuestRaidItems);
+
+        [Test]
+        public void StashAddingItemsToQuestStashItemsSavesCorrectly()
+            => TestAddingItemsToQuestStash(StashType.QuestStashItems,
+                                           "testQuestStashItemsAddingItems.json",
+                                           AppData.Profile.Characters.Pmc.Inventory.QuestStashItems);
 
         [Test]
         public void AddingItemsToContainerSavesCorrectly()
@@ -805,6 +812,31 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.AreEqual(650, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum, "Health.BodyParts.LeftLeg.Health.Maximum is not 650");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current, "Health.BodyParts.RightLeg.Health.Current is not 700");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum, "Health.BodyParts.RightLeg.Health.Maximum is not 700");
+        }
+
+        private static void TestAddingItemsToQuestStash(StashType stashType, string filename, string expectedStashId)
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var items = AppData.ServerDatabase.ItemsDB
+                .Values
+                .Where(x => x.CanBeAddedToStash && x.IsQuestItem)
+                .Take(2);
+            foreach (var item in items)
+                item.StashType = stashType;
+            _ = AddAndGetItemsToProfileStash(items, filename, expectedStashId);
+        }
+
+        private static InventoryItem[] AddAndGetItemsToProfileStash(IEnumerable<TarkovItem> items, string filename, string expectedStashId)
+        {
+            foreach (var item in items)
+                AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item);
+            SaveAndLoadProfile(filename);
+            var savedItems = AppData.Profile.Characters.Pmc.Inventory.Items
+                .Where(x => items.Any(y => y.Id == x.Tpl)).ToArray();
+            Assert.AreEqual(items.Sum(x => x.AddingQuantity), savedItems.Length, "Added items count wrong");
+            Assert.True(savedItems.All(x => x.ParentId == expectedStashId), "Wrong parentId in added items");
+            Assert.AreEqual(savedItems.Length, savedItems.Select(x => x.Id).Distinct().Count(), "Added items have not unique  id's");
+            return savedItems;
         }
 
         private static void CheckCharacterMetric(CharacterMetric metric)

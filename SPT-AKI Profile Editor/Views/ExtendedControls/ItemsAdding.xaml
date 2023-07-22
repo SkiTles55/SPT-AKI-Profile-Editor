@@ -13,7 +13,12 @@
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <helpers:StashTypeValueConverter x:Key="StashTypeValueConverter" />
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            False="Collapsed"
+            True="Visible" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,6 +29,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DockPanel
             Grid.Row="0"
@@ -83,6 +89,7 @@
         <ListBox
             x:Name="selectedCategory"
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="2"
             ItemContainerStyle="{StaticResource NoHoverListBox}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -98,17 +105,47 @@
                         BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
                         BorderThickness="1">
                         <DockPanel>
-                            <Label
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Top">
-                                <Label.Content>
-                                    <TextBlock
-                                        FontWeight="Bold"
-                                        Text="{Binding Path=LocalizedName}"
-                                        TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                    ToolTip="{Binding Path=LocalizedDescription}">
+                                    <iconPacks:PackIconFontAwesome
+                                        Width="16"
+                                        Height="18"
+                                        Kind="QuestionCircleRegular" />
+                                </Label>
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                                    ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_quest_item], Source={StaticResource proxy}}"
+                                    Visibility="{Binding Path=IsQuestItem, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <iconPacks:PackIconFontAwesome
+                                        Width="16"
+                                        Height="18"
+                                        Kind="CheckCircleRegular" />
+                                </Label>
+                                <Label
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top">
+                                    <Label.Content>
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Text="{Binding Path=LocalizedName}"
+                                            TextWrapping="Wrap" />
+                                    </Label.Content>
+                                </Label>
+                            </Grid>
                             <WrapPanel MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=DockPanel}, Path=ActualWidth}" DockPanel.Dock="Bottom">
                                 <WrapPanel.Style>
                                     <Style TargetType="WrapPanel">
@@ -184,6 +221,26 @@
                                         SelectedValue="{Binding Path=DogtagProperties.WeaponName}"
                                         SelectedValuePath="Id" />
                                 </DockPanel>
+                                <DockPanel Width="220" Visibility="{Binding Path=IsQuestItem, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Label
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        DockPanel.Dock="Left">
+                                        <Label.Content>
+                                            <TextBlock
+                                                FontWeight="Bold"
+                                                Text="{Binding Data.AppLocalization.Translations[tab_stash_add_to], Source={StaticResource proxy}}"
+                                                TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                    <ComboBox
+                                        Margin="5"
+                                        DisplayMemberPath="Value"
+                                        DockPanel.Dock="Right"
+                                        ItemsSource="{Binding Source={StaticResource StashTypeValueConverter}, Path=Strings}"
+                                        SelectedValue="{Binding Path=StashType, Converter={StaticResource StashTypeValueConverter}}"
+                                        SelectedValuePath="Key" />
+                                </DockPanel>
                                 <CheckBox
                                     Margin="5"
                                     Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}"
@@ -227,5 +284,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Content="Search all items" />
     </Grid>
 </UserControl>

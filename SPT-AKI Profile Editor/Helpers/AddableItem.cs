@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
@@ -27,6 +28,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         [JsonIgnore]
         public virtual string LocalizedName { get; set; }
+
+        [JsonIgnore]
+        public virtual string LocalizedDescription { get; set; }
+
+        [JsonIgnore]
+        public StashType StashType { get; set; } = StashType.Stash;
+
+        [JsonIgnore]
+        public virtual bool IsQuestItem => false;
 
         public bool CanBeAddedToContainer(TarkovItem container)
         {

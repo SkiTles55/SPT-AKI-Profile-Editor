@@ -209,6 +209,18 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="ToolTip">
+                <Style.Resources>
+                    <Style TargetType="ContentPresenter">
+                        <Style.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+                <Setter Property="MaxWidth" Value="500" />
+            </Style>
             <DataTemplate x:Key="SettingsTemplate">
                 <TextBlock
                     Width="140"
