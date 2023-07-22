@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public abstract class AddableItem
+    public abstract class AddableItem : BindableEntity
     {
         public virtual string Id { get; set; }
         public virtual string Parent { get; set; }

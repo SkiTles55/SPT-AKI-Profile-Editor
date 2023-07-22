@@ -28,10 +28,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty FilterDescriptionsProperty =
             DependencyProperty.Register(nameof(FilterDescriptions), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
 
-        public ItemsAdding()
-        {
-            InitializeComponent();
-        }
+        public ItemsAdding() => InitializeComponent();
 
         public string FilterName
         {
@@ -63,22 +60,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             set { SetValue(FilterDescriptionsProperty, value); }
         }
 
-        private void FilterBoxAdding_TextChanged(object sender, TextChangedEventArgs e) =>
-            ApplyAddingFilter();
-
         private void ApplyAddingFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(itemsList.ItemsSource);
             if (cv == null)
                 return;
-            else
-            {
-                cv.Filter = o =>
-                {
-                    AddableCategory p = o as AddableCategory;
-                    return p.ContainsItemsWithTextInName(FilterName ?? "", FilterDescriptions);
-                };
-            }
+            cv.Filter = o => (o as AddableCategory).ContainsItemsWithTextInName(FilterName ?? "", FilterDescriptions);
         }
 
         private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -87,7 +74,6 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 selectedCategory.ItemsSource = category.Items;
         }
 
-        private void CheckBox_StateChanged(object sender, RoutedEventArgs e) =>
-            ApplyAddingFilter();
+        private void SearchParamsChanged(object sender, System.EventArgs e) => ApplyAddingFilter();
     }
 }
