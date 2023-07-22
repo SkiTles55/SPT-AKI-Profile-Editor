@@ -50,12 +50,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
         [JsonIgnore]
         public bool IsNotHidden => Items.Count > 0 || Categories.Count > 0;
 
-        public bool ApplyFilter(string text)
+        public bool ApplyFilter(string text, bool includeDesriptions)
         {
             bool categories = false;
             foreach (var category in Categories)
             {
-                if (category.ContainsItemsWithTextInName(text ?? ""))
+                if (category.ContainsItemsWithTextInName(text ?? "", includeDesriptions))
                     categories = true;
             }
             ICollectionView cv = CollectionViewSource.GetDefaultView(Categories);
@@ -66,16 +66,16 @@ namespace SPT_AKI_Profile_Editor.Helpers
             cv.Filter = o =>
             {
                 AddableCategory p = o as AddableCategory;
-                return p.ContainsItemsWithTextInName(text ?? "");
+                return p.ContainsItemsWithTextInName(text ?? "", includeDesriptions);
             };
             return categories;
         }
 
-        public bool ContainsItemsWithTextInName(string text)
+        public bool ContainsItemsWithTextInName(string text, bool includeDesriptions)
         {
             FilterItems();
-            return Items.Any(x => x.LocalizedName.ToUpper().Contains(text.ToUpper()))
-                || ApplyFilter(text);
+            return Items.Any(x => FilterItem(text, includeDesriptions, x))
+                || ApplyFilter(text, includeDesriptions);
 
             void FilterItems()
             {
@@ -85,14 +85,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (string.IsNullOrEmpty(text))
                     cv.Filter = null;
                 else
-                {
-                    cv.Filter = o =>
-                    {
-                        AddableItem p = o as AddableItem;
-                        return p.LocalizedName.ToUpper().Contains(text.ToUpper());
-                    };
-                }
+                    cv.Filter = o => FilterItem(text, includeDesriptions, o as AddableItem);
             }
         }
+
+        private static bool FilterItem(string text, bool includeDesriptions, AddableItem p)
+        {
+            return p.LocalizedName.ToUpper().Contains(text.ToUpper())
+                || FilterWithDescription(text, includeDesriptions, p.LocalizedDescription);
+        }
+
+        private static bool FilterWithDescription(string text, bool includeDesriptions, string itemDescription)
+            => includeDesriptions
+            && !string.IsNullOrEmpty(itemDescription)
+            && itemDescription.ToUpper().Contains(text.ToUpper());
     }
 }

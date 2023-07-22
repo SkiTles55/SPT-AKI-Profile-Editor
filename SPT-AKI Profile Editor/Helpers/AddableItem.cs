@@ -27,10 +27,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public DogtagProperties DogtagProperties { get; set; }
 
         [JsonIgnore]
-        public virtual string LocalizedName { get; set; }
+        public virtual string LocalizedName { get; }
 
         [JsonIgnore]
-        public virtual string LocalizedDescription { get; set; }
+        public virtual string LocalizedDescription { get; }
 
         [JsonIgnore]
         public StashType StashType { get; set; } = StashType.Stash;

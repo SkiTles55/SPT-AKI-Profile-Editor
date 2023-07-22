@@ -31,27 +31,41 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DockPanel
+        <Border
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="3">
-            <Label
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="{Binding AppLocalization.Translations[tab_stash_search]}"
-                DockPanel.Dock="Left" />
-            <TextBox
-                Margin="5"
-                VerticalAlignment="Center"
-                mah:TextBoxHelper.ClearTextButton="True"
-                DockPanel.Dock="Right"
-                Text="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged}"
-                TextChanged="FilterBoxAdding_TextChanged" />
-        </DockPanel>
+            Grid.ColumnSpan="3"
+            BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+            BorderThickness="0,0,0,1">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Label
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding AppLocalization.Translations[tab_stash_search]}"
+                        DockPanel.Dock="Left" />
+                    <TextBox
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        mah:TextBoxHelper.ClearTextButton="True"
+                        DockPanel.Dock="Right"
+                        Text="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged}"
+                        TextChanged="FilterBoxAdding_TextChanged" />
+                </DockPanel>
+                <CheckBox
+                    Margin="5,0,0,5"
+                    Checked="CheckBox_StateChanged"
+                    Content="{Binding AppLocalization.Translations[tab_stash_search_include_description]}"
+                    DockPanel.Dock="Bottom"
+                    IsChecked="{Binding ElementName=Control, Path=FilterDescriptions, UpdateSourceTrigger=PropertyChanged}"
+                    Unchecked="CheckBox_StateChanged" />
+            </DockPanel>
+        </Border>
         <TreeView
             x:Name="itemsList"
             Grid.Row="1"
             Grid.Column="0"
+            Margin="0,5,0,0"
             ItemsSource="{Binding ElementName=Control, Path=CategoriesForItemsAdding}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItemChanged="SelectedItemChanged"
@@ -83,14 +97,17 @@
         </TreeView>
         <GridSplitter
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="1"
             Width="3"
+            Margin="0,5,0,0"
             Background="{DynamicResource MahApps.Brushes.Accent3}" />
         <ListBox
             x:Name="selectedCategory"
             Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="2"
+            Margin="0,5,0,0"
             ItemContainerStyle="{StaticResource NoHoverListBox}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             VirtualizingPanel.IsVirtualizing="True"
@@ -116,7 +133,8 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Top"
                                     Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                                    ToolTip="{Binding Path=LocalizedDescription}">
+                                    ToolTip="{Binding Path=LocalizedDescription}"
+                                    Visibility="{Binding Path=LocalizedDescription, Converter={StaticResource NullToVisibilityConverter}}">
                                     <iconPacks:PackIconFontAwesome
                                         Width="16"
                                         Height="18"

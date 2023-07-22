@@ -31,6 +31,7 @@
                     AddItemCommand="{Binding AddItem}"
                     AddItemsBlocked="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems}"
                     CategoriesForItemsAdding="{Binding ServerDatabase.HandbookHelper.CategoriesForItemsAdding}"
+                    FilterDescriptions="{Binding GridFilters.StashTab.IncludeDescriptionsInSearch, UpdateSourceTrigger=PropertyChanged}"
                     FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </TabItem>

@@ -25,6 +25,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty AddItemsBlockedProperty =
             DependencyProperty.Register(nameof(AddItemsBlocked), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty FilterDescriptionsProperty =
+            DependencyProperty.Register(nameof(FilterDescriptions), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
+
         public ItemsAdding()
         {
             InitializeComponent();
@@ -54,6 +57,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             set { SetValue(AddItemsBlockedProperty, value); }
         }
 
+        public bool FilterDescriptions
+        {
+            get { return (bool)GetValue(FilterDescriptionsProperty); }
+            set { SetValue(FilterDescriptionsProperty, value); }
+        }
+
         private void FilterBoxAdding_TextChanged(object sender, TextChangedEventArgs e) =>
             ApplyAddingFilter();
 
@@ -67,7 +76,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 cv.Filter = o =>
                 {
                     AddableCategory p = o as AddableCategory;
-                    return p.ContainsItemsWithTextInName(FilterName ?? "");
+                    return p.ContainsItemsWithTextInName(FilterName ?? "", FilterDescriptions);
                 };
             }
         }
@@ -77,5 +86,8 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             if (sender is TreeView treeView && treeView.SelectedItem != null && treeView.SelectedItem is AddableCategory category)
                 selectedCategory.ItemsSource = category.Items;
         }
+
+        private void CheckBox_StateChanged(object sender, RoutedEventArgs e) =>
+            ApplyAddingFilter();
     }
 }
