@@ -67,10 +67,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         {
             int slots = 0;
             if (Properties?.Grids != null && !Properties.Grids.Any(x => x.Props == null))
-            {
                 foreach (var grid in Properties.Grids)
                     slots += grid.Props.CellsH * grid.Props.CellsV;
-            }
             return slots;
         }
 
