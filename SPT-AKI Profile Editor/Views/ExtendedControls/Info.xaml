@@ -275,13 +275,13 @@
                 Grid.Column="1"
                 Margin="10,5"
                 Orientation="Horizontal">
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Stomach.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head], FallbackValue=Head}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest], FallbackValue=Chest}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Stomach.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Stomach], FallbackValue=Stomach}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Hand], FallbackValue=Right Hand}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftArm.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Hand], FallbackValue=Left Hand}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.RightLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Right Leg], FallbackValue=Right Leg}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.LeftLeg.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Left Leg], FallbackValue=Left Leg}" />
             </WrapPanel>
             <WrapPanel
                 Grid.Row="10"
