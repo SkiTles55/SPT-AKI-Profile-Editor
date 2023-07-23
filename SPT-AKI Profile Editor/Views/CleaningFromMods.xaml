@@ -78,50 +78,22 @@
                                                         Margin="5,0,0,0"
                                                         DockPanel.Dock="Right"
                                                         Orientation="Horizontal">
-                                                        <Button
+                                                        <extendedcontrols:ButtonFontAwesomeIcon
                                                             MaxHeight="15"
                                                             Margin="5"
                                                             Command="{Binding Data.SelectAll, Source={StaticResource proxy}}"
                                                             CommandParameter="{Binding}"
-                                                            Content="{Binding Data.AppLocalization.Translations[button_select_all], Source={StaticResource proxy}}">
-                                                            <Button.ContentTemplate>
-                                                                <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <iconPacks:PackIconFontAwesome
-                                                                            Width="15"
-                                                                            Height="15"
-                                                                            VerticalAlignment="Center"
-                                                                            Kind="TasksSolid" />
-                                                                        <TextBlock
-                                                                            Margin="5,0,0,0"
-                                                                            VerticalAlignment="Center"
-                                                                            Text="{Binding}" />
-                                                                    </StackPanel>
-                                                                </DataTemplate>
-                                                            </Button.ContentTemplate>
-                                                        </Button>
-                                                        <Button
+                                                            Content="{Binding Data.AppLocalization.Translations[button_select_all], Source={StaticResource proxy}}"
+                                                            Icon="TasksSolid"
+                                                            IconSize="15" />
+                                                        <extendedcontrols:ButtonFontAwesomeIcon
                                                             MaxHeight="15"
                                                             Margin="5"
                                                             Command="{Binding Data.DeselectAll, Source={StaticResource proxy}}"
                                                             CommandParameter="{Binding}"
-                                                            Content="{Binding Data.AppLocalization.Translations[button_deselect_all], Source={StaticResource proxy}}">
-                                                            <Button.ContentTemplate>
-                                                                <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <iconPacks:PackIconFontAwesome
-                                                                            Width="15"
-                                                                            Height="15"
-                                                                            VerticalAlignment="Center"
-                                                                            Kind="ListSolid" />
-                                                                        <TextBlock
-                                                                            Margin="5,0,0,0"
-                                                                            VerticalAlignment="Center"
-                                                                            Text="{Binding}" />
-                                                                    </StackPanel>
-                                                                </DataTemplate>
-                                                            </Button.ContentTemplate>
-                                                        </Button>
+                                                            Content="{Binding Data.AppLocalization.Translations[button_deselect_all], Source={StaticResource proxy}}"
+                                                            Icon="ListSolid"
+                                                            IconSize="15" />
                                                     </StackPanel>
                                                 </DockPanel>
                                             </Expander.Header>
@@ -226,77 +198,35 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button
+        <extendedcontrols:ButtonFontAwesomeIcon
             Grid.Row="1"
             Grid.Column="0"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding SelectAll}"
             Content="{Binding AppLocalization.Translations[button_select_all]}"
-            IsEnabled="{Binding CleaningService.CanSelectAll}">
-            <Button.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconFontAwesome
-                            Width="15"
-                            Height="15"
-                            VerticalAlignment="Center"
-                            Kind="TasksSolid" />
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding}" />
-                    </StackPanel>
-                </DataTemplate>
-            </Button.ContentTemplate>
-        </Button>
-        <Button
+            Icon="TasksSolid"
+            IconSize="15"
+            IsEnabled="{Binding CleaningService.CanSelectAll}" />
+        <extendedcontrols:ButtonFontAwesomeIcon
             Grid.Row="1"
             Grid.Column="1"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding DeselectAll}"
             Content="{Binding AppLocalization.Translations[button_deselect_all]}"
-            IsEnabled="{Binding CleaningService.CanDeselectAny}">
-            <Button.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconFontAwesome
-                            Width="15"
-                            Height="15"
-                            VerticalAlignment="Center"
-                            Kind="ListSolid" />
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding}" />
-                    </StackPanel>
-                </DataTemplate>
-            </Button.ContentTemplate>
-        </Button>
-        <Button
+            Icon="ListSolid"
+            IconSize="15"
+            IsEnabled="{Binding CleaningService.CanDeselectAny}" />
+        <extendedcontrols:ButtonFontAwesomeIcon
             Grid.Row="1"
             Grid.Column="2"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding RemoveSelected}"
             Content="{Binding AppLocalization.Translations[button_remove_selected]}"
-            IsEnabled="{Binding CleaningService.CanDeselectAny}">
-            <Button.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <iconPacks:PackIconFontAwesome
-                            Width="15"
-                            Height="15"
-                            VerticalAlignment="Center"
-                            Kind="TrashAltSolid" />
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding}" />
-                    </StackPanel>
-                </DataTemplate>
-            </Button.ContentTemplate>
-        </Button>
+            Icon="TrashAltSolid"
+            IconSize="15"
+            IsEnabled="{Binding CleaningService.CanDeselectAny}" />
     </Grid>
 </UserControl>

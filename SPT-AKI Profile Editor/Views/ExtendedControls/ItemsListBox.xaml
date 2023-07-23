@@ -182,27 +182,11 @@
                                 StringFormat="N0"
                                 TextAlignment="Left"
                                 Value="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" />
-                            <Button
+                            <extendedcontrols:ButtonFontAwesomeIcon
                                 Margin="5"
                                 Command="{Binding ElementName=Control, Path=AddItemCommand}"
                                 CommandParameter="{Binding}"
-                                Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}">
-                                <Button.ContentTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <iconPacks:PackIconFontAwesome
-                                                Width="12"
-                                                Height="12"
-                                                VerticalAlignment="Center"
-                                                Kind="PlusSolid" />
-                                            <TextBlock
-                                                Margin="10,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </Button.ContentTemplate>
-                            </Button>
+                                Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}" />
                         </WrapPanel>
                     </DockPanel>
                 </Border>

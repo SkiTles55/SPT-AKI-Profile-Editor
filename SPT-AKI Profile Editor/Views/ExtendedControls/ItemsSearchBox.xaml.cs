@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 {
     /// <summary>
-    /// Логика взаимодействия для ItemsFilter.xaml
+    /// Логика взаимодействия для ItemsSearchBox.xaml
     /// </summary>
     public partial class ItemsSearchBox : UserControl
     {
