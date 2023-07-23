@@ -74,7 +74,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public bool ContainsItemsWithTextInName(string text, bool includeDesriptions)
         {
             FilterItems();
-            return Items.Any(x => FilterItem(text, includeDesriptions, x))
+            return Items.Any(x => x.ContainsText(text, includeDesriptions))
                 || ApplyFilter(text, includeDesriptions);
 
             void FilterItems()
@@ -85,19 +85,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (string.IsNullOrEmpty(text))
                     cv.Filter = null;
                 else
-                    cv.Filter = o => FilterItem(text, includeDesriptions, o as AddableItem);
+                    cv.Filter = o => (o as AddableItem).ContainsText(text, includeDesriptions);
             }
         }
-
-        private static bool FilterItem(string text, bool includeDesriptions, AddableItem p)
-        {
-            return p.LocalizedName.ToUpper().Contains(text.ToUpper())
-                || FilterWithDescription(text, includeDesriptions, p.LocalizedDescription);
-        }
-
-        private static bool FilterWithDescription(string text, bool includeDesriptions, string itemDescription)
-            => includeDesriptions
-            && !string.IsNullOrEmpty(itemDescription)
-            && itemDescription.ToUpper().Contains(text.ToUpper());
     }
 }

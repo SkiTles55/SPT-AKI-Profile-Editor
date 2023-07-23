@@ -22,6 +22,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty AddItemCommandProperty =
             DependencyProperty.Register(nameof(AddItemCommand), typeof(ICommand), typeof(ItemsAdding), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty ShowAllItemsCommandProperty =
+            DependencyProperty.Register(nameof(ShowAllItemsCommand), typeof(ICommand), typeof(ItemsAdding), new PropertyMetadata(null));
+
         public static readonly DependencyProperty AddItemsBlockedProperty =
             DependencyProperty.Register(nameof(AddItemsBlocked), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
 
@@ -46,6 +49,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (ICommand)GetValue(AddItemCommandProperty); }
             set { SetValue(AddItemCommandProperty, value); }
+        }
+
+        public ICommand ShowAllItemsCommand
+        {
+            get { return (ICommand)GetValue(ShowAllItemsCommandProperty); }
+            set { SetValue(ShowAllItemsCommandProperty, value); }
         }
 
         public bool AddItemsBlocked

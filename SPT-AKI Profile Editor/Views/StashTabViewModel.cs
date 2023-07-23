@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
@@ -61,6 +62,8 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj?.ToString()));
+
+        public RelayCommand ShowAllItems => new(async obj => await _dialogManager.ShowAllItemsDialog(AddItem));
 
         private async Task RemoveItemFromStash(string obj)
         {

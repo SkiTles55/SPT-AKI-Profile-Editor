@@ -33,6 +33,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand);
 
+        public Task ShowAllItemsDialog(RelayCommand addCommand);
+
         public Task ShowProgressDialog(string title,
                                        string description,
                                        bool indeterminate = true,
@@ -147,6 +149,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             CustomDialog addMoneyDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_stash_dialog_money"), 500);
             await ShowCustomDialog<MoneyDailog>(viewModel, addMoneyDialog, new MoneyDailogViewModel(money, addCommand, viewModel));
+        }
+
+        public async Task ShowAllItemsDialog(RelayCommand addCommand)
+        {
+            CustomDialog allItemsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_stash_dialog_money"), 500);
+            await ShowCustomDialog<AllItemsDialog>(viewModel, allItemsDialog, new AllItemsDialogViewModel(addCommand, viewModel));
         }
 
         public async Task ShowOkMessageAsync(string title, string message)

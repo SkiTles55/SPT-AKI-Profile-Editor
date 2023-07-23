@@ -55,5 +55,16 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
             return true;
         }
+
+        public bool ContainsText(string text, bool includeDesriptions)
+        {
+            return LocalizedName.ToUpper().Contains(text.ToUpper())
+                || FilterWithDescription(text, includeDesriptions, LocalizedDescription);
+        }
+
+        private static bool FilterWithDescription(string text, bool includeDesriptions, string itemDescription)
+            => includeDesriptions
+            && !string.IsNullOrEmpty(itemDescription)
+            && itemDescription.ToUpper().Contains(text.ToUpper());
     }
 }

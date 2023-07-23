@@ -18,7 +18,8 @@
         ItemsSource="{Binding ElementName=Control, Path=ItemsSource}"
         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
         VirtualizingPanel.IsVirtualizing="True"
-        VirtualizingPanel.ScrollUnit="Pixel">
+        VirtualizingPanel.ScrollUnit="Pixel"
+        VirtualizingPanel.VirtualizationMode="Recycling">
         <ListBox.Resources>
             <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
         </ListBox.Resources>
