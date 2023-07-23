@@ -167,7 +167,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 var existedEntity = ModdedEntities?.FirstOrDefault(x => x.Id == id);
                 ModdedEntity newEntity = new(id,
                                              type,
-                                             existedEntity?.MarkedForRemoving ?? false, 
+                                             existedEntity?.MarkedForRemoving ?? false,
                                              tpl);
                 compositeCollection.Add(newEntity);
                 PropertyChangedEventHandler eventHandler = new(ChildChanged);
