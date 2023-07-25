@@ -12,6 +12,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,10 +30,10 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             SearchInDescriptions="{Binding ElementName=Control, Path=FilterDescriptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            SearchInDescriptionsTitle="{Binding AppLocalization.Translations[tab_stash_search_include_description]}"
+            SearchInDescriptionsTitle="{Binding AppLocalization.Translations[tab_stash_search_include_description], FallbackValue=tab_stash_search_include_description}"
             SearchParamsChanged="SearchParamsChanged"
             SearchText="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            SearchTitle="{Binding AppLocalization.Translations[tab_stash_search]}" />
+            SearchTitle="{Binding AppLocalization.Translations[tab_stash_search], FallbackValue=tab_stash_search}" />
         <TreeView
             x:Name="itemsList"
             Grid.Row="1"
@@ -87,6 +88,7 @@
             Grid.Column="0"
             Margin="5"
             Command="{Binding ElementName=Control, Path=ShowAllItemsCommand}"
-            Content="Search all items" />
+            Content="{Binding AppLocalization.Translations[tab_stash_all_items], FallbackValue=tab_stash_all_items}"
+            Visibility="{Binding ElementName=Control, Path=AddItemsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

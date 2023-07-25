@@ -7,8 +7,11 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class AllItemsDialogViewModel : ClosableDialogViewModel
     {
-        public AllItemsDialogViewModel(RelayCommand addCommand, object context) : base(context)
+        public AllItemsDialogViewModel(RelayCommand addCommand,
+                                       bool stashSelectorVisible,
+                                       object context) : base(context)
         {
+            StashSelectorVisible = stashSelectorVisible;
             AddCommand = addCommand;
         }
 
@@ -16,6 +19,8 @@ namespace SPT_AKI_Profile_Editor.Views
             => ServerDatabase?.ItemsDB?.Values
             .Where(x => x.Properties.StackMaxSize > 0)
             .Select(x => TarkovItem.CopyFrom(x));
+
+        public bool StashSelectorVisible { get; }
 
         public RelayCommand AddCommand { get; set; }
     }

@@ -33,7 +33,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand);
 
-        public Task ShowAllItemsDialog(RelayCommand addCommand);
+        public Task ShowAllItemsDialog(RelayCommand addCommand, bool stashSelectorVisible);
 
         public Task ShowProgressDialog(string title,
                                        string description,
@@ -151,10 +151,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
             await ShowCustomDialog<MoneyDailog>(viewModel, addMoneyDialog, new MoneyDailogViewModel(money, addCommand, viewModel));
         }
 
-        public async Task ShowAllItemsDialog(RelayCommand addCommand)
+        public async Task ShowAllItemsDialog(RelayCommand addCommand, bool stashSelectorVisible)
         {
-            CustomDialog allItemsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_stash_dialog_money"), 500);
-            await ShowCustomDialog<AllItemsDialog>(viewModel, allItemsDialog, new AllItemsDialogViewModel(addCommand, viewModel));
+            CustomDialog allItemsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_stash_all_items"), 500);
+            await ShowCustomDialog<AllItemsDialog>(viewModel,
+                                                   allItemsDialog,
+                                                   new AllItemsDialogViewModel(addCommand, stashSelectorVisible, viewModel));
         }
 
         public async Task ShowOkMessageAsync(string title, string message)

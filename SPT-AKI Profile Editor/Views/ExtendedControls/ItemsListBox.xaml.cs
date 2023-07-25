@@ -12,6 +12,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty AddItemsBlockedProperty =
             DependencyProperty.Register(nameof(AddItemsBlocked), typeof(bool), typeof(ItemsListBox), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty StashSelectorVisibleProperty =
+            DependencyProperty.Register(nameof(StashSelectorVisible), typeof(bool), typeof(ItemsListBox), new PropertyMetadata(true));
+
         public static readonly DependencyProperty AddItemCommandProperty =
             DependencyProperty.Register(nameof(AddItemCommand), typeof(ICommand), typeof(ItemsListBox), new PropertyMetadata(null));
 
@@ -21,6 +24,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (bool)GetValue(AddItemsBlockedProperty); }
             set { SetValue(AddItemsBlockedProperty, value); }
+        }
+
+        public bool StashSelectorVisible
+        {
+            get { return (bool)GetValue(StashSelectorVisibleProperty); }
+            set { SetValue(StashSelectorVisibleProperty, value); }
         }
 
         public ICommand AddItemCommand

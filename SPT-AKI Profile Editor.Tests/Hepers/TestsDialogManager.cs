@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task ShowAllItemsDialog(RelayCommand addCommand)
+        public Task ShowAllItemsDialog(RelayCommand addCommand, bool stashSelectorVisible)
         {
             addCommand.Execute(null);
             return Task.CompletedTask;

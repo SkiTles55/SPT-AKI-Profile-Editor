@@ -11,6 +11,10 @@
     mc:Ignorable="d">
     <helpers:GridControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            False="Collapsed"
+            True="Visible" />
         <helpers:StashTypeValueConverter x:Key="StashTypeValueConverter" />
     </helpers:GridControl.Resources>
     <ListBox
@@ -147,26 +151,28 @@
                                     SelectedValue="{Binding Path=DogtagProperties.WeaponName}"
                                     SelectedValuePath="Id" />
                             </DockPanel>
-                            <DockPanel Width="220" Visibility="{Binding Path=IsQuestItem, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Label
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Left">
-                                    <Label.Content>
-                                        <TextBlock
-                                            FontWeight="Bold"
-                                            Text="{Binding Data.AppLocalization.Translations[tab_stash_add_to], Source={StaticResource proxy}}"
-                                            TextWrapping="Wrap" />
-                                    </Label.Content>
-                                </Label>
-                                <ComboBox
-                                    Margin="5"
-                                    DisplayMemberPath="Value"
-                                    DockPanel.Dock="Right"
-                                    ItemsSource="{Binding Source={StaticResource StashTypeValueConverter}, Path=Strings}"
-                                    SelectedValue="{Binding Path=StashType, Converter={StaticResource StashTypeValueConverter}}"
-                                    SelectedValuePath="Key" />
-                            </DockPanel>
+                            <Border Visibility="{Binding ElementName=Control, Path=StashSelectorVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <DockPanel Width="220" Visibility="{Binding Path=IsQuestItem, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Label
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        DockPanel.Dock="Left">
+                                        <Label.Content>
+                                            <TextBlock
+                                                FontWeight="Bold"
+                                                Text="{Binding Data.AppLocalization.Translations[tab_stash_add_to], Source={StaticResource proxy}}"
+                                                TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                    <ComboBox
+                                        Margin="5"
+                                        DisplayMemberPath="Value"
+                                        DockPanel.Dock="Right"
+                                        ItemsSource="{Binding Source={StaticResource StashTypeValueConverter}, Path=Strings}"
+                                        SelectedValue="{Binding Path=StashType, Converter={StaticResource StashTypeValueConverter}}"
+                                        SelectedValuePath="Key" />
+                                </DockPanel>
+                            </Border>
                             <CheckBox
                                 Margin="5"
                                 Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}"

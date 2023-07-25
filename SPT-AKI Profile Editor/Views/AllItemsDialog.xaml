@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DataContext="{d:DesignInstance Type=local:AllItemsDialogViewModel}"
@@ -11,23 +12,59 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="300" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition MinHeight="100" MaxHeight="300" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="0,2,0,2"
+            VerticalAlignment="Top"
+            FontSize="15"
+            Text="{Binding AppLocalization.Translations[all_items_description], FallbackValue=all_items_description}"
+            TextWrapping="Wrap" />
+        <iconPacks:PackIconFontAwesome
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,4,0,4"
+            VerticalAlignment="Center"
+            Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
+            Kind="ExclamationSolid" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="0,2,0,2"
+            VerticalAlignment="Top"
+            Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
+            Text="{Binding AppLocalization.Translations[all_items_warning], FallbackValue=all_items_warning}"
+            TextWrapping="Wrap" />
         <extendedcontrols:ItemsSearchBox
             x:Name="searchBox"
-            Grid.Row="0"
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             SearchInDescriptionsTitle="{Binding AppLocalization.Translations[tab_stash_search_include_description], FallbackValue=tab_stash_search_include_description}"
             SearchParamsChanged="SearchParamsChanged"
             SearchTitle="{Binding AppLocalization.Translations[tab_stash_search], FallbackValue=tab_stash_search}" />
         <extendedcontrols:ItemsListBox
             x:Name="itemsList"
-            Grid.Row="1"
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             Margin="0,5,0,0"
             AddItemCommand="{Binding AddCommand}"
-            ItemsSource="{Binding AddableItems}" />
+            ItemsSource="{Binding AddableItems}"
+            StashSelectorVisible="{Binding StashSelectorVisible}" />
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="4"
+            Grid.Column="0"
             Grid.ColumnSpan="2"
             MinHeight="85"
             HorizontalAlignment="Right"
