@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Emerald.xaml" />
+                <ResourceDictionary Source="/Resources/Buttons.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style
                 x:Key="MyColumnHeader"
@@ -208,6 +209,18 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+            </Style>
+            <Style TargetType="ToolTip">
+                <Style.Resources>
+                    <Style TargetType="ContentPresenter">
+                        <Style.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+                <Setter Property="MaxWidth" Value="500" />
             </Style>
             <DataTemplate x:Key="SettingsTemplate">
                 <TextBlock

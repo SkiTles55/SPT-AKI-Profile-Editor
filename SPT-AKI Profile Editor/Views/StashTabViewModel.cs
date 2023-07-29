@@ -62,6 +62,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand AddMoney => new(async obj => await ShowAddMoneyDialog(obj?.ToString()));
 
+        public RelayCommand ShowAllItems => new(async obj => await _dialogManager.ShowAllItemsDialog(AddItem, true));
+
         private async Task RemoveItemFromStash(string obj)
         {
             if (!string.IsNullOrEmpty(obj) && await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_item_caption"))

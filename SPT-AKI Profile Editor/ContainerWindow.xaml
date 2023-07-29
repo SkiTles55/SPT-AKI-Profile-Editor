@@ -64,7 +64,8 @@
             <extendedcontrols:ItemsAdding
                 AddItemCommand="{Binding AddItem}"
                 AddItemsBlocked="{Binding ItemsAddingBlocked}"
-                CategoriesForItemsAdding="{Binding CategoriesForItemsAdding}" />
+                CategoriesForItemsAdding="{Binding CategoriesForItemsAdding}"
+                ShowAllItemsCommand="{Binding ShowAllItems}" />
         </TabItem>
     </TabControl>
 </helpers:ItemViewWindow>

@@ -47,7 +47,6 @@
                                     TextWrapping="Wrap" />
                                 <TextBox
                                     Margin="5"
-                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     mah:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"

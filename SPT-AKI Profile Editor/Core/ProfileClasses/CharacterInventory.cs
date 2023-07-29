@@ -33,9 +33,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 stash = value;
-                OnPropertyChanged("Stash");
+                OnPropertyChanged(nameof(Stash));
             }
         }
+
+        [JsonProperty("questRaidItems")]
+        public string QuestRaidItems { get; set; }
+
+        [JsonProperty("questStashItems")]
+        public string QuestStashItems { get; set; }
 
         [JsonProperty("equipment")]
         public string Equipment
@@ -44,7 +50,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 equipment = value;
-                OnPropertyChanged("Equipment");
+                OnPropertyChanged(nameof(Equipment));
             }
         }
 
@@ -62,7 +68,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (pocketsSlot != null)
                 {
                     pocketsSlot.Tpl = value;
-                    OnPropertyChanged("Pockets");
+                    OnPropertyChanged(nameof(Pockets));
                 }
             }
         }
@@ -181,7 +187,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void AddNewItemsToStash(AddableItem item)
         {
-            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            var stashId = item.IsQuestItem ? GetStashId(item.StashType) : Stash;
+            InventoryItem ProfileStash = Items.Where(x => x.Id == stashId).FirstOrDefault();
             AddNewItemsToContainer(ProfileStash, item, "hideout");
         }
 
@@ -378,6 +385,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
 
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
+        }
+
+        private string GetStashId(StashType stashType)
+        {
+            return stashType switch
+            {
+                StashType.QuestRaidItems => QuestRaidItems,
+                StashType.QuestStashItems => QuestStashItems,
+                _ => Stash,
+            };
         }
 
         private void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, string slotId)

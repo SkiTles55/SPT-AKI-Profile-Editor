@@ -40,7 +40,8 @@
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             TargetUpdated="ListBoxTargetUpdated"
             VirtualizingPanel.IsVirtualizing="true"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <ListBox.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </ListBox.Resources>

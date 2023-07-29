@@ -4,6 +4,8 @@
     {
         public static string Name(this string value) => $"{value} Name";
 
+        public static string Description(this string value) => $"{value} Description";
+
         public static string Nickname(this string value) => $"{value} Nickname";
 
         public static string QuestName(this string value) => $"{value} name";

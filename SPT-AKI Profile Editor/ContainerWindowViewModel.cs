@@ -80,6 +80,8 @@ namespace SPT_AKI_Profile_Editor
                 _worker.AddTask(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
 
+        public RelayCommand ShowAllItems => new(async obj => await _dialogManager.ShowAllItemsDialog(AddItem, false));
+
         private void RemoveItemFromContainer(string id)
         {
             GetInventory().RemoveItems(new() { id });
