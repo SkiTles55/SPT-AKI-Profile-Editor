@@ -28,17 +28,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Command="{Binding RemoveAllItems}"
-            Content="{Binding AppLocalization.Translations[tab_stash_remove]}">
-            <Button.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                    <Setter Property="IsEnabled" Value="True" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Profile.Characters.Pmc.Inventory.HasItems}" Value="False">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+            Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+            IsEnabled="{Binding Profile.Characters.Pmc.Inventory.HasItems}" />
     </Grid>
 </UserControl>

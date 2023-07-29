@@ -6,6 +6,28 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="addButton" TargetType="Button">
+            <Button
+                Width="30"
+                Height="30"
+                Command="{TemplateBinding Command}"
+                CommandParameter="{TemplateBinding CommandParameter}"
+                Style="{DynamicResource MahApps.Styles.Button.Circle}">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <iconPacks:PackIconFontAwesome
+                            Width="10"
+                            Height="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                            Kind="PlusSolid" />
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -51,29 +73,12 @@
                 Margin="5,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding Profile.Characters.Pmc.Inventory.RublesCount}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding Profile.Characters.Pmc.Inventory.RublesCount}"
+                FontWeight="Bold" />
             <Button
-                Width="30"
-                Height="30"
                 Command="{Binding AddMoney}"
                 CommandParameter="{Binding AppSettings.MoneysRublesTpl}"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <iconPacks:PackIconFontAwesome
-                            Width="10"
-                            Height="10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                            Kind="PlusSolid" />
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
+                Template="{StaticResource addButton}" />
             <iconPacks:PackIconFontAwesome
                 Width="15"
                 Height="15"
@@ -84,29 +89,12 @@
                 Margin="5,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding Profile.Characters.Pmc.Inventory.EurosCount}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding Profile.Characters.Pmc.Inventory.EurosCount}"
+                FontWeight="Bold" />
             <Button
-                Width="30"
-                Height="30"
                 Command="{Binding AddMoney}"
                 CommandParameter="{Binding AppSettings.MoneysEurosTpl}"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <iconPacks:PackIconFontAwesome
-                            Width="10"
-                            Height="10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                            Kind="PlusSolid" />
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
+                Template="{StaticResource addButton}" />
             <iconPacks:PackIconFontAwesome
                 Width="15"
                 Height="15"
@@ -117,29 +105,12 @@
                 Margin="5,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding Profile.Characters.Pmc.Inventory.DollarsCount}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding Profile.Characters.Pmc.Inventory.DollarsCount}"
+                FontWeight="Bold" />
             <Button
-                Width="30"
-                Height="30"
                 Command="{Binding AddMoney}"
                 CommandParameter="{Binding AppSettings.MoneysDollarsTpl}"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <iconPacks:PackIconFontAwesome
-                            Width="10"
-                            Height="10"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                            Kind="PlusSolid" />
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
+                Template="{StaticResource addButton}" />
         </StackPanel>
     </Grid>
 </UserControl>
