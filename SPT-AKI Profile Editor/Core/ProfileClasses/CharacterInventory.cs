@@ -33,9 +33,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 stash = value;
-                OnPropertyChanged("Stash");
+                OnPropertyChanged(nameof(Stash));
             }
         }
+
+        [JsonProperty("questRaidItems")]
+        public string QuestRaidItems { get; set; }
+
+        [JsonProperty("questStashItems")]
+        public string QuestStashItems { get; set; }
 
         [JsonProperty("equipment")]
         public string Equipment
@@ -44,7 +50,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 equipment = value;
-                OnPropertyChanged("Equipment");
+                OnPropertyChanged(nameof(Equipment));
             }
         }
 
@@ -62,7 +68,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (pocketsSlot != null)
                 {
                     pocketsSlot.Tpl = value;
-                    OnPropertyChanged("Pockets");
+                    OnPropertyChanged(nameof(Pockets));
                 }
             }
         }
@@ -181,7 +187,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void AddNewItemsToStash(AddableItem item)
         {
-            InventoryItem ProfileStash = Items.Where(x => x.Id == Stash).FirstOrDefault();
+            var stashId = item.IsQuestItem ? GetStashId(item.StashType) : Stash;
+            InventoryItem ProfileStash = Items.Where(x => x.Id == stashId).FirstOrDefault();
             AddNewItemsToContainer(ProfileStash, item, "hideout");
         }
 
@@ -302,10 +309,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (size == Width * Height)
             {
                 for (int y = 0; y < Width; y++)
-                {
                     for (int z = slot.X; z < slot.X + Height; z++)
                         Stash[slot.Y + y, z] = 1;
-                }
                 return new ItemLocation { X = slot.X, Y = slot.Y };
             }
             return null;
@@ -349,6 +354,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                 if (!item.SlotId.Contains("mod_"))
                                     continue;
                                 toDo.Add(item.Id);
+                                if (!AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl))
+                                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_modded_item_founded_error"));
                                 TarkovItem itm = AppData.ServerDatabase.ItemsDB[item.Tpl];
                                 bool childFoldable = itm.Properties.Foldable;
                                 bool childFolded = item.Upd != null && item.Upd.Foldable != null && item.Upd.Foldable.Folded;
@@ -378,6 +385,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
 
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
+        }
+
+        private string GetStashId(StashType stashType)
+        {
+            return stashType switch
+            {
+                StashType.QuestRaidItems => QuestRaidItems,
+                StashType.QuestStashItems => QuestStashItems,
+                _ => Stash,
+            };
         }
 
         private void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, string slotId)
@@ -427,9 +444,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int stacks = count / stackSize;
             if (stackSize * stacks < count) stacks++;
             int[,] Stash = GetSlotsMap(container);
-            List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks);
-            if (NewItemsLocations == null)
-                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
+            List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks)
+                ?? throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
             List<string> iDs = Items.Select(x => x.Id).ToList();
             List<InventoryItem> items = Items.ToList();
             for (int i = 0; i < NewItemsLocations.Count; i++)

@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
@@ -27,57 +27,21 @@
     </i:Interaction.Triggers>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button Command="{Binding OpenFAQ}" Content="{Binding AppLocalization.Translations[button_faq]}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconFontAwesome
-                                Width="20"
-                                Height="22"
-                                VerticalAlignment="Center"
-                                Kind="InfoCircleSolid" />
-                            <TextBlock
-                                Margin="4,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-            <Button Command="{Binding OpenFastModeCommand}" Content="{Binding AppLocalization.Translations[button_fast_mode]}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconFontAwesome
-                                Width="22"
-                                Height="22"
-                                VerticalAlignment="Center"
-                                Kind="FighterJetSolid" />
-                            <TextBlock
-                                Margin="4,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-            <Button Command="{Binding OpenSettingsCommand}" Content="{Binding AppLocalization.Translations[button_settings]}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconFontAwesome
-                                Width="20"
-                                Height="20"
-                                VerticalAlignment="Center"
-                                Kind="WrenchSolid" />
-                            <TextBlock
-                                Margin="4,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
+            <extendedcontrols:ButtonFontAwesomeIcon
+                Command="{Binding OpenFAQ}"
+                Content="{Binding AppLocalization.Translations[button_faq]}"
+                Icon="InfoCircleSolid"
+                Style="{StaticResource WindowCommandButton}" />
+            <extendedcontrols:ButtonFontAwesomeIcon
+                Command="{Binding OpenFastModeCommand}"
+                Content="{Binding AppLocalization.Translations[button_fast_mode]}"
+                Icon="FighterJetSolid"
+                Style="{StaticResource WindowCommandButton}" />
+            <extendedcontrols:ButtonFontAwesomeIcon
+                Command="{Binding OpenSettingsCommand}"
+                Content="{Binding AppLocalization.Translations[button_settings]}"
+                Icon="WrenchSolid"
+                Style="{StaticResource WindowCommandButton}" />
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
     <mah:MetroWindow.Flyouts>
@@ -132,6 +96,9 @@
             <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:WeaponBuilds DataContext="{Binding ViewModels.WeaponBuildsTab}" />
             </TabItem>
+            <TabItem Header="{Binding AppLocalization.Translations[tab_clearing_from_mods_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+                <views:CleaningFromMods DataContext="{Binding ViewModels.CleaningFromModsTab}" />
+            </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_changes_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:ChangesTab DataContext="{Binding ViewModels.ChangesTab}" />
             </TabItem>
@@ -149,48 +116,20 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal"
             Visibility="Visible">
-            <Button
+            <extendedcontrols:ButtonFontAwesomeIcon
                 Width="250"
                 Margin="10,5,5,0"
                 Command="{Binding ReloadButtonCommand}"
-                Content="{Binding AppLocalization.Translations[button_reload_profile]}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconFontAwesome
-                                Width="22"
-                                Height="22"
-                                VerticalAlignment="Center"
-                                Kind="UndoSolid" />
-                            <TextBlock
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
-            <Button
+                Content="{Binding AppLocalization.Translations[button_reload_profile]}"
+                Icon="UndoSolid"
+                IconSize="22" />
+            <extendedcontrols:ButtonFontAwesomeIcon
                 Width="250"
                 Margin="5,5,10,0"
                 Command="{Binding SaveButtonCommand}"
-                Content="{Binding AppLocalization.Translations[button_save_profile]}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <iconPacks:PackIconFontAwesome
-                                Width="22"
-                                Height="22"
-                                VerticalAlignment="Center"
-                                Kind="SaveRegular" />
-                            <TextBlock
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </Button.ContentTemplate>
-            </Button>
+                Content="{Binding AppLocalization.Translations[button_save_profile]}"
+                Icon="SaveRegular"
+                IconSize="22" />
         </StackPanel>
         <Border
             Grid.Row="0"

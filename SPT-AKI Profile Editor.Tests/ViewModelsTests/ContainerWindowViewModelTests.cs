@@ -12,41 +12,17 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     {
         private static readonly TestsDialogManager dialogManager = new();
         private static readonly TestsWorker worker = new();
+        private static readonly string backpackTpl = "545cdae64bdc2d39198b4568";
+        private static string BackpackName => AppData.ServerDatabase.LocalesGlobal[backpackTpl.Name()];
 
         [OneTimeSetUp]
         public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
-        public void InitializeCorrectlyForPmc()
-        {
-            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
-            Assert.Multiple(() =>
-            {
-                Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
-                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.PMC)), "Wrong WindowTitle");
-                Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
-                Assert.That(pmcContainer.Items, Is.Not.Null, "Items is not null");
-                Assert.That(pmcContainer.Items.Count, Is.EqualTo(3), "Items.Count is not 3");
-                Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
-                Assert.That(pmcContainer.CategoriesForItemsAdding.Count, Is.GreaterThan(0), "CategoriesForItemsAdding is empty");
-            });
-        }
+        public void InitializeCorrectlyForPmc() => InitializeCorrectly(TestViewModel(StashEditMode.PMC), 3);
 
         [Test]
-        public void InitializeCorrectlyForScav()
-        {
-            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.Scav);
-            Assert.Multiple(() =>
-            {
-                Assert.That(pmcContainer, Is.Not.Null, "ContainerWindowViewModel is null");
-                Assert.That(pmcContainer.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("ContainerWindowViewModel", StashEditMode.Scav)), "Wrong WindowTitle");
-                Assert.That(pmcContainer.HasItems, Is.True, "HasItems is false");
-                Assert.That(pmcContainer.Items, Is.Not.Null, "Items is not null");
-                Assert.That(pmcContainer.Items.Count, Is.EqualTo(5), "Items.Count is not 5");
-                Assert.That(pmcContainer.ItemsAddingAllowed, Is.False, "ItemsAddingAllowed is true");
-                Assert.That(pmcContainer.CategoriesForItemsAdding.Count, Is.GreaterThan(0), "CategoriesForItemsAdding is empty");
-            });
-        }
+        public void InitializeCorrectlyForScav() => InitializeCorrectly(TestViewModel(StashEditMode.Scav), 5);
 
         [Test]
         public void CanOpenContainer()
@@ -100,13 +76,27 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(pmcContainer.Items.Where(x => x.Tpl == "544fb37f4bdc2dee738b4567").FirstOrDefault(), Is.Not.Null, "Item not added");
         }
 
+        private static void InitializeCorrectly(ContainerWindowViewModel container, int expectedCount)
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(container, Is.Not.Null, "ContainerWindowViewModel is null");
+                Assert.That(container.WindowTitle, Is.EqualTo(BackpackName), "Wrong WindowTitle");
+                Assert.That(container.HasItems, Is.True, "HasItems is false");
+                Assert.That(container.Items, Is.Not.Null, "Items is not null");
+                Assert.That(container.Items.Count, Is.EqualTo(expectedCount), $"Items.Count is not {expectedCount}");
+                Assert.That(container.ItemsAddingAllowed, Is.True, "ItemsAddingAllowed is false");
+                Assert.That(container.CategoriesForItemsAdding.Count, Is.GreaterThan(0), "CategoriesForItemsAdding is empty");
+            });
+        }
+
         private static ContainerWindowViewModel TestViewModel(StashEditMode editMode, IApplicationManager applicationManager = null)
         {
             TestHelpers.SetupTestCharacters("ContainerWindowViewModel", editMode);
             InventoryItem item = new()
             {
                 Id = TestHelpers.GetTestName("ContainerWindowViewModel", editMode),
-                Tpl = TestHelpers.GetTestName("ContainerWindowViewModel", editMode)
+                Tpl = backpackTpl
             };
             return new(item, editMode, null, applicationManager, dialogManager, worker);
         }

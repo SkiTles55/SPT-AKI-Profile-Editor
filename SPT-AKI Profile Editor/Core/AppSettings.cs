@@ -24,6 +24,9 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string yoomoneyUrl = "https://yoomoney.ru/to/410015658095326";
 
         [JsonIgnore]
+        public readonly string ltcWallet = "MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif";
+
+        [JsonIgnore]
         public readonly string sptAkiProjectUrl = "https://www.sp-tarkov.com/";
 
         [JsonIgnore]
@@ -87,6 +90,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private bool? checkUpdates;
         private string ragfairTraderId;
         private string bearDogtagTpl;
+        private string endlessDevBackpackId;
 
         public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
@@ -381,6 +385,16 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public string EndlessDevBackpackId
+        {
+            get => endlessDevBackpackId;
+            set
+            {
+                endlessDevBackpackId = value;
+                NotifyPropertyChangedAndSave("EndlessDevBackpackId");
+            }
+        }
+
         public string BearDogtagTpl
         {
             get => bearDogtagTpl;
@@ -472,7 +486,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 + MoneysEurosTpl
                 + MoneysRublesTpl
                 + RagfairTraderId
-                + BearDogtagTpl;
+                + BearDogtagTpl
+                + EndlessDevBackpackId;
         }
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
@@ -597,6 +612,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BannedMasterings = loaded.bannedMasterings;
             IssuesAction = loaded.IssuesAction;
             BearDogtagTpl = loaded.BearDogtagTpl;
+            EndlessDevBackpackId = loaded.EndlessDevBackpackId;
         }
 
         private bool CheckValues()
@@ -752,6 +768,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 BearDogtagTpl = DefaultValues.BearDogtagTpl;
                 _needReSave = true;
             }
+            if (EndlessDevBackpackId == null)
+            {
+                EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -789,6 +810,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BannedMasterings = DefaultValues.BannedMasterings;
             IssuesAction = DefaultValues.DefaultIssuesAction;
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
+            EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
             Logger.Log($"Default configuration file created");
             Save();
         }

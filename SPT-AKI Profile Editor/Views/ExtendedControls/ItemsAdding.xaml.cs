@@ -22,13 +22,16 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty AddItemCommandProperty =
             DependencyProperty.Register(nameof(AddItemCommand), typeof(ICommand), typeof(ItemsAdding), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty ShowAllItemsCommandProperty =
+            DependencyProperty.Register(nameof(ShowAllItemsCommand), typeof(ICommand), typeof(ItemsAdding), new PropertyMetadata(null));
+
         public static readonly DependencyProperty AddItemsBlockedProperty =
             DependencyProperty.Register(nameof(AddItemsBlocked), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
 
-        public ItemsAdding()
-        {
-            InitializeComponent();
-        }
+        public static readonly DependencyProperty FilterDescriptionsProperty =
+            DependencyProperty.Register(nameof(FilterDescriptions), typeof(bool), typeof(ItemsAdding), new PropertyMetadata(false));
+
+        public ItemsAdding() => InitializeComponent();
 
         public string FilterName
         {
@@ -48,28 +51,30 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             set { SetValue(AddItemCommandProperty, value); }
         }
 
+        public ICommand ShowAllItemsCommand
+        {
+            get { return (ICommand)GetValue(ShowAllItemsCommandProperty); }
+            set { SetValue(ShowAllItemsCommandProperty, value); }
+        }
+
         public bool AddItemsBlocked
         {
             get { return (bool)GetValue(AddItemsBlockedProperty); }
             set { SetValue(AddItemsBlockedProperty, value); }
         }
 
-        private void FilterBoxAdding_TextChanged(object sender, TextChangedEventArgs e) =>
-            ApplyAddingFilter();
+        public bool FilterDescriptions
+        {
+            get { return (bool)GetValue(FilterDescriptionsProperty); }
+            set { SetValue(FilterDescriptionsProperty, value); }
+        }
 
         private void ApplyAddingFilter()
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(itemsList.ItemsSource);
             if (cv == null)
                 return;
-            else
-            {
-                cv.Filter = o =>
-                {
-                    AddableCategory p = o as AddableCategory;
-                    return p.ContainsItemsWithTextInName(FilterName ?? "");
-                };
-            }
+            cv.Filter = o => (o as AddableCategory).ContainsItemsWithTextInName(FilterName ?? "", FilterDescriptions);
         }
 
         private void SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -77,5 +82,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             if (sender is TreeView treeView && treeView.SelectedItem != null && treeView.SelectedItem is AddableCategory category)
                 selectedCategory.ItemsSource = category.Items;
         }
+
+        private void SearchParamsChanged(object sender, System.EventArgs e) => ApplyAddingFilter();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
+using System.Windows;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -17,8 +18,11 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static string YoomoneyUrl => AppSettings.yoomoneyUrl;
 
+        public static string LtcWallet => AppSettings.ltcWallet;
+
         public static string SptAkiProjectUrl => AppSettings.sptAkiProjectUrl;
 
+        public static RelayCommand CopyLtcWallet => new(obj => Clipboard.SetText(LtcWallet));
         public RelayCommand OpenAutorGitHubUrl => new(obj => OpenUrl(AuthorURL));
 
         public RelayCommand OpenRepositoryGitHubUrl => new(obj => OpenUrl(RepositoryURL));

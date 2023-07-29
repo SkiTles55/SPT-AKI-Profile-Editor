@@ -5,8 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
@@ -14,6 +12,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,28 +23,22 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DockPanel
+        <extendedcontrols:ItemsSearchBox
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="3">
-            <Label
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="{Binding AppLocalization.Translations[tab_stash_search]}"
-                DockPanel.Dock="Left" />
-            <TextBox
-                Margin="5"
-                VerticalAlignment="Center"
-                mah:TextBoxHelper.ClearTextButton="True"
-                DockPanel.Dock="Right"
-                Text="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged}"
-                TextChanged="FilterBoxAdding_TextChanged" />
-        </DockPanel>
+            Grid.ColumnSpan="3"
+            SearchInDescriptions="{Binding ElementName=Control, Path=FilterDescriptions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            SearchInDescriptionsTitle="{Binding AppLocalization.Translations[tab_stash_search_include_description], FallbackValue=tab_stash_search_include_description}"
+            SearchParamsChanged="SearchParamsChanged"
+            SearchText="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            SearchTitle="{Binding AppLocalization.Translations[tab_stash_search], FallbackValue=tab_stash_search}" />
         <TreeView
             x:Name="itemsList"
             Grid.Row="1"
             Grid.Column="0"
+            Margin="0,5,0,0"
             ItemsSource="{Binding ElementName=Control, Path=CategoriesForItemsAdding}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItemChanged="SelectedItemChanged"
@@ -77,155 +70,25 @@
         </TreeView>
         <GridSplitter
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="1"
             Width="3"
+            Margin="0,5,0,0"
             Background="{DynamicResource MahApps.Brushes.Accent3}" />
-        <ListBox
+        <extendedcontrols:ItemsListBox
             x:Name="selectedCategory"
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="2"
-            ItemContainerStyle="{StaticResource NoHoverListBox}"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.ScrollUnit="Pixel">
-            <ListBox.Resources>
-                <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </ListBox.Resources>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border
-                        Margin="5"
-                        BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
-                        BorderThickness="1">
-                        <DockPanel>
-                            <Label
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Top">
-                                <Label.Content>
-                                    <TextBlock
-                                        FontWeight="Bold"
-                                        Text="{Binding Path=LocalizedName}"
-                                        TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
-                            <WrapPanel MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=DockPanel}, Path=ActualWidth}" DockPanel.Dock="Bottom">
-                                <WrapPanel.Style>
-                                    <Style TargetType="WrapPanel">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=Control, Path=AddItemsBlocked, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                                                <Setter Property="IsEnabled" Value="True" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </WrapPanel.Style>
-                                <DockPanel Width="180" Visibility="{Binding Path=DogtagProperties, Converter={StaticResource NullToVisibilityConverter}}">
-                                    <Label
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        DockPanel.Dock="Left">
-                                        <Label.Content>
-                                            <TextBlock
-                                                FontWeight="Bold"
-                                                Text="{Binding Data.AppLocalization.Translations[tab_info_nickname], Source={StaticResource proxy}}"
-                                                TextWrapping="Wrap" />
-                                        </Label.Content>
-                                    </Label>
-                                    <TextBox
-                                        Margin="5"
-                                        DockPanel.Dock="Right"
-                                        Text="{Binding Path=DogtagProperties.Nickname}" />
-                                </DockPanel>
-                                <DockPanel Width="150" Visibility="{Binding Path=DogtagProperties, Converter={StaticResource NullToVisibilityConverter}}">
-                                    <Label
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        DockPanel.Dock="Left">
-                                        <Label.Content>
-                                            <TextBlock
-                                                FontWeight="Bold"
-                                                Text="{Binding Data.AppLocalization.Translations[tab_info_level], Source={StaticResource proxy}}"
-                                                TextWrapping="Wrap" />
-                                        </Label.Content>
-                                    </Label>
-                                    <extendedcontrols:NumericUpDownExt
-                                        Margin="5"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        Culture="ru-RU"
-                                        DockPanel.Dock="Right"
-                                        FontWeight="Bold"
-                                        Interval="1"
-                                        Maximum="{Binding Data.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel, Source={StaticResource proxy}}"
-                                        Minimum="1"
-                                        NumericInputMode="Numbers"
-                                        StringFormat="N0"
-                                        TextAlignment="Left"
-                                        Value="{Binding Path=DogtagProperties.Level, UpdateSourceTrigger=PropertyChanged}" />
-                                </DockPanel>
-                                <DockPanel Width="280" Visibility="{Binding Path=DogtagProperties, Converter={StaticResource NullToVisibilityConverter}}">
-                                    <Label
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        DockPanel.Dock="Left">
-                                        <Label.Content>
-                                            <TextBlock
-                                                FontWeight="Bold"
-                                                Text="{Binding Data.AppLocalization.Translations[tab_mastering_weapon], Source={StaticResource proxy}}"
-                                                TextWrapping="Wrap" />
-                                        </Label.Content>
-                                    </Label>
-                                    <ComboBox
-                                        Margin="5"
-                                        DisplayMemberPath="LocalizedName"
-                                        DockPanel.Dock="Right"
-                                        ItemsSource="{Binding Path=DogtagProperties.AvailableWeapons}"
-                                        SelectedValue="{Binding Path=DogtagProperties.WeaponName}"
-                                        SelectedValuePath="Id" />
-                                </DockPanel>
-                                <CheckBox
-                                    Margin="5"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_stash_fir], Source={StaticResource proxy}}"
-                                    IsChecked="{Binding Path=AddingFir, UpdateSourceTrigger=PropertyChanged}" />
-                                <extendedcontrols:NumericUpDownExt
-                                    Width="80"
-                                    Margin="5"
-                                    HorizontalAlignment="Stretch"
-                                    Culture="ru-RU"
-                                    FontWeight="Bold"
-                                    Interval="1"
-                                    Minimum="1"
-                                    NumericInputMode="Numbers"
-                                    StringFormat="N0"
-                                    TextAlignment="Left"
-                                    Value="{Binding Path=AddingQuantity, UpdateSourceTrigger=PropertyChanged}" />
-                                <Button
-                                    Margin="5"
-                                    Command="{Binding ElementName=Control, Path=AddItemCommand}"
-                                    CommandParameter="{Binding}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_stash_add], Source={StaticResource proxy}}">
-                                    <Button.ContentTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <iconPacks:PackIconFontAwesome
-                                                    Width="12"
-                                                    Height="12"
-                                                    VerticalAlignment="Center"
-                                                    Kind="PlusSolid" />
-                                                <TextBlock
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    Text="{Binding}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </Button.ContentTemplate>
-                                </Button>
-                            </WrapPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            Margin="0,5,0,0"
+            AddItemCommand="{Binding ElementName=Control, Path=AddItemCommand}"
+            AddItemsBlocked="{Binding ElementName=Control, Path=AddItemsBlocked}" />
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5"
+            Command="{Binding ElementName=Control, Path=ShowAllItemsCommand}"
+            Content="{Binding AppLocalization.Translations[tab_stash_all_items], FallbackValue=tab_stash_all_items}"
+            Visibility="{Binding ElementName=Control, Path=AddItemsBlocked, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

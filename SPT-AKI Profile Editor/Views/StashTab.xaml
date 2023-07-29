@@ -31,7 +31,9 @@
                     AddItemCommand="{Binding AddItem}"
                     AddItemsBlocked="{Binding Profile.Characters.Pmc.Inventory.ContainsModdedItems}"
                     CategoriesForItemsAdding="{Binding ServerDatabase.HandbookHelper.CategoriesForItemsAdding}"
-                    FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}" />
+                    FilterDescriptions="{Binding GridFilters.StashTab.IncludeDescriptionsInSearch, UpdateSourceTrigger=PropertyChanged}"
+                    FilterName="{Binding GridFilters.StashTab.AddingItemName, UpdateSourceTrigger=PropertyChanged}"
+                    ShowAllItemsCommand="{Binding ShowAllItems}" />
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_stash_pmc_equipment]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">

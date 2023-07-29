@@ -99,4 +99,34 @@ namespace SPT_AKI_Profile_Editor.Helpers
             return list;
         }
     }
+
+    public class StashTypeValueConverter : IValueConverter
+    {
+        public static Dictionary<string, string> Strings => GetStrings();
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is StashType status)
+                return GetString(status);
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string s)
+                return Enum.Parse(typeof(StashType), s);
+            return null;
+        }
+
+        private static string GetString(StashType stashType) => stashType.ToString();
+
+        private static Dictionary<string, string> GetStrings()
+        {
+            Dictionary<string, string> list = new();
+            foreach (StashType stashType in Enum.GetValues(typeof(StashType)))
+                list.Add(GetString(stashType), AppData.AppLocalization.GetLocalizedString($"stash_type_{GetString(stashType).ToLower()}"));
+            return list;
+        }
+    }
 }

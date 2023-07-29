@@ -16,6 +16,29 @@
     <UserControl.Resources>
         <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <ControlTemplate x:Key="itemLabel" TargetType="Label">
+            <Label
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold">
+                <Label.Content>
+                    <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap" />
+                </Label.Content>
+            </Label>
+        </ControlTemplate>
+        <ControlTemplate x:Key="moddedItemIcon" TargetType="Label">
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="Red"
+                ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
+                <iconPacks:PackIconFontAwesome
+                    Width="18"
+                    Height="18"
+                    Kind="ExclamationTriangleSolid" />
+            </Label>
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -54,14 +77,8 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Earpiece]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Earpiece], FallbackValue=Earpiece}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region Earpiece Info-->
                 <DockPanel
                     Grid.Row="0"
@@ -93,25 +110,12 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="0"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Earpiece.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="0"
                     Grid.Column="4"
@@ -124,14 +128,8 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Headwear]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Headwear], FallbackValue=Headwear}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region Headwear Info-->
                 <DockPanel
                     Grid.Row="1"
@@ -163,25 +161,12 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="1"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Headwear.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="1"
                     Grid.Column="4"
@@ -194,14 +179,8 @@
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[FaceCover]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[FaceCover], FallbackValue=FaceCover}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region FaceCover Info-->
                 <DockPanel
                     Grid.Row="2"
@@ -233,25 +212,12 @@
                 <Label
                     Grid.Row="2"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="2"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.FaceCover.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="2"
                     Grid.Column="4"
@@ -264,14 +230,8 @@
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Eyewear]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Eyewear], FallbackValue=Eyewear}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region Eyewear Info-->
                 <DockPanel
                     Grid.Row="3"
@@ -303,25 +263,11 @@
                 <Label
                     Grid.Row="3"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="3"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Eyewear.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="3"
                     Grid.Column="4"
@@ -334,14 +280,8 @@
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Armband]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Armband], FallbackValue=Armband}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region ArmBand Info-->
                 <DockPanel
                     Grid.Row="4"
@@ -373,25 +313,12 @@
                 <Label
                     Grid.Row="4"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="4"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.ArmBand.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="4"
                     Grid.Column="4"
@@ -404,14 +331,8 @@
                 <Label
                     Grid.Row="5"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[ArmorVest]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[ArmorVest], FallbackValue=ArmorVest}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region ArmorVest Info-->
                 <DockPanel
                     Grid.Row="5"
@@ -443,25 +364,12 @@
                 <Label
                     Grid.Row="5"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="5"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.ArmorVest.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="5"
                     Grid.Column="4"
@@ -474,14 +382,8 @@
                 <Label
                     Grid.Row="6"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[TacticalVest]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[TacticalVest], FallbackValue=TacticalVest}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region TacticalVest Info-->
                 <DockPanel
                     Grid.Row="6"
@@ -513,25 +415,12 @@
                 <Label
                     Grid.Row="6"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="6"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.TacticalVest.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="6"
                     Grid.Column="4"
@@ -544,14 +433,8 @@
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponFirst]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponFirst], FallbackValue=PrimaryWeaponFirst}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region First primary weapon Info-->
                 <DockPanel
                     Grid.Row="7"
@@ -583,25 +466,12 @@
                 <Label
                     Grid.Row="7"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="7"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.FirstPrimaryWeapon.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="7"
                     Grid.Column="4"
@@ -614,14 +484,8 @@
                 <Label
                     Grid.Row="8"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponSecond]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponSecond], FallbackValue=PrimaryWeaponSecond}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region SecondPrimaryWeapon Info-->
                 <DockPanel
                     Grid.Row="8"
@@ -653,25 +517,12 @@
                 <Label
                     Grid.Row="8"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="8"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.SecondPrimaryWeapon.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="8"
                     Grid.Column="4"
@@ -684,14 +535,8 @@
                 <Label
                     Grid.Row="9"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Holster]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Holster], FallbackValue=Holster}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region Holster Info-->
                 <DockPanel
                     Grid.Row="9"
@@ -723,25 +568,12 @@
                 <Label
                     Grid.Row="9"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Holster.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="9"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Holster.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Holster.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="9"
                     Grid.Column="4"
@@ -754,14 +586,8 @@
                 <Label
                     Grid.Row="10"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Scabbard]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Scabbard], FallbackValue=Scabbard}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region Scabbard Info-->
                 <DockPanel
                     Grid.Row="10"
@@ -793,25 +619,12 @@
                 <Label
                     Grid.Row="10"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="10"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Scabbard.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="10"
                     Grid.Column="4"
@@ -824,14 +637,8 @@
                 <Label
                     Grid.Row="11"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Pockets]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[Pockets], FallbackValue=Pockets}"
+                    Template="{StaticResource itemLabel}" />
                 <extendedcontrols:ItemsGrid
                     Grid.Row="11"
                     Grid.Column="1"
@@ -850,7 +657,7 @@
                     VerticalAlignment="Center"
                     FontWeight="Bold">
                     <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Backpack]}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Backpack], FallbackValue=Backpack}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <!--#region Backpack Info-->
@@ -884,25 +691,12 @@
                 <Label
                     Grid.Row="12"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="12"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.Backpack.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="12"
                     Grid.Column="4"
@@ -915,14 +709,8 @@
                 <Label
                     Grid.Row="13"
                     Grid.Column="0"
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold">
-                    <Label.Content>
-                        <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[SecuredContainer]}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    Content="{Binding Path=ServerDatabase.LocalesGlobal[SecuredContainer], FallbackValue=SecuredContainer}"
+                    Template="{StaticResource itemLabel}" />
                 <!--#region SecuredContainer Info-->
                 <DockPanel
                     Grid.Row="13"
@@ -954,25 +742,12 @@
                 <Label
                     Grid.Row="13"
                     Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Foreground="Red"
-                    ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}"
-                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <iconPacks:PackIconFontAwesome
-                        Width="18"
-                        Height="18"
-                        Kind="ExclamationTriangleSolid" />
-                </Label>
-                <Label
+                    Template="{StaticResource moddedItemIcon}"
+                    Visibility="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                <extendedcontrols:TextField
                     Grid.Row="13"
                     Grid.Column="3"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Label.Content>
-                        <TextBlock Text="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.Id}" TextWrapping="Wrap" />
-                    </Label.Content>
-                </Label>
+                    DataContext="{Binding ElementName=Control, Path=InventoryEquipment.SecuredContainer.Id}" />
                 <extendedcontrols:ItemActions
                     Grid.Row="13"
                     Grid.Column="4"
@@ -991,17 +766,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Command="{Binding RemoveAllEquipment}"
-            Content="{Binding AppLocalization.Translations[tab_stash_remove]}">
-            <Button.Style>
-                <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type Button}">
-                    <Setter Property="IsEnabled" Value="True" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=Control, Path=InventoryEquipment.HasEquipment}" Value="False">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+            Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+            IsEnabled="{Binding ElementName=Control, Path=InventoryEquipment.HasEquipment}" />
     </Grid>
 </UserControl>

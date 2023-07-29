@@ -8,11 +8,15 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private readonly IDialogManager _dialogManager;
         private readonly IWorker _worker;
+        private readonly ICleaningService _cleaningService;
 
-        public BackupsTabViewModel(IDialogManager dialogManager, IWorker worker)
+        public BackupsTabViewModel(IDialogManager dialogManager,
+                                   IWorker worker,
+                                   ICleaningService cleaningService)
         {
             _dialogManager = dialogManager;
             _worker = worker;
+            _cleaningService = cleaningService;
         }
 
         public static BackupService BackupService => AppData.BackupService;
@@ -49,7 +53,7 @@ namespace SPT_AKI_Profile_Editor.Views
             });
             _worker.AddTask(new WorkerTask
             {
-                Action = AppData.StartupEvents,
+                Action = () => AppData.StartupEvents(_cleaningService),
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
             });

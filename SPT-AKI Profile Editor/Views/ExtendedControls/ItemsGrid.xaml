@@ -47,7 +47,6 @@
                                     TextWrapping="Wrap" />
                                 <TextBox
                                     Margin="5"
-                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     mah:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
@@ -119,11 +118,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=Id}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
+                            <extendedcontrols:TextField DataContext="{Binding Path=Id}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -18,7 +18,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             Type = type;
             SlotsCount = CalculateSlotsCount();
             CanBeAddedToStash = AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Name())
-                && !Properties.QuestItem
                 && !AppData.AppSettings.BannedItems.Contains(Parent)
                 && !AppData.AppSettings.BannedItems.Contains(Id);
         }
@@ -40,10 +39,17 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Name()) ? AppData.ServerDatabase.LocalesGlobal[Id.Name()] : Id;
 
         [JsonIgnore]
+        public override string LocalizedDescription =>
+            AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Description()) ? AppData.ServerDatabase.LocalesGlobal[Id.Description()] : Id;
+
+        [JsonIgnore]
         public int SlotsCount { get; }
 
         [JsonIgnore]
         public bool IsWeapon => Properties?.RecoilForceUp != 0;
+
+        [JsonIgnore]
+        public override bool IsQuestItem => Properties?.QuestItem ?? false;
 
         [JsonIgnore]
         public BitmapSource CategoryIcon => AppData.ServerDatabase?.HandbookHelper?.GetItemCategory(Id)?.BitmapIcon;
@@ -61,10 +67,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         {
             int slots = 0;
             if (Properties?.Grids != null && !Properties.Grids.Any(x => x.Props == null))
-            {
                 foreach (var grid in Properties.Grids)
                     slots += grid.Props.CellsH * grid.Props.CellsV;
-            }
             return slots;
         }
 

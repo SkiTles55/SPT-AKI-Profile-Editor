@@ -18,10 +18,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         [JsonIgnore]
         public virtual ObservableCollection<AddableItem> Items { get; set; }
 
-        [JsonProperty("ParentId")]
         public string ParentId { get; set; }
 
-        [JsonProperty("Icon")]
         public string Icon { get; set; }
 
         [JsonIgnore]
@@ -34,7 +32,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             set
             {
                 localizedName = value;
-                OnPropertyChanged("LocalizedName");
+                OnPropertyChanged(nameof(LocalizedName));
             }
         }
 
@@ -45,19 +43,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
             set
             {
                 isExpanded = value;
-                OnPropertyChanged("IsExpanded");
+                OnPropertyChanged(nameof(IsExpanded));
             }
         }
 
         [JsonIgnore]
         public bool IsNotHidden => Items.Count > 0 || Categories.Count > 0;
 
-        public bool ApplyFilter(string text)
+        public bool ApplyFilter(string text, bool includeDesriptions)
         {
             bool categories = false;
             foreach (var category in Categories)
             {
-                if (category.ContainsItemsWithTextInName(text ?? ""))
+                if (category.ContainsItemsWithTextInName(text ?? "", includeDesriptions))
                     categories = true;
             }
             ICollectionView cv = CollectionViewSource.GetDefaultView(Categories);
@@ -68,16 +66,16 @@ namespace SPT_AKI_Profile_Editor.Helpers
             cv.Filter = o =>
             {
                 AddableCategory p = o as AddableCategory;
-                return p.ContainsItemsWithTextInName(text ?? "");
+                return p.ContainsItemsWithTextInName(text ?? "", includeDesriptions);
             };
             return categories;
         }
 
-        public bool ContainsItemsWithTextInName(string text)
+        public bool ContainsItemsWithTextInName(string text, bool includeDesriptions)
         {
             FilterItems();
-            return Items.Any(x => x.LocalizedName.ToUpper().Contains(text.ToUpper()))
-                || ApplyFilter(text);
+            return Items.Any(x => x.ContainsText(text, includeDesriptions))
+                || ApplyFilter(text, includeDesriptions);
 
             void FilterItems()
             {
@@ -87,13 +85,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (string.IsNullOrEmpty(text))
                     cv.Filter = null;
                 else
-                {
-                    cv.Filter = o =>
-                    {
-                        AddableItem p = o as AddableItem;
-                        return p.LocalizedName.ToUpper().Contains(text.ToUpper());
-                    };
-                }
+                    cv.Filter = o => (o as AddableItem).ContainsText(text, includeDesriptions);
             }
         }
     }

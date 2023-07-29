@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -7,7 +6,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     {
         private string head;
 
-        [JsonProperty("Head")]
         public string Head
         {
             get => head;

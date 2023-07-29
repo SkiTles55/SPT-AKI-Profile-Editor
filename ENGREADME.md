@@ -8,12 +8,14 @@
   ![GitHub last commit](https://img.shields.io/github/last-commit/SkiTles55/SPT-AKI-Profile-Editor)
 
 #### Support the developer:
-[yoomoney.ru](https://yoomoney.ru/to/410015658095326)
-[Steam Trade Offer Link](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)
+[yoomoney.ru](https://yoomoney.ru/to/410015658095326)\
+[Steam Trade Offer Link](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)\
+LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
+![LTCWallet](SPT-AKI%20Profile%20Editor/Images/ltcWallet.png?raw=true)
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 2.6.3 for server SPT-AKI 3.4.0 - 3.5.4](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.6.3)
+### [Version 2.6.4 for server SPT-AKI 3.4.0 - 3.5.8](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.6.4)
 ### [Version 2.4.2 for server SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
 ### [Version 2.3.1 for server SPT-AKI 3.0.0 - 3.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3.1)
 ### [Version 2.3 for server SPT-AKI 2.2.0 - 2.3.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3)
@@ -55,3 +57,6 @@
 ![Screenshot5](/screenshots/5EN.PNG?raw=true)
 ![Screenshot6](/screenshots/6EN.PNG?raw=true)
 ![Screenshot7](/screenshots/7EN.PNG?raw=true)
+
+### Helpful
+[Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)

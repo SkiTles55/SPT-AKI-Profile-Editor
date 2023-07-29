@@ -52,8 +52,7 @@ namespace SPT_AKI_Profile_Editor
         {
             get
             {
-                if (categoriesForItemsAdding == null)
-                    categoriesForItemsAdding = ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter(_item.Tpl);
+                categoriesForItemsAdding ??= ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter(_item.Tpl);
                 return categoriesForItemsAdding;
             }
         }
@@ -80,6 +79,8 @@ namespace SPT_AKI_Profile_Editor
             if (obj is AddableItem item)
                 _worker.AddTask(new WorkerTask { Action = () => AddItemToContainer(item) });
         });
+
+        public RelayCommand ShowAllItems => new(async obj => await _dialogManager.ShowAllItemsDialog(AddItem, false));
 
         private void RemoveItemFromContainer(string id)
         {
