@@ -77,19 +77,14 @@
                         </Button.ContentTemplate>
                     </Button>
                 </StackPanel>
-                <Border
+                <Image
+                    Width="150"
                     Margin="6,0,0,0"
-                    HorizontalAlignment="Left"
-                    Background="White">
-                    <Image
-                        Width="150"
-                        Margin="3"
-                        HorizontalAlignment="Left">
-                        <Image.Source>
-                            <BitmapImage UriSource="/Images/ltcWallet.png" />
-                        </Image.Source>
-                    </Image>
-                </Border>
+                    HorizontalAlignment="Left">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Images/ltcWallet.png" />
+                    </Image.Source>
+                </Image>
                 <Label Margin="0,5,0,0" Style="{DynamicResource DescriptionHeaderStyle}">
                     <Label.Content>
                         <TextBlock Text="{Binding AppLocalization.Translations[tab_about_spt_aki_project_url]}" TextWrapping="Wrap" />
