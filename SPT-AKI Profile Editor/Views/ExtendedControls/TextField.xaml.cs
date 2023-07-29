@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (DataContext is string text)
-                Clipboard.SetText(text);
+                System.Windows.Forms.Clipboard.SetDataObject(text, true, 10, 100);
         }
     }
 }
