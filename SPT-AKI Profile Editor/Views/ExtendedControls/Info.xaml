@@ -9,49 +9,26 @@
     x:Name="Control"
     d:DataContext="{d:DesignInstance Type=views:InfoTabViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="collapsibleRow" TargetType="{x:Type RowDefinition}">
+            <Setter Property="MaxHeight" Value="50" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
+                    <Setter Property="MaxHeight" Value="0" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*">
-                    <RowDefinition.Style>
-                        <Style TargetType="{x:Type RowDefinition}">
-                            <Setter Property="MaxHeight" Value="50" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
-                                    <Setter Property="MaxHeight" Value="0" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </RowDefinition.Style>
-                </RowDefinition>
+                <RowDefinition Style="{StaticResource collapsibleRow}" />
                 <RowDefinition MaxHeight="50" />
-                <RowDefinition>
-                    <RowDefinition.Style>
-                        <Style TargetType="{x:Type RowDefinition}">
-                            <Setter Property="MaxHeight" Value="50" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
-                                    <Setter Property="MaxHeight" Value="0" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </RowDefinition.Style>
-                </RowDefinition>
+                <RowDefinition Style="{StaticResource collapsibleRow}" />
                 <RowDefinition MaxHeight="50" />
                 <RowDefinition MaxHeight="50" />
                 <RowDefinition MaxHeight="50" />
-                <RowDefinition>
-                    <RowDefinition.Style>
-                        <Style TargetType="{x:Type RowDefinition}">
-                            <Setter Property="MaxHeight" Value="50" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=Control, Path=Character.IsScav}" Value="True">
-                                    <Setter Property="MaxHeight" Value="0" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </RowDefinition.Style>
-                </RowDefinition>
+                <RowDefinition Style="{StaticResource collapsibleRow}" />
                 <RowDefinition MaxHeight="50" />
                 <RowDefinition MaxHeight="50" />
                 <RowDefinition Height="Auto" />
@@ -64,51 +41,31 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_id]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_id], FallbackValue=tab_info_id}"
+                Template="{StaticResource TitleLabel}" />
             <TextBox
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="10,5"
                 VerticalAlignment="Center"
                 IsEnabled="False"
-                Text="{Binding ElementName=Control, Path=Character.Aid, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                Text="{Binding ElementName=Control, Path=Character.Aid, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_nickname]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_nickname], FallbackValue=tab_info_nickname}"
+                Template="{StaticResource TitleLabel}" />
             <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="10,5"
                 VerticalAlignment="Center"
-                Text="{Binding ElementName=Control, Path=Character.Info.Nickname, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
+                Text="{Binding ElementName=Control, Path=Character.Info.Nickname, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_side]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_side], FallbackValue=tab_info_side}"
+                Template="{StaticResource TitleLabel}" />
             <ComboBox
                 Grid.Row="2"
                 Grid.Column="1"
@@ -119,14 +76,8 @@
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_voice]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_voice], FallbackValue=tab_info_voice}"
+                Template="{StaticResource TitleLabel}" />
             <ComboBox
                 Grid.Row="3"
                 Grid.Column="1"
@@ -139,14 +90,8 @@
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_level]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_level], FallbackValue=tab_info_level}"
+                Template="{StaticResource TitleLabel}" />
             <extendedcontrols:NumericUpDownExt
                 Grid.Row="4"
                 Grid.Column="1"
@@ -161,14 +106,8 @@
             <Label
                 Grid.Row="5"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_experience]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_experience], FallbackValue=tab_info_experience}"
+                Template="{StaticResource TitleLabel}" />
             <Grid
                 Grid.Row="5"
                 Grid.Column="1"
@@ -203,33 +142,20 @@
             <Label
                 Grid.Row="6"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_game_version]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_game_version], FallbackValue=tab_info_game_version}"
+                Template="{StaticResource TitleLabel}" />
             <TextBox
                 Grid.Row="6"
                 Grid.Column="1"
                 Margin="10,5"
                 VerticalAlignment="Center"
                 IsEnabled="False"
-                Text="{Binding ElementName=Control, Path=Character.Info.GameVersion}"
-                TextWrapping="Wrap" />
+                Text="{Binding ElementName=Control, Path=Character.Info.GameVersion}" />
             <Label
                 Grid.Row="7"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_head]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_head], FallbackValue=tab_info_head}"
+                Template="{StaticResource TitleLabel}" />
             <ComboBox
                 Grid.Row="7"
                 Grid.Column="1"
@@ -242,14 +168,8 @@
             <Label
                 Grid.Row="8"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_pockets]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_pockets], FallbackValue=tab_info_pockets}"
+                Template="{StaticResource TitleLabel}" />
             <ComboBox
                 Grid.Row="8"
                 Grid.Column="1"
@@ -262,14 +182,9 @@
             <Label
                 Grid.Row="9"
                 Grid.Column="0"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{Binding AppLocalization.Translations[tab_info_health]}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
+                Content="{Binding AppLocalization.Translations[tab_info_health], FallbackValue=tab_info_health}"
+                Template="{StaticResource TitleLabel}" />
             <WrapPanel
                 Grid.Row="9"
                 Grid.Column="1"

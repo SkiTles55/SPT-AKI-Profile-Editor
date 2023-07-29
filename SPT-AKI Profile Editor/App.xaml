@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Emerald.xaml" />
                 <ResourceDictionary Source="/Resources/Buttons.xaml" />
+                <ResourceDictionary Source="/Resources/Labels.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style
                 x:Key="MyColumnHeader"
@@ -32,20 +33,6 @@
                 TargetType="{x:Type Hyperlink}">
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="TextDecorations" Value="Underline" />
-            </Style>
-            <Style
-                x:Key="DescriptionHeaderStyle"
-                BasedOn="{StaticResource {x:Type Label}}"
-                TargetType="{x:Type Label}">
-                <Setter Property="FontSize" Value="22" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
-            </Style>
-            <Style
-                x:Key="NonLinkStyle"
-                BasedOn="{StaticResource {x:Type Label}}"
-                TargetType="{x:Type Label}">
-                <Setter Property="FontSize" Value="18" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
             </Style>
             <Style
                 x:Key="NoHoverListBox"

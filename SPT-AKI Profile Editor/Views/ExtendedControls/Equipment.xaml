@@ -16,17 +16,6 @@
     <UserControl.Resources>
         <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <ControlTemplate x:Key="itemLabel" TargetType="Label">
-            <Label
-                Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock Text="{TemplateBinding Content}" TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
-        </ControlTemplate>
         <ControlTemplate x:Key="moddedItemIcon" TargetType="Label">
             <Label
                 HorizontalAlignment="Center"
@@ -78,7 +67,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Earpiece], FallbackValue=Earpiece}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region Earpiece Info-->
                 <DockPanel
                     Grid.Row="0"
@@ -129,7 +118,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Headwear], FallbackValue=Headwear}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region Headwear Info-->
                 <DockPanel
                     Grid.Row="1"
@@ -180,7 +169,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[FaceCover], FallbackValue=FaceCover}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region FaceCover Info-->
                 <DockPanel
                     Grid.Row="2"
@@ -231,7 +220,7 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Eyewear], FallbackValue=Eyewear}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region Eyewear Info-->
                 <DockPanel
                     Grid.Row="3"
@@ -281,7 +270,7 @@
                     Grid.Row="4"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Armband], FallbackValue=Armband}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region ArmBand Info-->
                 <DockPanel
                     Grid.Row="4"
@@ -332,7 +321,7 @@
                     Grid.Row="5"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[ArmorVest], FallbackValue=ArmorVest}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region ArmorVest Info-->
                 <DockPanel
                     Grid.Row="5"
@@ -383,7 +372,7 @@
                     Grid.Row="6"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[TacticalVest], FallbackValue=TacticalVest}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region TacticalVest Info-->
                 <DockPanel
                     Grid.Row="6"
@@ -434,7 +423,7 @@
                     Grid.Row="7"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponFirst], FallbackValue=PrimaryWeaponFirst}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region First primary weapon Info-->
                 <DockPanel
                     Grid.Row="7"
@@ -485,7 +474,7 @@
                     Grid.Row="8"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponSecond], FallbackValue=PrimaryWeaponSecond}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region SecondPrimaryWeapon Info-->
                 <DockPanel
                     Grid.Row="8"
@@ -536,7 +525,7 @@
                     Grid.Row="9"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Holster], FallbackValue=Holster}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region Holster Info-->
                 <DockPanel
                     Grid.Row="9"
@@ -587,7 +576,7 @@
                     Grid.Row="10"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Scabbard], FallbackValue=Scabbard}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region Scabbard Info-->
                 <DockPanel
                     Grid.Row="10"
@@ -638,7 +627,7 @@
                     Grid.Row="11"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Pockets], FallbackValue=Pockets}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <extendedcontrols:ItemsGrid
                     Grid.Row="11"
                     Grid.Column="1"
@@ -710,7 +699,7 @@
                     Grid.Row="13"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[SecuredContainer], FallbackValue=SecuredContainer}"
-                    Template="{StaticResource itemLabel}" />
+                    Template="{StaticResource TitleLabel}" />
                 <!--#region SecuredContainer Info-->
                 <DockPanel
                     Grid.Row="13"
