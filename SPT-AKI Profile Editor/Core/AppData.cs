@@ -22,8 +22,8 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly IssuesService IssuesService;
 
         private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.ToLowerInvariant().StartsWith("nunit.framework"));
-
         private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
+        private static readonly string HelperDbPath = "user\\mods\\ProfileEditorHelper\\exportedDB";
 
         static AppData()
         {
@@ -178,7 +178,9 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadItemsDB()
         {
             ServerDatabase.ItemsDB = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("items.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
             try
             {
                 Dictionary<string, TarkovItem> itemsDB = JsonConvert.DeserializeObject<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
@@ -244,6 +246,14 @@ namespace SPT_AKI_Profile_Editor.Core
                                                     new ObservableCollection<KeyValuePair<string, WeaponBuild>>());
                 Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
+        }
+
+        private static string GetHelperDBFilePath(string filename)
+        {
+            var path = Path.Combine(AppSettings.ServerPath, HelperDbPath, filename);
+            if (!File.Exists(path))
+                throw new Exception("HelperDBFile not found");
+            return path;
         }
     }
 }
