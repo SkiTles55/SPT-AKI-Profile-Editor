@@ -334,7 +334,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         {
                             pmc.SelectToken("Quests")[index]["status"] = edited.Status.ToString();
                             pmc.SelectToken("Quests")[index]["statusTimers"] = JObject.FromObject(edited.StatusTimers);
-                            if (edited.Status <= QuestStatus.AvailableForStart)
+                            if (edited.Status <= QuestStatus.AvailableForStart && pmc.SelectToken("Quests")[index]["completedConditions"] != null)
                                 pmc.SelectToken("Quests")[index]["completedConditions"].Replace(JToken.FromObject(Array.Empty<string>()));
                         }
                     }
