@@ -21,7 +21,7 @@
             <Label
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Content="{Binding AppLocalization.Translations[tab_stash_search]}"
+                Content="{Binding AppLocalization.Translations[tab_stash_search], FallbackValue=tab_stash_search}"
                 DockPanel.Dock="Left" />
             <TextBox
                 Margin="5"
@@ -97,19 +97,19 @@
                                     Margin="5"
                                     Command="{Binding Data.AddBuildToStash, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding Path=Value}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_presets_add_to_stash], Source={StaticResource proxy}}" />
+                                    Content="{Binding Data.AppLocalization.Translations[tab_presets_add_to_stash], FallbackValue=tab_presets_add_to_stash, Source={StaticResource proxy}}" />
                                 <Button
                                     MinWidth="110"
                                     Margin="5"
                                     Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding Path=Value}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_presets_export], Source={StaticResource proxy}}" />
+                                    Content="{Binding Data.AppLocalization.Translations[tab_presets_export], FallbackValue=tab_presets_export, Source={StaticResource proxy}}" />
                                 <Button
                                     MinWidth="110"
                                     Margin="5"
                                     Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
                                     CommandParameter="{Binding Path=Value.Name}"
-                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], Source={StaticResource proxy}}"
+                                    Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}"
                                     Visibility="{Binding ElementName=Control, Path=RemoveAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </StackPanel>
                             <local:WeaponBuildView

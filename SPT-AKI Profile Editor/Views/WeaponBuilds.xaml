@@ -20,7 +20,7 @@
         mah:TabControlHelper.Underlined="SelectedTabItem"
         Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
         TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_user]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_user], FallbackValue=tab_presets_user}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -36,40 +36,26 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     ItemsSource="{Binding Profile.WBuilds}" />
-                <Border
+                <extendedcontrols:EmptyDataPanel
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Background="{DynamicResource MahApps.Brushes.Window.Background}"
-                    Visibility="{Binding Profile.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Label
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="20"
-                        FontWeight="Bold">
-                        <Label.Content>
-                            <TextBlock
-                                Text="{Binding AppLocalization.Translations[tab_presets_empty]}"
-                                TextAlignment="Center"
-                                TextWrapping="Wrap" />
-                        </Label.Content>
-                    </Label>
-                </Border>
+                    Text="{Binding AppLocalization.Translations[tab_presets_empty], FallbackValue=tab_presets_empty}"
+                    Visibility="{Binding Profile.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="0"
                     MinWidth="170"
                     Margin="5,10,5,0"
                     Command="{Binding ImportBuilds}"
-                    Content="{Binding AppLocalization.Translations[tab_presets_import]}" />
+                    Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="1"
                     MinWidth="170"
                     Margin="5,10,5,0"
                     Command="{Binding ExportBuilds}"
-                    Content="{Binding AppLocalization.Translations[tab_presets_export_all]}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
                     IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Grid.Row="1"
@@ -77,11 +63,11 @@
                     MinWidth="170"
                     Margin="5,10,5,0"
                     Command="{Binding RemoveBuilds}"
-                    Content="{Binding AppLocalization.Translations[tab_stash_remove]}"
+                    Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
                     IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_global]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_global], FallbackValue=tab_presets_global}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:WeaponBuildsList ItemsSource="{Binding ServerDatabase.ServerGlobals.GlobalBuilds}" RemoveAllowed="False" />
         </TabItem>
     </TabControl>

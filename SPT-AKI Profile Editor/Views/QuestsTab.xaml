@@ -10,7 +10,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:QuestsTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}">
@@ -29,6 +31,7 @@
         <DataGrid
             x:Name="questsGrid"
             Grid.Row="0"
+            d:ItemsSource="{d:SampleData ItemCount=5}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
@@ -38,7 +41,8 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             VirtualizingPanel.IsVirtualizing="True"
             VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
@@ -83,7 +87,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_quests_trader], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_quests_trader], FallbackValue=tab_quests_trader, Source={StaticResource proxy}}"
                     SortMemberPath="LocalizedTraderName">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -118,7 +122,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_quests_name], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_quests_name], FallbackValue=tab_quests_name, Source={StaticResource proxy}}"
                     SortMemberPath="LocalizedQuestName">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -153,7 +157,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_quests_status], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_quests_status], FallbackValue=tab_quests_status, Source={StaticResource proxy}}"
                     SortMemberPath="Status">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -194,7 +198,7 @@
             VerticalAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
-                <TextBlock Text="{Binding AppLocalization.Translations[tab_quests_mark_all]}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding AppLocalization.Translations[tab_quests_mark_all], FallbackValue=tab_quests_mark_all}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <StackPanel
@@ -208,17 +212,15 @@
                 ItemsSource="{Binding Source={StaticResource QuestStatusValueConverter}, Path=Strings}"
                 SelectedItem="{Binding SetAllValue, Converter={StaticResource QuestStatusValueConverter}}" />
             <Button
-                Width="100"
                 Margin="5,0"
+                Padding="15,0"
                 Command="{Binding SetAllCommand}"
-                Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}" />
+                Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button], FallbackValue=tab_quests_edit_all_button}" />
         </StackPanel>
-        <Border
+        <views:NoDataPanel
             Grid.Row="0"
             Grid.RowSpan="3"
-            Background="{DynamicResource MahApps.Brushes.Window.Background}"
-            Visibility="{Binding Profile.Characters.Pmc.IsQuestsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <views:NoDataPanel />
-        </Border>
+            d:Visibility="Collapsed"
+            Visibility="{Binding Profile.Characters.Pmc.IsQuestsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

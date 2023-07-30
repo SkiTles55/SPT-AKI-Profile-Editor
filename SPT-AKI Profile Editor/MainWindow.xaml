@@ -15,6 +15,7 @@
     MinHeight="600"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DataContext="{d:DesignInstance Type=spt_aki_profile_editor:MainWindowViewModel}"
+    d:Width="800"
     BorderThickness="0"
     Closing="MetroWindow_Closing"
     GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -66,43 +67,43 @@
             mah:TabControlHelper.Underlined="TabPanel"
             Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
             TabStripPlacement="Left">
-            <TabItem Header="{Binding AppLocalization.Translations[tab_info_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_info_title], FallbackValue=tab_info_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:InfoTab DataContext="{Binding ViewModels.InfoTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_merchants_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_merchants_title], FallbackValue=tab_merchants_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:MerchantsTab DataContext="{Binding ViewModels.MerchantsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_quests_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_quests_title], FallbackValue=tab_quests_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:QuestsTab DataContext="{Binding ViewModels.QuestsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_title], FallbackValue=tab_hideout_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:HideoutTab DataContext="{Binding ViewModels.HideoutTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_skills_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_skills_title], FallbackValue=tab_skills_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:SkillsTab DataContext="{Binding ViewModels.SkillsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_mastering_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_mastering_title], FallbackValue=tab_mastering_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:MasteringTab DataContext="{Binding ViewModels.MasteringTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_examined_items_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_examined_items_title], FallbackValue=tab_examined_items_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:ExaminedItemsTab DataContext="{Binding ViewModels.ExaminedItemsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title], FallbackValue=tab_stash_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:StashTab DataContext="{Binding ViewModels.StashTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_clothing_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_clothing_title], FallbackValue=tab_clothing_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:ClothingTab DataContext="{Binding ViewModels.ClothingTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_presets_title], FallbackValue=tab_presets_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:WeaponBuilds DataContext="{Binding ViewModels.WeaponBuildsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_clearing_from_mods_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_clearing_from_mods_title], FallbackValue=tab_clearing_from_mods_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:CleaningFromMods DataContext="{Binding ViewModels.CleaningFromModsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title], FallbackValue=tab_backups_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:BackupsTab DataContext="{Binding ViewModels.BackupsTab}" />
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_about_title]}" HeaderTemplate="{StaticResource HeaderTemplate}">
+            <TabItem Header="{Binding AppLocalization.Translations[tab_about_title], FallbackValue=tab_about_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:AboutTab DataContext="{Binding ViewModels.AboutTab}" />
             </TabItem>
         </TabControl>
@@ -117,37 +118,24 @@
                 Width="250"
                 Margin="10,5,5,0"
                 Command="{Binding ReloadButtonCommand}"
-                Content="{Binding AppLocalization.Translations[button_reload_profile]}"
+                Content="{Binding AppLocalization.Translations[button_reload_profile], FallbackValue=button_reload_profile}"
                 Icon="UndoSolid"
                 IconSize="22" />
             <extendedcontrols:ButtonFontAwesomeIcon
                 Width="250"
                 Margin="5,5,10,0"
                 Command="{Binding SaveButtonCommand}"
-                Content="{Binding AppLocalization.Translations[button_save_profile]}"
+                Content="{Binding AppLocalization.Translations[button_save_profile], FallbackValue=button_save_profile}"
                 Icon="SaveRegular"
                 IconSize="22" />
         </StackPanel>
-        <Border
+        <extendedcontrols:EmptyDataPanel
             Grid.Row="0"
             Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Background="{DynamicResource MahApps.Brushes.Window.Background}"
-            Visibility="{Binding Profile.IsProfileEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Label
-                Margin="30"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold">
-                <Label.Content>
-                    <TextBlock
-                        Text="{Binding AppLocalization.Translations[profile_empty]}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap" />
-                </Label.Content>
-            </Label>
-        </Border>
+            d:Visibility="Collapsed"
+            Text="{Binding AppLocalization.Translations[profile_empty]}"
+            Visibility="{Binding Profile.IsProfileEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </mah:MetroWindow>

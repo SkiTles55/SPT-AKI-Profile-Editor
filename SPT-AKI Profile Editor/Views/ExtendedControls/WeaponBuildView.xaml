@@ -41,7 +41,7 @@
                 VerticalAlignment="Center"
                 DockPanel.Dock="Right"
                 Foreground="{DynamicResource MahApps.Brushes.Text}"
-                Text="{Binding ElementName=Control, Path=Build.Weapon.LocalizedName}"
+                Text="{Binding ElementName=Control, Path=Build.Weapon.LocalizedName, FallbackValue=Weapon.LocalizedName}"
                 TextWrapping="Wrap" />
         </DockPanel>
         <Label
@@ -50,7 +50,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Label.Content>
-                <TextBlock Text="{Binding ElementName=Control, Path=LocalizationDict[tab_presets_ergonomics]}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ElementName=Control, Path=LocalizationDict[tab_presets_ergonomics], FallbackValue=tab_presets_ergonomics}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -58,14 +58,14 @@
             Grid.Column="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Content="{Binding ElementName=Control, Path=Build.Ergonomics}" />
+            Content="{Binding ElementName=Control, Path=Build.Ergonomics, FallbackValue=0}" />
         <Label
             Grid.Row="2"
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Label.Content>
-                <TextBlock Text="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_recoil_up]}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_recoil_up], FallbackValue=tab_preset_recoil_up}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -73,14 +73,14 @@
             Grid.Column="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Content="{Binding ElementName=Control, Path=Build.RecoilForceUp}" />
+            Content="{Binding ElementName=Control, Path=Build.RecoilForceUp, FallbackValue=0}" />
         <Label
             Grid.Row="3"
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Label.Content>
-                <TextBlock Text="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_recoil_back]}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_recoil_back], FallbackValue=tab_preset_recoil_back}" TextWrapping="Wrap" />
             </Label.Content>
         </Label>
         <Label
@@ -88,7 +88,7 @@
             Grid.Column="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Content="{Binding ElementName=Control, Path=Build.RecoilForceBack}" />
+            Content="{Binding ElementName=Control, Path=Build.RecoilForceBack, FallbackValue=0}" />
         <Expander
             Grid.Row="0"
             Grid.RowSpan="4"
@@ -99,7 +99,7 @@
             mah:HeaderedControlHelper.HeaderBackground="Transparent"
             mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
             BorderThickness="0"
-            Header="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_parts]}">
+            Header="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_parts], FallbackValue=tab_preset_parts}">
             <DataGrid
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"

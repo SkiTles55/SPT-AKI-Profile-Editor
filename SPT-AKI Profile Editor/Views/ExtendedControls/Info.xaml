@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:InfoTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -188,7 +189,7 @@
             <WrapPanel
                 Grid.Row="9"
                 Grid.Column="1"
-                Margin="10,5"
+                Margin="10,0,10,5"
                 Orientation="Horizontal">
                 <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Head.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Head], FallbackValue=Head}" />
                 <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.BodyParts.Chest.Health}" MetricName="{Binding ServerDatabase.LocalesGlobal[Chest], FallbackValue=Chest}" />
@@ -201,10 +202,10 @@
             <WrapPanel
                 Grid.Row="10"
                 Grid.Column="1"
-                Margin="10,5"
+                Margin="10,0,10,5"
                 Orientation="Horizontal">
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION]}" />
-                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY]}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Hydration}" MetricName="{Binding ServerDatabase.LocalesGlobal[HYDRATION], FallbackValue=HYDRATION}" />
+                <extendedcontrols:MetricView CharacterMetric="{Binding ElementName=Control, Path=Character.Health.Energy}" MetricName="{Binding ServerDatabase.LocalesGlobal[ENERGY], FallbackValue=ENERGY}" />
             </WrapPanel>
         </Grid>
     </ScrollViewer>

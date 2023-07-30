@@ -14,10 +14,10 @@
         mah:TabControlHelper.Underlined="SelectedTabItem"
         Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
         TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedControls:Info Character="{Binding Profile.Characters.Pmc}" />
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedControls:Info Character="{Binding Profile.Characters.Scav}" />
         </TabItem>
     </TabControl>

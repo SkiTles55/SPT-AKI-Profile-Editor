@@ -17,6 +17,7 @@
         </Grid.RowDefinitions>
         <ListBox
             Grid.Row="0"
+            d:ItemsSource="{d:SampleData ItemCount=4}"
             ItemContainerStyle="{StaticResource NoHoverListBox}"
             ItemsSource="{Binding Profile.Characters.Pmc.TraderStandingsExt}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
