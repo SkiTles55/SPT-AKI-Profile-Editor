@@ -87,7 +87,11 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadLocalesGlobal()
         {
             ServerDatabase.LocalesGlobal = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.globals], AppSettings.Language + ".json");
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath($"locales\\{AppSettings.Language}.json")
+                : Path.Combine(AppSettings.ServerPath,
+                               AppSettings.DirsList[SPTServerDir.globals],
+                               AppSettings.Language + ".json");
             try
             {
                 Dictionary<string, string> global = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
@@ -138,23 +142,35 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ServerDatabase.TraderInfos = new();
             var traderInfos = new Dictionary<string, TraderBase>();
-            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
+            if (AppSettings.UsingModHelper)
             {
-                if (!File.Exists(Path.Combine(tbase, "base.json")))
-                    continue;
-                try
+                foreach (var baseFile in Directory.GetFiles(GetHelperDBFilePath("traders")))
+                    AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(baseFile), baseFile);
+            }
+            else
+            {
+                foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
                 {
-                    traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
+                    if (!File.Exists(Path.Combine(tbase, "base.json")))
+                        continue;
+                    AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(tbase), Path.Combine(tbase, "base.json"));
                 }
-                catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({tbase}) loading error: {ex.Message}"); }
             }
             ServerDatabase.TraderInfos = traderInfos;
+        }
+
+        private static void AddTraderInfo(Dictionary<string, TraderBase> traderInfos, string traderId, string filepath)
+        {
+            try { traderInfos.Add(traderId, JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(filepath))); }
+            catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({traderId}) loading error: {ex.Message}"); }
         }
 
         private static void LoadQuestsData()
         {
             ServerDatabase.QuestsData = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("quests.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
             try
             {
                 Dictionary<string, QuestData> questsData = JsonConvert.DeserializeObject<Dictionary<string, QuestData>>(File.ReadAllText(path));
@@ -218,7 +234,9 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHandbook()
         {
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("handbook.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
             try
             {
                 Handbook handbook = JsonConvert.DeserializeObject<Handbook>(File.ReadAllText(path));
@@ -251,9 +269,9 @@ namespace SPT_AKI_Profile_Editor.Core
         private static string GetHelperDBFilePath(string filename)
         {
             var path = Path.Combine(AppSettings.ServerPath, HelperDbPath, filename);
-            if (!File.Exists(path))
-                throw new Exception("HelperDBFile not found");
-            return path;
+            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Any())
+                ? path
+                : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
         }
     }
 }
