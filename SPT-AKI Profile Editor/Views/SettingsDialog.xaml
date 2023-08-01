@@ -123,7 +123,7 @@
                         Margin="0,5,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Foreground="Red"
+                        Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
                         Kind="ExclamationTriangleSolid"
                         ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}"
                         Visibility="{Binding ServerPathValid, Converter={StaticResource FalseToVisibleConverter}}" />
@@ -161,7 +161,7 @@
                         Margin="0,5,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Foreground="Red"
+                        Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
                         Kind="ExclamationTriangleSolid"
                         ToolTip="{Binding AppLocalization.Translations[no_accounts]}"
                         Visibility="{Binding ServerHasAccounts, Converter={StaticResource FalseToVisibleConverter}}" />
@@ -274,6 +274,70 @@
                         ItemsSource="{Binding Source={StaticResource IssuesActionValueConverter}, Path=Strings}"
                         SelectedValue="{Binding AppSettings.IssuesAction, Converter={StaticResource IssuesActionValueConverter}}"
                         SelectedValuePath="Key" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="{Binding AppLocalization.Translations[tab_settings_helper_mod], FallbackValue=tab_settings_helper_mod}" HeaderTemplate="{StaticResource SettingsTemplate}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0,5,0,0"
+                        Content="{Binding AppLocalization.Translations[tab_settings_helper_mod_enabled], FallbackValue=tab_settings_helper_mod_enabled}"
+                        Template="{StaticResource TitleLabel}" />
+                    <mah:ToggleSwitch
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        IsOn="{Binding AppSettings.UsingModHelper}"
+                        Template="{StaticResource settingsSwitch}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,5,0,0"
+                        VerticalAlignment="Top"
+                        Content="{Binding AppLocalization.Translations[tab_settings_helper_mod_status], FallbackValue=tab_settings_helper_mod_status}"
+                        Template="{StaticResource TitleLabel}" />
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10,5,10,0"
+                        Orientation="Vertical">
+                        <Label Content="Not installed" Foreground="{DynamicResource MahApps.Brushes.Control.Validation}" />
+                        <Button Margin="5" Content="{Binding AppLocalization.Translations[helper_mod_install], FallbackValue=helper_mod_install}" />
+                        <Button Margin="5" Content="{Binding AppLocalization.Translations[helper_mod_update], FallbackValue=helper_mod_update}" />
+                        <Button Margin="5" Content="{Binding AppLocalization.Translations[helper_mod_uninstall], FallbackValue=helper_mod_uninstall}" />
+                    </StackPanel>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,5,0,0"
+                        VerticalAlignment="Top"
+                        Content="{Binding AppLocalization.Translations[tab_settings_helper_mod_db_status], FallbackValue=tab_settings_helper_mod_db_status}"
+                        Template="{StaticResource TitleLabel}" />
+                    <DockPanel
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="10,5,10,0">
+                        <Label
+                            Content="Not installed"
+                            DockPanel.Dock="Left"
+                            Foreground="{DynamicResource MahApps.Brushes.Control.Validation}" />
+                        <iconPacks:PackIconFontAwesome
+                            Width="24"
+                            Height="24"
+                            Margin="5,0,0,0"
+                            DockPanel.Dock="Right"
+                            Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
+                            Kind="QuestionCircleSolid" />
+                    </DockPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_troubleshooting], FallbackValue=tab_settings_troubleshooting}" HeaderTemplate="{StaticResource SettingsTemplate}">
