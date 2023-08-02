@@ -22,6 +22,7 @@ namespace SPT_AKI_Profile_Editor.Views
                                        IDialogManager dialogManager,
                                        IWindowsDialogs windowsDialogs,
                                        IApplicationManager applicationManager,
+                                       IHelperModManager helperModManager,
                                        RelayCommand faqCommand,
                                        int index = 0)
         {
@@ -31,6 +32,7 @@ namespace SPT_AKI_Profile_Editor.Views
             _dialogManager = dialogManager;
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
+            HelperModManager = helperModManager;
             _faqCommand = faqCommand;
         }
 
@@ -65,6 +67,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public AppSettings AppSettings { get; }
 
+        public IHelperModManager HelperModManager { get; }
+
         public int SelectedTab
         {
             get => selectedTab;
@@ -83,6 +87,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 AppSettings.Language = value;
                 OnPropertyChanged("CurrentLocalization");
                 AppLocalization.LoadLocalization(AppSettings.Language);
+                OnPropertyChanged(nameof(HelperModManager));
             }
         }
 

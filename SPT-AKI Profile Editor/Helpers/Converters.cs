@@ -1,10 +1,12 @@
-﻿using SPT_AKI_Profile_Editor.Core;
+﻿using MahApps.Metro.Converters;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
@@ -128,5 +130,53 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 list.Add(GetString(stashType), AppData.AppLocalization.GetLocalizedString($"stash_type_{GetString(stashType).ToLower()}"));
             return list;
         }
+    }
+
+    public class HelperModStatusNameValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is HelperModStatus status)
+                switch (status)
+                {
+                    case HelperModStatus.NotInstalled:
+                        return AppData.AppLocalization.GetLocalizedString("helper_mod_status_not_installed");
+
+                    case HelperModStatus.Installed:
+                        return AppData.AppLocalization.GetLocalizedString("helper_mod_status_installed");
+
+                    case HelperModStatus.UpdateAvailable:
+                        return AppData.AppLocalization.GetLocalizedString("helper_mod_status_outdated");
+                }
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            => throw new NotImplementedException();
+    }
+
+    public class HelperModStatusNameColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is HelperModStatus status)
+                switch (status)
+                {
+                    case HelperModStatus.NotInstalled:
+                        return new ColorToNameConverter().ConvertBack("MahApps.Brushes.Control.Validation", targetType, parameter, culture);
+
+                    case HelperModStatus.Installed:
+                        return new SolidColorBrush(Color.FromRgb(0, 102, 0));
+
+                    case HelperModStatus.UpdateAvailable:
+                        return new SolidColorBrush(Color.FromRgb(255, 153, 51));
+                }
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            => throw new NotImplementedException();
     }
 }

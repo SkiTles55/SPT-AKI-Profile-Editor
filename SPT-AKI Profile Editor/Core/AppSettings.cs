@@ -474,7 +474,6 @@ namespace SPT_AKI_Profile_Editor.Core
             return ServerPath
                 + DefaultProfile
                 + Language
-                + CheckUpdates
                 + UsingModHelper
                 + AutoAddMissingQuests.ToString()
                 + AutoAddMissingMasterings.ToString()

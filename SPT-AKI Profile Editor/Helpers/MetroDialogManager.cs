@@ -110,7 +110,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (startValues != newValues)
                     reloadCommand.Execute(null);
             });
-            await ShowCustomDialog<SettingsDialog>(viewModel, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.WindowsDialogs, App.ApplicationManager, faqCommand, index));
+            var settingsDialogViewModel = new SettingsDialogViewModel(closeCommand,
+                                                                      this,
+                                                                      App.WindowsDialogs,
+                                                                      App.ApplicationManager,
+                                                                      new HelperModManager(),
+                                                                      faqCommand,
+                                                                      index);
+            await ShowCustomDialog<SettingsDialog>(viewModel, settingsDialog, settingsDialogViewModel);
         }
 
         public async Task ShowUpdateDialog(GitHubRelease release)
