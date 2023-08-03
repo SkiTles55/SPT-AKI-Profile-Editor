@@ -158,16 +158,18 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
     public class HelperModStatusNameColorConverter : IValueConverter
     {
+        public static SolidColorBrush SuccessColor => new(Color.FromRgb(0, 102, 0));
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is HelperModStatus status)
                 switch (status)
                 {
                     case HelperModStatus.NotInstalled:
-                        return new ColorToNameConverter().ConvertBack("MahApps.Brushes.Control.Validation", targetType, parameter, culture);
+                        return parameter as SolidColorBrush;
 
                     case HelperModStatus.Installed:
-                        return new SolidColorBrush(Color.FromRgb(0, 102, 0));
+                        return SuccessColor;
 
                     case HelperModStatus.UpdateAvailable:
                         return new SolidColorBrush(Color.FromRgb(255, 153, 51));

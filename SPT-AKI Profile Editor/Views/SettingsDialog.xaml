@@ -1,16 +1,16 @@
 ﻿<UserControl
     x:Class="SPT_AKI_Profile_Editor.Views.SettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
-    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="clr-namespace:System;assembly=netstandard"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
     d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:SettingsDialogViewModel}"
@@ -309,7 +309,7 @@
                         Grid.Column="1"
                         Margin="12,5,0,0"
                         VerticalAlignment="Top"
-                        IsOn="{Binding AppSettings.UsingModHelper}"
+                        IsOn="{Binding UsingModHelper}"
                         OffContent="{Binding AppLocalization.Translations[button_no], FallbackValue=button_no}"
                         OnContent="{Binding AppLocalization.Translations[button_yes], FallbackValue=button_yes}" />
                     <Label
@@ -324,21 +324,25 @@
                         Grid.Column="1"
                         Margin="10,5,10,0"
                         Orientation="Vertical">
-                        <Label Content="{Binding HelperModManager.HelperModStatus, Converter={StaticResource HelperModStatusNameValueConverter}, FallbackValue=Not installed}" Foreground="{Binding HelperModManager.HelperModStatus, Converter={StaticResource HelperModStatusNameColorConverter}, FallbackValue=red}" />
+                        <Label Content="{Binding HelperModManager.HelperModStatus, Converter={StaticResource HelperModStatusNameValueConverter}, FallbackValue=Not installed}" Foreground="{Binding HelperModManager.HelperModStatus, Converter={StaticResource HelperModStatusNameColorConverter}, ConverterParameter={StaticResource MahApps.Brushes.Control.Validation}, FallbackValue=red}" />
                         <Button
                             Margin="5"
+                            Command="{Binding InstallMod}"
                             Content="{Binding AppLocalization.Translations[helper_mod_install], FallbackValue=helper_mod_install}"
                             Visibility="{Binding HelperModManager.IsInstalled, Converter={StaticResource FalseToVisibleConverter}}" />
                         <Button
                             Margin="5"
+                            Command="{Binding ReinstallMod}"
                             Content="{Binding AppLocalization.Translations[helper_mod_reinstall], FallbackValue=helper_mod_reinstall}"
                             Visibility="{Binding HelperModManager.IsInstalled, Converter={StaticResource TrueToVisibleConverter}}" />
                         <Button
                             Margin="5"
+                            Command="{Binding UpdateMod}"
                             Content="{Binding AppLocalization.Translations[helper_mod_update], FallbackValue=helper_mod_update}"
                             Visibility="{Binding HelperModManager.UpdateAvailable, Converter={StaticResource TrueToVisibleConverter}}" />
                         <Button
                             Margin="5"
+                            Command="{Binding RemoveMod}"
                             Content="{Binding AppLocalization.Translations[helper_mod_uninstall], FallbackValue=helper_mod_uninstall}"
                             Visibility="{Binding HelperModManager.IsInstalled, Converter={StaticResource TrueToVisibleConverter}}" />
                     </StackPanel>
@@ -353,19 +357,34 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         Margin="10,5,10,0">
+                        <Label Grid.Column="0" VerticalAlignment="Top">
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Setter Property="Content" Value="{Binding AppLocalization.Translations[helper_mod_db_status_not_found], FallbackValue=helper_mod_db_status_not_found}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Control.Validation}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HelperModManager.DbFilesExist}" Value="True">
+                                            <Setter Property="Content" Value="{Binding AppLocalization.Translations[helper_mod_db_status_founded]}" />
+                                            <Setter Property="Foreground" Value="{Binding SuccessColor}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
                         <Label
-                            Content="Not installed"
-                            DockPanel.Dock="Left"
-                            Foreground="{DynamicResource MahApps.Brushes.Control.Validation}" />
-                        <iconPacks:PackIconFontAwesome
-                            Width="18"
-                            Height="18"
+                            Grid.Column="1"
                             Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Right"
+                            VerticalAlignment="Top"
                             Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
-                            Kind="QuestionCircleSolid"
-                            ToolTip="{Binding AppLocalization.Translations[helper_mod_db_status_hint]}" />
+                            ToolTip="{Binding AppLocalization.Translations[helper_mod_db_status_hint]}"
+                            Visibility="{Binding HelperModManager.DbFilesExist, Converter={StaticResource FalseToVisibleConverter}}">
+                            <Label.Content>
+                                <iconPacks:PackIconFontAwesome
+                                    Width="18"
+                                    Height="18"
+                                    Kind="QuestionCircleSolid" />
+                            </Label.Content>
+                        </Label>
                     </DockPanel>
                 </Grid>
             </TabItem>

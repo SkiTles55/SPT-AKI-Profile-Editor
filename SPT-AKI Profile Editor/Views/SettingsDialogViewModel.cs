@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -65,6 +66,20 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ResetSettings => new(obj => _applicationManager.DeleteSettings());
 
+        public RelayCommand InstallMod => new(obj => HelperModManager.InstallMod());
+
+        public RelayCommand ReinstallMod => new(obj =>
+        {
+            HelperModManager.RemoveMod();
+            HelperModManager.InstallMod();
+        });
+
+        public RelayCommand UpdateMod => new(obj => HelperModManager.UpdateMod());
+
+        public RelayCommand RemoveMod => new(obj => HelperModManager.RemoveMod());
+
+        public static SolidColorBrush SuccessColor => HelperModStatusNameColorConverter.SuccessColor;
+
         public AppSettings AppSettings { get; }
 
         public IHelperModManager HelperModManager { get; }
@@ -87,6 +102,17 @@ namespace SPT_AKI_Profile_Editor.Views
                 AppSettings.Language = value;
                 OnPropertyChanged("CurrentLocalization");
                 AppLocalization.LoadLocalization(AppSettings.Language);
+                OnPropertyChanged(nameof(HelperModManager));
+            }
+        }
+
+        public bool UsingModHelper
+        {
+            get => AppSettings.UsingModHelper;
+            set
+            {
+                AppSettings.UsingModHelper = value;
+                OnPropertyChanged(nameof(UsingModHelper));
                 OnPropertyChanged(nameof(HelperModManager));
             }
         }
