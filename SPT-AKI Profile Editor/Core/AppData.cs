@@ -20,10 +20,10 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly GridFilters GridFilters;
         public static readonly BackupService BackupService;
         public static readonly IssuesService IssuesService;
+        public static readonly IHelperModManager HelperModManager;
 
         private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.ToLowerInvariant().StartsWith("nunit.framework"));
         private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
-        private static readonly string HelperDbPath = "user\\mods\\ProfileEditorHelper\\exportedDB";
 
         static AppData()
         {
@@ -35,6 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core
             IssuesService = new();
             Profile = new();
             ServerDatabase = new();
+            HelperModManager = new HelperModManager();
         }
 
         public static void LoadDatabase()
@@ -268,7 +269,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static string GetHelperDBFilePath(string filename)
         {
-            var path = Path.Combine(AppSettings.ServerPath, HelperDbPath, filename);
+            var path = Path.Combine(AppSettings.ServerPath, HelperModManager.DbPath, filename);
             return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Any())
                 ? path
                 : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));

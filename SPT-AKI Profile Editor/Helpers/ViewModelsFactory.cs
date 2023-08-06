@@ -17,10 +17,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
             FastMode = new(saveCommand);
             InfoTab = new();
             MerchantsTab = new();
-            QuestsTab = new(dialogManager, reloadCommand, faqCommand);
+            QuestsTab = new(dialogManager, reloadCommand, faqCommand, worker);
             HideoutTab = new();
-            SkillsTab = new(dialogManager, reloadCommand, faqCommand);
-            MasteringTab = new(dialogManager, reloadCommand, faqCommand);
+            SkillsTab = new(dialogManager, reloadCommand, faqCommand, worker);
+            MasteringTab = new(dialogManager, reloadCommand, faqCommand, worker);
             ExaminedItemsTab = new();
             StashTab = new(dialogManager, worker, applicationManager);
             ClothingTab = new();

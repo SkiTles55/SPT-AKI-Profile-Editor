@@ -17,6 +17,7 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly IWindowsDialogs _windowsDialogs;
         private readonly IApplicationManager _applicationManager;
         private readonly RelayCommand _faqCommand;
+        private readonly IWorker _worker;
         private int selectedTab;
 
         public SettingsDialogViewModel(RelayCommand closeCommand,
@@ -25,6 +26,7 @@ namespace SPT_AKI_Profile_Editor.Views
                                        IApplicationManager applicationManager,
                                        IHelperModManager helperModManager,
                                        RelayCommand faqCommand,
+                                       IWorker worker,
                                        int index = 0)
         {
             CloseCommand = closeCommand;
@@ -35,6 +37,7 @@ namespace SPT_AKI_Profile_Editor.Views
             _applicationManager = applicationManager;
             HelperModManager = helperModManager;
             _faqCommand = faqCommand;
+            _worker = worker;
         }
 
         public RelayCommand ResetLocalizations => new(obj => _applicationManager.DeleteLocalizations());
@@ -70,13 +73,30 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ReinstallMod => new(obj =>
         {
-            HelperModManager.RemoveMod();
-            HelperModManager.InstallMod();
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.RemoveMod();
+                    HelperModManager.InstallMod();
+                    OnPropertyChanged(nameof(HelperModManager));
+                }
+            });
         });
 
         public RelayCommand UpdateMod => new(obj => HelperModManager.UpdateMod());
 
-        public RelayCommand RemoveMod => new(obj => HelperModManager.RemoveMod());
+        public RelayCommand RemoveMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.RemoveMod();
+                    UsingModHelper = false;
+                }
+            });
+        });
 
         public static SolidColorBrush SuccessColor => HelperModStatusNameColorConverter.SuccessColor;
 

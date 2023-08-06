@@ -47,7 +47,7 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ));
+        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ, _worker));
 
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
@@ -131,7 +131,7 @@ namespace SPT_AKI_Profile_Editor
             || !AppData.AppSettings.PathIsServerFolder()
             || !AppData.AppSettings.ServerHaveProfiles()
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ);
+                await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ, _worker);
             else
                 StartupEventsWorker();
             if (AppData.AppSettings.CheckUpdates == true)
