@@ -82,7 +82,7 @@
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left">
                     <Image.Source>
-                        <BitmapImage UriSource="/Images/ltcWallet.png" />
+                        <BitmapImage UriSource="/Resources/Images/ltcWallet.png" />
                     </Image.Source>
                 </Image>
                 <Label Margin="0,5,0,0" Style="{DynamicResource DescriptionHeaderStyle}">

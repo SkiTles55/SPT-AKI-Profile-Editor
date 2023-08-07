@@ -23,6 +23,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public static string SptAkiProjectUrl => AppSettings.sptAkiProjectUrl;
 
         public static RelayCommand CopyLtcWallet => new(obj => Clipboard.SetText(LtcWallet));
+
         public RelayCommand OpenAutorGitHubUrl => new(obj => OpenUrl(AuthorURL));
 
         public RelayCommand OpenRepositoryGitHubUrl => new(obj => OpenUrl(RepositoryURL));
