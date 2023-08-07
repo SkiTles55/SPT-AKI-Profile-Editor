@@ -24,7 +24,6 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             LoadBitmapIcon();
         }
 
-        [JsonProperty("Id")]
         public string Id { get; set; }
 
         [JsonIgnore]
@@ -32,14 +31,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         {
             get
             {
-                if (categories == null)
-                    categories = new(AppData.ServerDatabase.Handbook.Categories.Where(x => x.ParentId == Id && x.IsNotHidden));
+                categories ??= new(AppData.ServerDatabase.Handbook.Categories.Where(x => x.ParentId == Id && x.IsNotHidden));
                 return categories;
             }
             set
             {
                 categories = value;
-                OnPropertyChanged("Categories");
+                OnPropertyChanged(nameof(Categories));
             }
         }
 
@@ -48,8 +46,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         {
             get
             {
-                if (items == null)
-                    items = new(AppData.ServerDatabase.Handbook.Items
+                items ??= new(AppData.ServerDatabase.Handbook.Items
                         .Where(x => x.ParentId == Id)
                         .Select(x => x.Item));
                 return items;
@@ -57,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 items = value;
-                OnPropertyChanged("Items");
+                OnPropertyChanged(nameof(Items));
             }
         }
 

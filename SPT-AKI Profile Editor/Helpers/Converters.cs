@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Converters;
-using SPT_AKI_Profile_Editor.Core;
+﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using System;
 using System.Collections.Generic;

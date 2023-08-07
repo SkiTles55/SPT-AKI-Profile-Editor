@@ -9,28 +9,25 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterSkill : BindableEntity
     {
         private string id;
-
         private float progress;
 
-        [JsonProperty("Id")]
         public string Id
         {
             get => id;
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                OnPropertyChanged(nameof(Id));
             }
         }
 
-        [JsonProperty("Progress")]
         public float Progress
         {
             get => progress;
             set
             {
                 progress = value > MaxValue ? MaxValue : value;
-                OnPropertyChanged("Progress");
+                OnPropertyChanged(nameof(Progress));
             }
         }
 

@@ -1,54 +1,45 @@
-﻿using Newtonsoft.Json;
-using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class CharacterInfo : BindableEntity
     {
         private string nickname;
-
         private string side;
-
         private string voice;
-
         private int level;
-
         private long experience;
 
-        [JsonProperty("Nickname")]
         public string Nickname
         {
             get => nickname;
             set
             {
                 nickname = value;
-                OnPropertyChanged("Nickname");
+                OnPropertyChanged(nameof(Nickname));
             }
         }
 
-        [JsonProperty("Side")]
         public string Side
         {
             get => side;
             set
             {
                 side = value;
-                OnPropertyChanged("Side");
+                OnPropertyChanged(nameof(Side));
             }
         }
 
-        [JsonProperty("Voice")]
         public string Voice
         {
             get => voice;
             set
             {
                 voice = value;
-                OnPropertyChanged("Voice");
+                OnPropertyChanged(nameof(Voice));
             }
         }
 
-        [JsonProperty("Level")]
         public int Level
         {
             get => level;
@@ -57,13 +48,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (level != value)
                 {
                     level = value;
-                    OnPropertyChanged("Level");
+                    OnPropertyChanged(nameof(Level));
                     Experience = LevelToExperience();
                 }
             }
         }
 
-        [JsonProperty("Experience")]
         public long Experience
         {
             get => experience;
@@ -72,13 +62,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (experience != value)
                 {
                     experience = value;
-                    OnPropertyChanged("Experience");
+                    OnPropertyChanged(nameof(Experience));
                     Level = ExperienceToLevel();
                 }
             }
         }
 
-        [JsonProperty("GameVersion")]
         public string GameVersion { get; set; }
 
         private long LevelToExperience()
