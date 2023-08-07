@@ -40,6 +40,8 @@ namespace SPT_AKI_Profile_Editor.Views
             _worker = worker;
         }
 
+        public static SolidColorBrush SuccessColor => HelperModStatusNameColorConverter.SuccessColor;
+
         public RelayCommand ResetLocalizations => new(obj => _applicationManager.DeleteLocalizations());
 
         public IEnumerable<AccentItem> ColorSchemes => _applicationManager.GetColorSchemes();
@@ -117,8 +119,6 @@ namespace SPT_AKI_Profile_Editor.Views
                 }
             });
         });
-
-        public static SolidColorBrush SuccessColor => HelperModStatusNameColorConverter.SuccessColor;
 
         public AppSettings AppSettings { get; }
 

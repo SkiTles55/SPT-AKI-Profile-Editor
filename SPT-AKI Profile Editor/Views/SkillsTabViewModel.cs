@@ -8,9 +8,9 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly IDialogManager _dialogManager;
         private readonly RelayCommand _reloadCommand;
         private readonly RelayCommand _faqCommand;
+        private readonly IWorker _worker;
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
-        private readonly IWorker _worker;
 
         public SkillsTabViewModel(IDialogManager dialogManager,
                                   RelayCommand reloadCommand,

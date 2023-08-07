@@ -1,4 +1,6 @@
-﻿using SPT_AKI_Profile_Editor.Core;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.ModHelper;
 using System;
 using System.IO;
 using System.Linq;
@@ -40,10 +42,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public HelperModStatus HelperModStatus => CheckModStatus();
         public bool UpdateAvailable => HelperModStatus == HelperModStatus.UpdateAvailable;
         public bool IsInstalled => HelperModStatus == HelperModStatus.Installed;
-
         public bool DbFilesExist => CheckDbStatus();
-
         public string DbPath => helperDbPath;
+        private Version AvailableVersion { get; set; } = new();
 
         public void InstallMod()
         {
@@ -57,10 +58,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                            modSourceDirName,
                                            modScriptSourceFileName);
             File.Copy(srcFilePath, Path.Combine(srcPath, modScriptFileName), true);
-            var packageJsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                               modSourceDirName,
-                                               packageJsonFileName);
-            File.Copy(packageJsonPath, Path.Combine(fullModPath, packageJsonFileName), true);
+            File.Copy(GetPackageJsonPath(), Path.Combine(fullModPath, packageJsonFileName), true);
         }
 
         public void RemoveMod()
@@ -74,15 +72,29 @@ namespace SPT_AKI_Profile_Editor.Helpers
             throw new NotImplementedException();
         }
 
+        private static ModPackage GetModPackageInfo(string filename)
+            => JsonConvert.DeserializeObject<ModPackage>(File.ReadAllText(filename));
+
+        private static Version GetModVersion(ModPackage modPackage)
+            => Version.Parse(modPackage.Version);
+
         private string GetFullModPath() => Path.Combine(AppData.AppSettings.ServerPath, modPath);
 
         private HelperModStatus CheckModStatus()
         {
             var fullModPath = GetFullModPath();
-            if (File.Exists(Path.Combine(fullModPath, srcDirName, modScriptFileName))
-                && File.Exists(Path.Combine(fullModPath, packageJsonFileName)))
-                return HelperModStatus.Installed;
-            return HelperModStatus.NotInstalled;
+            if (!File.Exists(Path.Combine(fullModPath, srcDirName, modScriptFileName)))
+                return HelperModStatus.NotInstalled;
+
+            var installedModPackageJson = Path.Combine(fullModPath, packageJsonFileName);
+            if (!File.Exists(installedModPackageJson))
+                return HelperModStatus.NotInstalled;
+
+            if (AvailableVersion != null
+                && AvailableVersion > GetModVersion(GetModPackageInfo(installedModPackageJson)))
+                return HelperModStatus.UpdateAvailable;
+
+            return HelperModStatus.Installed;
         }
 
         private bool CheckDbStatus()
@@ -94,5 +106,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 return true;
             return false;
         }
+
+        private string GetPackageJsonPath()
+            => Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                            modSourceDirName,
+                            packageJsonFileName);
     }
 }

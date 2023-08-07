@@ -19,6 +19,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public override RelayCommand SetAllPmsSkillsCommand
             => new(obj => Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcSkillsValue));
+
         public override RelayCommand SetAllScavSkillsCommand
             => new(obj => Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavSkillsValue));
     }
