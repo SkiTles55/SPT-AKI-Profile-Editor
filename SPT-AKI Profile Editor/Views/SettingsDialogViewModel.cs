@@ -69,7 +69,17 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ResetSettings => new(obj => _applicationManager.DeleteSettings());
 
-        public RelayCommand InstallMod => new(obj => HelperModManager.InstallMod());
+        public RelayCommand InstallMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.InstallMod();
+                    UsingModHelper = true;
+                }
+            });
+        });
 
         public RelayCommand ReinstallMod => new(obj =>
         {
@@ -84,7 +94,17 @@ namespace SPT_AKI_Profile_Editor.Views
             });
         });
 
-        public RelayCommand UpdateMod => new(obj => HelperModManager.UpdateMod());
+        public RelayCommand UpdateMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.UpdateMod();
+                    OnPropertyChanged(nameof(HelperModManager));
+                }
+            });
+        });
 
         public RelayCommand RemoveMod => new(obj =>
         {

@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <Version>2.6.4</Version>
-    <ApplicationIcon>killa_ico_k3r_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\killa_ico_k3r_icon.ico</ApplicationIcon>
     <PackageId>SPT-AKI Profile Editor</PackageId>
     <Authors>SkiTles55</Authors>
     <Company>SkiTles55</Company>
@@ -41,8 +41,8 @@
     <None Update="ModHelper\package.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="ModHelper\src\mod.ts-sample">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="ModHelper\mod.ts-source">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
