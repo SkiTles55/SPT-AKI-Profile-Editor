@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public class FileDownloader
+    public class FileDownloaderDialog
     {
         private readonly CancellationTokenSource cancelTokenSource = new();
         private readonly CancellationToken cancellationToken;
         private readonly IDialogManager dialogManager;
         private IProgress<float> progressIndicator;
 
-        public FileDownloader(IDialogManager dialogManager)
+        public FileDownloaderDialog(IDialogManager dialogManager)
         {
             this.dialogManager = dialogManager;
             cancellationToken = cancelTokenSource.Token;
