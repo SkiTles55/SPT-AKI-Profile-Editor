@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core
             IssuesService = new();
             Profile = new();
             ServerDatabase = new();
-            HelperModManager = new HelperModManager();
+            HelperModManager = new HelperModManager(AppSettings.modHelperUpdateUrl, Path.Combine(AppDataPath, "ModHelperUpdate"));
         }
 
         public static void LoadDatabase()
@@ -55,6 +55,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadHandbookHelper();
             }
         }
+
+        public static void DownloadHelperModUpdates() => HelperModManager.DownloadUpdates();
 
         public static void StartupEvents(ICleaningService cleaningService)
         {

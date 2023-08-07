@@ -20,12 +20,16 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void RemoveMod();
 
         public void UpdateMod();
+
+        public void DownloadUpdates();
     }
 
     public class HelperModManager : IHelperModManager
     {
         private readonly string helperDbPath;
         private readonly string modPath;
+        private readonly Uri updateUrl;
+        private readonly string updateSaveDirectory;
 
         private readonly string srcDirName = "src";
         private readonly string modScriptFileName = "mod.ts";
@@ -33,8 +37,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private readonly string modSourceDirName = "ModHelper";
         private readonly string modScriptSourceFileName = "mod.ts-source";
 
-        public HelperModManager(string modPath = "user\\mods\\ProfileEditorHelper")
+        public HelperModManager(string updateUrl, string updateSaveDirectory, string modPath = "user\\mods\\ProfileEditorHelper")
         {
+            this.updateUrl = new(updateUrl);
+            this.updateSaveDirectory = updateSaveDirectory;
             this.modPath = modPath;
             helperDbPath = Path.Combine(modPath, "exportedDB");
         }
@@ -70,6 +76,24 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void UpdateMod()
         {
             throw new NotImplementedException();
+        }
+
+        public async void DownloadUpdates()
+        {
+            if (!Directory.Exists(updateSaveDirectory))
+                Directory.CreateDirectory(updateSaveDirectory);
+            FileDownloader fileDownloader = new();
+            try
+            {
+                var packageUrl = new Uri(updateUrl, packageJsonFileName);
+                var savePackagePath = Path.Combine(updateSaveDirectory, packageJsonFileName);
+                await fileDownloader.DownloadFromUrl(packageUrl.AbsoluteUri, savePackagePath);
+                await fileDownloader.DownloadFromUrl(new Uri(updateUrl, modScriptSourceFileName).AbsoluteUri,
+                                                     Path.Combine(updateSaveDirectory, modScriptSourceFileName));
+
+                AvailableVersion = GetModVersion(GetModPackageInfo(savePackagePath));
+            }
+            catch { }
         }
 
         private static ModPackage GetModPackageInfo(string filename)

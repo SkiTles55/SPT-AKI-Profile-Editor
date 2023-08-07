@@ -135,7 +135,10 @@ namespace SPT_AKI_Profile_Editor
             else
                 StartupEventsWorker();
             if (AppData.AppSettings.CheckUpdates == true)
+            {
                 await CheckForUpdates();
+                AppData.DownloadHelperModUpdates();
+            }
         }
 
         private async Task CheckForUpdates()
