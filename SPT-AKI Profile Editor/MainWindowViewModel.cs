@@ -15,14 +15,17 @@ namespace SPT_AKI_Profile_Editor
         private readonly IWorker _worker;
         private readonly IApplicationManager _applicationManager;
         private readonly ICleaningService _cleaningService;
+        private readonly IHelperModManager _helperModManager;
 
         public MainWindowViewModel(IApplicationManager applicationManager,
                                    IWindowsDialogs windowsDialogs,
+                                   IHelperModManager helperModManager,
                                    IDialogManager dialogManager = null,
                                    IWorker worker = null,
                                    ICleaningService cleaningService = null)
         {
             _dialogManager = dialogManager ?? new MetroDialogManager(this, App.DialogCoordinator);
+            _helperModManager = helperModManager;
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(_dialogManager);
@@ -34,7 +37,8 @@ namespace SPT_AKI_Profile_Editor
                              SaveButtonCommand,
                              ReloadCommand,
                              OpenFAQ,
-                             _cleaningService);
+                             _cleaningService,
+                             _helperModManager);
         }
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
@@ -47,7 +51,11 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());
 
-        public RelayCommand OpenSettingsCommand => new(async obj => await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ, _worker));
+        public RelayCommand OpenSettingsCommand
+            => new(async obj => await _dialogManager.ShowSettingsDialog(ReloadCommand,
+                                                                        OpenFAQ,
+                                                                        _worker,
+                                                                        _helperModManager));
 
         public RelayCommand InitializeViewModelCommand => new(async obj => await InitializeViewModel());
 
@@ -131,13 +139,16 @@ namespace SPT_AKI_Profile_Editor
             || !AppData.AppSettings.PathIsServerFolder()
             || !AppData.AppSettings.ServerHaveProfiles()
             || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
-                await _dialogManager.ShowSettingsDialog(ReloadCommand, OpenFAQ, _worker);
+                await _dialogManager.ShowSettingsDialog(ReloadCommand,
+                                                        OpenFAQ,
+                                                        _worker,
+                                                        _helperModManager);
             else
                 StartupEventsWorker();
             if (AppData.AppSettings.CheckUpdates == true)
             {
                 await CheckForUpdates();
-                AppData.DownloadHelperModUpdates();
+                _helperModManager.DownloadUpdates();
             }
         }
 

@@ -8,10 +8,12 @@ namespace SPT_AKI_Profile_Editor.Views
         public MasteringTabViewModel(IDialogManager dialogManager,
                                      RelayCommand reloadCommand,
                                      RelayCommand faqCommand,
-                                     IWorker worker) : base(dialogManager,
-                                                            reloadCommand,
-                                                            faqCommand,
-                                                            worker)
+                                     IWorker worker,
+                                     IHelperModManager helperModManager) : base(dialogManager,
+                                                                                reloadCommand,
+                                                                                faqCommand,
+                                                                                worker,
+                                                                                helperModManager)
         {
         }
 

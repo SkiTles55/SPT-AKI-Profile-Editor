@@ -13,7 +13,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                                             new TestsWorker(),
                                             new TestsApplicationManager(),
                                             new TestsWindowsDialogs(),
-                                            null, null, null, null);
+                                            null, null, null, null, null);
             Assert.That(factory, Is.Not.Null, "ViewModelsFactory is null");
             Assert.That(factory.FastMode, Is.Not.Null, "FastMode is null");
             Assert.That(factory.InfoTab, Is.Not.Null, "InfoTab is null");

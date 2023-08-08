@@ -10,16 +10,19 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly RelayCommand _reloadCommand;
         private readonly RelayCommand _faqCommand;
         private readonly IWorker worker;
+        private readonly IHelperModManager _helperModManager;
 
         public QuestsTabViewModel(IDialogManager dialogManager,
                                   RelayCommand reloadCommand,
                                   RelayCommand faqCommand,
-                                  IWorker worker)
+                                  IWorker worker,
+                                  IHelperModManager helperModManager)
         {
             _dialogManager = dialogManager;
             _reloadCommand = reloadCommand;
             _faqCommand = faqCommand;
             this.worker = worker;
+            _helperModManager = helperModManager;
         }
 
         public static QuestStatus SetAllValue { get; set; } = QuestStatus.Success;
@@ -28,6 +31,10 @@ namespace SPT_AKI_Profile_Editor.Views
             => new(obj => Profile.Characters?.Pmc?.SetAllQuests(SetAllValue));
 
         public RelayCommand OpenSettingsCommand
-            => new(async obj => await _dialogManager.ShowSettingsDialog(_reloadCommand, _faqCommand, worker, 1));
+            => new(async obj => await _dialogManager.ShowSettingsDialog(_reloadCommand,
+                                                                        _faqCommand,
+                                                                        worker,
+                                                                        _helperModManager,
+                                                                        1));
     }
 }

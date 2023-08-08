@@ -60,13 +60,20 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task ShowProgressDialog(string title, string description, bool indeterminate = true, double progress = 0, bool cancelable = false, MetroDialogSettings dialogSettings = null)
+        public Task ShowProgressDialog(string title,
+                                       string description,
+                                       bool indeterminate = true,
+                                       double progress = 0,
+                                       bool cancelable = false,
+                                       MetroDialogSettings dialogSettings = null)
         {
             LastProgress = progress;
             return Task.CompletedTask;
         }
 
-        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand, RelayCommand faqCommand)
+        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths,
+                                               RelayCommand retryCommand,
+                                               RelayCommand faqCommand)
         {
             ServerPathEditorDialogOpened = true;
             if (ShouldExecuteServerPathEditorRetryCommand)
@@ -80,7 +87,11 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
-        public Task ShowSettingsDialog(RelayCommand reloadCommand, RelayCommand faqCommand, int index = 0)
+        public Task ShowSettingsDialog(RelayCommand reloadCommand,
+                                       RelayCommand faqCommand,
+                                       IWorker worker,
+                                       IHelperModManager helperModManager,
+                                       int index = 0)
         {
             SettingsDialogOpened = true;
             return Task.CompletedTask;

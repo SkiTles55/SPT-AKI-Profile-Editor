@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            QuestsTabViewModel viewModel = new(null, null, null);
+            QuestsTabViewModel viewModel = new(null, null, null, null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.OpenSettingsCommand, Is.Not.Null);
         }
@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteOpenSettingsCommand()
         {
             TestsDialogManager dialogManager = new();
-            QuestsTabViewModel viewModel = new(dialogManager, null, null);
+            QuestsTabViewModel viewModel = new(dialogManager, null, null, null, null);
             viewModel.OpenSettingsCommand.Execute(null);
             Assert.That(dialogManager.SettingsDialogOpened, Is.True);
         }

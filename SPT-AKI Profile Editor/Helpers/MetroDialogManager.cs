@@ -22,6 +22,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task ShowSettingsDialog(RelayCommand reloadCommand,
                                        RelayCommand faqCommand,
                                        IWorker worker,
+                                       IHelperModManager modManager,
                                        int index = 0);
 
         public Task ShowUpdateDialog(GitHubRelease release);
@@ -107,6 +108,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public async Task ShowSettingsDialog(RelayCommand reloadCommand,
                                              RelayCommand faqCommand,
                                              IWorker worker,
+                                             IHelperModManager modManager,
                                              int index = 0)
         {
             string startValues = AppData.AppSettings.GetStamp();
@@ -122,7 +124,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                                       this,
                                                                       App.WindowsDialogs,
                                                                       App.ApplicationManager,
-                                                                      AppData.HelperModManager,
+                                                                      modManager,
                                                                       faqCommand,
                                                                       worker,
                                                                       index);

@@ -12,15 +12,16 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                  RelayCommand saveCommand,
                                  RelayCommand reloadCommand,
                                  RelayCommand faqCommand,
-                                 ICleaningService cleaningService)
+                                 ICleaningService cleaningService,
+                                 IHelperModManager helperModManager)
         {
             FastMode = new(saveCommand);
             InfoTab = new();
             MerchantsTab = new();
-            QuestsTab = new(dialogManager, reloadCommand, faqCommand, worker);
+            QuestsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
             HideoutTab = new();
-            SkillsTab = new(dialogManager, reloadCommand, faqCommand, worker);
-            MasteringTab = new(dialogManager, reloadCommand, faqCommand, worker);
+            SkillsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
+            MasteringTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
             ExaminedItemsTab = new();
             StashTab = new(dialogManager, worker, applicationManager);
             ClothingTab = new();

@@ -56,8 +56,6 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public static void DownloadHelperModUpdates() => HelperModManager.DownloadUpdates();
-
         public static void StartupEvents(ICleaningService cleaningService)
         {
             LoadDatabase();
