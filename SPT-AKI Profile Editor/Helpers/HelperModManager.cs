@@ -30,6 +30,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private readonly string modPath;
         private readonly Uri updateUrl;
         private readonly string updateSaveDirectory;
+        private readonly string updatedPackageJsonPath;
+        private readonly string updatedModScriptSourcePath;
 
         private readonly string srcDirName = "src";
         private readonly string modScriptFileName = "mod.ts";
@@ -43,6 +45,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
             this.updateSaveDirectory = updateSaveDirectory;
             this.modPath = modPath;
             helperDbPath = Path.Combine(modPath, "exportedDB");
+            updatedPackageJsonPath = Path.Combine(updateSaveDirectory, packageJsonFileName);
+            updatedModScriptSourcePath = Path.Combine(updateSaveDirectory, modScriptSourceFileName);
         }
 
         public HelperModStatus HelperModStatus => CheckModStatus();
@@ -52,6 +56,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public string DbPath => helperDbPath;
         private Version AvailableVersion { get; set; } = new();
 
+        private bool HaveUpdatedFiles => File.Exists(updatedPackageJsonPath) && File.Exists(updatedModScriptSourcePath);
+
         public void InstallMod()
         {
             var fullModPath = GetFullModPath();
@@ -60,11 +66,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
             var srcPath = Path.Combine(fullModPath, srcDirName);
             if (!Directory.Exists(srcPath))
                 Directory.CreateDirectory(srcPath);
-            var srcFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           modSourceDirName,
-                                           modScriptSourceFileName);
-            File.Copy(srcFilePath, Path.Combine(srcPath, modScriptFileName), true);
-            File.Copy(GetPackageJsonPath(), Path.Combine(fullModPath, packageJsonFileName), true);
+            var paths = GetFilesPaths();
+            File.Copy(paths.srcPath, Path.Combine(srcPath, modScriptFileName), true);
+            File.Copy(paths.packagePath, Path.Combine(fullModPath, packageJsonFileName), true);
         }
 
         public void RemoveMod()
@@ -75,23 +79,29 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public void UpdateMod()
         {
-            throw new NotImplementedException();
+            RemoveMod();
+            InstallMod();
         }
 
         public async void DownloadUpdates()
         {
             if (!Directory.Exists(updateSaveDirectory))
                 Directory.CreateDirectory(updateSaveDirectory);
+            if (File.Exists(updatedPackageJsonPath))
+                AvailableVersion = GetModVersion(GetModPackageInfo(updatedPackageJsonPath));
             FileDownloader fileDownloader = new();
             try
             {
                 var packageUrl = new Uri(updateUrl, packageJsonFileName);
-                var savePackagePath = Path.Combine(updateSaveDirectory, packageJsonFileName);
-                await fileDownloader.DownloadFromUrl(packageUrl.AbsoluteUri, savePackagePath);
-                await fileDownloader.DownloadFromUrl(new Uri(updateUrl, modScriptSourceFileName).AbsoluteUri,
-                                                     Path.Combine(updateSaveDirectory, modScriptSourceFileName));
+                await fileDownloader.DownloadFromUrl(packageUrl.AbsoluteUri, updatedPackageJsonPath);
+                var latestVersion = GetModVersion(GetModPackageInfo(updatedPackageJsonPath));
+                if (latestVersion > AvailableVersion)
+                {
+                    await fileDownloader.DownloadFromUrl(new Uri(updateUrl, modScriptSourceFileName).AbsoluteUri,
+                                                         updatedModScriptSourcePath);
 
-                AvailableVersion = GetModVersion(GetModPackageInfo(savePackagePath));
+                    AvailableVersion = latestVersion;
+                }
             }
             catch { }
         }
@@ -115,7 +125,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 return HelperModStatus.NotInstalled;
 
             if (AvailableVersion != null
-                && AvailableVersion > GetModVersion(GetModPackageInfo(installedModPackageJson)))
+                && AvailableVersion > GetModVersion(GetModPackageInfo(installedModPackageJson))
+                && HaveUpdatedFiles)
                 return HelperModStatus.UpdateAvailable;
 
             return HelperModStatus.Installed;
@@ -131,9 +142,17 @@ namespace SPT_AKI_Profile_Editor.Helpers
             return false;
         }
 
-        private string GetPackageJsonPath()
-            => Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                            modSourceDirName,
-                            packageJsonFileName);
+        private (string packagePath, string srcPath) GetFilesPaths()
+        {
+            if (HaveUpdatedFiles)
+                return (updatedPackageJsonPath, updatedModScriptSourcePath);
+            var packagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                           modSourceDirName,
+                                           packageJsonFileName);
+            var srcPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                       modSourceDirName,
+                                       modScriptSourceFileName);
+            return (packagePath, srcPath);
+        }
     }
 }
