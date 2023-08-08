@@ -4,9 +4,19 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestsHelperModManager : IHelperModManager
     {
+        private HelperModStatus helperModStatus;
+
+        public TestsHelperModManager(HelperModStatus helperModStatus = HelperModStatus.NotInstalled)
+        {
+            this.helperModStatus = helperModStatus;
+        }
+
+        public bool RemoveModCalled = false;
+        public bool UpdateModCalled = false;
+
         public string DbPath => "";
 
-        public HelperModStatus HelperModStatus => HelperModStatus.NotInstalled;
+        public HelperModStatus HelperModStatus => helperModStatus;
 
         public bool UpdateAvailable => false;
 
@@ -20,14 +30,19 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public void InstallMod()
         {
+            helperModStatus = HelperModStatus.Installed;
         }
 
         public void RemoveMod()
         {
+            RemoveModCalled = true;
+            helperModStatus = HelperModStatus.NotInstalled;
         }
 
         public void UpdateMod()
         {
+            UpdateModCalled = true;
+            helperModStatus = HelperModStatus.Installed;
         }
     }
 }

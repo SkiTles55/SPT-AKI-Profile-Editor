@@ -51,7 +51,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public HelperModStatus HelperModStatus => CheckModStatus();
         public bool UpdateAvailable => HelperModStatus == HelperModStatus.UpdateAvailable;
-        public bool IsInstalled => HelperModStatus == HelperModStatus.Installed;
+        public bool IsInstalled => HelperModStatus != HelperModStatus.NotInstalled;
         public bool DbFilesExist => CheckDbStatus();
         public string DbPath => helperDbPath;
         private Version AvailableVersion { get; set; } = new();

@@ -171,5 +171,66 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             settingsVM.ResetAndReload.Execute(badCommand);
             Assert.That(dialogManager.LastOkMessage, Is.EqualTo("Bad command exception"));
         }
+
+        [Test]
+        public void CanInstallMod()
+        {
+            SettingsDialogViewModel settingsVM = PrepareVmWith(new TestsHelperModManager());
+            settingsVM.InstallMod.Execute(null);
+            CheckHelperModIn(settingsVM, true, HelperModStatus.Installed);
+        }
+
+        [Test]
+        public void CanReinstallMod()
+        {
+            TestsHelperModManager helperModManager = new(HelperModStatus.Installed);
+            SettingsDialogViewModel settingsVM = PrepareVmWith(helperModManager);
+            settingsVM.ReinstallMod.Execute(null);
+            CheckHelperModIn(settingsVM, true, HelperModStatus.Installed);
+            Assert.That(helperModManager.RemoveModCalled, Is.True, "RemoveMod not called");
+        }
+
+        [Test]
+        public void CanUpdateMod()
+        {
+            TestsHelperModManager helperModManager = new(HelperModStatus.UpdateAvailable);
+            SettingsDialogViewModel settingsVM = PrepareVmWith(helperModManager);
+            settingsVM.UpdateMod.Execute(null);
+            Assert.That(settingsVM.HelperModManager.HelperModStatus,
+                        Is.EqualTo(HelperModStatus.Installed),
+                        $"HelperMod not updated");
+            Assert.That(helperModManager.UpdateModCalled, Is.True, "UpdateMod not called");
+        }
+
+        [Test]
+        public void CanRemoveMod()
+        {
+            TestsHelperModManager helperModManager = new(HelperModStatus.Installed);
+            SettingsDialogViewModel settingsVM = PrepareVmWith(helperModManager);
+            settingsVM.RemoveMod.Execute(null);
+            CheckHelperModIn(settingsVM, false, HelperModStatus.NotInstalled);
+            Assert.That(helperModManager.RemoveModCalled, Is.True, "RemoveMod not called");
+        }
+
+        private static SettingsDialogViewModel PrepareVmWith(TestsHelperModManager helperModManager)
+                                            => new(null,
+                                                   dialogManager,
+                                                   null,
+                                                   null,
+                                                   helperModManager,
+                                                   null,
+                                                   new TestsWorker());
+
+        private static void CheckHelperModIn(SettingsDialogViewModel settingsVM,
+                                             bool expectedUsingModHelper,
+                                             HelperModStatus expectedStatus)
+        {
+            Assert.That(settingsVM.UsingModHelper,
+                        Is.EqualTo(expectedUsingModHelper),
+                        $"UsingModHelper is not {expectedUsingModHelper}");
+            Assert.That(settingsVM.HelperModManager.HelperModStatus,
+                        Is.EqualTo(expectedStatus),
+                        $"HelperMod status not equal to {expectedStatus}");
+        }
     }
 }
