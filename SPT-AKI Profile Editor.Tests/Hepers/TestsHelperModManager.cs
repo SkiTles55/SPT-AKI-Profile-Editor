@@ -5,15 +5,12 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestsHelperModManager : IHelperModManager
     {
+        public bool RemoveModCalled = false;
+        public bool UpdateModCalled = false;
         private HelperModStatus helperModStatus;
 
         public TestsHelperModManager(HelperModStatus helperModStatus = HelperModStatus.NotInstalled)
-        {
-            this.helperModStatus = helperModStatus;
-        }
-
-        public bool RemoveModCalled = false;
-        public bool UpdateModCalled = false;
+            => this.helperModStatus = helperModStatus;
 
         public string DbPath => "";
 
@@ -25,15 +22,9 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public bool DbFilesExist => false;
 
-        public Task DownloadUpdates()
-        {
-            return Task.CompletedTask;
-        }
+        public Task DownloadUpdates() => Task.CompletedTask;
 
-        public void InstallMod()
-        {
-            helperModStatus = HelperModStatus.Installed;
-        }
+        public void InstallMod() => helperModStatus = HelperModStatus.Installed;
 
         public void RemoveMod()
         {

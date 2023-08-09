@@ -107,10 +107,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
             catch { }
         }
 
-        private static ModPackage GetModPackageInfo(string filename)
-            => JsonConvert.DeserializeObject<ModPackage>(File.ReadAllText(filename));
+        private static ModPackageInfo GetModPackageInfo(string filename)
+            => JsonConvert.DeserializeObject<ModPackageInfo>(File.ReadAllText(filename));
 
-        private static Version GetModVersion(ModPackage modPackage)
+        private static Version GetModVersion(ModPackageInfo modPackage)
             => Version.Parse(modPackage.Version);
 
         private string GetFullModPath() => Path.Combine(AppData.AppSettings.ServerPath, modPath);

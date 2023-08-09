@@ -48,19 +48,20 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
         }
 
-        private static string GetProgressString(float value) => string.Format("{0} {1:P2}.", AppData.AppLocalization.GetLocalizedString("download_dialog_downloaded"), value);
+        private static string GetProgressString(float value)
+            => string.Format("{0} {1:P2}.",
+                             AppData.AppLocalization.GetLocalizedString("download_dialog_downloaded"),
+                             value);
 
         private void DownloadCanceled(object sender, EventArgs e) => cancelTokenSource.Cancel();
 
         private async void ReportProgress(float value)
-        {
-            await dialogManager.ShowProgressDialog(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
-                                                   GetProgressString(value),
-                                                   false,
-                                                   value,
-                                                   true,
-                                                   DialogSettings);
-        }
+            => await dialogManager.ShowProgressDialog(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
+                                                      GetProgressString(value),
+                                                      false,
+                                                      value,
+                                                      true,
+                                                      DialogSettings);
 
         private async Task CloseProgressWithMessage(string title, string message, bool showMessage = true)
         {

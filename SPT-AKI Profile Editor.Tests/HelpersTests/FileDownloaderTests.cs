@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         [Test]
         public void CanInitialize()
         {
-            FileDownloaderDialog fileDownloader = new(new TestsDialogManager());
+            FileDownloaderDialog fileDownloader = MakeSUT();
             Assert.That(fileDownloader, Is.Not.Null);
         }
 
@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         {
             if (File.Exists(TestHelpers.fileDownloaderTestSavePath))
                 File.Delete(TestHelpers.fileDownloaderTestSavePath);
-            FileDownloaderDialog fileDownloader = new(new TestsDialogManager());
+            FileDownloaderDialog fileDownloader = MakeSUT();
             await fileDownloader.Download(TestHelpers.fileDownloaderTestUrl, TestHelpers.fileDownloaderTestSavePath);
             Assert.That(File.Exists(TestHelpers.fileDownloaderTestSavePath), Is.True);
         }
@@ -29,9 +29,12 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public async Task CanCatchException()
         {
             TestsDialogManager dialogManager = new();
-            FileDownloaderDialog fileDownloader = new(dialogManager);
+            FileDownloaderDialog fileDownloader = MakeSUT(dialogManager);
             await fileDownloader.Download("https://test.com/nonExistigFile.md", TestHelpers.fileDownloaderTestSavePath);
             Assert.That(dialogManager.LastOkMessage, Is.Not.Null);
         }
+
+        private static FileDownloaderDialog MakeSUT(TestsDialogManager dialogManager = null)
+                            => new(dialogManager ?? new TestsDialogManager());
     }
 }
