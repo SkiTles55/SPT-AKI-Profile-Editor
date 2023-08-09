@@ -1,16 +1,16 @@
 import { DependencyContainer } from "tsyringe";
-import { IPostDBLoadMod } from "@spt-aki/models/external/IPostDBLoadMod";
+import { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
 import { JsonUtil } from "@spt-aki/utils/JsonUtil";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
 import { VFS } from "@spt-aki/models/spt/utils/VFS";
 
-class Mod implements IPostDBLoadMod 
+class Mod implements IPostAkiLoadMod
 {
     logger: ILogger
 	
-	public postDBLoad(container: DependencyContainer): void 
-    {
+	public postAkiLoad(container: DependencyContainer): void 
+	{
         this.logger = container.resolve<ILogger>("WinstonLogger");
         const jsonUtil = container.resolve<JsonUtil>("JsonUtil");
         const vfs = container.resolve<VFS>("VFS");
@@ -43,7 +43,7 @@ class Mod implements IPostDBLoadMod
         this.logger.log(`[${modName}] : Locales exported`, "green");
 		
         this.logger.log(`[${modName}] : DB successfully exported`, "green");
-    }
+	}
 }
 
 module.exports = { mod: new Mod() }
