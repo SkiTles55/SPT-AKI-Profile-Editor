@@ -148,7 +148,7 @@ namespace SPT_AKI_Profile_Editor
             if (AppData.AppSettings.CheckUpdates == true)
             {
                 await CheckForUpdates();
-                _helperModManager.DownloadUpdates();
+                _ = _helperModManager.DownloadUpdates();
             }
         }
 

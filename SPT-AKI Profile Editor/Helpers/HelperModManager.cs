@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.ModHelper;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
@@ -21,7 +22,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public void UpdateMod();
 
-        public void DownloadUpdates();
+        public Task DownloadUpdates();
     }
 
     public class HelperModManager : IHelperModManager
@@ -83,7 +84,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             InstallMod();
         }
 
-        public async void DownloadUpdates()
+        public async Task DownloadUpdates()
         {
             if (!Directory.Exists(updateSaveDirectory))
                 Directory.CreateDirectory(updateSaveDirectory);

@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Helpers;
+using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
@@ -24,8 +25,9 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public bool DbFilesExist => false;
 
-        public void DownloadUpdates()
+        public Task DownloadUpdates()
         {
+            return Task.CompletedTask;
         }
 
         public void InstallMod()
