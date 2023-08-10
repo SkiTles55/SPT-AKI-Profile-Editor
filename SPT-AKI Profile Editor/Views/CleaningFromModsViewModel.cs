@@ -20,6 +20,9 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         public ICleaningService CleaningService { get; }
+
+        public static AppSettings AppSettings => AppData.AppSettings;
+
         public RelayCommand UpdateEntityList => new(obj => CleaningService?.LoadEntitiesList());
 
         public RelayCommand SelectAll => new(obj => CleaningService?.MarkAll(true,
