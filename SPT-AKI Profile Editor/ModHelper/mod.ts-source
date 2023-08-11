@@ -15,7 +15,7 @@ class Mod implements IPostAkiLoadMod
 	private exportPath: string
 
     constructor() {
-        this.modName = "SPT-AKI ProfileEditorHelper";
+        this.modName = "[SPT-AKI Profile Editor] Helper Mod";
         this.exportPath = "user/mods/ProfileEditorHelper/exportedDB":
     }
 	
