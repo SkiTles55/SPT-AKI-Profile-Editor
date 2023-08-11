@@ -11,13 +11,13 @@
   },
   "devDependencies": {
     "@types/node": "20.4.5",
-	"@typescript-eslint/eslint-plugin": "6.2.0",
-	"@typescript-eslint/parser": "6.2.0",
-	"bestzip": "2.2.1",
-	"eslint": "8.46.0",
-	"fs-extra": "11.1.1",
-	"glob": "10.3.3",
-	"tsyringe": "4.8.0",
-	"typescript": "5.1.6"
-	}
+    "@typescript-eslint/eslint-plugin": "6.2.0",
+    "@typescript-eslint/parser": "6.2.0",
+    "bestzip": "2.2.1",
+    "eslint": "8.46.0",
+    "fs-extra": "11.1.1",
+    "glob": "10.3.3",
+    "tsyringe": "4.8.0",
+    "typescript": "5.1.6"
+  }
 }
