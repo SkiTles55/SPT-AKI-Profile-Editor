@@ -89,7 +89,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ServerDatabase.LocalesGlobal = new();
             string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath($"locales\\{AppSettings.Language}.json")
+                ? GetHelperDBFilePath($"Locales\\{AppSettings.Language}.json")
                 : Path.Combine(AppSettings.ServerPath,
                                AppSettings.DirsList[SPTServerDir.globals],
                                AppSettings.Language + ".json");
@@ -129,14 +129,44 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadServerGlobals()
         {
-            ServerDatabase.ServerGlobals = new();
+            ServerDatabase.ServerGlobals = AppSettings.UsingModHelper
+                ? GetHelperModDBServerGlobals()
+                : GetServerDBServerGlobals();
+        }
+
+        private static ServerGlobals GetServerDBServerGlobals()
+        {
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.globals]);
             try
             {
-                ServerGlobals global = JsonConvert.DeserializeObject<ServerGlobals>(File.ReadAllText(path));
-                ServerDatabase.ServerGlobals = global;
+                return JsonConvert.DeserializeObject<ServerGlobals>(File.ReadAllText(path));
             }
-            catch (Exception ex) { Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}"); }
+            catch (Exception ex)
+            {
+                Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}");
+                return new();
+            }
+        }
+
+        private static ServerGlobals GetHelperModDBServerGlobals()
+        {
+            string itemPresetsPath = GetHelperDBFilePath("ItemPresets.json");
+            string expTablePath = GetHelperDBFilePath("ExpTable.json");
+            string masteringPath = GetHelperDBFilePath("Mastering.json");
+            try
+            {
+                Dictionary<string, ItemPreset> itemPresets = JsonConvert.DeserializeObject<Dictionary<string, ItemPreset>>(File.ReadAllText(itemPresetsPath));
+                Mastering[] mastering = JsonConvert.DeserializeObject<Mastering[]>(File.ReadAllText(masteringPath));
+                ConfigExp configExp = JsonConvert.DeserializeObject<ConfigExp>(File.ReadAllText(expTablePath));
+
+                ServerGlobalsConfig globalsConfig = new() { Mastering = mastering, Exp = configExp };
+                return new(globalsConfig, itemPresets);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"ServerDatabase ServerGlobals build from HelperMod DB error: {ex.Message}");
+                return new();
+            }
         }
 
         private static void LoadTradersInfos()
@@ -145,7 +175,7 @@ namespace SPT_AKI_Profile_Editor.Core
             var traderInfos = new Dictionary<string, TraderBase>();
             if (AppSettings.UsingModHelper)
             {
-                foreach (var baseFile in Directory.GetFiles(GetHelperDBFilePath("traders")))
+                foreach (var baseFile in Directory.GetFiles(GetHelperDBFilePath("Traders")))
                     AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(baseFile), baseFile);
             }
             else
@@ -170,7 +200,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ServerDatabase.QuestsData = new();
             string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("quests.json")
+                ? GetHelperDBFilePath("Quests.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
             try
             {
@@ -196,7 +226,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ServerDatabase.ItemsDB = new();
             string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("items.json")
+                ? GetHelperDBFilePath("Items.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
             try
             {
@@ -236,7 +266,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadHandbook()
         {
             string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("handbook.json")
+                ? GetHelperDBFilePath("Handbook.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
             try
             {
