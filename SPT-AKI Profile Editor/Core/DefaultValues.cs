@@ -315,7 +315,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["tab_settings_helper_mod_db_status"] = "Support files status",
                     ["helper_mod_db_status_not_found"] = "Files are missing",
                     ["helper_mod_db_status_founded"] = "Successfully generated",
-                    ["helper_mod_db_status_hint"] = "Support files could not be found. Before use, you must close the program and start server with installed mod  to generate necessary files"
+                    ["helper_mod_db_status_hint"] = "Support files could not be found. Before use, you must close the program and start server with installed mod to generate necessary files"
                 }
             },
             new AppLocalization

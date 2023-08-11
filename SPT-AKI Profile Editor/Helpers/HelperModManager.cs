@@ -40,6 +40,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private readonly string modSourceDirName = "ModHelper";
         private readonly string modScriptSourceFileName = "mod.ts-source";
 
+        private Version AvailableVersion = new();
+
         public HelperModManager(string updateUrl, string updateSaveDirectory, string modPath = "user\\mods\\ProfileEditorHelper")
         {
             this.updateUrl = new(updateUrl);
@@ -55,8 +57,6 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public bool IsInstalled => HelperModStatus != HelperModStatus.NotInstalled;
         public bool DbFilesExist => CheckDbStatus();
         public string DbPath => helperDbPath;
-        private Version AvailableVersion { get; set; } = new();
-
         private bool HaveUpdatedFiles => File.Exists(updatedPackageJsonPath) && File.Exists(updatedModScriptSourcePath);
 
         public void InstallMod()
@@ -108,10 +108,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
         }
 
         private static ModPackageInfo GetModPackageInfo(string filename)
-            => JsonConvert.DeserializeObject<ModPackageInfo>(File.ReadAllText(filename));
+        {
+            try { return JsonConvert.DeserializeObject<ModPackageInfo>(File.ReadAllText(filename)); }
+            catch { return null; }
+        }
 
         private static Version GetModVersion(ModPackageInfo modPackage)
-            => Version.Parse(modPackage.Version);
+            => modPackage?.Version != null ? Version.Parse(modPackage.Version) : new();
 
         private string GetFullModPath() => Path.Combine(AppData.AppSettings.ServerPath, modPath);
 

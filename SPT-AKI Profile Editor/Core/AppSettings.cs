@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string sptAkiProjectUrl = "https://www.sp-tarkov.com/";
 
         [JsonIgnore]
-        public readonly string modHelperUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/mod-helper/SPT-AKI%20Profile%20Editor/ModHelper/";
+        public readonly string modHelperUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/SPT-AKI%20Profile%20Editor/ModHelper/";
 
         [JsonIgnore]
         public readonly List<QuestStatus> standartQuestStatuses = new()
