@@ -22,6 +22,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="HelperModTestDirectoryWithMod\package.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="HelperModTestDirectoryWithMod\src\mod.ts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ModHelperTestUpdate\mod.ts-source">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ModHelperTestUpdate\package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testFiles\profileWithDuplicatedItems.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

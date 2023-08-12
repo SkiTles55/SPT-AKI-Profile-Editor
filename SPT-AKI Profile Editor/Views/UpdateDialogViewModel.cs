@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 if (success)
                 {
                     await CloseDialog();
-                    await new FileDownloader(_dialogManager).Download(ReleaseFile.Url, path);
+                    await new FileDownloaderDialog(_dialogManager).Download(ReleaseFile.Url, path);
                 }
             }
         }

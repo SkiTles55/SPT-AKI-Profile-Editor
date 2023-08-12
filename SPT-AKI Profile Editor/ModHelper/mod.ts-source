@@ -1,0 +1,66 @@
+import { DependencyContainer } from "tsyringe";
+import { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
+import { JsonUtil } from "@spt-aki/utils/JsonUtil";
+import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
+import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
+import { VFS } from "@spt-aki/models/spt/utils/VFS";
+
+class Mod implements IPostAkiLoadMod
+{
+    private logger: ILogger
+	private jsonUtil: JsonUtil
+	private vfs: VFS
+	
+	private modName: string
+	private exportPath: string
+
+    constructor() {
+        this.modName = "[SPT-AKI Profile Editor] Helper Mod";
+        this.exportPath = "user/mods/ProfileEditorHelper/exportedDB":
+    }
+	
+	public postAkiLoad(container: DependencyContainer): void 
+	{
+        this.logger = container.resolve<ILogger>("WinstonLogger");
+        this.jsonUtil = container.resolve<JsonUtil>("JsonUtil");
+        this.vfs = container.resolve<VFS>("VFS");
+		
+        this.logger.log(`[${this.modName}] : Started database exporting`, "green");
+		
+        const databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
+        const tables = databaseServer.getTables();
+		
+		this.exportEntry("Handbook", tables.templates.handbook);
+		this.exportEntry("Items", tables.templates.items);
+		this.exportEntry("Quests", tables.templates.quests);
+		
+		for (const [traderKey, traderBase] of Object.entries(tables.traders)) 
+		{
+			this.vfs.writeFile(`${this.exportPath}/Traders/${traderKey}.json`, this.jsonUtil.serialize(traderBase.base));
+		}
+        this.logger.log(`[${this.modName}] : Traders exported`, "green");
+		
+		this.exportDictionaryEntry("Locales", tables.locales.global);
+		this.exportEntry("ItemPresets", tables.globals.ItemPresets);
+		this.exportEntry("Mastering", tables.globals.config.Mastering);
+		this.exportEntry("ExpTable", tables.globals.config.exp);
+        this.logger.log(`[${this.modName}] : DB successfully exported`, "green");
+	}
+	
+	private exportEntry(name: string, entry: Object): void
+	{
+		this.vfs.writeFile(`${this.exportPath}/${name}.json`, this.jsonUtil.serialize(entry));
+        this.logger.log(`[${this.modName}] : ${name} exported`, "green");
+	}
+	
+	private exportDictionaryEntry(name: string, dictionary: Object): void
+	{
+		for (const [key, value] of Object.entries(dictionary)) 
+		{
+			this.vfs.writeFile(`${this.exportPath}/${name}/${key}.json`, this.jsonUtil.serialize(value));
+		}
+        this.logger.log(`[${this.modName}] : ${name} exported`, "green");
+	}
+}
+
+module.exports = { mod: new Mod() }

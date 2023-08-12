@@ -11,7 +11,7 @@
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)\
 [Steam Trade Offer Link](https://steamcommunity.com/tradeoffer/new/?partner=350485380%26token=zCrhUwxR)\
 LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
-![LTCWallet](SPT-AKI%20Profile%20Editor/Images/ltcWallet.png?raw=true)
+![LTCWallet](SPT-AKI%20Profile%20Editor/Resources/Images/ltcWallet.png?raw=true)
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 

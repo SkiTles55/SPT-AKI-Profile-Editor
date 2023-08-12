@@ -30,6 +30,9 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string sptAkiProjectUrl = "https://www.sp-tarkov.com/";
 
         [JsonIgnore]
+        public readonly string modHelperUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/SPT-AKI%20Profile%20Editor/ModHelper/";
+
+        [JsonIgnore]
         public readonly List<QuestStatus> standartQuestStatuses = new()
         {
             QuestStatus.Locked,
@@ -91,6 +94,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private string ragfairTraderId;
         private string bearDogtagTpl;
         private string endlessDevBackpackId;
+        private bool usingModHelper;
 
         public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
@@ -101,7 +105,7 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 bool _needReload = serverPath != value;
                 serverPath = value;
-                OnPropertyChanged("ServerPath");
+                OnPropertyChanged(nameof(ServerPath));
                 if (Loaded)
                 {
                     if (_needReload)
@@ -117,7 +121,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 defaultProfile = value;
-                NotifyPropertyChangedAndSave("DefaultProfile");
+                NotifyPropertyChangedAndSave(nameof(DefaultProfile));
             }
         }
 
@@ -127,7 +131,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 language = value;
-                NotifyPropertyChangedAndSave("Language");
+                NotifyPropertyChangedAndSave(nameof(Language));
             }
         }
 
@@ -137,7 +141,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 colorScheme = value;
-                NotifyPropertyChangedAndSave("ColorScheme");
+                NotifyPropertyChangedAndSave(nameof(ColorScheme));
             }
         }
 
@@ -147,7 +151,17 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 checkUpdates = value;
-                NotifyPropertyChangedAndSave("CheckUpdates");
+                NotifyPropertyChangedAndSave(nameof(CheckUpdates));
+            }
+        }
+
+        public bool UsingModHelper
+        {
+            get => usingModHelper;
+            set
+            {
+                usingModHelper = value;
+                NotifyPropertyChangedAndSave(nameof(UsingModHelper));
             }
         }
 
@@ -161,7 +175,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 autoAddMissingQuests = value;
-                NotifyPropertyChangedAndSave("AutoAddMissingQuests");
+                NotifyPropertyChangedAndSave(nameof(AutoAddMissingQuests));
             }
         }
 
@@ -171,7 +185,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 autoAddMissingMasterings = value;
-                NotifyPropertyChangedAndSave("AutoAddMissingWeaponSkills");
+                NotifyPropertyChangedAndSave(nameof(AutoAddMissingMasterings));
             }
         }
 
@@ -181,7 +195,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 autoAddMissingScavSkills = value;
-                NotifyPropertyChangedAndSave("AutoAddMissingScavSkills");
+                NotifyPropertyChangedAndSave(nameof(AutoAddMissingScavSkills));
             }
         }
 
@@ -191,7 +205,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 pocketsContainerTpl = value;
-                NotifyPropertyChangedAndSave("PocketsContainerTpl");
+                NotifyPropertyChangedAndSave(nameof(PocketsContainerTpl));
             }
         }
 
@@ -201,7 +215,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 commonSkillMaxValue = value;
-                NotifyPropertyChangedAndSave("CommonSkillMaxValue");
+                NotifyPropertyChangedAndSave(nameof(CommonSkillMaxValue));
             }
         }
 
@@ -463,6 +477,7 @@ namespace SPT_AKI_Profile_Editor.Core
             return ServerPath
                 + DefaultProfile
                 + Language
+                + UsingModHelper
                 + AutoAddMissingQuests.ToString()
                 + AutoAddMissingMasterings.ToString()
                 + AutoAddMissingScavSkills.ToString()
@@ -583,6 +598,7 @@ namespace SPT_AKI_Profile_Editor.Core
             Language = loaded.Language;
             ColorScheme = loaded.ColorScheme;
             CheckUpdates = loaded.CheckUpdates;
+            UsingModHelper = loaded.UsingModHelper;
             DirsList = loaded.DirsList;
             FilesList = loaded.FilesList;
             AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
@@ -783,6 +799,7 @@ namespace SPT_AKI_Profile_Editor.Core
             DirsList = DefaultValues.DefaultDirsList;
             FilesList = DefaultValues.DefaultFilesList;
             CheckUpdates = DefaultValues.CheckUpdates;
+            UsingModHelper = false;
             AutoAddMissingQuests = false;
             AutoAddMissingMasterings = false;
             AutoAddMissingScavSkills = false;

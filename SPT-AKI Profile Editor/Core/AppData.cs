@@ -20,9 +20,9 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly GridFilters GridFilters;
         public static readonly BackupService BackupService;
         public static readonly IssuesService IssuesService;
+        public static readonly IHelperModManager HelperModManager;
 
         private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.ToLowerInvariant().StartsWith("nunit.framework"));
-
         private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
 
         static AppData()
@@ -35,6 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core
             IssuesService = new();
             Profile = new();
             ServerDatabase = new();
+            HelperModManager = new HelperModManager(AppSettings.modHelperUpdateUrl, Path.Combine(AppDataPath, "ModHelperUpdate"));
         }
 
         public static void LoadDatabase()
@@ -87,7 +88,11 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadLocalesGlobal()
         {
             ServerDatabase.LocalesGlobal = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.globals], AppSettings.Language + ".json");
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath($"Locales\\{AppSettings.Language}.json")
+                : Path.Combine(AppSettings.ServerPath,
+                               AppSettings.DirsList[SPTServerDir.globals],
+                               AppSettings.Language + ".json");
             try
             {
                 Dictionary<string, string> global = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
@@ -124,37 +129,79 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadServerGlobals()
         {
-            ServerDatabase.ServerGlobals = new();
+            ServerDatabase.ServerGlobals = AppSettings.UsingModHelper
+                ? GetHelperModDBServerGlobals()
+                : GetServerDBServerGlobals();
+        }
+
+        private static ServerGlobals GetServerDBServerGlobals()
+        {
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.globals]);
             try
             {
-                ServerGlobals global = JsonConvert.DeserializeObject<ServerGlobals>(File.ReadAllText(path));
-                ServerDatabase.ServerGlobals = global;
+                return JsonConvert.DeserializeObject<ServerGlobals>(File.ReadAllText(path));
             }
-            catch (Exception ex) { Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}"); }
+            catch (Exception ex)
+            {
+                Logger.Log($"ServerDatabase ServerGlobals ({path}) loading error: {ex.Message}");
+                return new();
+            }
+        }
+
+        private static ServerGlobals GetHelperModDBServerGlobals()
+        {
+            string itemPresetsPath = GetHelperDBFilePath("ItemPresets.json");
+            string expTablePath = GetHelperDBFilePath("ExpTable.json");
+            string masteringPath = GetHelperDBFilePath("Mastering.json");
+            try
+            {
+                Dictionary<string, ItemPreset> itemPresets = JsonConvert.DeserializeObject<Dictionary<string, ItemPreset>>(File.ReadAllText(itemPresetsPath));
+                Mastering[] mastering = JsonConvert.DeserializeObject<Mastering[]>(File.ReadAllText(masteringPath));
+                ConfigExp configExp = JsonConvert.DeserializeObject<ConfigExp>(File.ReadAllText(expTablePath));
+
+                ServerGlobalsConfig globalsConfig = new() { Mastering = mastering, Exp = configExp };
+                return new(globalsConfig, itemPresets);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"ServerDatabase ServerGlobals build from HelperMod DB error: {ex.Message}");
+                return new();
+            }
         }
 
         private static void LoadTradersInfos()
         {
             ServerDatabase.TraderInfos = new();
             var traderInfos = new Dictionary<string, TraderBase>();
-            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
+            if (AppSettings.UsingModHelper)
             {
-                if (!File.Exists(Path.Combine(tbase, "base.json")))
-                    continue;
-                try
+                foreach (var baseFile in Directory.GetFiles(GetHelperDBFilePath("Traders")))
+                    AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(baseFile), baseFile);
+            }
+            else
+            {
+                foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
                 {
-                    traderInfos.Add(Path.GetFileNameWithoutExtension(tbase), JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(Path.Combine(tbase, "base.json"))));
+                    if (!File.Exists(Path.Combine(tbase, "base.json")))
+                        continue;
+                    AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(tbase), Path.Combine(tbase, "base.json"));
                 }
-                catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({tbase}) loading error: {ex.Message}"); }
             }
             ServerDatabase.TraderInfos = traderInfos;
+        }
+
+        private static void AddTraderInfo(Dictionary<string, TraderBase> traderInfos, string traderId, string filepath)
+        {
+            try { traderInfos.Add(traderId, JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(filepath))); }
+            catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({traderId}) loading error: {ex.Message}"); }
         }
 
         private static void LoadQuestsData()
         {
             ServerDatabase.QuestsData = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("Quests.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
             try
             {
                 Dictionary<string, QuestData> questsData = JsonConvert.DeserializeObject<Dictionary<string, QuestData>>(File.ReadAllText(path));
@@ -178,7 +225,9 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadItemsDB()
         {
             ServerDatabase.ItemsDB = new();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("Items.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
             try
             {
                 Dictionary<string, TarkovItem> itemsDB = JsonConvert.DeserializeObject<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
@@ -216,7 +265,9 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHandbook()
         {
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("Handbook.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
             try
             {
                 Handbook handbook = JsonConvert.DeserializeObject<Handbook>(File.ReadAllText(path));
@@ -244,6 +295,14 @@ namespace SPT_AKI_Profile_Editor.Core
                                                     new ObservableCollection<KeyValuePair<string, WeaponBuild>>());
                 Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
+        }
+
+        private static string GetHelperDBFilePath(string filename)
+        {
+            var path = Path.Combine(AppSettings.ServerPath, HelperModManager.DbPath, filename);
+            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Any())
+                ? path
+                : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
         }
     }
 }

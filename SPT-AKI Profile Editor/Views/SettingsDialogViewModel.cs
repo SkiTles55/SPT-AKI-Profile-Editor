@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
@@ -16,13 +17,16 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly IWindowsDialogs _windowsDialogs;
         private readonly IApplicationManager _applicationManager;
         private readonly RelayCommand _faqCommand;
+        private readonly IWorker _worker;
         private int selectedTab;
 
         public SettingsDialogViewModel(RelayCommand closeCommand,
                                        IDialogManager dialogManager,
                                        IWindowsDialogs windowsDialogs,
                                        IApplicationManager applicationManager,
+                                       IHelperModManager helperModManager,
                                        RelayCommand faqCommand,
+                                       IWorker worker,
                                        int index = 0)
         {
             CloseCommand = closeCommand;
@@ -31,8 +35,12 @@ namespace SPT_AKI_Profile_Editor.Views
             _dialogManager = dialogManager;
             _windowsDialogs = windowsDialogs;
             _applicationManager = applicationManager;
+            HelperModManager = helperModManager;
             _faqCommand = faqCommand;
+            _worker = worker;
         }
+
+        public static SolidColorBrush SuccessColor => HelperModStatusNameColorConverter.SuccessColor;
 
         public RelayCommand ResetLocalizations => new(obj => _applicationManager.DeleteLocalizations());
 
@@ -63,7 +71,58 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ResetSettings => new(obj => _applicationManager.DeleteSettings());
 
+        public RelayCommand InstallMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.InstallMod();
+                    UsingModHelper = true;
+                }
+            });
+        });
+
+        public RelayCommand ReinstallMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.RemoveMod();
+                    HelperModManager.InstallMod();
+                    OnPropertyChanged(nameof(HelperModManager));
+                }
+            });
+        });
+
+        public RelayCommand UpdateMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.UpdateMod();
+                    OnPropertyChanged(nameof(HelperModManager));
+                }
+            });
+        });
+
+        public RelayCommand RemoveMod => new(obj =>
+        {
+            _worker.AddTask(new WorkerTask
+            {
+                Action = () =>
+                {
+                    HelperModManager.RemoveMod();
+                    UsingModHelper = false;
+                }
+            });
+        });
+
         public AppSettings AppSettings { get; }
+
+        public IHelperModManager HelperModManager { get; }
 
         public int SelectedTab
         {
@@ -83,6 +142,18 @@ namespace SPT_AKI_Profile_Editor.Views
                 AppSettings.Language = value;
                 OnPropertyChanged("CurrentLocalization");
                 AppLocalization.LoadLocalization(AppSettings.Language);
+                OnPropertyChanged(nameof(HelperModManager));
+            }
+        }
+
+        public bool UsingModHelper
+        {
+            get => AppSettings.UsingModHelper;
+            set
+            {
+                AppSettings.UsingModHelper = value;
+                OnPropertyChanged(nameof(UsingModHelper));
+                OnPropertyChanged(nameof(HelperModManager));
             }
         }
 

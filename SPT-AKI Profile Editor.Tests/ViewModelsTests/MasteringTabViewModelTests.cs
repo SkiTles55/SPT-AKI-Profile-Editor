@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            MasteringTabViewModel viewModel = new(null, null, null);
+            MasteringTabViewModel viewModel = MakeSUT();
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.MaxSkillsValue, Is.EqualTo(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue));
             Assert.That(viewModel.SetAllPmcSkillsValue, Is.EqualTo(0f));
@@ -27,20 +27,16 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CantSetAllPmcSkillsValueGreatherThanInServerDatabase()
         {
-            MasteringTabViewModel viewModel = new(null, null, null)
-            {
-                SetAllPmcSkillsValue = float.MaxValue
-            };
+            MasteringTabViewModel viewModel = MakeSUT();
+            viewModel.SetAllPmcSkillsValue = float.MaxValue;
             Assert.That(viewModel.SetAllPmcSkillsValue, Is.EqualTo(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue));
         }
 
         [Test]
         public void CantSetAllScavSkillsValueGreatherThanInServerDatabase()
         {
-            MasteringTabViewModel viewModel = new(null, null, null)
-            {
-                SetAllScavSkillsValue = float.MaxValue
-            };
+            MasteringTabViewModel viewModel = MakeSUT();
+            viewModel.SetAllScavSkillsValue = float.MaxValue;
             Assert.That(viewModel.SetAllScavSkillsValue, Is.EqualTo(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue));
         }
 
@@ -49,10 +45,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
             AppData.Profile.Load(TestHelpers.profileFile);
-            MasteringTabViewModel viewModel = new(null, null, null)
-            {
-                SetAllPmcSkillsValue = 160f
-            };
+            MasteringTabViewModel viewModel = MakeSUT();
+            viewModel.SetAllPmcSkillsValue = 160f;
             viewModel.SetAllPmsSkillsCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.Skills.Mastering.All(x => x.Progress == 160f), Is.True);
         }
@@ -62,10 +56,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
             AppData.Profile.Load(TestHelpers.profileFile);
-            MasteringTabViewModel viewModel = new(null, null, null)
-            {
-                SetAllScavSkillsValue = 160f
-            };
+            MasteringTabViewModel viewModel = MakeSUT();
+            viewModel.SetAllScavSkillsValue = 160f;
             viewModel.SetAllScavSkillsCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Scav.Skills.Mastering.All(x => x.Progress == 160f), Is.True);
         }
@@ -74,9 +66,14 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanExecuteOpenSettingsCommand()
         {
             TestsDialogManager dialogManager = new();
-            MasteringTabViewModel viewModel = new(dialogManager, null, null);
+            MasteringTabViewModel viewModel = MakeSUT(dialogManager);
             viewModel.OpenSettingsCommand.Execute(null);
             Assert.That(dialogManager.SettingsDialogOpened, Is.True);
+        }
+
+        private static MasteringTabViewModel MakeSUT(TestsDialogManager dialogManager = null)
+        {
+            return new(dialogManager, null, null, null, null);
         }
     }
 }

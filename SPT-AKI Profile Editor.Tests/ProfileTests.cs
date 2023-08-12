@@ -819,6 +819,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             var items = AppData.ServerDatabase.ItemsDB
                 .Values
+                .OrderBy(x => x.Properties.Width * x.Properties.Height)
                 .Where(x => x.CanBeAddedToStash && x.IsQuestItem)
                 .Take(2);
             foreach (var item in items)

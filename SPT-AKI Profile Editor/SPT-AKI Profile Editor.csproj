@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <Version>2.6.4</Version>
-    <ApplicationIcon>killa_ico_k3r_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\killa_ico_k3r_icon.ico</ApplicationIcon>
     <PackageId>SPT-AKI Profile Editor</PackageId>
     <Authors>SkiTles55</Authors>
     <Company>SkiTles55</Company>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\ltcWallet.png" />
+    <None Remove="Resources\Images\ltcWallet.png" />
     <None Remove="profileeditor.png" />
   </ItemGroup>
 
@@ -30,11 +30,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\ltcWallet.png" />
+    <Resource Include="Resources\Images\ltcWallet.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <SplashScreen Include="profileeditor.png" />
+    <SplashScreen Include="Resources\Images\profileeditor.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ModHelper\package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ModHelper\mod.ts-source">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

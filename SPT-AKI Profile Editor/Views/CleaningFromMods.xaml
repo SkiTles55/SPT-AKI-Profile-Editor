@@ -10,7 +10,9 @@
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=local:CleaningFromModsViewModel}"
+    d:Width="600"
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -31,14 +33,23 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <DataGrid
-            x:Name="itemsGrid"
+        <extendedcontrols:Warning
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="3"
+            Margin="5"
+            Text="{Binding AppLocalization.Translations[tab_clearing_from_mods_helper_mod_enabled], FallbackValue=tab_clearing_from_mods_helper_mod_enabled}"
+            Visibility="{Binding AppSettings.UsingModHelper, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <DataGrid
+            x:Name="itemsGrid"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            d:ItemsSource="{d:SampleData ItemCount=2}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
@@ -136,7 +147,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_info_id], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_info_id], FallbackValue=tab_info_id, Source={StaticResource proxy}}"
                     SortMemberPath="Id">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -167,7 +178,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_clearing_from_mods_tpl], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_clearing_from_mods_tpl], FallbackValue=tab_clearing_from_mods_tpl, Source={StaticResource proxy}}"
                     SortMemberPath="Tpl">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -199,32 +210,32 @@
             </DataGrid.Columns>
         </DataGrid>
         <extendedcontrols:ButtonFontAwesomeIcon
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding SelectAll}"
-            Content="{Binding AppLocalization.Translations[button_select_all]}"
+            Content="{Binding AppLocalization.Translations[button_select_all], FallbackValue=button_select_all}"
             Icon="TasksSolid"
             IconSize="15"
             IsEnabled="{Binding CleaningService.CanSelectAll}" />
         <extendedcontrols:ButtonFontAwesomeIcon
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding DeselectAll}"
-            Content="{Binding AppLocalization.Translations[button_deselect_all]}"
+            Content="{Binding AppLocalization.Translations[button_deselect_all], FallbackValue=button_deselect_all}"
             Icon="ListSolid"
             IconSize="15"
             IsEnabled="{Binding CleaningService.CanDeselectAny}" />
         <extendedcontrols:ButtonFontAwesomeIcon
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="2"
             MinWidth="170"
             Margin="5,10,5,0"
             Command="{Binding RemoveSelected}"
-            Content="{Binding AppLocalization.Translations[button_remove_selected]}"
+            Content="{Binding AppLocalization.Translations[button_remove_selected], FallbackValue=button_remove_selected}"
             Icon="TrashAltSolid"
             IconSize="15"
             IsEnabled="{Binding CleaningService.CanDeselectAny}" />

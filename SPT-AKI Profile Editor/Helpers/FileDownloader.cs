@@ -1,6 +1,4 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
@@ -8,76 +6,26 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
+#nullable enable
+
     public class FileDownloader
     {
-        private readonly CancellationTokenSource cancelTokenSource = new();
+        private readonly IProgress<float>? progressIndicator;
         private readonly CancellationToken cancellationToken;
-        private readonly IDialogManager dialogManager;
-        private IProgress<float> progressIndicator;
 
-        public FileDownloader(IDialogManager dialogManager)
+        public FileDownloader(IProgress<float>? progressIndicator = null,
+                              CancellationToken? cancellationToken = null)
         {
-            this.dialogManager = dialogManager;
-            cancellationToken = cancelTokenSource.Token;
+            this.progressIndicator = progressIndicator;
+            this.cancellationToken = cancellationToken ?? CancellationToken.None;
         }
 
-        private static MetroDialogSettings DialogSettings => new()
+        public async Task DownloadFromUrl(string url, string filePath)
         {
-            NegativeButtonText = AppData.AppLocalization.GetLocalizedString("button_cancel"),
-            DialogResultOnCancel = MessageDialogResult.Canceled,
-        };
-
-        public async Task Download(string url, string filePath)
-        {
-            ReportProgress(0);
-            progressIndicator = new Progress<float>(ReportProgress);
-            dialogManager.ProgressDialogCanceled += DownloadCanceled;
-
-            if (await DownloadFromUrl(url, filePath))
-                await CloseProgressWithMessage(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
-                                               AppData.AppLocalization.GetLocalizedString("download_dialog_success"));
-        }
-
-        private static string GetProgressString(float value) => string.Format("{0} {1:P2}.", AppData.AppLocalization.GetLocalizedString("download_dialog_downloaded"), value);
-
-        private void DownloadCanceled(object sender, EventArgs e) => cancelTokenSource.Cancel();
-
-        private async void ReportProgress(float value)
-        {
-            await dialogManager.ShowProgressDialog(AppData.AppLocalization.GetLocalizedString("download_dialog_title"),
-                                                   GetProgressString(value),
-                                                   false,
-                                                   value,
-                                                   true,
-                                                   DialogSettings);
-        }
-
-        private async Task<bool> DownloadFromUrl(string url, string filePath)
-        {
-            try
-            {
-                using var client = new HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(30);
-                using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                await DownloadAsync(client, url, file);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                await CloseProgressWithMessage(
-                    AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                    ex.Message,
-                    ex is not OperationCanceledException);
-                Logger.Log($"FileDownloader | {ex.Message}");
-                return false;
-            }
-        }
-
-        private async Task CloseProgressWithMessage(string title, string message, bool showMessage = true)
-        {
-            await dialogManager.HideProgressDialog();
-            if (showMessage)
-                await dialogManager.ShowOkMessageAsync(title, message);
+            using var client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(30);
+            using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            await DownloadAsync(client, url, file);
         }
 
         private async Task DownloadAsync(HttpClient client, string requestUri, Stream destination)
@@ -93,10 +41,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
             var relativeProgress = new Progress<long>(totalBytes => progressIndicator.Report((float)totalBytes / contentLength.Value));
             await CopyToAsync(download, destination, 81920, relativeProgress);
-            progressIndicator.Report(1);
+            progressIndicator?.Report(1);
         }
 
-        private async Task CopyToAsync(Stream source, Stream destination, int bufferSize, IProgress<long> progress = null)
+        private async Task CopyToAsync(Stream source, Stream destination, int bufferSize, IProgress<long>? progress)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));

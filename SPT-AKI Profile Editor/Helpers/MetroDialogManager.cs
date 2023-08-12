@@ -19,7 +19,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task ShutdownCozServerRunned();
 
-        public Task ShowSettingsDialog(RelayCommand reloadCommand, RelayCommand faqCommand, int index = 0);
+        public Task ShowSettingsDialog(RelayCommand reloadCommand,
+                                       RelayCommand faqCommand,
+                                       IWorker worker,
+                                       IHelperModManager modManager,
+                                       int index = 0);
 
         public Task ShowUpdateDialog(GitHubRelease release);
 
@@ -27,7 +31,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task ShowLocalizationEditorDialog(SettingsDialogViewModel settingsDialog, bool isEdit = true);
 
-        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths, RelayCommand retryCommand, RelayCommand faqCommand);
+        public Task ShowServerPathEditorDialog(IEnumerable<ServerPathEntry> paths,
+                                               RelayCommand retryCommand,
+                                               RelayCommand faqCommand);
 
         public Task ShowOkMessageAsync(string title, string message);
 
@@ -99,7 +105,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 App.ApplicationManager.CloseApplication.Execute(null);
         }
 
-        public async Task ShowSettingsDialog(RelayCommand reloadCommand, RelayCommand faqCommand, int index = 0)
+        public async Task ShowSettingsDialog(RelayCommand reloadCommand,
+                                             RelayCommand faqCommand,
+                                             IWorker worker,
+                                             IHelperModManager modManager,
+                                             int index = 0)
         {
             string startValues = AppData.AppSettings.GetStamp();
             CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
@@ -110,7 +120,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 if (startValues != newValues)
                     reloadCommand.Execute(null);
             });
-            await ShowCustomDialog<SettingsDialog>(viewModel, settingsDialog, new SettingsDialogViewModel(closeCommand, this, App.WindowsDialogs, App.ApplicationManager, faqCommand, index));
+            var settingsDialogViewModel = new SettingsDialogViewModel(closeCommand,
+                                                                      this,
+                                                                      App.WindowsDialogs,
+                                                                      App.ApplicationManager,
+                                                                      modManager,
+                                                                      faqCommand,
+                                                                      worker,
+                                                                      index);
+            await ShowCustomDialog<SettingsDialog>(viewModel, settingsDialog, settingsDialogViewModel);
         }
 
         public async Task ShowUpdateDialog(GitHubRelease release)

@@ -1,22 +1,24 @@
 ﻿<UserControl
-    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.EmptyDataPanel"
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.Warning"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Control"
+    d:DesignHeight="80"
+    d:DesignWidth="250"
     mc:Ignorable="d">
-    <Border Background="{DynamicResource MahApps.Brushes.Window.Background}">
+    <Border Background="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="10">
         <Label
-            Margin="10"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="20"
+            Margin="5"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Center"
             FontWeight="Bold">
             <Label.Content>
                 <TextBlock
-                    Text="{Binding ElementName=Control, Path=Text, FallbackValue=Empty Data}"
+                    Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"
+                    Text="{Binding ElementName=Control, Path=Text, FallbackValue=Warning text}"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
             </Label.Content>

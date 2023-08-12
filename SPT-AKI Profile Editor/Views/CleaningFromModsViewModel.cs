@@ -19,6 +19,7 @@ namespace SPT_AKI_Profile_Editor.Views
             CleaningService = cleaningService;
         }
 
+        public static AppSettings AppSettings => AppData.AppSettings;
         public ICleaningService CleaningService { get; }
         public RelayCommand UpdateEntityList => new(obj => CleaningService?.LoadEntitiesList());
 

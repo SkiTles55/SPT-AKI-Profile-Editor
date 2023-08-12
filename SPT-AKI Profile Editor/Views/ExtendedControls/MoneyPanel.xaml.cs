@@ -7,9 +7,6 @@ namespace SPT_AKI_Profile_Editor.Views
     /// </summary>
     public partial class MoneyPanel : UserControl
     {
-        public MoneyPanel()
-        {
-            InitializeComponent();
-        }
+        public MoneyPanel() => InitializeComponent();
     }
 }

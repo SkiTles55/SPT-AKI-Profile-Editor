@@ -10,14 +10,13 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         private ConfigExp exp;
 
-        [JsonProperty("Mastering")]
         public Mastering[] Mastering
         {
             get => mastering;
             set
             {
                 mastering = value;
-                OnPropertyChanged("Mastering");
+                OnPropertyChanged(nameof(Mastering));
             }
         }
 
@@ -28,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 exp = value;
-                OnPropertyChanged("Exp");
+                OnPropertyChanged(nameof(Exp));
             }
         }
 

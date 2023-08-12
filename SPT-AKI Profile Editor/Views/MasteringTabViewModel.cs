@@ -5,13 +5,24 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class MasteringTabViewModel : SkillsTabViewModel
     {
-        public MasteringTabViewModel(IDialogManager dialogManager, RelayCommand reloadCommand, RelayCommand faqCommand) : base(dialogManager, reloadCommand, faqCommand)
+        public MasteringTabViewModel(IDialogManager dialogManager,
+                                     RelayCommand reloadCommand,
+                                     RelayCommand faqCommand,
+                                     IWorker worker,
+                                     IHelperModManager helperModManager) : base(dialogManager,
+                                                                                reloadCommand,
+                                                                                faqCommand,
+                                                                                worker,
+                                                                                helperModManager)
         {
         }
 
         public override float MaxSkillsValue => ServerDatabase.ServerGlobals.Config.MaxProgressValue;
 
-        public override RelayCommand SetAllPmsSkillsCommand => new(obj => Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcSkillsValue));
-        public override RelayCommand SetAllScavSkillsCommand => new(obj => Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavSkillsValue));
+        public override RelayCommand SetAllPmsSkillsCommand
+            => new(obj => Profile.Characters.Pmc.SetAllMasteringsSkills(SetAllPmcSkillsValue));
+
+        public override RelayCommand SetAllScavSkillsCommand
+            => new(obj => Profile.Characters.Scav.SetAllMasteringsSkills(SetAllScavSkillsValue));
     }
 }
