@@ -288,8 +288,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_helper_mod], FallbackValue=tab_settings_helper_mod}" HeaderTemplate="{StaticResource SettingsTemplate}">
-                <Grid>
+                <Grid IsEnabled="{Binding ServerPathValid}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -301,11 +302,20 @@
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,5,0,0"
+                        Content="{Binding AppLocalization.Translations[invalid_server_location_text], FallbackValue=invalid_server_location_text}"
+                        Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
+                        Template="{StaticResource TitleLabel}"
+                        Visibility="{Binding ServerPathValid, Converter={StaticResource FalseToVisibleConverter}}" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_helper_mod_enabled], FallbackValue=tab_settings_helper_mod_enabled}"
                         Template="{StaticResource TitleLabel}" />
                     <mah:ToggleSwitch
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Margin="12,5,0,0"
                         VerticalAlignment="Top"
@@ -313,14 +323,14 @@
                         OffContent="{Binding AppLocalization.Translations[button_no], FallbackValue=button_no}"
                         OnContent="{Binding AppLocalization.Translations[button_yes], FallbackValue=button_yes}" />
                     <Label
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         VerticalAlignment="Top"
                         Content="{Binding AppLocalization.Translations[tab_settings_helper_mod_status], FallbackValue=tab_settings_helper_mod_status}"
                         Template="{StaticResource TitleLabel}" />
                     <StackPanel
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="1"
                         Margin="10,5,10,0"
                         Orientation="Vertical">
@@ -347,14 +357,14 @@
                             Visibility="{Binding HelperModManager.IsInstalled, Converter={StaticResource TrueToVisibleConverter}}" />
                     </StackPanel>
                     <Label
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         VerticalAlignment="Top"
                         Content="{Binding AppLocalization.Translations[tab_settings_helper_mod_db_status], FallbackValue=tab_settings_helper_mod_db_status}"
                         Template="{StaticResource TitleLabel}" />
                     <DockPanel
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="1"
                         Margin="10,5,10,0">
                         <Label Grid.Column="0" VerticalAlignment="Top">

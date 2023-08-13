@@ -163,9 +163,10 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 AppSettings.ServerPath = value;
-                OnPropertyChanged("ServerPath");
-                OnPropertyChanged("ServerPathValid");
-                OnPropertyChanged("ServerHasAccounts");
+                OnPropertyChanged(nameof(ServerPath));
+                OnPropertyChanged(nameof(ServerPathValid));
+                OnPropertyChanged(nameof(ServerHasAccounts));
+                OnPropertyChanged(nameof(HelperModManager));
             }
         }
 
@@ -175,7 +176,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 AppSettings.ColorScheme = value;
-                OnPropertyChanged("ColorScheme");
+                OnPropertyChanged(nameof(ColorScheme));
                 _applicationManager.ChangeTheme();
             }
         }

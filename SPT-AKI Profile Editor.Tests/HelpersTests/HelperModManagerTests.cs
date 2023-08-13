@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         private static readonly string testDirectoryWithoutMod = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HelperModTestDirectoryWithoutMod");
         private static readonly string testDirectoryWithMod = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HelperModTestDirectoryWithMod");
         private static readonly string fakeUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/";
-        private static readonly string testUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/mod-helper/SPT-AKI%20Profile%20Editor.Tests/ModHelperTestUpdate/";
+        private static readonly string testUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/SPT-AKI%20Profile%20Editor.Tests/ModHelperTestUpdate/";
         private static readonly string testDirectoryForUpdateDownload = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HelperModTestDirectoryForUpdateDownload");
 
         [Test]

@@ -62,6 +62,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void InstallMod()
         {
             var fullModPath = GetFullModPath();
+            if (string.IsNullOrEmpty(fullModPath))
+                return;
             if (!Directory.Exists(fullModPath))
                 Directory.CreateDirectory(fullModPath);
             var srcPath = Path.Combine(fullModPath, srcDirName);
@@ -116,12 +118,15 @@ namespace SPT_AKI_Profile_Editor.Helpers
         private static Version GetModVersion(ModPackageInfo modPackage)
             => modPackage?.Version != null ? Version.Parse(modPackage.Version) : new();
 
-        private string GetFullModPath() => Path.Combine(AppData.AppSettings.ServerPath, modPath);
+        private string GetFullModPath()
+            => string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
+            ? null
+            : Path.Combine(AppData.AppSettings.ServerPath, modPath);
 
         private HelperModStatus CheckModStatus()
         {
             var fullModPath = GetFullModPath();
-            if (!File.Exists(Path.Combine(fullModPath, srcDirName, modScriptFileName)))
+            if (string.IsNullOrEmpty(fullModPath) || !File.Exists(Path.Combine(fullModPath, srcDirName, modScriptFileName)))
                 return HelperModStatus.NotInstalled;
 
             var installedModPackageJson = Path.Combine(fullModPath, packageJsonFileName);
@@ -138,6 +143,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private bool CheckDbStatus()
         {
+            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath))
+                return false;
             var fullDbPath = Path.Combine(AppData.AppSettings.ServerPath, helperDbPath);
             if (Directory.Exists(fullDbPath)
                 && Directory.GetFiles(fullDbPath, "*.json").Any()
