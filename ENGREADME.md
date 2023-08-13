@@ -45,7 +45,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 [Versions 1.0 - 1.9 for servers 0.12.7-R6 - SPT-AKI 2.0.0](https://github.com/SkiTles55/SP-EFT-ProfileEditor#readme)
 
 ### Guidelines
-[Editing \ creating localization files](/Guidelines/LocalizationsENG.md)
+[Editing \ creating localization files](/Guidelines/LocalizationsENG.md)\
 [Using a helper mod](/Guidelines/ModHelperENG.md)
 
 ### [Frequently asked questions](ENGFAQ.md)
