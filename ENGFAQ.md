@@ -33,6 +33,7 @@ An example of the DirsList and FilesList sections in the [AppSettings.json](ENGF
 
 ### Some items are missing in the "Adding items" window
 Many items are not available for adding to the stash because they can break the profile. Maybe this will change in future updates, maybe not.
+#### UPD: Starting from version 2.7, you can use the "All Items" dialog ("Stash" - "Adding items" - "All Items"). This dialog allows you to add all items without constraint checks. This function can damage the profile, use at your own risk!
 </br></br>
 
 ### Antivirus \ Windows Defender \ SmartScreen considers this program to be suspicious
