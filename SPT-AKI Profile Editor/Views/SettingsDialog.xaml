@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
         <TabControl
             Grid.Row="0"
-            MinHeight="200"
+            MinHeight="210"
             mah:TabControlHelper.Transition="Up"
             mah:TabControlHelper.Underlined="TabPanel"
             SelectedIndex="{Binding SelectedTab}"
@@ -288,8 +288,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_helper_mod], FallbackValue=tab_settings_helper_mod}" HeaderTemplate="{StaticResource SettingsTemplate}">
-                <Grid IsEnabled="{Binding ServerPathValid}">
+                <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -319,6 +320,7 @@
                         Grid.Column="1"
                         Margin="12,5,0,0"
                         VerticalAlignment="Top"
+                        IsEnabled="{Binding ServerPathValid}"
                         IsOn="{Binding UsingModHelper}"
                         OffContent="{Binding AppLocalization.Translations[button_no], FallbackValue=button_no}"
                         OnContent="{Binding AppLocalization.Translations[button_yes], FallbackValue=button_yes}" />
@@ -333,6 +335,7 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         Margin="10,5,10,0"
+                        IsEnabled="{Binding ServerPathValid}"
                         Orientation="Vertical">
                         <Label Content="{Binding HelperModManager.HelperModStatus, Converter={StaticResource HelperModStatusNameValueConverter}, FallbackValue=Not installed}" Foreground="{Binding HelperModManager.HelperModStatus, Converter={StaticResource HelperModStatusNameColorConverter}, ConverterParameter={StaticResource MahApps.Brushes.Control.Validation}, FallbackValue=red}" />
                         <Button
@@ -396,6 +399,17 @@
                             </Label.Content>
                         </Label>
                     </DockPanel>
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.ColumnSpan="2"
+                        Margin="15,2,10,0">
+                        <Hyperlink
+                            Command="{Binding OpenHowToUseHelperMod}"
+                            FontSize="14"
+                            Style="{DynamicResource LinkStyle}">
+                            <TextBlock Text="{Binding AppLocalization.Translations[helper_mod_how_to_use], FallbackValue=helper_mod_how_to_use}" />
+                        </Hyperlink>
+                    </TextBlock>
                 </Grid>
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_settings_troubleshooting], FallbackValue=tab_settings_troubleshooting}" HeaderTemplate="{StaticResource SettingsTemplate}">

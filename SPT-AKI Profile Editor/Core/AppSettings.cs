@@ -33,6 +33,9 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string modHelperUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/SPT-AKI%20Profile%20Editor/ModHelper/";
 
         [JsonIgnore]
+        public readonly string modHelperHowToUseUrl = "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/Guidelines/ModHelper";
+
+        [JsonIgnore]
         public readonly List<QuestStatus> standartQuestStatuses = new()
         {
             QuestStatus.Locked,
