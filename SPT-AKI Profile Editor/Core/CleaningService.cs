@@ -52,6 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core
             GetModdedQuests(AppData.Profile?.Characters?.Pmc?.Quests, compositeCollection);
             GetModdedExaminedItems(AppData.Profile?.Characters?.Pmc?.Encyclopedia?.Keys, compositeCollection);
             GetModdedMerchants(AppData.Profile?.Characters?.Pmc?.TraderStandings?.Keys, compositeCollection);
+            GetModdedWeaponBuilds(AppData.Profile?.WeaponBuilds, compositeCollection);
 
             ModdedEntities = compositeCollection;
         }
@@ -86,6 +87,10 @@ namespace SPT_AKI_Profile_Editor.Core
 
                     case ModdedEntityType.ExaminedItem:
                         AppData.Profile.Characters.Pmc.RemoveExaminedItem(entity.Id);
+                        break;
+
+                    case ModdedEntityType.WeaponBuild:
+                        AppData.Profile.RemoveBuild(entity.Id);
                         break;
 
                     case ModdedEntityType.Merchant:
@@ -150,6 +155,17 @@ namespace SPT_AKI_Profile_Editor.Core
                                 x => x != AppData.AppSettings.RagfairTraderId && !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Nickname()),
                                 x => x,
                                 ModdedEntityType.Merchant,
+                                compositeCollection);
+        }
+
+        private void GetModdedWeaponBuilds(Dictionary<string, WeaponBuild> weaponBuildsDictionary,
+                                           ObservableCollection<ModdedEntity> compositeCollection)
+        {
+            if (weaponBuildsDictionary != null)
+                AddModdedEntity(weaponBuildsDictionary,
+                                x => x.Value.HasModdedItems,
+                                x => x.Key,
+                                ModdedEntityType.WeaponBuild,
                                 compositeCollection);
         }
 

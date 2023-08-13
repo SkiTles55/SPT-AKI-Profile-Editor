@@ -6,7 +6,8 @@
         ScavInventoryItem,
         Quest,
         ExaminedItem,
-        Merchant
+        Merchant,
+        WeaponBuild
     }
 
     public static class ModdedEntityTypeExtension
@@ -18,15 +19,13 @@
             ModdedEntityType.Quest => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_quest"),
             ModdedEntityType.ExaminedItem => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_examined_item"),
             ModdedEntityType.Merchant => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_merchant"),
+            ModdedEntityType.WeaponBuild => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_weapon_build"),
             _ => "unknown"
         };
 
         public static bool CanBeRemovedWithoutSave(this ModdedEntityType type) => type switch
         {
-            ModdedEntityType.PmcInventoryItem => true,
-            ModdedEntityType.ScavInventoryItem => true,
             ModdedEntityType.Quest => false,
-            ModdedEntityType.ExaminedItem => true,
             ModdedEntityType.Merchant => false,
             _ => true
         };

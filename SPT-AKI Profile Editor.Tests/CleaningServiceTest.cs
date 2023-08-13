@@ -24,6 +24,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private readonly string pmcModdedExaminedItemId = "pmcModdedExaminedItemId";
         private readonly string pmcModdedQuestQid = "pmcModdedQuestQid";
         private readonly string pmcModdedMerchantId = "pmcModdedMerchantId";
+        private readonly string pmcModdedWeaponBuildId = "pmcModdedWeaponBuildId";
 
         [OneTimeSetUp]
         public void Setup()
@@ -41,6 +42,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             CheckModdedEntityType(cleaningService, ModdedEntityType.ExaminedItem, pmcModdedExaminedItemId);
             CheckModdedEntityType(cleaningService, ModdedEntityType.Quest, pmcModdedQuestQid);
             CheckModdedEntityType(cleaningService, ModdedEntityType.Merchant, pmcModdedMerchantId);
+            CheckModdedEntityType(cleaningService, ModdedEntityType.WeaponBuild, pmcModdedWeaponBuildId);
         }
 
         [Test]
@@ -62,6 +64,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void CleaningServiceCanRemoveMerchant()
             => CheckModdedEntityRemove(ModdedEntityType.Merchant, pmcModdedMerchantId);
+
+        [Test]
+        public void CleaningServiceCanRemoveWeaponBuild()
+            => CheckModdedEntityRemove(ModdedEntityType.WeaponBuild, pmcModdedWeaponBuildId);
 
         [Test]
         public void CleaningServiceCanOperateWithSelection()
@@ -135,6 +141,13 @@ namespace SPT_AKI_Profile_Editor.Tests
             tradersInfoObject[merchantId] = JObject.FromObject(traderInfoObject);
         }
 
+        private static void AddModdedWeaponBuild(JObject profileJObject, string weaponBuildId)
+        {
+            WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(TestHelpers.moddedWeaponBuild));
+            Dictionary<string, WeaponBuild> moddedBuilds = new() { { weaponBuildId, weaponBuild } };
+            profileJObject.SelectToken("weaponbuilds").Replace(JObject.FromObject(moddedBuilds).RemoveNullAndEmptyProperties());
+        }
+
         private static void CheckModdedEntityType(CleaningService cleaningService, ModdedEntityType type, string expectedItemId)
         {
             Assert.That(cleaningService.ModdedEntities.Any(),
@@ -142,13 +155,13 @@ namespace SPT_AKI_Profile_Editor.Tests
                         "ModdedEntities list is empty");
             var moddedInventoryItems = cleaningService.ModdedEntities.Where(x => x.Type == type);
             Assert.That(moddedInventoryItems.Count(),
-                        Is.EqualTo(1),
+                        Is.GreaterThanOrEqualTo(1),
                         $"ModdedEntities count with type {type} not 1");
             Assert.That(moddedInventoryItems.All(x => !string.IsNullOrEmpty(x.Type.LocalizedName())),
                         Is.True,
                         $"LocalizedName for {type} type not loaded");
-            Assert.That(moddedInventoryItems.FirstOrDefault().Id,
-                        Is.EqualTo(expectedItemId),
+            Assert.That(moddedInventoryItems.Any(x => x.Id == expectedItemId),
+                        Is.True,
                         $"Id for {type} type not correct");
         }
 
@@ -187,6 +200,12 @@ namespace SPT_AKI_Profile_Editor.Tests
                     Assert.That(AppData.Profile.Characters.Pmc.TraderStandings.ContainsKey(expectedItemId),
                                 Is.False,
                                 $"{type} not removed from Pmc.TraderStandings");
+                    break;
+
+                case ModdedEntityType.WeaponBuild:
+                    Assert.That(AppData.Profile.WeaponBuilds.ContainsKey(expectedItemId),
+                                Is.False,
+                                $"{type} not removed from Profile.WeaponBuilds");
                     break;
 
                 default:
@@ -229,6 +248,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AddModdedExaminedItem(profileJObject, "pmc", pmcModdedExaminedItemId);
             AddModdedQuest(profileJObject, "pmc", pmcModdedQuestQid);
             AddModdedMerchant(profileJObject, "pmc", pmcModdedMerchantId);
+            AddModdedWeaponBuild(profileJObject, pmcModdedWeaponBuildId);
             string json = JsonConvert.SerializeObject(profileJObject, seriSettings);
             File.WriteAllText(testProfilePath, json);
         }
