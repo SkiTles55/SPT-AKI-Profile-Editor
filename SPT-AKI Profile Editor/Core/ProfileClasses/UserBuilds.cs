@@ -19,7 +19,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         //    {
         //        equipmentBuilds = value;
         //        OnPropertyChanged("EquipmentBuilds");
-        //        //WeaponBuildsChanged();
         //    }
         //}
 
@@ -31,7 +30,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 weaponBuilds = value;
                 OnPropertyChanged("WeaponBuilds");
-                //WeaponBuildsChanged();
             }
         }
     }
