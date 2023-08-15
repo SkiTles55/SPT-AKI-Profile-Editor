@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Views
             var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
             if (success)
             {
-                foreach (var build in Profile.WeaponBuilds)
+                foreach (var build in Profile.UserBuilds.WeaponBuilds)
                 {
                     _worker.AddTask(new WorkerTask
                     {
