@@ -4,6 +4,8 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
+using SPT_AKI_Profile_Editor.Views;
+using System.ComponentModel;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -74,6 +76,17 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             pmcContainer.AddItem.Execute(painkiller);
             Assert.That(pmcContainer.Items.Count, Is.EqualTo(1), "Item not added");
             Assert.That(pmcContainer.Items.Where(x => x.Tpl == "544fb37f4bdc2dee738b4567").FirstOrDefault(), Is.Not.Null, "Item not added");
+        }
+
+        [Test]
+        public void CanShowAllItems()
+        {
+            TestHelpers.LoadDatabaseAndProfile();
+            var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer && x.CanAddItems).FirstOrDefault();
+            TestsDialogManager dialogManager = new();
+            ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, null);
+            pmcContainer.ShowAllItems.Execute(null);
+            Assert.That(dialogManager.AllItemsDialogOpened, Is.True, "AllItems dialog not showed");
         }
 
         private static void InitializeCorrectly(ContainerWindowViewModel container, int expectedCount)

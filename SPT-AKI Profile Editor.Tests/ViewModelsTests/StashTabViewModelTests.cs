@@ -77,5 +77,14 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             viewModel.AddMoney.Execute(AppData.AppSettings.MoneysDollarsTpl);
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == AppData.AppSettings.MoneysDollarsTpl).Sum(x => x.Upd.StackObjectsCount ?? 0), Is.GreaterThan(dollarsCount));
         }
+
+        [Test]
+        public void CanShowAllItems()
+        {
+            TestsDialogManager dialogManager = new();
+            StashTabViewModel viewModel = new(dialogManager, new TestsWorker(), null);
+            viewModel.ShowAllItems.Execute(null);
+            Assert.That(dialogManager.AllItemsDialogOpened, Is.True, "AllItems dialog not showed");
+        }
     }
 }

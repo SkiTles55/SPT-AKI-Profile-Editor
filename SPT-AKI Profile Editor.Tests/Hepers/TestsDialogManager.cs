@@ -22,6 +22,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public string LastOkMessage = null;
         public double LastProgress = 0;
         public bool YesNoDialogResult = true;
+        public bool AllItemsDialogOpened = false;
 
         public event EventHandler ProgressDialogCanceled;
 
@@ -38,6 +39,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public Task ShowAllItemsDialog(RelayCommand addCommand, bool stashSelectorVisible)
         {
+            AllItemsDialogOpened = true;
             addCommand.Execute(null);
             return Task.CompletedTask;
         }

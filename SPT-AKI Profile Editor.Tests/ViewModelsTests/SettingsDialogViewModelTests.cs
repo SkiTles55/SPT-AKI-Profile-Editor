@@ -212,6 +212,20 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(helperModManager.RemoveModCalled, Is.True, "RemoveMod not called");
         }
 
+        [Test]
+        public void CanOpenHowToUseHelperMod()
+        {
+            TestsApplicationManager applicationManager = new();
+            SettingsDialogViewModel settingsVM = new(null, null, null, applicationManager, null, null, null);
+            settingsVM.OpenHowToUseHelperMod.Execute(null);
+            Assert.That(string.IsNullOrEmpty(applicationManager.LastOpenedUrl),
+                        Is.False,
+                        "HowToUseHelperMod not opened");
+        }
+
+        [Test]
+        public void SuccessColorNotNull() => Assert.That(SettingsDialogViewModel.SuccessColor, Is.Not.Null, "SuccessColor is null");
+
         private static SettingsDialogViewModel PrepareVmWith(TestsHelperModManager helperModManager)
                                             => new(null,
                                                    dialogManager,
