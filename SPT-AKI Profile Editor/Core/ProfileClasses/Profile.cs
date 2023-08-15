@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private string[] suits;
 
-        private Dictionary<string, WeaponBuild> weaponBuilds;
+        private UserBuilds userBuilds;
 
         private int profileHash = 0;
 
@@ -47,19 +47,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonProperty("weaponbuilds")]
-        public Dictionary<string, WeaponBuild> WeaponBuilds
+        [JsonProperty("userbuilds")]
+        public UserBuilds UserBuilds
         {
-            get => weaponBuilds;
+            get => userBuilds;
             set
             {
-                weaponBuilds = value;
+                userBuilds = value;
+                //OnPropertyChanged("EquipmentBuilds");
                 WeaponBuildsChanged();
             }
         }
 
         [JsonIgnore]
-        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new();
+        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => UserBuilds?.WeaponBuilds != null ? new(UserBuilds.WeaponBuilds) : new();
 
         [JsonIgnore]
         public bool HasWeaponBuilds => WBuilds.Count > 0;
@@ -121,7 +122,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             AddMisingHeadToServerDatabase(profile.Characters?.Scav);
             Characters = profile.Characters;
             Suits = profile.Suits;
-            WeaponBuilds = profile.WeaponBuilds;
+            UserBuilds = profile.UserBuilds;
 
             static void AddMisingHeadToServerDatabase(Character character)
             {
@@ -197,13 +198,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveBuild(string key)
         {
-            if (WeaponBuilds.Remove(key))
+            if (UserBuilds.WeaponBuilds.Remove(key))
                 WeaponBuildsChanged();
         }
 
         public void RemoveBuilds()
         {
-            WeaponBuilds = new();
+            UserBuilds.WeaponBuilds = new();
             WeaponBuildsChanged();
         }
 
@@ -225,14 +226,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void ImportBuild(WeaponBuild weaponBuild)
         {
-            WeaponBuilds ??= new();
+            UserBuilds.WeaponBuilds ??= new();
             int count = 1;
             string tempFileName = weaponBuild.Name;
-            while (WeaponBuilds.ContainsKey(tempFileName))
+            while (UserBuilds.WeaponBuilds.ContainsKey(tempFileName))
                 tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
             weaponBuild.Name = tempFileName;
-            weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id));
-            WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
+            weaponBuild.Id = ExtMethods.GenerateNewId(UserBuilds.WeaponBuilds.Values.Select(x => x.Id));
+            UserBuilds.WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
             WeaponBuildsChanged();
         }
 
@@ -271,7 +272,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             WriteStash(pmc, Characters.Pmc.Inventory);
             WriteStash(scav, Characters.Scav.Inventory);
-            jobject.SelectToken("weaponbuilds").Replace(JObject.FromObject(WeaponBuilds).RemoveNullAndEmptyProperties());
+            jobject.SelectToken("userbuilds")["weaponBuilds"].Replace(JObject.FromObject(UserBuilds.WeaponBuilds).RemoveNullAndEmptyProperties());
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 

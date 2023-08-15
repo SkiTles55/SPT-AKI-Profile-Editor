@@ -52,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core
             GetModdedQuests(AppData.Profile?.Characters?.Pmc?.Quests, compositeCollection);
             GetModdedExaminedItems(AppData.Profile?.Characters?.Pmc?.Encyclopedia?.Keys, compositeCollection);
             GetModdedMerchants(AppData.Profile?.Characters?.Pmc?.TraderStandings?.Keys, compositeCollection);
-            GetModdedWeaponBuilds(AppData.Profile?.WeaponBuilds, compositeCollection);
+            GetModdedWeaponBuilds(AppData.Profile?.UserBuilds?.WeaponBuilds, compositeCollection);
 
             ModdedEntities = compositeCollection;
         }
