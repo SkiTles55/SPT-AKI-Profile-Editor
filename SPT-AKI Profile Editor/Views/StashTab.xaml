@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
     <TabControl
@@ -16,10 +17,10 @@
         mah:TabControlHelper.Underlined="SelectedTabItem"
         Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
         TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title], FallbackValue=tab_stash_title}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:Inventory />
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_items_adding], FallbackValue=tab_stash_items_adding}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -36,10 +37,10 @@
                     ShowAllItemsCommand="{Binding ShowAllItems}" />
             </Grid>
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_pmc_equipment]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_pmc_equipment], FallbackValue=tab_stash_pmc_equipment}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:Equipment InventoryEquipment="{Binding Profile.Characters.Pmc.Inventory}" />
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_scav_equipment]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_stash_scav_equipment], FallbackValue=tab_stash_scav_equipment}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:Equipment DataContext="{Binding ScavStashTabViewModel}" InventoryEquipment="{Binding Profile.Characters.Scav.Inventory}" />
         </TabItem>
     </TabControl>

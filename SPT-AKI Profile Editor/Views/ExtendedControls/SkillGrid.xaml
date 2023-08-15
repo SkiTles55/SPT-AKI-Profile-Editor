@@ -7,7 +7,10 @@
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
+    d:DataContext="{d:DesignInstance Type=views:CommonSkillsTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <helpers:GridControl.Resources>
         <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=ItemsSource}" />
@@ -22,6 +25,7 @@
             <DataGrid
                 x:Name="skillsGrid"
                 Grid.Row="0"
+                d:ItemsSource="{d:SampleData ItemCount=5}"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 ColumnHeaderStyle="{StaticResource MyColumnHeader}"
@@ -35,7 +39,7 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn
                         Width="*"
-                        Header="{Binding Data.FirstCollumnTitle, Source={StaticResource proxy}}"
+                        Header="{Binding Data.FirstCollumnTitle, FallbackValue=FirstCollumnTitle, Source={StaticResource proxy}}"
                         SortMemberPath="LocalizedName">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
@@ -70,7 +74,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn
                         Width="*"
-                        Header="{Binding Data.SecondCollumnTitle, Source={StaticResource proxy}}"
+                        Header="{Binding Data.SecondCollumnTitle, FallbackValue=SecondCollumnTitle, Source={StaticResource proxy}}"
                         SortMemberPath="Progress">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -111,7 +115,7 @@
                 VerticalAlignment="Center"
                 FontWeight="Bold">
                 <Label.Content>
-                    <TextBlock Text="{Binding ElementName=Control, Path=SetAllTitle}" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding ElementName=Control, Path=SetAllTitle, FallbackValue=SetAllTitle}" TextWrapping="Wrap" />
                 </Label.Content>
             </Label>
             <StackPanel
@@ -146,7 +150,7 @@
                     Width="100"
                     Margin="5,0"
                     Command="{Binding ElementName=Control, Path=SetAllCommand}"
-                    Content="{Binding ElementName=Control, Path=SetAllButtonTitle}" />
+                    Content="{Binding ElementName=Control, Path=SetAllButtonTitle, FallbackValue=SetAllButtonTitle}" />
             </StackPanel>
         </Grid>
     </Grid>

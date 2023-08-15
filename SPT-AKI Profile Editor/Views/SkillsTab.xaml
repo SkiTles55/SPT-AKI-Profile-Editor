@@ -9,14 +9,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:CommonSkillsTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <TabControl
         mah:TabControlHelper.Transition="Up"
         mah:TabControlHelper.Underlined="SelectedTabItem"
         Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
         TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:SkillGrid
                 FilterValue="{Binding GridFilters.SkillsTab.SkillNamePmcFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 FirstCollumnTitle="{Binding AppLocalization.Translations[tab_skills_skill]}"
@@ -28,7 +30,7 @@
                 SetAllTitle="{Binding AppLocalization.Translations[tab_skills_set_all]}"
                 SetAllValue="{Binding SetAllPmcSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:SkillGrid
                 FilterValue="{Binding GridFilters.SkillsTab.SkillNameScavFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 FirstCollumnTitle="{Binding AppLocalization.Translations[tab_skills_skill]}"

@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -39,6 +40,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Margin="0,5,0,0"
+            d:ItemsSource="{d:SampleData ItemCount=5}"
             ItemsSource="{Binding ElementName=Control, Path=CategoriesForItemsAdding}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItemChanged="SelectedItemChanged"

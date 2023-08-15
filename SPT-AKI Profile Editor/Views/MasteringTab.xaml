@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:MasteringTabViewModel}"
     mc:Ignorable="d">
     <TabControl
@@ -16,7 +17,7 @@
         mah:TabControlHelper.Underlined="SelectedTabItem"
         Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
         TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <extendedcontrols:SkillGrid
                     FilterValue="{Binding GridFilters.MasteringTab.SkillNamePmcFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -28,10 +29,10 @@
                     SetAllCommand="{Binding SetAllPmsSkillsCommand}"
                     SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
                     SetAllValue="{Binding SetAllPmcSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <views:NoDataPanel Visibility="{Binding Profile.Characters.Pmc.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <views:NoDataPanel d:Visibility="Hidden" Visibility="{Binding Profile.Characters.Pmc.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav]}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <extendedcontrols:SkillGrid
                     FilterValue="{Binding GridFilters.MasteringTab.SkillNameScavFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -43,7 +44,7 @@
                     SetAllCommand="{Binding SetAllScavSkillsCommand}"
                     SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
                     SetAllValue="{Binding SetAllScavSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <views:NoDataPanel Visibility="{Binding Profile.Characters.Scav.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <views:NoDataPanel d:Visibility="Hidden" Visibility="{Binding Profile.Characters.Scav.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </TabItem>
     </TabControl>

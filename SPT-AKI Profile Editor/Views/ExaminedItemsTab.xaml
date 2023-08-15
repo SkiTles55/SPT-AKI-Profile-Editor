@@ -8,6 +8,7 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:ExaminedItemsTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -22,20 +23,22 @@
         <DataGrid
             x:Name="examinedGrid"
             Grid.Row="0"
+            d:ItemsSource="{d:SampleData ItemCount=5}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             IsReadOnly="True"
             ItemsSource="{Binding Source={StaticResource examinedItems}}"
             VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_examined_items_item], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_examined_items_item], FallbackValue=tab_examined_items_item, Source={StaticResource proxy}}"
                     SortMemberPath="Name">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -85,6 +88,6 @@
             Margin="10,10,10,0"
             HorizontalAlignment="Center"
             Command="{Binding ExamineAllCommand}"
-            Content="{Binding AppLocalization.Translations[tab_examined_items_examine_all_button]}" />
+            Content="{Binding AppLocalization.Translations[tab_examined_items_examine_all_button], FallbackValue=tab_examined_items_examine_all_button}" />
     </Grid>
 </UserControl>

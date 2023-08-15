@@ -8,6 +8,7 @@
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:HideoutTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -21,20 +22,22 @@
         <DataGrid
             x:Name="hideoutGrid"
             Grid.Row="0"
+            d:ItemsSource="{d:SampleData ItemCount=5}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             IsReadOnly="True"
             ItemsSource="{Binding Source={StaticResource hideoutAreas}}"
             VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_hideout_area], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_hideout_area], FallbackValue=tab_hideout_area, Source={StaticResource proxy}}"
                     SortMemberPath="LocalizedName">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -69,7 +72,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_hideout_level], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_hideout_level], FallbackValue=tab_hideout_level, Source={StaticResource proxy}}"
                     SortMemberPath="Level">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -108,6 +111,6 @@
             Margin="10,10,10,0"
             HorizontalAlignment="Center"
             Command="{Binding SetAllMaxCommand}"
-            Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button]}" />
+            Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button], FallbackValue=tab_hideout_maximum_button}" />
     </Grid>
 </UserControl>
