@@ -10,16 +10,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public WeaponBuildCategory()
         { }
 
-        public WeaponBuildCategory(AddableCategory category, ObservableCollection<KeyValuePair<string, WeaponBuild>> globalBuilds)
+        public WeaponBuildCategory(AddableCategory category, ObservableCollection<WeaponBuild> globalBuilds)
         {
             ParentId = category.ParentId;
             LocalizedName = category.LocalizedName;
             Categories = new(category.Categories
                 .Select(x => new WeaponBuildCategory(x, globalBuilds))
                 .Where(x => x.IsNotHidden));
-            Items = new(globalBuilds
-                .Where(x => category.Items.Any(y => y.Id == x.Value.RootTpl))
-                .Select(x => x.Value));
+            Items = new(globalBuilds.Where(x => category.Items.Any(y => y.Id == x.RootTpl)));
             BitmapIcon = category.BitmapIcon;
         }
 

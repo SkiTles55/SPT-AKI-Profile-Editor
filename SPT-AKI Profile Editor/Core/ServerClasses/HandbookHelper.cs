@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         public HandbookHelper(List<HandbookCategory> categories,
                               Dictionary<string, TarkovItem> itemsDB,
-                              ObservableCollection<KeyValuePair<string, WeaponBuild>> globalBuilds)
+                              ObservableCollection<WeaponBuild> globalBuilds)
         {
             this.categories = categories;
             this.itemsDB = itemsDB;
@@ -28,7 +28,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         public AddableCategory GetItemCategory(string itemTpl) => categories.Where(x => x.Items.Any(i => i.Id == itemTpl)).FirstOrDefault();
 
         private static ObservableCollection<WeaponBuildCategory> GlobalBuildsCategories(List<HandbookCategory> categories,
-                                                                                 ObservableCollection<KeyValuePair<string, WeaponBuild>> globalBuilds)
+                                                                                 ObservableCollection<WeaponBuild> globalBuilds)
         {
             var buildCategories = new ObservableCollection<AddableCategory>(categories
                 .Where(x => string.IsNullOrEmpty(x.ParentId))

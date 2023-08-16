@@ -46,8 +46,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         [JsonIgnore]
-        public ObservableCollection<KeyValuePair<string, WeaponBuild>> GlobalBuilds { get; }
+        public ObservableCollection<WeaponBuild> GlobalBuilds { get; }
 
-        private ObservableCollection<KeyValuePair<string, WeaponBuild>> GetGlobalWeaponBuilds() => new(ItemPresets.Select(x => new KeyValuePair<string, WeaponBuild>(x.Key, new WeaponBuild(x.Value))));
+        private ObservableCollection<WeaponBuild> GetGlobalWeaponBuilds() => new(ItemPresets.Select(x => new WeaponBuild(x.Value)));
     }
 }

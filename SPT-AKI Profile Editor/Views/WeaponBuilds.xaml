@@ -35,13 +35,13 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    ItemsSource="{Binding Profile.WBuilds}" />
+                    ItemsSource="{Binding Profile.UserBuilds.WBuilds}" />
                 <extendedcontrols:EmptyDataPanel
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Text="{Binding AppLocalization.Translations[tab_presets_empty], FallbackValue=tab_presets_empty}"
-                    Visibility="{Binding Profile.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    Visibility="{Binding Profile.UserBuilds.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="0"
@@ -56,7 +56,7 @@
                     Margin="5,10,5,0"
                     Command="{Binding ExportBuilds}"
                     Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
-                    IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="2"
@@ -64,7 +64,7 @@
                     Margin="5,10,5,0"
                     Command="{Binding RemoveBuilds}"
                     Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
-                    IsEnabled="{Binding Path=Profile.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_presets_global], FallbackValue=tab_presets_global}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">

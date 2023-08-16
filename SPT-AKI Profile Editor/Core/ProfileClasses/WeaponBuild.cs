@@ -11,13 +11,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     {
         private float RecoilDelta = 0;
 
+        public static readonly string WeaponBuildType = "weapon";
+
         [JsonConstructor]
-        public WeaponBuild(string id, string name, string root, object[] items)
+        public WeaponBuild(string id, string name, string root, object[] items, string type)
         {
             Id = id;
             Name = name;
             Root = root;
             Items = items;
+            Type = type;
             var buildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             if (buildItems.Any())
                 CalculateBuildProperties(buildItems);
@@ -29,6 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Id = itemPreset.Id;
             Root = itemPreset.Root;
             Items = itemPreset.Items;
+            Type = WeaponBuildType;
             var buildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             if (buildItems.Any())
                 CalculateBuildProperties(buildItems, true);
@@ -51,6 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
             Items = items.ToArray();
+            Type = WeaponBuildType;
             CalculateBuildProperties(items);
             CanBeAddedToStash = true;
         }
@@ -68,6 +73,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("items")]
         public object[] Items { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         [JsonIgnore]
         public IEnumerable<InventoryItem> BuildItems { get; set; }
@@ -90,7 +98,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool HasModdedItems { get; set; }
 
-        public static WeaponBuild CopyFrom(WeaponBuild item) => new(item.Id, item.Name, item.Root, item.Items);
+        public static WeaponBuild CopyFrom(WeaponBuild item) => new(item.Id, item.Name, item.Root, item.Items, item.Type);
 
         private void CalculateBuildProperties(IEnumerable<InventoryItem> buildItems, bool fromTemplate = false)
         {

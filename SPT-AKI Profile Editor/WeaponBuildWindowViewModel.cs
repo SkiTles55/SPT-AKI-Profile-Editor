@@ -57,7 +57,7 @@ namespace SPT_AKI_Profile_Editor
             {
                 Worker.AddTask(new WorkerTask
                 {
-                    Action = () => { Profile.ExportBuild(WeaponBuild, path); },
+                    Action = () => { UserBuilds.ExportBuild(WeaponBuild, path); },
                     Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                     Description = AppLocalization.GetLocalizedString("tab_presets_export")
                 });
@@ -68,7 +68,7 @@ namespace SPT_AKI_Profile_Editor
         {
             Worker.AddTask(new WorkerTask
             {
-                Action = () => { Profile.ImportBuild(WeaponBuild); },
+                Action = () => { Profile.UserBuilds.ImportBuild(WeaponBuild); },
                 Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                 Description = AppLocalization.GetLocalizedString("tab_presets_export")
             });

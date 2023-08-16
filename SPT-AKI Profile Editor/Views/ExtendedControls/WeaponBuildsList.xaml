@@ -70,7 +70,7 @@
                                 FontSize="14"
                                 FontWeight="Bold"
                                 Foreground="{DynamicResource MahApps.Brushes.Text}"
-                                Text="{Binding Path=Value.Name}"
+                                Text="{Binding Path=Name}"
                                 TextWrapping="Wrap" />
                             <Label
                                 Grid.Row="0"
@@ -80,7 +80,7 @@
                                 VerticalAlignment="Center"
                                 Foreground="Red"
                                 ToolTip="{Binding Data.AppLocalization.Translations[tab_presets_modded_items], Source={StaticResource proxy}}"
-                                Visibility="{Binding Path=Value.HasModdedItems, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                Visibility="{Binding Path=HasModdedItems, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <iconPacks:PackIconFontAwesome
                                     Width="18"
                                     Height="18"
@@ -96,19 +96,19 @@
                                     MinWidth="110"
                                     Margin="5"
                                     Command="{Binding Data.AddBuildToStash, Source={StaticResource proxy}}"
-                                    CommandParameter="{Binding Path=Value}"
+                                    CommandParameter="{Binding}"
                                     Content="{Binding Data.AppLocalization.Translations[tab_presets_add_to_stash], FallbackValue=tab_presets_add_to_stash, Source={StaticResource proxy}}" />
                                 <Button
                                     MinWidth="110"
                                     Margin="5"
                                     Command="{Binding Data.ExportBuild, Source={StaticResource proxy}}"
-                                    CommandParameter="{Binding Path=Value}"
+                                    CommandParameter="{Binding}"
                                     Content="{Binding Data.AppLocalization.Translations[tab_presets_export], FallbackValue=tab_presets_export, Source={StaticResource proxy}}" />
                                 <Button
                                     MinWidth="110"
                                     Margin="5"
                                     Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
-                                    CommandParameter="{Binding Path=Value.Name}"
+                                    CommandParameter="{Binding Path=Id}"
                                     Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}"
                                     Visibility="{Binding ElementName=Control, Path=RemoveAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </StackPanel>
@@ -116,7 +116,7 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="3"
-                                Build="{Binding Value}"
+                                Build="{Binding}"
                                 LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}"
                                 PartsListScrollEnabled="False" />
                         </Grid>

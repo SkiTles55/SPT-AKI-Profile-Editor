@@ -292,7 +292,7 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 ServerDatabase.HandbookHelper = new(new List<HandbookCategory>(),
                                                     new Dictionary<string, TarkovItem>(),
-                                                    new ObservableCollection<KeyValuePair<string, WeaponBuild>>());
+                                                    new ObservableCollection<WeaponBuild>());
                 Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
         }

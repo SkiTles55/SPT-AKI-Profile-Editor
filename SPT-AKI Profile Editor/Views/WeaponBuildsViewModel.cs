@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 {
                     _worker.AddTask(new WorkerTask
                     {
-                        Action = () => Profile.ExportBuild(build, path),
+                        Action = () => UserBuilds.ExportBuild(build, path),
                         Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                         Description = AppLocalization.GetLocalizedString("tab_presets_export")
                     });
@@ -54,11 +54,11 @@ namespace SPT_AKI_Profile_Editor.Views
             var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
             if (success)
             {
-                foreach (var build in Profile.WeaponBuilds)
+                foreach (var build in Profile.UserBuilds.WeaponBuilds)
                 {
                     _worker.AddTask(new WorkerTask
                     {
-                        Action = () => Profile.ExportBuild(build.Value, Path.Combine(path, $"Weapon preset {build.Value.Name}.json")),
+                        Action = () => UserBuilds.ExportBuild(build, Path.Combine(path, $"Weapon preset {build.Name}.json")),
                         Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                         Description = AppLocalization.GetLocalizedString("tab_presets_export")
                     });
@@ -75,7 +75,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 {
                     _worker.AddTask(new WorkerTask
                     {
-                        Action = () => Profile.ImportBuildFromFile(file),
+                        Action = () => Profile.UserBuilds.ImportWeaponBuildFromFile(file),
                         Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
                         Description = AppLocalization.GetLocalizedString("tab_presets_import")
                     });
@@ -99,13 +99,13 @@ namespace SPT_AKI_Profile_Editor.Views
         private async Task RemoveBuildFromProfile(object obj)
         {
             if (!string.IsNullOrEmpty(obj?.ToString()) && await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_preset_dialog_caption"))
-                Profile.RemoveBuild(obj.ToString());
+                Profile.UserBuilds.RemoveWeaponBuild(obj.ToString());
         }
 
         private async Task RemoveAllBuildsFromProfile()
         {
             if (await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption"))
-                Profile.RemoveBuilds();
+                Profile.UserBuilds.RemoveWeaponBuilds();
         }
     }
 }
