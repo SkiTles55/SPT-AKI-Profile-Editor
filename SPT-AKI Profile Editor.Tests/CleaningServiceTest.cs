@@ -144,8 +144,10 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void AddModdedWeaponBuild(JObject profileJObject, string weaponBuildId)
         {
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(TestHelpers.moddedWeaponBuild));
-            Dictionary<string, WeaponBuild> moddedBuilds = new() { { weaponBuildId, weaponBuild } };
-            profileJObject.SelectToken("weaponbuilds").Replace(JObject.FromObject(moddedBuilds).RemoveNullAndEmptyProperties());
+            weaponBuild.Id = weaponBuildId;
+            List<WeaponBuild> moddedBuilds = new() { weaponBuild };
+            UserBuilds userBuilds = new() { WeaponBuilds = moddedBuilds };
+            profileJObject.SelectToken("userbuilds").Replace(JObject.FromObject(userBuilds).RemoveNullAndEmptyProperties());
         }
 
         private static void CheckModdedEntityType(CleaningService cleaningService, ModdedEntityType type, string expectedItemId)
@@ -203,8 +205,8 @@ namespace SPT_AKI_Profile_Editor.Tests
                     break;
 
                 case ModdedEntityType.WeaponBuild:
-                    Assert.That(AppData.Profile.WeaponBuilds.ContainsKey(expectedItemId),
-                                Is.False,
+                    Assert.That(AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault(x => x.Id == expectedItemId),
+                                Is.Null,
                                 $"{type} not removed from Profile.WeaponBuilds");
                     break;
 

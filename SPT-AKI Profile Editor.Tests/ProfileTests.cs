@@ -307,14 +307,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcPocketsNotNull() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Pockets);
 
         [Test]
-        public void WeaponBuildsNotNull() => Assert.IsNotNull(AppData.Profile.WeaponBuilds);
+        public void WeaponBuildsNotNull() => Assert.IsNotNull(AppData.Profile.UserBuilds.WeaponBuilds);
 
         [Test]
         public void WeaponBuildsNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
-            Assert.IsFalse(AppData.Profile.WBuilds.Count == 0);
+            Assert.IsFalse(AppData.Profile.UserBuilds.WeaponBuilds.Count == 0);
+            Assert.IsFalse(AppData.Profile.UserBuilds.WBuilds.Count == 0);
         }
 
         [Test]
@@ -680,58 +680,59 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildRemoveSavesCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
-            var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
-            AppData.Profile.RemoveBuild(expected);
+            var expectedId = AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault().Id;
+            AppData.Profile.UserBuilds.RemoveWeaponBuild(expectedId);
             SaveAndLoadProfile("testWeaponBuildRemove.json");
-            Assert.IsFalse(AppData.Profile.WeaponBuilds.ContainsKey(expected));
+            Assert.IsNull(AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault(x => x.Id == expectedId));
         }
 
         [Test]
         public void WeaponBuildsRemoveSavesCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
-            AppData.Profile.RemoveBuilds();
+            AppData.Profile.UserBuilds.RemoveWeaponBuilds();
             SaveAndLoadProfile("testWeaponBuildsRemove.json");
-            Assert.IsFalse(AppData.Profile.WeaponBuilds.Any());
+            Assert.IsFalse(AppData.Profile.UserBuilds?.WeaponBuilds?.Any() == true);
         }
 
         [Test]
         public void WeaponBuildExportCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
-            var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
+            var expected = AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
-            Profile.ExportBuild(expected.Value, testFile);
+            UserBuilds.ExportBuild(expected, testFile);
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(testFile));
-            Assert.AreEqual(expected.Value.Name, weaponBuild.Name);
-            Assert.AreEqual(expected.Value.Root, weaponBuild.Root);
-            Assert.AreEqual(expected.Value.RecoilForceBack, weaponBuild.RecoilForceBack);
-            Assert.AreEqual(expected.Value.RecoilForceUp, weaponBuild.RecoilForceUp);
-            Assert.AreEqual(expected.Value.Ergonomics, weaponBuild.Ergonomics);
-            Assert.AreEqual(expected.Value.Items.Length, weaponBuild.Items.Length);
+            Assert.AreEqual(expected.Name, weaponBuild.Name);
+            Assert.AreEqual(expected.Root, weaponBuild.Root);
+            Assert.AreEqual(expected.RecoilForceBack, weaponBuild.RecoilForceBack);
+            Assert.AreEqual(expected.RecoilForceUp, weaponBuild.RecoilForceUp);
+            Assert.AreEqual(expected.Ergonomics, weaponBuild.Ergonomics);
+            Assert.AreEqual(expected.Items.Length, weaponBuild.Items.Length);
+            Assert.AreEqual(expected.Type, WeaponBuild.WeaponBuildType);
         }
 
         [Test]
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
+            AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             SaveAndLoadProfile("testWeaponBuildsImport.json");
-            Assert.IsTrue(AppData.Profile.WeaponBuilds.ContainsKey("TestBuild"));
-            Assert.AreEqual(2, AppData.Profile.WeaponBuilds.Where(x => x.Value.Name.StartsWith("Test")).Count());
+            Assert.IsTrue(AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == "TestBuild"));
+            Assert.AreEqual(2, AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count());
         }
 
         [Test]
         public void WeaponBuildCalculatingCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
+            AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
+            var build = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name == "TestBuild").FirstOrDefault();
             Assert.NotNull(build);
-            Assert.AreEqual(48.5, build.Value.Ergonomics);
-            Assert.AreEqual(71, build.Value.RecoilForceUp);
-            Assert.AreEqual(179, build.Value.RecoilForceBack);
+            Assert.AreEqual(48.5, build.Ergonomics);
+            Assert.AreEqual(71, build.RecoilForceUp);
+            Assert.AreEqual(179, build.RecoilForceBack);
         }
 
         [Test]
@@ -850,8 +851,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void LoadProfileAndPrepareWeaponBuilds()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            if (AppData.Profile.UserBuilds.WeaponBuilds.Count == 0)
+                AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
         }
 
         private static void CommonSkillsSavesCorrectly(Character character, string filename)

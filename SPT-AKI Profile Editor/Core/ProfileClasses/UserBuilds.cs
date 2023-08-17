@@ -65,7 +65,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             try
             {
                 WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(path));
-                if (weaponBuild.Name == null)
+                if (weaponBuild.Name == null || weaponBuild.Type != WeaponBuild.WeaponBuildType)
                     throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_wrong_file") + ":" + Environment.NewLine + path);
                 ImportBuild(weaponBuild);
             }

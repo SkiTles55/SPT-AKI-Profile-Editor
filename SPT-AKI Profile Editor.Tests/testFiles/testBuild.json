@@ -1,6 +1,6 @@
 {
   "id": "4fcc7a8c299aa5179f2edf06",
-  "name": "ksuha ubiica",
+  "name": "TestBuild",
   "root": "1926a17442c1c63c14641ba3",
   "items": [
     {
@@ -109,5 +109,6 @@
       }
     }
   ],
+  "type": "weapon",
   "Parent": "5447b5f14bdc2d61278b4567"
 }

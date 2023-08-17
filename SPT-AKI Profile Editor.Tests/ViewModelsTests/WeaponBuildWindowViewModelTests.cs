@@ -47,19 +47,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanAddWeaponToWeaponBuildsFromPmc()
         {
-            AppData.Profile.WeaponBuilds = new();
+            AppData.Profile.UserBuilds.WeaponBuilds = new();
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.PMC, worker);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)), Is.True);
+            Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.PMC)), Is.True);
         }
 
         [Test]
         public void CanAddWeaponToWeaponBuildsFromScav()
         {
-            AppData.Profile.WeaponBuilds = new();
+            AppData.Profile.UserBuilds.WeaponBuilds = new();
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(StashEditMode.Scav, worker);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.WeaponBuilds.ContainsKey(TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)), Is.True);
+            Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", StashEditMode.Scav)), Is.True);
         }
 
         [Test]
@@ -96,6 +96,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuild build = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(windowsDialogs.weaponBuildExportPath));
             Assert.That(build, Is.Not.Null, "Unable to read exported weapon build");
             Assert.That(build.RootTpl, Is.EqualTo(weapon.Tpl), "Exported wrong weapon");
+            Assert.That(build.Type, Is.EqualTo(WeaponBuild.WeaponBuildType), "WeaponBuildType is wrong");
         }
 
         [Test]
