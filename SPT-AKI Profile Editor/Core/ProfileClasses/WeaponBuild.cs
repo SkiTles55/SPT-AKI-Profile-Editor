@@ -9,9 +9,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class WeaponBuild : AddableItem
     {
-        private float RecoilDelta = 0;
-
         public static readonly string WeaponBuildType = "weapon";
+        private float RecoilDelta = 0;
 
         [JsonConstructor]
         public WeaponBuild(string id, string name, string root, object[] items, string type)
