@@ -40,6 +40,9 @@
     <None Update="testFiles\testBuild.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="testFiles\testEquipmentBuild.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testFiles\testModdedBuild.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

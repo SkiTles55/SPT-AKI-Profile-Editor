@@ -1,13 +1,12 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
-using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class WeaponBuild : AddableItem
+    public class WeaponBuild : Build
     {
         public static readonly string WeaponBuildType = "weapon";
         private float RecoilDelta = 0;
@@ -61,20 +60,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public override string LocalizedName => Name;
 
-        [JsonProperty("id")]
-        public override string Id { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("root")]
-        public string Root { get; set; }
-
-        [JsonProperty("items")]
-        public object[] Items { get; set; }
-
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public override string Type { get; set; }
 
         [JsonIgnore]
         public IEnumerable<InventoryItem> BuildItems { get; set; }

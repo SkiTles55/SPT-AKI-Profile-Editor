@@ -318,6 +318,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void EquipmentBuildsNotNull() => Assert.IsNotNull(AppData.Profile.UserBuilds.EquipmentBuilds);
+
+        [Test]
+        public void EquipmentBuildsNotEmpty()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            Assert.IsFalse(AppData.Profile.UserBuilds.EquipmentBuilds.Count == 0);
+        }
+
+        [Test]
         public void PMCStashContainsVerticalItems() => Assert.True(AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Location?.R == ItemRotation.Vertical));
 
         [Test]
@@ -696,6 +706,25 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void EquipmentBuildRemoveSavesCorrectly()
+        {
+            LoadProfileAndPrepareEquipmentBuilds();
+            var expectedId = AppData.Profile.UserBuilds.EquipmentBuilds.FirstOrDefault().Id;
+            AppData.Profile.UserBuilds.RemoveEquipmentBuild(expectedId);
+            SaveAndLoadProfile("testEquipmentBuildRemove.json");
+            Assert.IsNull(AppData.Profile.UserBuilds.EquipmentBuilds?.FirstOrDefault(x => x.Id == expectedId));
+        }
+
+        [Test]
+        public void EquipmentBuildsRemoveSavesCorrectly()
+        {
+            LoadProfileAndPrepareEquipmentBuilds();
+            AppData.Profile.UserBuilds.RemoveEquipmentBuilds();
+            SaveAndLoadProfile("testEquipmentBuildsRemove.json");
+            Assert.IsFalse(AppData.Profile.UserBuilds?.EquipmentBuilds?.Any() == true);
+        }
+
+        [Test]
         public void WeaponBuildExportCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
@@ -713,6 +742,21 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void EquipmentBuildExportCorrectly()
+        {
+            LoadProfileAndPrepareEquipmentBuilds();
+            var expected = AppData.Profile.UserBuilds.EquipmentBuilds.FirstOrDefault();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testEquipmentBuildExport.json");
+            UserBuilds.ExportBuild(expected, testFile);
+            EquipmentBuild equipmentBuild = JsonConvert.DeserializeObject<EquipmentBuild>(File.ReadAllText(testFile));
+            Assert.AreEqual(expected.Name, equipmentBuild.Name);
+            Assert.AreEqual(expected.Root, equipmentBuild.Root);
+            Assert.AreEqual(expected.Items.Length, equipmentBuild.Items.Length);
+            Assert.AreEqual(expected.FastPanel?.Length ?? 0, equipmentBuild.FastPanel?.Length ?? 0);
+            Assert.AreEqual(expected.Type, EquipmentBuild.EquipmentBuildType);
+        }
+
+        [Test]
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -721,6 +765,17 @@ namespace SPT_AKI_Profile_Editor.Tests
             SaveAndLoadProfile("testWeaponBuildsImport.json");
             Assert.IsTrue(AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == "TestBuild"));
             Assert.AreEqual(2, AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count());
+        }
+
+        [Test]
+        public void EquipmentBuildImportSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
+            AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
+            SaveAndLoadProfile("testEquipmentBuildsImport.json");
+            Assert.IsTrue(AppData.Profile.UserBuilds.EquipmentBuilds.Any(x => x.Name == "TestBuild"));
+            Assert.AreEqual(2, AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count());
         }
 
         [Test]
@@ -853,6 +908,13 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             if (AppData.Profile.UserBuilds.WeaponBuilds.Count == 0)
                 AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
+        }
+
+        private static void LoadProfileAndPrepareEquipmentBuilds()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            if (AppData.Profile.UserBuilds.EquipmentBuilds.Count == 0)
+                AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
         }
 
         private static void CommonSkillsSavesCorrectly(Character character, string filename)
