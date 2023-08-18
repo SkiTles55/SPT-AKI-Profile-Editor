@@ -12,14 +12,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true, string startPath = null, string description = null);
 
-        public (bool success, string path, string[] paths) OpenWeaponBuildDialog();
+        public (bool success, string path, string[] paths) OpenBuildDialog();
     }
 
     public class WindowsDialogs : IWindowsDialogs
     {
         private static string JsonFileText => AppData.AppLocalization.GetLocalizedString("windows_dialogs_json_file");
 
-        public (bool success, string path, string[] paths) OpenWeaponBuildDialog()
+        public (bool success, string path, string[] paths) OpenBuildDialog()
         {
             var dialog = OpenFileWindowsDialog();
             return dialog.ShowDialog() == DialogResult.OK ? (true, dialog.FileName, dialog.FileNames) : (false, dialog.FileName, dialog.FileNames);

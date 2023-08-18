@@ -17,11 +17,14 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), null, null);
             Assert.That(viewModel, Is.Not.Null);
             Assert.That(viewModel.RemoveBuild, Is.Not.Null);
-            Assert.That(viewModel.RemoveBuilds, Is.Not.Null);
+            Assert.That(viewModel.RemoveWeaponBuilds, Is.Not.Null);
+            Assert.That(viewModel.RemoveEquipmentBuilds, Is.Not.Null);
             Assert.That(viewModel.AddBuildToStash, Is.Not.Null);
             Assert.That(viewModel.ExportBuild, Is.Not.Null);
-            Assert.That(viewModel.ExportBuilds, Is.Not.Null);
-            Assert.That(viewModel.ImportBuilds, Is.Not.Null);
+            Assert.That(viewModel.ExportWeaponBuilds, Is.Not.Null);
+            Assert.That(viewModel.ExportEquipmentBuilds, Is.Not.Null);
+            Assert.That(viewModel.ImportWeaponBuilds, Is.Not.Null);
+            Assert.That(viewModel.ImportEquipmentBuilds, Is.Not.Null);
         }
 
         [Test]
@@ -52,15 +55,27 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void CanRemoveBuilds()
+        public void CanRemoveWeaponBuilds()
         {
             TestHelpers.LoadDatabaseAndProfile();
             if (!AppData.Profile.UserBuilds.HasWeaponBuilds)
                 AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             Assert.That(AppData.Profile.UserBuilds.HasWeaponBuilds, Is.True);
             WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
-            viewModel.RemoveBuilds.Execute(null);
+            viewModel.RemoveWeaponBuilds.Execute(null);
             Assert.That(AppData.Profile.UserBuilds.HasWeaponBuilds, Is.False);
+        }
+
+        [Test]
+        public void CanRemoveEquipmentBuilds()
+        {
+            TestHelpers.LoadDatabaseAndProfile();
+            if (!AppData.Profile.UserBuilds.HasEquipmentBuilds)
+                AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
+            Assert.That(AppData.Profile.UserBuilds.HasEquipmentBuilds, Is.True);
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), null);
+            viewModel.RemoveEquipmentBuilds.Execute(null);
+            Assert.That(AppData.Profile.UserBuilds.HasEquipmentBuilds, Is.False);
         }
 
         [Test]
@@ -82,30 +97,54 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void CanExportBuilds()
+        public void CanExportWeaponBuilds()
         {
-            TestsWindowsDialogs windowsDialogs = new()
-            {
-                folderBrowserDialogMode = FolderBrowserDialogMode.weaponBuildsExport
-            };
+            TestsWindowsDialogs windowsDialogs = GetWindowsDialogs(FolderBrowserDialogMode.weaponBuildsExport);
             TestHelpers.LoadDatabaseAndProfile();
             if (!AppData.Profile.UserBuilds.HasWeaponBuilds)
                 AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
             var expectedCount = AppData.Profile.UserBuilds.WeaponBuilds.Count;
-            viewModel.ExportBuilds.Execute(null);
+            viewModel.ExportWeaponBuilds.Execute(null);
             Assert.That(Directory.EnumerateFiles(windowsDialogs.weaponBuildsExportPath).Count(), Is.EqualTo(expectedCount));
         }
 
         [Test]
-        public void CanImportBuilds()
+        public void CanExportEquipmentBuilds()
         {
-            TestsWindowsDialogs windowsDialogs = new();
+            TestsWindowsDialogs windowsDialogs = GetWindowsDialogs(FolderBrowserDialogMode.equipmentBuildsExport);
+            TestHelpers.LoadDatabaseAndProfile();
+            if (!AppData.Profile.UserBuilds.HasEquipmentBuilds)
+                AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
+            var expectedCount = AppData.Profile.UserBuilds.EquipmentBuilds.Count;
+            viewModel.ExportEquipmentBuilds.Execute(null);
+            Assert.That(Directory.EnumerateFiles(windowsDialogs.equipmentBuildsExportPath).Count(), Is.EqualTo(expectedCount));
+        }
+
+        [Test]
+        public void CanImportWeaponBuilds()
+        {
+            TestsWindowsDialogs windowsDialogs = GetWindowsDialogs(FolderBrowserDialogMode.weaponBuildsExport);
             TestHelpers.LoadDatabaseAndProfile();
             WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
             var startCount = AppData.Profile.UserBuilds.WeaponBuilds.Count;
-            viewModel.ImportBuilds.Execute(null);
+            viewModel.ImportWeaponBuilds.Execute(null);
             Assert.That(AppData.Profile.UserBuilds.WeaponBuilds.Count, Is.EqualTo(startCount + 2));
         }
+
+        [Test]
+        public void CanImportEquipmentBuilds()
+        {
+            TestsWindowsDialogs windowsDialogs = GetWindowsDialogs(FolderBrowserDialogMode.equipmentBuildsExport);
+            TestHelpers.LoadDatabaseAndProfile();
+            WeaponBuildsViewModel viewModel = new(new TestsDialogManager(), new TestsWorker(), windowsDialogs);
+            var startCount = AppData.Profile.UserBuilds.EquipmentBuilds.Count;
+            viewModel.ImportEquipmentBuilds.Execute(null);
+            Assert.That(AppData.Profile.UserBuilds.EquipmentBuilds.Count, Is.EqualTo(startCount + 2));
+        }
+
+        private static TestsWindowsDialogs GetWindowsDialogs(FolderBrowserDialogMode mode)
+            => new() { folderBrowserDialogMode = mode };
     }
 }

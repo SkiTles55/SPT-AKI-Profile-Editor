@@ -325,6 +325,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             Assert.IsFalse(AppData.Profile.UserBuilds.EquipmentBuilds.Count == 0);
+            Assert.IsFalse(AppData.Profile.UserBuilds.EBuilds.Count == 0);
         }
 
         [Test]

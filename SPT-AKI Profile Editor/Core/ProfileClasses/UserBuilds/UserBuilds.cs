@@ -41,7 +41,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public ObservableCollection<WeaponBuild> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new();
 
         [JsonIgnore]
+        public ObservableCollection<EquipmentBuild> EBuilds => EquipmentBuilds != null ? new(EquipmentBuilds) : new();
+
+        [JsonIgnore]
         public bool HasWeaponBuilds => WBuilds.Count > 0;
+
+        [JsonIgnore]
+        public bool HasEquipmentBuilds => EBuilds.Count > 0;
 
         public static void ExportBuild(WeaponBuild weaponBuild, string path)
             => ExportBuild(weaponBuild, path, nameof(WeaponBuild));
@@ -147,6 +153,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private void EquipmentBuildsChanged()
         {
             OnPropertyChanged(nameof(EquipmentBuilds));
+            OnPropertyChanged(nameof(EBuilds));
+            OnPropertyChanged(nameof(HasEquipmentBuilds));
         }
     }
 }

@@ -20,7 +20,7 @@
         mah:TabControlHelper.Underlined="SelectedTabItem"
         Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
         TabStripPlacement="Right">
-        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_user], FallbackValue=tab_presets_user}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_weapon_user], FallbackValue=tab_presets_weapon_user}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -47,14 +47,14 @@
                     Grid.Column="0"
                     MinWidth="170"
                     Margin="5,10,5,0"
-                    Command="{Binding ImportBuilds}"
+                    Command="{Binding ImportWeaponBuilds}"
                     Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}" />
                 <Button
                     Grid.Row="1"
                     Grid.Column="1"
                     MinWidth="170"
                     Margin="5,10,5,0"
-                    Command="{Binding ExportBuilds}"
+                    Command="{Binding ExportWeaponBuilds}"
                     Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
                     IsEnabled="{Binding Path=Profile.UserBuilds.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
@@ -62,12 +62,59 @@
                     Grid.Column="2"
                     MinWidth="170"
                     Margin="5,10,5,0"
-                    Command="{Binding RemoveBuilds}"
+                    Command="{Binding RemoveWeaponBuilds}"
                     Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
                     IsEnabled="{Binding Path=Profile.UserBuilds.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_global], FallbackValue=tab_presets_global}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_equipment_user], FallbackValue=tab_presets_equipment_user}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <!--<extendedcontrols:WeaponBuildsList
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding Profile.UserBuilds.EBuilds}" />-->
+                <extendedcontrols:EmptyDataPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Text="{Binding AppLocalization.Translations[tab_presets_empty], FallbackValue=tab_presets_empty}"
+                    Visibility="{Binding Profile.UserBuilds.HasEquipmentBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ImportEquipmentBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ExportEquipmentBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasEquipmentBuilds, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding RemoveEquipmentBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasEquipmentBuilds, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_weapon_global], FallbackValue=tab_presets_weapon_global}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:WeaponBuildsList ItemsSource="{Binding ServerDatabase.ServerGlobals.GlobalBuilds}" RemoveAllowed="False" />
         </TabItem>
     </TabControl>
