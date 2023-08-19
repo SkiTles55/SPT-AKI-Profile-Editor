@@ -133,7 +133,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 T build = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
                 if (build.Name == null || build.Type != expectedType)
-                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_wrong_file") + ":" + Environment.NewLine + path);
+                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_file_not_build") + ":" + Environment.NewLine + path);
                 return build;
             }
             catch (Exception ex)

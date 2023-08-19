@@ -40,7 +40,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Text="{Binding AppLocalization.Translations[tab_presets_empty], FallbackValue=tab_presets_empty}"
+                    Text="{Binding AppLocalization.Translations[tab_presets_weapons_empty], FallbackValue=tab_presets_weapons_empty}"
                     Visibility="{Binding Profile.UserBuilds.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
                     Grid.Row="1"
@@ -87,7 +87,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Text="{Binding AppLocalization.Translations[tab_presets_empty], FallbackValue=tab_presets_empty}"
+                    Text="{Binding AppLocalization.Translations[tab_presets_equipment_empty], FallbackValue=tab_presets_equipment_empty}"
                     Visibility="{Binding Profile.UserBuilds.HasEquipmentBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
                     Grid.Row="1"
