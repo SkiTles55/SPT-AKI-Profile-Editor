@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class WeaponBuildsViewModel : BindableViewModel
+    public class BuildsTabViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;
         private readonly IWindowsDialogs _windowsDialogs;
         private readonly IWorker _worker;
 
-        public WeaponBuildsViewModel(IDialogManager dialogManager,
+        public BuildsTabViewModel(IDialogManager dialogManager,
                                      IWorker worker,
                                      IWindowsDialogs windowsDialogs)
         {

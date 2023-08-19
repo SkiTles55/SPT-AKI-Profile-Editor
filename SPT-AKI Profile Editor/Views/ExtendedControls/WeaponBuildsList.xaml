@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
-    d:DataContext="{d:DesignInstance Type=views:WeaponBuildsViewModel}"
+    d:DataContext="{d:DesignInstance Type=views:BuildsTabViewModel}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
