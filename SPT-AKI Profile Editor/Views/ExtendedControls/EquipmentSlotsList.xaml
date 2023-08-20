@@ -28,14 +28,8 @@
             </Label>
         </ControlTemplate>
     </UserControl.Resources>
-    <ListBox
-        d:ItemsSource="{d:SampleData ItemCount=3}"
-        ItemsSource="{Binding ElementName=Control, Path=ItemsSource}"
-        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-        VirtualizingPanel.IsVirtualizing="true"
-        VirtualizingPanel.ScrollUnit="Pixel"
-        VirtualizingPanel.VirtualizationMode="Recycling">
-        <ListBox.Resources>
+    <ItemsControl d:ItemsSource="{d:SampleData ItemCount=3}" ItemsSource="{Binding ElementName=Control, Path=ItemsSource}">
+        <ItemsControl.Resources>
             <DataTemplate DataType="{x:Type equipment:EquipmentSlotItem}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -90,6 +84,6 @@
             <DataTemplate DataType="{x:Type equipment:EquipmentSlotPockets}">
                 <TextBlock Foreground="Red" Text="{Binding SlotName}" />
             </DataTemplate>
-        </ListBox.Resources>
-    </ListBox>
+        </ItemsControl.Resources>
+    </ItemsControl>
 </UserControl>

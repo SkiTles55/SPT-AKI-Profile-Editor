@@ -36,7 +36,14 @@
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <extendedcontrols:EquipmentSlotsList ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.EquipmentSlots}" />
+        <ScrollViewer
+            Grid.Row="0"
+            CanContentScroll="True"
+            HorizontalScrollBarVisibility="Disabled"
+            PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+            VerticalScrollBarVisibility="Auto">
+            <extendedcontrols:EquipmentSlotsList ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.EquipmentSlots}" />
+        </ScrollViewer>
         <!--<ScrollViewer
             Grid.Row="0"
             CanContentScroll="True"

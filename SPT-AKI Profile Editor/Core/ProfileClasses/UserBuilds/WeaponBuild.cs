@@ -12,36 +12,34 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private float RecoilDelta = 0;
 
         [JsonConstructor]
-        public WeaponBuild(string id, string name, string root, object[] items, string type)
+        public WeaponBuild(string id,
+                           string name,
+                           string root,
+                           object[] items,
+                           string type) : base(id, name, root, items)
         {
-            Id = id;
-            Name = name;
-            Root = root;
-            Items = items;
             Type = type;
-            var buildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
-            if (buildItems.Any())
-                CalculateBuildProperties(buildItems);
+            BuildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
+            CalculateBuildProperties();
             CanBeAddedToStash = true;
         }
 
-        public WeaponBuild(ItemPreset itemPreset)
+        public WeaponBuild(ItemPreset itemPreset) : base(itemPreset.Id,
+                                                         null,
+                                                         itemPreset.Root,
+                                                         itemPreset.Items)
         {
-            Id = itemPreset.Id;
-            Root = itemPreset.Root;
-            Items = itemPreset.Items;
             Type = WeaponBuildType;
-            var buildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
-            if (buildItems.Any())
-                CalculateBuildProperties(buildItems, true);
+            BuildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
+            CalculateBuildProperties(true);
             CanBeAddedToStash = true;
         }
 
-        public WeaponBuild(InventoryItem item, List<InventoryItem> items)
+        public WeaponBuild(InventoryItem item, List<InventoryItem> items) : base(item.Id,
+                                                                                 item.LocalizedName,
+                                                                                 item.Id,
+                                                                                 null)
         {
-            Id = item.Id;
-            Name = item.LocalizedName;
-            Root = item.Id;
             foreach (var innerItem in items)
             {
                 innerItem.Upd = null;
@@ -53,8 +51,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
             Items = items.ToArray();
+            BuildItems = items;
             Type = WeaponBuildType;
-            CalculateBuildProperties(items);
+            CalculateBuildProperties();
             CanBeAddedToStash = true;
         }
 
@@ -62,9 +61,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("type")]
         public override string Type { get; set; }
-
-        [JsonIgnore]
-        public IEnumerable<InventoryItem> BuildItems { get; set; }
 
         [JsonIgnore]
         public InventoryItem Weapon { get; set; }
@@ -86,9 +82,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public static WeaponBuild CopyFrom(WeaponBuild item) => new(item.Id, item.Name, item.Root, item.Items, item.Type);
 
-        private void CalculateBuildProperties(IEnumerable<InventoryItem> buildItems, bool fromTemplate = false)
+        private void CalculateBuildProperties(bool fromTemplate = false)
         {
-            foreach (var item in buildItems)
+            if (!BuildItems.Any())
+                return;
+            foreach (var item in BuildItems)
             {
                 if (item.Id == Root)
                     SetupWeaponProperties(item);
@@ -98,9 +96,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilDelta /= 100f;
             RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
-            BuildItems = buildItems.Where(x => x.Id != Root);
-            HasModdedItems = buildItems.Any(x => !x.IsInItemsDB);
-            var weapon = buildItems.Where(x => x.Id == Root).FirstOrDefault();
+            BuildItems = BuildItems.Where(x => x.Id != Root);
+            HasModdedItems = BuildItems.Any(x => !x.IsInItemsDB);
+            var weapon = BuildItems.Where(x => x.Id == Root).FirstOrDefault();
             Weapon = weapon;
             RootTpl = weapon?.Tpl;
             Parent = weapon?.IsInItemsDB ?? false ? AppData.ServerDatabase.ItemsDB[weapon?.Tpl].Parent : null;

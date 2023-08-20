@@ -7,6 +7,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Build : AddableItem
     {
+        public Build(string id,
+                     string name,
+                     string root,
+                     object[] items)
+        {
+            Id = id;
+            Name = name;
+            Root = root;
+            Items = items;
+        }
+
         [JsonProperty("id")]
         public override string Id { get; set; }
 
@@ -18,6 +29,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonProperty("items")]
         public object[] Items { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<InventoryItem> BuildItems { get; set; }
 
         public virtual string Type { get; set; }
 

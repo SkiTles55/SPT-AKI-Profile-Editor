@@ -79,15 +79,27 @@
                     <RowDefinition />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                <!--<extendedcontrols:WeaponBuildsList
+                <ListBox
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    ItemsSource="{Binding Profile.UserBuilds.EBuilds}" />-->
+                    d:ItemsSource="{d:SampleData ItemCount=3}"
+                    ItemsSource="{Binding Profile.UserBuilds.EBuilds}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    VirtualizingPanel.IsVirtualizing="true"
+                    VirtualizingPanel.ScrollUnit="Pixel"
+                    VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <extendedcontrols:EquipmentSlotsList ItemsSource="{Binding EquipmentSlots}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <extendedcontrols:EmptyDataPanel
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    d:Visibility="Hidden"
                     Text="{Binding AppLocalization.Translations[tab_presets_equipment_empty], FallbackValue=tab_presets_equipment_empty}"
                     Visibility="{Binding Profile.UserBuilds.HasEquipmentBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
