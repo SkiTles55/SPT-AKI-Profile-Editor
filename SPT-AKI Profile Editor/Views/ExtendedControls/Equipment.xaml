@@ -11,9 +11,11 @@
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
     Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
         <ControlTemplate x:Key="moddedItemIcon" TargetType="Label">
@@ -28,13 +30,14 @@
                     Kind="ExclamationTriangleSolid" />
             </Label>
         </ControlTemplate>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <ScrollViewer
+        <extendedcontrols:EquipmentSlotsList ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.EquipmentSlots}" />
+        <!--<ScrollViewer
             Grid.Row="0"
             CanContentScroll="True"
             PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
@@ -68,7 +71,9 @@
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Earpiece], FallbackValue=Earpiece}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region Earpiece Info-->
+        -->
+        <!--#region Earpiece Info-->
+        <!--
                 <DockPanel
                     Grid.Row="0"
                     Grid.Column="1"
@@ -113,13 +118,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Headwear], FallbackValue=Headwear}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region Headwear Info-->
+        -->
+        <!--#region Headwear Info-->
+        <!--
                 <DockPanel
                     Grid.Row="1"
                     Grid.Column="1"
@@ -164,13 +173,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[FaceCover], FallbackValue=FaceCover}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region FaceCover Info-->
+        -->
+        <!--#region FaceCover Info-->
+        <!--
                 <DockPanel
                     Grid.Row="2"
                     Grid.Column="1"
@@ -215,13 +228,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Eyewear], FallbackValue=Eyewear}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region Eyewear Info-->
+        -->
+        <!--#region Eyewear Info-->
+        <!--
                 <DockPanel
                     Grid.Row="3"
                     Grid.Column="1"
@@ -265,13 +282,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="4"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Armband], FallbackValue=Armband}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region ArmBand Info-->
+        -->
+        <!--#region ArmBand Info-->
+        <!--
                 <DockPanel
                     Grid.Row="4"
                     Grid.Column="1"
@@ -316,13 +337,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="5"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[ArmorVest], FallbackValue=ArmorVest}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region ArmorVest Info-->
+        -->
+        <!--#region ArmorVest Info-->
+        <!--
                 <DockPanel
                     Grid.Row="5"
                     Grid.Column="1"
@@ -367,13 +392,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="6"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[TacticalVest], FallbackValue=TacticalVest}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region TacticalVest Info-->
+        -->
+        <!--#region TacticalVest Info-->
+        <!--
                 <DockPanel
                     Grid.Row="6"
                     Grid.Column="1"
@@ -418,13 +447,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="7"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponFirst], FallbackValue=PrimaryWeaponFirst}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region First primary weapon Info-->
+        -->
+        <!--#region First primary weapon Info-->
+        <!--
                 <DockPanel
                     Grid.Row="7"
                     Grid.Column="1"
@@ -469,13 +502,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="8"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[PrimaryWeaponSecond], FallbackValue=PrimaryWeaponSecond}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region SecondPrimaryWeapon Info-->
+        -->
+        <!--#region SecondPrimaryWeapon Info-->
+        <!--
                 <DockPanel
                     Grid.Row="8"
                     Grid.Column="1"
@@ -520,13 +557,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="9"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Holster], FallbackValue=Holster}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region Holster Info-->
+        -->
+        <!--#region Holster Info-->
+        <!--
                 <DockPanel
                     Grid.Row="9"
                     Grid.Column="1"
@@ -571,13 +612,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="10"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[Scabbard], FallbackValue=Scabbard}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region Scabbard Info-->
+        -->
+        <!--#region Scabbard Info-->
+        <!--
                 <DockPanel
                     Grid.Row="10"
                     Grid.Column="1"
@@ -622,7 +667,9 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="11"
                     Grid.Column="0"
@@ -649,7 +696,9 @@
                         <TextBlock Text="{Binding Path=ServerDatabase.LocalesGlobal[Backpack], FallbackValue=Backpack}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
-                <!--#region Backpack Info-->
+        -->
+        <!--#region Backpack Info-->
+        <!--
                 <DockPanel
                     Grid.Row="12"
                     Grid.Column="1"
@@ -694,13 +743,17 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
                 <Label
                     Grid.Row="13"
                     Grid.Column="0"
                     Content="{Binding Path=ServerDatabase.LocalesGlobal[SecuredContainer], FallbackValue=SecuredContainer}"
                     Template="{StaticResource TitleLabel}" />
-                <!--#region SecuredContainer Info-->
+        -->
+        <!--#region SecuredContainer Info-->
+        <!--
                 <DockPanel
                     Grid.Row="13"
                     Grid.Column="1"
@@ -745,9 +798,11 @@
                     LocalizationDict="{Binding AppLocalization.Translations}"
                     OpenContainer="{Binding OpenContainer}"
                     RemoveItem="{Binding RemoveItem}" />
-                <!--#endregion-->
+        -->
+        <!--#endregion-->
+        <!--
             </Grid>
-        </ScrollViewer>
+        </ScrollViewer>-->
         <Button
             Grid.Row="1"
             Width="200"

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.Equipment;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
@@ -265,40 +266,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void InventoryEquipmentNotEmpty() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Equipment);
 
         [Test]
-        public void PmcInventoryFirstPrimaryWeaponNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.FirstPrimaryWeapon);
-
-        [Test]
-        public void ScavInventoryFirstPrimaryWeaponNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon);
-
-        [Test]
-        public void PmcInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Headwear);
-
-        [Test]
-        public void ScavInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Headwear);
-
-        [Test]
-        public void PmcInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
-
-        [Test]
-        public void ScavInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
-
-        [Test]
-        public void PmcInventorySecuredContainerNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
-
-        [Test]
-        public void ScavInventorySecuredContainerIsNull() => Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
-
-        [Test]
-        public void PmcInventoryBackpackNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Backpack);
-
-        [Test]
-        public void ScavInventoryBackpackNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Backpack);
-
-        [Test]
-        public void PmcInventoryEarpieceNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Earpiece);
-
-        [Test]
-        public void ScavInventoryEarpieceNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Earpiece);
+        public void PmcEquipmentNotNullAndEmpty()
+        {
+            Assert.That(AppData.Profile.Characters.Pmc.Inventory.EquipmentSlots, Is.Not.Null, "Pmc equipment is null");
+            Assert.That(AppData.Profile.Characters.Pmc.Inventory.EquipmentSlots.SelectMany(x => x.ItemsList).Any(), Is.True, "Pmc equipment is true");
+        }
 
         [Test]
         public void InventoryItemsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Length == 0);
@@ -527,11 +499,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ScavStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            string expectedId1 = AppData.Profile.Characters.Scav.Inventory.TacticalVest?.Id;
-            string expectedId2 = AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon?.Id ?? AppData.Profile.Characters.Scav.Inventory.Holster?.Id;
-            Assert.IsNotNull(expectedId1, "TacticalVest is null");
-            Assert.IsNotNull(expectedId2, "FirstPrimaryWeapon is null");
-            RemovingItemsSavesCorrectly(new() { expectedId1, expectedId2 }, AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingItems.json");
+            var expectedIds = AppData.Profile.Characters.Scav.Inventory.EquipmentSlots
+                .Where(x => x is EquipmentSlotItem && x.ItemsList.Any())
+                .Take(2)
+                .SelectMany(x => x.ItemsList)
+                .Select(x => x.Id)
+                .ToList();
+            RemovingItemsSavesCorrectly(expectedIds, AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingItems.json");
         }
 
         [Test]
@@ -955,20 +929,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             inventory.RemoveAllEquipment();
             SaveAndLoadProfile(filename);
-            Assert.Null(inventory.FirstPrimaryWeapon);
-            Assert.Null(inventory.Headwear);
-            Assert.Null(inventory.TacticalVest);
-            Assert.Null(inventory.SecuredContainer);
-            Assert.Null(inventory.Backpack);
-            Assert.Null(inventory.Earpiece);
-            Assert.Null(inventory.FaceCover);
-            Assert.Null(inventory.Eyewear);
-            Assert.Null(inventory.ArmorVest);
-            Assert.Null(inventory.SecondPrimaryWeapon);
-            Assert.Null(inventory.Holster);
-            Assert.Null(inventory.Scabbard);
-            Assert.Null(inventory.ArmBand);
-            Assert.AreEqual(0, inventory.PocketsItems.Count());
+            Assert.False(inventory.EquipmentSlots.SelectMany(x => x.ItemsList).Any(x => x != null));
         }
 
         private static void DisableAutoAddDataInSettings()

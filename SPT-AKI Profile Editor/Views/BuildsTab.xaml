@@ -40,6 +40,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
+                    d:Visibility="Hidden"
                     Text="{Binding AppLocalization.Translations[tab_presets_weapons_empty], FallbackValue=tab_presets_weapons_empty}"
                     Visibility="{Binding Profile.UserBuilds.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <Button
