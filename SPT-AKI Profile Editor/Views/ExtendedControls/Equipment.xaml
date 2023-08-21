@@ -42,7 +42,12 @@
             HorizontalScrollBarVisibility="Disabled"
             PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
             VerticalScrollBarVisibility="Auto">
-            <extendedcontrols:EquipmentSlotsList ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.EquipmentSlots}" />
+            <extendedcontrols:EquipmentSlotsList
+                InspectWeapon="{Binding InspectWeapon}"
+                ItemsSource="{Binding ElementName=Control, Path=InventoryEquipment.EquipmentSlots}"
+                LocalizationDict="{Binding AppLocalization.Translations}"
+                OpenContainer="{Binding OpenContainer}"
+                RemoveItem="{Binding RemoveItem}" />
         </ScrollViewer>
         <!--<ScrollViewer
             Grid.Row="0"

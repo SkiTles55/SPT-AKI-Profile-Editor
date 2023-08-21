@@ -20,7 +20,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Foreground="Red"
-                ToolTip="{Binding Path=AppLocalization.Translations[tab_stash_is_modded_item]}">
+                ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_is_modded_item]}">
                 <iconPacks:PackIconFontAwesome
                     Width="18"
                     Height="18"
@@ -74,15 +74,32 @@
                     <extendedcontrols:TextField Grid.Column="3" DataContext="{Binding Item.Id}" />
                     <extendedcontrols:ItemActions
                         Grid.Column="4"
-                        InspectWeapon="{Binding InspectWeapon}"
+                        InspectWeapon="{Binding ElementName=Control, Path=InspectWeapon}"
                         Item="{Binding Item}"
-                        LocalizationDict="{Binding AppLocalization.Translations}"
-                        OpenContainer="{Binding OpenContainer}"
-                        RemoveItem="{Binding RemoveItem}" />
+                        LocalizationDict="{Binding ElementName=Control, Path=LocalizationDict}"
+                        OpenContainer="{Binding ElementName=Control, Path=OpenContainer}"
+                        RemoveItem="{Binding ElementName=Control, Path=RemoveItem}" />
                 </Grid>
             </DataTemplate>
             <DataTemplate DataType="{x:Type equipment:EquipmentSlotPockets}">
-                <TextBlock Foreground="Red" Text="{Binding SlotName}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding Path=SlotName, FallbackValue=SlotName}"
+                        Template="{StaticResource TitleLabel}" />
+                    <extendedcontrols:ItemsGrid
+                        Grid.Column="1"
+                        HasItems="True"
+                        ItemsSource="{Binding Path=Items}"
+                        PromptFontSize="12"
+                        PromptFontWeight="Normal"
+                        PromptHorizontalAlignment="Left"
+                        ShowHeaders="None" />
+                </Grid>
             </DataTemplate>
         </ItemsControl.Resources>
     </ItemsControl>
