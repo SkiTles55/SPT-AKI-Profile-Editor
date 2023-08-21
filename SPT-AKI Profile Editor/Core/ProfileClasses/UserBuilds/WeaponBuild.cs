@@ -96,9 +96,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             RecoilDelta /= 100f;
             RecoilForceUp = (int)Math.Round(RecoilForceUp + RecoilForceUp * RecoilDelta);
             RecoilForceBack = (int)Math.Round(RecoilForceBack + RecoilForceBack * RecoilDelta);
-            BuildItems = BuildItems.Where(x => x.Id != Root);
             HasModdedItems = BuildItems.Any(x => !x.IsInItemsDB);
             var weapon = BuildItems.Where(x => x.Id == Root).FirstOrDefault();
+            BuildItems = BuildItems.Where(x => x.Id != Root);
             Weapon = weapon;
             RootTpl = weapon?.Tpl;
             Parent = weapon?.IsInItemsDB ?? false ? AppData.ServerDatabase.ItemsDB[weapon?.Tpl].Parent : null;
