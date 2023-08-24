@@ -78,7 +78,7 @@
                                             Expanded="Expander_Expanded"
                                             Loaded="Expander_Loaded">
                                             <Expander.Header>
-                                                <DockPanel>
+                                                <DockPanel LastChildFill="True">
                                                     <TextBlock
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
@@ -87,6 +87,7 @@
                                                         Text="{Binding Path=Name}" />
                                                     <StackPanel
                                                         Margin="5,0,0,0"
+                                                        HorizontalAlignment="Right"
                                                         DockPanel.Dock="Right"
                                                         Orientation="Horizontal">
                                                         <extendedcontrols:ButtonFontAwesomeIcon

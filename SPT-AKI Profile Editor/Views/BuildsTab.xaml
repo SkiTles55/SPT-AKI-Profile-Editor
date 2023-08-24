@@ -10,6 +10,7 @@
     xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:BuildsTabViewModel}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -79,22 +80,12 @@
                     <RowDefinition />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                <ListBox
+                <extendedcontrols:EquipmentBuildsList
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    d:ItemsSource="{d:SampleData ItemCount=3}"
                     ItemsSource="{Binding Profile.UserBuilds.EBuilds}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    VirtualizingPanel.IsVirtualizing="true"
-                    VirtualizingPanel.ScrollUnit="Pixel"
-                    VirtualizingPanel.VirtualizationMode="Recycling">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <extendedcontrols:EquipmentSlotsList ItemsSource="{Binding EquipmentSlots}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    RemoveAllowed="True" />
                 <extendedcontrols:EmptyDataPanel
                     Grid.Row="0"
                     Grid.Column="0"

@@ -16,5 +16,7 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
         public IEnumerable<InventoryItem> Items { get; }
 
         public override List<InventoryItem> ItemsList { get; }
+
+        public bool PocketsHasItems => ItemsList.Count > 0;
     }
 }

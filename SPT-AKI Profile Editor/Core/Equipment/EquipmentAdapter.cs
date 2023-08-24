@@ -66,6 +66,7 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
                                                                 AppSettings appSettings)
         {
             var emptySlotItemText = localization?.GetLocalizedString(emptySlotKey);
+            var pocketsId = build.BuildItems?.Where(x => x.IsPockets).FirstOrDefault()?.Id;
             return new()
             {
                 new EquipmentSlotItem(EarpieceSlotName(localesGlobal),
@@ -101,7 +102,7 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
                 new EquipmentSlotItem(ScabbardSlotName(localesGlobal),
                                       GetEquipment(appSettings.ScabbardSlotId, build.BuildItems, build.Root),
                                       emptySlotItemText),
-                new EquipmentSlotPockets(PocketsSlotName(localesGlobal), build.BuildItems),
+                new EquipmentSlotPockets(PocketsSlotName(localesGlobal), build.BuildItems.Where(x => x.ParentId == pocketsId)),
                 new EquipmentSlotItem(BackpackSlotName(localesGlobal),
                                       GetEquipment(appSettings.BackpackSlotId, build.BuildItems, build.Root),
                                       emptySlotItemText),

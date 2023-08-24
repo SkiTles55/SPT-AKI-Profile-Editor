@@ -51,14 +51,28 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void ExportBuildToFile(object obj)
         {
-            if (obj != null && obj is WeaponBuild build)
+            if (obj == null)
+                return;
+
+            if (obj is WeaponBuild build)
             {
                 var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(build.Name);
                 if (success)
                     _worker.AddTask(new(() => UserBuilds.ExportBuild(build, path),
                                          AppLocalization.GetLocalizedString("progress_dialog_title"),
                                          AppLocalization.GetLocalizedString("tab_presets_export")));
+                return;
             }
+
+            //if (obj is EquipmentBuild build)
+            //{
+            //    var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(build.Name);
+            //    if (success)
+            //        _worker.AddTask(new(() => UserBuilds.ExportBuild(build, path),
+            //                             AppLocalization.GetLocalizedString("progress_dialog_title"),
+            //                             AppLocalization.GetLocalizedString("tab_presets_export")));
+            //    return;
+            //}
         }
 
         private void ExportAllWeaponBuilds()
