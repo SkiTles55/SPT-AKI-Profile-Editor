@@ -8,6 +8,7 @@ using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -285,8 +286,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildsNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            Assert.IsFalse(AppData.Profile.UserBuilds.WeaponBuilds.Count == 0);
-            Assert.IsFalse(AppData.Profile.UserBuilds.WBuilds.Count == 0);
+            CheckBuilds(AppData.Profile.UserBuilds.WeaponBuilds, AppData.Profile.UserBuilds.WBuilds);
         }
 
         [Test]
@@ -296,8 +296,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void EquipmentBuildsNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            Assert.IsFalse(AppData.Profile.UserBuilds.EquipmentBuilds.Count == 0);
-            Assert.IsFalse(AppData.Profile.UserBuilds.EBuilds.Count == 0);
+            CheckBuilds(AppData.Profile.UserBuilds.EquipmentBuilds, AppData.Profile.UserBuilds.EBuilds);
         }
 
         [Test]
@@ -844,6 +843,12 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.AreEqual(650, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum, "Health.BodyParts.LeftLeg.Health.Maximum is not 650");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current, "Health.BodyParts.RightLeg.Health.Current is not 700");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum, "Health.BodyParts.RightLeg.Health.Maximum is not 700");
+        }
+
+        private static void CheckBuilds<T>(List<T> buildsList, ObservableCollection<T> buildsCollection) where T : Build
+        {
+            Assert.IsFalse(buildsList.Count == 0);
+            Assert.IsFalse(buildsCollection.Count == 0);
         }
 
         private static void TestAddingItemsToQuestStash(StashType stashType, string filename, string expectedStashId)

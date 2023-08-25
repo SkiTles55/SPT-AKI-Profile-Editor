@@ -30,18 +30,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public TestsWindowsDialogs()
         {
-            if (File.Exists(weaponBuildExportPath))
-                File.Delete(weaponBuildExportPath);
-
-            if (Directory.Exists(weaponBuildsExportPath))
-                Directory.Delete(weaponBuildsExportPath, true);
-
-            Directory.CreateDirectory(weaponBuildsExportPath);
-
-            if (Directory.Exists(equipmentBuildsExportPath))
-                Directory.Delete(equipmentBuildsExportPath, true);
-
-            Directory.CreateDirectory(equipmentBuildsExportPath);
+            PrepareTestPaths(weaponBuildExportPath, weaponBuildsExportPath);
+            PrepareTestPaths(equipmentBuildExportPath, equipmentBuildsExportPath);
         }
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true,
@@ -78,5 +68,16 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public (bool success, string path) SaveWeaponBuildDialog(string name) => (true, weaponBuildExportPath);
 
         public (bool success, string path) SaveEquipmentBuildDialog(string name) => (true, equipmentBuildExportPath);
+
+        private static void PrepareTestPaths(string filePath, string directoryPath)
+        {
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            if (Directory.Exists(directoryPath))
+                Directory.Delete(directoryPath, true);
+
+            Directory.CreateDirectory(directoryPath);
+        }
     }
 }
