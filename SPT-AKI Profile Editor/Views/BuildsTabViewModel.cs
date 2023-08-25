@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core;
+﻿using SPT_AKI_Profile_Editor.Classes;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -49,30 +50,32 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand RemoveEquipmentBuilds
             => new(async obj => await RemoveAllEquipmentBuildsFromProfile());
 
+        private static WorkerTask ExportTask(Action action)
+            => CreateTask(action, "tab_presets_export");
+
+        private static WorkerTask ImportTask(Action action)
+            => CreateTask(action, "tab_presets_import");
+
+        private static WorkerTask CreateTask(Action action, string description)
+            => new(action, AppLocalization.GetLocalizedString("progress_dialog_title"), description);
+
         private void ExportBuildToFile(object obj)
         {
-            if (obj == null)
-                return;
-
             if (obj is WeaponBuild build)
             {
                 var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(build.Name);
                 if (success)
-                    _worker.AddTask(new(() => UserBuilds.ExportBuild(build, path),
-                                         AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                         AppLocalization.GetLocalizedString("tab_presets_export")));
+                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, path)));
                 return;
             }
 
-            //if (obj is EquipmentBuild build)
-            //{
-            //    var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(build.Name);
-            //    if (success)
-            //        _worker.AddTask(new(() => UserBuilds.ExportBuild(build, path),
-            //                             AppLocalization.GetLocalizedString("progress_dialog_title"),
-            //                             AppLocalization.GetLocalizedString("tab_presets_export")));
-            //    return;
-            //}
+            if (obj is EquipmentBuild eBuild)
+            {
+                var (success, path) = _windowsDialogs.SaveEquipmentBuildDialog(eBuild.Name);
+                if (success)
+                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(eBuild, path)));
+                return;
+            }
         }
 
         private void ExportAllWeaponBuilds()
@@ -80,9 +83,7 @@ namespace SPT_AKI_Profile_Editor.Views
             var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
             if (success)
                 foreach (var build in Profile.UserBuilds.WeaponBuilds)
-                    _worker.AddTask(new(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Weapon preset {build.Name}.json")),
-                                        AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                        AppLocalization.GetLocalizedString("tab_presets_export")));
+                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Weapon preset {build.Name}.json"))));
         }
 
         private void ExportAllEquipmentBuilds()
@@ -90,25 +91,19 @@ namespace SPT_AKI_Profile_Editor.Views
             var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
             if (success)
                 foreach (var build in Profile.UserBuilds.EquipmentBuilds)
-                    _worker.AddTask(new(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Equipment preset {build.Name}.json")),
-                                        AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                        AppLocalization.GetLocalizedString("tab_presets_export")));
+                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Equipment preset {build.Name}.json"))));
         }
 
         private void ImportWeaponBuildsFromFiles()
         {
             foreach (var file in GetImportPaths())
-                _worker.AddTask(new(() => Profile.UserBuilds.ImportWeaponBuildFromFile(file),
-                                    AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                    AppLocalization.GetLocalizedString("tab_presets_import")));
+                _worker.AddTask(ImportTask(() => Profile.UserBuilds.ImportWeaponBuildFromFile(file)));
         }
 
         private void ImportEquipmentBuildsFromFile()
         {
             foreach (var file in GetImportPaths())
-                _worker.AddTask(new(() => Profile.UserBuilds.ImportEquipmentBuildFromFile(file),
-                                    AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                    AppLocalization.GetLocalizedString("tab_presets_import")));
+                _worker.AddTask(ImportTask(() => Profile.UserBuilds.ImportEquipmentBuildFromFile(file)));
         }
 
         private string[] GetImportPaths()
@@ -122,28 +117,37 @@ namespace SPT_AKI_Profile_Editor.Views
         private void AddBuildToProfileStash(object obj)
         {
             if (obj is WeaponBuild build)
-                _worker.AddTask(new(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build),
-                                    AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                    AppLocalization.GetLocalizedString("tab_presets_import")));
+                _worker.AddTask(ImportTask(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build)));
         }
 
         private async Task RemoveBuildFromProfile(object obj)
         {
-            if (!string.IsNullOrEmpty(obj?.ToString())
-                && await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_preset_dialog_caption"))
-                Profile.UserBuilds.RemoveWeaponBuild(obj.ToString());
+            if (obj is WeaponBuild build && await AskRemoveBuild())
+            {
+                Profile.UserBuilds.RemoveWeaponBuild(build.Id);
+                return;
+            }
+
+            if (obj is EquipmentBuild eBuild && await AskRemoveBuild())
+            {
+                Profile.UserBuilds.RemoveEquipmentBuild(eBuild.Id);
+                return;
+            }
         }
 
         private async Task RemoveAllWeaponBuildsFromProfile()
         {
-            if (await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption"))
+            if (await AskRemoveBuild())
                 Profile.UserBuilds.RemoveWeaponBuilds();
         }
 
         private async Task RemoveAllEquipmentBuildsFromProfile()
         {
-            if (await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption"))
+            if (await AskRemoveBuild())
                 Profile.UserBuilds.RemoveEquipmentBuilds();
         }
+
+        private async Task<bool> AskRemoveBuild()
+            => await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption");
     }
 }

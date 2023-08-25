@@ -8,6 +8,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public (bool success, string path) SaveWeaponBuildDialog(string name);
 
+        public (bool success, string path) SaveEquipmentBuildDialog(string name);
+
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null);
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true, string startPath = null, string description = null);
@@ -35,6 +37,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public (bool success, string path) SaveWeaponBuildDialog(string name) =>
                             SaveFileDialog($"Weapon preset {name}", $"{JsonFileText} (*.json)|*.json");
+
+        public (bool success, string path) SaveEquipmentBuildDialog(string name) =>
+                            SaveFileDialog($"Equipment preset {name}", $"{JsonFileText} (*.json)|*.json");
 
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null)
         {

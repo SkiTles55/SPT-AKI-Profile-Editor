@@ -109,7 +109,7 @@
                                     MinWidth="110"
                                     Margin="5"
                                     Command="{Binding Data.RemoveBuild, Source={StaticResource proxy}}"
-                                    CommandParameter="{Binding Path=Id}"
+                                    CommandParameter="{Binding}"
                                     Content="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}"
                                     Visibility="{Binding ElementName=Control, Path=RemoveAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </StackPanel>

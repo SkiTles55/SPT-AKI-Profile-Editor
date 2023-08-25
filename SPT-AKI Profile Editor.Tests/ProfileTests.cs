@@ -503,6 +503,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Where(x => x is EquipmentSlotItem && x.ItemsList.Any())
                 .Take(2)
                 .SelectMany(x => x.ItemsList)
+                .Where(x => x != null)
                 .Select(x => x.Id)
                 .ToList();
             RemovingItemsSavesCorrectly(expectedIds, AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingItems.json");

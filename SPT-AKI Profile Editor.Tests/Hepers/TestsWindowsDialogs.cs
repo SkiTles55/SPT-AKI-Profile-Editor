@@ -17,6 +17,9 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public readonly string weaponBuildExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                                     "testBuildExport.json");
 
+        public readonly string equipmentBuildExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                                    "equipmentBuildExport.json");
+
         public readonly string weaponBuildsExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                                      "TestWeaponBuildsExport");
 
@@ -33,10 +36,10 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             if (Directory.Exists(weaponBuildsExportPath))
                 Directory.Delete(weaponBuildsExportPath, true);
 
+            Directory.CreateDirectory(weaponBuildsExportPath);
+
             if (Directory.Exists(equipmentBuildsExportPath))
                 Directory.Delete(equipmentBuildsExportPath, true);
-
-            Directory.CreateDirectory(weaponBuildsExportPath);
 
             Directory.CreateDirectory(equipmentBuildsExportPath);
         }
@@ -73,5 +76,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         }
 
         public (bool success, string path) SaveWeaponBuildDialog(string name) => (true, weaponBuildExportPath);
+
+        public (bool success, string path) SaveEquipmentBuildDialog(string name) => (true, equipmentBuildExportPath);
     }
 }
