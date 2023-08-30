@@ -32,9 +32,9 @@
 
         public float Ergonomics { get; set; }
 
-        public int RecoilForceUp { get; set; }
+        public float RecoilForceUp { get; set; }
 
-        public int RecoilForceBack { get; set; }
+        public float RecoilForceBack { get; set; }
 
         public float Recoil { get; set; }
 

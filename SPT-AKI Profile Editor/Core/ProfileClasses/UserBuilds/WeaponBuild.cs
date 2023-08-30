@@ -72,10 +72,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public float Ergonomics { get; set; }
 
         [JsonIgnore]
-        public int RecoilForceUp { get; set; }
+        public float RecoilForceUp { get; set; }
 
         [JsonIgnore]
-        public int RecoilForceBack { get; set; }
+        public float RecoilForceBack { get; set; }
 
         [JsonIgnore]
         public bool HasModdedItems { get; set; }
