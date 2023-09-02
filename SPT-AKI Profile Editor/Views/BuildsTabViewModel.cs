@@ -1,5 +1,6 @@
 ﻿using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -13,14 +14,17 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly IDialogManager _dialogManager;
         private readonly IWindowsDialogs _windowsDialogs;
         private readonly IWorker _worker;
+        private readonly IApplicationManager _applicationManager;
 
         public BuildsTabViewModel(IDialogManager dialogManager,
                                      IWorker worker,
-                                     IWindowsDialogs windowsDialogs)
+                                     IWindowsDialogs windowsDialogs,
+                                     IApplicationManager applicationManager)
         {
             _dialogManager = dialogManager;
             _windowsDialogs = windowsDialogs;
             _worker = worker;
+            _applicationManager = applicationManager;
         }
 
         public RelayCommand AddBuildToStash
@@ -49,6 +53,18 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand RemoveEquipmentBuilds
             => new(async obj => await RemoveAllEquipmentBuildsFromProfile());
+
+        public RelayCommand OpenContainer => new(obj =>
+        {
+            if (obj is (InventoryItem item, EquipmentBuild build))
+                _applicationManager.OpenContainerWindow(item, build);
+        });
+
+        public RelayCommand InspectWeapon => new(obj =>
+        {
+            if (obj is (InventoryItem item, EquipmentBuild build))
+                _applicationManager.OpenWeaponBuildWindow(item, build);
+        });
 
         private static WorkerTask ExportTask(Action action)
             => CreateTask(action, "tab_presets_export");

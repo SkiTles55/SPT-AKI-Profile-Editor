@@ -10,9 +10,21 @@ namespace SPT_AKI_Profile_Editor
     public partial class ContainerWindow : ItemViewWindow
     {
         public ContainerWindow(InventoryItem item, StashEditMode editMode) : base(item.Id)
+            => Setup(new ContainerWindowViewModel(item,
+                                                  editMode,
+                                                  DialogCoordinator,
+                                                  App.ApplicationManager));
+
+        public ContainerWindow(InventoryItem item, EquipmentBuild build) : base(item.Id)
+            => Setup(new ContainerWindowViewModel(item,
+                                                  editMode,
+                                                  DialogCoordinator,
+                                                  App.ApplicationManager));
+
+        private void Setup(ContainerWindowViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new ContainerWindowViewModel(item, editMode, DialogCoordinator, App.ApplicationManager);
+            DataContext = viewModel;
             this.AllowDragging();
         }
     }

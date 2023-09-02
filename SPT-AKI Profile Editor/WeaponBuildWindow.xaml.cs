@@ -10,9 +10,21 @@ namespace SPT_AKI_Profile_Editor
     public partial class WeaponBuildWindow : ItemViewWindow
     {
         public WeaponBuildWindow(InventoryItem item, StashEditMode editMode) : base(item.Id)
+            => Setup(new WeaponBuildWindowViewModel(item,
+                                                    editMode,
+                                                    DialogCoordinator,
+                                                    App.WindowsDialogs));
+
+        public WeaponBuildWindow(InventoryItem item, EquipmentBuild build) : base(item.Id)
+            => Setup(new WeaponBuildWindowViewModel(item,
+                                                    build,
+                                                    DialogCoordinator,
+                                                    App.WindowsDialogs));
+
+        private void Setup(WeaponBuildWindowViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new WeaponBuildWindowViewModel(item, editMode, DialogCoordinator, App.WindowsDialogs);
+            DataContext = viewModel;
             this.AllowDragging();
         }
     }

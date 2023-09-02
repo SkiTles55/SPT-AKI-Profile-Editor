@@ -24,6 +24,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public void OpenWeaponBuildWindow(object obj, StashEditMode editMode);
 
+        public void OpenContainerWindow(InventoryItem item, EquipmentBuild build);
+
+        public void OpenWeaponBuildWindow(InventoryItem item, EquipmentBuild build);
+
         public void CloseItemViewWindows(List<string> idsList = null);
 
         public void ChangeTheme();
@@ -68,6 +72,22 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (CheckForOpenedWindow(item.Id))
                 return;
             WeaponBuildWindow weaponBuildWindow = new(item, editMode);
+            weaponBuildWindow.Show();
+        }
+
+        public void OpenContainerWindow(InventoryItem item, EquipmentBuild build)
+        {
+            if (CheckForOpenedWindow(item.Id))
+                return;
+            ContainerWindow containerWindow = new(item, build);
+            containerWindow.Show();
+        }
+
+        public void OpenWeaponBuildWindow(InventoryItem item, EquipmentBuild build)
+        {
+            if (CheckForOpenedWindow(item.Id))
+                return;
+            WeaponBuildWindow weaponBuildWindow = new(item, build);
             weaponBuildWindow.Show();
         }
 

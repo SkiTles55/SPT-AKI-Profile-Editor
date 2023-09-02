@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             ExaminedItemsTab = new();
             StashTab = new(dialogManager, worker, applicationManager);
             ClothingTab = new();
-            BuildsTab = new(dialogManager, worker, windowsDialogs);
+            BuildsTab = new(dialogManager, worker, windowsDialogs, applicationManager);
             CleaningFromModsTab = new(dialogManager, saveCommand, cleaningService);
             BackupsTab = new(dialogManager, worker, cleaningService);
             AboutTab = new(applicationManager);
