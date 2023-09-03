@@ -34,5 +34,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                                       AppData.ServerDatabase.LocalesGlobal,
                                                       AppData.AppLocalization,
                                                       AppData.AppSettings);
+
+        public CharacterInventory MakeInventory()
+            => new() { Items = BuildItems.ToArray() };
     }
 }

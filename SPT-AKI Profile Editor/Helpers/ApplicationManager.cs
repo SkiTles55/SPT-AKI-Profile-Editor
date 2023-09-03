@@ -2,7 +2,6 @@
 using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
@@ -20,13 +19,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public RelayCommand CloseApplication { get; }
 
-        public void OpenContainerWindow(object obj, StashEditMode editMode);
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory);
 
-        public void OpenWeaponBuildWindow(object obj, StashEditMode editMode);
-
-        public void OpenContainerWindow(InventoryItem item, EquipmentBuild build);
-
-        public void OpenWeaponBuildWindow(InventoryItem item, EquipmentBuild build);
+        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory);
 
         public void CloseItemViewWindows(List<string> idsList = null);
 
@@ -55,39 +50,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public RelayCommand CloseApplication => new(obj => Application.Current.Shutdown());
 
-        public void OpenContainerWindow(object obj, StashEditMode editMode)
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory)
         {
-            if (obj == null || obj is not InventoryItem item)
-                return;
             if (CheckForOpenedWindow(item.Id))
                 return;
-            ContainerWindow containerWindow = new(item, editMode);
+            ContainerWindow containerWindow = new(item, inventory);
             containerWindow.Show();
         }
 
-        public void OpenWeaponBuildWindow(object obj, StashEditMode editMode)
-        {
-            if (obj == null || obj is not InventoryItem item)
-                return;
-            if (CheckForOpenedWindow(item.Id))
-                return;
-            WeaponBuildWindow weaponBuildWindow = new(item, editMode);
-            weaponBuildWindow.Show();
-        }
-
-        public void OpenContainerWindow(InventoryItem item, EquipmentBuild build)
+        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory)
         {
             if (CheckForOpenedWindow(item.Id))
                 return;
-            ContainerWindow containerWindow = new(item, build);
-            containerWindow.Show();
-        }
-
-        public void OpenWeaponBuildWindow(InventoryItem item, EquipmentBuild build)
-        {
-            if (CheckForOpenedWindow(item.Id))
-                return;
-            WeaponBuildWindow weaponBuildWindow = new(item, build);
+            WeaponBuildWindow weaponBuildWindow = new(item, inventory);
             weaponBuildWindow.Show();
         }
 

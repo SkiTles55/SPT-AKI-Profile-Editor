@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor
@@ -9,15 +8,9 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class WeaponBuildWindow : ItemViewWindow
     {
-        public WeaponBuildWindow(InventoryItem item, StashEditMode editMode) : base(item.Id)
+        public WeaponBuildWindow(InventoryItem item, CharacterInventory inventory) : base(item.Id)
             => Setup(new WeaponBuildWindowViewModel(item,
-                                                    editMode,
-                                                    DialogCoordinator,
-                                                    App.WindowsDialogs));
-
-        public WeaponBuildWindow(InventoryItem item, EquipmentBuild build) : base(item.Id)
-            => Setup(new WeaponBuildWindowViewModel(item,
-                                                    build,
+                                                    inventory,
                                                     DialogCoordinator,
                                                     App.WindowsDialogs));
 
