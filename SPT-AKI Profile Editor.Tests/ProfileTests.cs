@@ -668,7 +668,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var expectedId = AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault().Id;
             AppData.Profile.UserBuilds.RemoveWeaponBuild(expectedId);
             SaveAndLoadProfile("testWeaponBuildRemove.json");
-            Assert.IsNull(AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault(x => x.Id == expectedId));
+            Assert.IsNull(AppData.Profile.UserBuilds?.WeaponBuilds?.FirstOrDefault(x => x.Id == expectedId));
         }
 
         [Test]

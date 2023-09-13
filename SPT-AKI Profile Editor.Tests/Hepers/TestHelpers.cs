@@ -1,5 +1,4 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.IO;
@@ -8,7 +7,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
-        public static readonly string profileFile = @"F:\spt-beta\user\profiles\301e33e141207ad8b43c3fb8.json";
+        public static readonly string profileFile = @"F:\spt-beta\user\profiles\31b952f2dcdd027e62334b4e.json";
         public static readonly string serverPath = @"F:\spt-beta";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
@@ -61,25 +60,18 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return items;
         }
 
-        public static string GetTestName(string prefix, StashEditMode editMode)
-        {
-            return editMode switch
-            {
-                StashEditMode.PMC => $"{prefix}_Test_PMC",
-                StashEditMode.Scav => $"{prefix}_Test_Scav",
-                _ => $"{prefix}_Test_Unknown",
-            };
-        }
+        public static string GetTestName(string prefix, bool isPmcItem)
+            => $"{prefix}_Test_{(isPmcItem ? "PMC" : "Scav")}";
 
-        public static void SetupTestCharacters(string prefix, StashEditMode editMode)
+        public static void SetupTestCharacters(string prefix)
         {
             CharacterInventory pmcInventory = new()
             {
-                Items = GenerateTestItems(3, GetTestName(prefix, editMode))
+                Items = GenerateTestItems(3, GetTestName(prefix, true))
             };
             CharacterInventory scavInventory = new()
             {
-                Items = GenerateTestItems(5, GetTestName(prefix, editMode))
+                Items = GenerateTestItems(5, GetTestName(prefix, false))
             };
             Character pmc = new()
             {
