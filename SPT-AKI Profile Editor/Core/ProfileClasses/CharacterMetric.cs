@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -9,27 +8,25 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private float maximum;
 
-        [JsonProperty("Current")]
         public float Current
         {
             get => current;
             set
             {
                 current = value;
-                OnPropertyChanged("Current");
+                OnPropertyChanged(nameof(Current));
                 if (value > Maximum)
                     Maximum = value;
             }
         }
 
-        [JsonProperty("Maximum")]
         public float Maximum
         {
             get => maximum;
             set
             {
                 maximum = value;
-                OnPropertyChanged("Maximum");
+                OnPropertyChanged(nameof(Maximum));
             }
         }
     }
