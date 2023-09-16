@@ -17,18 +17,6 @@
         <helpers:BooleanToVisibilityConverter x:Key="CustomBooleanToVisibilityConverter" />
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
         <helpers:TwoParamsConverter x:Key="TwoParamsConverter" />
-        <ControlTemplate x:Key="moddedItemIcon" TargetType="Label">
-            <Label
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="Red"
-                ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_is_modded_item]}">
-                <iconPacks:PackIconFontAwesome
-                    Width="18"
-                    Height="18"
-                    Kind="ExclamationTriangleSolid" />
-            </Label>
-        </ControlTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -113,7 +101,7 @@
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="30" />
-                                                <ColumnDefinition Width="Auto" MinWidth="30" />
+                                                <ColumnDefinition Width="Auto" MinWidth="40" />
                                             </Grid.ColumnDefinitions>
                                             <Label
                                                 Grid.Column="0"
@@ -145,8 +133,16 @@
                                             </DockPanel>
                                             <Label
                                                 Grid.Column="2"
-                                                Template="{StaticResource moddedItemIcon}"
-                                                Visibility="{Binding Item.IsInItemsDB, Converter={StaticResource CustomBooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_is_modded_item], Source={StaticResource proxy}}"
+                                                Visibility="{Binding Item.IsInItemsDB, Converter={StaticResource CustomBooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                                                <iconPacks:PackIconFontAwesome
+                                                    Width="18"
+                                                    Height="18"
+                                                    Kind="ExclamationTriangleSolid" />
+                                            </Label>
                                             <StackPanel Grid.Column="3" Orientation="Horizontal">
                                                 <extendedcontrols:ButtonFontAwesomeIcon
                                                     Margin="5"
@@ -208,10 +204,9 @@
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="*" />
                                                                 <ColumnDefinition Width="30" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" MinWidth="83" />
+                                                                <ColumnDefinition Width="Auto" MinWidth="40" />
                                                             </Grid.ColumnDefinitions>
-                                                            <DockPanel Grid.Column="0" Margin="2,0,2,0">
+                                                            <DockPanel Grid.Column="0" Margin="0,0,2,0">
                                                                 <extendedcontrols:IconWithBackground
                                                                     Width="30"
                                                                     Height="30"
@@ -237,16 +232,50 @@
                                                             </DockPanel>
                                                             <Label
                                                                 Grid.Column="1"
-                                                                Template="{StaticResource moddedItemIcon}"
-                                                                Visibility="{Binding IsInItemsDB, Converter={StaticResource CustomBooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
-                                                            <extendedcontrols:TextField Grid.Column="2" DataContext="{Binding Id}" />
-                                                            <extendedcontrols:ItemActions
-                                                                Grid.Column="3"
-                                                                InspectWeapon="{Binding ElementName=Control, Path=InspectWeapon}"
-                                                                Item="{Binding}"
-                                                                LocalizationDict="{Binding ElementName=Control, Path=LocalizationDict}"
-                                                                OpenContainer="{Binding ElementName=Control, Path=OpenContainer}"
-                                                                RemoveItem="{Binding ElementName=Control, Path=RemoveItem}" />
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="Red"
+                                                                ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_is_modded_item], Source={StaticResource proxy}}"
+                                                                Visibility="{Binding IsInItemsDB, Converter={StaticResource CustomBooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                                                                <iconPacks:PackIconFontAwesome
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    Kind="ExclamationTriangleSolid" />
+                                                            </Label>
+                                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                                <extendedcontrols:ButtonFontAwesomeIcon
+                                                                    Margin="5"
+                                                                    VerticalAlignment="Center"
+                                                                    Command="{Binding Data.InspectWeapon, Source={StaticResource proxy}}"
+                                                                    Icon="EyeSolid"
+                                                                    IconSize="15"
+                                                                    Style="{StaticResource IconOnlyButton}"
+                                                                    ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_inspect], Source={StaticResource proxy}}"
+                                                                    Visibility="{Binding IsWeapon, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                                                                    <Button.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource TwoParamsConverter}">
+                                                                            <Binding Path="" />
+                                                                            <Binding Path="Data" Source="{StaticResource buildItem}" />
+                                                                        </MultiBinding>
+                                                                    </Button.CommandParameter>
+                                                                </extendedcontrols:ButtonFontAwesomeIcon>
+                                                                <extendedcontrols:ButtonFontAwesomeIcon
+                                                                    Margin="5"
+                                                                    VerticalAlignment="Center"
+                                                                    Command="{Binding Data.OpenContainer, Source={StaticResource proxy}}"
+                                                                    Icon="EyeSolid"
+                                                                    IconSize="15"
+                                                                    Style="{StaticResource IconOnlyButton}"
+                                                                    ToolTip="{Binding Data.AppLocalization.Translations[tab_stash_open], Source={StaticResource proxy}}"
+                                                                    Visibility="{Binding IsContainer, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                                                                    <Button.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource TwoParamsConverter}">
+                                                                            <Binding Path="" />
+                                                                            <Binding Path="Data" Source="{StaticResource buildItem}" />
+                                                                        </MultiBinding>
+                                                                    </Button.CommandParameter>
+                                                                </extendedcontrols:ButtonFontAwesomeIcon>
+                                                            </StackPanel>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
