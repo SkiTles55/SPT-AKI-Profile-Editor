@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public RelayCommand CloseApplication { get; }
 
-        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory);
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed);
 
         public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory);
 
@@ -50,11 +50,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public RelayCommand CloseApplication => new(obj => Application.Current.Shutdown());
 
-        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory)
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed)
         {
             if (CheckForOpenedWindow(item.Id))
                 return;
-            ContainerWindow containerWindow = new(item, inventory);
+            ContainerWindow containerWindow = new(item, inventory, editingAllowed);
             containerWindow.Show();
         }
 

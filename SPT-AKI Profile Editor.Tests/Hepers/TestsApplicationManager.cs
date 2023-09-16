@@ -1,6 +1,5 @@
 ﻿using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Classes;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
@@ -51,7 +50,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             };
         }
 
-        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory) => ContainerWindowOpened = true;
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed) => ContainerWindowOpened = true;
 
         public void OpenUrl(string url) => LastOpenedUrl = url;
 

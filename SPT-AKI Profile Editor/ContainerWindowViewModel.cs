@@ -21,6 +21,7 @@ namespace SPT_AKI_Profile_Editor
                                         CharacterInventory inventory,
                                         IDialogCoordinator dialogCoordinator,
                                         IApplicationManager applicationManager,
+                                        bool editingAllowed,
                                         IDialogManager dialogManager = null,
                                         IWorker worker = null)
         {
@@ -30,12 +31,13 @@ namespace SPT_AKI_Profile_Editor
             _item = item;
             _inventory = inventory;
             _applicationManager = applicationManager;
+            EditingAllowed = editingAllowed;
         }
 
         public RelayCommand OpenContainer => new(obj =>
         {
             if (obj is InventoryItem item)
-                _applicationManager.OpenContainerWindow(item, _inventory);
+                _applicationManager.OpenContainerWindow(item, _inventory, EditingAllowed);
         });
 
         public RelayCommand InspectWeapon => new(obj =>
@@ -46,13 +48,15 @@ namespace SPT_AKI_Profile_Editor
 
         public string WindowTitle { get; }
 
+        public bool EditingAllowed { get; }
+
         public ObservableCollection<InventoryItem> Items
             => new(_inventory.Items?.Where(x => x.ParentId == _item.Id));
 
         public bool HasItems => Items.Count > 0;
 
         public bool ItemsAddingAllowed
-            => _item.CanAddItems && CategoriesForItemsAdding.Count > 0;
+            => _item.CanAddItems && CategoriesForItemsAdding.Count > 0 && EditingAllowed;
 
         public bool ItemsAddingBlocked
             => !ItemsAddingAllowed || Items.Where(x => !x.IsInItemsDB).Any();

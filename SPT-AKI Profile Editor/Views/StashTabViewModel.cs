@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand OpenContainer => new(obj =>
         {
             if (obj is InventoryItem item)
-                _applicationManager.OpenContainerWindow(item, GetInventory());
+                _applicationManager.OpenContainerWindow(item, GetInventory(), true);
         });
 
         public RelayCommand InspectWeapon => new(obj =>

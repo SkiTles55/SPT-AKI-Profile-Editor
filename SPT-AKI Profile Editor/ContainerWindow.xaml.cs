@@ -8,11 +8,12 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class ContainerWindow : ItemViewWindow
     {
-        public ContainerWindow(InventoryItem item, CharacterInventory inventory) : base(item.Id)
+        public ContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed) : base(item.Id)
             => Setup(new ContainerWindowViewModel(item,
                                                   inventory,
                                                   DialogCoordinator,
-                                                  App.ApplicationManager));
+                                                  App.ApplicationManager,
+                                                  editingAllowed));
 
         private void Setup(ContainerWindowViewModel viewModel)
         {

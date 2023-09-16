@@ -69,6 +69,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                                                         AppData.Profile.Characters.Pmc.Inventory,
                                                         null,
                                                         null,
+                                                        true,
                                                         dialogManager,
                                                         worker);
             Assert.That(pmcContainer.ItemsAddingAllowed, Is.True, "Items adding not allowed for opened container");
@@ -90,6 +91,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                                                         AppData.Profile.Characters.Pmc.Inventory,
                                                         null,
                                                         null,
+                                                        true,
                                                         dialogManager,
                                                         null);
             pmcContainer.ShowAllItems.Execute(null);
@@ -123,6 +125,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                        isPmcItem ? AppData.Profile.Characters.Pmc.Inventory : AppData.Profile.Characters.Scav.Inventory,
                        null,
                        applicationManager,
+                       true,
                        dialogManager,
                        worker);
         }

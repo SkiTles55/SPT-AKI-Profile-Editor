@@ -56,7 +56,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand OpenContainer => new(obj =>
         {
             if (obj is (InventoryItem item, EquipmentBuild build))
-                _applicationManager.OpenContainerWindow(item, build.MakeInventory());
+                _applicationManager.OpenContainerWindow(item, build.MakeInventory(), false);
         });
 
         public RelayCommand InspectWeapon => new(obj =>
