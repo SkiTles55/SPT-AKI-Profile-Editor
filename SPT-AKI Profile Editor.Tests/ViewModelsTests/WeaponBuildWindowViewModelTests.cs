@@ -72,7 +72,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             TestHelpers.LoadDatabaseAndProfile();
             var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, AppData.Profile.Characters.Pmc.Inventory, null, null, dialogManager, worker);
+            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, AppData.Profile.Characters.Pmc.Inventory, null, null, true, dialogManager, worker);
             Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             pmcWeaponBuild.RemoveItem.Execute(null);
             Assert.That(() => AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
@@ -83,7 +83,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             TestHelpers.LoadDatabaseAndProfile();
             var weapon = AppData.Profile.Characters.Scav.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, AppData.Profile.Characters.Scav.Inventory, null, null, dialogManager, worker);
+            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, AppData.Profile.Characters.Scav.Inventory, null, null, true, dialogManager, worker);
             Assert.That(scavWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             scavWeaponBuild.RemoveItem.Execute(null);
             Assert.That(() => AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
@@ -94,7 +94,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             TestHelpers.LoadDatabaseAndProfile();
             var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, AppData.Profile.Characters.Pmc.Inventory, null, windowsDialogs, dialogManager, worker);
+            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, AppData.Profile.Characters.Pmc.Inventory, null, windowsDialogs, true, dialogManager, worker);
             Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
             pmcWeaponBuild.ExportBuild.Execute(null);
             Assert.That(File.Exists(windowsDialogs.weaponBuildExportPath), "WeaponBuild not exported");
@@ -124,6 +124,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                        isPmc ? AppData.Profile.Characters.Pmc.Inventory : AppData.Profile.Characters.Scav.Inventory,
                        null,
                        null,
+                       true,
                        dialogManager,
                        worker);
         }

@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand InspectWeapon => new(obj =>
         {
             if (obj is (InventoryItem item, EquipmentBuild build))
-                _applicationManager.OpenWeaponBuildWindow(item, build.MakeInventory());
+                _applicationManager.OpenWeaponBuildWindow(item, build.MakeInventory(), false);
         });
 
         private static WorkerTask ExportTask(Action action)

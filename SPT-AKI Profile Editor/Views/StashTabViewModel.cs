@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand InspectWeapon => new(obj =>
         {
             if (obj is InventoryItem item)
-                _applicationManager.OpenWeaponBuildWindow(item, GetInventory());
+                _applicationManager.OpenWeaponBuildWindow(item, GetInventory(), true);
         });
 
         public RelayCommand AddItem => new(obj =>

@@ -9,7 +9,7 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:spt_aki_profile_editor="clr-namespace:SPT_AKI_Profile_Editor"
-    Title="{Binding WindowTitle}"
+    Title="{Binding WindowTitle, FallbackValue=WindowTitle}"
     Width="600"
     MinWidth="600"
     MinHeight="220"
@@ -38,7 +38,7 @@
             VerticalAlignment="Center"
             FontSize="14"
             FontWeight="Bold"
-            Text="{Binding Path=WeaponBuild.Name}"
+            Text="{Binding Path=WeaponBuild.Name, FallbackValue=WeaponBuild.Name}"
             TextWrapping="Wrap" />
         <iconPacks:PackIconFontAwesome
             Grid.Row="0"
@@ -62,17 +62,18 @@
                 MinWidth="110"
                 Margin="5"
                 Command="{Binding AddToWeaponBuilds}"
-                Content="{Binding AppLocalization.Translations[weapon_build_window_add]}" />
+                Content="{Binding AppLocalization.Translations[weapon_build_window_add], FallbackValue=weapon_build_window_add}" />
             <Button
                 MinWidth="110"
                 Margin="5"
                 Command="{Binding ExportBuild}"
-                Content="{Binding AppLocalization.Translations[weapon_build_window_export]}" />
+                Content="{Binding AppLocalization.Translations[weapon_build_window_export], FallbackValue=weapon_build_window_export}" />
             <Button
                 MinWidth="110"
                 Margin="5"
                 Command="{Binding RemoveItem}"
-                Content="{Binding AppLocalization.Translations[tab_backups_remove]}" />
+                Content="{Binding AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove}"
+                Visibility="{Binding RemoveAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
         <extendedcontrols:WeaponBuildView
             Grid.Row="1"

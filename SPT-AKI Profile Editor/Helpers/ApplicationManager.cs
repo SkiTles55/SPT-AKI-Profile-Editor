@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed);
 
-        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory);
+        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory, bool removeAllowed);
 
         public void CloseItemViewWindows(List<string> idsList = null);
 
@@ -58,11 +58,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
             containerWindow.Show();
         }
 
-        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory)
+        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory, bool removeAllowed)
         {
             if (CheckForOpenedWindow(item.Id))
                 return;
-            WeaponBuildWindow weaponBuildWindow = new(item, inventory);
+            WeaponBuildWindow weaponBuildWindow = new(item, inventory, removeAllowed);
             weaponBuildWindow.Show();
         }
 

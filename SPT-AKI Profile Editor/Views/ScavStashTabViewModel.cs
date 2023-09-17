@@ -28,7 +28,9 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand InspectWeapon => new(obj =>
         {
             if (obj is InventoryItem item)
-                _applicationManager.OpenWeaponBuildWindow(item, Profile.Characters.GetInventory(StashEditMode.Scav));
+                _applicationManager.OpenWeaponBuildWindow(item,
+                                                          Profile.Characters.GetInventory(StashEditMode.Scav),
+                                                          true);
         });
 
         public RelayCommand RemoveItem => new(async obj =>

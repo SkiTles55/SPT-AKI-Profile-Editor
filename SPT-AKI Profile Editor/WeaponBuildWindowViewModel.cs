@@ -20,6 +20,7 @@ namespace SPT_AKI_Profile_Editor
                                            CharacterInventory inventory,
                                            IDialogCoordinator dialogCoordinator,
                                            IWindowsDialogs windowsDialogs,
+                                           bool removeAllowed,
                                            IDialogManager dialogManager = null,
                                            IWorker worker = null)
         {
@@ -35,11 +36,14 @@ namespace SPT_AKI_Profile_Editor
             if (innerItems != null)
                 items.AddRange(innerItems);
             WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
+            RemoveAllowed = removeAllowed;
         }
 
         public IWorker Worker { get; }
 
         public string WindowTitle { get; }
+
+        public bool RemoveAllowed { get; }
 
         public WeaponBuild WeaponBuild { get; }
 

@@ -8,11 +8,14 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class WeaponBuildWindow : ItemViewWindow
     {
-        public WeaponBuildWindow(InventoryItem item, CharacterInventory inventory) : base(item.Id)
+        public WeaponBuildWindow(InventoryItem item,
+                                 CharacterInventory inventory,
+                                 bool removeAllowed) : base(item.Id)
             => Setup(new WeaponBuildWindowViewModel(item,
                                                     inventory,
                                                     DialogCoordinator,
-                                                    App.WindowsDialogs));
+                                                    App.WindowsDialogs,
+                                                    removeAllowed));
 
         private void Setup(WeaponBuildWindowViewModel viewModel)
         {

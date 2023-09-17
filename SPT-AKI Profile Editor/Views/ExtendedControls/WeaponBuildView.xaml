@@ -8,6 +8,8 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Control"
+    d:Background="White"
+    d:Width="600"
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -94,13 +96,14 @@
             Grid.RowSpan="4"
             Grid.Column="2"
             Grid.ColumnSpan="2"
-            Margin="5,0,5,5"
+            Margin="5,5,5,5"
             mah:ControlsHelper.ContentCharacterCasing="Normal"
             mah:HeaderedControlHelper.HeaderBackground="Transparent"
             mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
             BorderThickness="0"
             Header="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_parts], FallbackValue=tab_preset_parts}">
             <DataGrid
+                d:ItemsSource="{d:SampleData ItemCount=4}"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
                 HeadersVisibility="None"
