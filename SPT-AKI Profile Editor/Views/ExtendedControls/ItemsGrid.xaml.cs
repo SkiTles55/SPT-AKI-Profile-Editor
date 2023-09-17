@@ -33,6 +33,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty PromptFontWeightProperty =
             DependencyProperty.Register(nameof(PromptFontWeight), typeof(FontWeight), typeof(ItemsGrid), new PropertyMetadata(FontWeights.Bold, null));
 
+        public static readonly DependencyProperty RemovingAllowedProperty =
+            DependencyProperty.Register(nameof(RemovingAllowed), typeof(bool), typeof(ItemsGrid), new PropertyMetadata(true, null));
+
         public ItemsGrid()
         {
             InitializeComponent();
@@ -78,6 +81,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (FontWeight)GetValue(PromptFontWeightProperty); }
             set { SetValue(PromptFontWeightProperty, value); }
+        }
+
+        public bool RemovingAllowed
+        {
+            get { return (bool)GetValue(RemovingAllowedProperty); }
+            set { SetValue(RemovingAllowedProperty, value); }
         }
 
         private void FilterBoxStash_TextChanged(object sender, TextChangedEventArgs e) =>

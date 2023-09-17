@@ -26,6 +26,9 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty ItemProperty =
             DependencyProperty.Register(nameof(Item), typeof(InventoryItem), typeof(ItemActions), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty RemovingAllowedProperty =
+            DependencyProperty.Register(nameof(RemovingAllowed), typeof(bool), typeof(ItemActions), new PropertyMetadata(true, null));
+
         public ItemActions()
         {
             InitializeComponent();
@@ -59,6 +62,12 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         {
             get { return (InventoryItem)GetValue(ItemProperty); }
             set { SetValue(ItemProperty, value); }
+        }
+
+        public bool RemovingAllowed
+        {
+            get { return (bool)GetValue(RemovingAllowedProperty); }
+            set { SetValue(RemovingAllowedProperty, value); }
         }
     }
 }

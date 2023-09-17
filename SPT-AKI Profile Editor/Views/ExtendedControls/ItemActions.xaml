@@ -21,6 +21,7 @@
             Grid.Column="0"
             Margin="5"
             VerticalAlignment="Center"
+            d:Visibility="Visible"
             Command="{Binding ElementName=Control, Path=InspectWeapon}"
             CommandParameter="{Binding ElementName=Control, Path=Item}"
             Icon="EyeSolid"
@@ -32,6 +33,7 @@
             Grid.Column="1"
             Margin="5"
             VerticalAlignment="Center"
+            d:Visibility="Visible"
             Command="{Binding ElementName=Control, Path=OpenContainer}"
             CommandParameter="{Binding ElementName=Control, Path=Item}"
             Icon="EyeSolid"
@@ -39,16 +41,21 @@
             Style="{StaticResource IconOnlyButton}"
             ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_open]}"
             Visibility="{Binding ElementName=Control, Path=Item.IsContainer, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
-        <extendedcontrols:ButtonFontAwesomeIcon
+        <Border
             Grid.Column="2"
             Margin="5"
             VerticalAlignment="Center"
-            Command="{Binding ElementName=Control, Path=RemoveItem}"
-            CommandParameter="{Binding ElementName=Control, Path=Item.Id}"
-            Icon="TrashAltSolid"
-            IconSize="15"
-            Style="{StaticResource IconOnlyButton}"
-            ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_backups_remove]}"
-            Visibility="{Binding ElementName=Control, Path=Item, Converter={StaticResource NullToVisibilityConverter}}" />
+            d:Visibility="Visible"
+            Visibility="{Binding ElementName=Control, Path=RemovingAllowed, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+            <extendedcontrols:ButtonFontAwesomeIcon
+                d:Visibility="Visible"
+                Command="{Binding ElementName=Control, Path=RemoveItem}"
+                CommandParameter="{Binding ElementName=Control, Path=Item.Id}"
+                Icon="TrashAltSolid"
+                IconSize="15"
+                Style="{StaticResource IconOnlyButton}"
+                ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_backups_remove]}"
+                Visibility="{Binding ElementName=Control, Path=Item, Converter={StaticResource NullToVisibilityConverter}}" />
+        </Border>
     </Grid>
 </UserControl>
