@@ -46,10 +46,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanAddWeaponToWeaponBuildsFromPmc()
         {
-            AppData.Profile.UserBuilds = new()
-            {
-                WeaponBuilds = new()
-            };
+            AppData.Profile.UserBuilds = new() { WeaponBuilds = new() };
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(worker, true);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
             Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", true)), Is.True);
@@ -58,10 +55,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanAddWeaponToWeaponBuildsFromScav()
         {
-            AppData.Profile.UserBuilds = new()
-            {
-                WeaponBuilds = new()
-            };
+            AppData.Profile.UserBuilds = new() { WeaponBuilds = new() };
             WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(worker, false);
             pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
             Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", false)), Is.True);

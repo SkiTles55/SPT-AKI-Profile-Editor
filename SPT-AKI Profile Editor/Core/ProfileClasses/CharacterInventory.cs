@@ -161,7 +161,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public void RemoveAllEquipment()
-            => FinalRemoveItems(EquipmentSlots?.SelectMany(x => x.ItemsList)?.Where(x => x != null)?.Select(x => x.Id));
+            => FinalRemoveItems(EquipmentSlots?
+                .SelectMany(x => x.ItemsList)?
+                .Where(x => x != null)?
+                .Select(x => x.Id));
 
         public int[,] GetSlotsMap(InventoryItem container)
         {

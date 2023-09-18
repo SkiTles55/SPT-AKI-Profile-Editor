@@ -8,12 +8,7 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
     {
         public EquipmentSlotPockets(string slotName,
                                     IEnumerable<InventoryItem> items) : base(slotName)
-        {
-            Items = items;
-            ItemsList = items.ToList();
-        }
-
-        public IEnumerable<InventoryItem> Items { get; }
+            => ItemsList = items.ToList();
 
         public override List<InventoryItem> ItemsList { get; }
 

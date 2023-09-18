@@ -62,11 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 WeaponBuildsChanged();
         }
 
-        public void RemoveWeaponBuilds()
-        {
-            WeaponBuilds = new();
-            WeaponBuildsChanged();
-        }
+        public void RemoveWeaponBuilds() => WeaponBuilds = new();
 
         public void RemoveEquipmentBuild(string id)
         {
@@ -75,11 +71,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 EquipmentBuildsChanged();
         }
 
-        public void RemoveEquipmentBuilds()
-        {
-            EquipmentBuilds = new();
-            EquipmentBuildsChanged();
-        }
+        public void RemoveEquipmentBuilds() => EquipmentBuilds = new();
 
         public void ImportWeaponBuildFromFile(string path)
         {
