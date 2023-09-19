@@ -7,12 +7,13 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
-        public static readonly string profileFile = @"F:\spt-beta\user\profiles\31b952f2dcdd027e62334b4e.json";
+        public static readonly string profileFile = @"F:\spt-beta\user\profiles\d8613e2e553409e27b06a74c.json";
         public static readonly string serverPath = @"F:\spt-beta";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");
         public static readonly string moddedWeaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testModdedBuild.json");
+        public static readonly string moddedEquipmentBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testModdedEquipmentBuild.json");
         public static readonly string appDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData");
         public static readonly string fileDownloaderTestUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/FAQ.md";
         public static readonly string fileDownloaderTestSavePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fileDownloaderTest.md");

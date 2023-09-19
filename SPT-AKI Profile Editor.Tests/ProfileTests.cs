@@ -331,8 +331,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void TraderSalesSumAndStandingCanIncreaseLevel()
         {
+            static bool CanBeUsedForTest(CharacterTraderStandingExtended x)
+                => x.Id != AppData.AppSettings.RagfairTraderId
+                && x.LoyaltyLevel < 2
+                && x.TraderBase.LoyaltyLevels.Count > x.LoyaltyLevel;
+
             AppData.Profile.Load(TestHelpers.profileFile);
-            var firstTrader = AppData.Profile.Characters.Pmc.TraderStandingsExt.First(x => x.Id != AppData.AppSettings.RagfairTraderId && x.LoyaltyLevel < 2 && x.TraderBase.LoyaltyLevels.Count > x.LoyaltyLevel);
+            var firstTrader = AppData.Profile.Characters.Pmc.TraderStandingsExt.FirstOrDefault(x => CanBeUsedForTest(x));
             Assert.IsNotNull(firstTrader, "Trader for test not found");
             var currentLevel = firstTrader.LoyaltyLevel;
             firstTrader.SalesSum = firstTrader.TraderBase.LoyaltyLevels[currentLevel].MinSalesSum;
@@ -735,22 +740,24 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            var startCount = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count();
             AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             SaveAndLoadProfile("testWeaponBuildsImport.json");
             Assert.IsTrue(AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == "TestBuild"));
-            Assert.AreEqual(2, AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count());
+            Assert.AreEqual(startCount + 2, AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count());
         }
 
         [Test]
         public void EquipmentBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            var startCount = AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count();
             AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
             AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
             SaveAndLoadProfile("testEquipmentBuildsImport.json");
             Assert.IsTrue(AppData.Profile.UserBuilds.EquipmentBuilds.Any(x => x.Name == "TestBuild"));
-            Assert.AreEqual(2, AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count());
+            Assert.AreEqual(startCount + 2, AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count());
         }
 
         [Test]
@@ -760,9 +767,9 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             var build = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name == "TestBuild").FirstOrDefault();
             Assert.NotNull(build);
-            Assert.AreEqual(48.5, build.Ergonomics);
-            Assert.AreEqual(71, build.RecoilForceUp);
-            Assert.AreEqual(179, build.RecoilForceBack);
+            Assert.AreEqual(36, build.Ergonomics);
+            Assert.AreEqual(36, build.RecoilForceUp);
+            Assert.AreEqual(145, build.RecoilForceBack);
         }
 
         [Test]

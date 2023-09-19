@@ -7,7 +7,8 @@
         Quest,
         ExaminedItem,
         Merchant,
-        WeaponBuild
+        WeaponBuild,
+        EquipmentBuild
     }
 
     public static class ModdedEntityTypeExtension
@@ -20,6 +21,7 @@
             ModdedEntityType.ExaminedItem => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_examined_item"),
             ModdedEntityType.Merchant => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_merchant"),
             ModdedEntityType.WeaponBuild => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_weapon_build"),
+            ModdedEntityType.EquipmentBuild => AppData.AppLocalization.GetLocalizedString("tab_clearing_from_mods_equipment_build"),
             _ => "unknown"
         };
 
