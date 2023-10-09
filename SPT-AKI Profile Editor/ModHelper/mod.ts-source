@@ -59,10 +59,6 @@ class Mod implements IPostAkiLoadMod
 		} else {
 			this.logger.log(`[${this.modName}] : DB is up to date!`, "green");
 		}
-		
-		for (const [key, value] of Object.entries(tables.traders)) {
-			this.logger.log(`[${key}] : ${value.base.nextResupply}`, "green");
-		}	
 	}
 	
 	private exportEntry(name: string, entry: Object): void {
