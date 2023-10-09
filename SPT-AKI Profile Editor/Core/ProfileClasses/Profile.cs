@@ -204,7 +204,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             WriteStash(pmc, Characters.Pmc.Inventory);
             WriteStash(scav, Characters.Scav.Inventory);
-            jobject.SelectToken("userbuilds").Replace(JObject.FromObject(UserBuilds).RemoveNullAndEmptyProperties());
+            WriteUserBuilds();
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
@@ -371,6 +371,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     }
                     pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
                 }
+            }
+
+            void WriteUserBuilds()
+            {
+                jobject.SelectToken("userbuilds").Replace(JObject.FromObject(UserBuilds).RemoveNullAndEmptyProperties());
+                if (!UserBuilds.EquipmentBuilds.Any())
+                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
+                if (!UserBuilds.WeaponBuilds.Any())
+                    jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
             }
         }
 
