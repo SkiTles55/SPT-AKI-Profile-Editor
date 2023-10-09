@@ -52,7 +52,8 @@ namespace SPT_AKI_Profile_Editor.Core
             GetModdedQuests(AppData.Profile?.Characters?.Pmc?.Quests, compositeCollection);
             GetModdedExaminedItems(AppData.Profile?.Characters?.Pmc?.Encyclopedia?.Keys, compositeCollection);
             GetModdedMerchants(AppData.Profile?.Characters?.Pmc?.TraderStandings?.Keys, compositeCollection);
-            GetModdedWeaponBuilds(AppData.Profile?.WeaponBuilds, compositeCollection);
+            GetModdedWeaponBuilds(AppData.Profile?.UserBuilds?.WeaponBuilds, compositeCollection);
+            GetModdedEquipmentBuilds(AppData.Profile?.UserBuilds?.EquipmentBuilds, compositeCollection);
 
             ModdedEntities = compositeCollection;
         }
@@ -90,7 +91,11 @@ namespace SPT_AKI_Profile_Editor.Core
                         break;
 
                     case ModdedEntityType.WeaponBuild:
-                        AppData.Profile.RemoveBuild(entity.Id);
+                        AppData.Profile.UserBuilds.RemoveWeaponBuild(entity.Id);
+                        break;
+
+                    case ModdedEntityType.EquipmentBuild:
+                        AppData.Profile.UserBuilds.RemoveEquipmentBuild(entity.Id);
                         break;
 
                     case ModdedEntityType.Merchant:
@@ -158,14 +163,25 @@ namespace SPT_AKI_Profile_Editor.Core
                                 compositeCollection);
         }
 
-        private void GetModdedWeaponBuilds(Dictionary<string, WeaponBuild> weaponBuildsDictionary,
+        private void GetModdedWeaponBuilds(List<WeaponBuild> weaponBuildsDictionary,
                                            ObservableCollection<ModdedEntity> compositeCollection)
         {
             if (weaponBuildsDictionary != null)
                 AddModdedEntity(weaponBuildsDictionary,
-                                x => x.Value.HasModdedItems,
-                                x => x.Key,
+                                x => x.HasModdedItems,
+                                x => x.Id,
                                 ModdedEntityType.WeaponBuild,
+                                compositeCollection);
+        }
+
+        private void GetModdedEquipmentBuilds(List<EquipmentBuild> equipmentBuilds,
+                                              ObservableCollection<ModdedEntity> compositeCollection)
+        {
+            if (equipmentBuilds != null)
+                AddModdedEntity(equipmentBuilds,
+                                x => x.BuildItems.Any(y => !y.IsInItemsDB),
+                                x => x.Id,
+                                ModdedEntityType.EquipmentBuild,
                                 compositeCollection);
         }
 

@@ -23,7 +23,7 @@
     mc:Ignorable="d">
     <TabControl mah:TabControlHelper.Underlined="SelectedTabItem" TabStripPlacement="Right">
         <TabItem
-            Header="{Binding AppLocalization.Translations[container_window_content]}"
+            Header="{Binding AppLocalization.Translations[container_window_content], FallbackValue=container_window_content}"
             HeaderTemplate="{StaticResource CharacterHeaderTemplate}"
             Visibility="{Binding ItemsAddingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid>
@@ -35,7 +35,8 @@
                     Grid.Row="0"
                     Margin="10"
                     HasItems="{Binding HasItems}"
-                    ItemsSource="{Binding Items}" />
+                    ItemsSource="{Binding Items}"
+                    RemovingAllowed="{Binding EditingAllowed}" />
                 <Button
                     Grid.Row="1"
                     Width="200"
@@ -43,12 +44,13 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding RemoveAllItems}"
-                    Content="{Binding AppLocalization.Translations[tab_stash_remove]}"
-                    IsEnabled="{Binding HasItems}" />
+                    Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+                    IsEnabled="{Binding HasItems}"
+                    Visibility="{Binding EditingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </TabItem>
         <TabItem
-            Header="{Binding AppLocalization.Translations[tab_stash_items_adding]}"
+            Header="{Binding AppLocalization.Translations[tab_stash_items_adding], FallbackValue=tab_stash_items_adding}"
             HeaderTemplate="{StaticResource CharacterHeaderTemplate}"
             Visibility="{Binding ItemsAddingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}">
             <extendedcontrols:ItemsAdding

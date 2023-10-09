@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public bool CanBeAddedToContainer(TarkovItem container)
         {
-            var filters = container.Properties?.Grids?.FirstOrDefault().Props?.Filters;
+            var filters = container.Properties?.Grids?.FirstOrDefault()?.Props?.Filters;
             if (filters == null || filters.Length == 0)
                 return true;
             if (filters[0].ExcludedFilter.Contains(Parent))

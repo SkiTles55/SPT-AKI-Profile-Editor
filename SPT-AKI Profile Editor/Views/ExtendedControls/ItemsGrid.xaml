@@ -136,7 +136,8 @@
                                 Item="{Binding}"
                                 LocalizationDict="{Binding Data.AppLocalization.Translations, Source={StaticResource proxy}}"
                                 OpenContainer="{Binding Data.OpenContainer, Source={StaticResource proxy}}"
-                                RemoveItem="{Binding Data.RemoveItem, Source={StaticResource proxy}}" />
+                                RemoveItem="{Binding Data.RemoveItem, Source={StaticResource proxy}}"
+                                RemovingAllowed="{Binding Data.RemovingAllowed, Source={StaticResource proxy2}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

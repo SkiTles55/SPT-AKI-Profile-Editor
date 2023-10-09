@@ -1,5 +1,4 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
 using System.IO;
@@ -8,15 +7,17 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
-        public static readonly string profileFile = @"D:\SPT-AKI\user\profiles\4340d36058d1d9dd13095e57.json";
-        public static readonly string serverPath = @"D:\SPT-AKI";
+        public static readonly string profileFile = @"F:\spt-beta\user\profiles\511e23f4b65b723d009fa534.json";
+        public static readonly string serverPath = @"F:\spt-beta";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");
         public static readonly string moddedWeaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testModdedBuild.json");
+        public static readonly string moddedEquipmentBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testModdedEquipmentBuild.json");
         public static readonly string appDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData");
         public static readonly string fileDownloaderTestUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/FAQ.md";
         public static readonly string fileDownloaderTestSavePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fileDownloaderTest.md");
+        public static readonly string equipmentBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testEquipmentBuild.json");
         private static App _app;
 
         static TestHelpers()
@@ -60,25 +61,18 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return items;
         }
 
-        public static string GetTestName(string prefix, StashEditMode editMode)
-        {
-            return editMode switch
-            {
-                StashEditMode.PMC => $"{prefix}_Test_PMC",
-                StashEditMode.Scav => $"{prefix}_Test_Scav",
-                _ => $"{prefix}_Test_Unknown",
-            };
-        }
+        public static string GetTestName(string prefix, bool isPmcItem)
+            => $"{prefix}_Test_{(isPmcItem ? "PMC" : "Scav")}";
 
-        public static void SetupTestCharacters(string prefix, StashEditMode editMode)
+        public static void SetupTestCharacters(string prefix)
         {
             CharacterInventory pmcInventory = new()
             {
-                Items = GenerateTestItems(3, GetTestName(prefix, editMode))
+                Items = GenerateTestItems(3, GetTestName(prefix, true))
             };
             CharacterInventory scavInventory = new()
             {
-                Items = GenerateTestItems(5, GetTestName(prefix, editMode))
+                Items = GenerateTestItems(5, GetTestName(prefix, false))
             };
             Character pmc = new()
             {

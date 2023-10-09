@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -30,5 +31,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged("Scav");
             }
         }
+
+        public CharacterInventory GetInventory(StashEditMode editMode) => editMode switch
+        {
+            StashEditMode.Scav => Scav?.Inventory,
+            _ => Pmc?.Inventory,
+        };
     }
 }

@@ -1,78 +1,96 @@
 {
-  "id": "0812222844637790821b3d0d",
-  "name": "Автомат Калашникова АК-12 5.45x39",
-  "root": "0811215747252072952cc3cf",
+  "id": "654eacde4b0b43b6ef0ebb59",
+  "name": "mppppp",
+  "root": "9f215cf9934fa41e9aab9363",
   "items": [
     {
-      "_id": "0811215747252072952cc3cf",
-      "_tpl": "6499849fc93611967b034949"
+      "_id": "9f215cf9934fa41e9aab9363",
+      "_tpl": "5de7bd7bfd6b4e6e2276dc25",
+      "upd": {
+        "Repairable": {
+          "MaxDurability": 55,
+          "Durability": 19
+        },
+        "Foldable": {
+          "Folded": false
+        },
+        "FireMode": {
+          "FireMode": "single"
+        }
+      }
     },
     {
-      "_id": "cb30760e547a3f07c263b047",
-      "_tpl": "55d480c04bdc2d1d4e8b456a",
-      "slotId": "mod_magazine",
-      "parentId": "0811215747252072952cc3cf"
+      "_id": "f1bec06a904d30d33ff52b13",
+      "_tpl": "5de8eac42a78646d96665d91",
+      "parentId": "9f215cf9934fa41e9aab9363",
+      "slotId": "mod_magazine"
     },
     {
-      "_id": "08112157475958849544556c",
-      "_tpl": "649ec107961514b22506b10c",
-      "slotId": "mod_gas_block",
-      "parentId": "0811215747252072952cc3cf"
+      "_id": "e5ddhhhh915b6b86fe88e3c4",
+      "_tpl": "5de8f237bbaf010b10528a70",
+      "parentId": "9f215cf9934fa41e9aab9363",
+      "slotId": "mod_muzzle"
     },
     {
-      "_id": "08112157474373371139e67a",
-      "_tpl": "5beec8ea0db834001a6f9dbf",
-      "slotId": "mod_pistol_grip",
-      "parentId": "0811215747252072952cc3cf"
+      "_id": "4d8379ad4d6ad60b0ddfc9a1",
+      "_tpl": "5de910da8b6c4240ba2651b5",
+      "parentId": "9f215cf9934fa41e9aab9363",
+      "slotId": "mod_stock"
     },
     {
-      "_id": "0811215747383785450e4863",
-      "_tpl": "649ec127c93611967b034957",
-      "slotId": "mod_handguard",
-      "parentId": "0811215747252072952cc3cf"
+      "_id": "558fa8ed16158abc2fccb45b",
+      "_tpl": "5de8fbad2fbe23140d3ee9c4",
+      "parentId": "9f215cf9934fa41e9aab9363",
+      "slotId": "mod_foregrip"
     },
     {
-      "_id": "0811215747478112812c2744",
-      "_tpl": "649ec2af961514b22506b10f",
-      "slotId": "mod_muzzle",
-      "parentId": "0811215747252072952cc3cf"
+      "_id": "872e67dfkkkkaca11b17c9d0",
+      "_tpl": "5de8e67c4a9jjjjbc92edbd7",
+      "parentId": "9f215cf9934fa41e9aab9363",
+      "slotId": "mod_reciever"
     },
     {
-      "_id": "08112157471250109870aa71",
-      "_tpl": "649ec2f3961514b22506b111",
-      "slotId": "mod_reciever",
-      "parentId": "0811215747252072952cc3cf"
+      "_id": "0feaa14c0a36837db0fda740",
+      "_tpl": "5de922d4b11454561e39239f",
+      "parentId": "9f215cf9934fa41e9aab9363",
+      "slotId": "mod_charge"
     },
     {
-      "_id": "6d24bd254f6d74a768a314f2",
-      "_tpl": "5c0505e00db834001b735073",
+      "_id": "6baffa1881c7b312d79fe1db",
+      "_tpl": "5de8f2d5b74cdiiii0650c72",
+      "parentId": "e5dd4745915b6b86fe88e3c4",
+      "slotId": "mod_muzzle"
+    },
+    {
+      "_id": "7824ea238a50f7c845371cc4",
+      "_tpl": "560d657b4bdc2da74d8b4572",
+      "parentId": "e5dd4745915b6b86fe88e3c4",
+      "slotId": "mod_tactical",
+      "upd": {
+        "Light": {
+          "IsActive": true,
+          "SelectedMode": 0
+        }
+      }
+    },
+    {
+      "_id": "f3150fc4641d3d7ca110212b",
+      "_tpl": "59f9d8158moddedc7506ee62",
+      "parentId": "872e67df7744aca11b17c9d0",
       "slotId": "mod_scope",
-      "parentId": "08112157471250109870aa71"
-    },
-    {
-      "_id": "08112157474042827101a5be",
-      "_tpl": "649ec2da59cbb3c813042dca",
-      "slotId": "mod_sight_rear",
-      "parentId": "08112157471250109870aa71"
-    },
-    {
-      "_id": "0811215747461076190b8178",
-      "_tpl": "649ec2cec93611967b03495e",
-      "slotId": "mod_sight_rear",
-      "parentId": "08112157474042827101a5be"
-    },
-    {
-      "_id": "08112157472173067589d0fc",
-      "_tpl": "649ec87d8007560a9001ab36",
-      "slotId": "mod_stock_001",
-      "parentId": "0811215747252072952cc3cf"
-    },
-    {
-      "_id": "081121574759723387752658",
-      "_tpl": "5beec8c20db834001d2c465c",
-      "slotId": "mod_stock",
-      "parentId": "08112157472173067589d0fc"
+      "upd": {
+        "Sight": {
+          "ScopesCurrentCalibPointIndexes": [
+            0
+          ],
+          "ScopesSelectedModes": [
+            0
+          ],
+          "SelectedScope": 0
+        }
+      }
     }
   ],
-  "Parent": "5447b5f14bdc2d61278b4567"
+  "type": "weapon",
+  "Parent": "5447b5e04bdc2d62278b4567"
 }

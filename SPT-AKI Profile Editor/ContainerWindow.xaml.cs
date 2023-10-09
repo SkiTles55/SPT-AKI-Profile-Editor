@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
-using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+﻿using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor
@@ -9,10 +8,17 @@ namespace SPT_AKI_Profile_Editor
     /// </summary>
     public partial class ContainerWindow : ItemViewWindow
     {
-        public ContainerWindow(InventoryItem item, StashEditMode editMode) : base(item.Id)
+        public ContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed) : base(item.Id)
+            => Setup(new ContainerWindowViewModel(item,
+                                                  inventory,
+                                                  DialogCoordinator,
+                                                  App.ApplicationManager,
+                                                  editingAllowed));
+
+        private void Setup(ContainerWindowViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new ContainerWindowViewModel(item, editMode, DialogCoordinator, App.ApplicationManager);
+            DataContext = viewModel;
             this.AllowDragging();
         }
     }

@@ -2,11 +2,13 @@
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.Equipment;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -265,40 +267,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void InventoryEquipmentNotEmpty() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Equipment);
 
         [Test]
-        public void PmcInventoryFirstPrimaryWeaponNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.FirstPrimaryWeapon);
-
-        [Test]
-        public void ScavInventoryFirstPrimaryWeaponNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon);
-
-        [Test]
-        public void PmcInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Headwear);
-
-        [Test]
-        public void ScavInventoryHeadwearNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Headwear);
-
-        [Test]
-        public void PmcInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.TacticalVest);
-
-        [Test]
-        public void ScavInventoryTacticalVestNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.TacticalVest);
-
-        [Test]
-        public void PmcInventorySecuredContainerNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.SecuredContainer);
-
-        [Test]
-        public void ScavInventorySecuredContainerIsNull() => Assert.Null(AppData.Profile.Characters.Scav.Inventory.SecuredContainer);
-
-        [Test]
-        public void PmcInventoryBackpackNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Backpack);
-
-        [Test]
-        public void ScavInventoryBackpackNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Backpack);
-
-        [Test]
-        public void PmcInventoryEarpieceNotNull() => Assert.NotNull(AppData.Profile.Characters.Pmc.Inventory.Earpiece);
-
-        [Test]
-        public void ScavInventoryEarpieceNotNull() => Assert.NotNull(AppData.Profile.Characters.Scav.Inventory.Earpiece);
+        public void PmcEquipmentNotNullAndEmpty()
+        {
+            Assert.That(AppData.Profile.Characters.Pmc.Inventory.EquipmentSlots, Is.Not.Null, "Pmc equipment is null");
+            Assert.That(AppData.Profile.Characters.Pmc.Inventory.EquipmentSlots.SelectMany(x => x.ItemsList).Any(), Is.True, "Pmc equipment is true");
+        }
 
         [Test]
         public void InventoryItemsNotEmpty() => Assert.IsFalse(AppData.Profile.Characters.Pmc.Inventory.Items.Length == 0);
@@ -307,14 +280,23 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void PmcPocketsNotNull() => Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.Inventory.Pockets);
 
         [Test]
-        public void WeaponBuildsNotNull() => Assert.IsNotNull(AppData.Profile.WeaponBuilds);
+        public void WeaponBuildsNotNull() => Assert.IsNotNull(AppData.Profile.UserBuilds.WeaponBuilds);
 
         [Test]
         public void WeaponBuildsNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            Assert.IsFalse(AppData.Profile.WeaponBuilds.Count == 0);
-            Assert.IsFalse(AppData.Profile.WBuilds.Count == 0);
+            CheckBuilds(AppData.Profile.UserBuilds.WeaponBuilds, AppData.Profile.UserBuilds.WBuilds);
+        }
+
+        [Test]
+        public void EquipmentBuildsNotNull() => Assert.IsNotNull(AppData.Profile.UserBuilds.EquipmentBuilds);
+
+        [Test]
+        public void EquipmentBuildsNotEmpty()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            CheckBuilds(AppData.Profile.UserBuilds.EquipmentBuilds, AppData.Profile.UserBuilds.EBuilds);
         }
 
         [Test]
@@ -349,8 +331,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void TraderSalesSumAndStandingCanIncreaseLevel()
         {
+            static bool CanBeUsedForTest(CharacterTraderStandingExtended x)
+                => x.Id != AppData.AppSettings.RagfairTraderId
+                && x.LoyaltyLevel < 2
+                && x.TraderBase.LoyaltyLevels.Count > x.LoyaltyLevel;
+
             AppData.Profile.Load(TestHelpers.profileFile);
-            var firstTrader = AppData.Profile.Characters.Pmc.TraderStandingsExt.First(x => x.Id != AppData.AppSettings.RagfairTraderId && x.LoyaltyLevel < 2 && x.TraderBase.LoyaltyLevels.Count > x.LoyaltyLevel);
+            var firstTrader = AppData.Profile.Characters.Pmc.TraderStandingsExt.FirstOrDefault(x => CanBeUsedForTest(x));
             Assert.IsNotNull(firstTrader, "Trader for test not found");
             var currentLevel = firstTrader.LoyaltyLevel;
             firstTrader.SalesSum = firstTrader.TraderBase.LoyaltyLevels[currentLevel].MinSalesSum;
@@ -516,11 +503,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ScavStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            string expectedId1 = AppData.Profile.Characters.Scav.Inventory.TacticalVest?.Id;
-            string expectedId2 = AppData.Profile.Characters.Scav.Inventory.FirstPrimaryWeapon?.Id ?? AppData.Profile.Characters.Scav.Inventory.Holster?.Id;
-            Assert.IsNotNull(expectedId1, "TacticalVest is null");
-            Assert.IsNotNull(expectedId2, "FirstPrimaryWeapon is null");
-            RemovingItemsSavesCorrectly(new() { expectedId1, expectedId2 }, AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingItems.json");
+            var expectedIds = AppData.Profile.Characters.Scav.Inventory.EquipmentSlots
+                .Where(x => x is EquipmentSlotItem && x.ItemsList.Any())
+                .Take(2)
+                .SelectMany(x => x.ItemsList)
+                .Where(x => x != null)
+                .Select(x => x.Id)
+                .ToList();
+            RemovingItemsSavesCorrectly(expectedIds, AppData.Profile.Characters.Scav.Inventory, "testScavStashRemovingItems.json");
         }
 
         [Test]
@@ -680,58 +670,106 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void WeaponBuildRemoveSavesCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
-            var expected = AppData.Profile.WeaponBuilds.FirstOrDefault().Key;
-            AppData.Profile.RemoveBuild(expected);
+            var expectedId = AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault().Id;
+            AppData.Profile.UserBuilds.RemoveWeaponBuild(expectedId);
             SaveAndLoadProfile("testWeaponBuildRemove.json");
-            Assert.IsFalse(AppData.Profile.WeaponBuilds.ContainsKey(expected));
+            Assert.IsNull(AppData.Profile.UserBuilds?.WeaponBuilds?.FirstOrDefault(x => x.Id == expectedId));
         }
 
         [Test]
         public void WeaponBuildsRemoveSavesCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
-            AppData.Profile.RemoveBuilds();
+            AppData.Profile.UserBuilds.RemoveWeaponBuilds();
             SaveAndLoadProfile("testWeaponBuildsRemove.json");
-            Assert.IsFalse(AppData.Profile.WeaponBuilds.Any());
+            Assert.IsFalse(AppData.Profile.UserBuilds?.WeaponBuilds?.Any() == true);
+        }
+
+        [Test]
+        public void EquipmentBuildRemoveSavesCorrectly()
+        {
+            LoadProfileAndPrepareEquipmentBuilds();
+            var expectedId = AppData.Profile.UserBuilds.EquipmentBuilds.FirstOrDefault().Id;
+            AppData.Profile.UserBuilds.RemoveEquipmentBuild(expectedId);
+            SaveAndLoadProfile("testEquipmentBuildRemove.json");
+            Assert.IsNull(AppData.Profile.UserBuilds.EquipmentBuilds?.FirstOrDefault(x => x.Id == expectedId));
+        }
+
+        [Test]
+        public void EquipmentBuildsRemoveSavesCorrectly()
+        {
+            LoadProfileAndPrepareEquipmentBuilds();
+            AppData.Profile.UserBuilds.RemoveEquipmentBuilds();
+            SaveAndLoadProfile("testEquipmentBuildsRemove.json");
+            Assert.IsFalse(AppData.Profile.UserBuilds?.EquipmentBuilds?.Any() == true);
         }
 
         [Test]
         public void WeaponBuildExportCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
-            var expected = AppData.Profile.WeaponBuilds.FirstOrDefault();
+            var expected = AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testWeaponBuildExport.json");
-            Profile.ExportBuild(expected.Value, testFile);
+            UserBuilds.ExportBuild(expected, testFile);
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(testFile));
-            Assert.AreEqual(expected.Value.Name, weaponBuild.Name);
-            Assert.AreEqual(expected.Value.Root, weaponBuild.Root);
-            Assert.AreEqual(expected.Value.RecoilForceBack, weaponBuild.RecoilForceBack);
-            Assert.AreEqual(expected.Value.RecoilForceUp, weaponBuild.RecoilForceUp);
-            Assert.AreEqual(expected.Value.Ergonomics, weaponBuild.Ergonomics);
-            Assert.AreEqual(expected.Value.Items.Length, weaponBuild.Items.Length);
+            Assert.AreEqual(expected.Name, weaponBuild.Name);
+            Assert.AreEqual(expected.Root, weaponBuild.Root);
+            Assert.AreEqual(expected.RecoilForceBack, weaponBuild.RecoilForceBack);
+            Assert.AreEqual(expected.RecoilForceUp, weaponBuild.RecoilForceUp);
+            Assert.AreEqual(expected.Ergonomics, weaponBuild.Ergonomics);
+            Assert.AreEqual(expected.Items.Length, weaponBuild.Items.Length);
+            Assert.AreEqual(expected.Type, WeaponBuild.WeaponBuildType);
+        }
+
+        [Test]
+        public void EquipmentBuildExportCorrectly()
+        {
+            LoadProfileAndPrepareEquipmentBuilds();
+            var expected = AppData.Profile.UserBuilds.EquipmentBuilds.FirstOrDefault();
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testEquipmentBuildExport.json");
+            UserBuilds.ExportBuild(expected, testFile);
+            EquipmentBuild equipmentBuild = JsonConvert.DeserializeObject<EquipmentBuild>(File.ReadAllText(testFile));
+            Assert.AreEqual(expected.Name, equipmentBuild.Name);
+            Assert.AreEqual(expected.Root, equipmentBuild.Root);
+            Assert.AreEqual(expected.Items.Length, equipmentBuild.Items.Length);
+            Assert.AreEqual(expected.FastPanel?.Length ?? 0, equipmentBuild.FastPanel?.Length ?? 0);
+            Assert.AreEqual(expected.Type, EquipmentBuild.EquipmentBuildType);
         }
 
         [Test]
         public void WeaponBuildImportSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            var startCount = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count();
+            AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
+            AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             SaveAndLoadProfile("testWeaponBuildsImport.json");
-            Assert.IsTrue(AppData.Profile.WeaponBuilds.ContainsKey("TestBuild"));
-            Assert.AreEqual(2, AppData.Profile.WeaponBuilds.Where(x => x.Value.Name.StartsWith("Test")).Count());
+            Assert.IsTrue(AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == "TestBuild"));
+            Assert.AreEqual(startCount + 2, AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count());
+        }
+
+        [Test]
+        public void EquipmentBuildImportSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var startCount = AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count();
+            AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
+            AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
+            SaveAndLoadProfile("testEquipmentBuildsImport.json");
+            Assert.IsTrue(AppData.Profile.UserBuilds.EquipmentBuilds.Any(x => x.Name == "TestBuild"));
+            Assert.AreEqual(startCount + 2, AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count());
         }
 
         [Test]
         public void WeaponBuildCalculatingCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
-            var build = AppData.Profile.WeaponBuilds.Where(x => x.Key == "TestBuild").FirstOrDefault();
+            AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
+            var build = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name == "TestBuild").FirstOrDefault();
             Assert.NotNull(build);
-            Assert.AreEqual(48.5, build.Value.Ergonomics);
-            Assert.AreEqual(71, build.Value.RecoilForceUp);
-            Assert.AreEqual(179, build.Value.RecoilForceBack);
+            Assert.AreEqual(36, build.Ergonomics);
+            Assert.AreEqual(36, build.RecoilForceUp);
+            Assert.AreEqual(145, build.RecoilForceBack);
         }
 
         [Test]
@@ -814,6 +852,12 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum, "Health.BodyParts.RightLeg.Health.Maximum is not 700");
         }
 
+        private static void CheckBuilds<T>(List<T> buildsList, ObservableCollection<T> buildsCollection) where T : Build
+        {
+            Assert.IsFalse(buildsList.Count == 0);
+            Assert.IsFalse(buildsCollection.Count == 0);
+        }
+
         private static void TestAddingItemsToQuestStash(StashType stashType, string filename, string expectedStashId)
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -850,8 +894,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void LoadProfileAndPrepareWeaponBuilds()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            if (AppData.Profile.WeaponBuilds.Count == 0)
-                AppData.Profile.ImportBuildFromFile(TestHelpers.weaponBuild);
+            if (AppData.Profile.UserBuilds.WeaponBuilds.Count == 0)
+                AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
+        }
+
+        private static void LoadProfileAndPrepareEquipmentBuilds()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            if (AppData.Profile.UserBuilds.EquipmentBuilds.Count == 0)
+                AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
         }
 
         private static void CommonSkillsSavesCorrectly(Character character, string filename)
@@ -891,20 +942,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             inventory.RemoveAllEquipment();
             SaveAndLoadProfile(filename);
-            Assert.Null(inventory.FirstPrimaryWeapon);
-            Assert.Null(inventory.Headwear);
-            Assert.Null(inventory.TacticalVest);
-            Assert.Null(inventory.SecuredContainer);
-            Assert.Null(inventory.Backpack);
-            Assert.Null(inventory.Earpiece);
-            Assert.Null(inventory.FaceCover);
-            Assert.Null(inventory.Eyewear);
-            Assert.Null(inventory.ArmorVest);
-            Assert.Null(inventory.SecondPrimaryWeapon);
-            Assert.Null(inventory.Holster);
-            Assert.Null(inventory.Scabbard);
-            Assert.Null(inventory.ArmBand);
-            Assert.AreEqual(0, inventory.PocketsItems.Count());
+            Assert.False(inventory.EquipmentSlots.SelectMany(x => x.ItemsList).Any(x => x != null));
         }
 
         private static void DisableAutoAddDataInSettings()

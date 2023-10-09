@@ -1,0 +1,156 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.EquipmentSlotsList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:equipment="clr-namespace:SPT_AKI_Profile_Editor.Core.Equipment"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    x:Name="Control"
+    d:Background="White"
+    d:DesignWidth="500"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <viewHelpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <ControlTemplate x:Key="moddedItemIcon" TargetType="Label">
+            <Label
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="Red"
+                ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_is_modded_item]}">
+                <iconPacks:PackIconFontAwesome
+                    Width="18"
+                    Height="18"
+                    Kind="ExclamationTriangleSolid" />
+            </Label>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <ItemsControl d:ItemsSource="{d:SampleData ItemCount=3}" ItemsSource="{Binding ElementName=Control, Path=ItemsSource}">
+        <ItemsControl.Resources>
+            <DataTemplate DataType="{x:Type equipment:EquipmentSlotItem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" MinWidth="83" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding Path=SlotName, FallbackValue=SlotName}"
+                        Template="{StaticResource TitleLabel}" />
+                    <DockPanel Grid.Column="1" Margin="2,0,2,0">
+                        <extendedcontrols:IconWithBackground
+                            Width="30"
+                            Height="30"
+                            Margin="2"
+                            Source="{Binding Item.CategoryIcon}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
+                        <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Label.Content>
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{Binding Item.LocalizedName}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                                                    <Setter Property="Text" Value="{Binding EmptySlotText}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Label.Content>
+                        </Label>
+                    </DockPanel>
+                    <Label
+                        Grid.Column="2"
+                        Template="{StaticResource moddedItemIcon}"
+                        Visibility="{Binding Item.IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                    <extendedcontrols:TextField Grid.Column="3" DataContext="{Binding Item.Id}" />
+                    <extendedcontrols:ItemActions
+                        Grid.Column="4"
+                        InspectWeapon="{Binding ElementName=Control, Path=InspectWeapon}"
+                        Item="{Binding Item}"
+                        LocalizationDict="{Binding ElementName=Control, Path=LocalizationDict}"
+                        OpenContainer="{Binding ElementName=Control, Path=OpenContainer}"
+                        RemoveItem="{Binding ElementName=Control, Path=RemoveItem}" />
+                </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type equipment:EquipmentSlotPockets}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="{Binding Path=SlotName, FallbackValue=SlotName}"
+                        Template="{StaticResource TitleLabel}" />
+                    <Label Grid.Column="1" Visibility="{Binding Path=PocketsHasItems, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Label.Content>
+                            <TextBlock
+                                Text="{Binding ElementName=Control, Path=LocalizationDict[tab_stash_no_items], FallbackValue=tab_stash_no_items}"
+                                TextAlignment="Left"
+                                TextWrapping="Wrap" />
+                        </Label.Content>
+                    </Label>
+                    <ItemsControl Grid.Column="1" ItemsSource="{Binding Path=ItemsList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" MinWidth="83" />
+                                    </Grid.ColumnDefinitions>
+                                    <DockPanel Grid.Column="0" Margin="2,0,2,0">
+                                        <extendedcontrols:IconWithBackground
+                                            Width="30"
+                                            Height="30"
+                                            Margin="2"
+                                            Source="{Binding CategoryIcon}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
+                                        <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Label.Content>
+                                                <TextBlock TextWrapping="Wrap">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value="{Binding LocalizedName}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                                    <Setter Property="Text" Value="{Binding EmptySlotText}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                    </DockPanel>
+                                    <Label
+                                        Grid.Column="1"
+                                        Template="{StaticResource moddedItemIcon}"
+                                        Visibility="{Binding IsInItemsDB, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}" />
+                                    <extendedcontrols:TextField Grid.Column="2" DataContext="{Binding Id}" />
+                                    <extendedcontrols:ItemActions
+                                        Grid.Column="3"
+                                        InspectWeapon="{Binding ElementName=Control, Path=InspectWeapon}"
+                                        Item="{Binding}"
+                                        LocalizationDict="{Binding ElementName=Control, Path=LocalizationDict}"
+                                        OpenContainer="{Binding ElementName=Control, Path=OpenContainer}"
+                                        RemoveItem="{Binding ElementName=Control, Path=RemoveItem}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.Resources>
+    </ItemsControl>
+</UserControl>

@@ -1,0 +1,125 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.BuildsTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewHelpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    Dialog:DialogParticipation.Register="{Binding}"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance Type=views:BuildsTabViewModel}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <viewHelpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <TabControl
+        mah:TabControlHelper.Transition="Up"
+        mah:TabControlHelper.Underlined="SelectedTabItem"
+        Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
+        TabStripPlacement="Right">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_weapon_user], FallbackValue=tab_presets_weapon_user}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <extendedcontrols:WeaponBuildsList
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding Profile.UserBuilds.WBuilds}" />
+                <extendedcontrols:EmptyDataPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    d:Visibility="Hidden"
+                    Text="{Binding AppLocalization.Translations[tab_presets_weapons_empty], FallbackValue=tab_presets_weapons_empty}"
+                    Visibility="{Binding Profile.UserBuilds.HasWeaponBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ImportWeaponBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ExportWeaponBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding RemoveWeaponBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasWeaponBuilds, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_equipment_user], FallbackValue=tab_presets_equipment_user}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <extendedcontrols:EquipmentBuildsList
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{Binding Profile.UserBuilds.EBuilds}"
+                    RemoveAllowed="True" />
+                <extendedcontrols:EmptyDataPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    d:Visibility="Hidden"
+                    Text="{Binding AppLocalization.Translations[tab_presets_equipment_empty], FallbackValue=tab_presets_equipment_empty}"
+                    Visibility="{Binding Profile.UserBuilds.HasEquipmentBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ImportEquipmentBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding ExportEquipmentBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasEquipmentBuilds, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    MinWidth="170"
+                    Margin="5,10,5,0"
+                    Command="{Binding RemoveEquipmentBuilds}"
+                    Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+                    IsEnabled="{Binding Path=Profile.UserBuilds.HasEquipmentBuilds, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_presets_weapon_global], FallbackValue=tab_presets_weapon_global}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <extendedcontrols:WeaponBuildsList ItemsSource="{Binding ServerDatabase.ServerGlobals.GlobalBuilds}" RemoveAllowed="False" />
+        </TabItem>
+    </TabControl>
+</UserControl>

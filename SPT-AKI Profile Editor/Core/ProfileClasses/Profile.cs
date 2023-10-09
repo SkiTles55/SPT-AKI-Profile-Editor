@@ -5,7 +5,6 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -17,11 +16,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public List<ModdedEntity> ModdedEntitiesForRemoving = new();
 
         private ProfileCharacters characters;
-
         private string[] suits;
-
-        private Dictionary<string, WeaponBuild> weaponBuilds;
-
+        private UserBuilds userBuilds;
         private int profileHash = 0;
 
         [JsonProperty("characters")]
@@ -31,8 +27,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 characters = value;
-                OnPropertyChanged("Characters");
-                OnPropertyChanged("IsProfileEmpty");
+                OnPropertyChanged(nameof(Characters));
+                OnPropertyChanged(nameof(IsProfileEmpty));
             }
         }
 
@@ -43,48 +39,26 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 suits = value;
-                OnPropertyChanged("Suits");
+                OnPropertyChanged(nameof(Suits));
             }
         }
 
-        [JsonProperty("weaponbuilds")]
-        public Dictionary<string, WeaponBuild> WeaponBuilds
+        [JsonProperty("userbuilds")]
+        public UserBuilds UserBuilds
         {
-            get => weaponBuilds;
+            get => userBuilds;
             set
             {
-                weaponBuilds = value;
-                WeaponBuildsChanged();
+                userBuilds = value;
+                OnPropertyChanged(nameof(UserBuilds));
             }
         }
-
-        [JsonIgnore]
-        public ObservableCollection<KeyValuePair<string, WeaponBuild>> WBuilds => WeaponBuilds != null ? new(WeaponBuilds) : new();
-
-        [JsonIgnore]
-        public bool HasWeaponBuilds => WBuilds.Count > 0;
 
         [JsonIgnore]
         public bool IsProfileEmpty => Characters?.Pmc?.Info == null;
 
         [JsonIgnore]
         public int ProfileHash => profileHash;
-
-        public static void ExportBuild(WeaponBuild weaponBuild, string path)
-        {
-            try
-            {
-                JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented };
-                JsonSerializer serializer = JsonSerializer.Create(seriSettings);
-                var build = JObject.FromObject(weaponBuild, serializer).RemoveNullAndEmptyProperties();
-                File.WriteAllText(path, JsonConvert.SerializeObject(build, Formatting.Indented));
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"WeaponBuild export error: {ex.Message}");
-                throw new Exception(ex.Message);
-            }
-        }
 
         public void Load(string path)
         {
@@ -121,7 +95,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             AddMisingHeadToServerDatabase(profile.Characters?.Scav);
             Characters = profile.Characters;
             Suits = profile.Suits;
-            WeaponBuilds = profile.WeaponBuilds;
+            UserBuilds = profile.UserBuilds;
 
             static void AddMisingHeadToServerDatabase(Character character)
             {
@@ -195,47 +169,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 && profile.Characters?.Scav?.Skills?.Mastering != null;
         }
 
-        public void RemoveBuild(string key)
-        {
-            if (WeaponBuilds.Remove(key))
-                WeaponBuildsChanged();
-        }
-
-        public void RemoveBuilds()
-        {
-            WeaponBuilds = new();
-            WeaponBuildsChanged();
-        }
-
-        public void ImportBuildFromFile(string path)
-        {
-            try
-            {
-                WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(path));
-                if (weaponBuild.Name == null)
-                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_wrong_file") + ":" + Environment.NewLine + path);
-                ImportBuild(weaponBuild);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"WeaponBuild import error: {ex.Message}");
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public void ImportBuild(WeaponBuild weaponBuild)
-        {
-            WeaponBuilds ??= new();
-            int count = 1;
-            string tempFileName = weaponBuild.Name;
-            while (WeaponBuilds.ContainsKey(tempFileName))
-                tempFileName = string.Format("{0}({1})", weaponBuild.Name, count++);
-            weaponBuild.Name = tempFileName;
-            weaponBuild.Id = ExtMethods.GenerateNewId(WeaponBuilds.Values.Select(x => x.Id));
-            WeaponBuilds.Add(weaponBuild.Name, weaponBuild);
-            WeaponBuildsChanged();
-        }
-
         public void Save(string targetPath, string savePath = null)
         {
             if (string.IsNullOrEmpty(savePath))
@@ -271,7 +204,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             jobject.SelectToken("suits").Replace(JToken.FromObject(Suits.ToArray()));
             WriteStash(pmc, Characters.Pmc.Inventory);
             WriteStash(scav, Characters.Scav.Inventory);
-            jobject.SelectToken("weaponbuilds").Replace(JObject.FromObject(WeaponBuilds).RemoveNullAndEmptyProperties());
+            WriteUserBuilds();
             string json = JsonConvert.SerializeObject(jobject, seriSettings);
             File.WriteAllText(savePath, json);
 
@@ -439,15 +372,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     pmc.SelectToken("Hideout").SelectToken("Areas")[i]["level"] = areaInfo.Level;
                 }
             }
+
+            void WriteUserBuilds()
+            {
+                jobject.SelectToken("userbuilds").Replace(JObject.FromObject(UserBuilds).RemoveNullAndEmptyProperties());
+                if (!UserBuilds.EquipmentBuilds.Any())
+                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
+                if (!UserBuilds.WeaponBuilds.Any())
+                    jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
+            }
         }
 
         public bool IsProfileChanged() => ProfileHash != 0 && ProfileHash != JsonConvert.SerializeObject(this).ToString().GetHashCode();
-
-        private void WeaponBuildsChanged()
-        {
-            OnPropertyChanged("WeaponBuilds");
-            OnPropertyChanged("WBuilds");
-            OnPropertyChanged("HasWeaponBuilds");
-        }
     }
 }

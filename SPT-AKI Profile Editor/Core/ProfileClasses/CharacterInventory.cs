@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.Equipment;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
@@ -96,43 +97,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool InventoryHaveDuplicatedItems => GroupedInventory.Any();
 
         [JsonIgnore]
-        public InventoryItem FirstPrimaryWeapon => GetEquipment(AppData.AppSettings.FirstPrimaryWeaponSlotId);
-
-        [JsonIgnore]
-        public InventoryItem Headwear => GetEquipment(AppData.AppSettings.HeadwearSlotId);
-
-        [JsonIgnore]
-        public InventoryItem TacticalVest => GetEquipment(AppData.AppSettings.TacticalVestSlotId);
-
-        [JsonIgnore]
-        public InventoryItem SecuredContainer => GetEquipment(AppData.AppSettings.SecuredContainerSlotId);
-
-        [JsonIgnore]
-        public InventoryItem Backpack => GetEquipment(AppData.AppSettings.BackpackSlotId);
-
-        [JsonIgnore]
-        public InventoryItem Earpiece => GetEquipment(AppData.AppSettings.EarpieceSlotId);
-
-        [JsonIgnore]
-        public InventoryItem FaceCover => GetEquipment(AppData.AppSettings.FaceCoverSlotId);
-
-        [JsonIgnore]
-        public InventoryItem Eyewear => GetEquipment(AppData.AppSettings.EyewearSlotId);
-
-        [JsonIgnore]
-        public InventoryItem ArmorVest => GetEquipment(AppData.AppSettings.ArmorVestSlotId);
-
-        [JsonIgnore]
-        public InventoryItem SecondPrimaryWeapon => GetEquipment(AppData.AppSettings.SecondPrimaryWeaponSlotId);
-
-        [JsonIgnore]
-        public InventoryItem Holster => GetEquipment(AppData.AppSettings.HolsterSlotId);
-
-        [JsonIgnore]
-        public InventoryItem Scabbard => GetEquipment(AppData.AppSettings.ScabbardSlotId);
-
-        [JsonIgnore]
-        public InventoryItem ArmBand => GetEquipment(AppData.AppSettings.ArmBandSlotId);
+        public List<EquipmentSlot> EquipmentSlots
+            => EquipmentAdapter.GetCharacterEquipment(this,
+                                                      Equipment,
+                                                      AppData.ServerDatabase?.LocalesGlobal,
+                                                      AppData.AppLocalization,
+                                                      AppData.AppSettings);
 
         [JsonIgnore]
         public IEnumerable<InventoryItem> PocketsItems => Items?
@@ -142,10 +112,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool PocketsHasItems => PocketsItems?.Count() > 0;
 
         [JsonIgnore]
-        public bool HasEquipment => FirstPrimaryWeapon != null || Headwear != null || TacticalVest != null || SecuredContainer != null
-            || Backpack != null || Earpiece != null || FaceCover != null || Eyewear != null || ArmorVest != null
-            || SecondPrimaryWeapon != null || Holster != null || Scabbard != null || ArmBand != null
-            || PocketsItems?.Count() > 0;
+        public bool HasEquipment
+            => EquipmentSlots?.SelectMany(x => x.ItemsList)?.Any(x => x != null) == true;
 
         private IEnumerable<string> GroupedInventory => Items?
             .GroupBy(x => x.Id)
@@ -193,25 +161,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public void RemoveAllEquipment()
-        {
-            FinalRemoveItems(new List<string>
-            {
-                FirstPrimaryWeapon?.Id,
-                Headwear?.Id,
-                TacticalVest?.Id,
-                SecuredContainer?.Id,
-                Backpack?.Id,
-                Earpiece?.Id,
-                FaceCover?.Id,
-                Eyewear?.Id,
-                ArmorVest?.Id,
-                SecondPrimaryWeapon?.Id,
-                Holster?.Id,
-                Scabbard?.Id,
-                ArmBand?.Id
-            });
-            FinalRemoveItems(PocketsItems?.Select(x => x.Id));
-        }
+            => FinalRemoveItems(EquipmentSlots?
+                .SelectMany(x => x.ItemsList)?
+                .Where(x => x != null)?
+                .Select(x => x.Id));
 
         public int[,] GetSlotsMap(InventoryItem container)
         {
@@ -481,8 +434,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
             }
         }
-
-        private InventoryItem GetEquipment(string slotId) => Items?.Where(x => x.ParentId == Equipment && x.SlotId == slotId)?.FirstOrDefault();
 
         private List<string> GetCompleteItemsList(IEnumerable<string> items)
         {

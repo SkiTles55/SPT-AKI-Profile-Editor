@@ -1,11 +1,8 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
-using SPT_AKI_Profile_Editor.Views;
-using System.ComponentModel;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -21,17 +18,17 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
-        public void InitializeCorrectlyForPmc() => InitializeCorrectly(TestViewModel(StashEditMode.PMC), 3);
+        public void InitializeCorrectlyForPmc() => InitializeCorrectly(TestViewModel(true), 3);
 
         [Test]
-        public void InitializeCorrectlyForScav() => InitializeCorrectly(TestViewModel(StashEditMode.Scav), 5);
+        public void InitializeCorrectlyForScav() => InitializeCorrectly(TestViewModel(false), 5);
 
         [Test]
         public void CanOpenContainer()
         {
             var applicationManager = new TestsApplicationManager();
-            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC, applicationManager);
-            pmcContainer.OpenContainer.Execute(null);
+            ContainerWindowViewModel pmcContainer = TestViewModel(true, applicationManager);
+            pmcContainer.OpenContainer.Execute(pmcContainer.Items.FirstOrDefault());
             Assert.That(applicationManager.ContainerWindowOpened, Is.True);
         }
 
@@ -39,15 +36,15 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void CanInspectWeapon()
         {
             var applicationManager = new TestsApplicationManager();
-            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC, applicationManager);
-            pmcContainer.InspectWeapon.Execute(null);
+            ContainerWindowViewModel pmcContainer = TestViewModel(true, applicationManager);
+            pmcContainer.InspectWeapon.Execute(pmcContainer.Items.FirstOrDefault());
             Assert.That(applicationManager.WeaponBuildWindowOpened, Is.True);
         }
 
         [Test]
         public void CanRemoveItem()
         {
-            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
+            ContainerWindowViewModel pmcContainer = TestViewModel(true);
             var item = pmcContainer.Items[0];
             pmcContainer.RemoveItem.Execute(item.Id);
             Assert.That(pmcContainer.Items.IndexOf(item), Is.EqualTo(-1), "Item not removed");
@@ -56,7 +53,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanRemoveAllItems()
         {
-            ContainerWindowViewModel pmcContainer = TestViewModel(StashEditMode.PMC);
+            ContainerWindowViewModel pmcContainer = TestViewModel(true);
             Assert.That(pmcContainer.HasItems, Is.True, "ContainerWindowViewModel does not contains items");
             pmcContainer.RemoveAllItems.Execute(null);
             Assert.That(pmcContainer.HasItems, Is.False, "ContainerWindowViewModel contains items after RemoveAllItems");
@@ -68,7 +65,13 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             TestHelpers.LoadDatabaseAndProfile();
             var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer && x.CanAddItems).FirstOrDefault();
             Assert.That(container, Is.Not.Null, "Cant find container");
-            ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, worker);
+            ContainerWindowViewModel pmcContainer = new(container,
+                                                        AppData.Profile.Characters.Pmc.Inventory,
+                                                        null,
+                                                        null,
+                                                        true,
+                                                        dialogManager,
+                                                        worker);
             Assert.That(pmcContainer.ItemsAddingAllowed, Is.True, "Items adding not allowed for opened container");
             Assert.That(pmcContainer.ItemsAddingBlocked, Is.False, "Items adding blocked for opened container");
             var painkiller = AppData.ServerDatabase.ItemsDB["544fb37f4bdc2dee738b4567"];
@@ -84,7 +87,13 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             TestHelpers.LoadDatabaseAndProfile();
             var container = AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Where(x => x.IsContainer && x.CanAddItems).FirstOrDefault();
             TestsDialogManager dialogManager = new();
-            ContainerWindowViewModel pmcContainer = new(container, StashEditMode.PMC, null, null, dialogManager, null);
+            ContainerWindowViewModel pmcContainer = new(container,
+                                                        AppData.Profile.Characters.Pmc.Inventory,
+                                                        null,
+                                                        null,
+                                                        true,
+                                                        dialogManager,
+                                                        null);
             pmcContainer.ShowAllItems.Execute(null);
             Assert.That(dialogManager.AllItemsDialogOpened, Is.True, "AllItems dialog not showed");
         }
@@ -103,15 +112,22 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             });
         }
 
-        private static ContainerWindowViewModel TestViewModel(StashEditMode editMode, IApplicationManager applicationManager = null)
+        private static ContainerWindowViewModel TestViewModel(bool isPmcItem,
+                                                              IApplicationManager applicationManager = null)
         {
-            TestHelpers.SetupTestCharacters("ContainerWindowViewModel", editMode);
+            TestHelpers.SetupTestCharacters("ContainerWindowViewModel");
             InventoryItem item = new()
             {
-                Id = TestHelpers.GetTestName("ContainerWindowViewModel", editMode),
+                Id = TestHelpers.GetTestName("ContainerWindowViewModel", isPmcItem),
                 Tpl = backpackTpl
             };
-            return new(item, editMode, null, applicationManager, dialogManager, worker);
+            return new(item,
+                       isPmcItem ? AppData.Profile.Characters.Pmc.Inventory : AppData.Profile.Characters.Scav.Inventory,
+                       null,
+                       applicationManager,
+                       true,
+                       dialogManager,
+                       worker);
         }
     }
 }

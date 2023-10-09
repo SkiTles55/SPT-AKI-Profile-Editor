@@ -2,7 +2,6 @@
 using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System;
@@ -20,9 +19,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public RelayCommand CloseApplication { get; }
 
-        public void OpenContainerWindow(object obj, StashEditMode editMode);
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed);
 
-        public void OpenWeaponBuildWindow(object obj, StashEditMode editMode);
+        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory, bool removeAllowed);
 
         public void CloseItemViewWindows(List<string> idsList = null);
 
@@ -51,23 +50,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public RelayCommand CloseApplication => new(obj => Application.Current.Shutdown());
 
-        public void OpenContainerWindow(object obj, StashEditMode editMode)
+        public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed)
         {
-            if (obj == null || obj is not InventoryItem item)
-                return;
             if (CheckForOpenedWindow(item.Id))
                 return;
-            ContainerWindow containerWindow = new(item, editMode);
+            ContainerWindow containerWindow = new(item, inventory, editingAllowed);
             containerWindow.Show();
         }
 
-        public void OpenWeaponBuildWindow(object obj, StashEditMode editMode)
+        public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory, bool removeAllowed)
         {
-            if (obj == null || obj is not InventoryItem item)
-                return;
             if (CheckForOpenedWindow(item.Id))
                 return;
-            WeaponBuildWindow weaponBuildWindow = new(item, editMode);
+            WeaponBuildWindow weaponBuildWindow = new(item, inventory, removeAllowed);
             weaponBuildWindow.Show();
         }
 
