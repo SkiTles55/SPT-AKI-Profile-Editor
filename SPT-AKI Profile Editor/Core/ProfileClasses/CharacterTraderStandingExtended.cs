@@ -20,6 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Standing = id == AppData.AppSettings.RagfairTraderId ? ragfairRating : standing.Standing;
             Id = id;
             TraderBase = traderBase;
+            MaxLevel = Math.Max(TraderBase?.LoyaltyLevels.Count ?? 0, TraderStanding.LoyaltyLevel);
             LoadBitmapImage();
         }
 
@@ -29,7 +30,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public TraderBase TraderBase { get; }
         public BitmapImage BitmapImage { get; private set; }
 
-        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[Id.Nickname()] : Id;
+        public string LocalizedName
+            => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[Id.Nickname()] : Id;
 
         public int LoyaltyLevel
         {
@@ -39,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 levelStart ??= TraderStanding.LoyaltyLevel;
                 value = Math.Min(Math.Max(value, 1), MaxLevel);
                 TraderStanding.LoyaltyLevel = value;
-                OnPropertyChanged("LoyaltyLevel");
+                OnPropertyChanged(nameof(LoyaltyLevel));
                 SetSalesSum(value);
                 SetStanding(value);
                 SetUnlocked(value);
@@ -54,7 +56,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 TraderStanding.Standing = value;
                 if (Id == AppData.AppSettings.RagfairTraderId)
                     AppData.Profile.Characters.Pmc.RagfairInfo.Rating = value;
-                OnPropertyChanged("Standing");
+                OnPropertyChanged(nameof(Standing));
                 SetLevel();
             }
         }
@@ -65,12 +67,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 TraderStanding.SalesSum = value;
-                OnPropertyChanged("SalesSum");
+                OnPropertyChanged(nameof(SalesSum));
                 SetLevel();
             }
         }
 
-        public int MaxLevel => TraderBase?.LoyaltyLevels.Count ?? 0;
+        public int MaxLevel { get; }
 
         public bool HasLevelIssue(int? level)
         {
@@ -83,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             salesSumStart ??= TraderStanding.SalesSum;
             var minSalesSum = TraderBase?.LoyaltyLevels[level - 1].MinSalesSum ?? TraderStanding.SalesSum;
             TraderStanding.SalesSum = level >= levelStart ? Math.Max(minSalesSum, salesSumStart.Value) : Math.Min(minSalesSum, salesSumStart.Value);
-            OnPropertyChanged("SalesSum");
+            OnPropertyChanged(nameof(SalesSum));
         }
 
         private void SetStanding(int level)
@@ -91,7 +93,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             staindingStart ??= TraderStanding.Standing;
             var minStanding = TraderBase?.LoyaltyLevels[level - 1].MinStanding ?? TraderStanding.Standing;
             TraderStanding.Standing = level >= levelStart ? Math.Max(minStanding, staindingStart.Value) : Math.Min(minStanding, staindingStart.Value);
-            OnPropertyChanged("Standing");
+            OnPropertyChanged(nameof(Standing));
         }
 
         private void SetUnlocked(int level)
@@ -110,7 +112,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (Standing >= level.MinStanding && SalesSum >= level.MinSalesSum && LoyaltyLevel != newLevel)
                 {
                     TraderStanding.LoyaltyLevel = newLevel;
-                    OnPropertyChanged("LoyaltyLevel");
+                    OnPropertyChanged(nameof(LoyaltyLevel));
                 }
                 newLevel++;
             }
