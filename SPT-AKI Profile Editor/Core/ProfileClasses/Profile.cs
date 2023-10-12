@@ -189,10 +189,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 TradersInfo.RemoveFields(tradersIdsForRemove);
             foreach (var trader in Characters.Pmc.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
             {
-                TradersInfo.SelectToken(trader.Key)["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
-                TradersInfo.SelectToken(trader.Key)["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
-                TradersInfo.SelectToken(trader.Key)["standing"] = Math.Round(Characters.Pmc.TraderStandings[trader.Key].Standing, 2);
-                TradersInfo.SelectToken(trader.Key)["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
+                TradersInfo.SelectToken($"['{trader.Key}']")["loyaltyLevel"] = Characters.Pmc.TraderStandings[trader.Key].LoyaltyLevel;
+                TradersInfo.SelectToken($"['{trader.Key}']")["salesSum"] = Characters.Pmc.TraderStandings[trader.Key].SalesSum;
+                TradersInfo.SelectToken($"['{trader.Key}']")["standing"] = Math.Round(Characters.Pmc.TraderStandings[trader.Key].Standing, 2);
+                TradersInfo.SelectToken($"['{trader.Key}']")["unlocked"] = Characters.Pmc.TraderStandings[trader.Key].Unlocked;
             }
             pmc.SelectToken("RagfairInfo")["rating"] = Math.Round(Characters.Pmc.RagfairInfo.Rating, 2);
             WriteQuests();
