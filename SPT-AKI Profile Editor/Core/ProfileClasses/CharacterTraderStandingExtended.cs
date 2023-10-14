@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -77,13 +78,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool HasLevelIssue(int? level)
         {
             var currentLevelIndex = Math.Min(Math.Max(0, LoyaltyLevel - 1), MaxLevel - 1);
-            return TraderBase?.LoyaltyLevels[currentLevelIndex].MinLevel > level;
+            return TraderBase?.LoyaltyLevels.ElementAtOrDefault(currentLevelIndex)?.MinLevel > level;
         }
 
         private void SetSalesSum(int level)
         {
             salesSumStart ??= TraderStanding.SalesSum;
-            var minSalesSum = TraderBase?.LoyaltyLevels[level - 1].MinSalesSum ?? TraderStanding.SalesSum;
+            var minSalesSum = TraderBase?.LoyaltyLevels.ElementAtOrDefault(level - 1)?.MinSalesSum ?? TraderStanding.SalesSum;
             TraderStanding.SalesSum = level >= levelStart ? Math.Max(minSalesSum, salesSumStart.Value) : Math.Min(minSalesSum, salesSumStart.Value);
             OnPropertyChanged(nameof(SalesSum));
         }
@@ -91,7 +92,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private void SetStanding(int level)
         {
             staindingStart ??= TraderStanding.Standing;
-            var minStanding = TraderBase?.LoyaltyLevels[level - 1].MinStanding ?? TraderStanding.Standing;
+            var minStanding = TraderBase?.LoyaltyLevels.ElementAtOrDefault(level - 1)?.MinStanding ?? TraderStanding.Standing;
             TraderStanding.Standing = level >= levelStart ? Math.Max(minStanding, staindingStart.Value) : Math.Min(minStanding, staindingStart.Value);
             OnPropertyChanged(nameof(Standing));
         }
