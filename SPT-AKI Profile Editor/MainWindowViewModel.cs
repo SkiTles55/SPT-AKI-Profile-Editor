@@ -2,8 +2,12 @@
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor
@@ -88,37 +92,49 @@ namespace SPT_AKI_Profile_Editor
             if (AppData.AppSettings.PathIsServerFolder() && _applicationManager.CheckProcess())
                 await _dialogManager.ShutdownCozServerRunned();
             _applicationManager.CloseItemViewWindows();
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () => AppData.StartupEvents(_cleaningService),
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
-            });
+            _worker.AddTask(ProgressTask(() => AppData.StartupEvents(_cleaningService)));
         }
 
         public async Task<bool> ConfirmShutdown() => await _dialogManager.YesNoDialog(AppLocalization.GetLocalizedString("app_quit"),
                                                                                       AppLocalization.GetLocalizedString("reload_profile_dialog_caption"));
 
-        private static WorkerTask SaveProfileTask()
-        {
-            return new WorkerTask
-            {
-                Action = () =>
-                {
-                    AppData.BackupService.CreateBackup();
-                    Profile.Save(Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.DirsList[SPTServerDir.profiles], AppData.AppSettings.DefaultProfile));
-                },
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
-                WorkerNotification = new()
-                {
-                    NotificationTitle = AppLocalization.GetLocalizedString("save_profile_dialog_title"),
-                    NotificationDescription = AppLocalization.GetLocalizedString("save_profile_dialog_caption")
-                }
-            };
-        }
+        private static WorkerTask ProgressTask(Action action)
+            => new(action,
+                   AppLocalization.GetLocalizedString("progress_dialog_title"),
+                   AppLocalization.GetLocalizedString("save_profile_dialog_title"));
 
         private static void ChangeMode() => AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
+
+        private static bool NeedShowSettings()
+            => string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
+            || !AppData.AppSettings.PathIsServerFolder()
+            || !AppData.AppSettings.ServerHaveProfiles()
+            || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile);
+
+        private void SaveProfileAction()
+        {
+            AppData.BackupService.CreateBackup();
+            var results = Profile.Save(Path.Combine(AppData.AppSettings.ServerPath,
+                                                    AppData.AppSettings.DirsList[SPTServerDir.profiles],
+                                                    AppData.AppSettings.DefaultProfile));
+            ShowSaveResults(results);
+        }
+
+        private async void ShowSaveResults(List<SaveException> exceptions)
+        {
+            if (exceptions.Any())
+            {
+                string messageKey = exceptions.HaveAllErrors()
+                    ? "profile_not_saved_dialog_caption"
+                    : "profile_saved_with_errors_dialog_caption";
+                await _dialogManager.ShowOkMessageAsync(AppLocalization.GetLocalizedString(messageKey),
+                                                        exceptions.GetLocalizedDescription());
+                return;
+            }
+
+            await _dialogManager.ShowOkMessageAsync(AppLocalization.GetLocalizedString("save_profile_dialog_title"),
+                                                        AppLocalization.GetLocalizedString("save_profile_dialog_caption"));
+        }
 
         private void OpenFAQUrl()
         {
@@ -128,17 +144,14 @@ namespace SPT_AKI_Profile_Editor
 
         private void SaveAction()
         {
-            _worker.AddTask(SaveProfileTask());
+            _worker.AddTask(ProgressTask(() => SaveProfileAction()));
             StartupEventsWorker();
         }
 
         private async Task InitializeViewModel()
         {
             _applicationManager.ChangeTheme();
-            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
-            || !AppData.AppSettings.PathIsServerFolder()
-            || !AppData.AppSettings.ServerHaveProfiles()
-            || string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
+            if (NeedShowSettings())
                 await _dialogManager.ShowSettingsDialog(ReloadCommand,
                                                         OpenFAQ,
                                                         _worker,

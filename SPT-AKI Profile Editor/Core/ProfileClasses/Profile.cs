@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static SPT_AKI_Profile_Editor.Core.ProfileClasses.ProfileSaver;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -168,11 +169,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 && profile.Characters?.Scav?.Skills?.Mastering != null;
         }
 
-        public void Save(string targetPath, string savePath = null)
-        {
-            new ProfileSaver(this).Save(targetPath, savePath);
-        }
+        public List<SaveException> Save(string targetPath, string savePath = null)
+            => new ProfileSaver(this).Save(targetPath, savePath);
 
-        public bool IsProfileChanged() => ProfileHash != 0 && ProfileHash != JsonConvert.SerializeObject(this).ToString().GetHashCode();
+        public bool IsProfileChanged()
+            => ProfileHash != 0 && ProfileHash != JsonConvert.SerializeObject(this).ToString().GetHashCode();
     }
 }

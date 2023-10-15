@@ -6,9 +6,44 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static SPT_AKI_Profile_Editor.Core.ProfileClasses.ProfileSaver;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
+    public static class SaveEntryExtension
+    {
+        public static string LocalizedName(this SaveEntry entry)
+            => entry switch
+            {
+                SaveEntry.UserBuilds => AppData.AppLocalization.GetLocalizedString("tab_presets_title"),
+                SaveEntry.Suits => AppData.AppLocalization.GetLocalizedString("tab_clothing_title"),
+                SaveEntry.Traders => AppData.AppLocalization.GetLocalizedString("tab_merchants_title"),
+                SaveEntry.Encyclopedia => AppData.AppLocalization.GetLocalizedString("tab_examined_items_title"),
+                SaveEntry.CharacterInfoPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_info_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
+                SaveEntry.CharacterInfoScav => $"{AppData.AppLocalization.GetLocalizedString("tab_info_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
+                SaveEntry.CharacterHealthPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_info_health")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
+                SaveEntry.CharacterHealthScav => $"{AppData.AppLocalization.GetLocalizedString("tab_info_health")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
+                SaveEntry.Quests => AppData.AppLocalization.GetLocalizedString("tab_quests_title"),
+                SaveEntry.CommonSkillsPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_skills_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
+                SaveEntry.CommonSkillsScav => $"{AppData.AppLocalization.GetLocalizedString("tab_skills_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
+                SaveEntry.MasteringSkillsPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_mastering_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
+                SaveEntry.MasteringSkillsScav => $"{AppData.AppLocalization.GetLocalizedString("tab_mastering_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
+                SaveEntry.StashPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
+                SaveEntry.StashScav => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
+                SaveEntry.Hideout => AppData.AppLocalization.GetLocalizedString("tab_hideout_title"),
+                _ => entry.ToString(),
+            };
+    }
+
+    public static class IEnumerableExtension
+    {
+        public static bool HaveAllErrors(this IEnumerable<SaveException> entries)
+            => Enum.GetNames(typeof(SaveEntry)).Length == entries.Count();
+
+        public static string GetLocalizedDescription(this IEnumerable<SaveException> exceptions)
+            => string.Join("\n", exceptions.Select(x => $"{x.Entry.LocalizedName()}: {x.Exception.Message}"));
+    }
+
     public class ProfileSaver
     {
         private readonly Profile profile;
@@ -65,7 +100,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash, SaveEntry.StashPmc);
             WriteStash(scav, profile.Characters.Scav.Inventory, newStash, SaveEntry.StashScav);
             WriteUserBuilds(jobject);
-            if (exceptions.Count < Enum.GetNames(typeof(SaveEntry)).Length)
+            if (!exceptions.HaveAllErrors())
             {
                 string json = JsonConvert.SerializeObject(jobject, SeriSettings);
                 File.WriteAllText(savePath, json);
@@ -324,17 +359,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.UserBuilds, ex)); }
         }
+    }
 
-        public class SaveException
+    public class SaveException
+    {
+        public SaveException(SaveEntry entry, Exception exception)
         {
-            public SaveException(SaveEntry entry, Exception exception)
-            {
-                Entry = entry;
-                Exception = exception;
-            }
-
-            private SaveEntry Entry { get; }
-            private Exception Exception { get; }
+            Entry = entry;
+            Exception = exception;
         }
+
+        public SaveEntry Entry { get; }
+        public Exception Exception { get; }
     }
 }
