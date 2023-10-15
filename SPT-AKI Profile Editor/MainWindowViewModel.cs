@@ -69,19 +69,22 @@ namespace SPT_AKI_Profile_Editor
 
         public async void SaveProfileAndReload()
         {
-            AppData.IssuesService.GetIssues();
-            if (AppData.IssuesService.HasIssues)
+            if (AppData.AppSettings.IssuesAction != IssuesAction.AlwaysIgnore)
             {
-                switch (AppData.AppSettings.IssuesAction)
+                AppData.IssuesService.GetIssues();
+                if (AppData.IssuesService.HasIssues)
                 {
-                    case IssuesAction.AlwaysShow:
-                        RelayCommand saveCommand = new(obj => SaveAction());
-                        await _dialogManager.ShowIssuesDialog(saveCommand, AppData.IssuesService);
-                        return;
+                    switch (AppData.AppSettings.IssuesAction)
+                    {
+                        case IssuesAction.AlwaysShow:
+                            RelayCommand saveCommand = new(obj => SaveAction());
+                            await _dialogManager.ShowIssuesDialog(saveCommand, AppData.IssuesService);
+                            return;
 
-                    case IssuesAction.AlwaysFix:
-                        AppData.IssuesService.FixAllIssues();
-                        break;
+                        case IssuesAction.AlwaysFix:
+                            AppData.IssuesService.FixAllIssues();
+                            break;
+                    }
                 }
             }
             SaveAction();
