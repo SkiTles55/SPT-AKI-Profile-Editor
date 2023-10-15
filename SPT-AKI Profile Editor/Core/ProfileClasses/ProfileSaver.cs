@@ -221,7 +221,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                             questToken["status"] = edited.Status.ToString();
                             questToken["statusTimers"] = JObject.FromObject(edited.StatusTimers);
                             if (edited.Status <= QuestStatus.AvailableForStart && questToken["completedConditions"] != null)
-                                questToken["completedConditions"].Replace(JToken.FromObject(Array.Empty<string>()));
+                                questToken["completedConditions"]?.Replace(JToken.FromObject(Array.Empty<string>()));
                         }
                     }
 
@@ -350,12 +350,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             try
             {
-                JToken userBuildsToken = jobject.SelectToken("userbuilds");
-                userBuildsToken.Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
-                if (!profile.UserBuilds.EquipmentBuilds?.Any() != true)
-                    userBuildsToken["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
-                if (!profile.UserBuilds.WeaponBuilds?.Any() != true)
-                    userBuildsToken["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
+                jobject.SelectToken("userbuilds").Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
+                if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
+                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
+                if (profile.UserBuilds.WeaponBuilds?.Any() != true)
+                    jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.UserBuilds, ex)); }
         }
