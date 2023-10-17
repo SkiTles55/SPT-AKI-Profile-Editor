@@ -67,6 +67,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private string language;
         private string colorScheme;
         private bool autoAddMissingQuests;
+        private bool autoAddMissingEventQuests;
         private bool autoAddMissingScavSkills;
         private bool autoAddMissingMasterings;
         private string pocketsContainerTpl;
@@ -179,6 +180,16 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 autoAddMissingQuests = value;
                 NotifyPropertyChangedAndSave(nameof(AutoAddMissingQuests));
+            }
+        }
+
+        public bool AutoAddMissingEventQuests
+        {
+            get => autoAddMissingEventQuests;
+            set
+            {
+                autoAddMissingEventQuests = value;
+                NotifyPropertyChangedAndSave(nameof(AutoAddMissingEventQuests));
             }
         }
 
@@ -482,6 +493,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 + Language
                 + UsingModHelper
                 + AutoAddMissingQuests.ToString()
+                + AutoAddMissingEventQuests.ToString()
                 + AutoAddMissingMasterings.ToString()
                 + AutoAddMissingScavSkills.ToString()
                 + CommonSkillMaxValue.ToString()
@@ -606,6 +618,7 @@ namespace SPT_AKI_Profile_Editor.Core
             FilesList = loaded.FilesList;
             AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
             AutoAddMissingQuests = loaded.AutoAddMissingQuests;
+            AutoAddMissingEventQuests = loaded.AutoAddMissingEventQuests;
             AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
             PocketsContainerTpl = loaded.PocketsContainerTpl;
             FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
@@ -804,6 +817,7 @@ namespace SPT_AKI_Profile_Editor.Core
             CheckUpdates = DefaultValues.CheckUpdates;
             UsingModHelper = false;
             AutoAddMissingQuests = false;
+            AutoAddMissingEventQuests = false;
             AutoAddMissingMasterings = false;
             AutoAddMissingScavSkills = false;
             PocketsContainerTpl = DefaultValues.PocketsContainerTpl;

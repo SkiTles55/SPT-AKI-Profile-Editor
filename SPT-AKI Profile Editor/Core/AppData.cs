@@ -2,6 +2,7 @@
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses.Configs;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly AppSettings AppSettings;
         public static readonly AppLocalization AppLocalization;
         public static readonly Profile Profile;
+        public static readonly ServerConfigs ServerConfigs;
         public static readonly ServerDatabase ServerDatabase;
         public static readonly GridFilters GridFilters;
         public static readonly BackupService BackupService;
@@ -34,6 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core
             AppLocalization = new(AppSettings.Language, Path.Combine(AppDataPath, "Localizations"));
             IssuesService = new();
             Profile = new();
+            ServerConfigs = new();
             ServerDatabase = new();
             HelperModManager = new HelperModManager(AppSettings.modHelperUpdateUrl, Path.Combine(AppDataPath, "ModHelperUpdate"));
         }
@@ -47,6 +50,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadItemsDB();
                 LoadServerGlobals();
                 LoadTradersInfos();
+                LoadQuestConfig();
                 LoadQuestsData();
                 LoadHideoutAreaInfos();
                 FindPockets();
@@ -194,6 +198,20 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             try { traderInfos.Add(traderId, JsonConvert.DeserializeObject<TraderBase>(File.ReadAllText(filepath))); }
             catch (Exception ex) { Logger.Log($"ServerDatabase TraderInfo ({traderId}) loading error: {ex.Message}"); }
+        }
+
+        private static void LoadQuestConfig()
+        {
+            ServerConfigs.Quest = new();
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("QuestConfig.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.questConfig]);
+            try
+            {
+                Quest questConfig = JsonConvert.DeserializeObject<Quest>(File.ReadAllText(path));
+                ServerConfigs.Quest = questConfig;
+            }
+            catch (Exception ex) { Logger.Log($"ServerConfigs Quest ({path}) loading error: {ex.Message}"); }
         }
 
         private static void LoadQuestsData()

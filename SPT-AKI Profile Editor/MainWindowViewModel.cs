@@ -95,16 +95,16 @@ namespace SPT_AKI_Profile_Editor
             if (AppData.AppSettings.PathIsServerFolder() && _applicationManager.CheckProcess())
                 await _dialogManager.ShutdownCozServerRunned();
             _applicationManager.CloseItemViewWindows();
-            _worker.AddTask(ProgressTask(() => AppData.StartupEvents(_cleaningService)));
+            _worker.AddTask(ProgressTask(() => AppData.StartupEvents(_cleaningService), "progress_dialog_caption"));
         }
 
         public async Task<bool> ConfirmShutdown() => await _dialogManager.YesNoDialog(AppLocalization.GetLocalizedString("app_quit"),
                                                                                       AppLocalization.GetLocalizedString("reload_profile_dialog_caption"));
 
-        private static WorkerTask ProgressTask(Action action)
+        private static WorkerTask ProgressTask(Action action, string captionKey)
             => new(action,
                    AppLocalization.GetLocalizedString("progress_dialog_title"),
-                   AppLocalization.GetLocalizedString("save_profile_dialog_title"));
+                   AppLocalization.GetLocalizedString(captionKey));
 
         private static void ChangeMode() => AppData.AppSettings.FastModeOpened = !AppData.AppSettings.FastModeOpened;
 
@@ -147,7 +147,7 @@ namespace SPT_AKI_Profile_Editor
 
         private void SaveAction()
         {
-            _worker.AddTask(ProgressTask(() => SaveProfileAction()));
+            _worker.AddTask(ProgressTask(() => SaveProfileAction(), "save_profile_dialog_title"));
             StartupEventsWorker();
         }
 
