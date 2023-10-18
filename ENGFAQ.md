@@ -78,3 +78,6 @@ Turn on "Adding missing Scav skills to the profile \ Adding missing weapon maste
 ### Names of items, quests, skills, etc. do not match the names in the game
 The language selected in the game does not match to the selected localization in the profile editor. If the required localization is missing, you can create the necessary one, using the English localization as a basis: [(Editing \ creating localization files)](/Guidelines/LocalizationsENG.md)
 #### UPD: Starting from version 2.4, you can create a new localization in the settings by clicking on the "+" button next to the selected language.
+
+### "Item added by mod found. Use the section \"Cleaning from mods\" to remove such items." error when adding an item
+Typically, this error occurs if stash have weapon with a spare part added by mods. Remove this weapon\move it to some container\or use a helper mod.
