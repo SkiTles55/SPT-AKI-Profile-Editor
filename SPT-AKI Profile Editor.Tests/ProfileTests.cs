@@ -373,6 +373,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsStatusesSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = true;
+            AppData.AppSettings.AutoAddMissingEventQuests = true;
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllQuests(QuestStatus.Fail);
             SaveAndLoadProfile("testQuests.json");
