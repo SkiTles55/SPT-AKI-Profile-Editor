@@ -107,6 +107,18 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadBotTypes()
         {
+            static string GetHeadName(string headKey, string botName)
+            {
+                if (ServerDatabase.LocalesGlobal.ContainsKey(headKey.Name()))
+                {
+                    var localizedName = ServerDatabase.LocalesGlobal[headKey.Name()];
+                    if (!string.IsNullOrWhiteSpace(localizedName))
+                        return localizedName;
+                }
+
+                return $"{Path.GetFileNameWithoutExtension(botName)} [{headKey}]";
+            }
+
             Dictionary<string, string> Heads = new();
             Dictionary<string, string> Voices = new();
             foreach (var btype in Directory.GetFiles(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.bots])))
@@ -119,7 +131,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     if (bot.Appearance.Heads != null)
                         foreach (var head in bot.Appearance.Heads)
                             if (!Heads.ContainsKey(head))
-                                Heads.Add(head, ServerDatabase.LocalesGlobal.ContainsKey(head.Name()) ? ServerDatabase.LocalesGlobal[head.Name()] : head);
+                                Heads.Add(head, GetHeadName(head, btype));
                     if (bot.Appearance.Voices != null)
                         foreach (var voice in bot.Appearance.Voices)
                             if (!Voices.ContainsKey(voice))
