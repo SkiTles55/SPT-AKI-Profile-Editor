@@ -135,9 +135,17 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void AddModdedQuest(JObject profileJObject, string character, string questQid)
         {
             var questsObject = profileJObject.SelectToken("characters")[character].SelectToken("Quests");
-            var questObject = JObject.FromObject(questsObject[0]);
-            questObject["qid"] = questQid;
-            questsObject.LastOrDefault().AddAfterSelf(JObject.FromObject(questObject));
+            if (!questsObject.HasValues)
+            {
+                var newQuests = new CharacterQuest[] { new CharacterQuest { Qid = questQid } };
+                questsObject.Replace(JToken.FromObject(newQuests));
+            }
+            else
+            {
+                var questObject = JObject.FromObject(questsObject[0]);
+                questObject["qid"] = questQid;
+                questsObject.LastOrDefault().AddAfterSelf(JObject.FromObject(questObject));
+            }
         }
 
         private static void AddModdedMerchant(JObject profileJObject, string character, string merchantId)
@@ -266,7 +274,6 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         private void PrepareTestProfile()
         {
-            JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = new List<JsonConverter>() { new StringEnumConverterExt() } };
             JObject profileJObject = JObject.Parse(File.ReadAllText(TestHelpers.profileFile));
             AddModdedInventoryItem(profileJObject, "pmc", pmcModdedInventoryItemId, pmcModdedInventoryItemTpl);
             AddModdedInventoryItem(profileJObject, "scav", scavModdedInventoryItemId, scavModdedInventoryItemTpl);
@@ -275,7 +282,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AddModdedMerchant(profileJObject, "pmc", pmcModdedMerchantId);
             AddModdedWeaponBuild(profileJObject, pmcModdedWeaponBuildId);
             AddModdedEquipmentBuild(profileJObject, pmcModdedEquipmentBuildId);
-            string json = JsonConvert.SerializeObject(profileJObject, seriSettings);
+            string json = JsonConvert.SerializeObject(profileJObject, TestHelpers.seriSettings);
             File.WriteAllText(testProfilePath, json);
         }
     }

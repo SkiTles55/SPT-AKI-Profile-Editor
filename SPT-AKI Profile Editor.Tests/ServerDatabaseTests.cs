@@ -20,6 +20,13 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void BotTypesHeadsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Heads);
 
         [Test]
+        public void BotTypesHeadsHasCorrectNames()
+        {
+            foreach (var head in AppData.ServerDatabase.Heads)
+                Assert.False(string.IsNullOrWhiteSpace(head.Value), $"head {head.Key} has incorrect name: {head.Value}");
+        }
+
+        [Test]
         public void BotTypesVoicesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Voices.Count == 0);
 
         [Test]

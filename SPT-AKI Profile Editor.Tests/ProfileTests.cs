@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
@@ -370,6 +371,19 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void QuestsAddingWorksCorrectly()
+        {
+            JObject profileJObject = JObject.Parse(File.ReadAllText(TestHelpers.profileFile));
+            var testProfilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testProfileWithEmptyQuests.json");
+            profileJObject.SelectToken("characters")["pmc"].SelectToken("Quests").Replace(JToken.FromObject(Array.Empty<CharacterQuest>()));
+            string json = JsonConvert.SerializeObject(profileJObject, TestHelpers.seriSettings);
+            File.WriteAllText(testProfilePath, json);
+
+            LoadProfileAndCheckQuestsCount(testProfilePath, true);
+            LoadProfileAndCheckQuestsCount(testProfilePath, false);
+        }
+
+        [Test]
         public void QuestsStatusesSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = true;
@@ -706,6 +720,17 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void EmptyBuildsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.UserBuilds.RemoveEquipmentBuilds();
+            AppData.Profile.UserBuilds.RemoveWeaponBuilds();
+            SaveAndLoadProfile("testEmptyBuildsSave.json");
+            Assert.NotNull(AppData.Profile.UserBuilds?.WeaponBuilds, "WeaponBuilds is null");
+            Assert.NotNull(AppData.Profile.UserBuilds?.EquipmentBuilds, "EquipmentBuilds is null");
+        }
+
+        [Test]
         public void WeaponBuildExportCorrectly()
         {
             LoadProfileAndPrepareWeaponBuilds();
@@ -851,6 +876,18 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.AreEqual(650, AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Maximum, "Health.BodyParts.LeftLeg.Health.Maximum is not 650");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current, "Health.BodyParts.RightLeg.Health.Current is not 700");
             Assert.AreEqual(700, AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum, "Health.BodyParts.RightLeg.Health.Maximum is not 700");
+        }
+
+        private static void LoadProfileAndCheckQuestsCount(string profilePath, bool isStandartQuests)
+        {
+            AppData.AppSettings.AutoAddMissingQuests = isStandartQuests;
+            AppData.AppSettings.AutoAddMissingEventQuests = !isStandartQuests;
+            AppData.Profile.Load(profilePath);
+
+            var questsCount = AppData.ServerDatabase.QuestsData
+                .Where(x => AppData.ServerConfigs.Quest.EventQuests.ContainsKey(x.Key) != isStandartQuests).Count();
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.Quests.Length == questsCount,
+                          $"{(isStandartQuests ? "Standart" : "Event")} quests count wrong");
         }
 
         private static void CheckBuilds<T>(List<T> buildsList, ObservableCollection<T> buildsCollection) where T : Build

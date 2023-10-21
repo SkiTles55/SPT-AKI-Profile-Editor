@@ -1,12 +1,16 @@
-﻿using SPT_AKI_Profile_Editor.Core;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
+        public static readonly JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = new List<JsonConverter>() { new StringEnumConverterExt() } };
         public static readonly string profileFile = @"D:\SPT-AKI\user\profiles\ef459984b6c044ab3cc52347.json";
         public static readonly string serverPath = @"D:\SPT-AKI\";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
