@@ -24,6 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterSkills skills;
         private Dictionary<string, bool> encyclopedia;
         private CharacterInventory inventory;
+        private UnlockedInfo unlockedInfo;
 
         [JsonIgnore]
         public bool IsScav => Info.Side == "Savage";
@@ -89,6 +90,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 traderStandings = value;
                 OnPropertyChanged(nameof(TraderStandings));
                 OnPropertyChanged(nameof(TraderStandingsExt));
+            }
+        }
+
+        public UnlockedInfo UnlockedInfo
+        {
+            get => unlockedInfo;
+            set
+            {
+                unlockedInfo = value;
+                OnPropertyChanged(nameof(UnlockedInfo));
             }
         }
 

@@ -74,6 +74,7 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerFile.quests] = "Aki_Data\\Server\\database\\templates\\quests.json",
             [SPTServerFile.questConfig] = "Aki_Data\\Server\\configs\\quest.json",
             [SPTServerFile.areas] = "Aki_Data\\Server\\database\\hideout\\areas.json",
+            [SPTServerFile.production] = "Aki_Data\\Server\\database\\hideout\\production.json",
             [SPTServerFile.handbook] = "Aki_Data\\Server\\database\\templates\\handbook.json",
             [SPTServerFile.languages] = "Aki_Data\\Server\\database\\locales\\languages.json",
             [SPTServerFile.serverexe] = "Aki.Server.exe"
@@ -307,6 +308,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["file_quests_description"] = "File with main settings of quests",
                     ["file_quest_config_description"] = "File with additional settings of quests",
                     ["file_areas_description"] = "File with main settings of hideout areas",
+                    ["file_production_description"] = "File with main settings of hideout crafts",
                     ["file_handbook_description"] = "File with a list of categories and items in handbook",
                     ["file_languages_description"] = "File with list of localizations",
                     ["file_serverexe_description"] = "Server executable",
@@ -554,6 +556,7 @@ namespace SPT_AKI_Profile_Editor.Core
                     ["file_quests_description"] = "Файл с основными настройками квестов",
                     ["file_quest_config_description"] = "Файл с дополнительными настройками квестов",
                     ["file_areas_description"] = "Файл с основными настройками зон убежища",
+                    ["file_production_description"] = "Файл с основными настройками крафтов убежища",
                     ["file_handbook_description"] = "Файл со списком категорий и предметов в справочнике",
                     ["file_languages_description"] = "Файл со списком локализаций",
                     ["file_serverexe_description"] = "Исполняемый файл сервера",

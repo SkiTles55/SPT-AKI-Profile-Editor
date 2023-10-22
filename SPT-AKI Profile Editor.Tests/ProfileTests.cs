@@ -114,6 +114,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderStandingsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
 
         [Test]
+        public void UnlockedInfoLoadsCorrectly()
+        {
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.UnlockedInfo, "UnlockedInfo is null");
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.UnlockedInfo.UnlockedProductionRecipe, "UnlockedProductionRecipe is null");
+            Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.UnlockedInfo.UnlockedProductionRecipe, "UnlockedProductionRecipe is empty");
+        }
+
+        [Test]
         public void RagfairInfoNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.RagfairInfo, "RagfairInfo is null");
 
         [Test]

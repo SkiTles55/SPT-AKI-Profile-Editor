@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses.Configs;
+using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadQuestConfig();
                 LoadQuestsData();
                 LoadHideoutAreaInfos();
+                LoadHideoutProduction();
                 FindPockets();
                 LoadTraderSuits();
                 LoadHandbook();
@@ -250,6 +252,18 @@ namespace SPT_AKI_Profile_Editor.Core
                 ServerDatabase.HideoutAreaInfos = HideoutAreaInfos;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase HideoutAreaInfos ({path}) loading error: {ex.Message}"); }
+        }
+
+        private static void LoadHideoutProduction()
+        {
+            ServerDatabase.HideoutProduction = Array.Empty<HideoutProduction>();
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
+            try
+            {
+                HideoutProduction[] HideoutProduction = JsonConvert.DeserializeObject<HideoutProduction[]>(File.ReadAllText(path));
+                ServerDatabase.HideoutProduction = HideoutProduction;
+            }
+            catch (Exception ex) { Logger.Log($"ServerDatabase HideoutProduction ({path}) loading error: {ex.Message}"); }
         }
 
         private static void LoadItemsDB()

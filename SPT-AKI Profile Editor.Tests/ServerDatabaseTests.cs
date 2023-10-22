@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.Linq;
 
@@ -131,6 +132,17 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void HideoutAreaInfosDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.HideoutAreaInfos.Count == 0);
+
+        [Test]
+        public void HideoutProductionLoadsCorrectly()
+        {
+            Assert.IsNotNull(AppData.ServerDatabase.HideoutProduction, "HideoutProduction is null");
+            Assert.IsNotEmpty(AppData.ServerDatabase.HideoutProduction, "HideoutProduction is empty");
+            Assert.IsFalse(AppData.ServerDatabase.HideoutProduction.Any(x => string.IsNullOrWhiteSpace(x.Id)), "HideoutProductions has item with null id");
+            Assert.IsFalse(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements == null), "HideoutProductions has item with null Requirements");
+            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.QuestComplete)), "HideoutProductions doesn't have items with QuestComplete type requirement");
+            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.Unknown)), "HideoutProductions doesn't have items with Unknown type requirement");
+        }
 
         [Test]
         public void ItemsDBNotNul() => Assert.IsNotNull(AppData.ServerDatabase.ItemsDB);
