@@ -6,111 +6,183 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:HideoutTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="hideoutAreas" Source="{Binding Profile.Characters.Pmc.Hideout.Areas}" />
+        <CollectionViewSource x:Key="hideoutProductions" Source="{Binding Profile.Characters.Pmc.HideoutProductions}" />
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-        <DataGrid
-            x:Name="hideoutGrid"
-            Grid.Row="0"
-            d:ItemsSource="{d:SampleData ItemCount=5}"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            ColumnHeaderStyle="{StaticResource MyColumnHeader}"
-            IsReadOnly="True"
-            ItemsSource="{Binding Source={StaticResource hideoutAreas}}"
-            VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.ScrollUnit="Pixel"
-            VirtualizingPanel.VirtualizationMode="Recycling">
-            <DataGrid.Resources>
-                <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_hideout_area], FallbackValue=tab_hideout_area, Source={StaticResource proxy}}"
-                    SortMemberPath="LocalizedName">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <TextBlock
-                                    Margin="5,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Left"
-                                    Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                    TextWrapping="Wrap" />
-                                <TextBox
-                                    Margin="5"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Controls:TextBoxHelper.ClearTextButton="True"
-                                    DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.HideoutTab.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="FilterBox_TextChanged" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Label HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Label.Content>
-                                    <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
-                                </Label.Content>
-                            </Label>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_hideout_level], FallbackValue=tab_hideout_level, Source={StaticResource proxy}}"
-                    SortMemberPath="Level">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <extendedcontrols:NumericUpDownExt
-                                    Width="80"
-                                    Margin="5"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Left"
-                                    FontWeight="Bold"
-                                    Interval="1"
-                                    Maximum="{Binding Path=MaxLevel}"
-                                    Minimum="0"
-                                    NumericInputMode="Numbers"
-                                    TextAlignment="Left"
-                                    Value="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" />
-                                <Slider
-                                    Margin="5,5,10,5"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    IsSnapToTickEnabled="True"
-                                    Maximum="{Binding Path=MaxLevel}"
-                                    TickFrequency="1"
-                                    TickPlacement="BottomRight"
-                                    Value="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button
-            Grid.Row="1"
-            Width="200"
-            Margin="10,10,10,0"
-            HorizontalAlignment="Center"
-            Command="{Binding SetAllMaxCommand}"
-            Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button], FallbackValue=tab_hideout_maximum_button}" />
-    </Grid>
+    <TabControl
+        mah:TabControlHelper.Transition="Up"
+        mah:TabControlHelper.Underlined="SelectedTabItem"
+        Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}"
+        TabStripPlacement="Right">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_zones], FallbackValue=tab_hideout_zones}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <DataGrid
+                    x:Name="hideoutGrid"
+                    Grid.Row="0"
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Source={StaticResource hideoutAreas}}"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.ScrollUnit="Pixel"
+                    VirtualizingPanel.VirtualizationMode="Recycling">
+                    <DataGrid.Resources>
+                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="*"
+                            Header="{Binding Data.AppLocalization.Translations[tab_hideout_area], FallbackValue=tab_hideout_area, Source={StaticResource proxy}}"
+                            SortMemberPath="LocalizedName">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock
+                                            Margin="5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBox
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Controls:TextBoxHelper.ClearTextButton="True"
+                                            DockPanel.Dock="Right"
+                                            Text="{Binding Data.GridFilters.HideoutTab.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                            TextChanged="FilterBox_TextChanged" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock Text="{Binding Path=LocalizedName}" TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="*"
+                            Header="{Binding Data.AppLocalization.Translations[tab_hideout_level], FallbackValue=tab_hideout_level, Source={StaticResource proxy}}"
+                            SortMemberPath="Level">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <extendedcontrols:NumericUpDownExt
+                                            Width="80"
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            FontWeight="Bold"
+                                            Interval="1"
+                                            Maximum="{Binding Path=MaxLevel}"
+                                            Minimum="0"
+                                            NumericInputMode="Numbers"
+                                            TextAlignment="Left"
+                                            Value="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" />
+                                        <Slider
+                                            Margin="5,5,10,5"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Right"
+                                            IsSnapToTickEnabled="True"
+                                            Maximum="{Binding Path=MaxLevel}"
+                                            TickFrequency="1"
+                                            TickPlacement="BottomRight"
+                                            Value="{Binding Path=Level, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="10,10,10,0"
+                    HorizontalAlignment="Center"
+                    Command="{Binding SetAllMaxCommand}"
+                    Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button], FallbackValue=tab_hideout_maximum_button}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_crafts], FallbackValue=tab_hideout_crafts}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <DataGrid
+                    x:Name="hideoutProductions"
+                    Grid.Row="0"
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Source={StaticResource hideoutProductions}}"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.ScrollUnit="Pixel"
+                    VirtualizingPanel.VirtualizationMode="Recycling">
+                    <DataGrid.Resources>
+                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="*"
+                            Header="{Binding Data.AppLocalization.Translations[tab_hideout_end_product], FallbackValue=tab_hideout_end_product, Source={StaticResource proxy}}"
+                            SortMemberPath="ProductLocalizedName">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock
+                                            Margin="5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBox
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Controls:TextBoxHelper.ClearTextButton="True"
+                                            DockPanel.Dock="Right"
+                                            Text="{Binding Data.GridFilters.HideoutTab.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                            TextChanged="FilterBox_TextChanged" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <Label.Content>
+                                            <TextBlock Text="{Binding Path=ProductLocalizedName}" TextWrapping="Wrap" />
+                                        </Label.Content>
+                                    </Label>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

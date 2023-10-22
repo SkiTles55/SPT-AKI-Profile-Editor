@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout
 {
@@ -9,5 +10,15 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout
 
         [JsonProperty("requirements")]
         public HideoutProductionRequirement[] Requirements { get; set; }
+
+        [JsonProperty("locked")]
+        public bool Locked { get; set; }
+
+        [JsonProperty("endProduct")]
+        public string EndProduct { get; set; }
+
+        [JsonIgnore]
+        public bool UnlocksByQuest
+            => Locked && Requirements.Any(x => x.Type == RequirementType.QuestComplete);
     }
 }

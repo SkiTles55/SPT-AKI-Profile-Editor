@@ -182,6 +182,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HideoutAreasHasCorrectLocalizedName() => Assert.False(AppData.Profile.Characters.Pmc.Hideout.Areas.Any(x => x.LocalizedName == $"hideout_area_{x.Type}_name"));
 
         [Test]
+        public void HideoutProductionsLoadsCorrectly()
+        {
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.HideoutProductions, "HideoutProductions is null");
+            Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.HideoutProductions, "HideoutProductions is empty");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.Any(x => x.ProductLocalizedName == x.Production.EndProduct), "HideoutProductions has item with bad ProductLocalizedName");
+        }
+
+        [Test]
         public void PmcSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Pmc skills is null");
 
         [Test]

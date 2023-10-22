@@ -11,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Character : BindableEntity
     {
+        public List<CharacterHideoutProduction> hideoutProductions;
         private string aid;
         private string pmcId;
         private CharacterInfo info;
@@ -185,6 +186,23 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public IEnumerable<ExaminedItem> ExaminedItems => Encyclopedia?
             .Select(x => AppData.ServerDatabase.ItemsDB.ContainsKey(x.Key)
             ? AppData.ServerDatabase.ItemsDB[x.Key].GetExaminedItem() : new ExaminedItem(x.Key, x.Key, null));
+
+        [JsonIgnore]
+        public List<CharacterHideoutProduction> HideoutProductions
+        {
+            get
+            {
+                if (hideoutProductions != null)
+                    return hideoutProductions;
+                var productions = AppData.ServerDatabase?.HideoutProduction;
+                if (hideoutProductions == null && UnlockedInfo != null && productions != null)
+                    hideoutProductions = productions
+                        .Where(x => x.UnlocksByQuest)
+                        .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))
+                        .ToList();
+                return hideoutProductions ?? new();
+            }
+        }
 
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
