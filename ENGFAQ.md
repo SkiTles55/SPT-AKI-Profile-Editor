@@ -81,3 +81,18 @@ The language selected in the game does not match to the selected localization in
 
 ### "Item added by mod found. Use the section \"Cleaning from mods\" to remove such items." error when adding an item
 Typically, this error occurs if stash have weapon with a spare part added by mods. Remove this weapon\move it to some container\or use a helper mod.
+
+### Error "This file does not contain build" when importing weapon preset
+After changes in SPT-AKI 3.7.0, presets exported from older versions is incompatible. But you can update them, by open exported preset in good text editor, and adding field "type": "weapon". After changes preset file must look like:
+```json
+{
+  "id": "4fcc7a8c299aa5179f2edf06",
+  "name": "TestBuild",
+  "root": "1926a17442c1c63c14641ba3",
+  "items": [
+    // items array
+  ],
+  "type": "weapon",
+  "Parent": "5447b5f14bdc2d61278b4567"
+}
+```
