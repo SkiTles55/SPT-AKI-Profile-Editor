@@ -265,6 +265,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             OnPropertyChanged(nameof(ExaminedItems));
         }
 
+        public void AddAllCrafts()
+        {
+            foreach (var production in HideoutProductions)
+                production.Added = true;
+        }
+
         private static TraderBase GetTraderInfo(string key)
             => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
     }
