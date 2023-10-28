@@ -849,6 +849,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void ProfileChangedAfterAddingCrafts()
+        {
+            DisableAutoAddDataInSettings();
+            AppData.Profile.Load(TestHelpers.profileFile);
+            Assert.IsFalse(AppData.Profile.IsProfileChanged());
+            AppData.Profile.Characters.Pmc.AddAllCrafts();
+            Assert.IsTrue(AppData.Profile.IsProfileChanged());
+        }
+
+        [Test]
         public void ProfileChangedAfterEditings()
         {
             DisableAutoAddDataInSettings();
@@ -1012,6 +1022,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void DisableAutoAddDataInSettings()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
+            AppData.AppSettings.AutoAddMissingEventQuests = false;
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
         }

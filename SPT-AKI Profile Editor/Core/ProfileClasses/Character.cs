@@ -188,21 +188,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             ? AppData.ServerDatabase.ItemsDB[x.Key].GetExaminedItem() : new ExaminedItem(x.Key, x.Key, null));
 
         [JsonIgnore]
-        public List<CharacterHideoutProduction> HideoutProductions
-        {
-            get
-            {
-                if (hideoutProductions != null)
-                    return hideoutProductions;
-                var productions = AppData.ServerDatabase?.HideoutProduction;
-                if (hideoutProductions == null && UnlockedInfo != null && productions != null)
-                    hideoutProductions = productions
-                        .Where(x => x.UnlocksByQuest)
-                        .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))
-                        .ToList();
-                return hideoutProductions ?? new();
-            }
-        }
+        public List<CharacterHideoutProduction> HideoutProductions => hideoutProductions;
 
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
@@ -269,6 +255,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             foreach (var production in HideoutProductions)
                 production.Added = true;
+        }
+
+        public void SetupHideoutProductions()
+        {
+            var productions = AppData.ServerDatabase?.HideoutProduction;
+            if (hideoutProductions == null && UnlockedInfo != null && productions != null)
+                hideoutProductions = productions
+                    .Where(x => x.UnlocksByQuest)
+                    .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))
+                    .ToList();
         }
 
         private static TraderBase GetTraderInfo(string key)
