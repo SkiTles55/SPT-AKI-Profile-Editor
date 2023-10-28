@@ -47,6 +47,7 @@ class Mod implements IPostAkiLoadMod
 		const objectMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]))
 		
 		this.exportEntry("Handbook", tables.templates.handbook);
+		this.exportEntry("Production", tables.hideout.production);
 		this.exportEntry("Items", tables.templates.items);
 		this.exportEntry("Quests", tables.templates.quests);
 		this.exportEntry("QuestConfig", questConfig);

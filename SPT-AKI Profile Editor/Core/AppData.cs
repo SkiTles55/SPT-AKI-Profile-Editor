@@ -257,7 +257,9 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadHideoutProduction()
         {
             ServerDatabase.HideoutProduction = Array.Empty<HideoutProduction>();
-            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("Production.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
             try
             {
                 HideoutProduction[] HideoutProduction = JsonConvert.DeserializeObject<HideoutProduction[]>(File.ReadAllText(path));
