@@ -439,6 +439,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void HideoutCraftsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllCrafts();
+            SaveAndLoadProfile("testCrafts.json");
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.HideoutProductions
+                .All(x => x.Added));
+        }
+
+        [Test]
         public void HideoutAreaLevelCantBeSettedGreatherThanMax()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
