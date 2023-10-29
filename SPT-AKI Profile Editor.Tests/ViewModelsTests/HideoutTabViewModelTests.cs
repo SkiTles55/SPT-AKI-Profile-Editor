@@ -16,11 +16,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void CanSetAllMax()
+        public void CanSetAllAreasMax()
         {
             TestHelpers.LoadDatabase();
             HideoutTabViewModel.SetAllMaxCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas.All(x => x.Level == x.MaxLevel), Is.True);
+        }
+
+        [Test]
+        public void CanAddAllCrafts()
+        {
+            TestHelpers.LoadDatabase();
+            HideoutTabViewModel.AddAllCrafts.Execute(null);
+            Assert.That(AppData.Profile.Characters.Pmc.HideoutProductions.All(x => x.Added), Is.True);
         }
     }
 }

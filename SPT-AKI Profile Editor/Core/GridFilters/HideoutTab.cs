@@ -3,5 +3,7 @@
     public class HideoutTab
     {
         public string AreaNameFilter { get; set; }
+        public string CraftProductionNameFilter { get; set; }
+        public string CraftAreaNameFilter { get; set; }
     }
 }

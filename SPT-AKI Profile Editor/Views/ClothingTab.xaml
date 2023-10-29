@@ -7,7 +7,9 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:ClothingTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <UserControl.Resources>
         <CollectionViewSource x:Key="clothingItems" Source="{Binding ServerDatabase.TraderSuits}" />
@@ -20,6 +22,7 @@
         <DataGrid
             x:Name="clothingGrid"
             Grid.Row="0"
+            d:ItemsSource="{d:SampleData ItemCount=5}"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
@@ -33,7 +36,7 @@
             <DataGrid.Columns>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="{Binding Data.AppLocalization.Translations[tab_quests_name], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_quests_name], FallbackValue=tab_quests_name, Source={StaticResource proxy}}"
                     SortMemberPath="LocalizedName">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -68,7 +71,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="150"
-                    Header="{Binding Data.AppLocalization.Translations[tab_clothing_acquired], Source={StaticResource proxy}}"
+                    Header="{Binding Data.AppLocalization.Translations[tab_clothing_acquired], FallbackValue=tab_clothing_acquired, Source={StaticResource proxy}}"
                     SortMemberPath="Boughted">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -84,6 +87,6 @@
             Margin="10,10,10,0"
             HorizontalAlignment="Center"
             Command="{Binding AcquireAllCommand}"
-            Content="{Binding AppLocalization.Translations[tab_clothing_acquire_all]}" />
+            Content="{Binding AppLocalization.Translations[tab_clothing_acquire_all], FallbackValue=tab_clothing_acquire_all}" />
     </Grid>
 </UserControl>

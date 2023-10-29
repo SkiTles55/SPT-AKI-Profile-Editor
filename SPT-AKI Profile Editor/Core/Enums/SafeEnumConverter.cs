@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using System;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.Enums
 {
@@ -10,8 +12,9 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
             try
             {
                 string value = reader.Value?.ToString();
+                var values = Enum.GetValues(typeof(T)).Cast<T>().Select(x => x.ToString());
 
-                if (reader.TokenType == JsonToken.String && !string.IsNullOrEmpty(value))
+                if (reader.TokenType == JsonToken.String && !string.IsNullOrEmpty(value) && values.Contains(value))
                     return (T)Enum.Parse(typeof(T), value);
 
                 if (reader.TokenType == JsonToken.Integer)
@@ -40,6 +43,9 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
 
             if (typeof(T) == typeof(QuestStatus))
                 return QuestStatus.Fail;
+
+            if (typeof(T) == typeof(RequirementType))
+                return RequirementType.Unknown;
 
             return default;
         }

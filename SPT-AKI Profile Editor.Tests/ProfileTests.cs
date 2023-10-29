@@ -114,6 +114,14 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderStandingsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.TraderStandings, "TraderStandings is null");
 
         [Test]
+        public void UnlockedInfoLoadsCorrectly()
+        {
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.UnlockedInfo, "UnlockedInfo is null");
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.UnlockedInfo.UnlockedProductionRecipe, "UnlockedProductionRecipe is null");
+            Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.UnlockedInfo.UnlockedProductionRecipe, "UnlockedProductionRecipe is empty");
+        }
+
+        [Test]
         public void RagfairInfoNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.RagfairInfo, "RagfairInfo is null");
 
         [Test]
@@ -172,6 +180,15 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void HideoutAreasHasCorrectLocalizedName() => Assert.False(AppData.Profile.Characters.Pmc.Hideout.Areas.Any(x => x.LocalizedName == $"hideout_area_{x.Type}_name"));
+
+        [Test]
+        public void HideoutProductionsLoadsCorrectly()
+        {
+            Assert.IsNotNull(AppData.Profile.Characters.Pmc.HideoutProductions, "HideoutProductions is null");
+            Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.HideoutProductions, "HideoutProductions is empty");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.Any(x => x.ProductItem.Name == x.Production.EndProduct), "HideoutProductions has item with bad ProductItem.Name");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.Any(x => x.AreaLocalizedName == $"hideout_area_{x.Production.AreaType}_name"), "HideoutProductions has item with bad AreaLocalizedName");
+        }
 
         [Test]
         public void PmcSkillsNotNull() => Assert.IsNotNull(AppData.Profile.Characters.Pmc.Skills, "Pmc skills is null");
@@ -397,6 +414,23 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void QuestStatusCanAddAndRemoveCraft()
+        {
+            AppData.AppSettings.AutoAddMissingQuests = true;
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var production = AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => !x.Added);
+            Assert.IsNotNull(production, "Unable to find production for adding");
+            var quest = AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => production.Production.Requirements.FirstOrDefault(r => r.QuestId == x.QuestQid) != null);
+            Assert.IsNotNull(quest, "Unable to find quest for production");
+            quest.Status = QuestStatus.Success;
+            SaveAndLoadProfile("testQuestAddCraft.json");
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => x.Production.Id == production.Production.Id).Added, "Craft not added");
+            AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => x.QuestQid == quest.Qid).Status = QuestStatus.AvailableForFinish;
+            SaveAndLoadProfile("testQuestRemoveCraft.json");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => x.Production.Id == production.Production.Id).Added, "Craft not removed");
+        }
+
+        [Test]
         public void QuestsFirstLockedStatusSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = true;
@@ -420,6 +454,16 @@ namespace SPT_AKI_Profile_Editor.Tests
             SaveAndLoadProfile("testHideouts.json");
             Assert.IsTrue(AppData.Profile.Characters.Pmc.Hideout.Areas
                 .All(x => x.Level == x.MaxLevel));
+        }
+
+        [Test]
+        public void HideoutCraftsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllCrafts();
+            SaveAndLoadProfile("testCrafts.json");
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.HideoutProductions
+                .All(x => x.Added));
         }
 
         [Test]
@@ -823,6 +867,16 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void ProfileChangedAfterAddingCrafts()
+        {
+            DisableAutoAddDataInSettings();
+            AppData.Profile.Load(TestHelpers.profileFile);
+            Assert.IsFalse(AppData.Profile.IsProfileChanged());
+            AppData.Profile.Characters.Pmc.AddAllCrafts();
+            Assert.IsTrue(AppData.Profile.IsProfileChanged());
+        }
+
+        [Test]
         public void ProfileChangedAfterEditings()
         {
             DisableAutoAddDataInSettings();
@@ -986,6 +1040,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void DisableAutoAddDataInSettings()
         {
             AppData.AppSettings.AutoAddMissingQuests = false;
+            AppData.AppSettings.AutoAddMissingEventQuests = false;
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
         }

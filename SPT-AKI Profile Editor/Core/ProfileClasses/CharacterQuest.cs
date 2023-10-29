@@ -41,6 +41,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 StatusTimers ??= new();
                 if (!StatusTimers.ContainsKey(newStatus))
                     StatusTimers.Add(newStatus, ExtMethods.GetTimestamp);
+                AppData.Profile?.Characters?.Pmc?.SetupCraftForQuest(QuestQid, newStatus == QuestStatus.Success);
                 OnPropertyChanged("Status");
             }
         }

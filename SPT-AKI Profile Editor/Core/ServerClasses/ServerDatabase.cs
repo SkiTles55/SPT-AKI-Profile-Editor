@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
@@ -137,6 +138,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 OnPropertyChanged("HandbookHelper");
             }
         }
+
+        public HideoutProduction[] HideoutProduction { get; set; }
 
         public void AcquireAllClothing()
         {

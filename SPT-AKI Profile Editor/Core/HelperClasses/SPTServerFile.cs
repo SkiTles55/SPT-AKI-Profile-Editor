@@ -9,6 +9,7 @@
         public static readonly string quests = $"{prefix}_quests";
         public static readonly string questConfig = $"{prefix}_quest_config";
         public static readonly string areas = $"{prefix}_areas";
+        public static readonly string production = $"{prefix}_production";
         public static readonly string handbook = $"{prefix}_handbook";
         public static readonly string languages = $"{prefix}_languages";
         public static readonly string serverexe = $"{prefix}_serverexe";

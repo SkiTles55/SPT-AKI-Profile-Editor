@@ -11,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class Character : BindableEntity
     {
+        public List<CharacterHideoutProduction> hideoutProductions;
         private string aid;
         private string pmcId;
         private CharacterInfo info;
@@ -24,6 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterSkills skills;
         private Dictionary<string, bool> encyclopedia;
         private CharacterInventory inventory;
+        private UnlockedInfo unlockedInfo;
 
         [JsonIgnore]
         public bool IsScav => Info.Side == "Savage";
@@ -89,6 +91,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 traderStandings = value;
                 OnPropertyChanged(nameof(TraderStandings));
                 OnPropertyChanged(nameof(TraderStandingsExt));
+            }
+        }
+
+        public UnlockedInfo UnlockedInfo
+        {
+            get => unlockedInfo;
+            set
+            {
+                unlockedInfo = value;
+                OnPropertyChanged(nameof(UnlockedInfo));
             }
         }
 
@@ -176,6 +188,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             ? AppData.ServerDatabase.ItemsDB[x.Key].GetExaminedItem() : new ExaminedItem(x.Key, x.Key, null));
 
         [JsonIgnore]
+        public List<CharacterHideoutProduction> HideoutProductions => hideoutProductions;
+
+        [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
 
         [JsonIgnore]
@@ -234,6 +249,30 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (Encyclopedia.ContainsKey(id))
                 Encyclopedia.Remove(id);
             OnPropertyChanged(nameof(ExaminedItems));
+        }
+
+        public void AddAllCrafts()
+        {
+            foreach (var production in HideoutProductions)
+                production.Added = true;
+        }
+
+        public void SetupCraftForQuest(string questId, bool isCompleted)
+        {
+            var production = HideoutProductions?
+                .FirstOrDefault(x => x.Production.UnlocksByQuest && x.Production.Requirements.Any(r => r.QuestId == questId));
+            if (production != null)
+                production.Added = isCompleted;
+        }
+
+        public void SetupHideoutProductions()
+        {
+            var productions = AppData.ServerDatabase?.HideoutProduction;
+            if (hideoutProductions == null && UnlockedInfo != null && productions != null)
+                hideoutProductions = productions
+                    .Where(x => x.UnlocksByQuest)
+                    .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))
+                    .ToList();
         }
 
         private static TraderBase GetTraderInfo(string key)

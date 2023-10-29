@@ -10,6 +10,7 @@
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:ExaminedItemsTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />

@@ -6,5 +6,6 @@ namespace SPT_AKI_Profile_Editor.Views
     public class HideoutTabViewModel : BindableViewModel
     {
         public static RelayCommand SetAllMaxCommand => new(obj => Profile.Characters?.Pmc?.SetAllHideoutAreasMax());
+        public static RelayCommand AddAllCrafts => new(obj => Profile.Characters?.Pmc?.AddAllCrafts());
     }
 }
