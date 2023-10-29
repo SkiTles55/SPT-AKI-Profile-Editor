@@ -8,6 +8,9 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout
         [JsonProperty("_id")]
         public string Id { get; set; }
 
+        [JsonProperty("areaType")]
+        public int AreaType { get; set; }
+
         [JsonProperty("requirements")]
         public HideoutProductionRequirement[] Requirements { get; set; }
 

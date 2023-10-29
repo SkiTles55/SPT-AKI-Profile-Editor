@@ -4,7 +4,6 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
-using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.Linq;
 
@@ -145,6 +144,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.Unknown)), "HideoutProductions doesn't have items with Unknown type requirement");
             Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Locked), "HideoutProductions doesn't have locked productions");
             Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.UnlocksByQuest), "HideoutProductions doesn't have locked by quest productions");
+            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.AreaType != 0), "HideoutProductions doesn't productions for area type not 0");
         }
 
         [Test]

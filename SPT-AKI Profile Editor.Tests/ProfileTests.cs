@@ -186,7 +186,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             Assert.IsNotNull(AppData.Profile.Characters.Pmc.HideoutProductions, "HideoutProductions is null");
             Assert.IsNotEmpty(AppData.Profile.Characters.Pmc.HideoutProductions, "HideoutProductions is empty");
-            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.Any(x => x.ProductLocalizedName == x.Production.EndProduct), "HideoutProductions has item with bad ProductLocalizedName");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.Any(x => x.ProductItem.Name == x.Production.EndProduct), "HideoutProductions has item with bad ProductItem.Name");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.Any(x => x.AreaLocalizedName == $"hideout_area_{x.Production.AreaType}_name"), "HideoutProductions has item with bad AreaLocalizedName");
         }
 
         [Test]
