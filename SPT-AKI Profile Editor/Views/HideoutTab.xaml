@@ -167,8 +167,8 @@
                                             VerticalAlignment="Center"
                                             Controls:TextBoxHelper.ClearTextButton="True"
                                             DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.HideoutTab.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="FilterBox_TextChanged" />
+                                            Text="{Binding Data.GridFilters.HideoutTab.CraftProductionNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                            TextChanged="CraftsFilterBox_TextChanged" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
@@ -211,8 +211,8 @@
                                             VerticalAlignment="Center"
                                             Controls:TextBoxHelper.ClearTextButton="True"
                                             DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.HideoutTab.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="FilterBox_TextChanged" />
+                                            Text="{Binding Data.GridFilters.HideoutTab.CraftAreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
+                                            TextChanged="CraftsFilterBox_TextChanged" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>

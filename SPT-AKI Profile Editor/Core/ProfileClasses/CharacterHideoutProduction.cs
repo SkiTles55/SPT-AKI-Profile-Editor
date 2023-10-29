@@ -3,7 +3,7 @@ using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class CharacterHideoutProduction: BindableEntity
+    public class CharacterHideoutProduction : BindableEntity
     {
         private bool added;
 
