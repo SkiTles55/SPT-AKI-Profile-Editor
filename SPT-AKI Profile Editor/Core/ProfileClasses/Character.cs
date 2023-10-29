@@ -257,6 +257,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 production.Added = true;
         }
 
+        public void SetupCraftForQuest(string questId, bool isCompleted)
+        {
+            var production = HideoutProductions?
+                .FirstOrDefault(x => x.Production.UnlocksByQuest && x.Production.Requirements.Any(r => r.QuestId == questId));
+            if (production != null)
+                production.Added = isCompleted;
+        }
+
         public void SetupHideoutProductions()
         {
             var productions = AppData.ServerDatabase?.HideoutProduction;

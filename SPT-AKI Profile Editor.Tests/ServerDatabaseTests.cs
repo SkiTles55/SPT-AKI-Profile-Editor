@@ -145,6 +145,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Locked), "HideoutProductions doesn't have locked productions");
             Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.UnlocksByQuest), "HideoutProductions doesn't have locked by quest productions");
             Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.AreaType != 0), "HideoutProductions doesn't productions for area type not 0");
+            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => !string.IsNullOrEmpty(r.QuestId))), "HideoutProductions doesn't have productions with quest id in Requirements");
         }
 
         [Test]

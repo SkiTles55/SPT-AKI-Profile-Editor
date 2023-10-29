@@ -8,5 +8,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout
         [JsonConverter(typeof(SafeEnumConverter<RequirementType>))]
         [JsonProperty("type")]
         public RequirementType Type { get; set; }
+
+        [JsonProperty("questId")]
+        public string QuestId { get; set; }
     }
 }

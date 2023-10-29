@@ -414,6 +414,23 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void QuestStatusCanAddAndRemoveCraft()
+        {
+            AppData.AppSettings.AutoAddMissingQuests = true;
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var production = AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => !x.Added);
+            Assert.IsNotNull(production, "Unable to find production for adding");
+            var quest = AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => production.Production.Requirements.FirstOrDefault(r => r.QuestId == x.QuestQid) != null);
+            Assert.IsNotNull(quest, "Unable to find quest for production");
+            quest.Status = QuestStatus.Success;
+            SaveAndLoadProfile("testQuestAddCraft.json");
+            Assert.IsTrue(AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => x.Production.Id == production.Production.Id).Added, "Craft not added");
+            AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => x.QuestQid == quest.Qid).Status = QuestStatus.AvailableForFinish;
+            SaveAndLoadProfile("testQuestRemoveCraft.json");
+            Assert.IsFalse(AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => x.Production.Id == production.Production.Id).Added, "Craft not removed");
+        }
+
+        [Test]
         public void QuestsFirstLockedStatusSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingQuests = true;
