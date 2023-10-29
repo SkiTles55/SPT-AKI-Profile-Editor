@@ -6,6 +6,8 @@
   ![GitHub all releases](https://img.shields.io/github/downloads/SkiTles55/SPT-AKI-Profile-Editor/total)
   ![GitHub release (latest by date)](https://img.shields.io/github/downloads/SkiTles55/SPT-AKI-Profile-Editor/latest/total)
   ![GitHub last commit](https://img.shields.io/github/last-commit/SkiTles55/SPT-AKI-Profile-Editor)
+  
+### [Discord server for discussion and paid support from the developer](https://discord.gg/NTwSA4AfRP)
 
 #### Support the developer:
 [yoomoney.ru](https://yoomoney.ru/to/410015658095326)\
