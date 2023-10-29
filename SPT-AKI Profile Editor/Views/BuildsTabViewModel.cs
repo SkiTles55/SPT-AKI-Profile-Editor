@@ -1,5 +1,4 @@
 ﻿using SPT_AKI_Profile_Editor.Classes;
-using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
@@ -66,13 +65,10 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         private static WorkerTask ExportTask(Action action)
-            => CreateTask(action, "tab_presets_export");
+            => ProgressTask(action, "tab_presets_export");
 
         private static WorkerTask ImportTask(Action action)
-            => CreateTask(action, "tab_presets_import");
-
-        private static WorkerTask CreateTask(Action action, string description)
-            => new(action, AppLocalization.GetLocalizedString("progress_dialog_title"), description);
+            => ProgressTask(action, "tab_presets_import");
 
         private void ExportBuildToFile(object obj)
         {

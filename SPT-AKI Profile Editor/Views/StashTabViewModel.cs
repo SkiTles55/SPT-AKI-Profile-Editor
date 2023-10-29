@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand AddItem => new(obj =>
         {
             if (obj != null && obj is AddableItem item)
-                _worker.AddTask(new(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item), null, null));
+                _worker.AddTask(ProgressTask(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item)));
         });
 
         public ScavStashTabViewModel ScavStashTabViewModel
@@ -72,9 +72,8 @@ namespace SPT_AKI_Profile_Editor.Views
             => Profile.Characters.GetInventory(StashEditMode.PMC);
 
         private static WorkerTask RemoveTask(Action action)
-            => new(action,
-                   AppLocalization.GetLocalizedString("progress_dialog_title"),
-                   AppLocalization.GetLocalizedString("remove_stash_item_title"));
+            => ProgressTask(action,
+                            AppLocalization.GetLocalizedString("remove_stash_item_title"));
 
         private async Task RemoveItemFromStash(string obj)
         {
@@ -93,6 +92,6 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         private RelayCommand AddMoneyDialogCommand(AddableItem money)
-            => new(obj => _worker.AddTask(new(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money), null, null)));
+            => new(obj => _worker.AddTask(ProgressTask(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(money))));
     }
 }

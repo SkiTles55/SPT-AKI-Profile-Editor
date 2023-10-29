@@ -80,15 +80,14 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand RemoveAllItems => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_items_caption"))
-                _worker.AddTask(new(() => RemoveAllItemsFromContainer(),
-                                    AppLocalization.GetLocalizedString("progress_dialog_title"),
+                _worker.AddTask(ProgressTask(() => RemoveAllItemsFromContainer(),
                                     AppLocalization.GetLocalizedString("remove_stash_item_title")));
         });
 
         public RelayCommand AddItem => new(obj =>
         {
             if (obj is AddableItem item)
-                _worker.AddTask(new(() => AddItemToContainer(item), null, null));
+                _worker.AddTask(ProgressTask(() => AddItemToContainer(item)));
         });
 
         public RelayCommand ShowAllItems

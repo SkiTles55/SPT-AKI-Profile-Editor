@@ -74,54 +74,30 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ResetSettings => new(obj => _applicationManager.DeleteSettings());
 
-        public RelayCommand InstallMod => new(obj =>
+        public RelayCommand InstallMod => new(obj => _worker.AddTask(ProgressTask(() =>
         {
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () =>
-                {
-                    HelperModManager.InstallMod();
-                    UsingModHelper = true;
-                }
-            });
-        });
+            HelperModManager.InstallMod();
+            UsingModHelper = true;
+        })));
 
-        public RelayCommand ReinstallMod => new(obj =>
+        public RelayCommand ReinstallMod => new(obj => _worker.AddTask(ProgressTask(() =>
         {
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () =>
-                {
-                    HelperModManager.RemoveMod();
-                    HelperModManager.InstallMod();
-                    OnPropertyChanged(nameof(HelperModManager));
-                }
-            });
-        });
+            HelperModManager.RemoveMod();
+            HelperModManager.InstallMod();
+            OnPropertyChanged(nameof(HelperModManager));
+        })));
 
-        public RelayCommand UpdateMod => new(obj =>
+        public RelayCommand UpdateMod => new(obj => _worker.AddTask(ProgressTask(() =>
         {
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () =>
-                {
-                    HelperModManager.UpdateMod();
-                    OnPropertyChanged(nameof(HelperModManager));
-                }
-            });
-        });
+            HelperModManager.UpdateMod();
+            OnPropertyChanged(nameof(HelperModManager));
+        })));
 
-        public RelayCommand RemoveMod => new(obj =>
+        public RelayCommand RemoveMod => new(obj => _worker.AddTask(ProgressTask(() =>
         {
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () =>
-                {
-                    HelperModManager.RemoveMod();
-                    UsingModHelper = false;
-                }
-            });
-        });
+            HelperModManager.RemoveMod();
+            UsingModHelper = false;
+        })));
 
         public AppSettings AppSettings { get; }
 

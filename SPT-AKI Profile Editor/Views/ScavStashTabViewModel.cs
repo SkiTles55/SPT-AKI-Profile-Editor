@@ -43,9 +43,8 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand RemoveAllEquipment => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_equipment_items_caption"))
-                _worker.AddTask(new(() => { Profile.Characters.Scav.Inventory.RemoveAllEquipment(); },
-                                    AppLocalization.GetLocalizedString("progress_dialog_title"),
-                                    AppLocalization.GetLocalizedString("remove_stash_item_title")));
+                _worker.AddTask(ProgressTask(() => Profile.Characters.Scav.Inventory.RemoveAllEquipment(),
+                                             AppLocalization.GetLocalizedString("remove_stash_item_title")));
         });
 
         private static CharacterInventory GetInventory()

@@ -1,9 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
-using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,15 +55,11 @@ namespace SPT_AKI_Profile_Editor
         {
             var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(WeaponBuild.Name);
             if (success)
-                Worker.AddTask(CreateExportTask(() => { UserBuilds.ExportBuild(WeaponBuild, path); }));
+                Worker.AddTask(ProgressTask(() => UserBuilds.ExportBuild(WeaponBuild, path),
+                                            AppLocalization.GetLocalizedString("tab_presets_export")));
         });
 
         public RelayCommand AddToWeaponBuilds
-            => new(obj => Worker.AddTask(CreateExportTask(() => { Profile.UserBuilds.ImportBuild(WeaponBuild); })));
-
-        private static WorkerTask CreateExportTask(Action action)
-            => new(action,
-                   AppLocalization.GetLocalizedString("progress_dialog_title"),
-                   AppLocalization.GetLocalizedString("tab_presets_export"));
+            => new(obj => Worker.AddTask(ProgressTask(() => Profile.UserBuilds.ImportBuild(WeaponBuild))));
     }
 }

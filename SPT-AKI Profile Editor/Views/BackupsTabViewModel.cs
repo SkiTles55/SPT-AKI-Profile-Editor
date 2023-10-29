@@ -1,5 +1,4 @@
-﻿using SPT_AKI_Profile_Editor.Classes;
-using SPT_AKI_Profile_Editor.Core;
+﻿using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
@@ -34,29 +33,15 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         private void RemoveBackupAction(string file)
-        {
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () => { BackupService.RemoveBackup(file); },
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("remove_backup_dialog_title")
-            });
-        }
+            => _worker.AddTask(ProgressTask(() => BackupService.RemoveBackup(file),
+                                            AppLocalization.GetLocalizedString("remove_backup_dialog_title")));
 
         private void RestoreBackupAction(string file)
         {
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () => { BackupService.RestoreBackup(file); },
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("restore_backup_dialog_title")
-            });
-            _worker.AddTask(new WorkerTask
-            {
-                Action = () => AppData.StartupEvents(_cleaningService),
-                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
-                Description = AppLocalization.GetLocalizedString("progress_dialog_caption")
-            });
+            _worker.AddTask(ProgressTask(() => BackupService.RestoreBackup(file),
+                                         AppLocalization.GetLocalizedString("restore_backup_dialog_title")));
+            _worker.AddTask(ProgressTask(() => AppData.StartupEvents(_cleaningService),
+                                         AppLocalization.GetLocalizedString("progress_dialog_caption")));
         }
     }
 }
