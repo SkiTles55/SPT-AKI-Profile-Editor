@@ -5,12 +5,12 @@
 ### 程序提示: "你所选的文件路径似乎不是正确的 SPT-AKI 服务器路径。"
 确保服务器根目录中存在文件夹 user\profiles。在使用本程序之前，你必须至少启动一次服务器，让启动器创建存档文件，并至少进入一次游戏。
 
-请确保你使用本程序版本所的兼容的 SPT-AKI 版本。如果 [README](CHREADME.md)) 中声明兼容的版本的范围不在你现在使用的 SPT-AKI 服务器范围内，请等待程序更新。又或者你可以试试编辑 [AppSettings.json](CHFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) 中的文件以修改版本签名来尝试骗过软件，但不保证这种办法一定能正常工作！
+请确保你使用本程序版本所的兼容的 SPT-AKI 版本。如果 [README](CHREADME.md)) 中声明兼容的版本的范围不在你现在使用的 SPT-AKI 服务器范围内，请等待程序更新。又或者你可以试试编辑 [AppSettings.json](CHFAQ.md#我在哪里可以找到应用程序的-appsettingsjson-文件日志本地化和备份) 中的文件以修改版本签名来尝试骗过软件，但不保证这种办法一定能正常工作！
 
 确保 AppSettings.json 文件中 DirsList 和 FilesList 部分中的所有文件夹和文件都存在于服务器文件夹中，并且具有正确的命名格式（某些非原生 SPT-AKI 版本可能会更改文件名，比如说 Server1.exe 而不是 Server.exe）。
 你可以根据需要对这些部分进行必要的更改。
 
-[AppSettings.json](CHFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) 文件中 DirsList 和 FilesList 部分的示例：
+[AppSettings.json](CHFAQ.md#我在哪里可以找到应用程序的-appsettingsjson-文件日志本地化和备份) 文件中 DirsList 和 FilesList 部分的示例：
 ```json
   "DirsList": {
     "dir_globals": "Aki_Data\\Server\\database\\locales\\global",
@@ -76,7 +76,7 @@ AppSettings.json - 配置文件</br>
 </br></br>
 
 ### 物品、任务、技能等名称与游戏中的名称不符
-游戏中选择的语言与配置文件编辑器中选择的本地化不匹配。如果缺少所需的本地化，您可以使用英语本地化作为基础创建必要的本地化文件： [(Editing \ creating localization files)](/Guidelines/LocalizationsCH.md)
+游戏中选择的语言与配置文件编辑器中选择的本地化不匹配。如果缺少所需的本地化，您可以使用英语本地化作为基础创建必要的本地化文件： [(编辑 \ 创建本地化文件)](/Guidelines/LocalizationsCH.md)
 #### 更新: 从版本 2.4 开始，您可以通过单击所选语言旁边的“+”按钮在设置中创建新的本地化。
 
 ### 添加物品时出现 “此物品由模组添加，用“移除模组物品”来移除此类物品。” 异常

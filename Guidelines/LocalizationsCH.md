@@ -3,7 +3,7 @@
 
 #### 更新: 2.4版本后，你可以在设置中自行编辑本地化文件。
 
-本地化文件会在应用首次运行时创建于 [Localizations](/CHFAQ.md#where-can-i-find-the-appsettingsjson-file-logs-localizations-and-backups-maded-by-application) 文件夹。
+本地化文件会在应用首次运行时创建于 [Localizations](/CHFAQ.md#我在哪里可以找到应用程序的-appsettingsjson-文件日志本地化和备份) 文件夹。
 本地化文件在被创建后，你就可以随时编辑文件。
 当程序启动时，本地化文件将被自动加载并显示在设置对话框的相应字段中。
 
