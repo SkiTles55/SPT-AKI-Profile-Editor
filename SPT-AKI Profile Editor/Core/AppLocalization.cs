@@ -10,7 +10,9 @@ namespace SPT_AKI_Profile_Editor.Core
 {
     public class AppLocalization : BindableEntity
     {
+        [JsonIgnore]
         public readonly string localizationsDir;
+
         private Dictionary<string, string> translations;
         private Dictionary<string, string> localizations;
 
@@ -68,8 +70,8 @@ namespace SPT_AKI_Profile_Editor.Core
             try
             {
                 AppLocalization appLocalization = LocalizationFromFile(Path.Combine(localizationsDir, key + ".json"));
-                AppLocalization DefaultLocalization = DefaultValues.DefaultLocalizations.Find(x => x.Key == key)
-                    ?? DefaultValues.DefaultLocalizations.Find(x => x.Key == "en");
+                AppLocalization DefaultLocalization = DefaultValues.DefaultLocalizations().Find(x => x.Key == key)
+                    ?? DefaultValues.DefaultLocalizations().Find(x => x.Key == "en");
                 bool _needReSave = false;
                 foreach (var st in DefaultLocalization.Translations.Where(x => !appLocalization.Translations.ContainsKey(x.Key)))
                 {
@@ -116,7 +118,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private void CreateDefault()
         {
-            foreach (var loc in DefaultValues.DefaultLocalizations.Where(x => !File.Exists(Path.Combine(localizationsDir, x.Key + ".json"))))
+            foreach (var loc in DefaultValues.DefaultLocalizations().Where(x => !File.Exists(Path.Combine(localizationsDir, x.Key + ".json"))))
             {
                 try { Save(Path.Combine(localizationsDir, loc.Key + ".json"), loc); }
                 catch (Exception ex) { Logger.Log($"Localization file ({loc.Key}) creating error: {ex.Message}"); }
