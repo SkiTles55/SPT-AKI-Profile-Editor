@@ -20,6 +20,9 @@
   <ItemGroup>
     <None Remove="Resources\Images\ltcWallet.png" />
     <None Remove="profileeditor.png" />
+    <None Remove="Resources\Localizations\ch.json" />
+    <None Remove="Resources\Localizations\en.json" />
+    <None Remove="Resources\Localizations\ru.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +34,9 @@
 
   <ItemGroup>
     <Resource Include="Resources\Images\ltcWallet.png" />
+    <EmbeddedResource Include="Resources\Localizations\ch.json" />
+    <EmbeddedResource Include="Resources\Localizations\en.json" />
+    <EmbeddedResource Include="Resources\Localizations\ru.json" />
   </ItemGroup>
 
   <ItemGroup>

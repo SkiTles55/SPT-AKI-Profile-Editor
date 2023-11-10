@@ -1,4 +1,4 @@
-# SPT-AKI Profile Editor [RU README version](README.md)
+# SPT-AKI Profile Editor [RU README version](README.md) [CH 自述文件版本](CHREADME.md)
 ### Program for editing player profile on the SPT-AKI Server
 <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
   ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)

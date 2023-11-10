@@ -133,11 +133,7 @@ namespace SPT_AKI_Profile_Editor
                                                         AppLocalization.GetLocalizedString("save_profile_dialog_caption"));
         }
 
-        private void OpenFAQUrl()
-        {
-            var link = $"https://github.com/{AppData.AppSettings.repoAuthor}/{AppData.AppSettings.repoName}/blob/master/{(AppData.AppSettings.Language == "ru" ? "FAQ" : "ENGFAQ")}.md";
-            _applicationManager.OpenUrl(link);
-        }
+        private void OpenFAQUrl() => _applicationManager.OpenUrl(LinksHelper.FAQ);
 
         private void SaveAction()
         {
