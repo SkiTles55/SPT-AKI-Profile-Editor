@@ -44,8 +44,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ResetLocalizations => new(obj => _applicationManager.DeleteLocalizations());
 
-        public RelayCommand OpenHowToUseHelperMod
-            => new(obj => OpenUrl(AppSettings.modHelperHowToUseUrl + (AppSettings.Language == "ru" ? "Ru" : "ENG") + ".md"));
+        public RelayCommand OpenHowToUseHelperMod => new(obj => OpenUrl(LinksHelper.HelperModManual));
 
         public IEnumerable<AccentItem> ColorSchemes => _applicationManager.GetColorSchemes();
 
