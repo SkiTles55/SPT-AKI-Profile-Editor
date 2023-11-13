@@ -29,6 +29,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public void OpenUrl(string url);
 
+        public void OpenDiscord();
+
         public bool CheckProcess(string name = null, string path = null);
 
         public Task<GitHubRelease> CheckUpdate();
@@ -89,6 +91,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
             };
             Process.Start(link);
         }
+
+        public void OpenDiscord() => OpenUrl("https://discord.gg/NTwSA4AfRP");
 
         public bool CheckProcess(string name = null, string path = null)
         {

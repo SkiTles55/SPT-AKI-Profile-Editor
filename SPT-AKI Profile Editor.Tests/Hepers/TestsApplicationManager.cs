@@ -54,6 +54,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public void OpenUrl(string url) => LastOpenedUrl = url;
 
+        public void OpenDiscord() { }
+
         public void OpenWeaponBuildWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed) => WeaponBuildWindowOpened = true;
 
         public void RestartApplication() => ApplicationRestarted = true;

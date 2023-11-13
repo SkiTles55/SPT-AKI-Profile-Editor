@@ -1,4 +1,4 @@
-# SPT-AKI 存档编辑器 [切换到俄语的帮助文本](README.md)
+# SPT-AKI 存档编辑器 [切换到英文帮助文本](ENGREADME.md)
 ### 这是一个可以编辑 SPT-AKI 服务器玩家存档的程序
 <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
   ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)
@@ -53,13 +53,13 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 ### [常见问题](CHFAQ.md)
 
 ### 截图
-![Screenshot1](/screenshots/1EN.PNG?raw=true)
-![Screenshot2](/screenshots/2EN.PNG?raw=true)
-![Screenshot3](/screenshots/3EN.PNG?raw=true)
-![Screenshot4](/screenshots/4EN.PNG?raw=true)
-![Screenshot5](/screenshots/5EN.PNG?raw=true)
-![Screenshot6](/screenshots/6EN.PNG?raw=true)
-![Screenshot7](/screenshots/7EN.PNG?raw=true)
+![Screenshot1](/screenshots/1CH.PNG?raw=true)
+![Screenshot2](/screenshots/2CH.PNG?raw=true)
+![Screenshot3](/screenshots/3CH.PNG?raw=true)
+![Screenshot4](/screenshots/4CH.PNG?raw=true)
+![Screenshot5](/screenshots/5CH.PNG?raw=true)
+![Screenshot6](/screenshots/6CH.PNG?raw=true)
+![Screenshot7](/screenshots/7CH.PNG?raw=true)
 
 ### 其他有用的模组
 [Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)

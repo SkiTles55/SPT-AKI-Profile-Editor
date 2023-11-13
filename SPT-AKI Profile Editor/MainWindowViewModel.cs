@@ -49,6 +49,8 @@ namespace SPT_AKI_Profile_Editor
 
         public RelayCommand OpenFAQ => new(obj => OpenFAQUrl());
 
+        public RelayCommand OpenDiscord => new(obj => _applicationManager.OpenDiscord());
+
         public ViewModelsFactory ViewModels { get; }
 
         public RelayCommand SaveButtonCommand => new(obj => SaveProfileAndReload());

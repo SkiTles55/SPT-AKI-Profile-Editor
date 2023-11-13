@@ -28,6 +28,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand OpenRepositoryGitHubUrl => new(obj => OpenUrl(RepositoryURL));
 
+        public RelayCommand OpenDiscord => new(obj => _applicationManager.OpenDiscord());
+
         public RelayCommand OpenYoomoneyUrl => new(obj => OpenUrl(YoomoneyUrl));
 
         public RelayCommand OpenSteamUrl => new(obj => OpenUrl(AppSettings.steamTradeUrl));

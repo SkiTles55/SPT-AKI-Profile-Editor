@@ -29,6 +29,11 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <extendedcontrols:ButtonFontAwesomeIcon
+                Command="{Binding OpenDiscord}"
+                Content="Discord"
+                Icon="DiscordBrands"
+                Style="{StaticResource WindowCommandButton}" />
+            <extendedcontrols:ButtonFontAwesomeIcon
                 Command="{Binding OpenFAQ}"
                 Content="{Binding AppLocalization.Translations[button_faq]}"
                 Icon="InfoCircleSolid"
