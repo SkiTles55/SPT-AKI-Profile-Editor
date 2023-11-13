@@ -53,13 +53,13 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 ### [常见问题](CHFAQ.md)
 
 ### 截图
-![Screenshot1](/screenshots/1CH.PNG?raw=true)
-![Screenshot2](/screenshots/2CH.PNG?raw=true)
-![Screenshot3](/screenshots/3CH.PNG?raw=true)
-![Screenshot4](/screenshots/4CH.PNG?raw=true)
-![Screenshot5](/screenshots/5CH.PNG?raw=true)
-![Screenshot6](/screenshots/6CH.PNG?raw=true)
-![Screenshot7](/screenshots/7CH.PNG?raw=true)
+![Screenshot1](/screenshots/1CH.png?raw=true)
+![Screenshot2](/screenshots/2CH.png?raw=true)
+![Screenshot3](/screenshots/3CH.png?raw=true)
+![Screenshot4](/screenshots/4CH.png?raw=true)
+![Screenshot5](/screenshots/5CH.png?raw=true)
+![Screenshot6](/screenshots/6CH.png?raw=true)
+![Screenshot7](/screenshots/7CH.png?raw=true)
 
 ### 其他有用的模组
 [Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)

@@ -53,8 +53,8 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 ### [Frequently asked questions](ENGFAQ.md)
 
 ### Credits 
-Anonymous donaters on yoomoney
-[havaed](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/commits?author=havaed) - [Fix unvalid IDs making created items unsellable](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)
+Anonymous donaters on yoomoney\
+[havaed](https://github.com/havaed) - [Fix unvalid IDs making created items unsellable](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
 Lomenot - Chinese localization 
 
 ### Screenshots

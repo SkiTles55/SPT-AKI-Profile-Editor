@@ -30,7 +30,7 @@
         <mah:WindowCommands>
             <extendedcontrols:ButtonFontAwesomeIcon
                 Command="{Binding OpenDiscord}"
-                Content="Discord"
+                Content="DISCORD"
                 Icon="DiscordBrands"
                 Style="{StaticResource WindowCommandButton}" />
             <extendedcontrols:ButtonFontAwesomeIcon
