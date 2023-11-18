@@ -17,7 +17,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 2.8.3 for server SPT-AKI 3.7.0 - 3.7.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.3)
+### [Version 2.8.4 for server SPT-AKI 3.7.0 - 3.7.2](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.4)
 ### [Version 2.7 for server SPT-AKI 3.4.0 - 3.6.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.7)
 ### [Version 2.4.2 for server SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
 ### [Version 2.3.1 for server SPT-AKI 3.0.0 - 3.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.3.1)
