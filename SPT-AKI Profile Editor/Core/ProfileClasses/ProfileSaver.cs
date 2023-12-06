@@ -101,7 +101,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(profile.Characters.Scav.Skills.Mastering, scav, "Mastering", SaveEntry.MasteringSkillsScav);
             WriteSuits(jobject);
             WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash, SaveEntry.StashPmc);
-            WriteStash(scav, profile.Characters.Scav.Inventory, newStash, SaveEntry.StashScav);
+            WriteStash(scav, profile.Characters.Scav.Inventory, null, SaveEntry.StashScav);
             WriteUserBuilds(jobject);
             if (!exceptions.HaveAllErrors())
             {
