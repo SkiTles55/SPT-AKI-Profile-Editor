@@ -98,10 +98,8 @@
             Grid.ColumnSpan="2"
             Margin="5,5,5,5"
             mah:ControlsHelper.ContentCharacterCasing="Normal"
-            mah:HeaderedControlHelper.HeaderBackground="Transparent"
-            mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
-            BorderThickness="0"
-            Header="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_parts], FallbackValue=tab_preset_parts}">
+            Header="{Binding ElementName=Control, Path=LocalizationDict[tab_preset_parts], FallbackValue=tab_preset_parts}"
+            Style="{StaticResource TransparentExpander}">
             <DataGrid
                 d:ItemsSource="{d:SampleData ItemCount=4}"
                 AutoGenerateColumns="False"

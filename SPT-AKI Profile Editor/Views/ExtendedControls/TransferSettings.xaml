@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.TransferSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:Background="White"
+    d:DesignHeight="450"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="PrimaryExpander"
+            BasedOn="{StaticResource TransparentExpander}"
+            TargetType="Expander">
+            <Setter Property="Margin" Value="10,5" />
+        </Style>
+        <Style
+            x:Key="ItemCheckBox"
+            BasedOn="{StaticResource {x:Type CheckBox}}"
+            TargetType="CheckBox">
+            <Setter Property="Margin" Value="47,5" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style
+            x:Key="PrimaryItemCheckBox"
+            BasedOn="{StaticResource ItemCheckBox}"
+            TargetType="CheckBox">
+            <Setter Property="Margin" Value="10,0" />
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Expander Style="{StaticResource PrimaryExpander}">
+                <Expander.Header>
+                    <CheckBox Content="{Binding AppLocalization.Translations[tab_info_title], FallbackValue=tab_info_title}" Style="{StaticResource PrimaryItemCheckBox}" />
+                </Expander.Header>
+                <StackPanel>
+                    <local:InfoTransferSettings />
+                    <local:InfoTransferSettings />
+                </StackPanel>
+            </Expander>
+            <CheckBox Content="{Binding AppLocalization.Translations[tab_merchants_title], FallbackValue=tab_merchants_title}" Style="{StaticResource ItemCheckBox}" />
+            <CheckBox Content="{Binding AppLocalization.Translations[tab_quests_title], FallbackValue=tab_quests_title}" Style="{StaticResource ItemCheckBox}" />
+            <CheckBox Content="{Binding AppLocalization.Translations[tab_hideout_title], FallbackValue=tab_hideout_title}" Style="{StaticResource ItemCheckBox}" />
+            <Expander Style="{StaticResource PrimaryExpander}">
+                <Expander.Header>
+                    <CheckBox Content="{Binding AppLocalization.Translations[tab_skills_title], FallbackValue=tab_skills_title}" Style="{StaticResource PrimaryItemCheckBox}" />
+                </Expander.Header>
+                <StackPanel>
+                    <CheckBox Margin="43,5" Content="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}" />
+                    <CheckBox Margin="43,5" Content="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" />
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

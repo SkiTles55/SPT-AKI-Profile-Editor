@@ -71,12 +71,10 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander
-                                            mah:HeaderedControlHelper.HeaderBackground="Transparent"
-                                            mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
-                                            BorderThickness="0"
                                             Collapsed="Expander_Expanded"
                                             Expanded="Expander_Expanded"
-                                            Loaded="Expander_Loaded">
+                                            Loaded="Expander_Loaded"
+                                            Style="{StaticResource TransparentExpander}">
                                             <Expander.Header>
                                                 <DockPanel LastChildFill="True">
                                                     <TextBlock
