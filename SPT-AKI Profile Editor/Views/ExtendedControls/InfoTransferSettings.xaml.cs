@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SPT_AKI_Profile_Editor.Core.ProgressTransfer;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
 {
@@ -20,9 +9,30 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
     /// </summary>
     public partial class InfoTransferSettings : UserControl
     {
-        public InfoTransferSettings()
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register(nameof(Title),
+                                        typeof(string),
+                                        typeof(InfoTransferSettings),
+                                        null);
+
+        public static readonly DependencyProperty InfoGroupProperty =
+            DependencyProperty.Register(nameof(InfoGroup),
+                                        typeof(InfoGroup),
+                                        typeof(InfoTransferSettings),
+                                        null);
+
+        public InfoTransferSettings() => InitializeComponent();
+
+        public string Title
         {
-            InitializeComponent();
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public InfoGroup InfoGroup
+        {
+            get { return (InfoGroup)GetValue(InfoGroupProperty); }
+            set { SetValue(InfoGroupProperty, value); }
         }
     }
 }

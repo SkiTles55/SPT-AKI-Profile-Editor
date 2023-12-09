@@ -106,7 +106,7 @@
                 <views:CleaningFromMods DataContext="{Binding ViewModels.CleaningFromModsTab}" />
             </TabItem>
             <TabItem Header="Transfer progress" HeaderTemplate="{StaticResource HeaderTemplate}">
-                <views:ProgressTransferTab />
+                <views:ProgressTransferTab DataContext="{Binding ViewModels.ProgressTransferTab}" />
             </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title], FallbackValue=tab_backups_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:BackupsTab DataContext="{Binding ViewModels.BackupsTab}" />
