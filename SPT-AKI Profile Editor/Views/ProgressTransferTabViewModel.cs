@@ -11,8 +11,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand DeselectAll => new(_ => SettingsModel.ChangeAll(false));
 
-        public RelayCommand ExportProgress => new(_ => { });
+        public RelayCommand ExportProgress => new(_ => ProgressTransferService.ExportProgress(SettingsModel, @"C:\Users\Dmitry\OneDrive\Рабочий стол\testExport.json"));
 
-        public RelayCommand ImportProgress => new(_ => { });
+        public RelayCommand ImportProgress => new(_ => ProgressTransferService.ImportProgress(SettingsModel, ""));
     }
 }
