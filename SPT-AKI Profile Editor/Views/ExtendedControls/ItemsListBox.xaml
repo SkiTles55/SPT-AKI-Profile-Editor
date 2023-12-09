@@ -29,10 +29,7 @@
         </ListBox.Resources>
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <Border
-                    Margin="5"
-                    BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
-                    BorderThickness="1">
+                <Border Style="{StaticResource GroupBorder}">
                     <DockPanel>
                         <Grid DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>

@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls">
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
     <Style BasedOn="{StaticResource MahApps.Styles.Button}" TargetType="{x:Type extendedcontrols:ButtonFontAwesomeIcon}">
         <Setter Property="ContentTemplate">
             <Setter.Value>

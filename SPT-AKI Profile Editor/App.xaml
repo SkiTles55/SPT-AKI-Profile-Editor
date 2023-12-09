@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/Resources/Buttons.xaml" />
                 <ResourceDictionary Source="/Resources/Labels.xaml" />
                 <ResourceDictionary Source="/Resources/Expander.xaml" />
+                <ResourceDictionary Source="/Resources/Borders.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style
                 x:Key="MyColumnHeader"

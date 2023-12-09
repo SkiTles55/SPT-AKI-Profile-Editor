@@ -9,27 +9,23 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <Style
-            x:Key="ItemCheckBox"
+            x:Key="InnerCheckBox"
             BasedOn="{StaticResource {x:Type CheckBox}}"
             TargetType="CheckBox">
-            <Setter Property="Margin" Value="40,5" />
+            <Setter Property="Margin" Value="20,5,10,5" />
         </Style>
     </UserControl.Resources>
-    <Expander Margin="10,5" Style="{StaticResource TransparentExpander}">
-        <Expander.Header>
-            <CheckBox
-                Margin="10,0"
-                Content="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}"
-                FontWeight="Bold" />
-        </Expander.Header>
-        <StackPanel>
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_nickname], FallbackValue=tab_info_nickname}" Style="{StaticResource ItemCheckBox}" />
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_side], FallbackValue=tab_info_side}" Style="{StaticResource ItemCheckBox}" />
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_voice], FallbackValue=tab_info_voice}" Style="{StaticResource ItemCheckBox}" />
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_experience], FallbackValue=tab_info_experience}" Style="{StaticResource ItemCheckBox}" />
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_head], FallbackValue=tab_info_head}" Style="{StaticResource ItemCheckBox}" />
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_pockets], FallbackValue=tab_info_pockets}" Style="{StaticResource ItemCheckBox}" />
-            <CheckBox Content="{Binding AppLocalization.Translations[tab_info_health], FallbackValue=tab_info_health}" Style="{StaticResource ItemCheckBox}" />
-        </StackPanel>
-    </Expander>
+    <StackPanel>
+        <CheckBox
+            Margin="10,5"
+            Content="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}"
+            FontWeight="Bold" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_nickname], FallbackValue=tab_info_nickname}" Style="{StaticResource InnerCheckBox}" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_side], FallbackValue=tab_info_side}" Style="{StaticResource InnerCheckBox}" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_voice], FallbackValue=tab_info_voice}" Style="{StaticResource InnerCheckBox}" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_experience], FallbackValue=tab_info_experience}" Style="{StaticResource InnerCheckBox}" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_head], FallbackValue=tab_info_head}" Style="{StaticResource InnerCheckBox}" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_pockets], FallbackValue=tab_info_pockets}" Style="{StaticResource InnerCheckBox}" />
+        <CheckBox Content="{Binding AppLocalization.Translations[tab_info_health], FallbackValue=tab_info_health}" Style="{StaticResource InnerCheckBox}" />
+    </StackPanel>
 </UserControl>
