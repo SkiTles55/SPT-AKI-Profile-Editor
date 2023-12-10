@@ -7,6 +7,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         private bool merchants = true;
         private bool quests = true;
         private bool hideout = true;
+        private bool crafts = true;
         private bool examinedItems = true;
         private bool clothing = true;
 
@@ -53,6 +54,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             }
         }
 
+        public bool Crafts
+        {
+            get => crafts;
+            set
+            {
+                crafts = value;
+                OnPropertyChanged(nameof(Crafts));
+                NotifySelectableUpdate();
+            }
+        }
+
         public bool ExaminedItems
         {
             get => examinedItems;
@@ -80,6 +92,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             || !merchants
             || !quests
             || !hideout
+            || !crafts
             || !examinedItems
             || !clothing
             || Skills.GroupState != true
@@ -91,6 +104,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             || merchants
             || quests
             || hideout
+            || crafts
             || examinedItems
             || clothing
             || Skills.GroupState != false
@@ -109,6 +123,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             Merchants = value;
             Quests = value;
             Hideout = value;
+            Crafts = value;
             ExaminedItems = value;
             Clothing = value;
             Skills.GroupState = value;

@@ -80,6 +80,10 @@
                             IsChecked="{Binding SettingsModel.Hideout}"
                             Style="{StaticResource ItemCheckBox}" />
                         <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_hideout_crafts], FallbackValue=tab_hideout_crafts}"
+                            IsChecked="{Binding SettingsModel.Crafts}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
                             Content="{Binding AppLocalization.Translations[tab_examined_items_title], FallbackValue=tab_examined_items_title}"
                             IsChecked="{Binding SettingsModel.ExaminedItems}"
                             Style="{StaticResource ItemCheckBox}" />
