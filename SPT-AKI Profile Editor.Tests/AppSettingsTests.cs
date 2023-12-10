@@ -18,45 +18,37 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void PathIsServerBaseTrue() => Assert.IsTrue(settings.PathIsServerFolder(TestHelpers.serverPath));
+        public void PathIsServerBaseTrue() => Assert.That(settings.PathIsServerFolder(TestHelpers.serverPath), Is.True);
 
         [Test]
-        public void PathIsServerBaseFalse() => Assert.IsFalse(settings.PathIsServerFolder(TestHelpers.wrongServerPath));
+        public void PathIsServerBaseFalse() => Assert.That(settings.PathIsServerFolder(TestHelpers.wrongServerPath), Is.False);
 
         [Test]
-        public void LanguageNotEmpty() => Assert.IsNotNull(settings.Language, "Language is empty");
+        public void LanguageNotEmpty() => Assert.That(settings.Language, Is.Not.Null, "Language is empty");
 
         [Test]
-        public void ColorSchemeNotEmpty() => Assert.IsNotNull(settings.ColorScheme, "ColorScheme is empty");
+        public void ColorSchemeNotEmpty() => Assert.That(settings.ColorScheme, Is.Not.Null, "ColorScheme is empty");
 
         [Test]
-        public void DirsListCorrect() => Assert.AreEqual(DefaultValues.DefaultDirsList, settings.DirsList, "Default dir list not correct");
+        public void DirsListCorrect() => Assert.That(settings.DirsList, Is.EqualTo(DefaultValues.DefaultDirsList), "Default dir list not correct");
 
         [Test]
-        public void FilesListCorrect() => Assert.AreEqual(DefaultValues.DefaultFilesList, settings.FilesList, "Files list not correct");
+        public void FilesListCorrect() => Assert.That(settings.FilesList, Is.EqualTo(DefaultValues.DefaultFilesList), "Files list not correct");
 
         [Test]
-        public void IssuesActionAlwaysShowSavesCorrectly()
+        public void IssuesActionAlwaysShowSavesCorrectly() => IssuesActionSavesCorrectly(IssuesAction.AlwaysShow);
+
+        [Test]
+        public void IssuesActionAlwaysFixSavesCorrectly() => IssuesActionSavesCorrectly(IssuesAction.AlwaysFix);
+
+        [Test]
+        public void IssuesActionAlwaysIgnoreSavesCorrectly() => IssuesActionSavesCorrectly(IssuesAction.AlwaysIgnore);
+
+        private void IssuesActionSavesCorrectly(IssuesAction action)
         {
-            settings.IssuesAction = IssuesAction.AlwaysShow;
+            settings.IssuesAction = action;
             settings.Load();
-            Assert.True(settings.IssuesAction == IssuesAction.AlwaysShow, "IssuesAction is not AlwaysShow");
-        }
-
-        [Test]
-        public void IssuesActionAlwaysFixSavesCorrectly()
-        {
-            settings.IssuesAction = IssuesAction.AlwaysFix;
-            settings.Load();
-            Assert.True(settings.IssuesAction == IssuesAction.AlwaysFix, "IssuesAction is not AlwaysFix");
-        }
-
-        [Test]
-        public void IssuesActionAlwaysIgnoreSavesCorrectly()
-        {
-            settings.IssuesAction = IssuesAction.AlwaysIgnore;
-            settings.Load();
-            Assert.True(settings.IssuesAction == IssuesAction.AlwaysIgnore, "IssuesAction is not AlwaysIgnore");
+            Assert.That(settings.IssuesAction, Is.EqualTo(action), $"IssuesAction is not {action}");
         }
     }
 }

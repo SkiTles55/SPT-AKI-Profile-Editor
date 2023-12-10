@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         private readonly SafeEnumConverter<QuestConditionType> converter = new();
 
         [Test]
-        public override void ConverterCanConvert() => Assert.IsTrue(converter.CanConvert(typeof(QuestConditionType)));
+        public override void ConverterCanConvert() => Assert.That(converter.CanConvert(typeof(QuestConditionType)), Is.True);
 
         [Test]
         public override void ConverterCanReadAllValues()
