@@ -117,7 +117,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
 
         public Builds Builds { get; } = new();
 
-        internal void ChangeAll(bool value)
+        public void ChangeAll(bool value)
         {
             Info.GroupState = value;
             Merchants = value;
