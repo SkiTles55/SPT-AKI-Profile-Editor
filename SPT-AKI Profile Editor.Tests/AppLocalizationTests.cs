@@ -56,8 +56,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void LocalizationsDictionaryCorrect()
         {
-            var expected = DefaultValues.DefaultLocalizations().ToDictionary(x => x.Key, x => x.Name);
-            Assert.That(appLocalization.Translations.Count,
+            var expected = DefaultValues.DefaultLocalizations().ToDictionary(x => x.Key, x => x.Name).Count;
+            Assert.That(appLocalization.Localizations.Count,
                         Is.EqualTo(expected),
                         "Localizations dictionary not correct");
         }
