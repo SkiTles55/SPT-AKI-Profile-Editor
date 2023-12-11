@@ -1,4 +1,5 @@
-﻿using SPT_AKI_Profile_Editor.Core.Enums;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using System.Collections.Generic;
 
@@ -60,6 +61,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                     {
                         public float Current;
                         public float Maximum;
+
+                        [JsonConstructor]
+                        public Metric(float current, float maximum)
+                        {
+                            Current = current;
+                            Maximum = maximum;
+                        }
 
                         public Metric(CharacterMetric characterMetric)
                         {

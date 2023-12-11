@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class ProgressTransferServiceExportTests
     {
         private readonly string pmcNickname = "ProgressTransferServiceTestPMCNickname";
-        private readonly long pmcExperience = 754547756;
+        private readonly long pmcExperience = 19198744;
 
         private readonly string exportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testProgressExport.json");
         private readonly SettingsModel exportSettings = new();
@@ -31,11 +31,11 @@ namespace SPT_AKI_Profile_Editor.Tests
             ProgressTransferService.ExportProgress(exportSettings, AppData.Profile, exportPath);
 
             string fileText = File.ReadAllText(exportPath);
-            SettingsModel exportedSettings = JsonConvert.DeserializeObject<SettingsModel>(fileText);
+            ProfileProgress exportedProgress = JsonConvert.DeserializeObject<ProfileProgress>(fileText);
 
-            Assert.That(exportedSettings, Is.Not.Null);
-            Assert.That(exportedSettings.Info.Pmc.Nickname, Is.EqualTo(pmcNickname));
-            Assert.That(exportedSettings.Info.Pmc.Experience, Is.EqualTo(pmcExperience));
+            Assert.That(exportedProgress, Is.Not.Null);
+            Assert.That(exportedProgress.Info.Pmc.Nickname, Is.EqualTo(pmcNickname));
+            Assert.That(exportedProgress.Info.Pmc.Experience, Is.EqualTo(pmcExperience));
         }
     }
 }
