@@ -16,7 +16,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void Setup() => backupService = new(Path.Combine(TestHelpers.appDataPath, "Backups"));
 
         [Test]
-        public void BackupServiceIsNotNull() => Assert.IsNotNull(backupService);
+        public void BackupServiceIsNotNull() => Assert.That(backupService, Is.Not.Null);
 
         [Test]
         public void BackupCreatingCorrectly()
@@ -25,16 +25,16 @@ namespace SPT_AKI_Profile_Editor.Tests
             backupService.CreateBackup(TestHelpers.profileFile);
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
             var result = JsonConvert.DeserializeObject(File.ReadAllText(backupService.BackupList.First().Path));
-            Assert.AreEqual(expected.ToString(), result.ToString());
-            Assert.True(backupService.HasBackups);
+            Assert.That(result.ToString(), Is.EqualTo(expected.ToString()));
+            Assert.That(backupService.HasBackups, Is.True);
         }
 
         [Test]
         public void BackupListNotEmpty()
         {
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
-            Assert.IsTrue(backupService.BackupList.Any());
-            Assert.True(backupService.HasBackups);
+            Assert.That(backupService.BackupList.Any(), Is.True);
+            Assert.That(backupService.HasBackups, Is.True);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             string testPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testBackup.json");
             BackupService.RestoreBackup(backupService.BackupList.First().Path, testPath);
             var result = JsonConvert.DeserializeObject(File.ReadAllText(testPath));
-            Assert.AreEqual(expected.ToString(), result.ToString());
+            Assert.That(result.ToString(), Is.EqualTo(expected.ToString()));
         }
 
         [Test]
@@ -56,8 +56,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             var expected = backupService.BackupList.Count();
             backupService.RemoveBackup(backupService.BackupList.Last().Path);
             backupService.LoadBackupsList(Path.GetFileNameWithoutExtension(TestHelpers.profileFile));
-            Assert.AreNotEqual(expected, backupService.BackupList.Count());
-            Assert.False(backupService.HasBackups);
+            Assert.That(backupService.BackupList.Count(), Is.Not.EqualTo(expected));
+            Assert.That(backupService.HasBackups, Is.False);
         }
     }
 }

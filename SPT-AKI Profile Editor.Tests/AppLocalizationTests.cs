@@ -20,46 +20,46 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void CreatedEnLocalizationCorrect()
+        public void CreatedEnLocalizationCorrect() => CheckLocalization("en", "English");
+
+        private void CheckLocalization(string localeKey, string localeName)
         {
-            appLocalization.LoadLocalization("en");
-            var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == "en");
-            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "English localization strings count not correct");
-            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "English localization does not have all strings");
+            appLocalization.LoadLocalization(localeKey);
+            var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == localeKey);
+            Assert.That(appLocalization.Translations.Count,
+                        Is.EqualTo(expected.Translations.Count),
+                        $"{localeName} localization strings count not correct");
+            Assert.That(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)),
+                        Is.False,
+                        $"{localeName} localization does not have all strings");
         }
 
         [Test]
-        public void CreatedRuLocalizationCorrect()
-        {
-            appLocalization.LoadLocalization("ru");
-            var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == "ru");
-            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "Russian localization strings count not correct");
-            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "Russian localization does not have all strings");
-        }
+        public void CreatedRuLocalizationCorrect() => CheckLocalization("ru", "Russian");
 
         [Test]
-        public void CreatedChLocalizationCorrect()
-        {
-            appLocalization.LoadLocalization("ch");
-            var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == "ch");
-            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "Chinese localization strings count not correct");
-            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "Chinese localization does not have all strings");
-        }
+        public void CreatedChLocalizationCorrect() => CheckLocalization("ch", "Chinese");
 
         [Test]
         public void LoadedLocalizationCorrect()
         {
             appLocalization.LoadLocalization(appSettings.Language);
             var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == appSettings.Language);
-            Assert.AreEqual(expected.Translations.Count, appLocalization.Translations.Count, "Loaded localization strings count not correct");
-            Assert.IsFalse(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)), "Loaded localization does not have all strings");
+            Assert.That(appLocalization.Translations.Count,
+                        Is.EqualTo(expected.Translations.Count),
+                        "Loaded localization strings count not correct");
+            Assert.That(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)),
+                        Is.False,
+                        "Loaded localization does not have all strings");
         }
 
         [Test]
         public void LocalizationsDictionaryCorrect()
         {
             var expected = DefaultValues.DefaultLocalizations().ToDictionary(x => x.Key, x => x.Name);
-            Assert.AreEqual(expected, appLocalization.Localizations, "Localizations dictionary not correct");
+            Assert.That(appLocalization.Translations.Count,
+                        Is.EqualTo(expected),
+                        "Localizations dictionary not correct");
         }
 
         [Test]

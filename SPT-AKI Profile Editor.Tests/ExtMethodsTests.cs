@@ -8,7 +8,8 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class ExtMethodsTests
     {
         [Test]
-        public void IdNotEmpty() => Assert.IsNotEmpty(ExtMethods.GenerateNewId(new string[] { "testid" }));
+        public void IdNotEmpty()
+            => Assert.That(ExtMethods.GenerateNewId(new string[] { "testid" }), Is.Not.Empty);
 
         [Test]
         public void CanGenerateUniqueId()
@@ -20,8 +21,12 @@ namespace SPT_AKI_Profile_Editor.Tests
             for (int i = 0; i < 150; i++)
                 idsArray.Add(ExtMethods.GenerateNewId(idsArray));
 
-            Assert.IsTrue(idsArray.Count == startCount + 150, "List od id's does't have new id's");
-            Assert.IsTrue(idsArray.Count == idsArray.Distinct().Count(), "List od id's have duplicates");
+            Assert.That(idsArray.Count == startCount + 150,
+                        Is.True,
+                        "List od id's does't have new id's");
+            Assert.That(idsArray.Count,
+                        Is.EqualTo(idsArray.Distinct().Count()),
+                        "List od id's have duplicates");
         }
     }
 }

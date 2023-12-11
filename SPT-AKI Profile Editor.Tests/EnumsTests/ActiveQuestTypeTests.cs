@@ -23,17 +23,17 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
                 switch (questType)
                 {
                     case ActiveQuestType.Unknown:
-                        Assert.IsTrue(questType.LocalizedName() == questType.ToString());
+                        Assert.That(questType.LocalizedName(), Is.EqualTo(questType.ToString()));
                         break;
 
                     default:
-                        Assert.IsTrue(questType.LocalizedName() == AppData.ServerDatabase.LocalesGlobal[questType.LocalizationKey()]);
+                        Assert.That(questType.LocalizedName(), Is.EqualTo(AppData.ServerDatabase.LocalesGlobal[questType.LocalizationKey()]));
                         break;
                 }
         }
 
         [Test]
-        public override void ConverterCanConvert() => Assert.IsTrue(converter.CanConvert(typeof(ActiveQuestType)));
+        public override void ConverterCanConvert() => Assert.That(converter.CanConvert(typeof(ActiveQuestType)), Is.True);
 
         [Test]
         public override void ConverterCanReadAllValues()

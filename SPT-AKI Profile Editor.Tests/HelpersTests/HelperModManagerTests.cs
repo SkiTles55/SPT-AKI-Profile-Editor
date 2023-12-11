@@ -18,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void CanInitialize()
         {
             HelperModManager helperModManager = new(fakeUpdateUrl, "", testDirectoryWithoutMod);
-            Assert.IsNotNull(helperModManager);
+            Assert.That(helperModManager, Is.Not.Null);
         }
 
         [Test]

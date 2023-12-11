@@ -1,10 +1,13 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Internal;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
@@ -15,214 +18,312 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
-        public void BotTypesHeadsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Heads.Count == 0);
+        public void BotTypesHeadsNotNull()
+            => Assert.That(AppData.ServerDatabase.Heads, Is.Not.Null);
 
         [Test]
-        public void BotTypesHeadsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Heads);
+        public void BotTypesHeadsNotEmpty()
+            => Assert.That(AppData.ServerDatabase.Heads, Is.Not.Empty);
 
         [Test]
         public void BotTypesHeadsHasCorrectNames()
         {
             foreach (var head in AppData.ServerDatabase.Heads)
-                Assert.False(string.IsNullOrWhiteSpace(head.Value), $"head {head.Key} has incorrect name: {head.Value}");
+                Assert.That(string.IsNullOrWhiteSpace(head.Value),
+                            Is.False,
+                            $"head {head.Key} has incorrect name: {head.Value}");
         }
 
         [Test]
-        public void BotTypesVoicesNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Voices.Count == 0);
+        public void BotTypesVoicesNotEmpty()
+            => Assert.That(AppData.ServerDatabase.Voices, Is.Not.Empty);
 
         [Test]
-        public void BotTypesVoicesNotNull() => Assert.IsNotNull(AppData.ServerDatabase.Voices);
+        public void BotTypesVoicesNotNull()
+            => Assert.That(AppData.ServerDatabase.Voices, Is.Not.Null);
 
         [Test]
-        public void LocalesGlobalNotNull() => Assert.IsNotNull(AppData.ServerDatabase.LocalesGlobal);
+        public void LocalesGlobalNotNull()
+            => Assert.That(AppData.ServerDatabase.LocalesGlobal, Is.Not.Null);
 
         [Test]
-        public void LocalesGlobalNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.LocalesGlobal.Count == 0);
+        public void LocalesGlobalNotEmpty()
+            => Assert.That(AppData.ServerDatabase.LocalesGlobal, Is.Not.Empty);
 
         [Test]
-        public void ServerGlobalsNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals);
+        public void ServerGlobalsNotNull()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals, Is.Not.Null);
 
         [Test]
-        public void ServerGlobalsConfigNotNull() => Assert.IsNotNull(AppData.ServerDatabase.ServerGlobals.Config);
+        public void ServerGlobalsConfigNotNull()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.Config, Is.Not.Null);
 
         [Test]
-        public void ServerGlobalsItemPresetsNotNull() => Assert.True(AppData.ServerDatabase.ServerGlobals.ItemPresets.Any());
+        public void ServerGlobalsItemPresetsNotNull()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.ItemPresets.Any(), Is.True);
 
         [Test]
         public void ServerGlobalsItemPresetsCanbeConvertedToWeaponBuilds()
         {
             var builds = AppData.ServerDatabase.ServerGlobals.ItemPresets.Values.Select(x => new WeaponBuild(x));
-            Assert.False(builds.Any(x => x == null || !x.BuildItems.Any()), "BuildItems is empty");
-            Assert.False(builds.Any(x => string.IsNullOrEmpty(x.LocalizedName)), "LocalizedName wrong");
-            Assert.False(builds.Any(x => x.Weapon == null), "Weapon is null");
-            Assert.False(builds.Any(x => x.HasModdedItems), "WeaponBuild has modded items");
+            Assert.That(builds.Any(x => x == null || !x.BuildItems.Any()), Is.False, "BuildItems is empty");
+            Assert.That(builds.Any(x => string.IsNullOrEmpty(x.LocalizedName)), Is.False, "LocalizedName wrong");
+            Assert.That(builds.Any(x => x.Weapon == null), Is.False, "Weapon is null");
+            Assert.That(builds.Any(x => x.HasModdedItems), Is.False, "WeaponBuild has modded items");
         }
 
         [Test]
-        public void ServerGlobalsConfigExpLevelExpTableNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length > 0);
+        public void ServerGlobalsConfigExpLevelExpTableNotEmpty()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.ExpTable.Length > 0, Is.True);
 
         [Test]
-        public void ServerGlobalsConfigExpLevelMaxExpNotZero() => Assert.True(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp > 0);
+        public void ServerGlobalsConfigExpLevelMaxExpNotZero()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxExp > 0, Is.True);
 
         [Test]
-        public void ServerGlobalsConfigExpLevelMaxLevelGreaterThanOne() => Assert.True(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel > 1);
+        public void ServerGlobalsConfigExpLevelMaxLevelGreaterThanOne()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel > 1, Is.True);
 
         [Test]
-        public void ServerGlobalsMasteringNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0);
+        public void ServerGlobalsMasteringNotEmpty()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length > 0, Is.True);
 
         [Test]
-        public void ServerGlobalsHasMaxProgressValue() => Assert.IsTrue(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue > 0);
+        public void ServerGlobalsHasMaxProgressValue()
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.Config.MaxProgressValue > 0, Is.True);
 
         [Test]
-        public void TraderInfosNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Count == 0);
+        public void TraderInfosNotEmpty()
+            => Assert.That(AppData.ServerDatabase.TraderInfos, Is.Not.Empty);
 
         [Test]
-        public void TraderInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.TraderInfos);
+        public void TraderInfosNotNul()
+            => Assert.That(AppData.ServerDatabase.TraderInfos, Is.Not.Null);
 
         [Test]
-        public void TradersInfosHaveIds() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.Id)));
+        public void TradersInfosHaveIds()
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.Id)), Is.False);
 
         [Test]
-        public void TradersInfosHaveImageUrl() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.ImageUrl)));
+        public void TradersInfosHaveImageUrl()
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => string.IsNullOrEmpty(x.Value.ImageUrl)), Is.False);
 
         [Test]
-        public void TradersInfosHaveLoyaltyLevels() => Assert.IsFalse(AppData.ServerDatabase.TraderInfos.Any(x => !x.Value.LoyaltyLevels.Any()));
+        public void TradersInfosHaveLoyaltyLevels()
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => !x.Value.LoyaltyLevels.Any()), Is.False);
 
         [Test]
-        public void TradersInfosLoyaltyLevelsHaveMinLevel() => Assert.IsTrue(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinLevel > 0)));
+        public void TradersInfosLoyaltyLevelsHaveMinLevel()
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinLevel > 0)),
+                           Is.True);
 
         [Test]
-        public void TradersInfosLoyaltyLevelsHaveMinSalesSum() => Assert.IsTrue(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinSalesSum > 0)));
+        public void TradersInfosLoyaltyLevelsHaveMinSalesSum()
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinSalesSum > 0)),
+                           Is.True);
 
         [Test]
-        public void TradersInfosLoyaltyLevelsHaveMinStanding() => Assert.IsTrue(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinStanding > 0)));
+        public void TradersInfosLoyaltyLevelsHaveMinStanding()
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Any(l => l.MinStanding > 0)),
+                           Is.True);
 
         [Test]
-        public void QuestsDataNotNul() => Assert.IsNotNull(AppData.ServerDatabase.QuestsData);
+        public void QuestsDataNotNul()
+            => Assert.That(AppData.ServerDatabase.QuestsData, Is.Not.Null);
 
         [Test]
-        public void QuestsDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.QuestsData.Count == 0);
+        public void QuestsDataNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData, Is.Not.Empty);
 
         [Test]
-        public void QuestsDataConditionsNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Count != 0));
+        public void QuestsDataConditionsNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Count != 0),
+                           Is.True);
 
         [Test]
-        public void QuestsDataConditionsLevelNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.Level)));
+        public void QuestsDataConditionsLevelNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.Level)),
+                           Is.True);
+
+        private static Func<KeyValuePair<string, QuestData>, bool> ContainsCondition(QuestConditionType condition)
+            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == condition);
 
         [Test]
-        public void QuestsDataConditionsQuestNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.Quest)));
+        public void QuestsDataConditionsQuestNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.Quest)),
+                           Is.True);
 
         [Test]
-        public void QuestsDataConditionsTraderLoyaltyNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.TraderLoyalty)));
+        public void QuestsDataConditionsTraderLoyaltyNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.TraderLoyalty)),
+                           Is.True);
 
         [Test]
-        public void QuestsDataConditionsTraderStandingNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.TraderStanding)));
+        public void QuestsDataConditionsTraderStandingNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.TraderStanding)),
+                           Is.True);
 
         [Test]
-        public void QuestsDataConditionsUnknownIsEmpty() => Assert.False(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == QuestConditionType.Unknown)));
+        public void QuestsDataConditionsUnknownIsEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.Unknown)),
+                           Is.False);
 
         [Test]
-        public void QuestsDataConditionsCompareMethodGreaterOrEqualNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == ">=")));
+        public void QuestsDataConditionsCompareMethodGreaterOrEqualNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCompareMethod(">=")),
+                           Is.True);
+
+        private static Func<KeyValuePair<string, QuestData>, bool> ContainsCompareMethod(string method)
+            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == method);
 
         [Test]
-        public void QuestsDataConditionsCompareMethodNullNotEmpty() => Assert.True(AppData.ServerDatabase.QuestsData.Any(x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == null)));
+        public void QuestsDataConditionsCompareMethodNullNotEmpty()
+            => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCompareMethod(null)),
+                           Is.True);
 
         [Test]
-        public void HideoutAreaInfosNotNul() => Assert.IsNotNull(AppData.ServerDatabase.HideoutAreaInfos);
+        public void HideoutAreaInfosNotNul() => Assert.That(AppData.ServerDatabase.HideoutAreaInfos, Is.Not.Null);
 
         [Test]
-        public void HideoutAreaInfosDataNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.HideoutAreaInfos.Count == 0);
+        public void HideoutAreaInfosDataNotEmpty() => Assert.That(AppData.ServerDatabase.HideoutAreaInfos, Is.Not.Empty);
 
         [Test]
         public void HideoutProductionLoadsCorrectly()
         {
-            Assert.IsNotNull(AppData.ServerDatabase.HideoutProduction, "HideoutProduction is null");
-            Assert.IsNotEmpty(AppData.ServerDatabase.HideoutProduction, "HideoutProduction is empty");
-            Assert.IsFalse(AppData.ServerDatabase.HideoutProduction.Any(x => string.IsNullOrWhiteSpace(x.Id)), "HideoutProductions has item with null id");
-            Assert.IsFalse(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements == null), "HideoutProductions has item with null Requirements");
-            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.QuestComplete)), "HideoutProductions doesn't have items with QuestComplete type requirement");
-            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.Unknown)), "HideoutProductions doesn't have items with Unknown type requirement");
-            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Locked), "HideoutProductions doesn't have locked productions");
-            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.UnlocksByQuest), "HideoutProductions doesn't have locked by quest productions");
-            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.AreaType != 0), "HideoutProductions doesn't productions for area type not 0");
-            Assert.IsTrue(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => !string.IsNullOrEmpty(r.QuestId))), "HideoutProductions doesn't have productions with quest id in Requirements");
+            Assert.That(AppData.ServerDatabase.HideoutProduction, Is.Not.Null, "HideoutProduction is null");
+            Assert.That(AppData.ServerDatabase.HideoutProduction, Is.Not.Empty, "HideoutProduction is empty");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => string.IsNullOrWhiteSpace(x.Id)),
+                        Is.False,
+                        "HideoutProductions has item with null id");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements == null),
+                        Is.False,
+                        "HideoutProductions has item with null Requirements");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.QuestComplete)),
+                        Is.True,
+                        "HideoutProductions doesn't have items with QuestComplete type requirement");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => r.Type == RequirementType.Unknown)),
+                        Is.True,
+                        "HideoutProductions doesn't have items with Unknown type requirement");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.Locked),
+                        Is.True,
+                        "HideoutProductions doesn't have locked productions");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.UnlocksByQuest),
+                        Is.True,
+                        "HideoutProductions doesn't have locked by quest productions");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.AreaType != 0),
+                        Is.True,
+                        "HideoutProductions doesn't productions for area type not 0");
+            Assert.That(AppData.ServerDatabase.HideoutProduction.Any(x => x.Requirements.Any(r => !string.IsNullOrEmpty(r.QuestId))),
+                        Is.True,
+                        "HideoutProductions doesn't have productions with quest id in Requirements");
         }
 
         [Test]
-        public void ItemsDBNotNul() => Assert.IsNotNull(AppData.ServerDatabase.ItemsDB);
+        public void ItemsDBNotNul() => Assert.That(AppData.ServerDatabase.ItemsDB, Is.Not.Null);
 
         [Test]
-        public void ItemsDBNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.ItemsDB.Count == 0);
+        public void ItemsDBNotEmpty() => Assert.That(AppData.ServerDatabase.ItemsDB, Is.Not.Empty);
 
         [Test]
-        public void ItemsDBHaveItemsWithCategoryIcon() => Assert.IsTrue(AppData.ServerDatabase.ItemsDB.Any(x => x.Value.CategoryIcon != null));
+        public void ItemsDBHaveItemsWithCategoryIcon()
+            => Assert.That(AppData.ServerDatabase.ItemsDB.Any(x => x.Value.CategoryIcon != null), Is.True);
 
         [Test]
-        public void ItemsDBHaveItemsWithDescription() => Assert.IsTrue(AppData.ServerDatabase.ItemsDB.Any(x => x.Value.LocalizedDescription != x.Value.Id));
+        public void ItemsDBHaveItemsWithDescription()
+            => Assert.That(AppData.ServerDatabase.ItemsDB.Any(x => x.Value.LocalizedDescription != x.Value.Id),
+                           Is.True);
 
         [Test]
-        public void PocketsNotNul() => Assert.IsNotNull(AppData.ServerDatabase.Pockets);
+        public void PocketsNotNul() => Assert.That(AppData.ServerDatabase.Pockets, Is.Not.Null);
 
         [Test]
-        public void PocketsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.Pockets.Count == 0);
+        public void PocketsNotEmpty() => Assert.That(AppData.ServerDatabase.Pockets, Is.Not.Empty);
 
         [Test]
-        public void TraderSuitsNotNul() => Assert.IsNotNull(AppData.ServerDatabase.TraderSuits);
+        public void TraderSuitsNotNul() => Assert.That(AppData.ServerDatabase.TraderSuits, Is.Not.Null);
 
         [Test]
-        public void TraderSuitsNotEmpty() => Assert.IsFalse(AppData.ServerDatabase.TraderSuits.Count == 0);
+        public void TraderSuitsNotEmpty() => Assert.That(AppData.ServerDatabase.TraderSuits, Is.Not.Empty);
 
         [Test]
-        public void SlotsCountCalculatesCorrectly() => Assert.AreEqual(4, AppData.ServerDatabase.ItemsDB["557ffd194bdc2d28148b457f"].SlotsCount);
+        public void SlotsCountCalculatesCorrectly()
+            => Assert.That(AppData.ServerDatabase.ItemsDB["557ffd194bdc2d28148b457f"].SlotsCount, Is.EqualTo(4));
 
         [Test]
-        public void ItemsDBFilterForPistolCaseLoadCorrectly() => Assert.True(AppData.ServerDatabase.ItemsDB["567143bf4bdc2d1a0f8b4567"].Properties.Grids[0].Props.Filters[0].Filter.Length > 0);
+        public void ItemsDBFilterForPistolCaseLoadCorrectly()
+            => Assert.That(AppData.ServerDatabase.ItemsDB["567143bf4bdc2d1a0f8b4567"].Properties.Grids[0].Props.Filters[0].Filter,
+                           Is.Not.Empty);
 
         [Test]
-        public void ItemsDBFilterLoadCorrectly() => Assert.True(AppData.ServerDatabase.ItemsDB.Values.Any(x => x.Properties?.Grids?.Any(y => (y.Props?.Filters?[0].Filter?.Length ?? 0) > 0) ?? false));
+        public void ItemsDBFilterLoadCorrectly()
+            => Assert.That(AppData.ServerDatabase.ItemsDB.Values.Any(x => x.Properties?.Grids?.Any(y => (y.Props?.Filters?[0].Filter?.Length ?? 0) > 0) ?? false),
+                           Is.True);
 
         [Test]
         public void HandbookLoadsCorrectly()
         {
-            Assert.IsNotNull(AppData.ServerDatabase.Handbook, "Handbook is null");
-            Assert.IsFalse(AppData.ServerDatabase.Handbook.Categories.Count == 0, "Handbook Categories empty");
-            Assert.IsFalse(AppData.ServerDatabase.Handbook.Categories.Any(x => string.IsNullOrEmpty(x.Id)), "Handbook Categories doesnt have id's");
-            Assert.IsFalse(AppData.ServerDatabase.Handbook.Items.Count == 0, "Handbook Items empty");
+            Assert.That(AppData.ServerDatabase.Handbook, Is.Not.Null, "Handbook is null");
+            Assert.That(AppData.ServerDatabase.Handbook.Categories, Is.Not.Empty, "Handbook Categories empty");
+            Assert.That(AppData.ServerDatabase.Handbook.Categories.Any(x => string.IsNullOrEmpty(x.Id)),
+                        Is.False,
+                        "Handbook Categories doesnt have id's");
+            Assert.That(AppData.ServerDatabase.Handbook.Items, Is.Not.Empty, "Handbook Items empty");
         }
 
         [Test]
-        public void HandbookHelperCanInitialize() => Assert.NotNull(new HandbookHelper(AppData.ServerDatabase.Handbook.Categories,
-                                                    AppData.ServerDatabase.ItemsDB,
-                                                    AppData.ServerDatabase.ServerGlobals.GlobalBuilds));
+        public void HandbookHelperCanInitialize()
+            => Assert.That(new HandbookHelper(AppData.ServerDatabase.Handbook.Categories,
+                                              AppData.ServerDatabase.ItemsDB,
+                                              AppData.ServerDatabase.ServerGlobals.GlobalBuilds),
+                            Is.Not.Null);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any());
+        public void HandbookHelperCategoriesForItemsAddingNotEmpty()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(), Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingWithFilterNotEmpty() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter("5c093ca986f7740a1867ab12").Any());
+        public void HandbookHelperCategoriesForItemsAddingWithFilterNotEmpty()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAddingWithFilter("5c093ca986f7740a1867ab12").Any(),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingHaveCategories() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.Categories.Any()));
+        public void HandbookHelperCategoriesForItemsAddingHaveCategories()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.Categories.Any()),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingHaveItems() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.Items.Any()));
+        public void HandbookHelperCategoriesForItemsAddingHaveItems()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.Items.Any()),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingHaveBitmapImages() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.BitmapIcon != null));
+        public void HandbookHelperCategoriesForItemsAddingHaveBitmapImages()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => x.BitmapIcon != null),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingHaveLocalizedNames() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !string.IsNullOrEmpty(x.LocalizedName)));
+        public void HandbookHelperCategoriesForItemsAddingHaveLocalizedNames()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !string.IsNullOrEmpty(x.LocalizedName)),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingHaveIconPath() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => !string.IsNullOrEmpty(x.Icon)));
+        public void HandbookHelperCategoriesForItemsAddingHaveIconPath()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.Any(x => !string.IsNullOrEmpty(x.Icon)),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingPrimaryNotHaveParentId() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => string.IsNullOrEmpty(x.ParentId)));
+        public void HandbookHelperCategoriesForItemsAddingPrimaryNotHaveParentId()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => string.IsNullOrEmpty(x.ParentId)),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingHaveNotHidden() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => x.IsNotHidden));
+        public void HandbookHelperCategoriesForItemsAddingHaveNotHidden()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => x.IsNotHidden),
+                           Is.True);
 
         [Test]
-        public void HandbookHelperCategoriesForItemsAddingNotExpanded() => Assert.IsTrue(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !x.IsExpanded));
+        public void HandbookHelperCategoriesForItemsAddingNotExpanded()
+            => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !x.IsExpanded),
+                           Is.True);
     }
 }

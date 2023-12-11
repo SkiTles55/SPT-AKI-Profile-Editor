@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
-using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -13,8 +12,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void QuestConfigLoadsCorrectly()
         {
-            Assert.NotNull(AppData.ServerConfigs.Quest, "Quest config is null");
-            Assert.True(AppData.ServerConfigs.Quest.EventQuests.Any(), "EventQuests is empty");
+            Assert.That(AppData.ServerConfigs.Quest, Is.Not.Null, "Quest config is null");
+            Assert.That(AppData.ServerConfigs.Quest.EventQuests, Is.Not.Empty, "EventQuests is empty");
         }
     }
 }
