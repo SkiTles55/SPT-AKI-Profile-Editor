@@ -14,7 +14,9 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
             foreach (var entry in Enum.GetValues(typeof(SaveEntry)).Cast<SaveEntry>())
             {
                 var name = entry.LocalizedName();
-                Assert.False(string.IsNullOrWhiteSpace(name), $"entry has incorrect name: {name}");
+                Assert.That(string.IsNullOrWhiteSpace(name),
+                            Is.False,
+                            $"entry has incorrect name: {name}");
             }
         }
     }

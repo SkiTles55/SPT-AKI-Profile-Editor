@@ -13,11 +13,12 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         {
             TestHelpers.LoadDatabase();
             foreach (QuestType questType in allEnumValues)
-                Assert.IsFalse(questType.LocalizedName().StartsWith("tab_quests_"));
+                Assert.That(questType.LocalizedName().StartsWith("tab_quests_"), Is.False);
         }
 
         [Test]
-        public override void ConverterCanConvert() => Assert.IsTrue(converter.CanConvert(typeof(QuestType)));
+        public override void ConverterCanConvert()
+            => Assert.That(converter.CanConvert(typeof(QuestType)), Is.True);
 
         [Test]
         public override void ConverterCanReadAllValues()
@@ -27,18 +28,23 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         }
 
         [Test]
-        public override void ConverterCanReadIntegerValue() => ConverterCanRead(0, converter, QuestType.Standart);
+        public override void ConverterCanReadIntegerValue()
+            => ConverterCanRead(0, converter, QuestType.Standart);
 
         [Test]
-        public override void ConverterCanReadNotExistingStringValue() => ConverterCanRead("NotExistingValue", converter, QuestType.Unknown);
+        public override void ConverterCanReadNotExistingStringValue()
+            => ConverterCanRead("NotExistingValue", converter, QuestType.Unknown);
 
         [Test]
-        public override void ConverterCanReadNotSupportedValue() => ConverterCanRead(76f, converter, QuestType.Unknown);
+        public override void ConverterCanReadNotSupportedValue()
+            => ConverterCanRead(76f, converter, QuestType.Unknown);
 
         [Test]
-        public override void ConverterCanReadNullValue() => ConverterCanRead(null, converter, QuestType.Unknown);
+        public override void ConverterCanReadNullValue()
+            => ConverterCanRead(null, converter, QuestType.Unknown);
 
         [Test]
-        public override void ConverterCanReadStringValue() => ConverterCanRead("Daily_Savage", converter, QuestType.Daily_Savage);
+        public override void ConverterCanReadStringValue()
+            => ConverterCanRead("Daily_Savage", converter, QuestType.Daily_Savage);
     }
 }

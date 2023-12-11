@@ -15,13 +15,15 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         }
 
         [Test]
-        public void CanCheckProcessExplorer() => Assert.IsTrue(_applicationManager.CheckProcess("explorer", @"C:\Windows\explorer.exe"));
+        public void CanCheckProcessExplorer()
+            => Assert.That(_applicationManager.CheckProcess("explorer", @"C:\Windows\explorer.exe"),
+                           Is.True);
 
         [Test]
         public void CanCheckProcessServer()
         {
             AppData.AppSettings.ServerPath = TestHelpers.serverPath;
-            Assert.IsFalse(_applicationManager.CheckProcess());
+            Assert.That(_applicationManager.CheckProcess(), Is.False);
         }
 
         [Test]

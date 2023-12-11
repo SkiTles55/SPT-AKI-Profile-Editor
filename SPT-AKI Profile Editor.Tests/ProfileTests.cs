@@ -855,10 +855,9 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Where(x => x.Tpl == AppData.AppSettings.MoneysRublesTpl)
                 .Sum(x => x.Upd.StackObjectsCount ?? 0);
             Assert.That(endValue, Is.EqualTo(startValue + 2000000));
-            Assert.That(AppData.Profile.Characters.Pmc.Inventory.InventoryItems
-                .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(HaveSameIdOrPosition(x)))
-                .Any(),
-                        Is.False);
+            var duplicatedItems = AppData.Profile.Characters.Pmc.Inventory.InventoryItems
+                .Where(x => AppData.Profile.Characters.Pmc.Inventory.InventoryItems.Any(HaveSamePosition(x)));
+            Assert.That(duplicatedItems, Is.Empty);
         }
 
         [Test]
@@ -1154,8 +1153,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(isAllSkillsProgressMax && profileSkillsCount == dbSkillsCount, Is.True);
         }
 
-        private static Func<InventoryItem, bool> HaveSameIdOrPosition(InventoryItem x)
-            => y => y.Id == x.Id || (y.Location.X == x.Location.X && y.Location.Y == x.Location.Y);
+        private static Func<InventoryItem, bool> HaveSamePosition(InventoryItem x)
+            => y => y.Id != x.Id && y.Location.X == x.Location.X && y.Location.Y == x.Location.Y;
 
         private static void LoadProfileAndCheckQuestsCount(string profilePath, bool isStandartQuests)
         {

@@ -8,7 +8,8 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         private readonly SafeEnumConverter<QuestStatus> converter = new();
 
         [Test]
-        public override void ConverterCanConvert() => Assert.IsTrue(converter.CanConvert(typeof(QuestStatus)));
+        public override void ConverterCanConvert()
+            => Assert.That(converter.CanConvert(typeof(QuestStatus)), Is.True);
 
         [Test]
         public override void ConverterCanReadAllValues()
@@ -18,18 +19,23 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         }
 
         [Test]
-        public override void ConverterCanReadIntegerValue() => ConverterCanRead(1, converter, QuestStatus.AvailableForStart);
+        public override void ConverterCanReadIntegerValue()
+            => ConverterCanRead(1, converter, QuestStatus.AvailableForStart);
 
         [Test]
-        public override void ConverterCanReadNotExistingStringValue() => ConverterCanRead("NotExistingValue", converter, QuestStatus.Fail);
+        public override void ConverterCanReadNotExistingStringValue()
+            => ConverterCanRead("NotExistingValue", converter, QuestStatus.Fail);
 
         [Test]
-        public override void ConverterCanReadNotSupportedValue() => ConverterCanRead(76f, converter, QuestStatus.Fail);
+        public override void ConverterCanReadNotSupportedValue()
+            => ConverterCanRead(76f, converter, QuestStatus.Fail);
 
         [Test]
-        public override void ConverterCanReadNullValue() => ConverterCanRead(null, converter, QuestStatus.Fail);
+        public override void ConverterCanReadNullValue()
+            => ConverterCanRead(null, converter, QuestStatus.Fail);
 
         [Test]
-        public override void ConverterCanReadStringValue() => ConverterCanRead("FailRestartable", converter, QuestStatus.FailRestartable);
+        public override void ConverterCanReadStringValue()
+            => ConverterCanRead("FailRestartable", converter, QuestStatus.FailRestartable);
     }
 }

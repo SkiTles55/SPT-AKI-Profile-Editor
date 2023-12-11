@@ -9,7 +9,8 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         private readonly SafeEnumConverter<RequirementType> converter = new();
 
         [Test]
-        public override void ConverterCanConvert() => Assert.IsTrue(converter.CanConvert(typeof(RequirementType)));
+        public override void ConverterCanConvert()
+            => Assert.That(converter.CanConvert(typeof(RequirementType)), Is.True);
 
         [Test]
         public override void ConverterCanReadAllValues()
@@ -19,18 +20,23 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         }
 
         [Test]
-        public override void ConverterCanReadIntegerValue() => ConverterCanRead(0, converter, RequirementType.QuestComplete);
+        public override void ConverterCanReadIntegerValue()
+            => ConverterCanRead(0, converter, RequirementType.QuestComplete);
 
         [Test]
-        public override void ConverterCanReadNotExistingStringValue() => ConverterCanRead("NotExistingValue", converter, RequirementType.Unknown);
+        public override void ConverterCanReadNotExistingStringValue()
+            => ConverterCanRead("NotExistingValue", converter, RequirementType.Unknown);
 
         [Test]
-        public override void ConverterCanReadNotSupportedValue() => ConverterCanRead(76f, converter, RequirementType.Unknown);
+        public override void ConverterCanReadNotSupportedValue()
+            => ConverterCanRead(76f, converter, RequirementType.Unknown);
 
         [Test]
-        public override void ConverterCanReadNullValue() => ConverterCanRead(null, converter, RequirementType.Unknown);
+        public override void ConverterCanReadNullValue()
+            => ConverterCanRead(null, converter, RequirementType.Unknown);
 
         [Test]
-        public override void ConverterCanReadStringValue() => ConverterCanRead("QuestComplete", converter, RequirementType.QuestComplete);
+        public override void ConverterCanReadStringValue()
+            => ConverterCanRead("QuestComplete", converter, RequirementType.QuestComplete);
     }
 }
