@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ProgressTransfer;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
@@ -34,6 +35,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         private Health scavHealth;
 
         private List<Merchant> merchantList;
+        private Dictionary<string, QuestStatus> questsList;
+        private Dictionary<int, int> hideoutlist;
 
         [OneTimeSetUp]
         public void Setup()
@@ -59,13 +62,22 @@ namespace SPT_AKI_Profile_Editor.Tests
             merchantList = new();
             foreach (var trader in pmc.TraderStandingsExt)
             {
-                trader.LoyaltyLevel = Math.Max(3, trader.MaxLevel);
+                trader.LoyaltyLevel = Math.Min(2, trader.MaxLevel);
                 merchantList.Add(new(trader.Id,
                                      trader.TraderStanding.Unlocked,
                                      trader.LoyaltyLevel,
                                      trader.Standing,
                                      trader.SalesSum));
             }
+
+            pmc.RemoveAllQuests();
+            pmc.Quests = AppData.ServerDatabase.QuestsData.Take(10).Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked }).ToArray();
+            pmc.SetAllQuests(QuestStatus.Success);
+            questsList = pmc.Quests.ToDictionary(x => x.Qid, x => x.Status);
+
+            foreach (var area in pmc.Hideout.Areas)
+                area.Level = Math.Min(2, area.MaxLevel);
+            hideoutlist = pmc.Hideout.Areas.ToDictionary(x => x.Type, x => x.Level);
         }
 
         [Test]
@@ -97,6 +109,12 @@ namespace SPT_AKI_Profile_Editor.Tests
 
             Assert.That(exportedProgress.Merchants.All(x => Compare(x, merchantList.First(y => y.Id == x.Id))),
                         Is.True);
+
+            Assert.That(exportedProgress.Quests.All(x => Compare(x, questsList.First(y => y.Key == x.Key))),
+                        Is.True);
+
+            Assert.That(exportedProgress.Hideout.All(x => Compare(x, hideoutlist.First(y => y.Key == x.Key))),
+                        Is.True);
         }
 
         private static bool Compare(Merchant merchant, Merchant other)
@@ -104,6 +122,9 @@ namespace SPT_AKI_Profile_Editor.Tests
             && merchant.SalesSum == other.SalesSum
             && merchant.Level == other.Level
             && merchant.Standing == other.Standing;
+
+        private static bool Compare<T1, T2>(KeyValuePair<T1, T2> first, KeyValuePair<T1, T2> second)
+            => EqualityComparer<T2>.Default.Equals(first.Value, second.Value);
 
         private static string GetVoice(Character character)
                     => AppData.ServerDatabase.Voices.FirstOrDefault(x => x.Key != character.Info.Voice).Key;

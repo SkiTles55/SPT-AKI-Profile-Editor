@@ -16,6 +16,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         public SkillsProgress CommonSkills;
         public SkillsProgress MasteringSkills;
         public UnlockedInfo Crafts;
+        public BuildsData Builds;
 
         public class InfoProgress
         {
@@ -27,7 +28,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 public string Nickname;
                 public string Side;
                 public string Voice;
-                public long Experience;
+                public long? Experience;
                 public string Head;
                 public string Pockets;
                 public Health HealthMetrics;
@@ -112,6 +113,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         {
             public Dictionary<string, float> Pmc;
             public Dictionary<string, float> Scav;
+        }
+
+        public class BuildsData
+        {
+            public List<WeaponBuild> WeaponsBuilds;
+            public List<EquipmentBuild> EquipmentBuilds;
         }
     }
 }

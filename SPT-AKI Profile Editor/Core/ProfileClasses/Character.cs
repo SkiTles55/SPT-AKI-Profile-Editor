@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -89,8 +90,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 traderStandings = value;
-                OnPropertyChanged(nameof(TraderStandings));
-                OnPropertyChanged(nameof(TraderStandingsExt));
+                NotifyTradersUpdated();
             }
         }
 
@@ -132,6 +132,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 quests = value;
                 OnPropertyChanged(nameof(Quests));
+                OnPropertyChanged(nameof(IsQuestsEmpty));
             }
         }
 
@@ -162,6 +163,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 encyclopedia = value;
                 OnPropertyChanged(nameof(Encyclopedia));
+                OnPropertyChanged(nameof(ExaminedItems));
             }
         }
 
@@ -198,6 +200,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public bool IsMasteringsEmpty => Skills?.Mastering == null || Skills.Mastering.Length == 0;
+
+        public void NotifyTradersUpdated()
+        {
+            OnPropertyChanged(nameof(TraderStandings));
+            OnPropertyChanged(nameof(TraderStandingsExt));
+        }
+
+        public void RemoveAllQuests() => Quests = Array.Empty<CharacterQuest>();
+
+        public void RemoveQuests(IEnumerable<string> questQids)
+            => Quests = Quests.Where(x => !questQids.Contains(x.Qid)).ToArray();
+
+        public void AddQuest(CharacterQuest newQuest) => Quests = Quests.Append(newQuest).ToArray();
 
         public void SetAllTradersMax()
         {
@@ -276,6 +291,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         private static TraderBase GetTraderInfo(string key)
-            => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
+                    => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
     }
 }
