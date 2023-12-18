@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ProgressTransfer;
+using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         private List<Merchant> merchantList;
         private Dictionary<string, QuestStatus> questsList;
         private Dictionary<int, int> hideoutlist;
+        private string[] productionsList;
+        private Dictionary<string, bool> encyclopediaList;
 
         [OneTimeSetUp]
         public void Setup()
@@ -78,6 +81,20 @@ namespace SPT_AKI_Profile_Editor.Tests
             foreach (var area in pmc.Hideout.Areas)
                 area.Level = Math.Min(2, area.MaxLevel);
             hideoutlist = pmc.Hideout.Areas.ToDictionary(x => x.Type, x => x.Level);
+
+            foreach (var production in pmc.HideoutProductions.Take(4))
+                production.Added = true;
+            productionsList = pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray();
+
+            foreach (var item in AppData.ServerDatabase.ItemsDB
+                .Where(x => x.Value.Parent != null
+                && x.Value.Type == "Item"
+                && !x.Value.Properties.ExaminedByDefault
+                && !pmc.Encyclopedia.Any(c => c.Key == x.Key)
+                && AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Key.Name()))
+                .Take(10))
+                pmc.Encyclopedia.Add(item.Key, true);
+            encyclopediaList = pmc.Encyclopedia;
         }
 
         [Test]
@@ -110,11 +127,14 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(exportedProgress.Merchants.All(x => Compare(x, merchantList.First(y => y.Id == x.Id))),
                         Is.True);
 
-            Assert.That(exportedProgress.Quests.All(x => Compare(x, questsList.First(y => y.Key == x.Key))),
-                        Is.True);
+            Assert.That(exportedProgress.Quests, Is.EqualTo(questsList));
 
-            Assert.That(exportedProgress.Hideout.All(x => Compare(x, hideoutlist.First(y => y.Key == x.Key))),
-                        Is.True);
+            Assert.That(exportedProgress.Hideout, Is.EqualTo(hideoutlist));
+
+            Assert.That(exportedProgress.Crafts.UnlockedProductionRecipe,
+                        Is.EqualTo(productionsList));
+
+            Assert.That(exportedProgress.ExaminedItems, Is.EqualTo(encyclopediaList));
         }
 
         private static bool Compare(Merchant merchant, Merchant other)
@@ -122,9 +142,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             && merchant.SalesSum == other.SalesSum
             && merchant.Level == other.Level
             && merchant.Standing == other.Standing;
-
-        private static bool Compare<T1, T2>(KeyValuePair<T1, T2> first, KeyValuePair<T1, T2> second)
-            => EqualityComparer<T2>.Default.Equals(first.Value, second.Value);
 
         private static string GetVoice(Character character)
                     => AppData.ServerDatabase.Voices.FirstOrDefault(x => x.Key != character.Info.Voice).Key;

@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 profileProgress.Hideout = pmc?.Hideout?.Areas
                     .ToDictionary(x => x.Type, x => x.Level);
             if (settings.Crafts)
-                profileProgress.Crafts = pmc?.UnlockedInfo;
+                ExportCrafts(pmc, profileProgress);
             if (settings.ExaminedItems)
                 profileProgress.ExaminedItems = pmc?.Encyclopedia;
             if (settings.Clothing)
@@ -223,6 +223,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 if (info.Health)
                     characterInfo.HealthMetrics = new(character?.Health);
             }
+        }
+
+        private static void ExportCrafts(Character pmc, ProfileProgress profileProgress)
+        {
+            profileProgress.Crafts = new()
+            {
+                UnlockedProductionRecipe = pmc?.HideoutProductions
+                                .Where(x => x.Added)
+                                .Select(x => x.Production.Id)
+                                .ToArray()
+            };
         }
 
         private static void ExportCommonSkills(SettingsModel settings,
