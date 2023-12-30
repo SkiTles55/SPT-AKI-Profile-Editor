@@ -8,7 +8,6 @@ using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using static SPT_AKI_Profile_Editor.Core.ProgressTransfer.ProfileProgress;

@@ -131,8 +131,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 quests = value;
-                OnPropertyChanged(nameof(Quests));
-                OnPropertyChanged(nameof(IsQuestsEmpty));
+                NotifyQuestsUpdated();
             }
         }
 
@@ -207,6 +206,53 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             => Quests = Quests.Where(x => !questQids.Contains(x.Qid)).ToArray();
 
         public void AddQuest(CharacterQuest newQuest) => Quests = Quests.Append(newQuest).ToArray();
+
+        public void UpdateQuestsData()
+        {
+            if (Quests.Length > 0)
+                foreach (var quest in Quests)
+                    SetupQuest(quest);
+            NotifyQuestsUpdated();
+
+            void SetupQuest(CharacterQuest quest)
+            {
+                quest.QuestQid = quest.Qid;
+                quest.Type = QuestType.Standart;
+                if (AppData.ServerDatabase.LocalesGlobal.ContainsKey(quest.Qid.QuestName()) || RepeatableQuests == null || RepeatableQuests.Length == 0)
+                {
+                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid].TraderId : "unknown";
+                    quest.QuestData = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid] : null;
+                    return;
+                }
+
+                foreach (QuestType type in Enum.GetValues(typeof(QuestType)))
+                {
+                    var typeQuests = RepeatableQuests.Where(x => x.Type == type).FirstOrDefault();
+                    if (typeQuests == null)
+                        continue;
+                    if (SetupQuestFromArray(typeQuests.ActiveQuests, type))
+                        return;
+                    if (SetupQuestFromArray(typeQuests.InactiveQuests, type))
+                        return;
+                }
+
+                bool SetupQuestFromArray(ActiveQuest[] array, QuestType type)
+                {
+                    if (array.Any())
+                    {
+                        var repeatableQuest = array.Where(x => x.Id == quest.Qid);
+                        if (repeatableQuest.Any())
+                        {
+                            quest.Type = type;
+                            quest.QuestTrader = repeatableQuest.First().TraderId;
+                            quest.QuestQid = repeatableQuest.First().Type.LocalizedName();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
 
         public void SetAllTradersMax()
         {
@@ -286,5 +332,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private static TraderBase GetTraderInfo(string key)
                     => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
+
+        private void NotifyQuestsUpdated()
+        {
+            OnPropertyChanged(nameof(Quests));
+            OnPropertyChanged(nameof(IsQuestsEmpty));
+        }
     }
 }

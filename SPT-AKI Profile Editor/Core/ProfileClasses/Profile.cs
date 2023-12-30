@@ -2,7 +2,6 @@
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -91,9 +90,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     .ToArray();
                 }
 
-                if (profile.Characters.Pmc.Quests.Length > 0)
-                    foreach (var quest in profile.Characters.Pmc.Quests)
-                        SetupQuest(quest);
+                profile.Characters.Pmc.UpdateQuestsData();
             }
             if (NeedToAddMissingScavCommonSkills())
             {
@@ -129,45 +126,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 })
                         .ToArray())
                         .ToArray();
-                }
-            }
-
-            void SetupQuest(CharacterQuest quest)
-            {
-                quest.QuestQid = quest.Qid;
-                quest.Type = QuestType.Standart;
-                if (AppData.ServerDatabase.LocalesGlobal.ContainsKey(quest.Qid.QuestName()) || profile.Characters.Pmc.RepeatableQuests == null || profile.Characters.Pmc.RepeatableQuests.Length == 0)
-                {
-                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid].TraderId : "unknown";
-                    quest.QuestData = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid] : null;
-                    return;
-                }
-
-                foreach (QuestType type in Enum.GetValues(typeof(QuestType)))
-                {
-                    var typeQuests = profile.Characters.Pmc.RepeatableQuests.Where(x => x.Type == type).FirstOrDefault();
-                    if (typeQuests == null)
-                        continue;
-                    if (SetupQuestFromArray(typeQuests.ActiveQuests, type))
-                        return;
-                    if (SetupQuestFromArray(typeQuests.InactiveQuests, type))
-                        return;
-                }
-
-                bool SetupQuestFromArray(ActiveQuest[] array, QuestType type)
-                {
-                    if (array.Any())
-                    {
-                        var repeatableQuest = array.Where(x => x.Id == quest.Qid);
-                        if (repeatableQuest.Any())
-                        {
-                            quest.Type = type;
-                            quest.QuestTrader = repeatableQuest.First().TraderId;
-                            quest.QuestQid = repeatableQuest.First().Type.LocalizedName();
-                            return true;
-                        }
-                    }
-                    return false;
                 }
             }
 

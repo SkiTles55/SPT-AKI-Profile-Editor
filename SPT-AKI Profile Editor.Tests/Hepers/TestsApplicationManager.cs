@@ -45,8 +45,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public IEnumerable<AccentItem> GetColorSchemes()
         {
             return new List<AccentItem>() {
-                new AccentItem("test1", "test1", "test1"),
-                new AccentItem("test2", "test2", "test2")
+                new("test1", "test1", "test1"),
+                new("test2", "test2", "test2")
             };
         }
 

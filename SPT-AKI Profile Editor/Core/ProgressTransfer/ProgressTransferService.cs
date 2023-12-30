@@ -172,6 +172,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 else
                     pmc.AddQuest(new() { Qid = importedQuest.Key, Status = importedQuest.Value });
             }
+            pmc.UpdateQuestsData();
         }
 
         private static void ImportHideout(ProfileProgress importedProgress, Character pmc)
