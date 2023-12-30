@@ -35,6 +35,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.Clothing && importedProgress.Clothing != null)
                 profile.Suits = importedProgress.Clothing;
             ImportSkills(settings, importedProgress, pmc, profile?.Characters?.Scav);
+            if (settings.Builds.GroupState != false && importedProgress.Builds != null)
+                ImportBuilds(settings, profile, importedProgress);
         }
 
         public static void ExportProgress(SettingsModel settings, Profile profile, string filePath)
@@ -237,6 +239,23 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                     existSkill.Progress = importedSkill.Value;
                 else
                     addAction(new() { Id = importedSkill.Key, Progress = importedSkill.Value });
+            }
+        }
+
+        private static void ImportBuilds(SettingsModel settings, Profile profile, ProfileProgress importedProgress)
+        {
+            profile.UserBuilds ??= new();
+            if (settings.Builds.WeaponBuilds && importedProgress.Builds.WeaponsBuilds != null)
+            {
+                profile.UserBuilds.RemoveWeaponBuilds();
+                foreach (var importedBuild in importedProgress.Builds.WeaponsBuilds)
+                    profile.UserBuilds.ImportBuild(importedBuild);
+            }
+            if (settings.Builds.EquipmentBuilds && importedProgress.Builds.EquipmentBuilds != null)
+            {
+                profile.UserBuilds.RemoveEquipmentBuilds();
+                foreach (var importedBuild in importedProgress.Builds.EquipmentBuilds)
+                    profile.UserBuilds.ImportBuild(importedBuild);
             }
         }
 
