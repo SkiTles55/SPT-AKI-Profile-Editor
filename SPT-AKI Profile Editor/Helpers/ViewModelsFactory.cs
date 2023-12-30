@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             ClothingTab = new();
             BuildsTab = new(dialogManager, worker, windowsDialogs, applicationManager);
             CleaningFromModsTab = new(dialogManager, saveCommand, cleaningService);
-            ProgressTransferTab = new();
+            ProgressTransferTab = new(windowsDialogs, worker);
             BackupsTab = new(dialogManager, worker, cleaningService);
             AboutTab = new(applicationManager);
         }

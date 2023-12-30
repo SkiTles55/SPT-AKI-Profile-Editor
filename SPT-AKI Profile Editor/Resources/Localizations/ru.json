@@ -246,6 +246,8 @@
     "tab_hideout_crafts": "Крафты",
     "tab_hideout_end_product": "Конечный продукт",
     "tab_hideout_add_all_crafts": "Добавить все крафты",
-    "file_production_description": "Файл с основными настройками крафтов убежища"
+    "file_production_description": "Файл с основными настройками крафтов убежища",
+    "tab_progress_transfer_title": "Перенос прогресса",
+    "tab_progress_transfer_import_error": "Файл не содержит прогресса персонажей"
   }
 }

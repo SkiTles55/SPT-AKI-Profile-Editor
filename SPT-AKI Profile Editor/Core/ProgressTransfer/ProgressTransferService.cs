@@ -19,6 +19,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         {
             string fileText = File.ReadAllText(filePath);
             ProfileProgress importedProgress = JsonConvert.DeserializeObject<ProfileProgress>(fileText);
+
+            if (importedProgress?.Info == null
+                && importedProgress?.Merchants == null
+                && importedProgress?.Quests == null
+                && importedProgress?.Hideout == null
+                && importedProgress?.Crafts == null
+                && importedProgress?.ExaminedItems == null
+                && importedProgress?.Clothing == null
+                && importedProgress?.CommonSkills == null
+                && importedProgress?.MasteringSkills == null
+                && importedProgress?.Builds == null)
+                throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_progress_transfer_import_error"));
+
             var pmc = profile?.Characters?.Pmc;
             if (settings.Info.GroupState != false)
                 ImportCharactersInfo(settings.Info, importedProgress.Info, pmc, profile?.Characters?.Scav);

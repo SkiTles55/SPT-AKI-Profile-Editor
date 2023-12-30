@@ -8,6 +8,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using static SPT_AKI_Profile_Editor.Core.ProgressTransfer.ProfileProgress;
@@ -40,6 +41,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private Dictionary<int, int> hideoutlist;
         private string[] productionsList;
         private Dictionary<string, bool> encyclopediaList;
+        private string[] suitsList;
 
         [OneTimeSetUp]
         public void Setup()
@@ -95,6 +97,10 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Take(10))
                 pmc.Encyclopedia.Add(item.Key, true);
             encyclopediaList = pmc.Encyclopedia;
+
+            foreach (var suit in AppData.ServerDatabase.TraderSuits.Where(x => !x.Boughted).Take(4))
+                suit.Boughted = true;
+            suitsList = AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).ToArray();
         }
 
         [Test]
@@ -135,6 +141,8 @@ namespace SPT_AKI_Profile_Editor.Tests
                         Is.EqualTo(productionsList));
 
             Assert.That(exportedProgress.ExaminedItems, Is.EqualTo(encyclopediaList));
+
+            Assert.That(exportedProgress.Clothing.OrderBy(x => x), Is.EqualTo(suitsList.OrderBy(x => x)));
         }
 
         private static bool Compare(Merchant merchant, Merchant other)

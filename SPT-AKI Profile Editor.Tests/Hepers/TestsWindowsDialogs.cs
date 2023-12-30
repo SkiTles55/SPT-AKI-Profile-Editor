@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             };
         }
 
-        public (bool success, string path, string[] paths) OpenBuildDialog()
+        public (bool success, string path, string[] paths) OpenBuildDialog(bool multiselect = true)
         {
             return folderBrowserDialogMode switch
             {
@@ -68,6 +68,11 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public (bool success, string path) SaveWeaponBuildDialog(string name) => (true, weaponBuildExportPath);
 
         public (bool success, string path) SaveEquipmentBuildDialog(string name) => (true, equipmentBuildExportPath);
+
+        public (bool success, string path) SaveProfileProgressDialog(string name)
+        {
+            throw new NotImplementedException();
+        }
 
         private static void PrepareTestPaths(string filePath, string directoryPath)
         {
