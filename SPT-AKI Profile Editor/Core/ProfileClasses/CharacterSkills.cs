@@ -1,4 +1,8 @@
-﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
+﻿using Newtonsoft.Json;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -15,6 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 common = value;
                 OnPropertyChanged(nameof(Common));
+                OnPropertyChanged(nameof(IsCommonSkillsEmpty));
             }
         }
 
@@ -25,7 +30,24 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 mastering = value;
                 OnPropertyChanged(nameof(Mastering));
+                OnPropertyChanged(nameof(IsMasteringsEmpty));
             }
         }
+
+        [JsonIgnore]
+        public bool IsCommonSkillsEmpty => Common == null || Common.Length == 0;
+
+        [JsonIgnore]
+        public bool IsMasteringsEmpty => Mastering == null || Mastering.Length == 0;
+
+        public void RemoveCommonSkills(IEnumerable<string> skillIds)
+            => Common = Common.Where(x => !skillIds.Contains(x.Id)).ToArray();
+
+        public void AddCommonSkill(CharacterSkill skill) => Common = Common.Append(skill).ToArray();
+
+        public void RemoveMasteringSkills(IEnumerable<string> skillIds)
+            => Mastering = Mastering.Where(x => !skillIds.Contains(x.Id)).ToArray();
+
+        public void AddMasteringSkill(CharacterSkill skill) => Mastering = Mastering.Append(skill).ToArray();
     }
 }

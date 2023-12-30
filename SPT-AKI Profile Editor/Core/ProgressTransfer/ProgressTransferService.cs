@@ -30,10 +30,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 ImportHideout(importedProgress, pmc);
             if (settings.Crafts && importedProgress.Crafts != null)
                 pmc.UnlockedInfo = new() { UnlockedProductionRecipe = importedProgress.Crafts.UnlockedProductionRecipe };
-            if (settings.ExaminedItems &&  importedProgress.ExaminedItems != null)
+            if (settings.ExaminedItems && importedProgress.ExaminedItems != null)
                 pmc.Encyclopedia = importedProgress.ExaminedItems;
-            if (settings.Clothing &&  importedProgress.Clothing != null)
+            if (settings.Clothing && importedProgress.Clothing != null)
                 profile.Suits = importedProgress.Clothing;
+            ImportSkills(settings, importedProgress, pmc, profile?.Characters?.Scav);
         }
 
         public static void ExportProgress(SettingsModel settings, Profile profile, string filePath)
@@ -166,6 +167,76 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 if (hideoutArea == null)
                     continue;
                 hideoutArea.Level = importedHideout.Value;
+            }
+        }
+
+        private static void ImportSkills(SettingsModel settings,
+                                         ProfileProgress importedProgress,
+                                         Character pmc,
+                                         Character scav)
+        {
+            ImportSkillGroup(settings.Skills,
+                             importedProgress.CommonSkills,
+                             pmc,
+                             scav,
+                             ImportCommonSkills);
+            ImportSkillGroup(settings.Masterings,
+                             importedProgress.MasteringSkills,
+                             pmc,
+                             scav,
+                             ImportMasteringSkills);
+        }
+
+        private static void ImportSkillGroup(SkillGroup group,
+                                             ProfileProgress.SkillsProgress importedSkills,
+                                             Character pmc,
+                                             Character scav,
+                                             Action<CharacterSkills, Dictionary<string, float>> addingAction)
+        {
+            if (group.GroupState != false && importedSkills != null)
+            {
+                if (group.Pmc && importedSkills.Pmc != null)
+                    addingAction(pmc?.Skills, importedSkills.Pmc);
+                if (group.Scav && importedSkills.Scav != null)
+                    addingAction(scav?.Skills, importedSkills.Scav);
+            }
+        }
+
+        private static void ImportCommonSkills(CharacterSkills skills, Dictionary<string, float> importedSkills)
+        {
+            if (skills == null || importedSkills == null)
+                return;
+            ImportSkillValues(skills.Common,
+                              importedSkills,
+                              skills.RemoveCommonSkills,
+                              skills.AddCommonSkill);
+        }
+
+        private static void ImportMasteringSkills(CharacterSkills skills, Dictionary<string, float> importedSkills)
+        {
+            if (skills == null || importedSkills == null)
+                return;
+            ImportSkillValues(skills.Mastering,
+                              importedSkills,
+                              skills.RemoveMasteringSkills,
+                              skills.AddMasteringSkill);
+        }
+
+        private static void ImportSkillValues(CharacterSkill[] skills,
+                                              Dictionary<string, float> importedSkills,
+                                              Action<IEnumerable<string>> removeAction,
+                                              Action<CharacterSkill> addAction)
+        {
+            if (skills == null)
+                return;
+            removeAction(skills.Where(x => !importedSkills.ContainsKey(x.Id)).Select(x => x.Id));
+            foreach (var importedSkill in importedSkills)
+            {
+                var existSkill = skills.FirstOrDefault(x => x.Id == importedSkill.Key);
+                if (existSkill != null)
+                    existSkill.Progress = importedSkill.Value;
+                else
+                    addAction(new() { Id = importedSkill.Key, Progress = importedSkill.Value });
             }
         }
 

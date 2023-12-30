@@ -195,12 +195,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
 
-        [JsonIgnore]
-        public bool IsCommonSkillsEmpty => Skills?.Common == null || Skills.Common.Length == 0;
-
-        [JsonIgnore]
-        public bool IsMasteringsEmpty => Skills?.Mastering == null || Skills.Mastering.Length == 0;
-
         public void NotifyTradersUpdated()
         {
             OnPropertyChanged(nameof(TraderStandings));

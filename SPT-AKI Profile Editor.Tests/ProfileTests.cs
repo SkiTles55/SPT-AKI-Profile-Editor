@@ -268,7 +268,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void PmcCommonSkillsNotEmpty()
-            => Assert.That(AppData.Profile.Characters.Pmc.IsCommonSkillsEmpty,
+            => Assert.That(AppData.Profile.Characters.Pmc.Skills.IsCommonSkillsEmpty,
                            Is.False,
                            "Pmc CommonSkills is empty");
 
@@ -280,7 +280,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void PmcMasteringSkillsNotEmpty()
-            => Assert.That(AppData.Profile.Characters.Pmc.IsMasteringsEmpty,
+            => Assert.That(AppData.Profile.Characters.Pmc.Skills.IsMasteringsEmpty,
                            Is.False,
                            "Pmc MasteringSkills is empty");
 
@@ -298,7 +298,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void ScavCommonSkillsNotEmpty()
-            => Assert.That(AppData.Profile.Characters.Scav.IsCommonSkillsEmpty,
+            => Assert.That(AppData.Profile.Characters.Scav.Skills.IsCommonSkillsEmpty,
                            Is.False,
                            "Scav CommonSkills is empty");
 
@@ -310,7 +310,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void ScavMasteringSkillsNotEmpty()
-            => Assert.That(AppData.Profile.Characters.Scav.IsMasteringsEmpty,
+            => Assert.That(AppData.Profile.Characters.Scav.Skills.IsMasteringsEmpty,
                            Is.False,
                            "Scav MasteringSkills is empty");
 
