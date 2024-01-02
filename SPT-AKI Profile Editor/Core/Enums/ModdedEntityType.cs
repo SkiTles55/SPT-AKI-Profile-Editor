@@ -27,7 +27,6 @@
 
         public static bool CanBeRemovedWithoutSave(this ModdedEntityType type) => type switch
         {
-            ModdedEntityType.Quest => false,
             ModdedEntityType.Merchant => false,
             _ => true
         };

@@ -199,9 +199,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             try
             {
                 JToken questsToken = pmc.SelectToken("Quests");
-                var questQidsForRemove = profile.ModdedEntitiesForRemoving
-                    .Where(x => x.Type == ModdedEntityType.Quest)
-                    .Select(x => x.Id);
                 List<JToken> questsForRemove = new();
 
                 var questsObject = questsToken.ToObject<CharacterQuest[]>();
@@ -212,20 +209,19 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         JToken questToken = questsToken[index];
                         var quest = questToken.ToObject<CharacterQuest>();
 
-                        if (questQidsForRemove.Contains(quest.Qid))
-                        {
-                            questsForRemove.Add(questToken);
-                            continue;
-                        }
-
                         var edited = profile.Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
-                        if (edited != null && quest != null && quest.Status != edited.Status)
+                        if (edited != null)
                         {
-                            questToken["status"] = edited.Status.ToString();
-                            questToken["statusTimers"] = JObject.FromObject(edited.StatusTimers);
-                            if (edited.Status <= QuestStatus.AvailableForStart && questToken["completedConditions"] != null)
-                                questToken["completedConditions"]?.Replace(JToken.FromObject(Array.Empty<string>()));
+                            if (quest != null && quest.Status != edited.Status)
+                            {
+                                questToken["status"] = edited.Status.ToString();
+                                questToken["statusTimers"] = JObject.FromObject(edited.StatusTimers);
+                                if (edited.Status <= QuestStatus.AvailableForStart && questToken["completedConditions"] != null)
+                                    questToken["completedConditions"]?.Replace(JToken.FromObject(Array.Empty<string>()));
+                            }
                         }
+                        else
+                            questsForRemove.Add(questToken);
                     }
 
                     foreach (var token in questsForRemove)
