@@ -105,5 +105,12 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             AppData.AppSettings.ServerPath = serverPath;
             AppData.LoadDatabase();
         }
+
+        public static void SaveAndLoadProfile(string filename)
+        {
+            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+            AppData.Profile.Save(profileFile, testFile);
+            AppData.Profile.Load(testFile);
+        }
     }
 }

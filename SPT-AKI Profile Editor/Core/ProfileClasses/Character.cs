@@ -323,11 +323,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void SetupHideoutProductions()
         {
             var productions = AppData.ServerDatabase?.HideoutProduction;
-            if (hideoutProductions == null && UnlockedInfo != null && productions != null)
+            if (UnlockedInfo != null && productions != null)
                 hideoutProductions = productions
                     .Where(x => x.UnlocksByQuest)
                     .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))
                     .ToList();
+            OnPropertyChanged(nameof(HideoutProductions));
         }
 
         private static TraderBase GetTraderInfo(string key)

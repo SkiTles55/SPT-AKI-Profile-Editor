@@ -42,7 +42,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.Hideout && importedProgress.Hideout != null)
                 ImportHideout(importedProgress, pmc);
             if (settings.Crafts && importedProgress.Crafts != null)
+            {
                 pmc.UnlockedInfo = new() { UnlockedProductionRecipe = importedProgress.Crafts.UnlockedProductionRecipe };
+                pmc.SetupHideoutProductions();
+            }
             if (settings.ExaminedItems && importedProgress.ExaminedItems != null)
                 pmc.Encyclopedia = importedProgress.ExaminedItems;
             if (settings.Clothing && importedProgress.Clothing != null)

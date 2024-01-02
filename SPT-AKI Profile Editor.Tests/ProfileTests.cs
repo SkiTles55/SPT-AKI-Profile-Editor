@@ -538,7 +538,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
-            SaveAndLoadProfile("testTraders.json");
+            TestHelpers.SaveAndLoadProfile("testTraders.json");
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.All(x => x.LoyaltyLevel == x.MaxLevel),
                         Is.True,
                         "TraderStandingsExt not in max levels");
@@ -564,7 +564,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingEventQuests = true;
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllQuests(QuestStatus.Fail);
-            SaveAndLoadProfile("testQuests.json");
+            TestHelpers.SaveAndLoadProfile("testQuests.json");
             bool allQuestsLoadedAndInFail = AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == QuestStatus.Fail)
                 && AppData.Profile.Characters.Pmc.Quests.All(x => x.StatusTimers.ContainsKey(QuestStatus.Fail))
                 && AppData.Profile.Characters.Pmc.Quests.Where(x => x.Type == QuestType.Standart).Count() >= AppData.ServerDatabase.QuestsData.Count;
@@ -581,12 +581,12 @@ namespace SPT_AKI_Profile_Editor.Tests
             var quest = AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => production.Production.Requirements.FirstOrDefault(r => r.QuestId == x.QuestQid) != null);
             Assert.That(quest, Is.Not.Null, "Unable to find quest for production");
             quest.Status = QuestStatus.Success;
-            SaveAndLoadProfile("testQuestAddCraft.json");
+            TestHelpers.SaveAndLoadProfile("testQuestAddCraft.json");
             Assert.That(AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => x.Production.Id == production.Production.Id).Added,
                         Is.True,
                         "Craft not added");
             AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => x.QuestQid == quest.Qid).Status = QuestStatus.AvailableForFinish;
-            SaveAndLoadProfile("testQuestRemoveCraft.json");
+            TestHelpers.SaveAndLoadProfile("testQuestRemoveCraft.json");
             Assert.That(AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => x.Production.Id == production.Production.Id).Added,
                         Is.False,
                         "Craft not removed");
@@ -602,7 +602,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .FirstOrDefault();
             Assert.That(locked, Is.Not.Null, "Cant find locked quest");
             locked.Status = QuestStatus.AvailableForFinish;
-            SaveAndLoadProfile("testQuests.json");
+            TestHelpers.SaveAndLoadProfile("testQuests.json");
             Assert.That(AppData.Profile.Characters.Pmc.Quests?
                 .Where(x => x.Qid == locked.Qid)?
                 .First().Status == QuestStatus.AvailableForFinish, Is.True);
@@ -613,7 +613,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
-            SaveAndLoadProfile("testHideouts.json");
+            TestHelpers.SaveAndLoadProfile("testHideouts.json");
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas
                 .All(x => x.Level == x.MaxLevel), Is.True);
         }
@@ -623,7 +623,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.AddAllCrafts();
-            SaveAndLoadProfile("testCrafts.json");
+            TestHelpers.SaveAndLoadProfile("testCrafts.json");
             Assert.That(AppData.Profile.Characters.Pmc.HideoutProductions.All(x => x.Added), Is.True);
         }
 
@@ -671,7 +671,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.Encyclopedia = new();
             var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
             AppData.Profile.Characters.Pmc.ExamineAll();
-            SaveAndLoadProfile("testExaminedItems.json");
+            TestHelpers.SaveAndLoadProfile("testExaminedItems.json");
             Assert.That(AppData.Profile.Characters.Pmc.ExaminedItems.Count(), Is.Not.EqualTo(expected));
         }
 
@@ -680,7 +680,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.ServerDatabase.AcquireAllClothing();
-            SaveAndLoadProfile("testSuits.json");
+            TestHelpers.SaveAndLoadProfile("testSuits.json");
             Assert.That(AppData.Profile.Suits.Length, Is.EqualTo(AppData.ServerDatabase.TraderSuits.Count));
         }
 
@@ -737,7 +737,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Inventory.RemoveAllItems();
-            SaveAndLoadProfile("testStashRemovingAllItems.json");
+            TestHelpers.SaveAndLoadProfile("testStashRemovingAllItems.json");
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.InventoryItems, Is.Empty);
         }
 
@@ -832,7 +832,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 newItem.AddingFir = true;
                 AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToContainer(tempSick, newItem, "main");
             }
-            SaveAndLoadProfile("testStashAddingItems.json");
+            TestHelpers.SaveAndLoadProfile("testStashAddingItems.json");
             var addedSick = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == sick.Id).LastOrDefault();
             Assert.That(addedSick, Is.Not.Null);
             Assert.That(sickCases.Contains(addedSick.Id), Is.False);
@@ -850,7 +850,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var roubles = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysRublesTpl];
             roubles.AddingQuantity = 2000000;
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(roubles);
-            SaveAndLoadProfile("testStashAddingMoneys.json");
+            TestHelpers.SaveAndLoadProfile("testStashAddingMoneys.json");
             var endValue = AppData.Profile.Characters.Pmc.Inventory.Items
                 .Where(x => x.Tpl == AppData.AppSettings.MoneysRublesTpl)
                 .Sum(x => x.Upd.StackObjectsCount ?? 0);
@@ -872,7 +872,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             newDogtag.DogtagProperties.Level = 69;
             newDogtag.DogtagProperties.UpdateProperties();
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(newDogtag);
-            SaveAndLoadProfile("testStashAddingDogtag.json");
+            TestHelpers.SaveAndLoadProfile("testStashAddingDogtag.json");
             var addedDogtag = AppData.Profile.Characters.Pmc.Inventory.InventoryItems
                 .Where(x => x.Tpl == newDogtag.Id)
                 .LastOrDefault();
@@ -897,7 +897,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             LoadProfileAndPrepareWeaponBuilds();
             var expectedId = AppData.Profile.UserBuilds.WeaponBuilds.FirstOrDefault().Id;
             AppData.Profile.UserBuilds.RemoveWeaponBuild(expectedId);
-            SaveAndLoadProfile("testWeaponBuildRemove.json");
+            TestHelpers.SaveAndLoadProfile("testWeaponBuildRemove.json");
             Assert.That(AppData.Profile.UserBuilds?.WeaponBuilds?.FirstOrDefault(x => x.Id == expectedId), Is.Null);
         }
 
@@ -906,7 +906,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             LoadProfileAndPrepareWeaponBuilds();
             AppData.Profile.UserBuilds.RemoveWeaponBuilds();
-            SaveAndLoadProfile("testWeaponBuildsRemove.json");
+            TestHelpers.SaveAndLoadProfile("testWeaponBuildsRemove.json");
             Assert.That(AppData.Profile.UserBuilds?.WeaponBuilds?.Any() == true, Is.False);
         }
 
@@ -916,7 +916,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             LoadProfileAndPrepareEquipmentBuilds();
             var expectedId = AppData.Profile.UserBuilds.EquipmentBuilds.FirstOrDefault().Id;
             AppData.Profile.UserBuilds.RemoveEquipmentBuild(expectedId);
-            SaveAndLoadProfile("testEquipmentBuildRemove.json");
+            TestHelpers.SaveAndLoadProfile("testEquipmentBuildRemove.json");
             Assert.That(AppData.Profile.UserBuilds.EquipmentBuilds?.FirstOrDefault(x => x.Id == expectedId),
                         Is.Null);
         }
@@ -926,7 +926,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             LoadProfileAndPrepareEquipmentBuilds();
             AppData.Profile.UserBuilds.RemoveEquipmentBuilds();
-            SaveAndLoadProfile("testEquipmentBuildsRemove.json");
+            TestHelpers.SaveAndLoadProfile("testEquipmentBuildsRemove.json");
             Assert.That(AppData.Profile.UserBuilds?.EquipmentBuilds?.Any() == true, Is.False);
         }
 
@@ -936,7 +936,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.UserBuilds.RemoveEquipmentBuilds();
             AppData.Profile.UserBuilds.RemoveWeaponBuilds();
-            SaveAndLoadProfile("testEmptyBuildsSave.json");
+            TestHelpers.SaveAndLoadProfile("testEmptyBuildsSave.json");
             Assert.That(AppData.Profile.UserBuilds?.WeaponBuilds, Is.Not.Null, "WeaponBuilds is null");
             Assert.That(AppData.Profile.UserBuilds?.EquipmentBuilds, Is.Not.Null, "EquipmentBuilds is null");
         }
@@ -978,7 +978,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var startCount = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count();
             AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
             AppData.Profile.UserBuilds.ImportWeaponBuildFromFile(TestHelpers.weaponBuild);
-            SaveAndLoadProfile("testWeaponBuildsImport.json");
+            TestHelpers.SaveAndLoadProfile("testWeaponBuildsImport.json");
             Assert.That(AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == "TestBuild"), Is.True);
             Assert.That(AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name.StartsWith("Test")).Count(),
                         Is.EqualTo(startCount + 2));
@@ -991,7 +991,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var startCount = AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count();
             AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
             AppData.Profile.UserBuilds.ImportEquipmentBuildFromFile(TestHelpers.equipmentBuild);
-            SaveAndLoadProfile("testEquipmentBuildsImport.json");
+            TestHelpers.SaveAndLoadProfile("testEquipmentBuildsImport.json");
             Assert.That(AppData.Profile.UserBuilds.EquipmentBuilds.Any(x => x.Name == "TestBuild"), Is.True);
             Assert.That(AppData.Profile.UserBuilds.EquipmentBuilds.Where(x => x.Name.StartsWith("Test")).Count(),
                         Is.EqualTo(startCount + 2));
@@ -1020,7 +1020,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             weaponBuild.AddingQuantity = 2;
             weaponBuild.AddingFir = true;
             AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(weaponBuild);
-            SaveAndLoadProfile("testStashAddingWeapons.json");
+            TestHelpers.SaveAndLoadProfile("testStashAddingWeapons.json");
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == weaponBuild.RootTpl).Count(),
                         Is.EqualTo(weaponsCount + 2));
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.Items.Select(x => x.Id).Any(y => iDs.Contains(y)),
@@ -1063,7 +1063,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems, Is.True);
             AppData.Profile.Characters.Pmc.Inventory.RemoveDuplicatedItems();
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems, Is.False);
-            SaveAndLoadProfile("testRemoveDuplicatedItems.json");
+            TestHelpers.SaveAndLoadProfile("testRemoveDuplicatedItems.json");
             Assert.That(AppData.Profile.Characters.Pmc.Inventory.InventoryHaveDuplicatedItems, Is.False);
         }
 
@@ -1080,7 +1080,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.Health.BodyParts.RightArm.Health.Current = 600;
             AppData.Profile.Characters.Pmc.Health.BodyParts.LeftLeg.Health.Current = 650;
             AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Current = 700;
-            SaveAndLoadProfile("testHealth.json");
+            TestHelpers.SaveAndLoadProfile("testHealth.json");
             Assert.That(AppData.Profile.Characters.Pmc.Health.Energy.Current,
                         Is.EqualTo(300),
                         "Health.Energy.Current is not 300");
@@ -1146,7 +1146,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void MasteringSkillsSavesCorrectly(Character character)
         {
             character.SetAllMasteringsSkills(AppData.ServerDatabase.ServerGlobals.Config.Mastering.Max(x => x.Level2 + x.Level3));
-            SaveAndLoadProfile("testPmcMasteringSkills.json");
+            TestHelpers.SaveAndLoadProfile("testPmcMasteringSkills.json");
             var isAllSkillsProgressMax = character.Skills.Mastering.All(x => x.Progress == x.MaxValue);
             var profileSkillsCount = character.Skills.Mastering.Length;
             var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name)).Count();
@@ -1197,7 +1197,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             foreach (var item in items)
                 AppData.Profile.Characters.Pmc.Inventory.AddNewItemsToStash(item);
-            SaveAndLoadProfile(filename);
+            TestHelpers.SaveAndLoadProfile(filename);
             var savedItems = AppData.Profile.Characters.Pmc.Inventory.Items
                 .Where(x => items.Any(y => y.Id == x.Tpl)).ToArray();
             Assert.That(savedItems.Length,
@@ -1237,7 +1237,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             character.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
-            SaveAndLoadProfile(filename);
+            TestHelpers.SaveAndLoadProfile(filename);
             Assert.That(character.Skills.Common
                 .Where(x => x.Id.ToLower().StartsWith("bot"))
                 .Any(x => x.Progress > 0), Is.False);
@@ -1250,14 +1250,14 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             string expected = AppData.ServerDatabase.Pockets.Last().Key;
             inventory.Pockets = expected;
-            SaveAndLoadProfile(filename);
+            TestHelpers.SaveAndLoadProfile(filename);
             Assert.That(inventory.Pockets == expected, Is.True);
         }
 
         private static void RemovingItemsSavesCorrectly(List<string> itemIds, CharacterInventory inventory, string filename)
         {
             inventory.RemoveItems(itemIds);
-            SaveAndLoadProfile(filename);
+            TestHelpers.SaveAndLoadProfile(filename);
             foreach (var id in itemIds)
             {
                 Assert.That(inventory.Items.Any(x => x.Id == id), Is.False, "id not removed");
@@ -1269,7 +1269,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             inventory.RemoveAllEquipment();
-            SaveAndLoadProfile(filename);
+            TestHelpers.SaveAndLoadProfile(filename);
             Assert.That(inventory.EquipmentSlots.SelectMany(x => x.ItemsList).Any(x => x != null), Is.False);
         }
 
@@ -1279,13 +1279,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingEventQuests = false;
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
-        }
-
-        private static void SaveAndLoadProfile(string filename)
-        {
-            string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
-            AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            AppData.Profile.Load(testFile);
         }
     }
 }
