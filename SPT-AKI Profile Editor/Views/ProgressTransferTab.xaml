@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -72,10 +73,6 @@
                             IsChecked="{Binding SettingsModel.Merchants}"
                             Style="{StaticResource ItemCheckBox}" />
                         <CheckBox
-                            Content="{Binding AppLocalization.Translations[tab_quests_title], FallbackValue=tab_quests_title}"
-                            IsChecked="{Binding SettingsModel.Quests}"
-                            Style="{StaticResource ItemCheckBox}" />
-                        <CheckBox
                             Content="{Binding AppLocalization.Translations[tab_hideout_title], FallbackValue=tab_hideout_title}"
                             IsChecked="{Binding SettingsModel.Hideout}"
                             Style="{StaticResource ItemCheckBox}" />
@@ -123,6 +120,29 @@
                             Content="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}"
                             IsChecked="{Binding SettingsModel.Masterings.Scav}"
                             Style="{StaticResource SecondaryCheckBox}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel>
+                        <DockPanel MaxWidth="180">
+                            <Label
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Content="{iconPacks:FontAwesome Kind=ExclamationTriangleSolid}"
+                                Foreground="{DynamicResource MahApps.Brushes.ValidationSummary1}" />
+                            <Label
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding AppLocalization.Translations[tab_progress_transfer_quests_warning], FallbackValue=tab_progress_transfer_quests_warning}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
+                        </DockPanel>
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_quests_title], FallbackValue=tab_quests_title}"
+                            IsChecked="{Binding SettingsModel.Quests}"
+                            Style="{StaticResource ItemCheckBox}" />
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource GroupBorder}">

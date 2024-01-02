@@ -248,6 +248,7 @@
     "tab_hideout_add_all_crafts": "Add all crafts",
     "file_production_description": "File with main settings of hideout crafts",
     "tab_progress_transfer_title": "Progress transfer",
-    "tab_progress_transfer_import_error": "File does not contains characters progress"
+    "tab_progress_transfer_import_error": "File does not contains characters progress",
+    "tab_progress_transfer_quests_warning": "Daily and weekly operational tasks are not available for transfer"
   }
 }
