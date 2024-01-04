@@ -52,18 +52,11 @@
             </ListBox.Resources>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                        Margin="5"
-                        BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
-                        BorderThickness="1">
+                    <Border Style="{StaticResource GroupBorder}">
                         <Border.Resources>
                             <helpers:BindingProxy x:Key="buildItem" Data="{Binding}" />
                         </Border.Resources>
-                        <Expander
-                            Padding="0"
-                            mah:HeaderedControlHelper.HeaderBackground="Transparent"
-                            mah:HeaderedControlHelper.HeaderForeground="{DynamicResource MahApps.Brushes.Text}"
-                            BorderThickness="0">
+                        <Expander Padding="0" Style="{StaticResource TransparentExpander}">
                             <Expander.Header>
                                 <DockPanel LastChildFill="True">
                                     <TextBlock

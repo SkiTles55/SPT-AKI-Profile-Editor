@@ -137,7 +137,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             var questsObject = profileJObject.SelectToken("characters")[character].SelectToken("Quests");
             if (!questsObject.HasValues)
             {
-                var newQuests = new CharacterQuest[] { new CharacterQuest { Qid = questQid } };
+                var newQuests = new CharacterQuest[] { new() { Qid = questQid } };
                 questsObject.Replace(JToken.FromObject(newQuests));
             }
             else

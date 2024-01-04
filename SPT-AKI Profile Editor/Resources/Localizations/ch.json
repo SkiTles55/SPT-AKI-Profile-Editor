@@ -41,7 +41,7 @@
     "tab_merchants_title": "商人",
     "tab_merchants_level": "商人等级",
     "tab_merchants_sales_sum": "出售总量",
-    "tab_merchants_standing": "Standing",
+    "tab_merchants_standing": "信誉",
     "tab_quests_title": "任务",
     "tab_quests_trader": "商人",
     "tab_quests_name": "任务名",
@@ -246,6 +246,9 @@
     "profile_saved_with_errors_dialog_caption": "存档已保存（带有报错）",
     "profile_not_saved_dialog_caption": "存档未能保存",
     "file_quest_config_description": "任务主要配置文件",
-    "file_production_description": "藏身处制作主要配置文件"
+    "file_production_description": "藏身处制作主要配置文件",
+    "tab_progress_transfer_title": "游玩进度转换",
+    "tab_progress_transfer_import_error": "所选文件不包含角色游玩进度资料",
+    "tab_progress_transfer_quests_warning": "日常任务或周常任务的游玩进度不会被继承"
   }
 }

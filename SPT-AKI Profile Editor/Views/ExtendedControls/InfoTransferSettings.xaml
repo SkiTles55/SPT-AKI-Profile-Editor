@@ -1,0 +1,55 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ExtendedControls.InfoTransferSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Control"
+    d:Background="White"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="InnerCheckBox"
+            BasedOn="{StaticResource {x:Type CheckBox}}"
+            TargetType="CheckBox">
+            <Setter Property="Margin" Value="20,5,10,5" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <CheckBox
+            Margin="10,5"
+            Content="{Binding ElementName=Control, Path=Title, FallbackValue=Title}"
+            FontWeight="Bold"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.GroupState}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_nickname], FallbackValue=tab_info_nickname}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Nickname}"
+            Style="{StaticResource InnerCheckBox}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_side], FallbackValue=tab_info_side}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Side}"
+            Style="{StaticResource InnerCheckBox}"
+            Visibility="{Binding ElementName=Control, Path=InfoGroup.SideEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_voice], FallbackValue=tab_info_voice}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Voice}"
+            Style="{StaticResource InnerCheckBox}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_experience], FallbackValue=tab_info_experience}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Experience}"
+            Style="{StaticResource InnerCheckBox}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_head], FallbackValue=tab_info_head}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Head}"
+            Style="{StaticResource InnerCheckBox}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_pockets], FallbackValue=tab_info_pockets}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Pockets}"
+            Style="{StaticResource InnerCheckBox}" />
+        <CheckBox
+            Content="{Binding AppLocalization.Translations[tab_info_health], FallbackValue=tab_info_health}"
+            IsChecked="{Binding ElementName=Control, Path=InfoGroup.Health}"
+            Style="{StaticResource InnerCheckBox}" />
+    </StackPanel>
+</UserControl>

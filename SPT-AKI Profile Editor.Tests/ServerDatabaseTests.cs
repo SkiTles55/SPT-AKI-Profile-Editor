@@ -145,9 +145,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.Level)),
                            Is.True);
 
-        private static Func<KeyValuePair<string, QuestData>, bool> ContainsCondition(QuestConditionType condition)
-            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == condition);
-
         [Test]
         public void QuestsDataConditionsQuestNotEmpty()
             => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCondition(QuestConditionType.Quest)),
@@ -172,9 +169,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsDataConditionsCompareMethodGreaterOrEqualNotEmpty()
             => Assert.That(AppData.ServerDatabase.QuestsData.Any(ContainsCompareMethod(">=")),
                            Is.True);
-
-        private static Func<KeyValuePair<string, QuestData>, bool> ContainsCompareMethod(string method)
-            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == method);
 
         [Test]
         public void QuestsDataConditionsCompareMethodNullNotEmpty()
@@ -325,5 +319,11 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HandbookHelperCategoriesForItemsAddingNotExpanded()
             => Assert.That(AppData.ServerDatabase.HandbookHelper.CategoriesForItemsAdding.All(x => !x.IsExpanded),
                            Is.True);
+
+        private static Func<KeyValuePair<string, QuestData>, bool> ContainsCondition(QuestConditionType condition)
+                                                                                                                                                                                                                                                                            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == condition);
+
+        private static Func<KeyValuePair<string, QuestData>, bool> ContainsCompareMethod(string method)
+            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == method);
     }
 }

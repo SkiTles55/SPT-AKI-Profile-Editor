@@ -1,0 +1,199 @@
+﻿<UserControl
+    x:Class="SPT_AKI_Profile_Editor.Views.ProgressTransferTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
+    xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance Type=views:ProgressTransferTabViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="SecondaryCheckBox"
+            BasedOn="{StaticResource {x:Type CheckBox}}"
+            TargetType="CheckBox">
+            <Setter Property="Margin" Value="10,5" />
+        </Style>
+        <Style
+            x:Key="ItemCheckBox"
+            BasedOn="{StaticResource {x:Type CheckBox}}"
+            TargetType="CheckBox">
+            <Setter Property="Margin" Value="5,5,10,5" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+        <Style
+            x:Key="ActionButton"
+            BasedOn="{StaticResource {x:Type extendedcontrols:ButtonFontAwesomeIcon}}"
+            TargetType="extendedcontrols:ButtonFontAwesomeIcon">
+            <Setter Property="Margin" Value="5,10,5,0" />
+            <Setter Property="IconSize" Value="15" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <ScrollViewer
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            VerticalScrollBarVisibility="Auto">
+            <WrapPanel>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel VerticalAlignment="Top">
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_info_title], FallbackValue=tab_info_title}"
+                            IsChecked="{Binding SettingsModel.Info.GroupState}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <StackPanel Orientation="Horizontal">
+                            <local:InfoTransferSettings Title="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}" InfoGroup="{Binding SettingsModel.Info.Pmc}" />
+                            <local:InfoTransferSettings Title="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" InfoGroup="{Binding SettingsModel.Info.Scav}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel>
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_merchants_title], FallbackValue=tab_merchants_title}"
+                            IsChecked="{Binding SettingsModel.Merchants}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_hideout_title], FallbackValue=tab_hideout_title}"
+                            IsChecked="{Binding SettingsModel.Hideout}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_hideout_crafts], FallbackValue=tab_hideout_crafts}"
+                            IsChecked="{Binding SettingsModel.Crafts}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_examined_items_title], FallbackValue=tab_examined_items_title}"
+                            IsChecked="{Binding SettingsModel.ExaminedItems}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_clothing_title], FallbackValue=tab_clothing_title}"
+                            IsChecked="{Binding SettingsModel.Clothing}"
+                            Style="{StaticResource ItemCheckBox}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel>
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_skills_title], FallbackValue=tab_skills_title}"
+                            IsChecked="{Binding SettingsModel.Skills.GroupState}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}"
+                            IsChecked="{Binding SettingsModel.Skills.Pmc}"
+                            Style="{StaticResource SecondaryCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}"
+                            IsChecked="{Binding SettingsModel.Skills.Scav}"
+                            Style="{StaticResource SecondaryCheckBox}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel>
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_mastering_title], FallbackValue=tab_mastering_title}"
+                            IsChecked="{Binding SettingsModel.Masterings.GroupState}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}"
+                            IsChecked="{Binding SettingsModel.Masterings.Pmc}"
+                            Style="{StaticResource SecondaryCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}"
+                            IsChecked="{Binding SettingsModel.Masterings.Scav}"
+                            Style="{StaticResource SecondaryCheckBox}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel>
+                        <DockPanel MaxWidth="180">
+                            <Label
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Content="{iconPacks:FontAwesome Kind=ExclamationTriangleSolid}"
+                                Foreground="{DynamicResource MahApps.Brushes.ValidationSummary1}" />
+                            <Label
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold">
+                                <Label.Content>
+                                    <TextBlock Text="{Binding AppLocalization.Translations[tab_progress_transfer_quests_warning], FallbackValue=tab_progress_transfer_quests_warning}" TextWrapping="Wrap" />
+                                </Label.Content>
+                            </Label>
+                        </DockPanel>
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_quests_title], FallbackValue=tab_quests_title}"
+                            IsChecked="{Binding SettingsModel.Quests}"
+                            Style="{StaticResource ItemCheckBox}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource GroupBorder}">
+                    <StackPanel>
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_presets_title], FallbackValue=tab_presets_title}"
+                            IsChecked="{Binding SettingsModel.Builds.GroupState}"
+                            Style="{StaticResource ItemCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_presets_weapon_user], FallbackValue=tab_presets_weapon_user}"
+                            IsChecked="{Binding SettingsModel.Builds.WeaponBuilds}"
+                            Style="{StaticResource SecondaryCheckBox}" />
+                        <CheckBox
+                            Content="{Binding AppLocalization.Translations[tab_presets_equipment_user], FallbackValue=tab_presets_equipment_user}"
+                            IsChecked="{Binding SettingsModel.Builds.EquipmentBuilds}"
+                            Style="{StaticResource SecondaryCheckBox}" />
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+        </ScrollViewer>
+        <extendedcontrols:ButtonFontAwesomeIcon
+            Grid.Row="1"
+            Grid.Column="0"
+            Command="{Binding SelectAll}"
+            Content="{Binding AppLocalization.Translations[button_select_all], FallbackValue=button_select_all}"
+            Icon="TasksSolid"
+            IsEnabled="{Binding SettingsModel.CanSelectAll}"
+            Style="{StaticResource ActionButton}" />
+        <extendedcontrols:ButtonFontAwesomeIcon
+            Grid.Row="1"
+            Grid.Column="1"
+            Command="{Binding DeselectAll}"
+            Content="{Binding AppLocalization.Translations[button_deselect_all], FallbackValue=button_deselect_all}"
+            Icon="ListSolid"
+            IsEnabled="{Binding SettingsModel.CanDeselectAny}"
+            Style="{StaticResource ActionButton}" />
+        <extendedcontrols:ButtonFontAwesomeIcon
+            Grid.Row="2"
+            Grid.Column="0"
+            Command="{Binding ExportProgress}"
+            Content="{Binding AppLocalization.Translations[tab_presets_export], FallbackValue=tab_presets_export}"
+            Icon="SignOutAltSolid"
+            IsEnabled="{Binding SettingsModel.CanDeselectAny}"
+            Style="{StaticResource ActionButton}" />
+        <extendedcontrols:ButtonFontAwesomeIcon
+            Grid.Row="2"
+            Grid.Column="1"
+            Command="{Binding ImportProgress}"
+            Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}"
+            Icon="SignInAltSolid"
+            IsEnabled="{Binding SettingsModel.CanDeselectAny}"
+            Style="{StaticResource ActionButton}" />
+    </Grid>
+</UserControl>

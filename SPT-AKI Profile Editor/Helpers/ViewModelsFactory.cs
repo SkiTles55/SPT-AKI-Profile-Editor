@@ -27,6 +27,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             ClothingTab = new();
             BuildsTab = new(dialogManager, worker, windowsDialogs, applicationManager);
             CleaningFromModsTab = new(dialogManager, saveCommand, cleaningService);
+            ProgressTransferTab = new(windowsDialogs, worker);
             BackupsTab = new(dialogManager, worker, cleaningService);
             AboutTab = new(applicationManager);
         }
@@ -54,6 +55,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public BuildsTabViewModel BuildsTab { get; }
 
         public CleaningFromModsViewModel CleaningFromModsTab { get; }
+
+        public ProgressTransferTabViewModel ProgressTransferTab { get; }
 
         public BackupsTabViewModel BackupsTab { get; }
 

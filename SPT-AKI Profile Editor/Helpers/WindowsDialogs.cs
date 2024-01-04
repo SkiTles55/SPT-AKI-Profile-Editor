@@ -10,20 +10,22 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public (bool success, string path) SaveEquipmentBuildDialog(string name);
 
+        public (bool success, string path) SaveProfileProgressDialog(string name);
+
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null);
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true, string startPath = null, string description = null);
 
-        public (bool success, string path, string[] paths) OpenBuildDialog();
+        public (bool success, string path, string[] paths) OpenBuildDialog(bool multiselect = true);
     }
 
     public class WindowsDialogs : IWindowsDialogs
     {
         private static string JsonFileText => AppData.AppLocalization.GetLocalizedString("windows_dialogs_json_file");
 
-        public (bool success, string path, string[] paths) OpenBuildDialog()
+        public (bool success, string path, string[] paths) OpenBuildDialog(bool multiselect = true)
         {
-            var dialog = OpenFileWindowsDialog();
+            var dialog = OpenFileWindowsDialog(multiselect);
             return dialog.ShowDialog() == DialogResult.OK ? (true, dialog.FileName, dialog.FileNames) : (false, dialog.FileName, dialog.FileNames);
         }
 
@@ -41,6 +43,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public (bool success, string path) SaveEquipmentBuildDialog(string name) =>
                             SaveFileDialog($"Equipment preset {name}", $"{JsonFileText} (*.json)|*.json");
 
+        public (bool success, string path) SaveProfileProgressDialog(string name) =>
+                            SaveFileDialog($"{name}_progress", $"{JsonFileText} (*.json)|*.json");
+
         public (bool success, string path) SaveFileDialog(string fileName, string filter = null)
         {
             var dialog = SaveFileWindowsDialog(fileName, filter);
@@ -54,11 +59,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
             Filter = filter
         };
 
-        private static OpenFileDialog OpenFileWindowsDialog() => new()
+        private static OpenFileDialog OpenFileWindowsDialog(bool multiselect) => new()
         {
             Filter = $"{JsonFileText} (*.json)|*.json",
             RestoreDirectory = true,
-            Multiselect = true
+            Multiselect = multiselect
         };
 
         private static FolderBrowserDialog FolderBrowserWindowsDialog(bool showNewFolderButton, string description) => new()

@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 .Select(x => new WeaponBuildCategory(x, globalBuilds))
                 .Where(x => x.IsNotHidden));
             var globalBuildsCategory = new List<WeaponBuildCategory>() {
-                new WeaponBuildCategory(AppData.AppLocalization.GetLocalizedString("tab_stash_global_items_presets"), buildCategories)
+                new(AppData.AppLocalization.GetLocalizedString("tab_stash_global_items_presets"), buildCategories)
             };
             return new ObservableCollection<WeaponBuildCategory>(globalBuildsCategory);
         }

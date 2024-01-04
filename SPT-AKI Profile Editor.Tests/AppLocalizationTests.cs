@@ -22,18 +22,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void CreatedEnLocalizationCorrect() => CheckLocalization("en", "English");
 
-        private void CheckLocalization(string localeKey, string localeName)
-        {
-            appLocalization.LoadLocalization(localeKey);
-            var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == localeKey);
-            Assert.That(appLocalization.Translations.Count,
-                        Is.EqualTo(expected.Translations.Count),
-                        $"{localeName} localization strings count not correct");
-            Assert.That(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)),
-                        Is.False,
-                        $"{localeName} localization does not have all strings");
-        }
-
         [Test]
         public void CreatedRuLocalizationCorrect() => CheckLocalization("ru", "Russian");
 
@@ -56,8 +44,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void LocalizationsDictionaryCorrect()
         {
-            var expected = DefaultValues.DefaultLocalizations().ToDictionary(x => x.Key, x => x.Name);
-            Assert.That(appLocalization.Translations.Count,
+            var expected = DefaultValues.DefaultLocalizations().ToDictionary(x => x.Key, x => x.Name).Count;
+            Assert.That(appLocalization.Localizations.Count,
                         Is.EqualTo(expected),
                         "Localizations dictionary not correct");
         }
@@ -78,6 +66,18 @@ namespace SPT_AKI_Profile_Editor.Tests
             var expected = DefaultValues.DefaultLocalizations().First(x => x.Key == "en").Translations.First();
             Assert.That(appLocalization.GetLocalizedString(expected.Key), Is.EqualTo(expected.Value), "En LocalizedString not correct");
             Assert.That(AppData.AppSettings.Language, Is.EqualTo("en"), "En not loaded");
+        }
+
+        private void CheckLocalization(string localeKey, string localeName)
+        {
+            appLocalization.LoadLocalization(localeKey);
+            var expected = DefaultValues.DefaultLocalizations().Find(x => x.Key == localeKey);
+            Assert.That(appLocalization.Translations.Count,
+                        Is.EqualTo(expected.Translations.Count),
+                        $"{localeName} localization strings count not correct");
+            Assert.That(expected.Translations.Any(x => !appLocalization.Translations.ContainsKey(x.Key)),
+                        Is.False,
+                        $"{localeName} localization does not have all strings");
         }
     }
 }

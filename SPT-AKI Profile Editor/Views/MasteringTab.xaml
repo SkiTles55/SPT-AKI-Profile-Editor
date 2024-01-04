@@ -29,7 +29,7 @@
                     SetAllCommand="{Binding SetAllPmsSkillsCommand}"
                     SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
                     SetAllValue="{Binding SetAllPmcSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <views:NoDataPanel d:Visibility="Hidden" Visibility="{Binding Profile.Characters.Pmc.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <views:NoDataPanel d:Visibility="Hidden" Visibility="{Binding Profile.Characters.Pmc.Skills.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
@@ -44,7 +44,7 @@
                     SetAllCommand="{Binding SetAllScavSkillsCommand}"
                     SetAllTitle="{Binding AppLocalization.Translations[tab_mastering_set_all]}"
                     SetAllValue="{Binding SetAllScavSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <views:NoDataPanel d:Visibility="Hidden" Visibility="{Binding Profile.Characters.Scav.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <views:NoDataPanel d:Visibility="Hidden" Visibility="{Binding Profile.Characters.Scav.Skills.IsMasteringsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>
         </TabItem>
     </TabControl>

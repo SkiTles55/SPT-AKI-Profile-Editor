@@ -98,8 +98,11 @@ namespace SPT_AKI_Profile_Editor.Core
                         AppData.Profile.UserBuilds.RemoveEquipmentBuild(entity.Id);
                         break;
 
-                    case ModdedEntityType.Merchant:
                     case ModdedEntityType.Quest:
+                        AppData.Profile.Characters.Pmc.RemoveQuests(new string[] { entity.Id });
+                        break;
+
+                    case ModdedEntityType.Merchant:
                         AppData.Profile.ModdedEntitiesForRemoving.Add(entity);
                         break;
                 }
