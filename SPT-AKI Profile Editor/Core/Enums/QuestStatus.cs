@@ -29,6 +29,9 @@ namespace SPT_AKI_Profile_Editor.Core.Enums
         MarkedAsFailed,
 
         [EnumMember(Value = "Expired")]
-        Expired
+        Expired,
+
+        [EnumMember(Value = "AvailableAfter")]
+        AvailableAfter
     }
 }
