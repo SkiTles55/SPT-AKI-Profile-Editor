@@ -22,6 +22,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public static readonly string fileDownloaderTestUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/FAQ.md";
         public static readonly string fileDownloaderTestSavePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fileDownloaderTest.md");
         public static readonly string equipmentBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testEquipmentBuild.json");
+        public static readonly string profileProgress = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testProfileProgress.json");
         private static App _app;
 
         static TestHelpers()

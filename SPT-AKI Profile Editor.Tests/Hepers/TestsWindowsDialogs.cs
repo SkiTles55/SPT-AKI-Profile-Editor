@@ -9,7 +9,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         weaponBuildsExport,
         equipmentBuildsExport,
         serverFolder,
-        wrongServerFolder
+        wrongServerFolder,
+        profileProgressExport
     }
 
     internal class TestsWindowsDialogs : IWindowsDialogs
@@ -26,7 +27,13 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public readonly string equipmentBuildsExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                                      "TestEquipmentBuildsExport");
 
+        public readonly string profileProgressExportPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                                    "testProfileProgressExport.json");
+
         public FolderBrowserDialogMode folderBrowserDialogMode = FolderBrowserDialogMode.weaponBuildsExport;
+
+        public bool SaveProfileProgressDialogCalled { get; internal set; } = false;
+        public bool OpenBuildDialogCalled { get; internal set; } = false;
 
         public TestsWindowsDialogs()
         {
@@ -50,12 +57,14 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public (bool success, string path, string[] paths) OpenBuildDialog(bool multiselect = true)
         {
+            OpenBuildDialogCalled = true;
             return folderBrowserDialogMode switch
             {
                 FolderBrowserDialogMode.weaponBuildsExport
                 => (true, null, new string[2] { TestHelpers.weaponBuild, TestHelpers.weaponBuild }),
                 FolderBrowserDialogMode.equipmentBuildsExport
                 => (true, null, new string[2] { TestHelpers.equipmentBuild, TestHelpers.equipmentBuild }),
+                FolderBrowserDialogMode.profileProgressExport => (true, TestHelpers.profileProgress, null),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -71,7 +80,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public (bool success, string path) SaveProfileProgressDialog(string name)
         {
-            throw new NotImplementedException();
+            SaveProfileProgressDialogCalled = true;
+            return (true, profileProgressExportPath);
         }
 
         private static void PrepareTestPaths(string filePath, string directoryPath)
