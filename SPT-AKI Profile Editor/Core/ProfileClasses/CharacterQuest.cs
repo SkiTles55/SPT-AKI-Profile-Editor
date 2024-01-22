@@ -50,10 +50,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public Dictionary<QuestStatus, double> StatusTimers { get; set; }
 
         [JsonIgnore]
-        public string LocalizedTraderName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestTrader.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[QuestTrader.Nickname()] : QuestTrader;
+        public string LocalizedTraderName
+            => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestTrader.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[QuestTrader.Nickname()] : QuestTrader;
 
         [JsonIgnore]
-        public string LocalizedQuestName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestQid.QuestName()) ? AppData.ServerDatabase.LocalesGlobal[QuestQid.QuestName()] : QuestQid;
+        public string LocalizedQuestName
+            => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestQid.QuestName()) ? AppData.ServerDatabase.LocalesGlobal[QuestQid.QuestName()] : QuestQid;
 
         [JsonIgnore]
         public QuestType Type
