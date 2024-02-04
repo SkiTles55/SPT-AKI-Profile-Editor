@@ -324,6 +324,6 @@ namespace SPT_AKI_Profile_Editor.Tests
                                                                                                                                                                                                                                                                             => x => x.Value.Conditions.AvailableForStart.Any(y => y.Type == condition);
 
         private static Func<KeyValuePair<string, QuestData>, bool> ContainsCompareMethod(string method)
-            => x => x.Value.Conditions.AvailableForStart.Any(y => y.Props.CompareMethod == method);
+            => x => x.Value.Conditions.AvailableForStart.Any(y => y.CompareMethod == method);
     }
 }
