@@ -228,7 +228,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         token.Remove();
 
                     foreach (var quest in profile.Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
-                        questsToken.LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
+                    {
+                        var lastQuestToken = questsToken.LastOrDefault();
+                        if (lastQuestToken != null)
+                            lastQuestToken.AddAfterSelf(JObject.FromObject(quest));
+                        else
+                        {
+                            questsToken.Replace(JToken.FromObject(new CharacterQuest[] { quest }));
+                            questsToken = pmc.SelectToken("Quests");
+                        }
+                    }
                 }
                 else
                     questsToken.Replace(JToken.FromObject(profile.Characters.Pmc.Quests));
