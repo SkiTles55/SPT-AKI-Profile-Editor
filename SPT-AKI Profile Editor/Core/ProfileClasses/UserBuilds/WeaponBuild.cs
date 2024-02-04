@@ -8,17 +8,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
     public class WeaponBuild : Build
     {
-        public static readonly string WeaponBuildType = "weapon";
         private float RecoilDelta = 0;
 
         [JsonConstructor]
         public WeaponBuild(string id,
                            string name,
                            string root,
-                           object[] items,
-                           string type) : base(id, name, root, items)
+                           object[] items) : base(id, name, root, items)
         {
-            Type = type;
             BuildItems = items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             CalculateBuildProperties();
             CanBeAddedToStash = true;
@@ -29,7 +26,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                                          itemPreset.Root,
                                                          itemPreset.Items)
         {
-            Type = WeaponBuildType;
             BuildItems = itemPreset.Items.Select(x => JsonConvert.DeserializeObject<InventoryItem>(x.ToString()));
             CalculateBuildProperties(true);
             CanBeAddedToStash = true;
@@ -52,15 +48,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
             Items = items.ToArray();
             BuildItems = items;
-            Type = WeaponBuildType;
             CalculateBuildProperties();
             CanBeAddedToStash = true;
         }
 
         public override string LocalizedName => Name;
-
-        [JsonProperty("type")]
-        public override string Type { get; set; }
 
         [JsonIgnore]
         public InventoryItem Weapon { get; set; }
@@ -80,7 +72,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public bool HasModdedItems { get; set; }
 
-        public static WeaponBuild CopyFrom(WeaponBuild item) => new(item.Id, item.Name, item.Root, item.Items, item.Type);
+        public static WeaponBuild CopyFrom(WeaponBuild item) => new(item.Id, item.Name, item.Root, item.Items);
 
         private void CalculateBuildProperties(bool fromTemplate = false)
         {

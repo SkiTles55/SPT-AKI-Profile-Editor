@@ -75,14 +75,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void ImportWeaponBuildFromFile(string path)
         {
-            var weaponBuild = GetBuildFromFile<WeaponBuild>(path, WeaponBuild.WeaponBuildType);
+            var weaponBuild = GetBuildFromFile<WeaponBuild>(path);
+            if (weaponBuild.Name == null || !weaponBuild.Weapon.IsWeapon)
+                throw NoBuildInFileException(path);
             if (weaponBuild != null)
                 ImportBuild(weaponBuild);
         }
 
         public void ImportEquipmentBuildFromFile(string path)
         {
-            var equipmentBuild = GetBuildFromFile<EquipmentBuild>(path, EquipmentBuild.EquipmentBuildType);
+            var equipmentBuild = GetBuildFromFile<EquipmentBuild>(path);
+            if (equipmentBuild.Name == null || equipmentBuild.Type != 0)
+                throw NoBuildInFileException(path);
             if (equipmentBuild != null)
                 ImportBuild(equipmentBuild);
         }
@@ -103,6 +107,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             EquipmentBuildsChanged();
         }
 
+        private static Exception NoBuildInFileException(string path)
+                                    => new(AppData.AppLocalization.GetLocalizedString("tab_presets_file_not_build") + ":" + Environment.NewLine + path);
+
         private static void ExportBuild(object buildObject, string path, string typeName)
         {
             try
@@ -119,14 +126,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        private T GetBuildFromFile<T>(string path, string expectedType) where T : Build
+        private static T GetBuildFromFile<T>(string path) where T : Build
         {
             try
             {
-                T build = JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
-                if (build.Name == null || build.Type != expectedType)
-                    throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_presets_file_not_build") + ":" + Environment.NewLine + path);
-                return build;
+                return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
             }
             catch (Exception ex)
             {
