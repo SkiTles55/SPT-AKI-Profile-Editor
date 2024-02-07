@@ -135,7 +135,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             catch (Exception ex)
             {
                 Logger.Log($"{nameof(T)} import error: {ex.Message}");
-                throw new Exception(ex.Message);
+                throw NoBuildInFileException(path);
             }
         }
 

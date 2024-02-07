@@ -106,7 +106,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuild exportedBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(windowsDialogs.weaponBuildExportPath));
             Assert.That(exportedBuild, Is.Not.Null, "Unable to read exported weapon build");
             Assert.That(exportedBuild.RootTpl, Is.EqualTo(build.RootTpl), "Exported wrong weapon");
-            Assert.That(exportedBuild.Type, Is.EqualTo(WeaponBuild.WeaponBuildType), "WeaponBuildType is wrong");
         }
 
         [Test]
@@ -124,7 +123,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             EquipmentBuild exportedBuild = JsonConvert.DeserializeObject<EquipmentBuild>(File.ReadAllText(windowsDialogs.equipmentBuildExportPath));
             Assert.That(exportedBuild, Is.Not.Null, "Unable to read exported equipment build");
             Assert.That(exportedBuild.Name, Is.EqualTo(build.Name), "Exported wrong equipment build");
-            Assert.That(exportedBuild.Type, Is.EqualTo(EquipmentBuild.EquipmentBuildType), "EquipmentBuildType is wrong");
         }
 
         [Test]

@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonProperty("root")]
         public string Root { get; set; }
 
-        [JsonProperty("items")]
+        [JsonProperty("Items")]
         public object[] Items { get; set; }
 
         [JsonIgnore]
