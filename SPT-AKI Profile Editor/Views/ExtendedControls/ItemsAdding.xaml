@@ -10,6 +10,7 @@
     x:Name="Control"
     d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:StashTabViewModel}"
+    d:Width="500"
     mc:Ignorable="d">
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -23,6 +24,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -35,9 +37,15 @@
             SearchParamsChanged="SearchParamsChanged"
             SearchText="{Binding ElementName=Control, Path=FilterName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             SearchTitle="{Binding AppLocalization.Translations[tab_stash_search], FallbackValue=tab_stash_search}" />
+        <extendedcontrols:Warning
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="5"
+            Text="{Binding AppLocalization.Translations[tab_stash_fully_equipped_weapons_and_gear], FallbackValue=tab_stash_fully_equipped_weapons_and_gear}" />
         <TreeView
             x:Name="itemsList"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="0"
             Margin="0,5,0,0"
             d:ItemsSource="{d:SampleData ItemCount=5}"
@@ -71,7 +79,7 @@
             </TreeView.ItemTemplate>
         </TreeView>
         <GridSplitter
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="1"
             Width="3"
@@ -79,14 +87,14 @@
             Background="{DynamicResource MahApps.Brushes.Accent3}" />
         <extendedcontrols:ItemsListBox
             x:Name="selectedCategory"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="2"
             Margin="0,5,0,0"
             AddItemCommand="{Binding ElementName=Control, Path=AddItemCommand}"
             AddItemsBlocked="{Binding ElementName=Control, Path=AddItemsBlocked}" />
         <Button
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="0"
             Margin="5"
             Command="{Binding ElementName=Control, Path=ShowAllItemsCommand}"

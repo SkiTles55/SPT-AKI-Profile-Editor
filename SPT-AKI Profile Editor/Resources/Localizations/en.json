@@ -249,6 +249,8 @@
     "file_production_description": "File with main settings of hideout crafts",
     "tab_progress_transfer_title": "Progress transfer",
     "tab_progress_transfer_import_error": "File does not contains characters progress",
-    "tab_progress_transfer_quests_warning": "Daily and weekly operational tasks are not available for transfer"
+    "tab_progress_transfer_quests_warning": "Daily and weekly operational tasks are not available for transfer",
+    "tab_presets_equipment_compatibility_warning": "Equipment builds exported from SPT-AKI profiles below version 3.8.0 are incompatible",
+    "tab_stash_fully_equipped_weapons_and_gear": "To add fully equipped weapons and gear, use the \"Global items presets\" section"
   }
 }
