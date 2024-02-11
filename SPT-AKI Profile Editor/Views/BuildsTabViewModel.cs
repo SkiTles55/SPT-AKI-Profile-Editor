@@ -148,17 +148,20 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private async Task RemoveAllWeaponBuildsFromProfile()
         {
-            if (await AskRemoveBuild())
+            if (await AskRemoveBuilds())
                 Profile.UserBuilds.RemoveWeaponBuilds();
         }
 
         private async Task RemoveAllEquipmentBuildsFromProfile()
         {
-            if (await AskRemoveBuild())
+            if (await AskRemoveBuilds())
                 Profile.UserBuilds.RemoveEquipmentBuilds();
         }
 
         private async Task<bool> AskRemoveBuild()
+            => await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_preset_dialog_caption");
+
+        private async Task<bool> AskRemoveBuilds()
             => await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption");
     }
 }
