@@ -5,6 +5,7 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -183,6 +184,20 @@
                                 Margin="5"
                                 ItemsSource="{Binding Path=Type, Converter={StaticResource QuestStatusValueConverter}}"
                                 SelectedItem="{Binding Path=Status, Converter={StaticResource QuestStatusValueConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="45">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <extendedcontrols:ButtonFontAwesomeIcon
+                                Margin="5,5,10,5"
+                                Command="{Binding Data.RemoveQuestCommand, Source={StaticResource proxy}}"
+                                CommandParameter="{Binding Path=Qid}"
+                                Icon="TrashAltSolid"
+                                IconSize="15"
+                                Style="{StaticResource IconOnlyButton}"
+                                ToolTip="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -251,6 +251,8 @@
     "tab_progress_transfer_import_error": "File does not contains characters progress",
     "tab_progress_transfer_quests_warning": "Daily and weekly operational tasks are not available for transfer",
     "tab_presets_equipment_compatibility_warning": "Equipment builds exported from SPT-AKI profiles below version 3.8.0 are incompatible",
-    "tab_stash_fully_equipped_weapons_and_gear": "To add fully equipped weapons and gear, use the \"Global items presets\" section"
+    "tab_stash_fully_equipped_weapons_and_gear": "To add fully equipped weapons and gear, use the \"Global items presets\" section",
+    "remove_quest_title": "Removing an quest",
+    "remove_quest_caption": "Are you sure you want to delete this quest?"
   }
 }
