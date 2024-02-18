@@ -113,7 +113,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (!string.IsNullOrEmpty(character?.Customization?.Head)
                 && !AppData.ServerDatabase.Heads.Any(x => x.Key == character.Customization.Head))
-                    AppData.ServerDatabase.Heads.Add(character.Customization.Head, character.Customization.Head);
+                {
+                    var existHeads = new Dictionary<string, string>(AppData.ServerDatabase.Heads)
+                    {
+                        { character.Customization.Head, character.Customization.Head }
+                    };
+                    AppData.ServerDatabase.Heads = existHeads;
+                }
             }
 
             static void AddMissingMasteringSkills(CharacterSkills characterSkills)
