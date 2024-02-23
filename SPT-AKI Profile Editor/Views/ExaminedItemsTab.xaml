@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -12,9 +13,14 @@
     d:DataContext="{d:DesignInstance Type=views:ExaminedItemsTabViewModel}"
     d:Width="500"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateModelBindingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <CollectionViewSource x:Key="examinedItems" Source="{Binding Profile.Characters.Pmc.ExaminedItems}" />
+        <CollectionViewSource x:Key="examinedItems" Source="{Binding ExaminedItems}" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -57,8 +63,7 @@
                                     VerticalAlignment="Center"
                                     mah:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.ExaminedItemsFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="FilterBox_TextChanged" />
+                                    Text="{Binding Data.NameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -78,6 +83,20 @@
                                     Text="{Binding Name}"
                                     TextWrapping="Wrap" />
                             </DockPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="45">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <extendedcontrols:ButtonFontAwesomeIcon
+                                Margin="5,5,10,5"
+                                Command="{Binding Data.RemoveItemCommand, Source={StaticResource proxy}}"
+                                CommandParameter="{Binding Path=Id}"
+                                Icon="TrashAltSolid"
+                                IconSize="15"
+                                Style="{StaticResource IconOnlyButton}"
+                                ToolTip="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

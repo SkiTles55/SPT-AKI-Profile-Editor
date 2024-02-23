@@ -3,7 +3,6 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +10,7 @@ using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class QuestsTabViewModel : BindableViewModel
+    public class QuestsTabViewModel : PmcBindableViewModel
     {
         private readonly IDialogManager _dialogManager;
         private readonly RelayCommand _reloadCommand;
@@ -50,7 +49,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 traderNameFilter = value;
                 OnPropertyChanged(nameof(TraderNameFilter));
-                ApplyQuestsFilter();
+                ApplyFilter();
             }
         }
 
@@ -61,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 questNameFilter = value;
                 OnPropertyChanged(nameof(QuestNameFilter));
-                ApplyQuestsFilter();
+                ApplyFilter();
             }
         }
 
@@ -72,11 +71,9 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 questStatusFilter = value;
                 OnPropertyChanged(nameof(QuestStatusFilter));
-                ApplyQuestsFilter();
+                ApplyFilter();
             }
         }
-
-        public RelayCommand UpdateModelBindingCommand => new(obj => UpdateModelBinding());
 
         public RelayCommand ExpanderStateChanged => new(obj => UpdateExpanderGroups(obj as RoutedEventArgs));
 
@@ -105,24 +102,24 @@ namespace SPT_AKI_Profile_Editor.Views
                                                                         _helperModManager,
                                                                         1));
 
+        public override void ApplyFilter()
+        {
+            ObservableCollection<CharacterQuest> filteredQuests;
+
+            if (Profile?.Characters?.Pmc?.Quests == null || !Profile.Characters.Pmc.Quests.Any())
+                filteredQuests = new();
+            else if (FiltersIsEmpty())
+                filteredQuests = new(Profile.Characters.Pmc.Quests);
+            else
+                filteredQuests = new(Profile.Characters.Pmc.Quests.Where(x => CanShow(x)));
+
+            QuestsCollection = filteredQuests;
+        }
+
         private async void RemoveQuest(string qid)
         {
             if (await _dialogManager.YesNoDialog("remove_quest_title", "remove_quest_caption"))
                 Profile?.Characters?.Pmc?.RemoveQuests(new string[] { qid });
-        }
-
-        private void UpdateModelBinding()
-        {
-            if (Profile?.Characters?.Pmc == null)
-                return;
-
-            Profile.Characters.Pmc.PropertyChanged -= PmcChanged;
-            Profile.Characters.Pmc.PropertyChanged += PmcChanged;
-
-            Profile.PropertyChanged -= ProfileUpdated;
-            Profile.PropertyChanged += ProfileUpdated;
-
-            ApplyQuestsFilter();
         }
 
         private void UpdateExpanderGroups(RoutedEventArgs e)
@@ -146,30 +143,9 @@ namespace SPT_AKI_Profile_Editor.Views
             expander.IsExpanded = questTypesExpander[groupName];
         }
 
-        private void ProfileUpdated(object sender, PropertyChangedEventArgs e) => UpdateModelBinding();
-
-        private void PmcChanged(object sender, PropertyChangedEventArgs e) => ApplyQuestsFilter();
-
         private bool FiltersIsEmpty() => string.IsNullOrEmpty(QuestNameFilter)
             && string.IsNullOrEmpty(QuestStatusFilter)
             && string.IsNullOrEmpty(TraderNameFilter);
-
-        private void ApplyQuestsFilter()
-        {
-            ObservableCollection<CharacterQuest> filteredQuests;
-
-            if (Profile?.Characters?.Pmc?.Quests == null || !Profile.Characters.Pmc.Quests.Any())
-                filteredQuests = new();
-            else if (FiltersIsEmpty())
-                filteredQuests = new(Profile.Characters.Pmc.Quests);
-            else
-                filteredQuests = new(Profile.Characters.Pmc.Quests.Where(x => CanShow(x)));
-
-            var newGroups = filteredQuests
-                .Select(x => x.LocalizedQuestType);
-
-            QuestsCollection = filteredQuests;
-        }
 
         private bool CanShow(CharacterQuest quest)
         {
