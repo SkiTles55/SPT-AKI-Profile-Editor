@@ -2,8 +2,6 @@
 {
     public class GridFilters : BindableEntity
     {
-        private HideoutTab hideoutTab;
-
         private SkillsTab skillsTab;
 
         private MasteringTab masteringTab;
@@ -16,21 +14,10 @@
 
         public GridFilters()
         {
-            HideoutTab = new();
             SkillsTab = new();
             MasteringTab = new();
             StashTab = new();
             CleaningFromModsTab = new();
-        }
-
-        public HideoutTab HideoutTab
-        {
-            get => hideoutTab;
-            set
-            {
-                hideoutTab = value;
-                OnPropertyChanged("HideoutTab");
-            }
         }
 
         public SkillsTab SkillsTab
@@ -85,7 +72,6 @@
 
         public void Clear()
         {
-            HideoutTab = new();
             SkillsTab = new();
             MasteringTab = new();
             StashTab = new();
