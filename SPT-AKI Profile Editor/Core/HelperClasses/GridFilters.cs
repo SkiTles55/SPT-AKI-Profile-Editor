@@ -6,8 +6,6 @@
 
         private MasteringTab masteringTab;
 
-        private string clothingNameFilter;
-
         private StashTab stashTab;
 
         private CleaningFromModsTab cleaningFromModsTab;
@@ -40,16 +38,6 @@
             }
         }
 
-        public string ClothingNameFilter
-        {
-            get => clothingNameFilter;
-            set
-            {
-                clothingNameFilter = value;
-                OnPropertyChanged("ClothingNameFilter");
-            }
-        }
-
         public StashTab StashTab
         {
             get => stashTab;
@@ -75,7 +63,6 @@
             SkillsTab = new();
             MasteringTab = new();
             StashTab = new();
-            ClothingNameFilter = string.Empty;
             CleaningFromModsTab = new();
         }
     }

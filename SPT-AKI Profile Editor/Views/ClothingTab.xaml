@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -11,9 +12,11 @@
     d:DataContext="{d:DesignInstance Type=views:ClothingTabViewModel}"
     d:Width="500"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <CollectionViewSource x:Key="clothingItems" Source="{Binding ServerDatabase.TraderSuits}" />
-    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateModelBindingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -27,9 +30,10 @@
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             IsReadOnly="True"
-            ItemsSource="{Binding Source={StaticResource clothingItems}}"
+            ItemsSource="{Binding Suits}"
             VirtualizingPanel.IsVirtualizing="True"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Resources>
                 <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
@@ -54,8 +58,7 @@
                                     VerticalAlignment="Center"
                                     mah:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.ClothingNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="FilterBox_TextChanged" />
+                                    Text="{Binding Data.NameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
