@@ -20,7 +20,6 @@
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <CollectionViewSource x:Key="examinedItems" Source="{Binding ExaminedItems}" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,7 +34,7 @@
             CanUserAddRows="False"
             ColumnHeaderStyle="{StaticResource MyColumnHeader}"
             IsReadOnly="True"
-            ItemsSource="{Binding Source={StaticResource examinedItems}}"
+            ItemsSource="{Binding ExaminedItems}"
             VirtualizingPanel.IsVirtualizing="True"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Recycling">
