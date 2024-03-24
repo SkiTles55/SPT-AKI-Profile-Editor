@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
@@ -117,7 +118,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
 
         public class BuildsData
         {
+            [JsonConverter(typeof(ValidListConverter<WeaponBuild>))]
             public List<WeaponBuild> WeaponsBuilds;
+
+            [JsonConverter(typeof(ValidListConverter<EquipmentBuild>))]
             public List<EquipmentBuild> EquipmentBuilds;
         }
     }

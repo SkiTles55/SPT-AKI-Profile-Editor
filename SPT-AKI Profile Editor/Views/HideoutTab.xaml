@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,10 +15,15 @@
     d:DataContext="{d:DesignInstance Type=views:HideoutTabViewModel}"
     d:Width="500"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateModelBindingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <CollectionViewSource x:Key="hideoutAreas" Source="{Binding Profile.Characters.Pmc.Hideout.Areas}" />
-        <CollectionViewSource x:Key="hideoutProductions" Source="{Binding Profile.Characters.Pmc.HideoutProductions}" />
+        <CollectionViewSource x:Key="hideoutAreas" Source="{Binding Areas}" />
+        <CollectionViewSource x:Key="hideoutProductions" Source="{Binding Productions}" />
     </UserControl.Resources>
     <TabControl
         mah:TabControlHelper.Transition="Up"
@@ -66,8 +72,7 @@
                                             VerticalAlignment="Center"
                                             Controls:TextBoxHelper.ClearTextButton="True"
                                             DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.HideoutTab.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="FilterBox_TextChanged" />
+                                            Text="{Binding Data.AreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
@@ -167,8 +172,7 @@
                                             VerticalAlignment="Center"
                                             Controls:TextBoxHelper.ClearTextButton="True"
                                             DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.HideoutTab.CraftProductionNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="CraftsFilterBox_TextChanged" />
+                                            Text="{Binding Data.ProductionNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
@@ -211,8 +215,7 @@
                                             VerticalAlignment="Center"
                                             Controls:TextBoxHelper.ClearTextButton="True"
                                             DockPanel.Dock="Right"
-                                            Text="{Binding Data.GridFilters.HideoutTab.CraftAreaNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                            TextChanged="CraftsFilterBox_TextChanged" />
+                                            Text="{Binding Data.ProductionAreaFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                                     </DockPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>

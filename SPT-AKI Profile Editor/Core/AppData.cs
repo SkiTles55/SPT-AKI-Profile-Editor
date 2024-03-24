@@ -131,11 +131,11 @@ namespace SPT_AKI_Profile_Editor.Core
                         continue;
                     BotType bot = JsonConvert.DeserializeObject<BotType>(File.ReadAllText(btype));
                     if (bot.Appearance.Heads != null)
-                        foreach (var head in bot.Appearance.Heads)
+                        foreach (var head in bot.Appearance.Heads.Keys)
                             if (!Heads.ContainsKey(head))
                                 Heads.Add(head, GetHeadName(head, btype));
                     if (bot.Appearance.Voices != null)
-                        foreach (var voice in bot.Appearance.Voices)
+                        foreach (var voice in bot.Appearance.Voices.Keys)
                             if (!Voices.ContainsKey(voice))
                                 Voices.Add(voice, voice);
                 }

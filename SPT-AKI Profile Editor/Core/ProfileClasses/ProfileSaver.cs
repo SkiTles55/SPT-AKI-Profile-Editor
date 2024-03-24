@@ -228,7 +228,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         token.Remove();
 
                     foreach (var quest in profile.Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
-                        questsToken.LastOrDefault().AddAfterSelf(JObject.FromObject(quest));
+                    {
+                        var lastQuestToken = questsToken.LastOrDefault();
+                        if (lastQuestToken != null)
+                            lastQuestToken.AddAfterSelf(JObject.FromObject(quest));
+                        else
+                        {
+                            questsToken.Replace(JToken.FromObject(new CharacterQuest[] { quest }));
+                            questsToken = pmc.SelectToken("Quests");
+                        }
+                    }
                 }
                 else
                     questsToken.Replace(JToken.FromObject(profile.Characters.Pmc.Quests));
@@ -359,11 +368,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             try
             {
+                // Saving magazineBuilds for returning them back later
+                var magazineBulds = jobject.SelectToken("userbuilds")["magazineBuilds"];
+
                 jobject.SelectToken("userbuilds").Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
                 if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
                     jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
                 if (profile.UserBuilds.WeaponBuilds?.Any() != true)
                     jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
+                // Returning previous magazineBuilds
+                jobject.SelectToken("userbuilds")["magazineBuilds"] = magazineBulds;
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.UserBuilds, ex)); }
         }

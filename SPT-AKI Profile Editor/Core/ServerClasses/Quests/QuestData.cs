@@ -22,67 +22,61 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             public class QuestCondition
             {
                 [JsonConverter(typeof(SafeEnumConverter<QuestConditionType>))]
-                [JsonProperty("_parent")]
+                [JsonProperty("conditionType")]
                 public QuestConditionType Type { get; set; }
 
-                [JsonProperty("_props")]
-                public QuestConditionProps Props { get; set; }
+                [JsonProperty("compareMethod")]
+                public string CompareMethod { get; set; }
 
-                public class QuestConditionProps
+                [JsonProperty("target")]
+                public string Target { get; set; }
+
+                [JsonProperty("value")]
+                public int RequiredValue { get; set; }
+
+                [JsonProperty("status")]
+                public QuestStatus[] RequiredStatuses { get; set; }
+
+                public bool CheckRequiredValue(int currentValue)
                 {
-                    [JsonProperty("target")]
-                    public string Target { get; set; }
-
-                    [JsonProperty("value")]
-                    public int RequiredValue { get; set; }
-
-                    [JsonProperty("compareMethod")]
-                    public string CompareMethod { get; set; }
-
-                    [JsonProperty("status")]
-                    public QuestStatus[] RequiredStatuses { get; set; }
-
-                    public bool CheckRequiredValue(int currentValue)
+                    return CompareMethod switch
                     {
-                        return CompareMethod switch
-                        {
-                            ">=" => currentValue >= RequiredValue,
-                            ">" => currentValue > RequiredValue,
-                            "<=" => currentValue <= RequiredValue,
-                            "<" => currentValue < RequiredValue,
-                            "!=" => currentValue != RequiredValue,
-                            "==" => currentValue == RequiredValue,
-                            _ => true,
-                        };
-                    }
+                        ">=" => currentValue >= RequiredValue,
+                        ">" => currentValue > RequiredValue,
+                        "<=" => currentValue <= RequiredValue,
+                        "<" => currentValue < RequiredValue,
+                        "!=" => currentValue != RequiredValue,
+                        "==" => currentValue == RequiredValue,
+                        _ => true,
+                    };
+                }
 
-                    public int GetNearestValue()
+                public int GetNearestValue()
+                {
+                    return CompareMethod switch
                     {
-                        return CompareMethod switch
-                        {
-                            ">=" => RequiredValue,
-                            ">" => RequiredValue + 1,
-                            "<=" => RequiredValue,
-                            "<" => RequiredValue - 1,
-                            "!=" => RequiredValue + 1,
-                            "==" => RequiredValue,
-                            _ => RequiredValue,
-                        };
-                    }
+                        ">=" => RequiredValue,
+                        ">" => RequiredValue + 1,
+                        "<=" => RequiredValue,
+                        "<" => RequiredValue - 1,
+                        "!=" => RequiredValue + 1,
+                        "==" => RequiredValue,
+                        _ => RequiredValue,
+                    };
+                }
 
-                    public float GetNearestFloatValue()
+                public float GetNearestFloatValue()
+                {
+                    return CompareMethod switch
                     {
-                        return CompareMethod switch
-                        {
-                            ">=" => RequiredValue,
-                            ">" => RequiredValue + 0.01f,
-                            "<=" => RequiredValue,
-                            "<" => RequiredValue - 0.01f,
-                            "!=" => RequiredValue + 0.01f,
-                            "==" => RequiredValue,
-                            _ => RequiredValue,
-                        };
-                    }
+                        ">=" => RequiredValue,
+                        ">" => RequiredValue + 0.01f,
+                        "<=" => RequiredValue,
+                        "<" => RequiredValue - 0.01f,
+                        "!=" => RequiredValue + 0.01f,
+                        "==" => RequiredValue,
+                        _ => RequiredValue,
+                    };
                 }
             }
         }

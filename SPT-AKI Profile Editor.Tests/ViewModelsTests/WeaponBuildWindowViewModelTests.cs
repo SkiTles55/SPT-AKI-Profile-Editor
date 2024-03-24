@@ -95,7 +95,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             WeaponBuild build = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(windowsDialogs.weaponBuildExportPath));
             Assert.That(build, Is.Not.Null, "Unable to read exported weapon build");
             Assert.That(build.RootTpl, Is.EqualTo(weapon.Tpl), "Exported wrong weapon");
-            Assert.That(build.Type, Is.EqualTo(WeaponBuild.WeaponBuildType), "WeaponBuildType is wrong");
         }
 
         [Test]

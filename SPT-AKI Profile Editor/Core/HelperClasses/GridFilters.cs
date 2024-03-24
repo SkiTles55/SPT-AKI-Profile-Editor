@@ -2,17 +2,9 @@
 {
     public class GridFilters : BindableEntity
     {
-        private QuestsTab questsTab;
-
-        private HideoutTab hideoutTab;
-
         private SkillsTab skillsTab;
 
         private MasteringTab masteringTab;
-
-        private string examinedItemsFilter;
-
-        private string clothingNameFilter;
 
         private StashTab stashTab;
 
@@ -20,32 +12,10 @@
 
         public GridFilters()
         {
-            QuestsTab = new();
-            HideoutTab = new();
             SkillsTab = new();
             MasteringTab = new();
             StashTab = new();
             CleaningFromModsTab = new();
-        }
-
-        public QuestsTab QuestsTab
-        {
-            get => questsTab;
-            set
-            {
-                questsTab = value;
-                OnPropertyChanged("QuestsTab");
-            }
-        }
-
-        public HideoutTab HideoutTab
-        {
-            get => hideoutTab;
-            set
-            {
-                hideoutTab = value;
-                OnPropertyChanged("HideoutTab");
-            }
         }
 
         public SkillsTab SkillsTab
@@ -65,26 +35,6 @@
             {
                 masteringTab = value;
                 OnPropertyChanged("MasteringTab");
-            }
-        }
-
-        public string ExaminedItemsFilter
-        {
-            get => examinedItemsFilter;
-            set
-            {
-                examinedItemsFilter = value;
-                OnPropertyChanged("ExaminedItemsFilter");
-            }
-        }
-
-        public string ClothingNameFilter
-        {
-            get => clothingNameFilter;
-            set
-            {
-                clothingNameFilter = value;
-                OnPropertyChanged("ClothingNameFilter");
             }
         }
 
@@ -110,13 +60,9 @@
 
         public void Clear()
         {
-            QuestsTab = new();
-            HideoutTab = new();
             SkillsTab = new();
             MasteringTab = new();
             StashTab = new();
-            ExaminedItemsFilter = string.Empty;
-            ClothingNameFilter = string.Empty;
             CleaningFromModsTab = new();
         }
     }

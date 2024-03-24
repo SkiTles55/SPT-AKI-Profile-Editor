@@ -5,7 +5,9 @@
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -13,8 +15,13 @@
     d:DataContext="{d:DesignInstance Type=views:QuestsTabViewModel}"
     d:Width="500"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateModelBindingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <UserControl.Resources>
-        <CollectionViewSource x:Key="quests" Source="{Binding Profile.Characters.Pmc.Quests}">
+        <CollectionViewSource x:Key="quests" Source="{Binding QuestsCollection}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="LocalizedQuestType" />
             </CollectionViewSource.GroupDescriptions>
@@ -52,14 +59,21 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <Expander
-                                            Collapsed="Expander_Expanded"
-                                            Expanded="Expander_Expanded"
-                                            Loaded="Expander_Loaded"
-                                            Style="{StaticResource TransparentExpander}">
+                                        <Expander Style="{StaticResource TransparentExpander}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Collapsed">
+                                                    <i:InvokeCommandAction Command="{Binding Data.ExpanderStateChanged, Source={StaticResource proxy}}" PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="Expanded">
+                                                    <i:InvokeCommandAction Command="{Binding Data.ExpanderStateChanged, Source={StaticResource proxy}}" PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="Loaded">
+                                                    <i:InvokeCommandAction Command="{Binding Data.ExpanderLoaded, Source={StaticResource proxy}}" PassEventArgsToCommand="True" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Expander.Header>
                                                 <DockPanel>
-                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Name}" />
                                                 </DockPanel>
                                             </Expander.Header>
                                             <ItemsPresenter />
@@ -102,8 +116,7 @@
                                     VerticalAlignment="Center"
                                     Controls:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.QuestsTab.TraderNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="FilterBox_TextChanged" />
+                                    Text="{Binding Data.TraderNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -137,8 +150,7 @@
                                     VerticalAlignment="Center"
                                     Controls:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.QuestsTab.QuestNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="FilterBox_TextChanged" />
+                                    Text="{Binding Data.QuestNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -172,8 +184,7 @@
                                     VerticalAlignment="Center"
                                     Controls:TextBoxHelper.ClearTextButton="True"
                                     DockPanel.Dock="Right"
-                                    Text="{Binding Data.GridFilters.QuestsTab.QuestStatusFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}"
-                                    TextChanged="FilterBox_TextChanged" />
+                                    Text="{Binding Data.QuestStatusFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
@@ -183,6 +194,20 @@
                                 Margin="5"
                                 ItemsSource="{Binding Path=Type, Converter={StaticResource QuestStatusValueConverter}}"
                                 SelectedItem="{Binding Path=Status, Converter={StaticResource QuestStatusValueConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="45">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <extendedcontrols:ButtonFontAwesomeIcon
+                                Margin="5,5,10,5"
+                                Command="{Binding Data.RemoveQuestCommand, Source={StaticResource proxy}}"
+                                CommandParameter="{Binding Path=Qid}"
+                                Icon="TrashAltSolid"
+                                IconSize="15"
+                                Style="{StaticResource IconOnlyButton}"
+                                ToolTip="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -32,14 +32,14 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public FolderBrowserDialogMode folderBrowserDialogMode = FolderBrowserDialogMode.weaponBuildsExport;
 
-        public bool SaveProfileProgressDialogCalled { get; internal set; } = false;
-        public bool OpenBuildDialogCalled { get; internal set; } = false;
-
         public TestsWindowsDialogs()
         {
             PrepareTestPaths(weaponBuildExportPath, weaponBuildsExportPath);
             PrepareTestPaths(equipmentBuildExportPath, equipmentBuildsExportPath);
         }
+
+        public bool SaveProfileProgressDialogCalled { get; internal set; } = false;
+        public bool OpenBuildDialogCalled { get; internal set; } = false;
 
         public (bool success, string path) FolderBrowserDialog(bool showNewFolderButton = true,
                                                                string startPath = null,

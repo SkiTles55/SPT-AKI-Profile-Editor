@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            ExaminedItemsTabViewModel viewModel = new();
+            ExaminedItemsTabViewModel viewModel = new(null);
             Assert.That(viewModel, Is.Not.Null);
         }
 

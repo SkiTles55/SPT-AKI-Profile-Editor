@@ -117,6 +117,12 @@ namespace SPT_AKI_Profile_Editor.Core
             LoadEntitiesList();
         }
 
+        private static bool IsModdedQuest(CharacterQuest quest) => quest.Type switch
+        {
+            QuestType.Standart => !AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid),
+            _ => !AppData.ServerDatabase.LocalesGlobal.ContainsKey(quest.QuestTrader.Nickname()),
+        };
+
         private void ChildChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(CanDeselectAny));
@@ -140,7 +146,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (quests != null && AppData.ServerDatabase?.LocalesGlobal != null)
                 AddModdedEntity(quests,
-                                x => !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Qid.QuestName()),
+                                x => IsModdedQuest(x),
                                 x => x.Qid,
                                 ModdedEntityType.Quest,
                                 compositeCollection);
