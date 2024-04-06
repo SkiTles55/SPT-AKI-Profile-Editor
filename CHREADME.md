@@ -17,7 +17,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [提交Bug报告 \ 功能要求](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [版本 2.9 适配服务器 SPT-AKI 3.8.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9)
+### [版本 2.9.1 适配服务器 SPT-AKI 3.8.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.1)
 ### [版本 2.8.6 适配服务器 SPT-AKI 3.7.0 - 3.7.6](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.6)
 ### [版本 2.7 适配服务器 SPT-AKI 3.4.0 - 3.6.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.7)
 ### [版本 2.4.2 适配服务器 SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
