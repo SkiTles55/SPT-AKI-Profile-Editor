@@ -27,7 +27,7 @@ namespace SPT_AKI_Profile_Editor
         {
             _dialogManager = dialogManager ?? new MetroDialogManager(this, dialogCoordinator);
             _worker = worker ?? new Worker(_dialogManager);
-            WindowTitle = item.LocalizedName;
+            WindowTitle = item?.LocalizedName ?? "";
             _item = item;
             _inventory = inventory;
             _applicationManager = applicationManager;
