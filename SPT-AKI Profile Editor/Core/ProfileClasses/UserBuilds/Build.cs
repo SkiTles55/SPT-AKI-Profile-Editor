@@ -18,16 +18,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Items = items;
         }
 
-        [JsonProperty("id")]
         public override string Id { get; set; }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("root")]
         public string Root { get; set; }
 
-        [JsonProperty("Items")]
         public object[] Items { get; set; }
 
         [JsonIgnore]

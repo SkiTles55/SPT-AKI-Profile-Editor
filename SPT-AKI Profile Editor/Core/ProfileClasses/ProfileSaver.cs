@@ -371,6 +371,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 // Saving magazineBuilds for returning them back later
                 var magazineBulds = jobject.SelectToken("userbuilds")["magazineBuilds"];
 
+                profile.UserBuilds.RemoveParentsFromBuilds();
                 jobject.SelectToken("userbuilds").Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
                 if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
                     jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());

@@ -152,5 +152,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             OnPropertyChanged(nameof(EBuilds));
             OnPropertyChanged(nameof(HasEquipmentBuilds));
         }
+
+        public void RemoveParentsFromBuilds()
+        {
+            foreach (var wBuild in weaponBuilds)
+                wBuild.Parent = null;
+            foreach (var eBuild in equipmentBuilds)
+                eBuild.Parent = null;
+        }
     }
 }
