@@ -545,6 +545,20 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void ChangeFenceStandingAffectScavCharacter()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var fencePmcTrader = AppData.Profile.Characters.Pmc.TraderStandingsExt.FirstOrDefault(x => x.Id == AppData.AppSettings.FenceTraderId);
+            Assert.That(fencePmcTrader, Is.Not.Null, "Fence trader for PMC is null");
+            var newValue = 3.2f;
+            fencePmcTrader.Standing = newValue;
+            TestHelpers.SaveAndLoadProfile("testTradersFenceStanding.json");
+            var fenceScavTrader = AppData.Profile.Characters.Scav.TraderStandingsExt.FirstOrDefault(x => x.Id == AppData.AppSettings.FenceTraderId);
+            Assert.That(fenceScavTrader, Is.Not.Null, "Fence trader for Scav is null");
+            Assert.That(fenceScavTrader.Standing, Is.EqualTo(newValue), $"Fence trader scanding for Scav not equal to {newValue}");
+        }
+
+        [Test]
         public void QuestsAddingWorksCorrectly()
         {
             JObject profileJObject = JObject.Parse(File.ReadAllText(TestHelpers.profileFile));

@@ -237,6 +237,8 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public List<string> BannedMasterings { get; set; }
 
+        public string FenceTraderId { get; set; }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public IssuesAction IssuesAction
         {
@@ -301,7 +303,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 + MoneysRublesTpl
                 + RagfairTraderId
                 + BearDogtagTpl
-                + EndlessDevBackpackId;
+                + EndlessDevBackpackId
+                + FenceTraderId;
         }
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
@@ -429,6 +432,7 @@ namespace SPT_AKI_Profile_Editor.Core
             IssuesAction = loaded.IssuesAction;
             BearDogtagTpl = loaded.BearDogtagTpl;
             EndlessDevBackpackId = loaded.EndlessDevBackpackId;
+            FenceTraderId = loaded.FenceTraderId;
         }
 
         private bool CheckValues()
@@ -589,6 +593,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
                 _needReSave = true;
             }
+            if (FenceTraderId == null)
+            {
+                FenceTraderId = DefaultValues.FenceTraderId;
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -629,6 +638,7 @@ namespace SPT_AKI_Profile_Editor.Core
             IssuesAction = DefaultValues.DefaultIssuesAction;
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
             EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
+            FenceTraderId = DefaultValues.FenceTraderId;
             Logger.Log($"Default configuration file created");
             Save();
         }

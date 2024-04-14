@@ -35,6 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string BearDogtagTpl = "59f32bb586f774757e1e8442";
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
+        public const string FenceTraderId = "579dc571d53a0658a154fbec";
 
         public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 

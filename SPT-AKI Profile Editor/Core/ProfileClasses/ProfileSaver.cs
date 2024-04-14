@@ -91,7 +91,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteCharacterHealth(pmc, profile.Characters.Pmc.Health, SaveEntry.CharacterHealthPmc);
             WriteCharacterHealth(scav, profile.Characters.Scav.Health, SaveEntry.CharacterHealthScav);
             WriteEncyclopedia(pmc);
-            WriteTraders(pmc);
+            WriteTraders(pmc, profile.Characters.Pmc);
+            WriteTraders(scav, profile.Characters.Scav);
             WriteQuests(pmc);
             WriteHideout(pmc, out string newStash);
             WriteHideoutCrafts(pmc);
@@ -117,26 +118,26 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             catch (Exception ex) { exceptions.Add(new(SaveEntry.Suits, ex)); }
         }
 
-        private void WriteTraders(JToken pmc)
+        private void WriteTraders(JToken token, Character character)
         {
             try
             {
-                JToken TradersInfo = pmc.SelectToken("TradersInfo");
+                JToken TradersInfo = token.SelectToken("TradersInfo");
                 var tradersIdsForRemove = profile.ModdedEntitiesForRemoving
                     .Where(x => x.Type == ModdedEntityType.Merchant)
                     .Select(x => x.Id);
                 if (tradersIdsForRemove.Any())
                     TradersInfo.RemoveFields(tradersIdsForRemove);
-                foreach (var trader in profile.Characters.Pmc.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
+                foreach (var trader in character.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
                 {
                     JToken traderToken = TradersInfo.SelectToken($"['{trader.Key}']");
-                    var traderInfo = profile.Characters.Pmc.TraderStandings[trader.Key];
+                    var traderInfo = character.TraderStandings[trader.Key];
                     traderToken["loyaltyLevel"] = traderInfo.LoyaltyLevel;
                     traderToken["salesSum"] = traderInfo.SalesSum;
                     traderToken["standing"] = Math.Round(traderInfo.Standing, 2);
                     traderToken["unlocked"] = traderInfo.Unlocked;
                 }
-                pmc.SelectToken("RagfairInfo")["rating"] = Math.Round(profile.Characters.Pmc.RagfairInfo.Rating, 2);
+                token.SelectToken("RagfairInfo")["rating"] = Math.Round(character.RagfairInfo.Rating, 2);
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.Traders, ex)); }
         }

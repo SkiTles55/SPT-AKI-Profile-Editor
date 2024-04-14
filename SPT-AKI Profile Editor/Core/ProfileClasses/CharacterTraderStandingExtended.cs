@@ -57,6 +57,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 TraderStanding.Standing = value;
                 if (Id == AppData.AppSettings.RagfairTraderId)
                     AppData.Profile.Characters.Pmc.RagfairInfo.Rating = value;
+                if (Id == AppData.AppSettings.FenceTraderId)
+                {
+                    // Must add rep to scav profile to ensure consistency
+                    if (AppData.Profile.Characters.Scav.TraderStandings.ContainsKey(Id))
+                        AppData.Profile.Characters.Scav.TraderStandings[Id].Standing = value;
+                }
                 OnPropertyChanged(nameof(Standing));
                 SetLevel();
             }
