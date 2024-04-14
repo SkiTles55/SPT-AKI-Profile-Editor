@@ -70,34 +70,10 @@ namespace SPT_AKI_Profile_Editor.Core
         private bool autoAddMissingEventQuests;
         private bool autoAddMissingScavSkills;
         private bool autoAddMissingMasterings;
-        private string pocketsContainerTpl;
-        private float commonSkillMaxValue;
         private Dictionary<string, string> serverProfiles;
-        private string pocketsSlotId;
-        private string firstPrimaryWeaponSlotId;
-        private string headwearSlotId;
-        private string tacticalVestSlotId;
-        private string securedContainerSlotId;
-        private string backpackSlotId;
-        private string earpieceSlotId;
-        private string faceCoverSlotId;
-        private string eyewearSlotId;
-        private string armorVestSlotId;
-        private string secondPrimaryWeaponSlotId;
-        private string holsterSlotId;
-        private string scabbardSlotId;
-        private string armBandSlotId;
-        private string moneysDollarsTpl;
-        private string moneysRublesTpl;
-        private string moneysEurosTpl;
-        private List<string> bannedItems;
-        private List<string> bannedMasterings;
         private IssuesAction issuesAction;
         private bool fastModeOpened = false;
         private bool? checkUpdates;
-        private string ragfairTraderId;
-        private string bearDogtagTpl;
-        private string endlessDevBackpackId;
         private bool usingModHelper;
 
         public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
@@ -213,245 +189,53 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public string PocketsContainerTpl
-        {
-            get => pocketsContainerTpl;
-            set
-            {
-                pocketsContainerTpl = value;
-                NotifyPropertyChangedAndSave(nameof(PocketsContainerTpl));
-            }
-        }
+        public string PocketsContainerTpl { get; set; }
 
-        public float CommonSkillMaxValue
-        {
-            get => commonSkillMaxValue;
-            set
-            {
-                commonSkillMaxValue = value;
-                NotifyPropertyChangedAndSave(nameof(CommonSkillMaxValue));
-            }
-        }
+        public float CommonSkillMaxValue { get; set; }
 
-        public string PocketsSlotId
-        {
-            get => pocketsSlotId;
-            set
-            {
-                pocketsSlotId = value;
-                NotifyPropertyChangedAndSave("PocketsSlotId");
-            }
-        }
+        public string PocketsSlotId { get; set; }
 
-        public string FirstPrimaryWeaponSlotId
-        {
-            get => firstPrimaryWeaponSlotId;
-            set
-            {
-                firstPrimaryWeaponSlotId = value;
-                NotifyPropertyChangedAndSave("FirstPrimaryWeaponSlotId");
-            }
-        }
+        public string FirstPrimaryWeaponSlotId { get; set; }
 
-        public string HeadwearSlotId
-        {
-            get => headwearSlotId;
-            set
-            {
-                headwearSlotId = value;
-                NotifyPropertyChangedAndSave("HeadwearSlotId");
-            }
-        }
+        public string HeadwearSlotId { get; set; }
 
-        public string TacticalVestSlotId
-        {
-            get => tacticalVestSlotId;
-            set
-            {
-                tacticalVestSlotId = value;
-                NotifyPropertyChangedAndSave("TacticalVestSlotId");
-            }
-        }
+        public string TacticalVestSlotId { get; set; }
 
-        public string SecuredContainerSlotId
-        {
-            get => securedContainerSlotId;
-            set
-            {
-                securedContainerSlotId = value;
-                NotifyPropertyChangedAndSave("SecuredContainerSlotId");
-            }
-        }
+        public string SecuredContainerSlotId { get; set; }
 
-        public string BackpackSlotId
-        {
-            get => backpackSlotId;
-            set
-            {
-                backpackSlotId = value;
-                NotifyPropertyChangedAndSave("BackpackSlotId");
-            }
-        }
+        public string BackpackSlotId { get; set; }
 
-        public string EarpieceSlotId
-        {
-            get => earpieceSlotId;
-            set
-            {
-                earpieceSlotId = value;
-                NotifyPropertyChangedAndSave("EarpieceSlotId");
-            }
-        }
+        public string EarpieceSlotId { get; set; }
 
-        public string FaceCoverSlotId
-        {
-            get => faceCoverSlotId;
-            set
-            {
-                faceCoverSlotId = value;
-                NotifyPropertyChangedAndSave("FaceCoverSlotId");
-            }
-        }
+        public string FaceCoverSlotId { get; set; }
 
-        public string EyewearSlotId
-        {
-            get => eyewearSlotId;
-            set
-            {
-                eyewearSlotId = value;
-                NotifyPropertyChangedAndSave("EyewearSlotId");
-            }
-        }
+        public string EyewearSlotId { get; set; }
 
-        public string ArmorVestSlotId
-        {
-            get => armorVestSlotId;
-            set
-            {
-                armorVestSlotId = value;
-                NotifyPropertyChangedAndSave("ArmorVestSlotId");
-            }
-        }
+        public string ArmorVestSlotId { get; set; }
 
-        public string SecondPrimaryWeaponSlotId
-        {
-            get => secondPrimaryWeaponSlotId;
-            set
-            {
-                secondPrimaryWeaponSlotId = value;
-                NotifyPropertyChangedAndSave("SecondPrimaryWeaponSlotId");
-            }
-        }
+        public string SecondPrimaryWeaponSlotId { get; set; }
 
-        public string HolsterSlotId
-        {
-            get => holsterSlotId;
-            set
-            {
-                holsterSlotId = value;
-                NotifyPropertyChangedAndSave("HolsterSlotId");
-            }
-        }
+        public string HolsterSlotId { get; set; }
 
-        public string ScabbardSlotId
-        {
-            get => scabbardSlotId;
-            set
-            {
-                scabbardSlotId = value;
-                NotifyPropertyChangedAndSave("ScabbardSlotId");
-            }
-        }
+        public string ScabbardSlotId { get; set; }
 
-        public string ArmBandSlotId
-        {
-            get => armBandSlotId;
-            set
-            {
-                armBandSlotId = value;
-                NotifyPropertyChangedAndSave("ArmBandSlotId");
-            }
-        }
+        public string ArmBandSlotId { get; set; }
 
-        public string MoneysDollarsTpl
-        {
-            get => moneysDollarsTpl;
-            set
-            {
-                moneysDollarsTpl = value;
-                NotifyPropertyChangedAndSave("MoneysDollarsTpl");
-            }
-        }
+        public string MoneysDollarsTpl { get; set; }
 
-        public string MoneysRublesTpl
-        {
-            get => moneysRublesTpl;
-            set
-            {
-                moneysRublesTpl = value;
-                NotifyPropertyChangedAndSave("MoneysRublesTpl");
-            }
-        }
+        public string MoneysRublesTpl { get; set; }
 
-        public string MoneysEurosTpl
-        {
-            get => moneysEurosTpl;
-            set
-            {
-                moneysEurosTpl = value;
-                NotifyPropertyChangedAndSave("MoneysEurosTpl");
-            }
-        }
+        public string MoneysEurosTpl { get; set; }
 
-        public string RagfairTraderId
-        {
-            get => ragfairTraderId;
-            set
-            {
-                ragfairTraderId = value;
-                NotifyPropertyChangedAndSave("RagfairTraderId");
-            }
-        }
+        public string RagfairTraderId { get; set; }
 
-        public string EndlessDevBackpackId
-        {
-            get => endlessDevBackpackId;
-            set
-            {
-                endlessDevBackpackId = value;
-                NotifyPropertyChangedAndSave("EndlessDevBackpackId");
-            }
-        }
+        public string EndlessDevBackpackId { get; set; }
 
-        public string BearDogtagTpl
-        {
-            get => bearDogtagTpl;
-            set
-            {
-                bearDogtagTpl = value;
-                NotifyPropertyChangedAndSave("BearDogtagTpl");
-            }
-        }
+        public string BearDogtagTpl { get; set; }
 
-        public List<string> BannedItems
-        {
-            get => bannedItems;
-            set
-            {
-                bannedItems = value;
-                NotifyPropertyChangedAndSave("BannedItems");
-            }
-        }
+        public List<string> BannedItems { get; set; }
 
-        public List<string> BannedMasterings
-        {
-            get => bannedMasterings;
-            set
-            {
-                bannedMasterings = value;
-                NotifyPropertyChangedAndSave("BannedMasterings");
-            }
-        }
+        public List<string> BannedMasterings { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public IssuesAction IssuesAction
@@ -460,7 +244,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 issuesAction = value;
-                NotifyPropertyChangedAndSave("IssuesAction");
+                NotifyPropertyChangedAndSave(nameof(IssuesAction));
             }
         }
 
@@ -471,7 +255,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 serverProfiles = value;
-                OnPropertyChanged("ServerProfiles");
+                OnPropertyChanged(nameof(ServerProfiles));
             }
         }
 
@@ -482,7 +266,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 fastModeOpened = value;
-                OnPropertyChanged("FastModeOpened");
+                OnPropertyChanged(nameof(FastModeOpened));
             }
         }
 
@@ -641,7 +425,7 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysRublesTpl = loaded.MoneysRublesTpl;
             RagfairTraderId = loaded.RagfairTraderId;
             BannedItems = loaded.BannedItems;
-            BannedMasterings = loaded.bannedMasterings;
+            BannedMasterings = loaded.BannedMasterings;
             IssuesAction = loaded.IssuesAction;
             BearDogtagTpl = loaded.BearDogtagTpl;
             EndlessDevBackpackId = loaded.EndlessDevBackpackId;
