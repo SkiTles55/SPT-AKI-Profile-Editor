@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 type = value;
-                OnPropertyChanged("Type");
+                OnPropertyChanged(nameof(Type));
             }
         }
 
@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 level = Math.Min(value, MaxLevel);
-                OnPropertyChanged("Level");
+                OnPropertyChanged(nameof(Level));
             }
         }
 
