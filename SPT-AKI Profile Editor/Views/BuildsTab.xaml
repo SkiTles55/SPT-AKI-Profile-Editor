@@ -78,6 +78,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
                 <extendedcontrols:EquipmentBuildsList
@@ -93,15 +94,21 @@
                     d:Visibility="Hidden"
                     Text="{Binding AppLocalization.Translations[tab_presets_equipment_empty], FallbackValue=tab_presets_equipment_empty}"
                     Visibility="{Binding Profile.UserBuilds.HasEquipmentBuilds, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <Button
+                <extendedcontrols:Warning
                     Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="5"
+                    Text="{Binding AppLocalization.Translations[tab_presets_equipment_compatibility_warning], FallbackValue=tab_presets_equipment_compatibility_warning}" />
+                <Button
+                    Grid.Row="2"
                     Grid.Column="0"
                     MinWidth="170"
                     Margin="5,10,5,0"
                     Command="{Binding ImportEquipmentBuilds}"
                     Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}" />
                 <Button
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="1"
                     MinWidth="170"
                     Margin="5,10,5,0"
@@ -109,7 +116,7 @@
                     Content="{Binding AppLocalization.Translations[tab_presets_export_all], FallbackValue=tab_presets_export_all}"
                     IsEnabled="{Binding Path=Profile.UserBuilds.HasEquipmentBuilds, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="2"
                     MinWidth="170"
                     Margin="5,10,5,0"

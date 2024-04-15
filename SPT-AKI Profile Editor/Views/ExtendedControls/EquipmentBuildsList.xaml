@@ -21,7 +21,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
@@ -38,13 +37,9 @@
                 Text="{Binding ElementName=Control, Path=FilterValue, UpdateSourceTrigger=PropertyChanged}"
                 TextChanged="FilterBox_TextChanged" />
         </DockPanel>
-        <extendedcontrols:Warning
-            Grid.Row="1"
-            Margin="5"
-            Text="{Binding AppLocalization.Translations[tab_presets_equipment_compatibility_warning], FallbackValue=tab_presets_equipment_compatibility_warning}" />
         <ListBox
             x:Name="itemsList"
-            Grid.Row="2"
+            Grid.Row="1"
             d:ItemsSource="{d:SampleData ItemCount=2}"
             ItemContainerStyle="{StaticResource NoHoverListBox}"
             ItemsSource="{Binding ElementName=Control, Path=ItemsSource}"
