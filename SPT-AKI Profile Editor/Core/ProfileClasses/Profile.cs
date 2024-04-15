@@ -128,7 +128,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 {
                     characterSkills.Mastering = characterSkills.Mastering
                         .Concat(AppData.ServerDatabase.ServerGlobals.Config.Mastering
-                        .Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name) && !characterSkills.Mastering.Any(y => y.Id == x.Name))
+                        .Where(x => !characterSkills.Mastering.Any(y => y.Id == x.Name))
                         .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 })
                         .ToArray())
                         .ToArray();

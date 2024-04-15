@@ -235,8 +235,6 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public List<string> BannedItems { get; set; }
 
-        public List<string> BannedMasterings { get; set; }
-
         public string FenceTraderId { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -428,7 +426,6 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysRublesTpl = loaded.MoneysRublesTpl;
             RagfairTraderId = loaded.RagfairTraderId;
             BannedItems = loaded.BannedItems;
-            BannedMasterings = loaded.BannedMasterings;
             IssuesAction = loaded.IssuesAction;
             BearDogtagTpl = loaded.BearDogtagTpl;
             EndlessDevBackpackId = loaded.EndlessDevBackpackId;
@@ -501,11 +498,6 @@ namespace SPT_AKI_Profile_Editor.Core
             if (BannedItems == null)
             {
                 BannedItems = DefaultValues.BannedItems;
-                _needReSave = true;
-            }
-            if (BannedMasterings == null)
-            {
-                BannedMasterings = DefaultValues.BannedMasterings;
                 _needReSave = true;
             }
             if (FirstPrimaryWeaponSlotId == null)
@@ -634,7 +626,6 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
             RagfairTraderId = DefaultValues.RagfairTraderId;
             BannedItems = DefaultValues.BannedItems;
-            BannedMasterings = DefaultValues.BannedMasterings;
             IssuesAction = DefaultValues.DefaultIssuesAction;
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
             EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
