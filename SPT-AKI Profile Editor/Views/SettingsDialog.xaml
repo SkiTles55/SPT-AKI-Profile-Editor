@@ -108,12 +108,42 @@
                             </Button.CommandParameter>
                         </extendedcontrols:ButtonFontAwesomeIcon>
                     </Grid>
-                    <Label
+                    <Grid
                         Grid.Row="1"
                         Grid.Column="0"
-                        Margin="0,5,0,0"
-                        Content="{Binding AppLocalization.Translations[tab_settings_server], FallbackValue=tab_settings_server}"
-                        Template="{StaticResource TitleLabel}" />
+                        Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Content="{Binding AppLocalization.Translations[tab_settings_server], FallbackValue=tab_settings_server}"
+                            Template="{StaticResource TitleLabel}" />
+                        <iconPacks:PackIconFontAwesome
+                            Grid.Column="1"
+                            Width="24"
+                            Height="24"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                            Kind="QuestionCircleSolid">
+                            <iconPacks:PackIconFontAwesome.ToolTip>
+                                <StackPanel Orientation="Vertical">
+                                    <Image>
+                                        <Image.Source>
+                                            <BitmapImage UriSource="/Resources/Images/server_folder.jpg" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Content="{Binding WhatIsServerFolder}"
+                                        FontWeight="Bold" />
+                                </StackPanel>
+                            </iconPacks:PackIconFontAwesome.ToolTip>
+                        </iconPacks:PackIconFontAwesome>
+                    </Grid>
                     <iconPacks:PackIconFontAwesome
                         Grid.Row="1"
                         Grid.Column="1"
@@ -130,7 +160,7 @@
                         Grid.Row="1"
                         Grid.Column="2"
                         Margin="10,5,10,0"
-                        VerticalAlignment="Top">
+                        VerticalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="80" />

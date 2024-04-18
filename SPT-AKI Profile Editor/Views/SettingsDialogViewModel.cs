@@ -54,6 +54,15 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand QuitCommand => _applicationManager.CloseApplication;
 
+        public string WhatIsServerFolder
+        {
+            get
+            {
+                var serverExe = AppSettings.FilesList.ContainsKey(SPTServerFile.serverexe) ? AppSettings.FilesList[SPTServerFile.serverexe] : "\"settings file corrupted\"";
+                return AppLocalization.GetLocalizedString("what_is_server_folder", serverExe);
+            }
+        }
+
         public RelayCommand ResetAndReload => new(async obj =>
         {
             if (obj is RelayCommand command)
