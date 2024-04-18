@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <views:MoneyPanel Grid.Row="0" Margin="0,0,0,5" />
         <extendedcontrols:ItemsGrid
@@ -32,5 +33,17 @@
             Command="{Binding RemoveAllItems}"
             Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
             IsEnabled="{Binding Profile.Characters.Pmc.Inventory.HasItems}" />
+        <DockPanel Grid.Row="3" HorizontalAlignment="Center">
+            <Label
+                Margin="0,5,5,0"
+                Content="{Binding AppLocalization.Translations[tab_stash_additional_lines], FallbackValue=tab_stash_additional_lines}"
+                FontWeight="Bold" />
+            <extendedcontrols:NumericUpDownExt
+                Width="80"
+                Margin="5,5,5,0"
+                Interval="2"
+                Minimum="0"
+                Value="{Binding Profile.Characters.Pmc.StashRowsBonusCount}" />
+        </DockPanel>
     </Grid>
 </UserControl>

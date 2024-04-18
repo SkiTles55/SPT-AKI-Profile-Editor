@@ -103,6 +103,7 @@
     "tab_stash_no_items": "There are no items",
     "tab_stash_global_items_presets": "Global items presets",
     "tab_stash_modded_item_founded_error": "Item added by mod found. Use the section \"Cleaning from mods\" to remove such items.",
+    "tab_stash_additional_lines": "Additional stash lines",
     "tab_clearing_from_mods_title": "Cleaning from mods",
     "tab_clearing_from_mods_tpl": "TPL",
     "tab_clearing_from_mods_pmc_inventory_item": "PMC Inventory item",

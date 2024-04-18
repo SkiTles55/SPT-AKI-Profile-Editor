@@ -103,6 +103,7 @@
     "tab_stash_no_items": "Предметы отсутствуют",
     "tab_stash_global_items_presets": "Глабальные пресеты предметов",
     "tab_stash_modded_item_founded_error": "Найден предмет, добавленный модом. Воспользуйтесь разделом \"Очистка от модов\" для удаления таких предметов.",
+    "tab_stash_additional_lines": "Дополнительные линии схрона",
     "tab_clearing_from_mods_title": "Очистка от модов",
     "tab_clearing_from_mods_tpl": "TPL",
     "tab_clearing_from_mods_pmc_inventory_item": "Предмет в инвентаре ЧВК",
