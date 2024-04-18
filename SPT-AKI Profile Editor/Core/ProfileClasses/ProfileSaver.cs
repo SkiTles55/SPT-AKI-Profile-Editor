@@ -32,6 +32,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 SaveEntry.StashScav => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
                 SaveEntry.Hideout => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_zones")})",
                 SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
+                SaveEntry.Bonuses => AppData.AppLocalization.GetLocalizedString("tab_stash_additional_lines"),
                 _ => entry.ToString(),
             };
     }
