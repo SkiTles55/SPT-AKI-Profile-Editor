@@ -234,12 +234,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return null;
         }
 
-        private static int[,] CreateContainerStash2D(InventoryItem container)
-        {
-            Grid stashTPL = AppData.ServerDatabase.ItemsDB[container.Tpl].Properties.Grids.FirstOrDefault();
-            return new int[stashTPL?.Props?.CellsV ?? 0, stashTPL?.Props?.CellsH ?? 0];
-        }
-
         private static List<ItemLocation> GetFreeSlots(int[,] Stash)
         {
             List<ItemLocation> locations = new();
@@ -338,6 +332,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
 
             return (outX + SizeLeft + SizeRight + ForcedLeft + ForcedRight, outY + SizeUp + SizeDown + ForcedUp + ForcedDown);
+        }
+
+        private int[,] CreateContainerStash2D(InventoryItem container)
+        {
+            Grid stashGrid = AppData.ServerDatabase.ItemsDB[container.Tpl].Properties.Grids.FirstOrDefault();
+            var width = stashGrid?.Props?.CellsV ?? 0;
+            var height = stashGrid?.Props?.CellsH ?? 0;
+            if (container.Id == Stash)
+                width += AppData.Profile.Characters.Pmc.StashRowsBonusCount;
+            return new int[width, height];
         }
 
         private string GetStashId(StashType stashType)
