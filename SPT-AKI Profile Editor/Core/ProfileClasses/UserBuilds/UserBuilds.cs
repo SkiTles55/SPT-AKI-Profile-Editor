@@ -107,8 +107,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             EquipmentBuildsChanged();
         }
 
+        public void RemoveParentsFromBuilds()
+        {
+            foreach (var wBuild in weaponBuilds)
+                wBuild.Parent = null;
+            foreach (var eBuild in equipmentBuilds)
+                eBuild.Parent = null;
+        }
+
         private static Exception NoBuildInFileException(string path)
-                                    => new(AppData.AppLocalization.GetLocalizedString("tab_presets_file_not_build") + ":" + Environment.NewLine + path);
+            => new(AppData.AppLocalization.GetLocalizedString("tab_presets_file_not_build") + ":" + Environment.NewLine + path);
 
         private static void ExportBuild(object buildObject, string path, string typeName)
         {
@@ -151,14 +159,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             OnPropertyChanged(nameof(EquipmentBuilds));
             OnPropertyChanged(nameof(EBuilds));
             OnPropertyChanged(nameof(HasEquipmentBuilds));
-        }
-
-        public void RemoveParentsFromBuilds()
-        {
-            foreach (var wBuild in weaponBuilds)
-                wBuild.Parent = null;
-            foreach (var eBuild in equipmentBuilds)
-                eBuild.Parent = null;
         }
     }
 }

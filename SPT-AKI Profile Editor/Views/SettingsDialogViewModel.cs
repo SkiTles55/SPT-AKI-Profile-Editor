@@ -58,7 +58,9 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             get
             {
-                var serverExe = AppSettings.FilesList.ContainsKey(SPTServerFile.serverexe) ? AppSettings.FilesList[SPTServerFile.serverexe] : "\"settings file corrupted\"";
+                var serverExe = AppSettings.FilesList.ContainsKey(SPTServerFile.serverexe)
+                    ? AppSettings.FilesList[SPTServerFile.serverexe]
+                    : "\"settings file corrupted\"";
                 return AppLocalization.GetLocalizedString("what_is_server_folder", serverExe);
             }
         }
@@ -174,7 +176,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand ServerSelect => new(async obj => await ServerSelectDialog());
 
-        public RelayCommand OpenLocalizationEditor => new(async obj => await _dialogManager.ShowLocalizationEditorDialog(this, (bool)obj));
+        public RelayCommand OpenLocalizationEditor
+            => new(async obj => await _dialogManager.ShowLocalizationEditorDialog(this, (bool)obj));
 
         private RelayCommand ServerPathEditorRetryCommand => new(async obj =>
         {
@@ -194,7 +197,9 @@ namespace SPT_AKI_Profile_Editor.Views
             string startPath = null;
             if (!string.IsNullOrEmpty(ServerPath) && Directory.Exists(ServerPath))
                 startPath = ServerPath;
-            var (success, path) = _windowsDialogs.FolderBrowserDialog(false, startPath, AppLocalization.GetLocalizedString("server_select"));
+            var (success, path) = _windowsDialogs.FolderBrowserDialog(false,
+                                                                      startPath,
+                                                                      AppLocalization.GetLocalizedString("server_select"));
             if (success)
             {
                 var checkResult = AppSettings.CheckServerPath(path);
