@@ -731,6 +731,22 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void PmcStashBonusesCountAddingSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var expectedValue = AppData.Profile.Characters.Pmc.StashRowsBonusCount + 6;
+            SaveAndCheckStashBonuses(expectedValue, "testStashBonusesCountAdding.json");
+        }
+
+        [Test]
+        public void PmcStashBonusesCountRemovingSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var expectedValue = 0;
+            SaveAndCheckStashBonuses(expectedValue, "testStashBonusesCountRemoving.json");
+        }
+
+        [Test]
         public void ScavStashRemovingItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -1151,6 +1167,15 @@ namespace SPT_AKI_Profile_Editor.Tests
                         "Health.BodyParts.RightLeg.Health.Maximum is not 700");
         }
 
+        private static void SaveAndCheckStashBonuses(int expectedValue, string filename)
+        {
+            AppData.Profile.Characters.Pmc.StashRowsBonusCount = expectedValue;
+            TestHelpers.SaveAndLoadProfile(filename);
+            Assert.That(AppData.Profile.Characters.Pmc.StashRowsBonusCount,
+                        Is.EqualTo(expectedValue),
+                        "Stash bonuses count wrong");
+        }
+
         private static void LoadProfileWithAllMasterings()
         {
             AppData.AppSettings.AutoAddMissingMasterings = true;
@@ -1163,7 +1188,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             TestHelpers.SaveAndLoadProfile("testPmcMasteringSkills.json");
             var isAllSkillsProgressMax = character.Skills.Mastering.All(x => x.Progress == x.MaxValue);
             var profileSkillsCount = character.Skills.Mastering.Length;
-            var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Where(x => !AppData.AppSettings.BannedMasterings.Contains(x.Name)).Count();
+            var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Count();
             Assert.That(isAllSkillsProgressMax && profileSkillsCount == dbSkillsCount, Is.True);
         }
 

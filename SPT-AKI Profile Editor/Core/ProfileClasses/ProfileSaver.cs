@@ -70,7 +70,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             StashScav,
             Hideout,
             UserBuilds,
-            HideoutCrafts
+            HideoutCrafts,
+            Bonuses
         }
 
         private static JsonSerializerSettings SeriSettings => new()
@@ -101,6 +102,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(profile.Characters.Pmc.Skills.Mastering, pmc, "Mastering", SaveEntry.MasteringSkillsPmc);
             WriteSkills(profile.Characters.Scav.Skills.Mastering, scav, "Mastering", SaveEntry.MasteringSkillsScav);
             WriteSuits(jobject);
+            WriteStashBonus(pmc);
             WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash, SaveEntry.StashPmc);
             WriteStash(scav, profile.Characters.Scav.Inventory, null, SaveEntry.StashScav);
             WriteUserBuilds(jobject);
@@ -271,6 +273,46 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             catch (Exception ex) { exceptions.Add(new(entry, ex)); }
         }
 
+        private void WriteStashBonus(JToken pmc)
+        {
+            try
+            {
+                JToken bonusesToken = pmc.SelectToken("Bonuses");
+                var bonusesObject = bonusesToken.ToObject<CharacterBonus[]>();
+                var isStashRowsBonusUpdate = profile.Characters.Pmc.StashRowsBonusCount > 0;
+                if (bonusesObject.Length > 0)
+                {
+                    var bonusEdited = false;
+                    JToken forRemove = null;
+                    for (int index = 0; index < bonusesObject.Length; ++index)
+                    {
+                        JToken bonusToken = bonusesToken[index];
+                        var probe = bonusToken?.ToObject<CharacterBonus>();
+                        if (probe != null && probe.Type == CharacterBonus.StashRowsType)
+                        {
+                            if (isStashRowsBonusUpdate)
+                            {
+                                bonusToken["value"] = profile.Characters.Pmc.StashRowsBonusCount;
+                                bonusEdited = true;
+                            }
+                            else
+                                forRemove = bonusToken;
+                            break;
+                        }
+                    }
+                    forRemove?.Remove();
+                    if (!bonusEdited && isStashRowsBonusUpdate)
+                    {
+                        var bonusToken = CharacterBonus.CreateStashRowsBonus(profile.Characters.Pmc.StashRowsBonusCount);
+                        pmc.SelectToken("Bonuses").LastOrDefault().AddAfterSelf(JObject.FromObject(bonusToken).RemoveNullAndEmptyProperties());
+                    }
+                }
+                else if (isStashRowsBonusUpdate)
+                    bonusesToken.Replace(JObject.FromObject(profile.Characters.Pmc.Bonuses).RemoveNullAndEmptyProperties());
+            }
+            catch (Exception ex) { exceptions.Add(new(SaveEntry.Bonuses, ex)); }
+        }
+
         private void WriteStash(JToken characterToken, CharacterInventory inventory, string newStash, SaveEntry entry)
         {
             try
@@ -332,7 +374,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                 continue;
                             foreach (var listItem in BonusesList)
                             {
-                                var bonus = listItem.ToObject<CharacterBonuses>();
+                                var bonus = listItem.ToObject<CharacterBonus>();
                                 if (bonus == null)
                                     continue;
                                 switch (bonus.Type)

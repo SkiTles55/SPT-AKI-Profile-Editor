@@ -27,6 +27,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private Dictionary<string, bool> encyclopedia;
         private CharacterInventory inventory;
         private UnlockedInfo unlockedInfo;
+        private CharacterBonus[] bonuses;
 
         [JsonIgnore]
         public bool IsScav => Info.Side == "Savage";
@@ -173,6 +174,36 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 inventory = value;
                 OnPropertyChanged(nameof(Inventory));
+            }
+        }
+
+        public CharacterBonus[] Bonuses
+        {
+            get => bonuses;
+            set
+            {
+                bonuses = value;
+                OnPropertyChanged(nameof(Bonuses));
+            }
+        }
+
+        [JsonIgnore]
+        public int StashRowsBonusCount
+        {
+            get
+            {
+                var bonus = Bonuses.FirstOrDefault(x => x.Type == CharacterBonus.StashRowsType);
+                return bonus?.Value ?? 0;
+            }
+            set
+            {
+                if (value % 2 > 0)
+                    value++;
+                var bonus = Bonuses.FirstOrDefault(x => x.Type == CharacterBonus.StashRowsType);
+                if (bonus != null)
+                    bonus.Value = value;
+                else
+                    Bonuses = Bonuses.Append(CharacterBonus.CreateStashRowsBonus(value)).ToArray();
             }
         }
 
