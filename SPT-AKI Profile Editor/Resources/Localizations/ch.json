@@ -103,6 +103,7 @@
     "tab_stash_no_items": "没有这种物品",
     "tab_stash_global_items_presets": "跳蚤市场",
     "tab_stash_modded_item_founded_error": "此物品由模组添加，用“移除模组物品”来移除此类物品。",
+    "tab_stash_additional_lines": "额外仓库空间行数",
     "tab_stash_quest_item": "任务物品",
     "tab_stash_add_to": "添加",
     "tab_stash_search_include_description": "包含说明文本搜索",
@@ -255,6 +256,7 @@
     "remove_quest_title": "删除一个任务",
     "remove_quest_caption": "您是否确定要删除这个任务吗？",
     "remove_examined_item_title": "移除一件已检视物品",
-    "remove_examined_item_caption": "您确定是否要移除这件已检视物品吗？"
+    "remove_examined_item_caption": "您确定是否要移除这件已检视物品吗？",
+    "what_is_server_folder": "{0}内文件夹目录，包含服务器和其他必要文件"
   }
 }
