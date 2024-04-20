@@ -629,7 +629,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
             TestHelpers.SaveAndLoadProfile("testHideouts.json");
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas
-                .All(x => x.Type != 23 && x.Level == x.MaxLevel), Is.True);
+                .All(x => x.Type != 25 && x.Level == x.MaxLevel), Is.True);
         }
 
         [Test]

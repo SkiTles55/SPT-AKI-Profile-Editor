@@ -15,7 +15,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public string? Type { get; set; }
 
         [JsonProperty("value")]
-        public int? Value { get; set; }
+        public float? Value { get; set; }
 
         [JsonProperty("templateId")]
         public string? TemplateId { get; set; }

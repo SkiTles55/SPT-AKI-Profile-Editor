@@ -193,7 +193,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get
             {
                 var bonus = Bonuses.FirstOrDefault(x => x.Type == CharacterBonus.StashRowsType);
-                return bonus?.Value ?? 0;
+                return (int)(bonus?.Value ?? 0);
             }
             set
             {
