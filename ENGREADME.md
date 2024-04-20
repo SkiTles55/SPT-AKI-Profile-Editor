@@ -17,7 +17,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 2.9.1 for server SPT-AKI 3.8.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.1)
+### [Version 2.9.2 for server SPT-AKI 3.8.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.2)
 ### [Version 2.8.6 for server SPT-AKI 3.7.0 - 3.7.6](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.6)
 ### [Version 2.7 for server SPT-AKI 3.4.0 - 3.6.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.7)
 ### [Version 2.4.2 for server SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
@@ -28,12 +28,16 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 * Level, nickname, character voice  
 * Switching between regular \ large pockets  
 * Hideout building levels  
+* Unlock crafts
+* Unlock clothes
 * Trader relationship levels  
 * Quest statuses  
 * Skill \ Mastering levels  
 * Examined items  
 * Removing \ adding items in stash (WIP), adding money 
 * Import \ export \ removing weapon builds \ equipment
+* Cleaning profile from mods
+* Partial transfer of progress between profiles
 
 ### Features:  
 * Simple, intuitive interface  

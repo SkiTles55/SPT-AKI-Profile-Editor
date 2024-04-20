@@ -17,7 +17,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [提交Bug报告 \ 功能要求](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [版本 2.9.1 适配服务器 SPT-AKI 3.8.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.1)
+### [版本 2.9.2 适配服务器 SPT-AKI 3.8.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.2)
 ### [版本 2.8.6 适配服务器 SPT-AKI 3.7.0 - 3.7.6](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.6)
 ### [版本 2.7 适配服务器 SPT-AKI 3.4.0 - 3.6.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.7)
 ### [版本 2.4.2 适配服务器 SPT-AKI 3.2.0 - 3.3.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.4.2)
@@ -28,12 +28,16 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 * 等级、昵称、角色声音  
 * 在普通/Boss大口袋之间切换  
 * 藏身处建筑等级  
+* 解锁工艺配方
+* 解锁可购买服装
 * 商人信赖等级
 * 任务状态  
 * 技能 \ 武器专精
 * 检视物品 
 * 删除 \ 添加仓库中的物品 (WIP)、添加金钱
 * 导入 \ 导出 \ 删除武器 \ 装备 的预设
+* 从存档中移除模组（mods）资料
+* 存档中的可选部分进度转移
 
 ### 特点:  
 * 简单，直观的UI界面
