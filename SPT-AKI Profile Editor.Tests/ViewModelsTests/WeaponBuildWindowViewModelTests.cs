@@ -16,32 +16,10 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         private static readonly TestsWorker worker = new();
 
         [Test]
-        public void InitializeCorrectlyForPmc()
-        {
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(worker, true);
-            Assert.Multiple(() =>
-            {
-                Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
-                Assert.That(pmcWeaponBuild.Worker, Is.Not.Null, "Worker is null");
-                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("WeaponBuildWindowViewModel", true)), "Wrong WindowTitle");
-                Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null, "WeaponBuild is null");
-                Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(4), "WeaponBuild.Items.Length is not 4");
-            });
-        }
+        public void InitializeCorrectlyForPmc() => InitializeAndCheck(true, 4);
 
         [Test]
-        public void InitializeCorrectlyForScav()
-        {
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(worker, false);
-            Assert.Multiple(() =>
-            {
-                Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
-                Assert.That(pmcWeaponBuild.Worker, Is.Not.Null, "Worker is null");
-                Assert.That(pmcWeaponBuild.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("WeaponBuildWindowViewModel", false)), "Wrong WindowTitle");
-                Assert.That(pmcWeaponBuild.WeaponBuild, Is.Not.Null, "WeaponBuild is null");
-                Assert.That(pmcWeaponBuild.WeaponBuild.Items.Length, Is.EqualTo(6), "WeaponBuild.Items.Length is not 6");
-            });
-        }
+        public void InitializeCorrectlyForScav() => InitializeAndCheck(false, 6);
 
         [Test]
         public void CanAddWeaponToWeaponBuildsFromPmc()
@@ -120,6 +98,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                        true,
                        dialogManager,
                        worker);
+        }
+
+        private static void InitializeAndCheck(bool isPmc, int expectedCount)
+        {
+            WeaponBuildWindowViewModel weaponBuild = TestViewModel(worker, isPmc);
+            Assert.Multiple(() =>
+            {
+                Assert.That(weaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+                Assert.That(weaponBuild.Worker, Is.Not.Null, "Worker is null");
+                Assert.That(weaponBuild.WindowTitle, Is.EqualTo(TestHelpers.GetTestName("WeaponBuildWindowViewModel", isPmc)), "Wrong WindowTitle");
+                Assert.That(weaponBuild.WeaponBuild, Is.Not.Null, "WeaponBuild is null");
+                Assert.That(weaponBuild.WeaponBuild.Items.Length, Is.EqualTo(expectedCount), $"WeaponBuild.Items.Length is not {expectedCount}");
+            });
         }
     }
 }

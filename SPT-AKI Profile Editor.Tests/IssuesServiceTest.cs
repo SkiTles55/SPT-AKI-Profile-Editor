@@ -198,11 +198,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixTraderLoyaltyIssue()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
-                trader.LoyaltyLevel = 1;
-            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
-            CheckIssuesNotEmptyAfterGet();
+            PrepareTraderAndQuestIssues();
             Assert.That(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)),
                         Is.False,
                         "Profile Issues has no description");
@@ -218,11 +214,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixAllTraderLoyaltyIssues()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
-                trader.LoyaltyLevel = 1;
-            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
-            CheckIssuesNotEmptyAfterGet();
+            PrepareTraderAndQuestIssues();
             CheckIssues<TraderLoyaltyIssue>("Quests & Traders");
             AppData.IssuesService.FixAllIssues();
             AppData.IssuesService.GetIssues();
@@ -234,11 +226,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixTraderStandingIssue()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
-                trader.LoyaltyLevel = 1;
-            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
-            CheckIssuesNotEmptyAfterGet();
+            PrepareTraderAndQuestIssues();
             Assert.That(AppData.IssuesService.ProfileIssues.Any(x => string.IsNullOrEmpty(x.Description)),
                         Is.False,
                         "Profile Issues has no description");
@@ -254,11 +242,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void IssuesServiceCanFixAllTraderStandingIssues()
         {
-            AppData.Profile.Load(TestHelpers.profileFile);
-            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
-                trader.LoyaltyLevel = 1;
-            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
-            CheckIssuesNotEmptyAfterGet();
+            PrepareTraderAndQuestIssues();
             CheckIssues<TraderStandingIssue>("Quests & Traders");
             AppData.IssuesService.FixAllIssues();
             AppData.IssuesService.GetIssues();
@@ -289,6 +273,15 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.IssuesService.GetIssues();
             Assert.That(AppData.IssuesService.HasIssues, Is.True, "Profile Issues is empty");
             Assert.That(AppData.IssuesService.ProfileIssues, Is.Not.Empty, "Profile Issues is empty");
+        }
+
+        private static void PrepareTraderAndQuestIssues() 
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
+                trader.LoyaltyLevel = 1;
+            AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
+            CheckIssuesNotEmptyAfterGet();
         }
     }
 }

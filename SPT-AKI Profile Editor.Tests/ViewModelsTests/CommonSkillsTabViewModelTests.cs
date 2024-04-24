@@ -43,8 +43,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanExecuteSetAllPmsSkillsCommand()
         {
-            AppData.AppSettings.AutoAddMissingMasterings = true;
-            AppData.Profile.Load(TestHelpers.profileFile);
+            LoadProfileWithAllMasterings();
             CommonSkillsTabViewModel viewModel = MakeSUT();
             viewModel.SetAllPmcSkillsValue = 200f;
             viewModel.SetAllPmsSkillsCommand.Execute(null);
@@ -55,8 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanExecuteSetAllScavSkillsCommand()
         {
-            AppData.AppSettings.AutoAddMissingMasterings = true;
-            AppData.Profile.Load(TestHelpers.profileFile);
+            LoadProfileWithAllMasterings();
             CommonSkillsTabViewModel viewModel = MakeSUT();
             viewModel.SetAllScavSkillsValue = 200f;
             viewModel.SetAllScavSkillsCommand.Execute(null);
@@ -75,5 +73,11 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static CommonSkillsTabViewModel MakeSUT(TestsDialogManager dialogManager = null)
             => new(dialogManager, null, null, null, null);
+
+        private static void LoadProfileWithAllMasterings()
+        {
+            AppData.AppSettings.AutoAddMissingMasterings = true;
+            AppData.Profile.Load(TestHelpers.profileFile);
+        }
     }
 }

@@ -14,59 +14,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         [Test]
         public void CanInitializeForRoubles()
-        {
-            var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysRublesTpl];
-            MoneyDailogViewModel viewModel = new(money, null, null);
-            Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
-            Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.RubleSignSolid));
-            Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
-            Assert.That(viewModel.Moneys, Is.Not.Null);
-            Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysRublesTpl));
-            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
-        }
+            => InitializeAndCheck(AppData.AppSettings.MoneysRublesTpl, PackIconFontAwesomeKind.RubleSignSolid);
 
         [Test]
         public void CanInitializeForDollars()
-        {
-            var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysDollarsTpl];
-            MoneyDailogViewModel viewModel = new(money, null, null);
-            Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
-            Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.DollarSignSolid));
-            Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
-            Assert.That(viewModel.Moneys, Is.Not.Null);
-            Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysDollarsTpl));
-            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
-        }
+            => InitializeAndCheck(AppData.AppSettings.MoneysDollarsTpl, PackIconFontAwesomeKind.DollarSignSolid);
 
         [Test]
         public void CanInitializeForEuros()
-        {
-            var money = AppData.ServerDatabase.ItemsDB[AppData.AppSettings.MoneysEurosTpl];
-            MoneyDailogViewModel viewModel = new(money, null, null);
-            Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
-            Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.EuroSignSolid));
-            Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
-            Assert.That(viewModel.Moneys, Is.Not.Null);
-            Assert.That(viewModel.Moneys.Id, Is.EqualTo(AppData.AppSettings.MoneysEurosTpl));
-            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
-        }
+            => InitializeAndCheck(AppData.AppSettings.MoneysEurosTpl, PackIconFontAwesomeKind.EuroSignSolid);
 
         [Test]
         public void CanInitializeForWrongItem()
-        {
-            var money = AppData.ServerDatabase.ItemsDB.Values.First();
-            MoneyDailogViewModel viewModel = new(money, null, null);
-            Assert.That(viewModel, Is.Not.Null);
-            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
-            Assert.That(viewModel.Сurrency, Is.Not.EqualTo(PackIconFontAwesomeKind.EuroSignSolid));
-            Assert.That(viewModel.Сurrency, Is.EqualTo(PackIconFontAwesomeKind.ExclamationTriangleSolid));
-            Assert.That(viewModel.Moneys, Is.Not.Null);
-            Assert.That(viewModel.Moneys.Id, Is.Not.EqualTo(AppData.AppSettings.MoneysEurosTpl));
-            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
-        }
+            => InitializeAndCheck(AppData.ServerDatabase.ItemsDB.Keys.First, PackIconFontAwesomeKind.ExclamationTriangleSolid, PackIconFontAwesomeKind.EuroSignSolid);
 
         [Test]
         public void HasNeededData() => Assert.That(MoneyDailogViewModel.AppSettings, Is.Not.Null);
@@ -79,6 +39,19 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             MoneyDailogViewModel viewModel = new(roubles, new((_) => addMoneysCommandExecuted = true), null);
             viewModel.AddMoneysCommand.Execute(null);
             Assert.That(addMoneysCommandExecuted, Is.True);
+        }
+
+        private static void InitializeAndCheck(string moneyTpl, PackIconFontAwesomeKind icon, PackIconFontAwesomeKind wrongIcon = PackIconFontAwesomeKind.ExclamationTriangleSolid)
+        {
+            var money = AppData.ServerDatabase.ItemsDB[moneyTpl];
+            MoneyDailogViewModel viewModel = new(money, null, null);
+            Assert.That(viewModel, Is.Not.Null);
+            Assert.That(viewModel.AddMoneysCommand, Is.Not.Null);
+            Assert.That(viewModel.Сurrency, Is.EqualTo(icon));
+            Assert.That(viewModel.Сurrency, Is.Not.EqualTo(wrongIcon));
+            Assert.That(viewModel.Moneys, Is.Not.Null);
+            Assert.That(viewModel.Moneys.Id, Is.EqualTo(moneyTpl));
+            Assert.That(viewModel.AddingInterval, Is.EqualTo(money.Properties.StackMaxSize));
         }
     }
 }
