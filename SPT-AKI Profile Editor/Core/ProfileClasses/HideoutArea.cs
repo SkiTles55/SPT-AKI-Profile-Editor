@@ -48,6 +48,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public int MaxLevel => GetMaxLevel();
 
+        [JsonIgnore]
+        public bool CanSetMaxLevel => Type != 25;
+
         private int GetMaxLevel()
         {
             var areaInfo = AppData.ServerDatabase?.HideoutAreaInfos?.Where(x => x.Type == Type).FirstOrDefault();

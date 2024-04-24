@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         {
             TestsDialogManager dialogManager = new();
             FileDownloaderDialog fileDownloader = MakeSUT(dialogManager);
-            await fileDownloader.Download("https://test.com/nonExistigFile.md", TestHelpers.fileDownloaderTestSavePath);
+            await fileDownloader.Download("https://test87894565.com/nonExistigFile.md", TestHelpers.fileDownloaderTestSavePath);
             Assert.That(dialogManager.LastOkMessage, Is.Not.Null);
         }
 
