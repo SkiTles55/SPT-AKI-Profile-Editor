@@ -275,7 +275,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.IssuesService.ProfileIssues, Is.Not.Empty, "Profile Issues is empty");
         }
 
-        private static void PrepareTraderAndQuestIssues() 
+        private static void PrepareTraderAndQuestIssues()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)

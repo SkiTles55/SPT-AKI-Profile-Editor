@@ -14,19 +14,24 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         [Test]
         public void CanInitializeForRoubles()
-            => InitializeAndCheck(AppData.AppSettings.MoneysRublesTpl, PackIconFontAwesomeKind.RubleSignSolid);
+            => InitializeAndCheck(AppData.AppSettings.MoneysRublesTpl,
+                                  PackIconFontAwesomeKind.RubleSignSolid);
 
         [Test]
         public void CanInitializeForDollars()
-            => InitializeAndCheck(AppData.AppSettings.MoneysDollarsTpl, PackIconFontAwesomeKind.DollarSignSolid);
+            => InitializeAndCheck(AppData.AppSettings.MoneysDollarsTpl,
+                                  PackIconFontAwesomeKind.DollarSignSolid);
 
         [Test]
         public void CanInitializeForEuros()
-            => InitializeAndCheck(AppData.AppSettings.MoneysEurosTpl, PackIconFontAwesomeKind.EuroSignSolid);
+            => InitializeAndCheck(AppData.AppSettings.MoneysEurosTpl,
+                                  PackIconFontAwesomeKind.EuroSignSolid);
 
         [Test]
         public void CanInitializeForWrongItem()
-            => InitializeAndCheck(AppData.ServerDatabase.ItemsDB.Keys.First, PackIconFontAwesomeKind.ExclamationTriangleSolid, PackIconFontAwesomeKind.EuroSignSolid);
+            => InitializeAndCheck(AppData.ServerDatabase.ItemsDB.Keys.First(),
+                                  PackIconFontAwesomeKind.ExclamationTriangleSolid,
+                                  PackIconFontAwesomeKind.EuroSignSolid);
 
         [Test]
         public void HasNeededData() => Assert.That(MoneyDailogViewModel.AppSettings, Is.Not.Null);
@@ -41,7 +46,9 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(addMoneysCommandExecuted, Is.True);
         }
 
-        private static void InitializeAndCheck(string moneyTpl, PackIconFontAwesomeKind icon, PackIconFontAwesomeKind wrongIcon = PackIconFontAwesomeKind.ExclamationTriangleSolid)
+        private static void InitializeAndCheck(string moneyTpl,
+                                               PackIconFontAwesomeKind icon,
+                                               PackIconFontAwesomeKind wrongIcon = PackIconFontAwesomeKind.ExclamationTriangleSolid)
         {
             var money = AppData.ServerDatabase.ItemsDB[moneyTpl];
             MoneyDailogViewModel viewModel = new(money, null, null);

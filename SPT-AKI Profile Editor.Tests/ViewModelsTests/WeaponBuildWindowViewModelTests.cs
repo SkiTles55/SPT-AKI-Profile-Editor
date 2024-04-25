@@ -22,44 +22,16 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         public void InitializeCorrectlyForScav() => InitializeAndCheck(false, 6);
 
         [Test]
-        public void CanAddWeaponToWeaponBuildsFromPmc()
-        {
-            AppData.Profile.UserBuilds = new() { WeaponBuilds = new() };
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(worker, true);
-            pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", true)), Is.True);
-        }
+        public void CanAddWeaponToWeaponBuildsFromPmc() => AddWeaponToWeaponBuildsAndCheck(true);
 
         [Test]
-        public void CanAddWeaponToWeaponBuildsFromScav()
-        {
-            AppData.Profile.UserBuilds = new() { WeaponBuilds = new() };
-            WeaponBuildWindowViewModel pmcWeaponBuild = TestViewModel(worker, false);
-            pmcWeaponBuild.AddToWeaponBuilds.Execute(null);
-            Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", false)), Is.True);
-        }
+        public void CanAddWeaponToWeaponBuildsFromScav() => AddWeaponToWeaponBuildsAndCheck(false);
 
         [Test]
-        public void CanRemoveFromPmc()
-        {
-            TestHelpers.LoadDatabaseAndProfile();
-            var weapon = AppData.Profile.Characters.Pmc.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel pmcWeaponBuild = new(weapon, AppData.Profile.Characters.Pmc.Inventory, null, null, true, dialogManager, worker);
-            Assert.That(pmcWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
-            pmcWeaponBuild.RemoveItem.Execute(null);
-            Assert.That(() => AppData.Profile.Characters.Pmc.Inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
-        }
+        public void CanRemoveFromPmc() => CreateViewModelAndCheckRemoving(true);
 
         [Test]
-        public void CanRemoveFromScav()
-        {
-            TestHelpers.LoadDatabaseAndProfile();
-            var weapon = AppData.Profile.Characters.Scav.Inventory.Items.First(x => x.IsWeapon);
-            WeaponBuildWindowViewModel scavWeaponBuild = new(weapon, AppData.Profile.Characters.Scav.Inventory, null, null, true, dialogManager, worker);
-            Assert.That(scavWeaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
-            scavWeaponBuild.RemoveItem.Execute(null);
-            Assert.That(() => AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
-        }
+        public void CanRemoveFromScav() => CreateViewModelAndCheckRemoving(false);
 
         [Test]
         public void CanExportPmcBuild()
@@ -111,6 +83,25 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                 Assert.That(weaponBuild.WeaponBuild, Is.Not.Null, "WeaponBuild is null");
                 Assert.That(weaponBuild.WeaponBuild.Items.Length, Is.EqualTo(expectedCount), $"WeaponBuild.Items.Length is not {expectedCount}");
             });
+        }
+
+        private static void AddWeaponToWeaponBuildsAndCheck(bool isPmc)
+        {
+            AppData.Profile.UserBuilds = new() { WeaponBuilds = new() };
+            WeaponBuildWindowViewModel weaponBuild = TestViewModel(worker, isPmc);
+            weaponBuild.AddToWeaponBuilds.Execute(null);
+            Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", isPmc)), Is.True);
+        }
+
+        private static void CreateViewModelAndCheckRemoving(bool isPmc)
+        {
+            TestHelpers.LoadDatabaseAndProfile();
+            var inventory = isPmc ? AppData.Profile.Characters.Pmc.Inventory : AppData.Profile.Characters.Scav.Inventory;
+            var weapon = inventory.Items.First(x => x.IsWeapon);
+            WeaponBuildWindowViewModel weaponBuild = new(weapon, inventory, null, null, true, dialogManager, worker);
+            Assert.That(weaponBuild, Is.Not.Null, "WeaponBuildWindowViewModel is null");
+            weaponBuild.RemoveItem.Execute(null);
+            Assert.That(() => inventory.Items.Any(x => x.Id == weapon.Id), Is.False);
         }
     }
 }
