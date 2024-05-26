@@ -57,25 +57,25 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static Dictionary<string, string> DefaultDirsList => new()
         {
-            [SPTServerDir.globals] = "Aki_Data\\Server\\database\\locales\\global",
-            [SPTServerDir.traders] = "Aki_Data\\Server\\database\\traders",
-            [SPTServerDir.bots] = "Aki_Data\\Server\\database\\bots\\types",
+            [SPTServerDir.globals] = "SPT_Data\\Server\\database\\locales\\global",
+            [SPTServerDir.traders] = "SPT_Data\\Server\\database\\traders",
+            [SPTServerDir.bots] = "SPT_Data\\Server\\database\\bots\\types",
             [SPTServerDir.profiles] = "user\\profiles",
-            [SPTServerDir.handbookIcons] = "Aki_Data\\Server\\images\\handbook",
-            [SPTServerDir.traderImages] = "Aki_Data\\Server\\images\\traders"
+            [SPTServerDir.handbookIcons] = "SPT_Data\\Server\\images\\handbook",
+            [SPTServerDir.traderImages] = "SPT_Data\\Server\\images\\traders"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
         {
-            [SPTServerFile.globals] = "Aki_Data\\Server\\database\\globals.json",
-            [SPTServerFile.items] = "Aki_Data\\Server\\database\\templates\\items.json",
-            [SPTServerFile.quests] = "Aki_Data\\Server\\database\\templates\\quests.json",
-            [SPTServerFile.questConfig] = "Aki_Data\\Server\\configs\\quest.json",
-            [SPTServerFile.areas] = "Aki_Data\\Server\\database\\hideout\\areas.json",
-            [SPTServerFile.production] = "Aki_Data\\Server\\database\\hideout\\production.json",
-            [SPTServerFile.handbook] = "Aki_Data\\Server\\database\\templates\\handbook.json",
-            [SPTServerFile.languages] = "Aki_Data\\Server\\database\\locales\\languages.json",
-            [SPTServerFile.serverexe] = "Aki.Server.exe"
+            [SPTServerFile.globals] = "SPT_Data\\Server\\database\\globals.json",
+            [SPTServerFile.items] = "SPT_Data\\Server\\database\\templates\\items.json",
+            [SPTServerFile.quests] = "SPT_Data\\Server\\database\\templates\\quests.json",
+            [SPTServerFile.questConfig] = "SPT_Data\\Server\\configs\\quest.json",
+            [SPTServerFile.areas] = "SPT_Data\\Server\\database\\hideout\\areas.json",
+            [SPTServerFile.production] = "SPT_Data\\Server\\database\\hideout\\production.json",
+            [SPTServerFile.handbook] = "SPT_Data\\Server\\database\\templates\\handbook.json",
+            [SPTServerFile.languages] = "SPT_Data\\Server\\database\\locales\\languages.json",
+            [SPTServerFile.serverexe] = "SPT.Server.exe"
         };
 
         public static List<AppLocalization> DefaultLocalizations()

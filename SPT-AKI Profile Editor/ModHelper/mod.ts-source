@@ -1,13 +1,13 @@
 import { DependencyContainer } from "tsyringe";
-import { IPostAkiLoadMod } from "@spt-aki/models/external/IPostAkiLoadMod";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { HashUtil } from "@spt-aki/utils/HashUtil";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { VFS } from "@spt-aki/models/spt/utils/VFS";
+import { IPostSptLoadMod } from "@spt/models/external/IPostSptLoadMod";
+import { JsonUtil } from "@spt/utils/JsonUtil";
+import { HashUtil } from "@spt/utils/HashUtil";
+import { DatabaseServer } from "@spt/servers/DatabaseServer";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { VFS } from "@spt/models/spt/utils/VFS";
 
-class Mod implements IPostAkiLoadMod
+class Mod implements IPostSptLoadMod
 {
     private logger: ILogger
 	private jsonUtil: JsonUtil
@@ -27,7 +27,7 @@ class Mod implements IPostAkiLoadMod
 		this.hashesDictionary  = new Map<string, string>()
     }
 	
-	public postAkiLoad(container: DependencyContainer): void {
+	public postSptLoad(container: DependencyContainer): void {
         this.logger = container.resolve<ILogger>("WinstonLogger");
         this.jsonUtil = container.resolve<JsonUtil>("JsonUtil");
         this.hashUtil = container.resolve<HashUtil>("HashUtil");
@@ -42,7 +42,7 @@ class Mod implements IPostAkiLoadMod
         const databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
 		const configServer = container.resolve<ConfigServer >("ConfigServer");
         const tables = databaseServer.getTables();
-		const questConfig = configServer.getConfigByString("aki-quest");
+		const questConfig = configServer.getConfigByString("spt-quest");
 		
 		const objectMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]))
 		
