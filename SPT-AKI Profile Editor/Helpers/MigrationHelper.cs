@@ -5,7 +5,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public interface IMigrationHelper
     {
-        MigrationIntent GetMigrationIntent(AppSettings settings);
+        MigrationIntent GetMigrationIntent(AppSettings settings, AppLocalization localization);
 
         void PerformMigration(AppSettings settings, IApplicationManager applicationManager);
     }
@@ -35,11 +35,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
             applicationManager.RestartApplication();
         }
 
-        public MigrationIntent GetMigrationIntent(AppSettings settings)
+        public MigrationIntent GetMigrationIntent(AppSettings settings, AppLocalization localization)
         {
             if (MigrationRequered(settings))
-                return new MigrationIntent("Migration",
-                                           "Test intent for upcoming 3.9.0\nTest intent for upcoming 3.9.0, line 2\nTest intent for upcoming 3.9.0, line 3",
+                return new MigrationIntent(localization.GetLocalizedString("migration_to_3.9.0_title"),
+                                           localization.GetLocalizedString("migration_to_3.9.0_message"),
                                            "pe3.0, spt3.9.0, relative paths migration");
             return null;
         }

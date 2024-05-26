@@ -26,7 +26,7 @@
             Grid.Row="1"
             Margin="0,15,5,0"
             HorizontalAlignment="Right"
-            Content="{Binding AppLocalization.Translations[profile_issues_remember_action], FallbackValue=profile_issues_remember_action}"
+            Content="{Binding AppLocalization.Translations[checkbox_dont_ask_again], FallbackValue=checkbox_dont_ask_again}"
             FlowDirection="RightToLeft"
             IsChecked="{Binding DontAskAgain}" />
         <StackPanel

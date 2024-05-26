@@ -167,7 +167,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async Task PerformMigrationIfNeeded()
         {
-            var migrationIntent = _migrationHelper.GetMigrationIntent(AppData.AppSettings);
+            var migrationIntent = _migrationHelper.GetMigrationIntent(AppData.AppSettings, AppLocalization);
             if (migrationIntent == null || AppData.AppSettings.SkipMigrationTags.Contains(migrationIntent.Tag))
                 return;
             var result = await _dialogManager.YesNoDontAskAgainDialog(migrationIntent.Title,
