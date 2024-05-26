@@ -171,8 +171,8 @@ namespace SPT_AKI_Profile_Editor
             if (migrationIntent == null || AppData.AppSettings.SkipMigrationTags.Contains(migrationIntent.Tag))
                 return;
             var result = await _dialogManager.YesNoDontAskAgainDialog(migrationIntent.Title,
-                                                                      "yes",
-                                                                      "no",
+                                                                      AppLocalization.GetLocalizedString("button_yes"),
+                                                                      AppLocalization.GetLocalizedString("button_no"),
                                                                       migrationIntent.Message,
                                                                       false);
             if (result.DontAskAgain)
