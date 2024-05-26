@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using ReleaseChecker;
 using ReleaseChecker.GitHub;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
@@ -16,6 +17,14 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public event EventHandler ProgressDialogCanceled;
 
         public Task<bool> YesNoDialog(string title, string caption);
+
+        public Task YesNoDontAskAgainDialog(string title,
+                                            string yesText,
+                                            string noText,
+                                            string message,
+                                            RelayCommand yesCommand,
+                                            string questionTag,
+                                            AppSettings appSettings);
 
         public Task ShutdownCozServerRunned();
 
@@ -137,6 +146,27 @@ namespace SPT_AKI_Profile_Editor.Helpers
             await ShowCustomDialog<UpdateDialog>(viewModel,
                                                  updateDialog,
                                                  new UpdateDialogViewModel(App.ApplicationManager, App.WindowsDialogs, release, viewModel, this));
+        }
+
+        public async Task YesNoDontAskAgainDialog(string title,
+                                                  string yesText,
+                                                  string noText,
+                                                  string message,
+                                                  RelayCommand yesCommand,
+                                                  string questionTag,
+                                                  AppSettings appSettings)
+        {
+            var dialogVM = new YesNoDontAskAgainDialogViewModel(yesText,
+                                                                noText,
+                                                                message,
+                                                                yesCommand,
+                                                                questionTag,
+                                                                appSettings,
+                                                                viewModel);
+            if (dialogVM.DontAskAgain)
+                return;
+            CustomDialog dialog = CustomDialog(title, 500);
+            await ShowCustomDialog<YesNoDontAskAgainDialog>(viewModel, dialog, dialogVM);
         }
 
         public async Task ShowIssuesDialog(RelayCommand saveCommand, IIssuesService issuesService)

@@ -21,6 +21,7 @@ namespace SPT_AKI_Profile_Editor
             mainWindowViewModel = new MainWindowViewModel(App.ApplicationManager,
                                                           App.WindowsDialogs,
                                                           AppData.HelperModManager,
+                                                          new MigrationHelper(),
                                                           null,
                                                           null,
                                                           new CleaningService());
