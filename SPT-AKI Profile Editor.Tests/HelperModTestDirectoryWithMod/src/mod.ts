@@ -1,49 +1,100 @@
 import { DependencyContainer } from "tsyringe";
-import { IPostDBLoadMod } from "@spt-aki/models/external/IPostDBLoadMod";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { VFS } from "@spt-aki/models/spt/utils/VFS";
+import { IPostSptLoadMod } from "@spt/models/external/IPostSptLoadMod";
+import { JsonUtil } from "@spt/utils/JsonUtil";
+import { HashUtil } from "@spt/utils/HashUtil";
+import { DatabaseServer } from "@spt/servers/DatabaseServer";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { VFS } from "@spt/models/spt/utils/VFS";
 
-class Mod implements IPostDBLoadMod
-{
-    logger: ILogger
+class Mod implements IPostSptLoadMod {
+	private logger: ILogger
+	private jsonUtil: JsonUtil
+	private hashUtil: HashUtil
+	private vfs: VFS
 
-	public postDBLoad(container: DependencyContainer): void
-    {
-        this.logger = container.resolve<ILogger>("WinstonLogger");
-        const jsonUtil = container.resolve<JsonUtil>("JsonUtil");
-        const vfs = container.resolve<VFS>("VFS");
-        const databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
-		const modName = "SPT-AKI ProfileEditorHelper";
-        this.logger.log(`[${modName}] : Started database exporting`, "green");
+	private modName: string
+	private exportPath: string
+	private hashesPath: string
+	private hashesDictionary: Map<string, string>
+	private hasDataUpdates = false
 
-		const exportPath = "user/mods/ProfileEditorHelper/exportedDB":
-        const tables = databaseServer.getTables();
+	constructor() {
+		this.modName = "[SPT-AKI Profile Editor] Helper Mod";
+		this.exportPath = "user/mods/ProfileEditorHelper/exportedDB":
+		this.hashesPath = "user/mods/ProfileEditorHelper/Hashes.json":
+		this.hashesDictionary = new Map<string, string>()
+	}
 
-		vfs.writeFile(`${exportPath}/handbook.json`, jsonUtil.serialize(tables.templates.handbook));
-        this.logger.log(`[${modName}] : Handbook exported`, "green");
+	public postSptLoad(container: DependencyContainer): void {
+		this.logger = container.resolve<ILogger>("WinstonLogger");
+		this.jsonUtil = container.resolve<JsonUtil>("JsonUtil");
+		this.hashUtil = container.resolve<HashUtil>("HashUtil");
+		this.vfs = container.resolve<VFS>("VFS");
 
-		vfs.writeFile(`${exportPath}/items.json`, jsonUtil.serialize(tables.templates.items));
-        this.logger.log(`[${modName}] : Item templates exported`, "green");
-
-		vfs.writeFile(`${exportPath}/quests.json`, jsonUtil.serialize(tables.templates.quests));
-        this.logger.log(`[${modName}] : Quests exported`, "green");
-
-		for (const [traderKey, traderBase] of Object.entries(tables.traders))
-		{
-			vfs.writeFile(`${exportPath}/traders/${traderKey}.json`, jsonUtil.serialize(traderBase.base));
+		if (this.vfs.exists(this.hashesPath)) {
+			this.hashesDictionary = this.jsonUtil.deserialize(this.vfs.readFile(this.hashesPath))
 		}
-        this.logger.log(`[${modName}] : Traders exported`, "green");
 
-		for (const [localeKey, localeDict] of Object.entries(tables.locales.global))
-		{
-			vfs.writeFile(`${exportPath}/locales/${localeKey}.json`, jsonUtil.serialize(localeDict));
+		this.logger.log(`[${this.modName}] : Started database exporting`, "green");
+
+		const databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
+		const configServer = container.resolve<ConfigServer>("ConfigServer");
+		const tables = databaseServer.getTables();
+		const questConfig = configServer.getConfigByString("spt-quest");
+
+		const objectMap = (obj, fn) => Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]))
+
+		this.exportEntry("Handbook", tables.templates.handbook);
+		this.exportEntry("Production", tables.hideout.production);
+		this.exportEntry("Items", tables.templates.items);
+		this.exportEntry("Quests", tables.templates.quests);
+		this.exportEntry("QuestConfig", questConfig);
+		// Traders still exporting on every run, due to nextRessuply changes
+		this.exportDictionaryEntry("Traders", objectMap(tables.traders, v => v.base));
+		this.exportDictionaryEntry("Locales", tables.locales.global);
+		this.exportEntry("ItemPresets", tables.globals.ItemPresets);
+		this.exportEntry("Mastering", tables.globals.config.Mastering);
+		this.exportEntry("ExpTable", tables.globals.config.exp);
+
+		if (this.hasDataUpdates) {
+			this.vfs.writeFile(`${this.hashesPath}`, this.jsonUtil.serialize(this.hashesDictionary, true)));
+			this.logger.log(`[${this.modName}] : DB successfully exported`, "green");
+		} else {
+			this.logger.log(`[${this.modName}] : DB is up to date!`, "green");
 		}
-        this.logger.log(`[${modName}] : Locales exported`, "green");
+	}
 
-        this.logger.log(`[${modName}] : DB successfully exported`, "green");
-    }
+	private exportEntry(name: string, entry: Object): void {
+		const entryJson = this.jsonUtil.serialize(entry);
+		const entryHash = this.hashUtil.generateMd5ForData(entryJson);
+		if (this.hashesDictionary[name] == entryHash) {
+			return;
+		}
+		this.vfs.writeFile(`${this.exportPath}/${name}.json`, entryJson);
+		this.logger.log(`[${this.modName}] : ${name} exported`, "green");
+		this.hashesDictionary[name] = entryHash;
+		this.hasDataUpdates = true;
+	}
+
+	private exportDictionaryEntry(name: string, dictionary: Object): void {
+		let hasInnerUpdates = false
+		for (const [key, value] of Object.entries(dictionary)) {
+			const entryName = `${name}/${key}`
+			const valueJson = this.jsonUtil.serialize(value);
+			const valueHash = this.hashUtil.generateMd5ForData(valueJson);
+			if (this.hashesDictionary[entryName] == valueHash) {
+				continue;
+			}
+			this.vfs.writeFile(`${this.exportPath}/${entryName}.json`, valueJson);
+			this.hashesDictionary[entryName] = valueHash;
+			hasInnerUpdates = true;
+		}
+		if (hasInnerUpdates) {
+			this.logger.log(`[${this.modName}] : ${name} exported`, "green");
+			this.hasDataUpdates = true;
+		}
+	}
 }
 
 module.exports = { mod: new Mod() }
