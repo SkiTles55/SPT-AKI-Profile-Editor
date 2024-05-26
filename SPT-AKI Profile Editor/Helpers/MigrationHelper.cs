@@ -28,17 +28,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public void PerformMigration(AppSettings settings, IApplicationManager applicationManager)
         {
-            //settings.DirsList = DefaultValues.DefaultDirsList;
-            //settings.FilesList = DefaultValues.DefaultFilesList;
-            //settings.Save();
-            //applicationManager.DeleteLocalizations();
+            settings.DirsList = DefaultValues.DefaultDirsList;
+            settings.FilesList = DefaultValues.DefaultFilesList;
+            settings.Save();
+            applicationManager.DeleteLocalizations();
             applicationManager.RestartApplication();
         }
 
         public MigrationIntent GetMigrationIntent(AppSettings settings)
         {
             if (MigrationRequered(settings))
-                return new MigrationIntent("Migration", "Test intent for upcoming 3.9.0", "pe3.0, spt3.9.0, relative paths migration");
+                return new MigrationIntent("Migration",
+                                           "Test intent for upcoming 3.9.0\nTest intent for upcoming 3.9.0, line 2\nTest intent for upcoming 3.9.0, line 3",
+                                           "pe3.0, spt3.9.0, relative paths migration");
             return null;
         }
 

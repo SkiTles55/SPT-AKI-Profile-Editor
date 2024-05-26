@@ -17,15 +17,17 @@
         </Grid.RowDefinitions>
         <TextBlock
             Grid.Row="0"
-            Margin="0,2,0,2"
+            Margin="0,20,0,2"
             VerticalAlignment="Top"
             FontSize="15"
             Text="{Binding Message, FallbackValue=Message}"
             TextWrapping="Wrap" />
         <CheckBox
             Grid.Row="1"
-            HorizontalAlignment="Center"
+            Margin="0,15,5,0"
+            HorizontalAlignment="Right"
             Content="{Binding AppLocalization.Translations[profile_issues_remember_action], FallbackValue=profile_issues_remember_action}"
+            FlowDirection="RightToLeft"
             IsChecked="{Binding DontAskAgain}" />
         <StackPanel
             Grid.Row="2"
@@ -39,7 +41,7 @@
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
             <Button
                 Margin="5,0,5,0"
-                Command="{Binding CancelCommand}"
+                Command="{Binding NoCommand}"
                 Content="{Binding NoText, FallbackValue=NoText}"
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
         </StackPanel>

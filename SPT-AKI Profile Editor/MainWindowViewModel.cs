@@ -135,7 +135,7 @@ namespace SPT_AKI_Profile_Editor
             }
 
             await _dialogManager.ShowOkMessageAsync(AppLocalization.GetLocalizedString("save_profile_dialog_title"),
-                                                        AppLocalization.GetLocalizedString("save_profile_dialog_caption"));
+                                                    AppLocalization.GetLocalizedString("save_profile_dialog_caption"));
         }
 
         private void OpenFAQUrl() => _applicationManager.OpenUrl(LinksHelper.FAQ);
@@ -168,17 +168,17 @@ namespace SPT_AKI_Profile_Editor
         private async Task PerformMigrationIfNeeded()
         {
             var migrationIntent = _migrationHelper.GetMigrationIntent(AppData.AppSettings);
-            if (migrationIntent == null)
+            if (migrationIntent == null || AppData.AppSettings.SkipMigrationTags.Contains(migrationIntent.Tag))
                 return;
-
-            RelayCommand migrationCommand = new(_ => _migrationHelper.PerformMigration(AppData.AppSettings, _applicationManager));
-            await _dialogManager.YesNoDontAskAgainDialog(migrationIntent.Title,
-                                                         "yes",
-                                                         "no",
-                                                         migrationIntent.Message,
-                                                         migrationCommand,
-                                                         migrationIntent.Tag,
-                                                         AppData.AppSettings);
+            var result = await _dialogManager.YesNoDontAskAgainDialog(migrationIntent.Title,
+                                                                      "yes",
+                                                                      "no",
+                                                                      migrationIntent.Message,
+                                                                      false);
+            if (result.DontAskAgain)
+                AppData.AppSettings.SkipMigrationTag(migrationIntent.Tag);
+            if (result.Affirmative)
+                _migrationHelper.PerformMigration(AppData.AppSettings, _applicationManager);
         }
 
         private async Task CheckForUpdates()

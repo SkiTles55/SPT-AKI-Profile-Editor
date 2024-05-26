@@ -248,6 +248,8 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
+        public List<string> SkipMigrationTags { get; set; }
+
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -363,6 +365,12 @@ namespace SPT_AKI_Profile_Editor.Core
             ServerProfiles = Profiles;
         }
 
+        public void SkipMigrationTag(string tag)
+        {
+            SkipMigrationTags.Add(tag);
+            Save();
+        }
+
         private void NotifyPropertyChangedAndSave(string prop)
         {
             OnPropertyChanged(prop);
@@ -430,6 +438,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BearDogtagTpl = loaded.BearDogtagTpl;
             EndlessDevBackpackId = loaded.EndlessDevBackpackId;
             FenceTraderId = loaded.FenceTraderId;
+            SkipMigrationTags = loaded.SkipMigrationTags;
         }
 
         private bool CheckValues()
@@ -590,6 +599,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 FenceTraderId = DefaultValues.FenceTraderId;
                 _needReSave = true;
             }
+            if (SkipMigrationTags == null)
+            {
+                SkipMigrationTags = new ();
+                _needReSave = true;
+            }
             return _needReSave;
         }
 
@@ -630,6 +644,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
             EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
             FenceTraderId = DefaultValues.FenceTraderId;
+            SkipMigrationTags = new();
             Logger.Log($"Default configuration file created");
             Save();
         }

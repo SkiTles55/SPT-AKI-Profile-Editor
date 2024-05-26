@@ -18,13 +18,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task<bool> YesNoDialog(string title, string caption);
 
-        public Task YesNoDontAskAgainDialog(string title,
-                                            string yesText,
-                                            string noText,
-                                            string message,
-                                            RelayCommand yesCommand,
-                                            string questionTag,
-                                            AppSettings appSettings);
+        public Task<YesNoDontAskAgainDialogResult> YesNoDontAskAgainDialog(string title,
+                                                                           string yesText,
+                                                                           string noText,
+                                                                           string message,
+                                                                           bool dontAskAgain);
 
         public Task ShutdownCozServerRunned();
 
@@ -148,25 +146,20 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                                  new UpdateDialogViewModel(App.ApplicationManager, App.WindowsDialogs, release, viewModel, this));
         }
 
-        public async Task YesNoDontAskAgainDialog(string title,
-                                                  string yesText,
-                                                  string noText,
-                                                  string message,
-                                                  RelayCommand yesCommand,
-                                                  string questionTag,
-                                                  AppSettings appSettings)
+        public async Task<YesNoDontAskAgainDialogResult> YesNoDontAskAgainDialog(string title,
+                                                                                 string yesText,
+                                                                                 string noText,
+                                                                                 string message,
+                                                                                 bool dontAskAgain)
         {
+            CustomDialog dialog = CustomDialog(title, 500);
             var dialogVM = new YesNoDontAskAgainDialogViewModel(yesText,
                                                                 noText,
                                                                 message,
-                                                                yesCommand,
-                                                                questionTag,
-                                                                appSettings,
+                                                                dontAskAgain,
                                                                 viewModel);
-            if (dialogVM.DontAskAgain)
-                return;
-            CustomDialog dialog = CustomDialog(title, 500);
             await ShowCustomDialog<YesNoDontAskAgainDialog>(viewModel, dialog, dialogVM);
+            return await dialogVM.DialogResult;
         }
 
         public async Task ShowIssuesDialog(RelayCommand saveCommand, IIssuesService issuesService)
