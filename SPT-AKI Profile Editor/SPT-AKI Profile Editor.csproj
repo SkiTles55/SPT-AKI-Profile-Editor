@@ -12,7 +12,7 @@
     <Authors>SkiTles55</Authors>
     <Company>SkiTles55</Company>
     <Product>SPT-AKI Profile Editor</Product>
-    <Description>Program for editing player profile on the SPT-AKI Server</Description>
+    <Description>Program for editing player profile on the SPT Server</Description>
     <Copyright>SkiTles55</Copyright>
     <PackageProjectUrl>https://github.com/SkiTles55/SPT-AKI-Profile-Editor</PackageProjectUrl>
   </PropertyGroup>

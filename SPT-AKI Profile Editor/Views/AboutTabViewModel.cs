@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static string LtcWallet => AppSettings.ltcWallet;
 
-        public static string SptAkiProjectUrl => AppSettings.sptAkiProjectUrl;
+        public static string SptProjectUrl => AppSettings.sptProjectUrl;
 
         public static RelayCommand CopyLtcWallet => new(obj => Clipboard.SetText(LtcWallet));
 
@@ -34,7 +34,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand OpenSteamUrl => new(obj => OpenUrl(AppSettings.steamTradeUrl));
 
-        public RelayCommand OpenSptAkiProjectUrl => new(obj => OpenUrl(SptAkiProjectUrl));
+        public RelayCommand OpenSptProjectUrl => new(obj => OpenUrl(SptProjectUrl));
 
         private void OpenUrl(string url) => _applicationManager.OpenUrl(url);
     }

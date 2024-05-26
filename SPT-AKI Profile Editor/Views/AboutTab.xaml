@@ -98,12 +98,12 @@
                 </Image>
                 <Label Margin="0,5,0,0" Style="{DynamicResource DescriptionHeaderStyle}">
                     <Label.Content>
-                        <TextBlock Text="{Binding AppLocalization.Translations[tab_about_spt_aki_project_url], FallbackValue=tab_about_spt_aki_project_url}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_about_spt_project_url], FallbackValue=tab_about_spt_project_url}" TextWrapping="Wrap" />
                     </Label.Content>
                 </Label>
                 <TextBlock Margin="6,0,0,5">
-                    <Hyperlink Command="{Binding OpenSptAkiProjectUrl}" Style="{DynamicResource LinkStyle}">
-                        <TextBlock Text="{Binding SptAkiProjectUrl, FallbackValue=SptAkiProjectUrl}" />
+                    <Hyperlink Command="{Binding OpenSptProjectUrl}" Style="{DynamicResource LinkStyle}">
+                        <TextBlock Text="{Binding SptProjectUrl, FallbackValue=SptProjectUrl}" />
                     </Hyperlink>
                 </TextBlock>
             </StackPanel>
