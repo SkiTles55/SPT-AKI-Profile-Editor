@@ -1,5 +1,6 @@
 ﻿using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,24 +18,29 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly RelayCommand _faqCommand;
         private readonly IWorker worker;
         private readonly IHelperModManager _helperModManager;
+        private readonly ServerConfigs serverConfigs;
 
         private readonly Dictionary<string, bool> questTypesExpander = new();
         private ObservableCollection<CharacterQuest> questsCollection = new();
         private string traderNameFilter;
         private string questNameFilter;
         private string questStatusFilter;
+        private bool hasMissingQuests;
+        private bool hasMissingEventQuests;
 
         public QuestsTabViewModel(IDialogManager dialogManager,
                                   RelayCommand reloadCommand,
                                   RelayCommand faqCommand,
                                   IWorker worker,
-                                  IHelperModManager helperModManager)
+                                  IHelperModManager helperModManager,
+                                  ServerConfigs serverConfigs)
         {
             _dialogManager = dialogManager;
             _reloadCommand = reloadCommand;
             _faqCommand = faqCommand;
             this.worker = worker;
             _helperModManager = helperModManager;
+            this.serverConfigs = serverConfigs;
         }
 
         public static QuestStatus SetAllValue { get; set; } = QuestStatus.Success;
@@ -102,6 +108,26 @@ namespace SPT_AKI_Profile_Editor.Views
                                                                         _helperModManager,
                                                                         1));
 
+        public bool HasMissingQuests
+        {
+            get => hasMissingQuests;
+            set
+            {
+                hasMissingQuests = value;
+                OnPropertyChanged(nameof(HasMissingQuests));
+            }
+        }
+
+        public bool HasMissingEventQuests
+        {
+            get => hasMissingEventQuests;
+            set
+            {
+                hasMissingEventQuests = value;
+                OnPropertyChanged(nameof(HasMissingEventQuests));
+            }
+        }
+
         public override void ApplyFilter()
         {
             ObservableCollection<CharacterQuest> filteredQuests;
@@ -113,8 +139,21 @@ namespace SPT_AKI_Profile_Editor.Views
             else
                 filteredQuests = new(Profile.Characters.Pmc.Quests.Where(x => CanShow(x)));
 
+            //var dbQuestQids = ServerDatabase.QuestsData.Select(x => x.Key);
+            //var dbQuestsCount = dbQuestQids.Sum(x => GetIntForQuestSum(x, false));
+            //var dbEventQuestsCount = dbQuestQids.Sum(x => GetIntForQuestSum(x, true));
+
+            //var questsCount = Profile.Characters.Pmc.Quests?.Sum(x => GetIntForQuestSum(x.Qid, false)) ?? 0;
+            //var eventQuestsCount = Profile.Characters.Pmc.Quests?.Sum(x => GetIntForQuestSum(x.Qid, true)) ?? 0;
+
+            //HasMissingQuests = questsCount < dbQuestsCount;
+            //HasMissingEventQuests = eventQuestsCount < dbEventQuestsCount;
+
             QuestsCollection = filteredQuests;
         }
+
+        private int GetIntForQuestSum(string qid, bool asEvent)
+            => serverConfigs.Quest.EventQuests.ContainsKey(qid) ? (asEvent ? 0 : 1) : (asEvent ? 1 : 0);
 
         private async void RemoveQuest(string qid)
         {

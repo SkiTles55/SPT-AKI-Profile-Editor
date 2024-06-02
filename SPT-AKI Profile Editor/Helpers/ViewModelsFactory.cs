@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Views;
 
 namespace SPT_AKI_Profile_Editor.Helpers
@@ -13,12 +14,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                  RelayCommand reloadCommand,
                                  RelayCommand faqCommand,
                                  ICleaningService cleaningService,
-                                 IHelperModManager helperModManager)
+                                 IHelperModManager helperModManager,
+                                 ServerConfigs serverConfigs)
         {
             FastMode = new(saveCommand);
             InfoTab = new();
             MerchantsTab = new();
-            QuestsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
+            QuestsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager, serverConfigs);
             HideoutTab = new();
             SkillsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
             MasteringTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
