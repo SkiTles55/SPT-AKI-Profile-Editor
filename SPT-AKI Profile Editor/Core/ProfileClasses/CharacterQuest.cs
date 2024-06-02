@@ -80,6 +80,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public string QuestQid { get; set; } = "unknown";
 
+        [JsonIgnore]
+        public bool IsModdedQuest => Type switch
+        {
+            QuestType.Standart => !AppData.ServerDatabase.QuestsData.ContainsKey(Qid),
+            _ => !AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestTrader.Nickname()),
+        };
+
         private QuestStatus GetNewStatus(QuestStatus newStatus)
         {
             var suitableStatuses = Type.GetAvailableStatuses().Where(x => StatusIsSuitable(newStatus, x));

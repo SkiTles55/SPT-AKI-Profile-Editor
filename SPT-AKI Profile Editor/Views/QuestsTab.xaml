@@ -225,12 +225,14 @@
                 Margin="5,5"
                 Padding="15,0"
                 HorizontalAlignment="Center"
+                Command="{Binding AddMissingQuests}"
                 Content="{Binding AppLocalization.Translations[tab_quests_add_all_missing_quests], FallbackValue=tab_quests_add_all_missing_quests}"
                 Visibility="{Binding HasMissingQuests, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
                 Margin="5,5"
                 Padding="15,0"
                 HorizontalAlignment="Center"
+                Command="{Binding AddMissingEventQuests}"
                 Content="{Binding AppLocalization.Translations[tab_quests_add_all_missing_event_quests], FallbackValue=tab_quests_add_all_missing_event_quests}"
                 Visibility="{Binding HasMissingEventQuests, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -251,10 +253,5 @@
                     Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button], FallbackValue=tab_quests_edit_all_button}" />
             </StackPanel>
         </extendedcontrols:AlignableWrapPanel>
-        <views:NoDataPanel
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            d:Visibility="Collapsed"
-            Visibility="{Binding Profile.Characters.Pmc.IsQuestsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>
