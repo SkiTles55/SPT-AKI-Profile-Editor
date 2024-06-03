@@ -44,6 +44,7 @@ namespace SPT_AKI_Profile_Editor
                              ReloadCommand,
                              OpenFAQ,
                              _cleaningService,
+                             _helperModManager,
                              _serverConfigs);
         }
 
