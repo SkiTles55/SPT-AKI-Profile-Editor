@@ -242,6 +242,20 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             UpdateQuestsData();
         }
 
+        public void AddAllMisingQuests(bool eventQuests)
+            => AddQuests(MissingQuests(eventQuests).Select(qid => new CharacterQuest() { Qid = qid, Status = QuestStatus.Locked }));
+
+        public IEnumerable<string> MissingQuests(bool eventQuests)
+        {
+            bool QuestIsMissing(bool eventQuests, string qid)
+                => Quests.FirstOrDefault(y => y.Qid == qid) == null
+                && AppData.ServerConfigs.Quest.EventQuests.ContainsKey(qid) == eventQuests;
+
+            return AppData.ServerDatabase.QuestsData
+                .Select(x => x.Key)
+                .Where(x => QuestIsMissing(eventQuests, x));
+        }
+
         public void UpdateQuestsData()
         {
             if (Quests.Any())

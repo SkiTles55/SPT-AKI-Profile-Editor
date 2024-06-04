@@ -1,6 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +17,6 @@ namespace SPT_AKI_Profile_Editor.Views
         private readonly RelayCommand _faqCommand;
         private readonly IWorker worker;
         private readonly IHelperModManager _helperModManager;
-        private readonly ServerConfigs serverConfigs;
 
         private readonly Dictionary<string, bool> questTypesExpander = new();
         private ObservableCollection<CharacterQuest> questsCollection = new();
@@ -32,21 +30,23 @@ namespace SPT_AKI_Profile_Editor.Views
                                   RelayCommand reloadCommand,
                                   RelayCommand faqCommand,
                                   IWorker worker,
-                                  IHelperModManager helperModManager,
-                                  ServerConfigs serverConfigs)
+                                  IHelperModManager helperModManager)
         {
             _dialogManager = dialogManager;
             _reloadCommand = reloadCommand;
             _faqCommand = faqCommand;
             this.worker = worker;
             _helperModManager = helperModManager;
-            this.serverConfigs = serverConfigs;
         }
 
         public static QuestStatus SetAllValue { get; set; } = QuestStatus.Success;
 
         public static RelayCommand SetAllCommand
             => new(obj => Profile?.Characters?.Pmc?.SetAllQuests(SetAllValue));
+
+        public static RelayCommand AddMissingQuests => new(_ => AddMissingQuest(false));
+
+        public static RelayCommand AddMissingEventQuests => new(_ => AddMissingQuest(true));
 
         public string TraderNameFilter
         {
@@ -118,8 +118,6 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        public RelayCommand AddMissingQuests => new(_ => AddMissingQuest(false));
-
         public bool HasMissingEventQuests
         {
             get => hasMissingEventQuests;
@@ -129,8 +127,6 @@ namespace SPT_AKI_Profile_Editor.Views
                 OnPropertyChanged(nameof(HasMissingEventQuests));
             }
         }
-
-        public RelayCommand AddMissingEventQuests => new(_ => AddMissingQuest(true));
 
         public override void ApplyFilter()
         {
@@ -143,36 +139,14 @@ namespace SPT_AKI_Profile_Editor.Views
             else
                 filteredQuests = new(Profile.Characters.Pmc.Quests.Where(x => CanShow(x)));
 
-            IEnumerable<string> dbQuestQids = GetAllDbQuests();
-            var dbQuestsCount = dbQuestQids.Sum(x => GetIntForQuestSum(x, false));
-            var dbEventQuestsCount = dbQuestQids.Sum(x => GetIntForQuestSum(x, true));
-
-            var notModdedQuests = Profile.Characters.Pmc.Quests?.Where(x => !x.IsModdedQuest);
-            var questsCount = notModdedQuests?.Sum(x => GetIntForQuestSum(x.Qid, false)) ?? 0;
-            var eventQuestsCount = notModdedQuests?.Sum(x => GetIntForQuestSum(x.Qid, true)) ?? 0;
-
-            HasMissingQuests = questsCount < dbQuestsCount;
-            HasMissingEventQuests = eventQuestsCount < dbEventQuestsCount;
+            HasMissingQuests = Profile.Characters.Pmc.MissingQuests(false).Any();
+            HasMissingEventQuests = Profile.Characters.Pmc.MissingQuests(true).Any();
 
             QuestsCollection = filteredQuests;
         }
 
-        private static IEnumerable<string> GetAllDbQuests() => ServerDatabase.QuestsData.Select(x => x.Key);
-
-        private void AddMissingQuest(bool isEvent)
-        {
-            IEnumerable<string> dbQuestQids = GetAllDbQuests();
-            List<CharacterQuest> newQuests = new();
-            foreach (var qid in dbQuestQids)
-                if (Profile.Characters.Pmc.Quests?.FirstOrDefault(x => x.Qid == qid) == null && IsEventQuest(qid) == isEvent)
-                    newQuests.Add(new CharacterQuest() { Qid = qid, Status = QuestStatus.Locked });
-            Profile.Characters.Pmc.AddQuests(newQuests);
-        }
-
-        private int GetIntForQuestSum(string qid, bool asEvent)
-            => IsEventQuest(qid) ? (asEvent ? 1 : 0) : (asEvent ? 0 : 1);
-
-        private bool IsEventQuest(string qid) => serverConfigs.Quest.EventQuests.ContainsKey(qid);
+        private static void AddMissingQuest(bool isEvent)
+            => Profile.Characters.Pmc.AddAllMisingQuests(isEvent);
 
         private async void RemoveQuest(string qid)
         {

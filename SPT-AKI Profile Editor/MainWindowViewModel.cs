@@ -2,7 +2,6 @@
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
-using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.IO;
@@ -19,12 +18,10 @@ namespace SPT_AKI_Profile_Editor
         private readonly IApplicationManager _applicationManager;
         private readonly ICleaningService _cleaningService;
         private readonly IHelperModManager _helperModManager;
-        private readonly ServerConfigs _serverConfigs;
 
         public MainWindowViewModel(IApplicationManager applicationManager,
                                    IWindowsDialogs windowsDialogs,
                                    IHelperModManager helperModManager,
-                                   ServerConfigs serverConfigs,
                                    IDialogManager dialogManager = null,
                                    IWorker worker = null,
                                    ICleaningService cleaningService = null)
@@ -35,7 +32,6 @@ namespace SPT_AKI_Profile_Editor
             _applicationManager = applicationManager;
             _worker = worker ?? new Worker(_dialogManager);
             _cleaningService = cleaningService;
-            _serverConfigs = serverConfigs;
             ViewModels = new(_dialogManager,
                              _worker,
                              _applicationManager,
@@ -44,8 +40,7 @@ namespace SPT_AKI_Profile_Editor
                              ReloadCommand,
                              OpenFAQ,
                              _cleaningService,
-                             _helperModManager,
-                             _serverConfigs);
+                             _helperModManager);
         }
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
