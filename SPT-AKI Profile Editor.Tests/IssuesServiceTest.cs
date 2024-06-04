@@ -9,11 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     internal class IssuesServiceTest
     {
         [OneTimeSetUp]
-        public void Setup()
-        {
-            AppData.AppSettings.AutoAddMissingQuests = true;
-            TestHelpers.LoadDatabase();
-        }
+        public void Setup() => TestHelpers.LoadDatabase();
 
         [Test]
         public void IssuesServiceCanFixAllIssues()
@@ -21,6 +17,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileWithDuplicatedItems);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
             AppData.Profile.Characters.Pmc.SetAllTradersMax();
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
             AppData.IssuesService.GetIssues();
             Assert.That(AppData.IssuesService.HasIssues, Is.True, "Profile Issues is empty");
@@ -50,6 +47,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Info.Level = 1;
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.AvailableForStart);
             CheckIssuesNotEmptyAfterGet();
             CheckIssues<PMCLevelIssue>("Quests");
@@ -62,6 +60,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestStatusIssuesByQuestNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             CheckIssuesNotEmptyAfterGet();
             CheckIssues<QuestStatusIssue>("Quests");
@@ -74,6 +73,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderLoyaltyIssuesByQuestNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
                 trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
@@ -88,6 +88,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderStandingIssuesByQuestNotEmpty()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
                 trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
@@ -165,6 +166,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void IssuesServiceCanFixQuestStatusIssue()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             AppData.Profile.Characters.Pmc.Info.Level = 2;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             CheckIssuesNotEmptyAfterGet();
@@ -184,6 +186,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void IssuesServiceCanFixAllQuestStatusIssues()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             AppData.Profile.Characters.Pmc.Info.Level = 2;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);
             CheckIssuesNotEmptyAfterGet();
@@ -278,6 +281,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static void PrepareTraderAndQuestIssues()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             foreach (var trader in AppData.Profile.Characters.Pmc.TraderStandingsExt)
                 trader.LoyaltyLevel = 1;
             AppData.Profile.Characters.Pmc.SetAllQuests(Core.Enums.QuestStatus.Success);

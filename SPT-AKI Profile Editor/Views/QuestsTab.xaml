@@ -27,12 +27,15 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
         <helpers:QuestStatusValueConverter x:Key="QuestStatusValueConverter" />
+        <helpers:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            False="Collapsed"
+            True="Visible" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid
             x:Name="questsGrid"
@@ -213,36 +216,42 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label
+        <extendedcontrols:AlignableWrapPanel
             Grid.Row="1"
-            Margin="5,0"
+            Margin="10,10,10,0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontWeight="Bold">
-            <Label.Content>
-                <TextBlock Text="{Binding AppLocalization.Translations[tab_quests_mark_all], FallbackValue=tab_quests_mark_all}" TextWrapping="Wrap" />
-            </Label.Content>
-        </Label>
-        <StackPanel
-            Grid.Row="2"
-            Margin="10,0"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <ComboBox
-                Width="200"
-                Margin="5,0"
-                ItemsSource="{Binding Source={StaticResource QuestStatusValueConverter}, Path=Strings}"
-                SelectedItem="{Binding SetAllValue, Converter={StaticResource QuestStatusValueConverter}}" />
+            HorizontalContentAlignment="Center">
             <Button
-                Margin="5,0"
+                Margin="5,5"
                 Padding="15,0"
-                Command="{Binding SetAllCommand}"
-                Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button], FallbackValue=tab_quests_edit_all_button}" />
-        </StackPanel>
-        <views:NoDataPanel
-            Grid.Row="0"
-            Grid.RowSpan="3"
-            d:Visibility="Collapsed"
-            Visibility="{Binding Profile.Characters.Pmc.IsQuestsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                HorizontalAlignment="Center"
+                Command="{Binding AddMissingQuests}"
+                Content="{Binding AppLocalization.Translations[tab_quests_add_all_missing_quests], FallbackValue=tab_quests_add_all_missing_quests}"
+                Visibility="{Binding HasMissingQuests, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button
+                Margin="5,5"
+                Padding="15,0"
+                HorizontalAlignment="Center"
+                Command="{Binding AddMissingEventQuests}"
+                Content="{Binding AppLocalization.Translations[tab_quests_add_all_missing_event_quests], FallbackValue=tab_quests_add_all_missing_event_quests}"
+                Visibility="{Binding HasMissingEventQuests, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Margin="0,5" FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_quests_mark_all], FallbackValue=tab_quests_mark_all}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
+                <ComboBox
+                    Width="130"
+                    Margin="5,5"
+                    ItemsSource="{Binding Source={StaticResource QuestStatusValueConverter}, Path=Strings}"
+                    SelectedItem="{Binding SetAllValue, Converter={StaticResource QuestStatusValueConverter}}" />
+                <Button
+                    Margin="5,5"
+                    Padding="15,0"
+                    Command="{Binding SetAllCommand}"
+                    Content="{Binding AppLocalization.Translations[tab_quests_edit_all_button], FallbackValue=tab_quests_edit_all_button}" />
+            </StackPanel>
+        </extendedcontrols:AlignableWrapPanel>
     </Grid>
 </UserControl>

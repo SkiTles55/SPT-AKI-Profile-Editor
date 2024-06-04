@@ -167,15 +167,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         private static void ImportQuests(ProfileProgress importedProgress, Character pmc)
         {
             pmc.RemoveQuests(pmc.Quests.Select(x => x.Qid).Where(x => !importedProgress.Quests.ContainsKey(x)));
+            List<CharacterQuest> newQuests = new();
             foreach (var importedQuest in importedProgress.Quests)
             {
                 var existQuest = pmc.Quests.FirstOrDefault(x => x.Qid == importedQuest.Key);
                 if (existQuest != null)
                     existQuest.Status = importedQuest.Value;
                 else
-                    pmc.AddQuest(new() { Qid = importedQuest.Key, Status = importedQuest.Value });
+                    newQuests.Add(new() { Qid = importedQuest.Key, Status = importedQuest.Value });
             }
-            pmc.UpdateQuestsData();
+            if (!newQuests.Any())
+                return;
+            pmc.AddQuests(newQuests);
         }
 
         private static void ImportHideout(ProfileProgress importedProgress, Character pmc)

@@ -132,7 +132,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 quests = value;
-                NotifyQuestsUpdated();
+                OnPropertyChanged(nameof(Quests));
             }
         }
 
@@ -222,9 +222,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         [JsonIgnore]
         public List<CharacterHideoutProduction> HideoutProductions => hideoutProductions;
 
-        [JsonIgnore]
-        public bool IsQuestsEmpty => Quests == null || Quests.Length == 0;
-
         public void NotifyTradersUpdated()
         {
             OnPropertyChanged(nameof(TraderStandings));
@@ -236,14 +233,37 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void RemoveQuests(IEnumerable<string> questQids)
             => Quests = Quests.Where(x => !questQids.Contains(x.Qid)).ToArray();
 
-        public void AddQuest(CharacterQuest newQuest) => Quests = Quests.Append(newQuest).ToArray();
+        public void AddQuests(IEnumerable<CharacterQuest> newQuests)
+        {
+            var questList = Quests.ToList();
+            foreach (var quest in newQuests)
+                questList.Add(quest);
+            Quests = questList.ToArray();
+            UpdateQuestsData();
+        }
+
+        public void AddAllMisingQuests(bool eventQuests)
+            => AddQuests(MissingQuests(eventQuests).Select(qid => new CharacterQuest() { Qid = qid, Status = QuestStatus.Locked }));
+
+        public IEnumerable<string> MissingQuests(bool eventQuests)
+        {
+            bool QuestIsMissing(bool eventQuests, string qid)
+                => Quests.FirstOrDefault(y => y.Qid == qid) == null
+                && AppData.ServerConfigs.Quest.EventQuests.ContainsKey(qid) == eventQuests;
+
+            return AppData.ServerDatabase.QuestsData
+                .Select(x => x.Key)
+                .Where(x => QuestIsMissing(eventQuests, x));
+        }
 
         public void UpdateQuestsData()
         {
-            if (Quests.Length > 0)
+            if (Quests.Any())
+            {
                 foreach (var quest in Quests)
                     SetupQuest(quest);
-            NotifyQuestsUpdated();
+                OnPropertyChanged(nameof(Quests));
+            }
 
             void SetupQuest(CharacterQuest quest)
             {
@@ -364,12 +384,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         private static TraderBase GetTraderInfo(string key)
-                    => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
-
-        private void NotifyQuestsUpdated()
-        {
-            OnPropertyChanged(nameof(Quests));
-            OnPropertyChanged(nameof(IsQuestsEmpty));
-        }
+                            => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
@@ -65,33 +64,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             profile.Characters.Pmc.SetupHideoutProductions();
             profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
             if (profile.Characters?.Pmc?.Quests != null)
-            {
-                var addMissing = NeedToAddMissingQuests();
-                var addMissingEvent = NeedToAddMissingEventQuests();
-
-                bool ShouldAddQuest(string questQid)
-                {
-                    if (profile.Characters.Pmc.Quests.Any(y => y.Qid == questQid))
-                        return false;
-
-                    if (AppData.ServerConfigs.Quest.EventQuests.ContainsKey(questQid))
-                        return addMissingEvent;
-                    else
-                        return addMissing;
-                }
-
-                if (addMissing || addMissingEvent)
-                {
-                    profile.Characters.Pmc.Quests = profile.Characters.Pmc.Quests
-                    .Concat(AppData.ServerDatabase.QuestsData
-                    .Where(x => ShouldAddQuest(x.Key))
-                    .Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked })
-                    .ToArray())
-                    .ToArray();
-                }
-
                 profile.Characters.Pmc.UpdateQuestsData();
-            }
             if (NeedToAddMissingScavCommonSkills())
             {
                 profile.Characters.Scav.Skills.Common = profile.Characters.Pmc.Skills.Common
@@ -134,12 +107,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         .ToArray();
                 }
             }
-
-            bool NeedToAddMissingQuests() => AppData.AppSettings.AutoAddMissingQuests
-                && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count;
-
-            bool NeedToAddMissingEventQuests() => AppData.AppSettings.AutoAddMissingEventQuests
-                && profile.Characters.Pmc.Quests.Length != AppData.ServerDatabase.QuestsData.Count;
 
             bool NeedToAddMissingScavCommonSkills() => AppData.AppSettings.AutoAddMissingScavSkills
                 && profile.Characters?.Pmc?.Skills?.Common != null

@@ -66,8 +66,6 @@ namespace SPT_AKI_Profile_Editor.Core
         private string defaultProfile;
         private string language;
         private string colorScheme;
-        private bool autoAddMissingQuests;
-        private bool autoAddMissingEventQuests;
         private bool autoAddMissingScavSkills;
         private bool autoAddMissingMasterings;
         private Dictionary<string, string> serverProfiles;
@@ -148,26 +146,6 @@ namespace SPT_AKI_Profile_Editor.Core
         public Dictionary<string, string> DirsList { get; set; }
 
         public Dictionary<string, string> FilesList { get; set; }
-
-        public bool AutoAddMissingQuests
-        {
-            get => autoAddMissingQuests;
-            set
-            {
-                autoAddMissingQuests = value;
-                NotifyPropertyChangedAndSave(nameof(AutoAddMissingQuests));
-            }
-        }
-
-        public bool AutoAddMissingEventQuests
-        {
-            get => autoAddMissingEventQuests;
-            set
-            {
-                autoAddMissingEventQuests = value;
-                NotifyPropertyChangedAndSave(nameof(AutoAddMissingEventQuests));
-            }
-        }
 
         public bool AutoAddMissingMasterings
         {
@@ -278,8 +256,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 + DefaultProfile
                 + Language
                 + UsingModHelper
-                + AutoAddMissingQuests.ToString()
-                + AutoAddMissingEventQuests.ToString()
                 + AutoAddMissingMasterings.ToString()
                 + AutoAddMissingScavSkills.ToString()
                 + CommonSkillMaxValue.ToString()
@@ -410,8 +386,6 @@ namespace SPT_AKI_Profile_Editor.Core
             DirsList = loaded.DirsList;
             FilesList = loaded.FilesList;
             AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
-            AutoAddMissingQuests = loaded.AutoAddMissingQuests;
-            AutoAddMissingEventQuests = loaded.AutoAddMissingEventQuests;
             AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
             PocketsContainerTpl = loaded.PocketsContainerTpl;
             FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
@@ -615,8 +589,6 @@ namespace SPT_AKI_Profile_Editor.Core
             FilesList = DefaultValues.DefaultFilesList;
             CheckUpdates = DefaultValues.CheckUpdates;
             UsingModHelper = false;
-            AutoAddMissingQuests = false;
-            AutoAddMissingEventQuests = false;
             AutoAddMissingMasterings = false;
             AutoAddMissingScavSkills = false;
             PocketsContainerTpl = DefaultValues.PocketsContainerTpl;
