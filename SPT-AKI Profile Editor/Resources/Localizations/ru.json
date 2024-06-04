@@ -255,6 +255,8 @@
     "remove_quest_caption": "Вы действительно хотите удалить этот квест?",
     "remove_examined_item_title": "Удаление изученного предмета",
     "remove_examined_item_caption": "Вы действительно хотите удалить этот изученный предмет?",
-    "what_is_server_folder": "Папка, которая содержит {0}, и прочие файлы сервера"
+    "what_is_server_folder": "Папка, которая содержит {0}, и прочие файлы сервера",
+    "tab_quests_add_all_missing_quests": "Добавить все отсутствующие квесты",
+    "tab_quests_add_all_missing_event_quests": "Добавить все отсутствующие ивент квесты"
   }
 }

@@ -255,6 +255,8 @@
     "remove_quest_caption": "您是否确定要删除这个任务吗？",
     "remove_examined_item_title": "移除一件已检视物品",
     "remove_examined_item_caption": "您确定是否要移除这件已检视物品吗？",
-    "what_is_server_folder": "{0}内文件夹目录，包含服务器和其他必要文件"
+    "what_is_server_folder": "{0}内文件夹目录，包含服务器和其他必要文件",
+    "tab_quests_add_all_missing_quests": "Add all missing quests",
+    "tab_quests_add_all_missing_event_quests": "Add all missing event quests"
   }
 }
