@@ -157,7 +157,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsLoadCorrectly()
         {
             Assert.That(AppData.Profile.Characters.Pmc.Quests, Is.Not.Null, "Quests is null");
-            Assert.That(AppData.Profile.Characters.Pmc.IsQuestsEmpty, Is.False, "Quests is empty");
+            Assert.That(AppData.Profile.Characters.Pmc.Quests.Any(), Is.True, "Quests is empty");
             Assert.That(AppData.Profile.Characters.Pmc.Quests.Any(x => x.LocalizedTraderName == x.QuestTrader),
                         Is.False,
                         "Quests Localized TraderName's not loaded");
@@ -475,7 +475,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void ProfileSavesCorrectly()
         {
-            AppData.AppSettings.AutoAddMissingQuests = false;
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -574,9 +573,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void QuestsStatusesSavesCorrectly()
         {
-            AppData.AppSettings.AutoAddMissingQuests = true;
-            AppData.AppSettings.AutoAddMissingEventQuests = true;
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(true);
             AppData.Profile.Characters.Pmc.SetAllQuests(QuestStatus.Fail);
             TestHelpers.SaveAndLoadProfile("testQuests.json");
             bool allQuestsLoadedAndInFail = AppData.Profile.Characters.Pmc.Quests.All(x => x.Status == QuestStatus.Fail)
@@ -588,8 +587,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void QuestStatusCanAddAndRemoveCraft()
         {
-            AppData.AppSettings.AutoAddMissingQuests = true;
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             var production = AppData.Profile.Characters.Pmc.HideoutProductions.FirstOrDefault(x => !x.Added);
             Assert.That(production, Is.Not.Null, "Unable to find production for adding");
             var quest = AppData.Profile.Characters.Pmc.Quests.FirstOrDefault(x => production.Production.Requirements.FirstOrDefault(r => r.QuestId == x.QuestQid) != null);
@@ -609,8 +608,8 @@ namespace SPT_AKI_Profile_Editor.Tests
         [Test]
         public void QuestsFirstLockedStatusSavesCorrectly()
         {
-            AppData.AppSettings.AutoAddMissingQuests = true;
             AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(false);
             var locked = AppData.Profile.Characters.Pmc.Quests?
                 .Where(x => x.Type == QuestType.Standart && x.Status == QuestStatus.Locked)?
                 .FirstOrDefault();
@@ -1188,7 +1187,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             TestHelpers.SaveAndLoadProfile("testPmcMasteringSkills.json");
             var isAllSkillsProgressMax = character.Skills.Mastering.All(x => x.Progress == x.MaxValue);
             var profileSkillsCount = character.Skills.Mastering.Length;
-            var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Count();
+            var dbSkillsCount = AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length;
             Assert.That(isAllSkillsProgressMax && profileSkillsCount == dbSkillsCount, Is.True);
         }
 
@@ -1197,9 +1196,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         private static void LoadProfileAndCheckQuestsCount(string profilePath, bool isStandartQuests)
         {
-            AppData.AppSettings.AutoAddMissingQuests = isStandartQuests;
-            AppData.AppSettings.AutoAddMissingEventQuests = !isStandartQuests;
             AppData.Profile.Load(profilePath);
+            AppData.Profile.Characters.Pmc.AddAllMisingQuests(!isStandartQuests);
 
             var questsCount = AppData.ServerDatabase.QuestsData
                 .Where(x => AppData.ServerConfigs.Quest.EventQuests.ContainsKey(x.Key) != isStandartQuests)
@@ -1314,8 +1312,6 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         private static void DisableAutoAddDataInSettings()
         {
-            AppData.AppSettings.AutoAddMissingQuests = false;
-            AppData.AppSettings.AutoAddMissingEventQuests = false;
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
         }

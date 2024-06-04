@@ -250,8 +250,6 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         private void PrepareTestProfile()
         {
-            AppData.AppSettings.AutoAddMissingQuests = false;
-            AppData.AppSettings.AutoAddMissingEventQuests = false;
             TestHelpers.LoadDatabaseAndProfile();
             var pmc = AppData.Profile.Characters.Pmc;
             pmcSide = pmc.Info.Side == "Bear" ? "Usec" : "Bear";
