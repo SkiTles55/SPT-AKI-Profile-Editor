@@ -6,7 +6,7 @@
     <RootNamespace>SPT_AKI_Profile_Editor</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
-    <Version>2.9.3</Version>
+    <Version>2.9.4</Version>
     <ApplicationIcon>Resources\killa_ico_k3r_icon.ico</ApplicationIcon>
     <PackageId>SPT-AKI Profile Editor</PackageId>
     <Authors>SkiTles55</Authors>
