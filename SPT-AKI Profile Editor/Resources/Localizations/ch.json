@@ -256,8 +256,8 @@
     "remove_examined_item_title": "移除一件已检视物品",
     "remove_examined_item_caption": "您确定是否要移除这件已检视物品吗？",
     "what_is_server_folder": "{0}内文件夹目录，包含服务器和其他必要文件",
-    "tab_quests_add_all_missing_quests": "Add all missing quests",
-    "tab_quests_add_all_missing_event_quests": "Add all missing event quests",
+    "tab_quests_add_all_missing_quests": "添加所有缺失的任务",
+    "tab_quests_add_all_missing_event_quests": "添加所有缺失的活动任务",
     "migration_to_3.9.0_title": "Current settings are not compatible with SPT version 3.9.0 and higher",
     "migration_to_3.9.0_message": "Make the required changes?\n\nRelative paths to server files will be corrected\nLocalization files will be reset\nThe program will automatically restart",
     "checkbox_dont_ask_again": "Don't ask again"
