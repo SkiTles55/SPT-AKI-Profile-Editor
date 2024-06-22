@@ -4,8 +4,10 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using static SPT_AKI_Profile_Editor.Core.ProfileClasses.ProfileSaver;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -109,10 +111,29 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteUserBuilds(jobject);
             if (!exceptions.HaveAllErrors())
             {
-                string json = JsonConvert.SerializeObject(jobject, SeriSettings);
+                string json = SerializeProfile(jobject);
                 File.WriteAllText(savePath, json);
             }
             return exceptions;
+        }
+
+        private static string SerializeProfile(JObject profileObject)
+        {
+            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(SeriSettings);
+            jsonSerializer.Formatting = Formatting.Indented;
+
+            StringBuilder sb = new(256);
+            StringWriter sw = new(sb, CultureInfo.InvariantCulture);
+            using (JsonTextWriter jsonWriter = new(sw))
+            {
+                jsonWriter.Formatting = jsonSerializer.Formatting;
+                jsonWriter.IndentChar = '\t';
+                jsonWriter.Indentation = 1;
+
+                jsonSerializer.Serialize(jsonWriter, profileObject);
+            }
+
+            return sw.ToString();
         }
 
         private void WriteSuits(JObject jobject)
