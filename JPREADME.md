@@ -1,4 +1,7 @@
-# SPT-AKI プロファイル編集アプリ [英語ページへ](ENGREADME.md)
+# SPT-AKI プロファイル編集アプリ 
+[ENG README version](ENGREADME.md)\
+[RU версия README](README.md)\
+[中文版本详细介绍](CHREADME.md)
 ### これは SPT-AKI サーバーのプロファイル編集できるアプリです
 <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
   ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)
