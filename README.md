@@ -1,7 +1,7 @@
 # SPT-AKI Profile Editor 
-[ENG README version](ENGREADME.md) 
-[中文版本详细介绍](CHREADME.md)
-[日文自述](JPREADME.md)
+[ENG README version](ENGREADME.md)\
+[中文版本详细介绍](CHREADME.md)\
+[日本語バージョン](JPREADME.md)
 ### Программа для редактирования профиля игрока на сервере SPT-AKI
   <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
   ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)

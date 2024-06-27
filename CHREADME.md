@@ -1,4 +1,7 @@
-# SPT-AKI 存档编辑器 [切换到英文帮助文本](ENGREADME.md)
+# SPT-AKI 存档编辑器 
+[RU версия README](README.md)\
+[ENG README version](ENGREADME.md)\
+[日本語バージョン](JPREADME.md)
 ### 这是一个可以编辑 SPT-AKI 服务器玩家存档的程序
 <a href="https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/latest"><img src="https://img.shields.io/github/v/release/SkiTles55/SPT-AKI-Profile-Editor"></a>
   ![GitHub](https://img.shields.io/github/license/SkiTles55/SPT-AKI-Profile-Editor)
