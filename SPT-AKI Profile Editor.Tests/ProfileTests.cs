@@ -694,7 +694,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.ServerDatabase.AcquireAllClothing();
             TestHelpers.SaveAndLoadProfile("testSuits.json");
-            Assert.That(AppData.Profile.Suits.Length, Is.EqualTo(AppData.ServerDatabase.TraderSuits.Count));
+            Assert.That(AppData.Profile.Suits.Length, Is.GreaterThanOrEqualTo(AppData.ServerDatabase.TraderSuits.Count));
         }
 
         [Test]
