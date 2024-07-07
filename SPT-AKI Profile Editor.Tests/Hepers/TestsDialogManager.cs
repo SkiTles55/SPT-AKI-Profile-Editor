@@ -112,5 +112,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         }
 
         public Task<bool> YesNoDialog(string title, string caption) => Task.FromResult(YesNoDialogResult);
+
+        public Task<YesNoDontAskAgainDialogResult> YesNoDontAskAgainDialog(string title, string yesText, string noText, string message, bool dontAskAgain)
+            => Task.FromResult(new YesNoDontAskAgainDialogResult(false, false));
     }
 }

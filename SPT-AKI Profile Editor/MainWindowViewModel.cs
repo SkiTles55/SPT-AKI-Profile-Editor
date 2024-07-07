@@ -18,10 +18,12 @@ namespace SPT_AKI_Profile_Editor
         private readonly IApplicationManager _applicationManager;
         private readonly ICleaningService _cleaningService;
         private readonly IHelperModManager _helperModManager;
+        private readonly IMigrationHelper _migrationHelper;
 
         public MainWindowViewModel(IApplicationManager applicationManager,
                                    IWindowsDialogs windowsDialogs,
                                    IHelperModManager helperModManager,
+                                   IMigrationHelper migrationHelper,
                                    IDialogManager dialogManager = null,
                                    IWorker worker = null,
                                    ICleaningService cleaningService = null)
@@ -41,6 +43,7 @@ namespace SPT_AKI_Profile_Editor
                              OpenFAQ,
                              _cleaningService,
                              _helperModManager);
+            _migrationHelper = migrationHelper;
         }
 
         public static RelayCommand OpenFastModeCommand => new(obj => ChangeMode());
@@ -132,7 +135,7 @@ namespace SPT_AKI_Profile_Editor
             }
 
             await _dialogManager.ShowOkMessageAsync(AppLocalization.GetLocalizedString("save_profile_dialog_title"),
-                                                        AppLocalization.GetLocalizedString("save_profile_dialog_caption"));
+                                                    AppLocalization.GetLocalizedString("save_profile_dialog_caption"));
         }
 
         private void OpenFAQUrl() => _applicationManager.OpenUrl(LinksHelper.FAQ);
@@ -147,6 +150,7 @@ namespace SPT_AKI_Profile_Editor
         private async Task InitializeViewModel()
         {
             _applicationManager.ChangeTheme();
+            await PerformMigrationIfNeeded();
             if (NeedShowSettings())
                 await _dialogManager.ShowSettingsDialog(ReloadCommand,
                                                         OpenFAQ,
@@ -159,6 +163,22 @@ namespace SPT_AKI_Profile_Editor
                 await CheckForUpdates();
                 _ = _helperModManager.DownloadUpdates();
             }
+        }
+
+        private async Task PerformMigrationIfNeeded()
+        {
+            var migrationIntent = _migrationHelper.GetMigrationIntent(AppData.AppSettings, AppLocalization);
+            if (migrationIntent == null || AppData.AppSettings.SkipMigrationTags.Contains(migrationIntent.Tag))
+                return;
+            var result = await _dialogManager.YesNoDontAskAgainDialog(migrationIntent.Title,
+                                                                      AppLocalization.GetLocalizedString("button_yes"),
+                                                                      AppLocalization.GetLocalizedString("button_no"),
+                                                                      migrationIntent.Message,
+                                                                      false);
+            if (result.DontAskAgain)
+                AppData.AppSettings.SkipMigrationTag(migrationIntent.Tag);
+            if (result.Affirmative)
+                _migrationHelper.PerformMigration(AppData.AppSettings, _applicationManager);
         }
 
         private async Task CheckForUpdates()

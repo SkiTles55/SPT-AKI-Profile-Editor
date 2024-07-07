@@ -18,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.OpenRepositoryGitHubUrl, Is.Not.Null);
             Assert.That(viewModel.OpenYoomoneyUrl, Is.Not.Null);
             Assert.That(viewModel.OpenSteamUrl, Is.Not.Null);
-            Assert.That(viewModel.OpenSptAkiProjectUrl, Is.Not.Null);
+            Assert.That(viewModel.OpenSptProjectUrl, Is.Not.Null);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(string.IsNullOrEmpty(AboutTabViewModel.RepositoryURL), Is.False);
             Assert.That(string.IsNullOrEmpty(AboutTabViewModel.AuthorURL), Is.False);
             Assert.That(string.IsNullOrEmpty(AboutTabViewModel.YoomoneyUrl), Is.False);
-            Assert.That(string.IsNullOrEmpty(AboutTabViewModel.SptAkiProjectUrl), Is.False);
+            Assert.That(string.IsNullOrEmpty(AboutTabViewModel.SptProjectUrl), Is.False);
         }
 
         [Test]
@@ -68,12 +68,12 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
-        public void CanOpenSptAkiProjectUrl()
+        public void CanOpenSptProjectUrl()
         {
             _applicationManager.LastOpenedUrl = null;
             AboutTabViewModel viewModel = new(_applicationManager);
-            viewModel.OpenSptAkiProjectUrl.Execute(null);
-            Assert.That(_applicationManager.LastOpenedUrl, Is.EqualTo(AboutTabViewModel.SptAkiProjectUrl));
+            viewModel.OpenSptProjectUrl.Execute(null);
+            Assert.That(_applicationManager.LastOpenedUrl, Is.EqualTo(AboutTabViewModel.SptProjectUrl));
         }
     }
 }

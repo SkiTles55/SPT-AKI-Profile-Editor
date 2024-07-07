@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -121,6 +122,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         private static MainWindowViewModel MakeSUT()
-            => new(applicationManager, null, helperModManager, dialogManager, worker);
+            => new(applicationManager, null, helperModManager, new MigrationHelper(), dialogManager, worker);
     }
 }

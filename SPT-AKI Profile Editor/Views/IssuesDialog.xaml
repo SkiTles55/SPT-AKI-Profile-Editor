@@ -6,6 +6,7 @@
     xmlns:helpers="clr-namespace:SPT_AKI_Profile_Editor.Helpers"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=local:IssuesDialogViewModel}"
     mc:Ignorable="d">
     <Grid>
@@ -18,6 +19,8 @@
             Grid.Row="0"
             MaxHeight="200"
             Margin="5,5,5,10"
+            d:ItemsSource="{d:SampleData ItemCount=5}"
+            d:Width="600"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             HeadersVisibility="None"
@@ -49,7 +52,7 @@
                                 Margin="5"
                                 Command="{Binding Data.FixCommand, Source={StaticResource proxy}}"
                                 CommandParameter="{Binding FixAction}"
-                                Content="{Binding Data.AppLocalization.Translations[profile_issues_fix_command], Source={StaticResource proxy}}" />
+                                Content="{Binding Data.AppLocalization.Translations[profile_issues_fix_command], Source={StaticResource proxy}, FallbackValue=profile_issues_fix_command}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -58,7 +61,7 @@
         <CheckBox
             Grid.Row="1"
             HorizontalAlignment="Center"
-            Content="{Binding AppLocalization.Translations[profile_issues_remember_action]}"
+            Content="{Binding AppLocalization.Translations[profile_issues_remember_action], FallbackValue=profile_issues_remember_action}"
             IsChecked="{Binding RemeberAction}" />
         <StackPanel
             Grid.Row="2"
@@ -68,17 +71,17 @@
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding IgnoreCommand}"
-                Content="{Binding AppLocalization.Translations[profile_issues_ignore]}"
+                Content="{Binding AppLocalization.Translations[profile_issues_ignore], FallbackValue=profile_issues_ignore}"
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding FixAllCommand}"
-                Content="{Binding AppLocalization.Translations[profile_issues_fix_all]}"
+                Content="{Binding AppLocalization.Translations[profile_issues_fix_all], FallbackValue=profile_issues_fix_all}"
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
             <Button
                 Margin="5,0,5,0"
                 Command="{Binding CancelCommand}"
-                Content="{Binding AppLocalization.Translations[button_cancel]}"
+                Content="{Binding AppLocalization.Translations[button_cancel], FallbackValue=button_cancel}"
                 Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
         </StackPanel>
     </Grid>

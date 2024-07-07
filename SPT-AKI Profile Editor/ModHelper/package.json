@@ -1,23 +1,30 @@
 {
   "name": "ProfileEditorHelper",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "SkiTles55",
+  "contributors": [],
   "license": "MIT",
+  "loadBefore": [],
+  "loadAfter": [],
+  "incompatibilities": [],
+  "isBundleMod": false,
   "main": "src/mod.js",
-  "akiVersion": ">=3.7.0",
+  "sptVersion": ">=3.9.0",
   "scripts": {
     "setup": "npm i",
-    "build": "node ./packageBuild.ts"
+    "build": "node ./build.mjs",
+    "buildinfo": "node ./build.mjs --verbose"
   },
   "devDependencies": {
-    "@types/node": "20.4.5",
-    "@typescript-eslint/eslint-plugin": "6.2.0",
-    "@typescript-eslint/parser": "6.2.0",
-    "bestzip": "2.2.1",
-    "eslint": "8.46.0",
-    "fs-extra": "11.1.1",
-    "glob": "10.3.3",
+    "@types/node": "20.11",
+    "@typescript-eslint/eslint-plugin": "7.2",
+    "@typescript-eslint/parser": "7.2",
+    "archiver": "^6.0",
+    "eslint": "8.57",
+    "fs-extra": "11.2",
+    "ignore": "^5.2",
     "tsyringe": "4.8.0",
-    "typescript": "5.1.6"
+    "typescript": "5.4",
+    "winston": "3.12"
   }
 }

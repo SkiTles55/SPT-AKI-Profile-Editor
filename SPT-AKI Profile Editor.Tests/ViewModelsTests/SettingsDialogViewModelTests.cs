@@ -120,7 +120,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             settingsVM.ServerSelect.Execute(null);
             Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.True);
             Assert.That(settingsVM.AppSettings.FilesList[SPTServerFile.serverexe], Is.EqualTo("Test.exe"));
-            settingsVM.AppSettings.FilesList[SPTServerFile.serverexe] = "Aki.Server.exe";
+            settingsVM.AppSettings.FilesList[SPTServerFile.serverexe] = "SPT.Server.exe";
             settingsVM.AppSettings.Save();
         }
 

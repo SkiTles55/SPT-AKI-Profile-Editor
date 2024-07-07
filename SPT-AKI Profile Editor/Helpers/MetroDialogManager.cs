@@ -17,6 +17,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public Task<bool> YesNoDialog(string title, string caption);
 
+        public Task<YesNoDontAskAgainDialogResult> YesNoDontAskAgainDialog(string title,
+                                                                           string yesText,
+                                                                           string noText,
+                                                                           string message,
+                                                                           bool dontAskAgain);
+
         public Task ShutdownCozServerRunned();
 
         public Task ShowSettingsDialog(RelayCommand reloadCommand,
@@ -90,18 +96,18 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public async Task<bool> YesNoDialog(string title, string caption) =>
             await _dialogCoordinator.ShowMessageAsync(viewModel,
-                                                         AppData.AppLocalization.GetLocalizedString(title),
-                                                         AppData.AppLocalization.GetLocalizedString(caption),
-                                                         MessageDialogStyle.AffirmativeAndNegative,
-                                                         YesNoDialogSettings) == MessageDialogResult.Affirmative;
+                                                      AppData.AppLocalization.GetLocalizedString(title),
+                                                      AppData.AppLocalization.GetLocalizedString(caption),
+                                                      MessageDialogStyle.AffirmativeAndNegative,
+                                                      YesNoDialogSettings) == MessageDialogResult.Affirmative;
 
         public async Task ShutdownCozServerRunned()
         {
             if (await _dialogCoordinator.ShowMessageAsync(viewModel,
-                                                             AppData.AppLocalization.GetLocalizedString("app_quit"),
-                                                             AppData.AppLocalization.GetLocalizedString("server_runned"),
-                                                             MessageDialogStyle.Affirmative,
-                                                             ShutdownDialogSettings) == MessageDialogResult.Affirmative)
+                                                          AppData.AppLocalization.GetLocalizedString("app_quit"),
+                                                          AppData.AppLocalization.GetLocalizedString("server_runned"),
+                                                          MessageDialogStyle.Affirmative,
+                                                          ShutdownDialogSettings) == MessageDialogResult.Affirmative)
                 App.ApplicationManager.CloseApplication.Execute(null);
         }
 
@@ -136,7 +142,27 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog updateDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("update_avialable"), 500);
             await ShowCustomDialog<UpdateDialog>(viewModel,
                                                  updateDialog,
-                                                 new UpdateDialogViewModel(App.ApplicationManager, App.WindowsDialogs, release, viewModel, this));
+                                                 new UpdateDialogViewModel(App.ApplicationManager,
+                                                                           App.WindowsDialogs,
+                                                                           release,
+                                                                           viewModel,
+                                                                           this));
+        }
+
+        public async Task<YesNoDontAskAgainDialogResult> YesNoDontAskAgainDialog(string title,
+                                                                                 string yesText,
+                                                                                 string noText,
+                                                                                 string message,
+                                                                                 bool dontAskAgain)
+        {
+            CustomDialog dialog = CustomDialog(title, 500);
+            var dialogVM = new YesNoDontAskAgainDialogViewModel(yesText,
+                                                                noText,
+                                                                message,
+                                                                dontAskAgain,
+                                                                viewModel);
+            await ShowCustomDialog<YesNoDontAskAgainDialog>(viewModel, dialog, dialogVM);
+            return await dialogVM.DialogResult;
         }
 
         public async Task ShowIssuesDialog(RelayCommand saveCommand, IIssuesService issuesService)
