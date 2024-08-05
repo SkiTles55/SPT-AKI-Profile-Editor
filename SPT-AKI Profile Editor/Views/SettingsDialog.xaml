@@ -49,10 +49,11 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="40" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label
@@ -63,7 +64,7 @@
                         Template="{StaticResource TitleLabel}" />
                     <Grid
                         Grid.Row="0"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Margin="0,5,0,0"
                         VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
@@ -108,59 +109,17 @@
                             </Button.CommandParameter>
                         </extendedcontrols:ButtonFontAwesomeIcon>
                     </Grid>
-                    <Grid
+                    <Label
                         Grid.Row="1"
                         Grid.Column="0"
-                        Margin="0,5,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Content="{Binding AppLocalization.Translations[tab_settings_server], FallbackValue=tab_settings_server}"
-                            Template="{StaticResource TitleLabel}" />
-                        <iconPacks:PackIconFontAwesome
-                            Grid.Column="1"
-                            Width="24"
-                            Height="24"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource MahApps.Brushes.Accent}"
-                            Kind="QuestionCircleSolid">
-                            <iconPacks:PackIconFontAwesome.ToolTip>
-                                <StackPanel Orientation="Vertical">
-                                    <Image>
-                                        <Image.Source>
-                                            <BitmapImage UriSource="/Resources/Images/server_folder.jpg" />
-                                        </Image.Source>
-                                    </Image>
-                                    <Label
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom"
-                                        Content="{Binding WhatIsServerFolder}"
-                                        FontWeight="Bold" />
-                                </StackPanel>
-                            </iconPacks:PackIconFontAwesome.ToolTip>
-                        </iconPacks:PackIconFontAwesome>
-                    </Grid>
-                    <iconPacks:PackIconFontAwesome
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Width="24"
-                        Height="24"
                         Margin="0,5,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
-                        Kind="ExclamationTriangleSolid"
-                        ToolTip="{Binding AppLocalization.Translations[invalid_server_location_text]}"
-                        Visibility="{Binding ServerPathValid, Converter={StaticResource FalseToVisibleConverter}}" />
+                        Content="{Binding AppLocalization.Translations[tab_settings_server], FallbackValue=tab_settings_server}"
+                        Template="{StaticResource TitleLabel}" />
                     <Grid
                         Grid.Row="1"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Margin="10,5,10,0"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="80" />
@@ -176,27 +135,33 @@
                             Command="{Binding ServerSelect}"
                             Content="{Binding AppLocalization.Translations[button_select], FallbackValue=button_select}" />
                     </Grid>
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="15,0,0,5">
+                        <Hyperlink
+                            Command="{Binding ServerSelectHelp}"
+                            FontSize="12"
+                            Style="{DynamicResource LinkStyle}">
+                            <TextBlock Text="{Binding AppLocalization.Translations[server_select_help], FallbackValue=server_select_help}" />
+                        </Hyperlink>
+                    </TextBlock>
                     <Label
                         Grid.Row="2"
+                        Grid.Column="1"
+                        d:Visibility="Visible"
+                        Content="{Binding AppLocalization.Translations[invalid_server_location_text], FallbackValue=invalid_server_location_text}"
+                        Template="{StaticResource ValidationLabel}"
+                        Visibility="{Binding ServerPathValid, Converter={StaticResource FalseToVisibleConverter}}" />
+                    <Label
+                        Grid.Row="3"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_account], FallbackValue=tab_settings_account}"
                         Template="{StaticResource TitleLabel}" />
-                    <iconPacks:PackIconFontAwesome
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Width="24"
-                        Height="24"
-                        Margin="0,5,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Foreground="{DynamicResource MahApps.Brushes.Control.Validation}"
-                        Kind="ExclamationTriangleSolid"
-                        ToolTip="{Binding AppLocalization.Translations[no_accounts]}"
-                        Visibility="{Binding ServerHasAccounts, Converter={StaticResource FalseToVisibleConverter}}" />
                     <ComboBox
-                        Grid.Row="2"
-                        Grid.Column="2"
+                        Grid.Row="3"
+                        Grid.Column="1"
                         Margin="10,5,10,0"
                         VerticalAlignment="Top"
                         DisplayMemberPath="Value"
@@ -205,14 +170,21 @@
                         SelectedValue="{Binding AppSettings.DefaultProfile}"
                         SelectedValuePath="Key" />
                     <Label
-                        Grid.Row="3"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        d:Visibility="Visible"
+                        Content="{Binding AppLocalization.Translations[no_accounts], FallbackValue=no_accounts}"
+                        Template="{StaticResource ValidationLabel}"
+                        Visibility="{Binding ServerHasAccounts, Converter={StaticResource FalseToVisibleConverter}}" />
+                    <Label
+                        Grid.Row="5"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_color_scheme], FallbackValue=tab_settings_color_scheme}"
                         Template="{StaticResource TitleLabel}" />
                     <ComboBox
-                        Grid.Row="3"
-                        Grid.Column="2"
+                        Grid.Row="5"
+                        Grid.Column="1"
                         Margin="10,5,10,0"
                         VerticalAlignment="Top"
                         ItemsSource="{Binding ColorSchemes}"
@@ -231,14 +203,14 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Label
-                        Grid.Row="4"
+                        Grid.Row="6"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_check_updates], FallbackValue=tab_settings_check_updates}"
                         Template="{StaticResource TitleLabel}" />
                     <mah:ToggleSwitch
-                        Grid.Row="4"
-                        Grid.Column="2"
+                        Grid.Row="6"
+                        Grid.Column="1"
                         Margin="12,5,0,0"
                         VerticalAlignment="Top"
                         IsOn="{Binding AppSettings.CheckUpdates}"

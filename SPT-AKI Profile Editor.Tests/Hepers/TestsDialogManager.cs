@@ -31,6 +31,11 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return Task.CompletedTask;
         }
 
+        public Task OpenServerSelectHelpAsync(AppSettings appSettings)
+        {
+            return Task.CompletedTask;
+        }
+
         public Task ShowAddMoneyDialog(AddableItem money, RelayCommand addCommand)
         {
             addCommand.Execute(null);

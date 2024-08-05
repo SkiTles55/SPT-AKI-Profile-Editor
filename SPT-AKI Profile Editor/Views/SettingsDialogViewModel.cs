@@ -52,18 +52,9 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand OpenAppData => new(obj => _applicationManager.OpenUrl(DefaultValues.AppDataFolder));
 
-        public RelayCommand QuitCommand => _applicationManager.CloseApplication;
+        public RelayCommand ServerSelectHelp => new(obj => _dialogManager.OpenServerSelectHelpAsync(AppSettings));
 
-        public string WhatIsServerFolder
-        {
-            get
-            {
-                var serverExe = AppSettings.FilesList.ContainsKey(SPTServerFile.serverexe)
-                    ? AppSettings.FilesList[SPTServerFile.serverexe]
-                    : "\"settings file corrupted\"";
-                return AppLocalization.GetLocalizedString("what_is_server_folder", serverExe);
-            }
-        }
+        public RelayCommand QuitCommand => _applicationManager.CloseApplication;
 
         public RelayCommand ResetAndReload => new(async obj =>
         {

@@ -55,6 +55,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                                        MetroDialogSettings dialogSettings = null);
 
         public Task HideProgressDialog();
+
+        public Task OpenServerSelectHelpAsync(AppSettings appSettings);
     }
 
     public class MetroDialogManager : IDialogManager
@@ -228,6 +230,12 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (progressDialog?.IsOpen ?? false)
                 await progressDialog?.CloseAsync();
             progressDialog = null;
+        }
+
+        public async Task OpenServerSelectHelpAsync(AppSettings appSettings)
+        {
+            CustomDialog helpDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("server_select_help"), 500);
+            await ShowCustomDialog<ServerSelectHelpDialog>(viewModel, helpDialog, new ServerSelectHelpDialogViewModel(appSettings, viewModel));
         }
 
         private static CustomDialog CustomDialog(string title, double width) => new()
