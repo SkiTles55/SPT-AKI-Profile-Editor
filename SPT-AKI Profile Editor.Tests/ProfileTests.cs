@@ -263,6 +263,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void HideoutStartedProductionsNotEmpty()
+            => Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production.Any,
+                           Is.True,
+                           "HideoutAreas is empty");
+
+        [Test]
         public void PmcSkillsNotNull()
             => Assert.That(AppData.Profile.Characters.Pmc.Skills, Is.Not.Null, "Pmc skills is null");
 

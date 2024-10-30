@@ -9,9 +9,11 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private ObservableCollection<HideoutArea> areas = new();
         private ObservableCollection<CharacterHideoutProduction> productions = new();
+        private ObservableCollection<StartedHideoutProduction> startedProductions = new();
         private string areaNameFilter;
         private string productionNameFilter;
         private string productionAreaFilter;
+        private string startedProductionNameFilter;
 
         public static RelayCommand SetAllMaxCommand => new(obj => Profile.Characters?.Pmc?.SetAllHideoutAreasMax());
 
@@ -34,6 +36,16 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 productions = value;
                 OnPropertyChanged(nameof(Productions));
+            }
+        }
+
+        public ObservableCollection<StartedHideoutProduction> StartedProductions
+        {
+            get => startedProductions;
+            set
+            {
+                startedProductions = value;
+                OnPropertyChanged(nameof(StartedProductions));
             }
         }
 
@@ -70,10 +82,22 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public string StartedProductionNameFilter
+        {
+            get => startedProductionNameFilter;
+            set
+            {
+                startedProductionNameFilter = value;
+                OnPropertyChanged(nameof(StartedProductionNameFilter));
+                ApplyFilter();
+            }
+        }
+
         public override void ApplyFilter()
         {
             ApplyAreasFilter();
             ApplyProductionsFilter();
+            ApplyStartedProductionsFilter();
         }
 
         private void ApplyProductionsFilter()
@@ -106,6 +130,23 @@ namespace SPT_AKI_Profile_Editor.Views
                 filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas.Where(x => x.LocalizedName.ToUpper().Contains(AreaNameFilter.ToUpper())));
 
             Areas = filteredAreas;
+        }
+
+        private void ApplyStartedProductionsFilter()
+        {
+            ObservableCollection<StartedHideoutProduction> filteredProductions;
+            if (Profile?.Characters?.Pmc?.Hideout?.Production == null || !Profile.Characters.Pmc.Hideout.Production.Any())
+                filteredProductions = new();
+            else
+            {
+                var values = Profile.Characters.Pmc.Hideout.Production.Values;
+                if (string.IsNullOrEmpty(StartedProductionNameFilter))
+                    filteredProductions = new(values);
+                else
+                    filteredProductions = new(values.Where(x => x.ProductItem.Name.ToUpper().Contains(StartedProductionNameFilter.ToUpper())));
+            }
+
+            StartedProductions = filteredProductions;
         }
     }
 }

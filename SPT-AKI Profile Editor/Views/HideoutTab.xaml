@@ -24,6 +24,7 @@
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
         <CollectionViewSource x:Key="hideoutAreas" Source="{Binding Areas}" />
         <CollectionViewSource x:Key="hideoutProductions" Source="{Binding Productions}" />
+        <CollectionViewSource x:Key="startedProductions" Source="{Binding StartedProductions}" />
     </UserControl.Resources>
     <TabControl
         mah:TabControlHelper.Transition="Up"
@@ -258,6 +259,81 @@
                     HorizontalAlignment="Center"
                     Command="{Binding AddAllCrafts}"
                     Content="{Binding AppLocalization.Translations[tab_hideout_add_all_crafts], FallbackValue=tab_hideout_add_all_crafts}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_started_crafts], FallbackValue=tab_hideout_started_crafts}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <DataGrid
+                    Grid.Row="0"
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ColumnHeaderStyle="{StaticResource MyColumnHeader}"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Source={StaticResource startedProductions}}"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.ScrollUnit="Pixel"
+                    VirtualizingPanel.VirtualizationMode="Recycling">
+                    <DataGrid.Resources>
+                        <helpers:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="2*"
+                            Header="{Binding Data.AppLocalization.Translations[tab_hideout_end_product], FallbackValue=tab_hideout_end_product, Source={StaticResource proxy}}"
+                            SortMemberPath="ProductItem.Name">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock
+                                            Margin="5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBox
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Controls:TextBoxHelper.ClearTextButton="True"
+                                            DockPanel.Dock="Right"
+                                            Text="{Binding Data.StartedProductionNameFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <extendedcontrols:IconWithBackground
+                                            Width="30"
+                                            Height="30"
+                                            Margin="2"
+                                            Source="{Binding ProductItem.Icon}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
+                                        <TextBlock
+                                            Margin="2,0,0,0"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Right"
+                                            Text="{Binding ProductItem.Name}"
+                                            TextWrapping="Wrap" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="10,10,10,0"
+                    HorizontalAlignment="Center"
+                    Command="{Binding SetAllCraftsCompletedCommand}"
+                    Content="{Binding AppLocalization.Translations[tab_hideout_complete_all_crafts], FallbackValue=tab_hideout_complete_all_crafts}" />
             </Grid>
         </TabItem>
     </TabControl>
