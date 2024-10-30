@@ -262,8 +262,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
             try
             {
-                HideoutProduction[] HideoutProduction = JsonConvert.DeserializeObject<HideoutProduction[]>(File.ReadAllText(path));
-                ServerDatabase.HideoutProduction = HideoutProduction;
+                HideoutProductions HideoutProductions = JsonConvert.DeserializeObject<HideoutProductions>(File.ReadAllText(path));
+                ServerDatabase.HideoutProduction = HideoutProductions.Recipes;
             }
             catch (Exception ex) { Logger.Log($"ServerDatabase HideoutProduction ({path}) loading error: {ex.Message}"); }
         }
