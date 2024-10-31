@@ -1,25 +1,26 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using System;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class StartedHideoutProduction
+    public class StartedHideoutProduction: BindableEntity
     {
         [JsonConstructor]
-        public StartedHideoutProduction(string recipeId, float progress, bool inProgress, double startTimestamp)
+        public StartedHideoutProduction(string recipeId, float progress, float productionTime, double startTimestamp)
         {
             RecipeId = recipeId;
             Progress = progress;
-            InProgress = inProgress;
+            ProductionTime = productionTime;
             StartTimestamp = startTimestamp;
 
             var production = AppData.ServerDatabase?.HideoutProduction.FirstOrDefault(x => x.Id == recipeId);
             if (production != null)
             {
                 ProductItem = AppData.ServerDatabase.ItemsDB.ContainsKey(production.EndProduct)
-            ? AppData.ServerDatabase.ItemsDB[production.EndProduct].GetExaminedItem()
-            : new ExaminedItem(production.EndProduct, production.EndProduct, null);
+                    ? AppData.ServerDatabase.ItemsDB[production.EndProduct].GetExaminedItem()
+                    : new ExaminedItem(production.EndProduct, production.EndProduct, null);
             }
         }
 
@@ -27,11 +28,31 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public float Progress { get; set; }
 
-        [JsonProperty("inProgress")]
-        public bool InProgress { get; set; }
+        public float ProductionTime { get; set; }
 
         public double StartTimestamp { get; set; }
 
         public ExaminedItem ProductItem { get; }
+
+        public string Status
+        {
+            get
+            {
+                var key = IsFinished ? "tab_hideout_craft_status_finished" : "tab_hideout_craft_status_in_progress";
+                return AppData.AppLocalization.GetLocalizedString(key);
+            }
+        }
+
+        public void SetFinished()
+        {
+            if (IsFinished)
+                return;
+            var remainingSeconds = (ProductionTime - Progress) * 3600;
+            StartTimestamp -= remainingSeconds;
+            Progress = ProductionTime;
+            OnPropertyChanged(nameof(Status));
+        }
+
+        private bool IsFinished => Progress >= ProductionTime;
     }
 }

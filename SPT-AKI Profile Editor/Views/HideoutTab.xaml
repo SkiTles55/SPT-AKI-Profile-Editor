@@ -131,7 +131,7 @@
                     Content="{Binding AppLocalization.Translations[tab_hideout_maximum_button], FallbackValue=tab_hideout_maximum_button}" />
             </Grid>
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_crafts], FallbackValue=tab_hideout_crafts}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_crafts_unlock], FallbackValue=tab_hideout_crafts_unlock}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -261,7 +261,7 @@
                     Content="{Binding AppLocalization.Translations[tab_hideout_add_all_crafts], FallbackValue=tab_hideout_add_all_crafts}" />
             </Grid>
         </TabItem>
-        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_started_crafts], FallbackValue=tab_hideout_started_crafts}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
+        <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_crafts], FallbackValue=tab_hideout_crafts}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -283,7 +283,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
-                            Width="2*"
+                            Width="*"
                             Header="{Binding Data.AppLocalization.Translations[tab_hideout_end_product], FallbackValue=tab_hideout_end_product, Source={StaticResource proxy}}"
                             SortMemberPath="ProductItem.Name">
                             <DataGridTemplateColumn.HeaderTemplate>
@@ -325,6 +325,41 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            Header="{Binding Data.AppLocalization.Translations[tab_hideout_craft_status], FallbackValue=tab_hideout_craft_status, Source={StaticResource proxy}}"
+                            SortMemberPath="Status">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Status}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Margin="5"
+                                        Command="{Binding Data.SetCraftFinishedCommand, Source={StaticResource proxy}}"
+                                        CommandParameter="{Binding RecipeId}"
+                                        Content="{Binding Data.AppLocalization.Translations[tab_hideout_craft_set_finished], FallbackValue=tab_hideout_craft_set_finished, Source={StaticResource proxy}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="45">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <extendedcontrols:ButtonFontAwesomeIcon
+                                        Margin="5,5,10,5"
+                                        Command="{Binding Data.RemoveStartedCraftCommand, Source={StaticResource proxy}}"
+                                        CommandParameter="{Binding RecipeId}"
+                                        Icon="TrashAltSolid"
+                                        IconSize="15"
+                                        Style="{StaticResource IconOnlyButton}"
+                                        ToolTip="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Button
@@ -332,7 +367,7 @@
                     Width="200"
                     Margin="10,10,10,0"
                     HorizontalAlignment="Center"
-                    Command="{Binding SetAllCraftsCompletedCommand}"
+                    Command="{Binding SetAllCraftsFinishedCommand}"
                     Content="{Binding AppLocalization.Translations[tab_hideout_complete_all_crafts], FallbackValue=tab_hideout_complete_all_crafts}" />
             </Grid>
         </TabItem>

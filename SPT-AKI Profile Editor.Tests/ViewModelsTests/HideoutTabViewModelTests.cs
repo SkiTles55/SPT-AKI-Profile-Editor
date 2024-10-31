@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitialize()
         {
-            HideoutTabViewModel viewModel = new();
+            HideoutTabViewModel viewModel = new(new TestsDialogManager());
             Assert.That(viewModel, Is.Not.Null);
         }
 

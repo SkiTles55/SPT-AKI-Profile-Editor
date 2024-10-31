@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             InfoTab = new();
             MerchantsTab = new();
             QuestsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
-            HideoutTab = new();
+            HideoutTab = new(dialogManager);
             SkillsTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
             MasteringTab = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
             ExaminedItemsTab = new(dialogManager);

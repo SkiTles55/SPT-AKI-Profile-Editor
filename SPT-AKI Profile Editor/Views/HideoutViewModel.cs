@@ -7,6 +7,7 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class HideoutTabViewModel : PmcBindableViewModel
     {
+        private readonly IDialogManager _dialogManager;
         private ObservableCollection<HideoutArea> areas = new();
         private ObservableCollection<CharacterHideoutProduction> productions = new();
         private ObservableCollection<StartedHideoutProduction> startedProductions = new();
@@ -14,6 +15,11 @@ namespace SPT_AKI_Profile_Editor.Views
         private string productionNameFilter;
         private string productionAreaFilter;
         private string startedProductionNameFilter;
+
+        public HideoutTabViewModel(IDialogManager dialogManager)
+        {
+            _dialogManager = dialogManager;
+        }
 
         public static RelayCommand SetAllMaxCommand => new(obj => Profile.Characters?.Pmc?.SetAllHideoutAreasMax());
 
@@ -93,6 +99,20 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public RelayCommand SetCraftFinishedCommand => new(obj =>
+        {
+            if (obj is string id)
+                SetCraftFinished(id);
+        });
+
+        public RelayCommand RemoveStartedCraftCommand => new(obj =>
+        {
+            if (obj is string id)
+                RemoveStartedCraft(id);
+        });
+
+        public RelayCommand SetAllCraftsFinishedCommand => new(_ => SetAllCraftsFinished());
+
         public override void ApplyFilter()
         {
             ApplyAreasFilter();
@@ -147,6 +167,29 @@ namespace SPT_AKI_Profile_Editor.Views
             }
 
             StartedProductions = filteredProductions;
+        }
+
+        private void SetCraftFinished(string id)
+        {
+            var craft = Profile?.Characters?.Pmc?.Hideout?.Production?.Values.FirstOrDefault(x => x.RecipeId == id);
+            craft?.SetFinished();
+            ApplyStartedProductionsFilter();
+        }
+
+        private async void RemoveStartedCraft(string id)
+        {
+            if (await _dialogManager.YesNoDialog("remove_started_craft_title", "remove_started_craft_caption"))
+            {
+                Profile?.Characters?.Pmc?.Hideout?.Production?.Remove(id);
+                ApplyStartedProductionsFilter();
+            }
+        }
+
+        private void SetAllCraftsFinished()
+        {
+            foreach (var craft in Profile?.Characters?.Pmc?.Hideout?.Production?.Values)
+                craft.SetFinished();
+            ApplyStartedProductionsFilter();
         }
     }
 }

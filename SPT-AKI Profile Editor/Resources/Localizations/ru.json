@@ -261,6 +261,14 @@
     "migration_to_3.9.0_title": "Текущие настройки несовместимы с SPT версии 3.9.0 и выше",
     "migration_to_3.9.0_message": "Внести требуемые изменения?\n\nОтносительные пути к файлам сервера будут исправлены\nФайлы локализации будут сброшены\nПрограмма автоматически перезапустится",
     "checkbox_dont_ask_again": "Больше не спрашивать",
-    "server_select_help": "Нужна помощь?"
+    "server_select_help": "Нужна помощь?",
+    "tab_hideout_crafts_unlock": "Разблокировка крафтов",
+    "tab_hideout_craft_status": "Статус",
+    "tab_hideout_craft_status_finished": "Завершена",
+    "tab_hideout_craft_status_in_progress": "В процессе",
+    "tab_hideout_craft_set_finished": "Завершить",
+    "tab_hideout_complete_all_crafts": "Завершить все",
+    "remove_started_craft_title": "Удаление крафта",
+    "remove_started_craft_caption": "Вы действительно хотите удалить этот крафт?"
   }
 }

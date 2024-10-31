@@ -261,6 +261,14 @@
     "migration_to_3.9.0_title": "Current settings are not compatible with SPT version 3.9.0 and higher",
     "migration_to_3.9.0_message": "Make the required changes?\n\nRelative paths to server files will be corrected\nLocalization files will be reset\nThe program will automatically restart",
     "checkbox_dont_ask_again": "Don't ask again",
-    "server_select_help":  "Need help?"
+    "server_select_help": "Need help?",
+    "tab_hideout_crafts_unlock": "Unlock crafts",
+    "tab_hideout_craft_status": "Status",
+    "tab_hideout_craft_status_finished": "Finished",
+    "tab_hideout_craft_status_in_progress": "In progress",
+    "tab_hideout_craft_set_finished": "Set finished",
+    "tab_hideout_complete_all_crafts": "Finish all",
+    "remove_started_craft_title": "Removing craft",
+    "remove_started_craft_caption": "Are you sure you want to remove this craft?"
   }
 }
