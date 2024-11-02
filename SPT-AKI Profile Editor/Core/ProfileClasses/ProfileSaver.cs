@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using static SPT_AKI_Profile_Editor.Core.ProfileClasses.ProfileSaver;
+using static SPT_AKI_Profile_Editor.Core.ProgressTransfer.ProfileProgress.InfoProgress;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -100,6 +101,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteQuests(pmc);
             WriteHideout(pmc, out string newStash);
             WriteHideoutCrafts(pmc);
+            WriteHideoutStartedCrafts(pmc);
             WriteSkills(profile.Characters.Pmc.Skills.Common, pmc, "Common", SaveEntry.CommonSkillsPmc);
             WriteSkills(profile.Characters.Scav.Skills.Common, scav, "Common", SaveEntry.CommonSkillsScav);
             WriteSkills(profile.Characters.Pmc.Skills.Mastering, pmc, "Mastering", SaveEntry.MasteringSkillsPmc);
@@ -425,6 +427,36 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 var crafts = profile.Characters.Pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray();
                 pmc.SelectToken("UnlockedInfo")["unlockedProductionRecipe"].Replace(JToken.FromObject(crafts));
+            }
+            catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutCrafts, ex)); }
+        }
+
+        private void WriteHideoutStartedCrafts(JToken pmc)
+        {
+            try
+            {
+                var forSave = profile.Characters.Pmc.Hideout?.Production;
+                if (forSave != null && forSave.Any())
+                {
+                    JToken productionToken = pmc.SelectToken("Hideout").SelectToken("Production");
+                    if (productionToken == null)
+                        return;
+                    foreach (var startedCraft in forSave?.Values)
+                    {
+                        var production = productionToken[startedCraft.RecipeId];
+                        if (production == null)
+                            continue;
+                        production["Progress"] = startedCraft.Progress;
+                        production["StartTimestamp"] = startedCraft.StartTimestamp;
+                    }
+                    var existCrafts = productionToken.ToObject<Dictionary<string, object>>()?.Keys;
+                    var forRemove = existCrafts.Except(forSave.Keys);
+                    foreach (var removeId in forRemove)
+                        productionToken[removeId].Remove();
+                } else
+                {
+
+                }
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutCrafts, ex)); }
         }

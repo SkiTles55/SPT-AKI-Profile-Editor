@@ -27,5 +27,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged(nameof(Production));
             }
         }
+
+        public void RemoveCraft(string id) => Production?.Remove(id);
+
+        public void SetAllCraftsFinished()
+        {
+            foreach (var craft in Production?.Values)
+                craft.SetFinished();
+        }
     }
 }

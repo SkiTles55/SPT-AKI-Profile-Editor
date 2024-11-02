@@ -34,6 +34,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public ExaminedItem ProductItem { get; }
 
+        public bool IsFinished => Progress >= ProductionTime;
+
         public string Status
         {
             get
@@ -52,7 +54,5 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Progress = ProductionTime;
             OnPropertyChanged(nameof(Status));
         }
-
-        private bool IsFinished => Progress >= ProductionTime;
     }
 }

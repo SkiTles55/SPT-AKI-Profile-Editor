@@ -657,6 +657,37 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void HideouFinishedCraftSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var craft = AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault(x => !x.IsFinished);
+            Assert.That(craft, Is.Not.Null, "Started craft not founded");
+            craft.SetFinished();
+            TestHelpers.SaveAndLoadProfile("testSaveFinishedCraft.json");
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault(x => x.RecipeId == craft.RecipeId)?.IsFinished,Is.True, "Craft not finished");
+        }
+
+        [Test]
+        public void HideouFinishedAllCraftsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.Hideout?.SetAllCraftsFinished();
+            TestHelpers.SaveAndLoadProfile("testSaveFinishedAllCrafts.json");
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Values.Where(x => !x.IsFinished).Any(), Is.False, "Crafts not finished");
+        }
+
+        [Test]
+        public void HideouRemovedCraftSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var craft = AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault();
+            Assert.That(craft, Is.Not.Null, "Started craft not founded");
+            AppData.Profile.Characters.Pmc.Hideout.RemoveCraft(craft.RecipeId);
+            TestHelpers.SaveAndLoadProfile("testSaveRemovedCraft.json");
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault(x => x.RecipeId == craft.RecipeId), Is.Null, "Craft not removed");
+        }
+
+        [Test]
         public void PmcCommonSkillsSavesCorrectly()
             => CommonSkillsSavesCorrectly(AppData.Profile.Characters.Pmc, "testPmcCommonSkills.json");
 

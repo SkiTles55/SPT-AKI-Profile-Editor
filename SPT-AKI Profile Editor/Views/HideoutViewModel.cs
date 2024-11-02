@@ -180,15 +180,14 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (await _dialogManager.YesNoDialog("remove_started_craft_title", "remove_started_craft_caption"))
             {
-                Profile?.Characters?.Pmc?.Hideout?.Production?.Remove(id);
+                Profile?.Characters?.Pmc?.Hideout?.RemoveCraft(id);
                 ApplyStartedProductionsFilter();
             }
         }
 
         private void SetAllCraftsFinished()
         {
-            foreach (var craft in Profile?.Characters?.Pmc?.Hideout?.Production?.Values)
-                craft.SetFinished();
+            Profile?.Characters?.Pmc?.Hideout?.SetAllCraftsFinished();
             ApplyStartedProductionsFilter();
         }
     }
