@@ -22,6 +22,10 @@
     </i:Interaction.Triggers>
     <UserControl.Resources>
         <helpers:NullVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            False="Visible"
+            True="Collapsed" />
         <CollectionViewSource x:Key="hideoutAreas" Source="{Binding Areas}" />
         <CollectionViewSource x:Key="hideoutProductions" Source="{Binding Productions}" />
         <CollectionViewSource x:Key="startedProductions" Source="{Binding StartedProductions}" />
@@ -342,7 +346,8 @@
                                         Margin="5"
                                         Command="{Binding Data.SetCraftFinishedCommand, Source={StaticResource proxy}}"
                                         CommandParameter="{Binding RecipeId}"
-                                        Content="{Binding Data.AppLocalization.Translations[tab_hideout_craft_set_finished], FallbackValue=tab_hideout_craft_set_finished, Source={StaticResource proxy}}" />
+                                        Content="{Binding Data.AppLocalization.Translations[tab_hideout_craft_set_finished], FallbackValue=tab_hideout_craft_set_finished, Source={StaticResource proxy}}"
+                                        Visibility="{Binding IsFinished, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -362,13 +367,21 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button
+                <StackPanel
                     Grid.Row="1"
-                    Width="200"
-                    Margin="10,10,10,0"
                     HorizontalAlignment="Center"
-                    Command="{Binding SetAllCraftsFinishedCommand}"
-                    Content="{Binding AppLocalization.Translations[tab_hideout_complete_all_crafts], FallbackValue=tab_hideout_complete_all_crafts}" />
+                    Orientation="Horizontal">
+                    <Button
+                        Width="200"
+                        Margin="10,10,10,0"
+                        Command="{Binding SetAllCraftsFinishedCommand}"
+                        Content="{Binding AppLocalization.Translations[tab_hideout_complete_all_crafts], FallbackValue=tab_hideout_complete_all_crafts}" />
+                    <Button
+                        Width="200"
+                        Margin="0,10,10,0"
+                        Command="{Binding RemoveAllStartedCraftsCommand}"
+                        Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}" />
+                </StackPanel>
             </Grid>
         </TabItem>
     </TabControl>

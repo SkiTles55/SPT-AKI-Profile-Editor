@@ -269,6 +269,8 @@
     "tab_hideout_craft_set_finished": "Set finished",
     "tab_hideout_complete_all_crafts": "Finish all",
     "remove_started_craft_title": "Removing craft",
-    "remove_started_craft_caption": "Are you sure you want to remove this craft?"
+    "remove_started_craft_caption": "Are you sure you want to remove this craft?",
+    "remove_started_crafts_title": "Removing crafts",
+    "remove_started_crafts_caption": "Are you sure you want to remove all crafts?"
   }
 }

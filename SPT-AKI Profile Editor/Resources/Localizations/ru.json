@@ -269,6 +269,8 @@
     "tab_hideout_craft_set_finished": "Завершить",
     "tab_hideout_complete_all_crafts": "Завершить все",
     "remove_started_craft_title": "Удаление крафта",
-    "remove_started_craft_caption": "Вы действительно хотите удалить этот крафт?"
+    "remove_started_craft_caption": "Вы действительно хотите удалить этот крафт?",
+    "remove_started_crafts_title": "Удаление крафтов",
+    "remove_started_crafts_caption": "Вы действительно хотите удалить все крафты?"
   }
 }

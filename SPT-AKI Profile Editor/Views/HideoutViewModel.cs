@@ -113,6 +113,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand SetAllCraftsFinishedCommand => new(_ => SetAllCraftsFinished());
 
+        public RelayCommand RemoveAllStartedCraftsCommand => new(_ => RemoveAllStartedCrafts());
+
         public override void ApplyFilter()
         {
             ApplyAreasFilter();
@@ -189,6 +191,15 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             Profile?.Characters?.Pmc?.Hideout?.SetAllCraftsFinished();
             ApplyStartedProductionsFilter();
+        }
+
+        private async void RemoveAllStartedCrafts()
+        {
+            if (await _dialogManager.YesNoDialog("remove_started_crafts_title", "remove_started_crafts_caption"))
+            {
+                Profile?.Characters?.Pmc?.Hideout?.RemoveAllCrafts();
+                ApplyStartedProductionsFilter();
+            }
         }
     }
 }
