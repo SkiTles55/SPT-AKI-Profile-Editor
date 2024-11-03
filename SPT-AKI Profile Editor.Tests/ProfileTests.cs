@@ -688,6 +688,15 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void HideouRemoveAllCraftsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            AppData.Profile.Characters.Pmc.Hideout.RemoveAllCrafts();
+            TestHelpers.SaveAndLoadProfile("testSaveRemovedAllCrafts.json");
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Any(), Is.False, "Crafts not removed");
+        }
+
+        [Test]
         public void PmcCommonSkillsSavesCorrectly()
             => CommonSkillsSavesCorrectly(AppData.Profile.Characters.Pmc, "testPmcCommonSkills.json");
 

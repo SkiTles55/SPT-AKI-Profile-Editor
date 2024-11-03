@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using static SPT_AKI_Profile_Editor.Core.ProfileClasses.ProfileSaver;
-using static SPT_AKI_Profile_Editor.Core.ProgressTransfer.ProfileProgress.InfoProgress;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -34,7 +33,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 SaveEntry.StashPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
                 SaveEntry.StashScav => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
                 SaveEntry.Hideout => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_zones")})",
-                SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
+                SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts_unlock")})",
+                SaveEntry.HideoutStartedCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
                 SaveEntry.Bonuses => AppData.AppLocalization.GetLocalizedString("tab_stash_additional_lines"),
                 _ => entry.ToString(),
             };
@@ -75,6 +75,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Hideout,
             UserBuilds,
             HideoutCrafts,
+            HideoutStartedCrafts,
             Bonuses
         }
 
@@ -451,14 +452,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     }
                     var existCrafts = productionToken.ToObject<Dictionary<string, object>>()?.Keys;
                     var forRemove = existCrafts.Except(forSave.Keys);
-                    foreach (var removeId in forRemove)
-                        productionToken[removeId].Remove();
+                    productionToken.RemoveFields(forRemove);
                 } else
                 {
-
+                    var emptyDict = new Dictionary<string, object>();
+                    pmc.SelectToken("Hideout").SelectToken("Production").Replace(JToken.FromObject(emptyDict));
                 }
             }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutCrafts, ex)); }
+            catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutStartedCrafts, ex)); }
         }
 
         private void WriteUserBuilds(JObject jobject)
