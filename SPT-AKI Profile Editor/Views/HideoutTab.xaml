@@ -268,11 +268,16 @@
         <TabItem Header="{Binding AppLocalization.Translations[tab_hideout_crafts], FallbackValue=tab_hideout_crafts}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                <DataGrid
+                <extendedcontrols:Warning
                     Grid.Row="0"
+                    Margin="5"
+                    Text="{Binding AppLocalization.Translations[experimental_section], FallbackValue=experimental_section}" />
+                <DataGrid
+                    Grid.Row="1"
                     d:ItemsSource="{d:SampleData ItemCount=5}"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
@@ -368,19 +373,21 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel
-                    Grid.Row="1"
+                    Grid.Row="2"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
                     <Button
                         Width="200"
                         Margin="10,10,10,0"
                         Command="{Binding SetAllCraftsFinishedCommand}"
-                        Content="{Binding AppLocalization.Translations[tab_hideout_complete_all_crafts], FallbackValue=tab_hideout_complete_all_crafts}" />
+                        Content="{Binding AppLocalization.Translations[tab_hideout_complete_all_crafts], FallbackValue=tab_hideout_complete_all_crafts}"
+                        IsEnabled="{Binding CanFinishAnyStartedProduction}" />
                     <Button
                         Width="200"
                         Margin="0,10,10,0"
                         Command="{Binding RemoveAllStartedCraftsCommand}"
-                        Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}" />
+                        Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+                        IsEnabled="{Binding CanRemoveAnyStartedProduction}" />
                 </StackPanel>
             </Grid>
         </TabItem>

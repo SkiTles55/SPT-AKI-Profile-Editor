@@ -55,6 +55,12 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public bool CanRemoveAnyStartedProduction
+            => Profile?.Characters?.Pmc?.Hideout?.Production?.Any() ?? false;
+
+        public bool CanFinishAnyStartedProduction
+            => Profile?.Characters?.Pmc?.Hideout?.Production?.Where(x => !x.Value.IsFinished).Any() ?? false;
+
         public string AreaNameFilter
         {
             get => areaNameFilter;
@@ -169,6 +175,8 @@ namespace SPT_AKI_Profile_Editor.Views
             }
 
             StartedProductions = filteredProductions;
+            OnPropertyChanged(nameof(CanFinishAnyStartedProduction));
+            OnPropertyChanged(nameof(CanRemoveAnyStartedProduction));
         }
 
         private void SetCraftFinished(string id)

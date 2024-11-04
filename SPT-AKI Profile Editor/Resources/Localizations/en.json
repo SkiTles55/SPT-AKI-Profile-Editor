@@ -271,6 +271,7 @@
     "remove_started_craft_title": "Removing craft",
     "remove_started_craft_caption": "Are you sure you want to remove this craft?",
     "remove_started_crafts_title": "Removing crafts",
-    "remove_started_crafts_caption": "Are you sure you want to remove all crafts?"
+    "remove_started_crafts_caption": "Are you sure you want to remove all crafts?",
+    "experimental_section": "This section works in experimental mode and may cause damage to your profile. If you encounter any issues, you can report them to the developer by creating a bug report in Discord or GitHub"
   }
 }
