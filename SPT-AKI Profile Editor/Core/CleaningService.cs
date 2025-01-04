@@ -160,7 +160,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (merchantIds != null && AppData.ServerDatabase?.LocalesGlobal != null)
                 AddModdedEntity(merchantIds,
-                                x => x != AppData.AppSettings.RagfairTraderId && !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Nickname()),
+                                x => !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Nickname()),
                                 x => x,
                                 ModdedEntityType.Merchant,
                                 compositeCollection);

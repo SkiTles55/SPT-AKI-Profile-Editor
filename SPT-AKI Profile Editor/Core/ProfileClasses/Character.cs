@@ -211,8 +211,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public ObservableCollection<CharacterTraderStandingExtended> TraderStandingsExt =>
             new(TraderStandings?.Select(x => new CharacterTraderStandingExtended(x.Value,
                                                                                 x.Key,
-                                                                                GetTraderInfo(x.Key),
-                                                                                RagfairInfo?.Rating ?? 0f)));
+                                                                                GetTraderInfo(x.Key))));
 
         [JsonIgnore]
         public IEnumerable<ExaminedItem> ExaminedItems => Encyclopedia?

@@ -205,8 +205,6 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public string MoneysEurosTpl { get; set; }
 
-        public string RagfairTraderId { get; set; }
-
         public string EndlessDevBackpackId { get; set; }
 
         public string BearDogtagTpl { get; set; }
@@ -277,7 +275,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 + MoneysDollarsTpl
                 + MoneysEurosTpl
                 + MoneysRublesTpl
-                + RagfairTraderId
                 + BearDogtagTpl
                 + EndlessDevBackpackId
                 + FenceTraderId;
@@ -406,7 +403,6 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysDollarsTpl = loaded.MoneysDollarsTpl;
             MoneysEurosTpl = loaded.MoneysEurosTpl;
             MoneysRublesTpl = loaded.MoneysRublesTpl;
-            RagfairTraderId = loaded.RagfairTraderId;
             BannedItems = loaded.BannedItems;
             IssuesAction = loaded.IssuesAction;
             BearDogtagTpl = loaded.BearDogtagTpl;
@@ -553,11 +549,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 CheckUpdates = DefaultValues.CheckUpdates;
                 _needReSave = true;
             }
-            if (RagfairTraderId == null)
-            {
-                RagfairTraderId = DefaultValues.RagfairTraderId;
-                _needReSave = true;
-            }
             if (BearDogtagTpl == null)
             {
                 BearDogtagTpl = DefaultValues.BearDogtagTpl;
@@ -610,7 +601,6 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
-            RagfairTraderId = DefaultValues.RagfairTraderId;
             BannedItems = DefaultValues.BannedItems;
             IssuesAction = DefaultValues.DefaultIssuesAction;
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
