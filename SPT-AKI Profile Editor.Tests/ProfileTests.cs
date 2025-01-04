@@ -634,6 +634,17 @@ namespace SPT_AKI_Profile_Editor.Tests
             TestHelpers.SaveAndLoadProfile("testHideouts.json");
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas
                 .All(x => x.Level == x.MaxLevel || !x.CanSetMaxLevel), Is.True);
+            Assert.That(AppData.Profile.Characters.Pmc.Inventory.HideoutAreaStashes,
+                        Is.Not.Empty,
+                        "Stashes for hideout areas not writed");
+            Assert.That(AppData.Profile.Characters.Pmc.Inventory.HideoutAreaStashes.Count,
+                        Is.GreaterThan(1),
+                        "Stashes for hideout areas not writed");
+            foreach (var hideoutAreaStash in AppData.Profile.Characters.Pmc.Inventory.HideoutAreaStashes)
+            {
+                var item = AppData.Profile.Characters.Pmc.Inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaStash.Value);
+                Assert.That(item, Is.Not.Null, "Inventory not contains stash for hideout area");
+            }
         }
 
         [Test]

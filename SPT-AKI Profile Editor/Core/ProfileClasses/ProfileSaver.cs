@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
@@ -98,7 +99,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteTraders(pmc, profile.Characters.Pmc);
             WriteTraders(scav, profile.Characters.Scav);
             WriteQuests(pmc);
-            WriteHideout(pmc, out string newStash);
+            WriteHideout(pmc, profile.Characters.Pmc.Inventory, out string newStash);
             WriteHideoutCrafts(pmc);
             WriteSkills(profile.Characters.Pmc.Skills.Common, pmc, "Common", SaveEntry.CommonSkillsPmc);
             WriteSkills(profile.Characters.Scav.Skills.Common, scav, "Common", SaveEntry.CommonSkillsScav);
@@ -106,6 +107,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteSkills(profile.Characters.Scav.Skills.Mastering, scav, "Mastering", SaveEntry.MasteringSkillsScav);
             WriteSuits(jobject);
             WriteStashBonus(pmc);
+            // Stash writing always must be after after writing hideout due to update stashes by hideout area stages
             WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash, SaveEntry.StashPmc);
             WriteStash(scav, profile.Characters.Scav.Inventory, null, SaveEntry.StashScav);
             WriteUserBuilds(jobject);
@@ -340,7 +342,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             try
             {
                 List<JToken> ForRemove = new();
-                JToken itemsToken = characterToken.SelectToken("Inventory")?.SelectToken("items");
+                var inventoryToken = characterToken.SelectToken("Inventory");
+                JToken itemsToken = inventoryToken?.SelectToken("items");
                 var itemsObject = itemsToken.ToObject<InventoryItem[]>();
                 if (itemsObject.Length > 0)
                 {
@@ -363,11 +366,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     foreach (var item in inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
                         itemsToken?.LastOrDefault()?.AddAfterSelf(JObject.FromObject(item, serializer).RemoveNullAndEmptyProperties());
                 }
+                inventoryToken?.SelectToken("hideoutAreaStashes").Replace(JToken.FromObject(inventory.HideoutAreaStashes));
             }
             catch (Exception ex) { exceptions.Add(new(entry, ex)); }
         }
 
-        private void WriteHideout(JToken pmc, out string newStash)
+        private void WriteHideout(JToken pmc, CharacterInventory inventory, out string newStash)
         {
             newStash = string.Empty;
             try
@@ -381,17 +385,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     var areaInfo = profile.Characters.Pmc.Hideout.Areas.Where(x => x.Type == probe.Type).FirstOrDefault();
                     if (areaInfo == null)
                         continue;
+                    var areaDBInfo = AppData.ServerDatabase.HideoutAreaInfos
+                        .Where(x => x.Type == probe.Type)
+                        .FirstOrDefault();
                     if (areaInfo.Level > 0 && areaInfo.Level > probe.Level)
                     {
                         for (int l = probe.Level; l <= areaInfo.Level; l++)
                         {
-                            var areaBonuses = AppData.ServerDatabase.HideoutAreaInfos
-                                .Where(x => x.Type == probe.Type)
-                                .FirstOrDefault()
-                                .Stages[l.ToString()];
+                            var areaBonuses = areaDBInfo.Stages[l.ToString()];
                             if (areaBonuses == null)
                                 continue;
-                            var BonusesList = JObject.Parse(areaBonuses.ToString()).SelectToken("bonuses").ToObject<List<JToken>>();
+                            var areaInfoObject = JObject.Parse(areaBonuses.ToString());
+                            var BonusesList = areaInfoObject.SelectToken("bonuses").ToObject<List<JToken>>();
                             if (BonusesList == null || BonusesList.Count == 0)
                                 continue;
                             foreach (var listItem in BonusesList)
@@ -414,9 +419,67 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                         }
                     }
                     areaToken["level"] = areaInfo.Level;
+                    UpdateStashForHideoutArea(areaDBInfo, areaInfo.Type.ToString(), areaInfo.Level, inventory);
                 }
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.Hideout, ex)); }
+        }
+
+        private void UpdateStashForHideoutArea(HideoutAreaInfo hideoutAreaInfo, string type, int level, CharacterInventory inventory)
+        {
+            var areaInfoObject = JObject.Parse(hideoutAreaInfo.Stages[level.ToString()].ToString());
+            var areaStageContainer = areaInfoObject.SelectToken("container").ToObject<string>();
+            if (!string.IsNullOrEmpty(areaStageContainer))
+            {
+                inventory.HideoutAreaStashes[type] = hideoutAreaInfo.Id;
+                var inventoryItem = inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaInfo.Id);
+                if (inventoryItem != null)
+                    inventoryItem.Tpl = areaStageContainer;
+                else
+                    inventory.Items = inventory.Items.Append(new InventoryItem() { Id = hideoutAreaInfo.Id, Tpl = areaStageContainer }).ToArray();
+            }
+            else
+            {
+                inventory.HideoutAreaStashes.Remove(type);
+                inventory.Items = inventory.Items.Where(x => x.Id != hideoutAreaInfo.Id).ToArray();
+            }
+
+            /****
+             * from Hideout controller
+             * // Edge case, add/update `stand1/stand2/stand3` children
+        if (dbHideoutArea.type === HideoutAreas.EQUIPMENT_PRESETS_STAND) {
+            // Can have multiple 'standx' children depending on upgrade level
+            this.addMissingPresetStandItemsToProfile(sessionID, hideoutStage, pmcData, dbHideoutArea, output);
+        }
+
+        // Dont inform client when upgraded area is hall of fame or equipment stand, BSG doesn't inform client this specifc upgrade has occurred
+        // will break client if sent
+        if (![HideoutAreas.PLACE_OF_FAME].includes(dbHideoutArea.type)) {
+            this.addContainerUpgradeToClientOutput(sessionID, dbHideoutArea.type, dbHideoutArea, hideoutStage, output);
+        }
+
+        // Some hideout areas (Gun stand) have child areas linked to it
+        const childDbArea = this.databaseService
+            .getHideout()
+            .areas.find((area) => area.parentArea === dbHideoutArea._id);
+        if (childDbArea) {
+            // Add key/value to `hideoutAreaStashes` dictionary - used to link hideout area to inventory stash by its id
+            if (!pmcData.Inventory.hideoutAreaStashes[childDbArea.type]) {
+                pmcData.Inventory.hideoutAreaStashes[childDbArea.type] = childDbArea._id;
+            }
+
+            // Set child area level to same as parent area
+            pmcData.Hideout.Areas.find((hideoutArea) => hideoutArea.type === childDbArea.type).level =
+                pmcData.Hideout.Areas.find((x) => x.type === profileParentHideoutArea.type).level;
+
+            // Add/upgrade stash item in player inventory
+            const childDbAreaStage = childDbArea.stages[profileParentHideoutArea.level];
+            this.addUpdateInventoryItemToProfile(sessionID, pmcData, childDbArea, childDbAreaStage);
+
+            // Inform client of the changes
+            this.addContainerUpgradeToClientOutput(sessionID, childDbArea.type, childDbArea, childDbAreaStage, output);
+        }
+            ***/
         }
 
         private void WriteHideoutCrafts(JToken pmc)

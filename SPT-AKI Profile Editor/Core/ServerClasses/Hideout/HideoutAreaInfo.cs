@@ -5,6 +5,9 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class HideoutAreaInfo
     {
+        [JsonProperty("_id")]
+        public string Id { get; set; }
+
         [JsonProperty("type")]
         public int Type { get; set; }
 
