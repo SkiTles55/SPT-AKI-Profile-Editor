@@ -1039,8 +1039,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             var build = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name == "TestBuild").FirstOrDefault();
             Assert.That(build, Is.Not.Null);
             Assert.That(build.Ergonomics, Is.EqualTo(36));
-            Assert.That(build.RecoilForceUp, Is.EqualTo(36));
-            Assert.That(build.RecoilForceBack, Is.EqualTo(145));
+            Assert.That(build.RecoilForceUp, Is.EqualTo(68));
+            Assert.That(build.RecoilForceBack, Is.EqualTo(193));
         }
 
         [Test]
