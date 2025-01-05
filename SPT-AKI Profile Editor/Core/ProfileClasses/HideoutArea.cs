@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using System;
 using System.Linq;
 
@@ -37,14 +38,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 level = Math.Min(value, MaxLevel);
                 OnPropertyChanged(nameof(Level));
                 var areaInfo = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.Type == type);
-                if (string.IsNullOrEmpty(areaInfo?.Id))
-                    return;
-                var childAreaType = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.ParentArea == areaInfo.Id)?.Type;
-                if (childAreaType == null)
-                    return;
-                var childArea = AppData.Profile.Characters?.Pmc?.Hideout?.Areas.FirstOrDefault(x => x.Type == childAreaType);
-                if (childArea != null)
-                    childArea.Level = level;
+                if (!string.IsNullOrEmpty(areaInfo?.Id))
+                    SetAreaLevel(x => x.ParentArea == areaInfo.Id);
+                if (!string.IsNullOrEmpty(areaInfo?.ParentArea))
+                    SetAreaLevel(x => x.Id == areaInfo.ParentArea);
             }
         }
 
@@ -55,6 +52,16 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public int MaxLevel => GetMaxLevel();
+
+        private void SetAreaLevel(Func<HideoutAreaInfo, bool> predicate)
+        {
+            var areaType = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(predicate)?.Type;
+            if (areaType == null)
+                return;
+            var area = AppData.Profile.Characters?.Pmc?.Hideout?.Areas.FirstOrDefault(x => x.Type == areaType);
+            if (area != null && area.Level != level)
+                area.Level = level;
+        }
 
         private int GetMaxLevel()
         {
