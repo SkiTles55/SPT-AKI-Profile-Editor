@@ -321,8 +321,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void SetAllHideoutAreasMax()
         {
             foreach (var area in Hideout?.Areas)
-                if (area.CanSetMaxLevel)
-                    area.Level = area.MaxLevel;
+                area.Level = area.MaxLevel;
         }
 
         public void SetAllCommonSkills(float value)

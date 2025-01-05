@@ -226,6 +226,10 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public List<string> SkipMigrationTags { get; set; }
 
+        public string MannequinInventoryTpl { get; set; }
+
+        public int HideoutAreaEquipmentPresetsType { get; set; }
+
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
         {
@@ -248,37 +252,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public string GetStamp()
-        {
-            return ServerPath
-                + DefaultProfile
-                + Language
-                + UsingModHelper
-                + AutoAddMissingMasterings.ToString()
-                + AutoAddMissingScavSkills.ToString()
-                + CommonSkillMaxValue.ToString()
-                + PocketsContainerTpl
-                + PocketsSlotId
-                + EarpieceSlotId
-                + HeadwearSlotId
-                + FaceCoverSlotId
-                + TacticalVestSlotId
-                + FirstPrimaryWeaponSlotId
-                + BackpackSlotId
-                + SecuredContainerSlotId
-                + EyewearSlotId
-                + ArmorVestSlotId
-                + SecondPrimaryWeaponSlotId
-                + HolsterSlotId
-                + ScabbardSlotId
-                + ArmBandSlotId
-                + MoneysDollarsTpl
-                + MoneysEurosTpl
-                + MoneysRublesTpl
-                + BearDogtagTpl
-                + EndlessDevBackpackId
-                + FenceTraderId;
-        }
+        public string GetStamp() => JsonConvert.SerializeObject(this, Formatting.None);
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
 
@@ -409,6 +383,8 @@ namespace SPT_AKI_Profile_Editor.Core
             EndlessDevBackpackId = loaded.EndlessDevBackpackId;
             FenceTraderId = loaded.FenceTraderId;
             SkipMigrationTags = loaded.SkipMigrationTags;
+            MannequinInventoryTpl = loaded.MannequinInventoryTpl;
+            HideoutAreaEquipmentPresetsType = loaded.HideoutAreaEquipmentPresetsType;
         }
 
         private bool CheckValues()
@@ -566,7 +542,17 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             if (SkipMigrationTags == null)
             {
-                SkipMigrationTags = new ();
+                SkipMigrationTags = new();
+                _needReSave = true;
+            }
+            if (MannequinInventoryTpl == null)
+            {
+                MannequinInventoryTpl = DefaultValues.MannequinInventoryTpl;
+                _needReSave = true;
+            }
+            if (HideoutAreaEquipmentPresetsType == 0)
+            {
+                HideoutAreaEquipmentPresetsType = DefaultValues.HideoutAreaEquipmentPresetsType;
                 _needReSave = true;
             }
             return _needReSave;
@@ -607,6 +593,8 @@ namespace SPT_AKI_Profile_Editor.Core
             EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
             FenceTraderId = DefaultValues.FenceTraderId;
             SkipMigrationTags = new();
+            MannequinInventoryTpl = DefaultValues.MannequinInventoryTpl;
+            HideoutAreaEquipmentPresetsType = DefaultValues.HideoutAreaEquipmentPresetsType;
             Logger.Log($"Default configuration file created");
             Save();
         }

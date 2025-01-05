@@ -8,14 +8,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class HideoutArea : BindableEntity
     {
         private int type;
-
         private int level;
 
         [JsonConstructor]
         public HideoutArea(int type, int level)
         {
-            Type = type;
-            Level = level;
+            this.type = type;
+            this.level = level;
         }
 
         [JsonProperty("type")]
@@ -37,6 +36,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 level = Math.Min(value, MaxLevel);
                 OnPropertyChanged(nameof(Level));
+                var areaInfo = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.Type == type);
+                if (!string.IsNullOrEmpty(areaInfo?.Id))
+                {
+                    var childAreaType = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.ParentArea == areaInfo.Id)?.Type;
+                    if (childAreaType != null)
+                    {
+                        var childArea = AppData.Profile.Characters?.Pmc?.Hideout?.Areas.FirstOrDefault(x => x.Type == childAreaType);
+                        if (childArea != null)
+                            childArea.Level = level;
+                    }
+                }
             }
         }
 
@@ -47,9 +57,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public int MaxLevel => GetMaxLevel();
-
-        [JsonIgnore]
-        public bool CanSetMaxLevel => Type != 25;
 
         private int GetMaxLevel()
         {

@@ -35,6 +35,8 @@ namespace SPT_AKI_Profile_Editor.Core
         public const float CommonSkillMaxValue = 5100;
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
         public const string FenceTraderId = "579dc571d53a0658a154fbec";
+        public const string MannequinInventoryTpl = "55d7217a4bdc2d86028b456d";
+        public const int HideoutAreaEquipmentPresetsType = 26;
 
         public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 

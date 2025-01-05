@@ -261,6 +261,6 @@
     "migration_to_3.9.0_title": "Current settings are not compatible with SPT version 3.9.0 and higher",
     "migration_to_3.9.0_message": "Make the required changes?\n\nRelative paths to server files will be corrected\nLocalization files will be reset\nThe program will automatically restart",
     "checkbox_dont_ask_again": "Don't ask again",
-    "server_select_help":  "Need help?"
+    "server_select_help": "Need help?"
   }
 }

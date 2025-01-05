@@ -633,18 +633,25 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
             TestHelpers.SaveAndLoadProfile("testHideouts.json");
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas
-                .All(x => x.Level == x.MaxLevel || !x.CanSetMaxLevel), Is.True);
-            Assert.That(AppData.Profile.Characters.Pmc.Inventory.HideoutAreaStashes,
+                .All(x => x.Level == x.MaxLevel), Is.True);
+            var inventory = AppData.Profile.Characters.Pmc.Inventory;
+            Assert.That(inventory.HideoutAreaStashes,
                         Is.Not.Empty,
                         "Stashes for hideout areas not writed");
-            Assert.That(AppData.Profile.Characters.Pmc.Inventory.HideoutAreaStashes.Count,
+            Assert.That(inventory.HideoutAreaStashes.Count,
                         Is.GreaterThan(1),
                         "Stashes for hideout areas not writed");
-            foreach (var hideoutAreaStash in AppData.Profile.Characters.Pmc.Inventory.HideoutAreaStashes)
+            foreach (var hideoutAreaStash in inventory.HideoutAreaStashes)
             {
-                var item = AppData.Profile.Characters.Pmc.Inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaStash.Value);
+                var item = inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaStash.Value);
                 Assert.That(item, Is.Not.Null, "Inventory not contains stash for hideout area");
             }
+
+            var mannequinItems = inventory.Items.Where(x => x.Tpl == AppData.AppSettings.MannequinInventoryTpl);
+            Assert.That(mannequinItems.Count(), Is.GreaterThan(1), "Mannequins not added");
+
+            var pocketItems = inventory.Items.Where(x => x.Tpl == inventory.Pockets);
+            Assert.That(pocketItems.Count(), Is.GreaterThan(1), "Pockets for mannequins not added");
         }
 
         [Test]
