@@ -544,8 +544,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.RagfairInfo.Rating += 3;
             TestHelpers.SaveAndLoadProfile("testRagfairStanding.json");
             Assert.That(AppData.Profile.Characters.Pmc.RagfairInfo.Rating,
-                Is.EqualTo(startingRating + 3),
-                "Ragfair standing not saves correctly");
+                        Is.EqualTo(startingRating + 3),
+                        "Ragfair standing not saves correctly");
         }
 
         [Test]
@@ -635,9 +635,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas
                 .All(x => x.Level == x.MaxLevel), Is.True);
             var inventory = AppData.Profile.Characters.Pmc.Inventory;
-            Assert.That(inventory.HideoutAreaStashes,
-                        Is.Not.Empty,
-                        "Stashes for hideout areas not writed");
             Assert.That(inventory.HideoutAreaStashes.Count,
                         Is.GreaterThan(1),
                         "Stashes for hideout areas not writed");
@@ -647,11 +644,14 @@ namespace SPT_AKI_Profile_Editor.Tests
                 Assert.That(item, Is.Not.Null, "Inventory not contains stash for hideout area");
             }
 
-            var mannequinItems = inventory.Items.Where(x => x.Tpl == AppData.AppSettings.MannequinInventoryTpl);
-            Assert.That(mannequinItems.Count(), Is.GreaterThan(1), "Mannequins not added");
+            void CheckItemsAmount(string tpl, string failMessage)
+            {
+                var items = inventory.Items.Where(x => x.Tpl == tpl);
+                Assert.That(items.Count(), Is.GreaterThan(1), failMessage);
+            }
 
-            var pocketItems = inventory.Items.Where(x => x.Tpl == inventory.Pockets);
-            Assert.That(pocketItems.Count(), Is.GreaterThan(1), "Pockets for mannequins not added");
+            CheckItemsAmount(AppData.AppSettings.MannequinInventoryTpl, "Mannequins not added");
+            CheckItemsAmount(inventory.Pockets, "Pockets for mannequins not added");
         }
 
         [Test]

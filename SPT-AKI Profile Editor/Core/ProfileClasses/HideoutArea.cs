@@ -37,16 +37,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 level = Math.Min(value, MaxLevel);
                 OnPropertyChanged(nameof(Level));
                 var areaInfo = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.Type == type);
-                if (!string.IsNullOrEmpty(areaInfo?.Id))
-                {
-                    var childAreaType = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.ParentArea == areaInfo.Id)?.Type;
-                    if (childAreaType != null)
-                    {
-                        var childArea = AppData.Profile.Characters?.Pmc?.Hideout?.Areas.FirstOrDefault(x => x.Type == childAreaType);
-                        if (childArea != null)
-                            childArea.Level = level;
-                    }
-                }
+                if (string.IsNullOrEmpty(areaInfo?.Id))
+                    return;
+                var childAreaType = AppData.ServerDatabase.HideoutAreaInfos.FirstOrDefault(x => x.ParentArea == areaInfo.Id)?.Type;
+                if (childAreaType == null)
+                    return;
+                var childArea = AppData.Profile.Characters?.Pmc?.Hideout?.Areas.FirstOrDefault(x => x.Type == childAreaType);
+                if (childArea != null)
+                    childArea.Level = level;
             }
         }
 

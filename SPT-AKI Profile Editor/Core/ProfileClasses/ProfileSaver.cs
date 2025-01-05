@@ -175,32 +175,29 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var slots = serverDatabase.ItemsDB[container].Properties?.Slots;
             if (slots == null)
                 return;
+
+            void AddItem(string id, string tpl, string parentId, string slotId)
+            {
+                InventoryItem newItem = new()
+                {
+                    Id = id,
+                    Tpl = tpl,
+                    ParentId = parentId,
+                    SlotId = slotId
+                };
+                inventoryItemsList.Add(newItem);
+            }
+
             foreach (var mannequinSlot in slots)
             {
-                if (inventoryItemsList.FirstOrDefault(x => x.ParentId == areaId && x.SlotId == mannequinSlot.Name) == null)
-                {
-                    List<string> iDs = inventoryItemsList.Select(x => x.Id).ToList();
-                    string newId = ExtMethods.GenerateNewId(iDs);
-                    InventoryItem mannequinToAdd = new()
-                    {
-                        Id = newId,
-                        Tpl = appSettings.MannequinInventoryTpl,
-                        ParentId = areaId,
-                        SlotId = mannequinSlot.Name
-                    };
-                    inventoryItemsList.Add(mannequinToAdd);
-                    iDs.Add(newId);
-                    // Add pocket child item
-                    string mannequinPocketId = ExtMethods.GenerateNewId(iDs);
-                    InventoryItem mannequinPocketItemToAdd = new()
-                    {
-                        Id = mannequinPocketId,
-                        Tpl = pocketsTpl,
-                        ParentId = newId,
-                        SlotId = appSettings.PocketsSlotId
-                    };
-                    inventoryItemsList.Add(mannequinPocketItemToAdd);
-                }
+                if (inventoryItemsList.FirstOrDefault(x => x.ParentId == areaId && x.SlotId == mannequinSlot.Name) != null)
+                    continue;
+                List<string> iDs = inventoryItemsList.Select(x => x.Id).ToList();
+                string newId = ExtMethods.GenerateNewId(iDs);
+                AddItem(newId, appSettings.MannequinInventoryTpl, areaId, mannequinSlot.Name);
+                iDs.Add(newId);
+                // Add pocket child item
+                AddItem(ExtMethods.GenerateNewId(iDs), pocketsTpl, newId, appSettings.PocketsSlotId);
             }
         }
 
