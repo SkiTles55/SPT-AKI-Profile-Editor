@@ -43,10 +43,10 @@ namespace SPT_AKI_Profile_Editor.Core
         public void LoadEntitiesList()
         {
             var compositeCollection = new ObservableCollection<ModdedEntity>();
-            GetModdedInventoryItems(AppData.Profile?.Characters?.Pmc?.Inventory.Items,
+            GetModdedInventoryItems(AppData.Profile?.Characters?.Pmc?.Inventory?.Items,
                                     ModdedEntityType.PmcInventoryItem,
                                     compositeCollection);
-            GetModdedInventoryItems(AppData.Profile?.Characters?.Scav?.Inventory.Items,
+            GetModdedInventoryItems(AppData.Profile?.Characters?.Scav?.Inventory?.Items,
                                     ModdedEntityType.ScavInventoryItem,
                                     compositeCollection);
             GetModdedQuests(AppData.Profile?.Characters?.Pmc?.Quests, compositeCollection);
