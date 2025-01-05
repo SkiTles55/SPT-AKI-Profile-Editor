@@ -15,10 +15,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private bool? unlockedStart;
         private int? levelStart;
 
-        public CharacterTraderStandingExtended(CharacterTraderStanding standing, string id, TraderBase traderBase, float ragfairRating)
+        public CharacterTraderStandingExtended(CharacterTraderStanding standing, string id, TraderBase traderBase)
         {
             TraderStanding = standing;
-            Standing = id == AppData.AppSettings.RagfairTraderId ? ragfairRating : standing.Standing;
+            Standing = standing.Standing;
             Id = id;
             TraderBase = traderBase;
             MaxLevel = Math.Max(TraderBase?.LoyaltyLevels.Count ?? 0, TraderStanding.LoyaltyLevel);
@@ -55,14 +55,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 TraderStanding.Standing = value;
-                if (Id == AppData.AppSettings.RagfairTraderId)
-                    AppData.Profile.Characters.Pmc.RagfairInfo.Rating = value;
-                if (Id == AppData.AppSettings.FenceTraderId)
-                {
-                    // Must add rep to scav profile to ensure consistency
-                    if (AppData.Profile.Characters.Scav.TraderStandings.ContainsKey(Id))
-                        AppData.Profile.Characters.Scav.TraderStandings[Id].Standing = value;
-                }
+                // Must add rep to scav profile to ensure consistency
+                if (Id == AppData.AppSettings.FenceTraderId && AppData.Profile.Characters.Scav.TraderStandings.ContainsKey(Id))
+                    AppData.Profile.Characters.Scav.TraderStandings[Id].Standing = value;
                 OnPropertyChanged(nameof(Standing));
                 SetLevel();
             }

@@ -119,7 +119,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public List<SaveException> Save(string targetPath, string savePath = null)
-            => new ProfileSaver(this).Save(targetPath, savePath);
+            => new ProfileSaver(this, AppData.AppSettings, AppData.ServerDatabase).Save(targetPath, savePath);
 
         public bool IsProfileChanged()
             => ProfileHash != 0 && ProfileHash != JsonConvert.SerializeObject(this).ToString().GetHashCode();

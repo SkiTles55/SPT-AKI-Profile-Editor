@@ -74,6 +74,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     switch (condition.Type)
                     {
                         case QuestConditionType.Level:
+                            if (condition.RequiredValue > AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel)
+                                condition.RequiredValue = AppData.ServerDatabase.ServerGlobals.Config.Exp.Level.MaxLevel;
                             if (!(condition?.CheckRequiredValue(character.Info?.Level ?? 1) ?? true))
                                 profileIssues.Add(new PMCLevelIssue(quest, condition.GetNearestValue()));
                             break;

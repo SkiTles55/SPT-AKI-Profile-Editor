@@ -148,12 +148,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             => Assert.That(AppData.Profile.Characters.Pmc.RagfairInfo, Is.Not.Null, "RagfairInfo is null");
 
         [Test]
-        public void RagfairStandingLoadCorrectly() =>
-            Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.First(x => x.Id == AppData.AppSettings.RagfairTraderId).Standing,
-                        Is.EqualTo(AppData.Profile.Characters.Pmc.RagfairInfo.Rating),
-                        "Ragfair standing not load correctly");
-
-        [Test]
         public void QuestsLoadCorrectly()
         {
             Assert.That(AppData.Profile.Characters.Pmc.Quests, Is.Not.Null, "Quests is null");
@@ -495,8 +489,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void TraderSalesSumAndStandingCanIncreaseLevel()
         {
             static bool CanBeUsedForTest(CharacterTraderStandingExtended x)
-                => x.Id != AppData.AppSettings.RagfairTraderId
-                && x.LoyaltyLevel < 2
+                => x.LoyaltyLevel < 2
                 && x.TraderBase.LoyaltyLevels.Count > x.LoyaltyLevel;
 
             AppData.Profile.Load(TestHelpers.profileFile);
@@ -530,7 +523,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.BitmapImage == null),
                         Is.False,
                         "Traders BitmapImage's not loaded");
-            Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.Id != AppData.AppSettings.RagfairTraderId && x.LocalizedName == x.Id),
+            Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.LocalizedName == x.Id),
                         Is.False,
                         "Traders LocalizedName's not loaded");
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.SalesSum != x.TraderStanding.SalesSum),
@@ -547,6 +540,18 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.All(x => x.LoyaltyLevel == x.MaxLevel),
                         Is.True,
                         "TraderStandingsExt not in max levels");
+        }
+
+        [Test]
+        public void RagfairStandingSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var startingRating = AppData.Profile.Characters.Pmc.RagfairInfo.Rating;
+            AppData.Profile.Characters.Pmc.RagfairInfo.Rating += 3;
+            TestHelpers.SaveAndLoadProfile("testRagfairStanding.json");
+            Assert.That(AppData.Profile.Characters.Pmc.RagfairInfo.Rating,
+                        Is.EqualTo(startingRating + 3),
+                        "Ragfair standing not saves correctly");
         }
 
         [Test]
@@ -634,7 +639,25 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.Profile.Characters.Pmc.SetAllHideoutAreasMax();
             TestHelpers.SaveAndLoadProfile("testHideouts.json");
             Assert.That(AppData.Profile.Characters.Pmc.Hideout.Areas
-                .All(x => x.Level == x.MaxLevel || !x.CanSetMaxLevel), Is.True);
+                .All(x => x.Level == x.MaxLevel), Is.True);
+            var inventory = AppData.Profile.Characters.Pmc.Inventory;
+            Assert.That(inventory.HideoutAreaStashes.Count,
+                        Is.GreaterThan(1),
+                        "Stashes for hideout areas not writed");
+            foreach (var hideoutAreaStash in inventory.HideoutAreaStashes)
+            {
+                var item = inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaStash.Value);
+                Assert.That(item, Is.Not.Null, "Inventory not contains stash for hideout area");
+            }
+
+            void CheckItemsAmount(string tpl, string failMessage)
+            {
+                var items = inventory.Items.Where(x => x.Tpl == tpl);
+                Assert.That(items.Count(), Is.GreaterThan(1), failMessage);
+            }
+
+            CheckItemsAmount(AppData.AppSettings.MannequinInventoryTpl, "Mannequins not added");
+            CheckItemsAmount(inventory.Pockets, "Pockets for mannequins not added");
         }
 
         [Test]
@@ -1080,8 +1103,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             var build = AppData.Profile.UserBuilds.WeaponBuilds.Where(x => x.Name == "TestBuild").FirstOrDefault();
             Assert.That(build, Is.Not.Null);
             Assert.That(build.Ergonomics, Is.EqualTo(36));
-            Assert.That(build.RecoilForceUp, Is.EqualTo(36));
-            Assert.That(build.RecoilForceBack, Is.EqualTo(145));
+            Assert.That(build.RecoilForceUp, Is.EqualTo(68));
+            Assert.That(build.RecoilForceBack, Is.EqualTo(193));
         }
 
         [Test]

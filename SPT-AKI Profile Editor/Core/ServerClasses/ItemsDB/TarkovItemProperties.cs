@@ -1,4 +1,6 @@
-﻿namespace SPT_AKI_Profile_Editor.Core.ServerClasses
+﻿using SPT_AKI_Profile_Editor.Core.ServerClasses.ItemsDB;
+
+namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
     public class TarkovItemProperties
     {
@@ -39,5 +41,7 @@
         public float Recoil { get; set; }
 
         public bool DogTagQualities { get; set; }
+
+        public TarkovItemSlot[] Slots { get; set; }
     }
 }

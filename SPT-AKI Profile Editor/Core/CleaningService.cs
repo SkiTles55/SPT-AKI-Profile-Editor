@@ -43,10 +43,10 @@ namespace SPT_AKI_Profile_Editor.Core
         public void LoadEntitiesList()
         {
             var compositeCollection = new ObservableCollection<ModdedEntity>();
-            GetModdedInventoryItems(AppData.Profile?.Characters?.Pmc?.Inventory.Items,
+            GetModdedInventoryItems(AppData.Profile?.Characters?.Pmc?.Inventory?.Items,
                                     ModdedEntityType.PmcInventoryItem,
                                     compositeCollection);
-            GetModdedInventoryItems(AppData.Profile?.Characters?.Scav?.Inventory.Items,
+            GetModdedInventoryItems(AppData.Profile?.Characters?.Scav?.Inventory?.Items,
                                     ModdedEntityType.ScavInventoryItem,
                                     compositeCollection);
             GetModdedQuests(AppData.Profile?.Characters?.Pmc?.Quests, compositeCollection);
@@ -160,7 +160,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (merchantIds != null && AppData.ServerDatabase?.LocalesGlobal != null)
                 AddModdedEntity(merchantIds,
-                                x => x != AppData.AppSettings.RagfairTraderId && !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Nickname()),
+                                x => !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Nickname()),
                                 x => x,
                                 ModdedEntityType.Merchant,
                                 compositeCollection);

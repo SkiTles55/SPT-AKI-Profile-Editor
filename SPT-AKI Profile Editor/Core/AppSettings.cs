@@ -205,8 +205,6 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public string MoneysEurosTpl { get; set; }
 
-        public string RagfairTraderId { get; set; }
-
         public string EndlessDevBackpackId { get; set; }
 
         public string BearDogtagTpl { get; set; }
@@ -227,6 +225,10 @@ namespace SPT_AKI_Profile_Editor.Core
         }
 
         public List<string> SkipMigrationTags { get; set; }
+
+        public string MannequinInventoryTpl { get; set; }
+
+        public int HideoutAreaEquipmentPresetsType { get; set; }
 
         [JsonIgnore]
         public Dictionary<string, string> ServerProfiles
@@ -250,38 +252,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public string GetStamp()
-        {
-            return ServerPath
-                + DefaultProfile
-                + Language
-                + UsingModHelper
-                + AutoAddMissingMasterings.ToString()
-                + AutoAddMissingScavSkills.ToString()
-                + CommonSkillMaxValue.ToString()
-                + PocketsContainerTpl
-                + PocketsSlotId
-                + EarpieceSlotId
-                + HeadwearSlotId
-                + FaceCoverSlotId
-                + TacticalVestSlotId
-                + FirstPrimaryWeaponSlotId
-                + BackpackSlotId
-                + SecuredContainerSlotId
-                + EyewearSlotId
-                + ArmorVestSlotId
-                + SecondPrimaryWeaponSlotId
-                + HolsterSlotId
-                + ScabbardSlotId
-                + ArmBandSlotId
-                + MoneysDollarsTpl
-                + MoneysEurosTpl
-                + MoneysRublesTpl
-                + RagfairTraderId
-                + BearDogtagTpl
-                + EndlessDevBackpackId
-                + FenceTraderId;
-        }
+        public string GetStamp() => JsonConvert.SerializeObject(this, Formatting.None);
 
         public bool ServerHaveProfiles() => ServerProfiles != null && ServerProfiles.Count > 0;
 
@@ -406,13 +377,14 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysDollarsTpl = loaded.MoneysDollarsTpl;
             MoneysEurosTpl = loaded.MoneysEurosTpl;
             MoneysRublesTpl = loaded.MoneysRublesTpl;
-            RagfairTraderId = loaded.RagfairTraderId;
             BannedItems = loaded.BannedItems;
             IssuesAction = loaded.IssuesAction;
             BearDogtagTpl = loaded.BearDogtagTpl;
             EndlessDevBackpackId = loaded.EndlessDevBackpackId;
             FenceTraderId = loaded.FenceTraderId;
             SkipMigrationTags = loaded.SkipMigrationTags;
+            MannequinInventoryTpl = loaded.MannequinInventoryTpl;
+            HideoutAreaEquipmentPresetsType = loaded.HideoutAreaEquipmentPresetsType;
         }
 
         private bool CheckValues()
@@ -553,11 +525,6 @@ namespace SPT_AKI_Profile_Editor.Core
                 CheckUpdates = DefaultValues.CheckUpdates;
                 _needReSave = true;
             }
-            if (RagfairTraderId == null)
-            {
-                RagfairTraderId = DefaultValues.RagfairTraderId;
-                _needReSave = true;
-            }
             if (BearDogtagTpl == null)
             {
                 BearDogtagTpl = DefaultValues.BearDogtagTpl;
@@ -575,7 +542,17 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             if (SkipMigrationTags == null)
             {
-                SkipMigrationTags = new ();
+                SkipMigrationTags = new();
+                _needReSave = true;
+            }
+            if (MannequinInventoryTpl == null)
+            {
+                MannequinInventoryTpl = DefaultValues.MannequinInventoryTpl;
+                _needReSave = true;
+            }
+            if (HideoutAreaEquipmentPresetsType == 0)
+            {
+                HideoutAreaEquipmentPresetsType = DefaultValues.HideoutAreaEquipmentPresetsType;
                 _needReSave = true;
             }
             return _needReSave;
@@ -610,13 +587,14 @@ namespace SPT_AKI_Profile_Editor.Core
             MoneysDollarsTpl = DefaultValues.MoneysDollarsTpl;
             MoneysEurosTpl = DefaultValues.MoneysEurosTpl;
             MoneysRublesTpl = DefaultValues.MoneysRublesTpl;
-            RagfairTraderId = DefaultValues.RagfairTraderId;
             BannedItems = DefaultValues.BannedItems;
             IssuesAction = DefaultValues.DefaultIssuesAction;
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
             EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
             FenceTraderId = DefaultValues.FenceTraderId;
             SkipMigrationTags = new();
+            MannequinInventoryTpl = DefaultValues.MannequinInventoryTpl;
+            HideoutAreaEquipmentPresetsType = DefaultValues.HideoutAreaEquipmentPresetsType;
             Logger.Log($"Default configuration file created");
             Save();
         }
