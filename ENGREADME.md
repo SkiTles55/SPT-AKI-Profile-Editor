@@ -20,6 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
+### [Version 3.1 for server SPT 3.10.5](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.1)
 ### [Version 3.0 for server SPT 3.9.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.0)
 ### [Version 2.9.3 for server SPT-AKI 3.8.0 - 3.8.3](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.3)
 ### [Version 2.8.6 for server SPT-AKI 3.7.0 - 3.7.6](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.6)
@@ -74,6 +75,3 @@ Lomenot - Chinese localization
 ![Screenshot5](/screenshots/5EN.PNG?raw=true)
 ![Screenshot6](/screenshots/6EN.PNG?raw=true)
 ![Screenshot7](/screenshots/7EN.PNG?raw=true)
-
-### Helpful
-[Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)
