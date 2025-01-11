@@ -82,7 +82,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static List<AppLocalization> DefaultLocalizations()
         {
             List<AppLocalization> loaded = new();
-            foreach (var file in new string[] { "en.json", "ru.json", "ch.json" })
+            foreach (var file in new string[] { "en.json", "ru.json", "ch.json", "jp.json" })
             {
                 try
                 {

@@ -23,6 +23,7 @@
     <None Remove="Resources\Images\server_folder.jpg" />
     <None Remove="Resources\Localizations\ch.json" />
     <None Remove="Resources\Localizations\en.json" />
+    <None Remove="Resources\Localizations\jp.json" />
     <None Remove="Resources\Localizations\ru.json" />
   </ItemGroup>
 
@@ -38,6 +39,7 @@
     <Resource Include="Resources\Images\server_folder.jpg" />
     <EmbeddedResource Include="Resources\Localizations\ch.json" />
     <EmbeddedResource Include="Resources\Localizations\en.json" />
+    <EmbeddedResource Include="Resources\Localizations\jp.json" />
     <EmbeddedResource Include="Resources\Localizations\ru.json" />
   </ItemGroup>
 
