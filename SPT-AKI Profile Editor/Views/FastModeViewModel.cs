@@ -21,6 +21,8 @@ namespace SPT_AKI_Profile_Editor.Views
         private bool pmcLevel = true;
         private bool scavLevel = true;
         private bool pmcQuests = true;
+        private bool pmcAddMissingQuests = true;
+        private bool pmcAddMissingEvenQuests = false;
         private bool pmcCommonSkills = true;
         private bool scavCommonSkills = true;
         private bool pmcMasteringsSkills = true;
@@ -57,7 +59,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 pmc = value;
-                OnPropertyChanged("Pmc");
+                OnPropertyChanged(nameof(Pmc));
             }
         }
 
@@ -67,7 +69,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 scav = value;
-                OnPropertyChanged("Scav");
+                OnPropertyChanged(nameof(Scav));
             }
         }
 
@@ -83,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 setAllPmcSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
-                OnPropertyChanged("SetAllPmcSkillsValue");
+                OnPropertyChanged(nameof(SetAllPmcSkillsValue));
             }
         }
 
@@ -93,7 +95,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 setAllScavSkillsValue = Math.Min(AppSettings.CommonSkillMaxValue, value);
-                OnPropertyChanged("SetAllScavSkillsValue");
+                OnPropertyChanged(nameof(SetAllScavSkillsValue));
             }
         }
 
@@ -103,7 +105,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 setAllPmcMasteringsValue = Math.Min(ServerDatabase.ServerGlobals.Config.MaxProgressValue, value);
-                OnPropertyChanged("SetAllPmcMasteringsValue");
+                OnPropertyChanged(nameof(SetAllPmcMasteringsValue));
             }
         }
 
@@ -113,7 +115,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 setAllScavMasteringsValue = Math.Min(ServerDatabase.ServerGlobals.Config.MaxProgressValue, value);
-                OnPropertyChanged("SetAllScavMasteringsValue");
+                OnPropertyChanged(nameof(SetAllScavMasteringsValue));
             }
         }
 
@@ -127,7 +129,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 pmcLevel = value;
-                OnPropertyChanged("PmcLevel");
+                OnPropertyChanged(nameof(PmcLevel));
             }
         }
 
@@ -137,7 +139,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 scavLevel = value;
-                OnPropertyChanged("ScavLevel");
+                OnPropertyChanged(nameof(ScavLevel));
             }
         }
 
@@ -147,7 +149,27 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 pmcQuests = value;
-                OnPropertyChanged("PmcQuests");
+                OnPropertyChanged(nameof(PmcQuests));
+            }
+        }
+
+        public bool PmcAddMissingQuests
+        {
+            get => pmcAddMissingQuests;
+            set
+            {
+                pmcAddMissingQuests = value;
+                OnPropertyChanged(nameof(PmcAddMissingQuests));
+            }
+        }
+
+        public bool PmcAddMissingEventQuests
+        {
+            get => pmcAddMissingEvenQuests;
+            set
+            {
+                pmcAddMissingEvenQuests = value;
+                OnPropertyChanged(nameof(PmcAddMissingEventQuests));
             }
         }
 
@@ -157,7 +179,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 pmcCommonSkills = value;
-                OnPropertyChanged("PmcCommonSkills");
+                OnPropertyChanged(nameof(PmcCommonSkills));
             }
         }
 
@@ -167,7 +189,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 scavCommonSkills = value;
-                OnPropertyChanged("ScavCommonSkills");
+                OnPropertyChanged(nameof(ScavCommonSkills));
             }
         }
 
@@ -177,7 +199,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 pmcMasteringsSkills = value;
-                OnPropertyChanged("PmcMasteringsSkills");
+                OnPropertyChanged(nameof(PmcMasteringsSkills));
             }
         }
 
@@ -187,12 +209,13 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 scavMasteringsSkills = value;
-                OnPropertyChanged("ScavMasteringsSkills");
+                OnPropertyChanged(nameof(ScavMasteringsSkills));
             }
         }
 
         public RelayCommand SaveProfile => new(obj =>
         {
+            var needSave = obj != null && ((obj as bool?) ?? false);
             if (PmcLevel)
             {
                 Profile.Characters.Pmc.Info.Level = Pmc.Level;
@@ -206,7 +229,13 @@ namespace SPT_AKI_Profile_Editor.Views
             if (SetMerchantsMax)
                 Profile.Characters.Pmc.SetAllTradersMax();
             if (PmcQuests)
+            {
+                if (PmcAddMissingQuests)
+                    Profile.Characters.Pmc.AddAllMisingQuests(false);
+                if (PmcAddMissingEventQuests)
+                    Profile.Characters.Pmc.AddAllMisingQuests(true);
                 Profile.Characters.Pmc.SetAllQuests(SetAllQuestsValue);
+            }
             if (SetHideoutMax)
                 Profile.Characters.Pmc.SetAllHideoutAreasMax();
             if (PmcCommonSkills)
@@ -222,7 +251,8 @@ namespace SPT_AKI_Profile_Editor.Views
             if (AcquireAll)
                 ServerDatabase.AcquireAllClothing();
             AppSettings.FastModeOpened = false;
-            _saveCommand.Execute(null);
+            if (needSave)
+                _saveCommand.Execute(null);
         });
     }
 }

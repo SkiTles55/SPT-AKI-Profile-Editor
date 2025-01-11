@@ -261,6 +261,8 @@
     "migration_to_3.9.0_title": "当前设置与 SPT 3.9.0 及更高版本不兼容",
     "migration_to_3.9.0_message": "进行自动修正吗？\n\n服务器文件的相对路径将会更正\n本地化文件也会重置\n程序会在执行上述动作后自动重新启动",
     "checkbox_dont_ask_again": "不再询问",
-    "server_select_help": "Need help?"
+    "server_select_help": "Need help?",
+    "fast_mode_apply_and_save": "Apply and save profile",
+    "fast_mode_apply_without_save": "Apply without saving"
   }
 }
