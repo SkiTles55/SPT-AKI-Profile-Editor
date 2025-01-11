@@ -27,6 +27,7 @@ namespace SPT_AKI_Profile_Editor.Views
         private bool scavCommonSkills = true;
         private bool pmcMasteringsSkills = true;
         private bool scavMasteringsSkills = true;
+        private bool pmcMerchants = true;
 
         public FastModeViewModel(RelayCommand saveCommand)
         {
@@ -213,6 +214,18 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public bool PmcMerchants
+        {
+            get => pmcMerchants;
+            set
+            {
+                pmcMerchants = value;
+                OnPropertyChanged(nameof(PmcMerchants));
+            }
+        }
+
+        public float RagfairStanding { get; set; } = 8.0f;
+
         public RelayCommand SaveProfile => new(obj =>
         {
             var needSave = obj != null && ((obj as bool?) ?? false);
@@ -226,8 +239,12 @@ namespace SPT_AKI_Profile_Editor.Views
                 Profile.Characters.Scav.Info.Level = Scav.Level;
                 Profile.Characters.Scav.Info.Experience = Scav.Experience;
             }
-            if (SetMerchantsMax)
-                Profile.Characters.Pmc.SetAllTradersMax();
+            if (pmcMerchants)
+            {
+                if (SetMerchantsMax)
+                    Profile.Characters.Pmc.SetAllTradersMax();
+                Profile.Characters.Pmc.RagfairInfo.Rating = RagfairStanding;
+            }
             if (PmcQuests)
             {
                 if (PmcAddMissingQuests)

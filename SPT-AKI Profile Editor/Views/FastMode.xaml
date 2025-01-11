@@ -12,7 +12,7 @@
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     HorizontalContentAlignment="Stretch"
     d:DataContext="{d:DesignInstance Type=views:FastModeViewModel}"
-    d:Height="600"
+    d:Height="900"
     d:IsOpen="True"
     d:Width="800"
     AnimateOpacity="True"
@@ -60,6 +60,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Border
                     Grid.Row="0"
@@ -91,11 +92,12 @@
                     Style="{StaticResource GroupBorder}" />
                 <Border
                     Grid.Row="10"
+                    Grid.RowSpan="2"
                     Grid.Column="1"
                     Grid.ColumnSpan="6"
                     Style="{StaticResource GroupBorder}" />
                 <Border
-                    Grid.Row="11"
+                    Grid.Row="12"
                     Grid.Column="1"
                     Grid.ColumnSpan="6"
                     Style="{StaticResource GroupBorder}" />
@@ -461,12 +463,57 @@
                 <mah:ToggleSwitch
                     Grid.Row="10"
                     Grid.Column="4"
-                    Margin="12,10,5,10"
+                    Margin="12,10,5,5"
+                    IsEnabled="{Binding PmcMerchants}"
                     IsOn="{Binding SetMerchantsMax}"
                     OffContent="{Binding AppLocalization.Translations[button_no]}"
                     OnContent="{Binding AppLocalization.Translations[button_yes]}" />
                 <Label
                     Grid.Row="11"
+                    Grid.Column="1"
+                    Margin="8,5,5,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding ServerDatabase.LocalesGlobal[RAG FAIR], FallbackValue=RAG FAIR}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
+                <Label
+                    Grid.Row="11"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Margin="0,5,5,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_merchants_standing], FallbackValue=tab_merchants_standing}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
+                <extendedcontrols:NumericUpDownExt
+                    Grid.Row="11"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
+                    Width="80"
+                    Margin="12,5,5,10"
+                    HorizontalAlignment="Left"
+                    Interval="0.01"
+                    IsEnabled="{Binding PmcMerchants}"
+                    Minimum="-20"
+                    NumericInputMode="Decimal"
+                    StringFormat="N2"
+                    TextAlignment="Left"
+                    Value="{Binding RagfairStanding}" />
+                <CheckBox
+                    Grid.Row="10"
+                    Grid.Column="6"
+                    Margin="5,10,5,5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding PmcMerchants}" />
+                <Label
+                    Grid.Row="12"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -476,7 +523,7 @@
                     </Label.Content>
                 </Label>
                 <Label
-                    Grid.Row="11"
+                    Grid.Row="12"
                     Grid.Column="1"
                     Grid.ColumnSpan="3"
                     Margin="8,5,5,5"
@@ -488,7 +535,7 @@
                     </Label.Content>
                 </Label>
                 <mah:ToggleSwitch
-                    Grid.Row="11"
+                    Grid.Row="12"
                     Grid.Column="4"
                     Margin="12,10,5,10"
                     IsOn="{Binding SetHideoutMax}"
