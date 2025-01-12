@@ -303,7 +303,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
             foreach (var suit in AppData.ServerDatabase.TraderSuits.Where(x => !x.Boughted).Take(4))
                 suit.Boughted = true;
-            suitsList = AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).ToArray();
+            suitsList = AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).Union(AppData.Profile.Suits).ToArray();
 
             pmc.SetAllCommonSkills(500);
             pmcCommonSkills = pmc.Skills.Common.ToDictionary(x => x.Id, y => y.Progress);

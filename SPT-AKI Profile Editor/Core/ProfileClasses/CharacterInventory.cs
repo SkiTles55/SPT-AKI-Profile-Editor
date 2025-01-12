@@ -27,6 +27,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        [JsonProperty("hideoutAreaStashes")]
+        public Dictionary<string, string> HideoutAreaStashes { get; set; }
+
         [JsonProperty("stash")]
         public string Stash
         {

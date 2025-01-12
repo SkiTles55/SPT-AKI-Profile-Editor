@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterBonus[] bonuses;
 
         [JsonIgnore]
-        public bool IsScav => Info.Side == "Savage";
+        public bool IsScav => Info?.Side == "Savage";
 
         [JsonProperty("aid")]
         public string Aid
@@ -192,7 +192,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             get
             {
-                var bonus = Bonuses.FirstOrDefault(x => x.Type == CharacterBonus.StashRowsType);
+                var bonus = Bonuses?.FirstOrDefault(x => x.Type == CharacterBonus.StashRowsType);
                 return (int)(bonus?.Value ?? 0);
             }
             set
@@ -208,11 +208,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonIgnore]
-        public ObservableCollection<CharacterTraderStandingExtended> TraderStandingsExt =>
-            new(TraderStandings?.Select(x => new CharacterTraderStandingExtended(x.Value,
-                                                                                x.Key,
-                                                                                GetTraderInfo(x.Key),
-                                                                                RagfairInfo?.Rating ?? 0f)));
+        public ObservableCollection<CharacterTraderStandingExtended> TraderStandingsExt
+        {
+            get
+            {
+                if (TraderStandings == null)
+                    return new ObservableCollection<CharacterTraderStandingExtended>();
+                return new(TraderStandings.Select(x => new CharacterTraderStandingExtended(x.Value,
+                                                                                           x.Key,
+                                                                                           GetTraderInfo(x.Key))));
+            }
+        }
 
         [JsonIgnore]
         public IEnumerable<ExaminedItem> ExaminedItems => Encyclopedia?
@@ -248,7 +254,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public IEnumerable<string> MissingQuests(bool eventQuests)
         {
             bool QuestIsMissing(bool eventQuests, string qid)
-                => Quests.FirstOrDefault(y => y.Qid == qid) == null
+                => Quests?.FirstOrDefault(y => y.Qid == qid) == null
                 && AppData.ServerConfigs.Quest.EventQuests.ContainsKey(qid) == eventQuests;
 
             return AppData.ServerDatabase.QuestsData
@@ -322,8 +328,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void SetAllHideoutAreasMax()
         {
             foreach (var area in Hideout?.Areas)
-                if (area.CanSetMaxLevel)
-                    area.Level = area.MaxLevel;
+                area.Level = area.MaxLevel;
         }
 
         public void SetAllCommonSkills(float value)
@@ -384,6 +389,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         private static TraderBase GetTraderInfo(string key)
-                            => AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
+        {
+            if (key == null)
+                return null;
+            return AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
+        }
     }
 }

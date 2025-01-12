@@ -260,6 +260,9 @@
     "tab_quests_add_all_missing_event_quests": "紛失したイベントクエストを加える",
     "migration_to_3.9.0_title": "今のアプリ設置は SPT 3.9.0 以上のバージョンに不適用となり",
     "migration_to_3.9.0_message": "自動的不具合を修正する？\n\nそうすればサーバー位置を自動的特定し\n言語ファイルもリセットし\nアプリを再開する",
-    "checkbox_dont_ask_again": "二度と聞かない"
+    "checkbox_dont_ask_again": "二度と聞かない",
+    "server_select_help": "ヘルプ",
+    "fast_mode_apply_and_save": "変更適用にしセーブする",
+    "fast_mode_apply_without_save": "変更適用、でもセーブしない"
   }
 }

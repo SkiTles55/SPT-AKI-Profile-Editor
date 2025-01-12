@@ -228,6 +228,11 @@ namespace SPT_AKI_Profile_Editor.Tests
                            Is.True);
 
         [Test]
+        public void ItemsDBHaveItemsWithSlots()
+            => Assert.That(AppData.ServerDatabase.ItemsDB.Any(x => x.Value.Properties?.Slots?.Any() ?? false),
+                           Is.True);
+
+        [Test]
         public void PocketsNotNul() => Assert.That(AppData.ServerDatabase.Pockets, Is.Not.Null);
 
         [Test]

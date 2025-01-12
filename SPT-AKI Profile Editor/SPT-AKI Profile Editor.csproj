@@ -6,7 +6,7 @@
     <RootNamespace>SPT_AKI_Profile_Editor</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
-    <Version>3.0.0</Version>
+    <Version>3.1.0</Version>
     <ApplicationIcon>Resources\killa_ico_k3r_icon.ico</ApplicationIcon>
     <PackageId>SPT-AKI Profile Editor</PackageId>
     <Authors>SkiTles55</Authors>
@@ -23,6 +23,7 @@
     <None Remove="Resources\Images\server_folder.jpg" />
     <None Remove="Resources\Localizations\ch.json" />
     <None Remove="Resources\Localizations\en.json" />
+    <None Remove="Resources\Localizations\jp.json" />
     <None Remove="Resources\Localizations\ru.json" />
   </ItemGroup>
 
@@ -38,6 +39,7 @@
     <Resource Include="Resources\Images\server_folder.jpg" />
     <EmbeddedResource Include="Resources\Localizations\ch.json" />
     <EmbeddedResource Include="Resources\Localizations\en.json" />
+    <EmbeddedResource Include="Resources\Localizations\jp.json" />
     <EmbeddedResource Include="Resources\Localizations\ru.json" />
   </ItemGroup>
 
