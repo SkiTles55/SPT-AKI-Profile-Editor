@@ -287,8 +287,18 @@ namespace SPT_AKI_Profile_Editor.Core
             .OrderBy(x => x.Value.SlotsCount)
             .ToDictionary(x => x.Key, x => GetPocketsName(x.Value));
 
-        private static string GetPocketsName(TarkovItem x) =>
-            $"{x.LocalizedName} ({x.SlotsCount})";
+        private static string GetPocketsName(TarkovItem x)
+        {
+            var name = $"{x.LocalizedName} ({x.SlotsCount})";
+            var specSlotsCount = x.Properties?.Slots?.Where(x => x.Name.StartsWith("SpecialSlot")).Count() ?? 0;
+            if (specSlotsCount > 0)
+            {
+                var key = "InventoryScreen/SpecialSlotsHeader";
+                var header = ServerDatabase.LocalesGlobal.ContainsKey(key) ? ServerDatabase.LocalesGlobal[key] : "special slots";
+                name += $" + {header} ({specSlotsCount})";
+            }
+            return name;
+        }
 
         private static void LoadTraderSuits()
         {
