@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (MigrationRequered(settings))
                 return new MigrationIntent(localization.GetLocalizedString("migration_to_3.11.0_title"),
                                            localization.GetLocalizedString("migration_to_3.11.0_message"),
-                                           "pe3.2, spt3.11.0, relative paths migration");
+                                           "pe3.1.1, spt3.11-be, relative paths migration");
             return null;
         }
 
