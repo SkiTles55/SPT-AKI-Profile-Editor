@@ -147,6 +147,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void UpdateStashForHideoutArea(HideoutAreaInfo hideoutAreaInfo, string type, int level, CharacterInventory inventory)
         {
+            if (hideoutAreaInfo == null)
+                return;
             var areaInfoObject = JObject.Parse(hideoutAreaInfo.Stages[level.ToString()].ToString());
             var areaStageContainer = areaInfoObject.SelectToken("container").ToObject<string>();
             if (!string.IsNullOrEmpty(areaStageContainer))
