@@ -1,6 +1,6 @@
 {
   "name": "ProfileEditorHelper",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "SkiTles55",
   "contributors": [],
   "license": "MIT",
@@ -9,7 +9,7 @@
   "incompatibilities": [],
   "isBundleMod": false,
   "main": "src/mod.js",
-  "sptVersion": ">=3.9.0",
+  "sptVersion": ">=3.11.0",
   "scripts": {
     "setup": "npm i",
     "build": "node ./build.mjs",
