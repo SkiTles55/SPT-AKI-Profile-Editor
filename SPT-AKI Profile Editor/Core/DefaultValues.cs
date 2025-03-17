@@ -63,7 +63,7 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerDir.bots] = "SPT_Data\\Server\\database\\bots\\types",
             [SPTServerDir.profiles] = "user\\profiles",
             [SPTServerDir.handbookIcons] = "SPT_Data\\Server\\images\\handbook",
-            [SPTServerDir.traderImages] = "SPT_Data\\Server\\images\\traders"
+            [SPTServerDir.traderImages] = "SPT_Data\\Server\\images\\trader\\avatar"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()

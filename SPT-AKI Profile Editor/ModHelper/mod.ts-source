@@ -5,14 +5,14 @@ import { HashUtil } from "@spt/utils/HashUtil";
 import { DatabaseServer } from "@spt/servers/DatabaseServer";
 import { ConfigServer } from "@spt/servers/ConfigServer";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
-import { VFS } from "@spt/models/spt/utils/VFS";
+import { FileSystemSync } from "@spt/utils/FileSystemSync";
 
 class Mod implements IPostSptLoadMod
 {
     private logger: ILogger
 	private jsonUtil: JsonUtil
 	private hashUtil: HashUtil
-	private vfs: VFS
+	private fileSystem: FileSystemSync
 	
 	private modName: string
 	private exportPath: string
@@ -31,10 +31,10 @@ class Mod implements IPostSptLoadMod
         this.logger = container.resolve<ILogger>("WinstonLogger");
         this.jsonUtil = container.resolve<JsonUtil>("JsonUtil");
         this.hashUtil = container.resolve<HashUtil>("HashUtil");
-        this.vfs = container.resolve<VFS>("VFS");
+        this.fileSystem = container.resolve<FileSystemSync>("FileSystemSync");
 		
-		if (this.vfs.exists(this.hashesPath)) {
-			this.hashesDictionary = this.jsonUtil.deserialize(this.vfs.readFile(this.hashesPath))
+		if (this.fileSystem.exists(this.hashesPath)) {
+			this.hashesDictionary = this.jsonUtil.deserialize(this.fileSystem.read(this.hashesPath))
 		}		
 		
         this.logger.log(`[${this.modName}] : Started database exporting`, "green");
@@ -59,7 +59,7 @@ class Mod implements IPostSptLoadMod
 		this.exportEntry("ExpTable", tables.globals.config.exp);
 		
 		if (this.hasDataUpdates) {
-			this.vfs.writeFile(`${this.hashesPath}`, this.jsonUtil.serialize(this.hashesDictionary, true)));
+			this.fileSystem.write(`${this.hashesPath}`, this.jsonUtil.serialize(this.hashesDictionary, true)));
 			this.logger.log(`[${this.modName}] : DB successfully exported`, "green");
 		} else {
 			this.logger.log(`[${this.modName}] : DB is up to date!`, "green");
@@ -72,7 +72,7 @@ class Mod implements IPostSptLoadMod
 		if (this.hashesDictionary[name] == entryHash) {
 			return;
 		}
-		this.vfs.writeFile(`${this.exportPath}/${name}.json`, entryJson);
+		this.fileSystem.write(`${this.exportPath}/${name}.json`, entryJson);
         this.logger.log(`[${this.modName}] : ${name} exported`, "green");
 		this.hashesDictionary[name] = entryHash;
 		this.hasDataUpdates = true;
@@ -87,7 +87,7 @@ class Mod implements IPostSptLoadMod
 			if (this.hashesDictionary[entryName] == valueHash) {
 				continue;
 			}
-			this.vfs.writeFile(`${this.exportPath}/${entryName}.json`, valueJson);
+			this.fileSystem.write(`${this.exportPath}/${entryName}.json`, valueJson);
 			this.hashesDictionary[entryName] = valueHash;
 			hasInnerUpdates = true;
 		}

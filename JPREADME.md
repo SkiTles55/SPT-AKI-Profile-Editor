@@ -20,6 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [アプリ不具合 \ 追加したい機能](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
+### [バージョン 3.2 サーバー SPT 3.11.0 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2)
 ### [バージョン 3.1 サーバー SPT 3.10.5 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.1)
 ### [バージョン 3.0 サーバー SPT 3.9.0 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.0)
 ### [バージョン 2.9.3 サーバー SPT-AKI 3.8.0 - 3.8.3 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.3)
