@@ -716,8 +716,31 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.ServerDatabase.AcquireAllClothing();
-            TestHelpers.SaveAndLoadProfile("testSuits.json");
+            string savePath = "testSuits.json";
+            TestHelpers.SaveAndLoadProfile(savePath);
             Assert.That(AppData.Profile.Suits.Length, Is.GreaterThanOrEqualTo(AppData.ServerDatabase.TraderSuits.Count));
+
+            var savedProfile = JObject.Parse(File.ReadAllText(savePath));
+            var customisationUnlocks = savedProfile.SelectToken("customisationUnlocks") as JArray;
+            Assert.That(customisationUnlocks, Is.Not.Null, "customisationUnlocks должен существовать в JSON");
+            foreach (var item in customisationUnlocks)
+            {
+                if (item["source"]?.ToString() == "unlockedInGame" && item["type"]?.ToString() == "suite")
+                {
+                    string id = item["id"]?.ToString();
+                    Assert.That(AppData.Profile.Suits.Contains(id), Is.True, $"ID {id} должен быть в profile.Suits");
+                }
+            }
+
+            foreach (var suitId in AppData.Profile.Suits)
+            {
+                bool exists = customisationUnlocks.Any(item =>
+                    item["id"]?.ToString() == suitId &&
+                    item["source"]?.ToString() == "unlockedInGame" &&
+                    item["type"]?.ToString() == "suite");
+
+                Assert.That(exists, Is.True, $"ID {suitId} должен быть в customisationUnlocks с source == 'unlockedInGame' и type == 'suite'");
+            }
         }
 
         [Test]
