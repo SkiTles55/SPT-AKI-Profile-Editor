@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ProfileNotEmpty() => Assert.That(AppData.Profile.IsProfileEmpty, Is.False, "Profile is empty");
 
         [Test]
-        public void SuitsNotEmpty() => Assert.That(AppData.Profile.Suits, Is.Not.Empty);
+        public void CustomisationUnlocksNotEmpty() => Assert.That(AppData.Profile.CustomisationUnlocks, Is.Not.Empty);
 
         [Test]
         public void PmcNotNull() => Assert.That(AppData.Profile.Characters.Pmc, Is.Not.Null);
@@ -718,29 +718,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.ServerDatabase.AcquireAllClothing();
             string savePath = "testSuits.json";
             TestHelpers.SaveAndLoadProfile(savePath);
-            Assert.That(AppData.Profile.Suits.Length, Is.GreaterThanOrEqualTo(AppData.ServerDatabase.TraderSuits.Count));
-
-            var savedProfile = JObject.Parse(File.ReadAllText(savePath));
-            var customisationUnlocks = savedProfile.SelectToken("customisationUnlocks") as JArray;
-            Assert.That(customisationUnlocks, Is.Not.Null, "customisationUnlocks должен существовать в JSON");
-            foreach (var item in customisationUnlocks)
-            {
-                if (item["source"]?.ToString() == "unlockedInGame" && item["type"]?.ToString() == "suite")
-                {
-                    string id = item["id"]?.ToString();
-                    Assert.That(AppData.Profile.Suits.Contains(id), Is.True, $"ID {id} должен быть в profile.Suits");
-                }
-            }
-
-            foreach (var suitId in AppData.Profile.Suits)
-            {
-                bool exists = customisationUnlocks.Any(item =>
-                    item["id"]?.ToString() == suitId &&
-                    item["source"]?.ToString() == "unlockedInGame" &&
-                    item["type"]?.ToString() == "suite");
-
-                Assert.That(exists, Is.True, $"ID {suitId} должен быть в customisationUnlocks с source == 'unlockedInGame' и type == 'suite'");
-            }
+            Assert.That(AppData.Profile.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Count, Is.GreaterThanOrEqualTo(AppData.ServerDatabase.TraderSuits.Count));
         }
 
         [Test]

@@ -49,7 +49,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.ExaminedItems && importedProgress.ExaminedItems != null)
                 pmc.Encyclopedia = importedProgress.ExaminedItems;
             if (settings.Clothing && importedProgress.Clothing != null)
-                profile.Suits = importedProgress.Clothing;
+            {
+                var notClothingUnlocks = profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock);
+                profile.CustomisationUnlocks = notClothingUnlocks.Concat(importedProgress.Clothing.Select(x => new CustomisationUnlock(x))).ToArray();
+            }
             ImportSkills(settings, importedProgress, pmc, profile?.Characters?.Scav);
             if (settings.Builds.GroupState != false && importedProgress.Builds != null)
                 ImportBuilds(settings, profile, importedProgress);
@@ -78,7 +81,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.ExaminedItems)
                 profileProgress.ExaminedItems = pmc?.Encyclopedia;
             if (settings.Clothing)
-                profileProgress.Clothing = profile?.Suits;
+                profileProgress.Clothing = profile?.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Select(x => x.Id).ToArray();
             if (settings.Skills.GroupState != false)
                 ExportCommonSkills(settings, profile, profileProgress);
             if (settings.Masterings.GroupState != false)

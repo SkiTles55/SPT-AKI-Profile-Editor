@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Linq;
 
@@ -20,20 +21,20 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         [JsonIgnore]
         public bool Boughted
         {
-            get => AppData.Profile?.Suits?.Any(x => x == SuiteId) ?? false;
+            get => AppData.Profile?.CustomisationUnlocks?.Any(x => x.IsSuitUnlock && x.Id == SuiteId) ?? false;
             set
             {
-                if (AppData.Profile?.Suits == null)
+                if (AppData.Profile?.CustomisationUnlocks == null)
                     return;
                 if (value)
                 {
-                    if (!AppData.Profile.Suits.Any(x => x == SuiteId))
-                        AppData.Profile.Suits = AppData.Profile.Suits.Append(SuiteId).ToArray();
+                    if (!AppData.Profile.CustomisationUnlocks.Any(x => x.IsSuitUnlock && x.Id == SuiteId))
+                        AppData.Profile.CustomisationUnlocks = AppData.Profile.CustomisationUnlocks.Append(new CustomisationUnlock(SuiteId)).ToArray();
                 }
                 else
                 {
-                    if (AppData.Profile.Suits.Any(x => x == SuiteId))
-                        AppData.Profile.Suits = AppData.Profile.Suits.Except(new string[] { SuiteId }).ToArray();
+                    if (AppData.Profile.CustomisationUnlocks.Any(x => x.IsSuitUnlock && x.Id == SuiteId))
+                        AppData.Profile.CustomisationUnlocks = AppData.Profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock || x.Id != SuiteId).ToArray();
                 }
                 OnPropertyChanged("Boughted");
             }

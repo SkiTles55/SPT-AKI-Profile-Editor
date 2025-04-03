@@ -13,9 +13,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public List<ModdedEntity> ModdedEntitiesForRemoving = new();
 
         private ProfileCharacters characters;
-        private string[] suits;
         private UserBuilds userBuilds;
         private int profileHash = 0;
+        private CustomisationUnlock[] customisationUnlocks;
 
         [JsonProperty("characters")]
         public ProfileCharacters Characters
@@ -29,14 +29,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonProperty("suits")]
-        public string[] Suits
+        [JsonProperty("customisationUnlocks")]
+        public CustomisationUnlock[] CustomisationUnlocks
         {
-            get => suits;
+            get => customisationUnlocks;
             set
             {
-                suits = value;
-                OnPropertyChanged(nameof(Suits));
+                customisationUnlocks = value;
+                OnPropertyChanged(nameof(CustomisationUnlocks));
             }
         }
 
@@ -79,7 +79,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             AddMisingHeadToServerDatabase(profile.Characters?.Pmc);
             AddMisingHeadToServerDatabase(profile.Characters?.Scav);
             Characters = profile.Characters;
-            Suits = profile.Suits;
+            CustomisationUnlocks = profile.customisationUnlocks;
             UserBuilds = profile.UserBuilds;
 
             static void AddMisingHeadToServerDatabase(Character character)

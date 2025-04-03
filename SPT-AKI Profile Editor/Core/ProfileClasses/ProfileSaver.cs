@@ -205,38 +205,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void WriteSuits(JObject jobject)
         {
-            try
-            {
-                jobject.SelectToken("suits").Replace(JToken.FromObject(profile.Suits.ToArray()));
-                if (jobject.SelectToken("customisationUnlocks") is not JArray customisationUnlocks)
-                    return;
-
-                static bool IsSuitUnlock(JToken item) => item["source"]?.ToString() == "unlockedInGame" && item["type"]?.ToString() == "suite";
-
-                var itemsToRemove = customisationUnlocks
-                    .Where(item => IsSuitUnlock(item) && !profile.Suits.Contains(item["id"]?.ToString()))
-                    .ToList();
-
-                foreach (var item in itemsToRemove)
-                    customisationUnlocks.Remove(item);
-
-                foreach (var suitId in profile.Suits)
-                {
-                    if (!customisationUnlocks.Any(item => item["id"]?.ToString() == suitId && IsSuitUnlock(item)))
-                    {
-                        customisationUnlocks.Add(new JObject
-                        {
-                            ["id"] = suitId,
-                            ["source"] = "unlockedInGame",
-                            ["type"] = "suite"
-                        });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                exceptions.Add(new SaveException(SaveEntry.Suits, ex));
-            }
+            try { jobject.SelectToken("customisationUnlocks").Replace(JToken.FromObject(profile.CustomisationUnlocks.ToArray())); }
+            catch (Exception ex) { exceptions.Add(new(SaveEntry.Suits, ex)); }
         }
 
         private void WriteTraders(JToken token, Character character)
