@@ -703,7 +703,6 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     IsChecked="{Binding ScavMasteringsSkills}" />
-
             </Grid>
         </ScrollViewer>
         <StackPanel
