@@ -6,7 +6,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     {
         private string nickname;
         private string side;
-        private string voice;
         private int level;
         private long experience;
 
@@ -27,16 +26,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 side = value;
                 OnPropertyChanged(nameof(Side));
-            }
-        }
-
-        public string Voice
-        {
-            get => voice;
-            set
-            {
-                voice = value;
-                OnPropertyChanged(nameof(Voice));
             }
         }
 

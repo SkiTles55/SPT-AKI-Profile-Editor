@@ -245,10 +245,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 JToken infoToken = character.SelectToken("Info");
                 infoToken["Nickname"] = profileCharacter.Info.Nickname;
-                infoToken["Voice"] = profileCharacter.Info.Voice;
                 infoToken["Level"] = profileCharacter.Info.Level;
                 infoToken["Experience"] = profileCharacter.Info.Experience;
                 character.SelectToken("Customization")["Head"] = profileCharacter.Customization.Head;
+                character.SelectToken("Customization")["Voice"] = profileCharacter.Customization.Voice;
 
                 if (!profileCharacter.IsScav)
                 {

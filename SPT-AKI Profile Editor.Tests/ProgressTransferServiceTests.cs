@@ -117,7 +117,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             && merchant.Standing == other.Standing;
 
         private static string GetVoice(Character character)
-                    => AppData.ServerDatabase.Voices.FirstOrDefault(x => x.Key != character.Info.Voice).Key;
+                    => AppData.ServerDatabase.Voices.FirstOrDefault(x => x.Key != character.Customization.Voice).Key;
 
         private static string GetHead(Character character)
             => AppData.ServerDatabase.Heads.FirstOrDefault(x => x.Key != character.Customization.Head).Key;
@@ -137,7 +137,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                                             string pockets)
         {
             pmc.Info.Nickname = nickname;
-            pmc.Info.Voice = voice;
+            pmc.Customization.Voice = voice;
             pmc.Info.Side = side;
             pmc.Info.Experience = exp;
             pmc.Customization.Head = head;
@@ -186,7 +186,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                                                       Health expectedHealth)
         {
             Assert.That(character.Info.Nickname, Is.EqualTo(expectedNickname));
-            Assert.That(character.Info.Voice, Is.EqualTo(expectedVoice));
+            Assert.That(character.Customization.Voice, Is.EqualTo(expectedVoice));
             Assert.That(character.Info.Side, Is.EqualTo(expectedSide));
             Assert.That(character.Info.Experience, Is.EqualTo(expectedExp));
             Assert.That(character.Customization.Head, Is.EqualTo(expectedHead));

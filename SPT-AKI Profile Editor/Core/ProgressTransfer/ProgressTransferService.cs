@@ -114,7 +114,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (info.SideEnabled && info.Side && imported.Side != null)
                 character.Info.Side = imported.Side;
             if (info.Voice && imported.Voice != null)
-                character.Info.Voice = imported.Voice;
+                character.Customization.Voice = imported.Voice;
             if (info.Experience && imported.Experience != null)
                 character.Info.Experience = imported.Experience ?? 0;
             if (info.Head && imported.Head != null)
@@ -326,7 +326,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 if (info.SideEnabled && info.Side)
                     characterInfo.Side = character?.Info?.Side;
                 if (info.Voice)
-                    characterInfo.Voice = character?.Info?.Voice;
+                    characterInfo.Voice = character?.Customization?.Voice;
                 if (info.Experience && character?.Info?.Experience != null)
                     characterInfo.Experience = character.Info.Experience;
                 if (info.Head)
