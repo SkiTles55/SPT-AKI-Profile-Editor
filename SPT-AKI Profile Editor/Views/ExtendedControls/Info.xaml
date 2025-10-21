@@ -86,7 +86,7 @@
                 VerticalAlignment="Center"
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding ServerDatabase.Voices}"
-                SelectedValue="{Binding ElementName=Control, Path=Character.Info.Voice, UpdateSourceTrigger=PropertyChanged}"
+                SelectedValue="{Binding ElementName=Control, Path=Character.Customization.Voice, UpdateSourceTrigger=PropertyChanged}"
                 SelectedValuePath="Key" />
             <Label
                 Grid.Row="4"
