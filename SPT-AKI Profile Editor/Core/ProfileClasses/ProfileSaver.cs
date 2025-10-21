@@ -307,6 +307,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                             if (quest != null && quest.Status != edited.Status)
                             {
                                 questToken["status"] = edited.Status.ToString();
+                                questToken["startTime"] = edited.StartTime;
                                 questToken["statusTimers"] = JObject.FromObject(edited.StatusTimers);
                                 if (edited.Status <= QuestStatus.AvailableForStart && questToken["completedConditions"] != null)
                                     questToken["completedConditions"]?.Replace(JToken.FromObject(Array.Empty<string>()));
