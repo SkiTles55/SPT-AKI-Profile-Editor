@@ -40,19 +40,20 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public MigrationIntent GetMigrationIntent(AppSettings settings, AppLocalization localization)
         {
             if (MigrationRequered(settings))
-                return new MigrationIntent(localization.GetLocalizedString("migration_to_3.11.0_title"),
-                                           localization.GetLocalizedString("migration_to_3.11.0_message"),
-                                           "pe3.1.1, spt3.11-be, relative paths migration");
+                return new MigrationIntent(localization.GetLocalizedString("migration_to_4.0.1_title"),
+                                           localization.GetLocalizedString("migration_to_4.0.1_message"),
+                                           "pe4.0, spt4.0.1, relative paths migration");
             return null;
         }
 
         private static bool MigrationRequered(AppSettings settings)
         {
-            var dirs = settings.DirsList.Select(x => x.Value.StartsWith("Aki"));
-            var files = settings.FilesList.Select(x => x.Value.StartsWith("Aki"));
+            var dirs = settings.DirsList.Select(x => !x.Value.StartsWith("SPT"));
+            var dirs2 = settings.DirsList.Select(x => x.Key != SPTServerDir.profiles && x.Value.Contains("Server"));
+            var files = settings.FilesList.Select(x => !x.Value.StartsWith("SPT"));
             KeyValuePair<string, string>? tradersImagesPath = settings.DirsList.Where(x => x.Key == SPTServerDir.traderImages).FirstOrDefault();
             var oldTraderIcons = tradersImagesPath?.Value != DefaultValues.DefaultDirsList.FirstOrDefault(x => x.Key == SPTServerDir.traderImages).Value;
-            return dirs.Any(x => x) || files.Any(x => x) || oldTraderIcons;
+            return dirs.Any(x => x) || dirs.Any(x => x) || files.Any(x => x) || oldTraderIcons;
         }
     }
 }
