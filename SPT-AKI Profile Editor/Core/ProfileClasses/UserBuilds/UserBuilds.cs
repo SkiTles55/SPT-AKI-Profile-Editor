@@ -85,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void ImportEquipmentBuildFromFile(string path)
         {
             var equipmentBuild = GetBuildFromFile<EquipmentBuild>(path);
-            if (equipmentBuild.Name == null || equipmentBuild.Type != 0)
+            if (equipmentBuild.Name == null || equipmentBuild.Type != "Custom")
                 throw NoBuildInFileException(path);
             if (equipmentBuild != null)
                 ImportBuild(equipmentBuild);

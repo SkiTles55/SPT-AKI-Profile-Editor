@@ -1,5 +1,5 @@
 {
-  "BuildType": 0,
+  "BuildType": "Custom",
   "id": "65c39520010016e7543d8cf7",
   "name": "TestBuild",
   "root": "75501a78151e8e3b920f3a14",
