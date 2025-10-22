@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private Version AvailableVersion = new();
 
-        public HelperModManager(string updateUrl, string updateSaveDirectory, string modPath = "user\\mods\\ProfileEditorHelper")
+        public HelperModManager(string updateUrl, string updateSaveDirectory, string modPath = "SPT\\user\\mods\\ProfileEditorHelper")
         {
             this.updateUrl = new(updateUrl);
             this.updateSaveDirectory = updateSaveDirectory;
