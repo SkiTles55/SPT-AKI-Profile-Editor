@@ -188,15 +188,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SPT-AKI Profile Editor"
-        "ProductCode" = "8:{C882443E-BC34-48DE-8384-DAF855D47FEE}"
-        "PackageCode" = "8:{E7030AF9-44B5-428A-BA31-83214E38C839}"
+        "ProductCode" = "8:{6FF6A50F-CEAB-4058-8C9B-46A025B42DA6}"
+        "PackageCode" = "8:{7A6DF355-2900-40A2-A4AA-3C220AA100AE}"
         "UpgradeCode" = "8:{1F669B59-9085-4108-BADB-9359D4FBA0D0}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:3.3"
+        "ProductVersion" = "8:4.0"
         "Manufacturer" = "8:SkiTles"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/SkiTles55/SPT-AKI-Profile-Editor"
@@ -738,7 +738,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_14BD26B3073C4E73B794343A83AFD5D8"
             {
-            "SourcePath" = "8:..\\SPT-AKI Profile Editor\\obj\\Debug\\net6.0-windows10.0.17763.0\\win-x64\\apphost.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9DAA9F69ECAB4BF6BF476D1762EF3466"

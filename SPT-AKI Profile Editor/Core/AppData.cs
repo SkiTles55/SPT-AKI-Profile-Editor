@@ -137,7 +137,12 @@ namespace SPT_AKI_Profile_Editor.Core
                     if (bot.Appearance.Voices != null)
                         foreach (var voice in bot.Appearance.Voices.Keys)
                             if (!Voices.ContainsKey(voice))
-                                Voices.Add(voice, voice);
+                            {
+                                var localizedName = voice;
+                                if (ServerDatabase.LocalesGlobal.ContainsKey(voice.Name()))
+                                    localizedName = ServerDatabase.LocalesGlobal[voice.Name()];
+                                Voices.Add(voice, string.IsNullOrEmpty(localizedName) ? voice : localizedName);
+                            }
                 }
                 catch (Exception ex) { Logger.Log($"ServerDatabase BotType ({btype}) loading error: {ex.Message}"); }
             }

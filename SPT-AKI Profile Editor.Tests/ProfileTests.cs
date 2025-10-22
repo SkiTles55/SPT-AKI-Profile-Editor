@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void VoiceNotEmpty()
-            => Assert.That(AppData.Profile.Characters.Pmc.Info.Voice, Is.Not.Null, "Voice is empty");
+            => Assert.That(AppData.Profile.Characters.Pmc.Customization.Voice, Is.Not.Null, "Voice is empty");
 
         [Test]
         public void PmcExperienceNotZero()

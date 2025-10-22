@@ -133,15 +133,19 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        public bool UsingModHelper
-        {
-            get => usingModHelper;
-            set
-            {
-                usingModHelper = value;
-                NotifyPropertyChangedAndSave(nameof(UsingModHelper));
-            }
-        }
+        [JsonIgnore]
+        public bool UsingModHelper = false;
+
+        // Need mod rewrite
+        //public bool UsingModHelper
+        //{
+        //    get => usingModHelper;
+        //    set
+        //    {
+        //        usingModHelper = value;
+        //        NotifyPropertyChangedAndSave(nameof(UsingModHelper));
+        //    }
+        //}
 
         public Dictionary<string, string> DirsList { get; set; }
 

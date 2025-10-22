@@ -11,9 +11,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterQuest : BindableEntity
     {
         private QuestType type;
-
         private string qid;
-
+        private double startTime;
         private QuestStatus status;
 
         [JsonProperty("qid")]
@@ -23,7 +22,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 qid = value;
-                OnPropertyChanged("Qid");
+                OnPropertyChanged(nameof(Qid));
+            }
+        }
+
+        [JsonProperty("startTime")]
+        public double StartTime
+        {
+            get => startTime;
+            set
+            {
+                startTime = value;
+                OnPropertyChanged(nameof(StartTime));
             }
         }
 
@@ -42,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (!StatusTimers.ContainsKey(newStatus))
                     StatusTimers.Add(newStatus, ExtMethods.GetTimestamp);
                 AppData.Profile?.Characters?.Pmc?.SetupCraftForQuest(QuestQid, newStatus == QuestStatus.Success);
-                OnPropertyChanged("Status");
+                OnPropertyChanged(nameof(Status));
             }
         }
 
@@ -64,7 +74,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 type = value;
-                OnPropertyChanged("Type");
+                OnPropertyChanged(nameof(Type));
             }
         }
 

@@ -274,7 +274,10 @@
                         SelectedValuePath="Key" />
                 </Grid>
             </TabItem>
-            <TabItem Header="{Binding AppLocalization.Translations[tab_settings_helper_mod], FallbackValue=tab_settings_helper_mod}" HeaderTemplate="{StaticResource SettingsTemplate}">
+            <TabItem
+                Header="{Binding AppLocalization.Translations[tab_settings_helper_mod], FallbackValue=tab_settings_helper_mod}"
+                HeaderTemplate="{StaticResource SettingsTemplate}"
+                IsEnabled="False">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
