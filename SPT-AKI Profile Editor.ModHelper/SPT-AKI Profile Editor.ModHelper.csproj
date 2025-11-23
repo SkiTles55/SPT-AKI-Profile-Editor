@@ -5,6 +5,7 @@
     <RootNamespace>SPT_AKI_Profile_Editor.ModHelper</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.0.7</Version>
   </PropertyGroup>
 
   <ItemGroup>
