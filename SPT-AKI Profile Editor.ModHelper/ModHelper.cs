@@ -28,7 +28,13 @@ public class ProfileEditorModHelper(
 
     public Task OnLoad()
     {
-        var pathToMod = IOPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
+        var pathToMod = IOPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        if (pathToMod == null)
+        {
+            LogMessage("Unable to get mod location path. Export Cancelled", LogTextColor.Red);
+            return Task.CompletedTask;
+        }
+
         exportPath = IOPath.Combine(pathToMod, "exportedDB");
         var hashesPath = IOPath.Combine(pathToMod, hashesFileName);
         if (fileUtil.FileExists(hashesPath))
@@ -51,8 +57,15 @@ public class ProfileEditorModHelper(
 
         if (hasDataUpdates)
         {
-            fileUtil.WriteFile(hashesPath, jsonUtil.Serialize(hashes) ?? "");
-            LogMessage("DB successfully exported");
+            var hasesData = jsonUtil.Serialize(hashes);
+            if (hasesData != null)
+            {
+                fileUtil.WriteFile(hashesPath, hasesData);
+                LogMessage("DB successfully exported");
+            } else
+            {
+                LogMessage("DB successfully exported, but hashes not updated", LogTextColor.Red);
+            }
         }
         else
         {
@@ -70,7 +83,9 @@ public class ProfileEditorModHelper(
 
     private void ExportDatabaseEntry(string name, object entry)
     {
-        string entryJson = jsonUtil.Serialize(entry) ?? "";
+        string? entryJson = jsonUtil.Serialize(entry);
+        if (entryJson == null)
+            return;
         string entryHash = GenerateMd5Hash(entryJson);
 
         if (hashes.TryGetValue(name, out string? existingHash) && existingHash == entryHash)
@@ -90,7 +105,9 @@ public class ProfileEditorModHelper(
         foreach (var (key, value) in dictionary)
         {
             string entryName = $"{name}/{key}";
-            string valueJson = jsonUtil.Serialize(value) ?? "";
+            string? valueJson = jsonUtil.Serialize(value);
+            if (valueJson == null)
+                continue;
             string valueHash = GenerateMd5Hash(valueJson);
 
             if (hashes.TryGetValue(entryName, out string? existingHash) && existingHash == valueHash)
@@ -109,5 +126,6 @@ public class ProfileEditorModHelper(
         }
     }
 
-    private void LogMessage(string message) => logger.LogWithColor($"[[SPT-AKI Profile Editor] Helper Mod] : {message}", LogTextColor.Green);
+    private void LogMessage(string message, LogTextColor textColor = LogTextColor.Green)
+        => logger.LogWithColor($"[[SPT-AKI Profile Editor] Helper Mod] : {message}", textColor);
 }
