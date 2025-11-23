@@ -138,8 +138,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 return false;
             var fullDbPath = Path.Combine(AppData.AppSettings.ServerPath, helperDbPath);
             if (Directory.Exists(fullDbPath)
-                && Directory.GetFiles(fullDbPath, "*.json").Any()
-                && Directory.GetDirectories(fullDbPath).Any())
+                && Directory.GetFiles(fullDbPath, "*.json").Length != 0
+                && Directory.GetDirectories(fullDbPath).Length != 0)
                 return true;
             return false;
         }
