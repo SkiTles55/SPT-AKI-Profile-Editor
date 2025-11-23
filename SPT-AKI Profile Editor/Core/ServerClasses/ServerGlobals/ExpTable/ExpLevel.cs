@@ -24,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 expTable = value;
-                OnPropertyChanged("ExpTable");
+                OnPropertyChanged(nameof(ExpTable));
             }
         }
 

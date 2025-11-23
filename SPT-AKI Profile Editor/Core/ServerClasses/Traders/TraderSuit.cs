@@ -29,12 +29,12 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                 if (value)
                 {
                     if (!AppData.Profile.CustomisationUnlocks.Any(x => x.IsSuitUnlock && x.Id == SuiteId))
-                        AppData.Profile.CustomisationUnlocks = AppData.Profile.CustomisationUnlocks.Append(new CustomisationUnlock(SuiteId)).ToArray();
+                        AppData.Profile.CustomisationUnlocks = [.. AppData.Profile.CustomisationUnlocks, new CustomisationUnlock(SuiteId)];
                 }
                 else
                 {
                     if (AppData.Profile.CustomisationUnlocks.Any(x => x.IsSuitUnlock && x.Id == SuiteId))
-                        AppData.Profile.CustomisationUnlocks = AppData.Profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock || x.Id != SuiteId).ToArray();
+                        AppData.Profile.CustomisationUnlocks = [.. AppData.Profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock || x.Id != SuiteId)];
                 }
                 OnPropertyChanged("Boughted");
             }

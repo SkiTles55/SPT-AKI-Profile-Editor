@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
-    public class AppSettings : BindableEntity
+    public class AppSettings(string configurationFile) : BindableEntity
     {
         [JsonIgnore]
         public readonly string repoAuthor = "SkiTles55";
@@ -36,28 +36,25 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string modHelperHowToUseUrl = "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/Guidelines/ModHelper";
 
         [JsonIgnore]
-        public readonly List<QuestStatus> standartQuestStatuses = new()
-        {
+        public readonly List<QuestStatus> standartQuestStatuses =
+        [
             QuestStatus.Locked,
             QuestStatus.AvailableForStart,
             QuestStatus.Started,
             QuestStatus.Fail,
             QuestStatus.AvailableForFinish,
             QuestStatus.Success
-        };
+        ];
 
         [JsonIgnore]
-        public readonly List<QuestStatus> repeatableQuestStatuses = new()
-        {
+        public readonly List<QuestStatus> repeatableQuestStatuses =
+        [
             QuestStatus.AvailableForStart,
             QuestStatus.Started,
             QuestStatus.Fail,
             QuestStatus.AvailableForFinish,
             QuestStatus.Success
-        };
-
-        [JsonIgnore]
-        public readonly string configurationFile;
+        ];
 
         [JsonIgnore]
         public bool Loaded = false;
@@ -73,8 +70,6 @@ namespace SPT_AKI_Profile_Editor.Core
         private bool fastModeOpened = false;
         private bool? checkUpdates;
         private bool usingModHelper;
-
-        public AppSettings(string configurationFile) => this.configurationFile = configurationFile;
 
         public string ServerPath
         {
@@ -286,7 +281,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public void LoadProfiles()
         {
-            Dictionary<string, string> Profiles = new();
+            Dictionary<string, string> Profiles = [];
             if (string.IsNullOrEmpty(ServerPath)) return;
             var profilesPath = Path.Combine(ServerPath, DirsList[SPTServerDir.profiles]);
             if (!Directory.Exists(profilesPath)) return;
@@ -392,12 +387,12 @@ namespace SPT_AKI_Profile_Editor.Core
             bool _needReSave = false;
             if (DirsList == null)
             {
-                DirsList = new();
+                DirsList = [];
                 _needReSave = true;
             }
             if (FilesList == null)
             {
-                FilesList = new();
+                FilesList = [];
                 _needReSave = true;
             }
             foreach (var dir in DefaultValues.DefaultDirsList.Where(x => !DirsList.ContainsKey(x.Key)))
@@ -542,7 +537,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             if (SkipMigrationTags == null)
             {
-                SkipMigrationTags = new();
+                SkipMigrationTags = [];
                 _needReSave = true;
             }
             if (MannequinInventoryTpl == null)
@@ -592,7 +587,7 @@ namespace SPT_AKI_Profile_Editor.Core
             BearDogtagTpl = DefaultValues.BearDogtagTpl;
             EndlessDevBackpackId = DefaultValues.EndlessDevBackpackId;
             FenceTraderId = DefaultValues.FenceTraderId;
-            SkipMigrationTags = new();
+            SkipMigrationTags = [];
             MannequinInventoryTpl = DefaultValues.MannequinInventoryTpl;
             HideoutAreaEquipmentPresetsType = DefaultValues.HideoutAreaEquipmentPresetsType;
             Logger.Log($"Default configuration file created");

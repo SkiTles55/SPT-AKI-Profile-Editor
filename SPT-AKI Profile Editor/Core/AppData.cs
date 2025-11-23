@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly IssuesService IssuesService;
         public static readonly IHelperModManager HelperModManager;
 
-        private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.ToLowerInvariant().StartsWith("nunit.framework"));
+        private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.StartsWith("nunit.framework", StringComparison.InvariantCultureIgnoreCase));
         private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
 
         static AppData()
@@ -74,7 +74,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static Dictionary<string, string> GetAvailableKeys()
         {
-            Dictionary<string, string> availableKeys = new();
+            Dictionary<string, string> availableKeys = [];
             try
             {
                 string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.languages]);
@@ -93,7 +93,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadLocalesGlobal()
         {
-            ServerDatabase.LocalesGlobal = new();
+            ServerDatabase.LocalesGlobal = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath($"Locales\\{AppSettings.Language}.json")
                 : Path.Combine(AppSettings.ServerPath,
@@ -121,8 +121,8 @@ namespace SPT_AKI_Profile_Editor.Core
                 return $"{Path.GetFileNameWithoutExtension(botName)} [{headKey}]";
             }
 
-            Dictionary<string, string> Heads = new();
-            Dictionary<string, string> Voices = new();
+            Dictionary<string, string> Heads = [];
+            Dictionary<string, string> Voices = [];
             foreach (var btype in Directory.GetFiles(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.bots])))
             {
                 try
@@ -194,7 +194,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadTradersInfos()
         {
-            ServerDatabase.TraderInfos = new();
+            ServerDatabase.TraderInfos = [];
             var traderInfos = new Dictionary<string, TraderBase>();
             if (AppSettings.UsingModHelper)
             {
@@ -235,7 +235,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadQuestsData()
         {
-            ServerDatabase.QuestsData = new();
+            ServerDatabase.QuestsData = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath("Quests.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
@@ -249,7 +249,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHideoutAreaInfos()
         {
-            ServerDatabase.HideoutAreaInfos = new();
+            ServerDatabase.HideoutAreaInfos = [];
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.areas]);
             try
             {
@@ -261,7 +261,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHideoutProduction()
         {
-            ServerDatabase.HideoutProduction = Array.Empty<HideoutProduction>();
+            ServerDatabase.HideoutProduction = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath("Production.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
@@ -275,7 +275,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadItemsDB()
         {
-            ServerDatabase.ItemsDB = new();
+            ServerDatabase.ItemsDB = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath("Items.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
@@ -299,7 +299,7 @@ namespace SPT_AKI_Profile_Editor.Core
             if (specSlotsCount > 0)
             {
                 var key = "InventoryScreen/SpecialSlotsHeader";
-                var header = ServerDatabase.LocalesGlobal.ContainsKey(key) ? ServerDatabase.LocalesGlobal[key] : "special slots";
+                var header = ServerDatabase.LocalesGlobal.TryGetValue(key, out string value) ? value : "special slots";
                 name += $" + {header} ({specSlotsCount})";
             }
             return name;
@@ -307,7 +307,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadTraderSuits()
         {
-            ServerDatabase.TraderSuits = new();
+            ServerDatabase.TraderSuits = [];
             var traderSuits = new List<TraderSuit>();
             foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
             {
@@ -351,9 +351,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             catch (Exception ex)
             {
-                ServerDatabase.HandbookHelper = new(new List<HandbookCategory>(),
-                                                    new Dictionary<string, TarkovItem>(),
-                                                    new ObservableCollection<WeaponBuild>());
+                ServerDatabase.HandbookHelper = new([], [], []);
                 Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
         }
@@ -361,7 +359,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static string GetHelperDBFilePath(string filename)
         {
             var path = Path.Combine(AppSettings.ServerPath, HelperModManager.DbPath, filename);
-            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Any())
+            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Length != 0)
                 ? path
                 : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
         }

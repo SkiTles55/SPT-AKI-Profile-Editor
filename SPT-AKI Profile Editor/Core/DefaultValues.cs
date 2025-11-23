@@ -40,8 +40,8 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 
-        public static List<string> BannedItems => new()
-        {
+        public static List<string> BannedItems =>
+        [
             "543be5dd4bdc2deb348b4569",
             "55d720f24bdc2d88028b456d",
             "557596e64bdc2dc2118b4571",
@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Core
             "5996f6fc86f7745e585b4de3",
             "5cdeb229d7f00c000e7ce174",
             "5d52cc5ba4b9367408500062"
-        };
+        ];
 
         public static Dictionary<string, string> DefaultDirsList => new()
         {
@@ -81,7 +81,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static List<AppLocalization> DefaultLocalizations()
         {
-            List<AppLocalization> loaded = new();
+            List<AppLocalization> loaded = [];
             foreach (var file in new string[] { "en.json", "ru.json", "ch.json", "jp.json" })
             {
                 try

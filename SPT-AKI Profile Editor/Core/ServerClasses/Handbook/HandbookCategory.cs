@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             Id = id;
             ParentId = parentId;
             Icon = icon;
-            LocalizedName = AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id) ? AppData.ServerDatabase.LocalesGlobal[Id] : Id;
+            LocalizedName = AppData.ServerDatabase.LocalesGlobal.TryGetValue(Id, out string value) ? value : Id;
             LoadBitmapIcon();
         }
 

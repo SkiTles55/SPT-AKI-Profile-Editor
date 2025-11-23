@@ -25,7 +25,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 heads = value;
-                OnPropertyChanged("Heads");
+                OnPropertyChanged(nameof(Heads));
             }
         }
 
@@ -35,7 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 voices = value;
-                OnPropertyChanged("Voices");
+                OnPropertyChanged(nameof(Voices));
             }
         }
 
@@ -45,7 +45,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 localesGlobal = value;
-                OnPropertyChanged("LocalesGlobal");
+                OnPropertyChanged(nameof(LocalesGlobal));
             }
         }
 
@@ -55,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 serverGlobals = value;
-                OnPropertyChanged("ServerGlobals");
+                OnPropertyChanged(nameof(ServerGlobals));
             }
         }
 
@@ -65,7 +65,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 traderInfos = value;
-                OnPropertyChanged("TraderInfos");
+                OnPropertyChanged(nameof(TraderInfos));
             }
         }
 
@@ -75,7 +75,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 questsData = value;
-                OnPropertyChanged("QuestsData");
+                OnPropertyChanged(nameof(QuestsData));
             }
         }
 
@@ -85,7 +85,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 hideoutAreaInfos = value;
-                OnPropertyChanged("HideoutAreaInfos");
+                OnPropertyChanged(nameof(HideoutAreaInfos));
             }
         }
 
@@ -95,7 +95,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 itemsDB = value;
-                OnPropertyChanged("ItemsDB");
+                OnPropertyChanged(nameof(ItemsDB));
             }
         }
 
@@ -105,7 +105,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 pockets = value;
-                OnPropertyChanged("Pockets");
+                OnPropertyChanged(nameof(Pockets));
             }
         }
 
@@ -115,7 +115,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 traderSuits = value;
-                OnPropertyChanged("TraderSuits");
+                OnPropertyChanged(nameof(TraderSuits));
             }
         }
 
@@ -125,7 +125,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 handbook = value;
-                OnPropertyChanged("Handbook");
+                OnPropertyChanged(nameof(Handbook));
             }
         }
 
@@ -135,7 +135,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 handbookHelper = value;
-                OnPropertyChanged("HandbookHelper");
+                OnPropertyChanged(nameof(HandbookHelper));
             }
         }
 

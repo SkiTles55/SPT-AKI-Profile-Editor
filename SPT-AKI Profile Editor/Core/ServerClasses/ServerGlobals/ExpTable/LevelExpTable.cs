@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             set
             {
                 exp = value;
-                OnPropertyChanged("Exp");
+                OnPropertyChanged(nameof(Exp));
             }
         }
     }
