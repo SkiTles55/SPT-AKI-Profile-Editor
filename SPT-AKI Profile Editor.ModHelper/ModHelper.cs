@@ -50,7 +50,7 @@ public class ProfileEditorModHelper(
             ExportDatabaseEntry("QuestConfig", questConfig);
         // Traders still exporting on every run, due to nextRessuply changes
         ExportDictionaryEntry("Traders", tables.Traders.ToDictionary(x => x.Key.ToString(), y => (object)y.Value.Base));
-        ExportDictionaryEntry("Locales", tables.Locales.Global.ToDictionary(x => x.Key.ToString(), y => (object)y));
+        ExportDictionaryEntry("Locales", tables.Locales.Global.ToDictionary(x => x.Key.ToString(), y => (object)(y.Value.Value ?? [])));
         ExportDatabaseEntry("ItemPresets", tables.Globals.ItemPresets);
         ExportDatabaseEntry("Mastering", tables.Globals.Configuration.Mastering);
         ExportDatabaseEntry("ExpTable", tables.Globals.Configuration.Exp);
