@@ -203,7 +203,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 if (bonus != null)
                     bonus.Value = value;
                 else
-                    Bonuses = Bonuses.Append(CharacterBonus.CreateStashRowsBonus(value)).ToArray();
+                    Bonuses = [.. Bonuses, CharacterBonus.CreateStashRowsBonus(value)];
             }
         }
 
@@ -213,7 +213,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             get
             {
                 if (TraderStandings == null)
-                    return new ObservableCollection<CharacterTraderStandingExtended>();
+                    return [];
                 return new(TraderStandings.Select(x => new CharacterTraderStandingExtended(x.Value,
                                                                                            x.Key,
                                                                                            GetTraderInfo(x.Key))));
@@ -222,8 +222,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public IEnumerable<ExaminedItem> ExaminedItems => Encyclopedia?
-            .Select(x => AppData.ServerDatabase.ItemsDB.ContainsKey(x.Key)
-            ? AppData.ServerDatabase.ItemsDB[x.Key].GetExaminedItem() : new ExaminedItem(x.Key, x.Key, null));
+            .Select(x => AppData.ServerDatabase.ItemsDB.TryGetValue(x.Key, out TarkovItem value)
+            ? value.GetExaminedItem() : new ExaminedItem(x.Key, x.Key, null));
 
         [JsonIgnore]
         public List<CharacterHideoutProduction> HideoutProductions => hideoutProductions;
@@ -234,17 +234,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             OnPropertyChanged(nameof(TraderStandingsExt));
         }
 
-        public void RemoveAllQuests() => Quests = Array.Empty<CharacterQuest>();
+        public void RemoveAllQuests() => Quests = [];
 
         public void RemoveQuests(IEnumerable<string> questQids)
-            => Quests = Quests.Where(x => !questQids.Contains(x.Qid)).ToArray();
+            => Quests = [.. Quests.Where(x => !questQids.Contains(x.Qid))];
 
         public void AddQuests(IEnumerable<CharacterQuest> newQuests)
         {
             var questList = Quests.ToList();
             foreach (var quest in newQuests)
                 questList.Add(quest);
-            Quests = questList.ToArray();
+            Quests = [.. questList];
             UpdateQuestsData();
         }
 
@@ -264,7 +264,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void UpdateQuestsData()
         {
-            if (Quests.Any())
+            if (Quests.Length != 0)
             {
                 foreach (var quest in Quests)
                     SetupQuest(quest);
@@ -277,12 +277,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 quest.Type = QuestType.Standart;
                 if (AppData.ServerDatabase.LocalesGlobal.ContainsKey(quest.Qid.QuestName()) || RepeatableQuests == null || RepeatableQuests.Length == 0)
                 {
-                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid].TraderId : "unknown";
-                    quest.QuestData = AppData.ServerDatabase.QuestsData.ContainsKey(quest.Qid) ? AppData.ServerDatabase.QuestsData[quest.Qid] : null;
+                    quest.QuestTrader = AppData.ServerDatabase.QuestsData.TryGetValue(quest.Qid, out QuestData value) ? value.TraderId : "unknown";
+                    quest.QuestData = AppData.ServerDatabase.QuestsData.TryGetValue(quest.Qid, out QuestData value1) ? value1 : null;
                     return;
                 }
 
-                foreach (QuestType type in Enum.GetValues(typeof(QuestType)))
+                foreach (QuestType type in Enum.GetValues<QuestType>())
                 {
                     var typeQuests = RepeatableQuests.Where(x => x.Type == type).FirstOrDefault();
                     if (typeQuests == null)
@@ -295,7 +295,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
                 bool SetupQuestFromArray(ActiveQuest[] array, QuestType type)
                 {
-                    if (array.Any())
+                    if (array.Length != 0)
                     {
                         var repeatableQuest = array.Where(x => x.Id == quest.Qid);
                         if (repeatableQuest.Any())
@@ -334,7 +334,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void SetAllCommonSkills(float value)
         {
             foreach (var skill in Skills.Common)
-                if (!skill.Id.ToLower().StartsWith("bot"))
+                if (!skill.Id.StartsWith("bot", StringComparison.CurrentCultureIgnoreCase))
                     skill.Progress = value;
         }
 
@@ -358,8 +358,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveExaminedItem(string id)
         {
-            if (Encyclopedia.ContainsKey(id))
-                Encyclopedia.Remove(id);
+            Encyclopedia.Remove(id);
             OnPropertyChanged(nameof(ExaminedItems));
         }
 
@@ -381,10 +380,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             var productions = AppData.ServerDatabase?.HideoutProduction;
             if (UnlockedInfo != null && productions != null)
-                hideoutProductions = productions
+                hideoutProductions = [.. productions
                     .Where(x => x.UnlocksByQuest)
-                    .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))
-                    .ToList();
+                    .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))];
             OnPropertyChanged(nameof(HideoutProductions));
         }
 
@@ -392,7 +390,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             if (key == null)
                 return null;
-            return AppData.ServerDatabase.TraderInfos.ContainsKey(key) ? AppData.ServerDatabase.TraderInfos[key] : null;
+            return AppData.ServerDatabase.TraderInfos.TryGetValue(key, out TraderBase value) ? value : null;
         }
     }
 }

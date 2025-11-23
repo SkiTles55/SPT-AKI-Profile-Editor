@@ -6,17 +6,11 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class HideoutArea : BindableEntity
+    [method: JsonConstructor]
+    public class HideoutArea(int type, int level) : BindableEntity
     {
-        private int type;
-        private int level;
-
-        [JsonConstructor]
-        public HideoutArea(int type, int level)
-        {
-            this.type = type;
-            this.level = level;
-        }
+        private int type = type;
+        private int level = level;
 
         [JsonProperty("type")]
         public int Type

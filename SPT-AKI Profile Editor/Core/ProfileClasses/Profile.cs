@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class Profile : BindableEntity
     {
         [JsonIgnore]
-        public List<ModdedEntity> ModdedEntitiesForRemoving = new();
+        public List<ModdedEntity> ModdedEntitiesForRemoving = [];
 
         private ProfileCharacters characters;
         private UserBuilds userBuilds;
@@ -67,9 +67,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 profile.Characters.Pmc.UpdateQuestsData();
             if (NeedToAddMissingScavCommonSkills())
             {
-                profile.Characters.Scav.Skills.Common = profile.Characters.Pmc.Skills.Common
-                    .Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })
-                    .ToArray();
+                profile.Characters.Scav.Skills.Common = [.. profile.Characters.Pmc.Skills.Common.Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })];
             }
             if (NeedToAddMissingMasteringsSkills())
             {
@@ -99,12 +97,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (characterSkills.Mastering.Length != AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length)
                 {
-                    characterSkills.Mastering = characterSkills.Mastering
-                        .Concat(AppData.ServerDatabase.ServerGlobals.Config.Mastering
-                        .Where(x => !characterSkills.Mastering.Any(y => y.Id == x.Name))
-                        .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 })
-                        .ToArray())
-                        .ToArray();
+                    characterSkills.Mastering =
+                    [
+                        .. characterSkills.Mastering,
+                        .. AppData.ServerDatabase.ServerGlobals.Config.Mastering
+                            .Where(x => !characterSkills.Mastering.Any(y => y.Id == x.Name))
+                            .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 }),
+                    ];
                 }
             }
 

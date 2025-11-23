@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using System.Windows.Media;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
@@ -17,7 +18,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 pmc = value;
-                OnPropertyChanged("Pmc");
+                OnPropertyChanged(nameof(Pmc));
             }
         }
 
@@ -28,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 scav = value;
-                OnPropertyChanged("Scav");
+                OnPropertyChanged(nameof(Scav));
             }
         }
 

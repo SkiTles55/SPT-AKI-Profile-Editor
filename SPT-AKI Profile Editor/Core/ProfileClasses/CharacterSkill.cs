@@ -35,8 +35,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public float MaxValue => GetMaxProgress();
 
         [JsonIgnore]
-        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id)
-            ? AppData.ServerDatabase.LocalesGlobal[Id] : MasteringLocalizedName();
+        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.TryGetValue(Id, out string value)
+            ? value : MasteringLocalizedName();
 
         private float GetMaxProgress()
         {

@@ -56,8 +56,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 TraderStanding.Standing = value;
                 // Must add rep to scav profile to ensure consistency
-                if (Id == AppData.AppSettings.FenceTraderId && AppData.Profile.Characters.Scav.TraderStandings.ContainsKey(Id))
-                    AppData.Profile.Characters.Scav.TraderStandings[Id].Standing = value;
+                if (Id == AppData.AppSettings.FenceTraderId && AppData.Profile.Characters.Scav.TraderStandings.TryGetValue(Id, out CharacterTraderStanding value1))
+                    value1.Standing = value;
                 OnPropertyChanged(nameof(Standing));
                 SetLevel();
             }

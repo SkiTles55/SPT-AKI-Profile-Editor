@@ -11,8 +11,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             Production = production;
             Added = added;
-            ProductItem = AppData.ServerDatabase.ItemsDB.ContainsKey(production.EndProduct)
-            ? AppData.ServerDatabase.ItemsDB[production.EndProduct].GetExaminedItem()
+            ProductItem = AppData.ServerDatabase.ItemsDB.TryGetValue(production.EndProduct, out ServerClasses.TarkovItem value)
+            ? value.GetExaminedItem()
             : new ExaminedItem(production.EndProduct, production.EndProduct, null);
         }
 
