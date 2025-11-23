@@ -47,4 +47,17 @@
     <SplashScreen Include="Resources\Images\profileeditor.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModHelper\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ModHelper\SPT-AKI Profile Editor.ModHelper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ModHelper\version">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

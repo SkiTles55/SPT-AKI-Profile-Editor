@@ -148,7 +148,6 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
             if (Directory.Exists(testDirectoryWithoutMod))
                 Directory.Delete(testDirectoryWithoutMod, true);
             Directory.CreateDirectory(testDirectoryWithoutMod);
-            Directory.CreateDirectory(Path.Combine(testDirectoryWithoutMod, "src"));
         }
 
         private static void PrepareFakeDbFiles(bool haveFiles)
