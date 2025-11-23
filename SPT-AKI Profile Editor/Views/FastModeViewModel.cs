@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public static AppSettings AppSettings => AppData.AppSettings;
 
-        public static List<string> QuestStatuses => new() { "Locked", "AvailableForStart", "Started", "Fail", "AvailableForFinish", "Success" };
+        public static List<string> QuestStatuses => ["Locked", "AvailableForStart", "Started", "Fail", "AvailableForFinish", "Success"];
 
         public RelayCommand OpenningRefresh => new(obj =>
         {

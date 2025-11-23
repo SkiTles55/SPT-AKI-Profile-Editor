@@ -3,20 +3,16 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class MasteringTabViewModel : SkillsTabViewModel
+    public class MasteringTabViewModel(IDialogManager dialogManager,
+        RelayCommand reloadCommand,
+        RelayCommand faqCommand,
+        IWorker worker,
+        IHelperModManager helperModManager) : SkillsTabViewModel(dialogManager,
+            reloadCommand,
+            faqCommand,
+            worker,
+            helperModManager)
     {
-        public MasteringTabViewModel(IDialogManager dialogManager,
-                                     RelayCommand reloadCommand,
-                                     RelayCommand faqCommand,
-                                     IWorker worker,
-                                     IHelperModManager helperModManager) : base(dialogManager,
-                                                                                reloadCommand,
-                                                                                faqCommand,
-                                                                                worker,
-                                                                                helperModManager)
-        {
-        }
-
         public override float MaxSkillsValue => ServerDatabase.ServerGlobals.Config.MaxProgressValue;
 
         public override RelayCommand SetAllPmsSkillsCommand

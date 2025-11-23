@@ -5,27 +5,15 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class UpdateDialogViewModel : ClosableDialogViewModel
+    public class UpdateDialogViewModel(IApplicationManager applicationManager,
+        IWindowsDialogs windowsDialogs,
+        GitHubRelease release,
+        object context,
+        IDialogManager dialogManager) : ClosableDialogViewModel(context)
     {
-        private readonly IApplicationManager applicationManager;
-        private readonly IWindowsDialogs _windowsDialogs;
-        private readonly IDialogManager _dialogManager;
-
-        public UpdateDialogViewModel(IApplicationManager applicationManager,
-                                     IWindowsDialogs windowsDialogs,
-                                     GitHubRelease release,
-                                     object context,
-                                     IDialogManager dialogManager) : base(context)
-        {
-            this.applicationManager = applicationManager;
-            _windowsDialogs = windowsDialogs;
-            Release = release;
-            _dialogManager = dialogManager;
-        }
-
         public RelayCommand DownloadRelease => new(async obj => await Download());
         public RelayCommand OpenReleaseUrl => new(obj => applicationManager.OpenUrl(Release.Url));
-        public GitHubRelease Release { get; }
+        public GitHubRelease Release { get; } = release;
         public GithubReleaseFile ReleaseFile => Release.Files?.First();
 
         public string FormatedDate => Release.PublishDate.ToString("dd.MM.yyyy");
@@ -34,11 +22,11 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (ReleaseFile != null)
             {
-                var (success, path) = _windowsDialogs.SaveFileDialog(ReleaseFile.Name);
+                var (success, path) = windowsDialogs.SaveFileDialog(ReleaseFile.Name);
                 if (success)
                 {
                     await CloseDialog();
-                    await new FileDownloaderDialog(_dialogManager).Download(ReleaseFile.Url, path);
+                    await new FileDownloaderDialog(dialogManager).Download(ReleaseFile.Url, path);
                 }
             }
         }

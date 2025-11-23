@@ -4,47 +4,36 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class ScavStashTabViewModel : BindableViewModel
+    public class ScavStashTabViewModel(IDialogManager dialogManager,
+        IWorker worker,
+        IApplicationManager applicationManager) : BindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
-        private readonly IWorker _worker;
-        private readonly IApplicationManager _applicationManager;
-
-        public ScavStashTabViewModel(IDialogManager dialogManager,
-                                     IWorker worker,
-                                     IApplicationManager applicationManager)
-        {
-            _dialogManager = dialogManager;
-            _worker = worker;
-            _applicationManager = applicationManager;
-        }
-
         public RelayCommand OpenContainer => new(obj =>
         {
             if (obj is InventoryItem item)
-                _applicationManager.OpenContainerWindow(item, GetInventory(), true);
+                applicationManager.OpenContainerWindow(item, GetInventory(), true);
         });
 
         public RelayCommand InspectWeapon => new(obj =>
         {
             if (obj is InventoryItem item)
-                _applicationManager.OpenWeaponBuildWindow(item,
-                                                          Profile.Characters.GetInventory(StashEditMode.Scav),
-                                                          true);
+                applicationManager.OpenWeaponBuildWindow(item,
+                                                         Profile.Characters.GetInventory(StashEditMode.Scav),
+                                                         true);
         });
 
         public RelayCommand RemoveItem => new(async obj =>
         {
-            if (obj is string id && await _dialogManager.YesNoDialog("remove_stash_item_title",
-                                                                     "remove_stash_item_caption"))
-                Profile.Characters.Scav.Inventory.RemoveItems(new() { id });
+            if (obj is string id && await dialogManager.YesNoDialog("remove_stash_item_title",
+                                                                    "remove_stash_item_caption"))
+                Profile.Characters.Scav.Inventory.RemoveItems([id]);
         });
 
         public RelayCommand RemoveAllEquipment => new(async obj =>
         {
-            if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_equipment_items_caption"))
-                _worker.AddTask(ProgressTask(() => Profile.Characters.Scav.Inventory.RemoveAllEquipment(),
-                                             AppLocalization.GetLocalizedString("remove_stash_item_title")));
+            if (await dialogManager.YesNoDialog("remove_stash_item_title", "remove_equipment_items_caption"))
+                worker.AddTask(ProgressTask(() => Profile.Characters.Scav.Inventory.RemoveAllEquipment(),
+                    AppLocalization.GetLocalizedString("remove_stash_item_title")));
         });
 
         private static CharacterInventory GetInventory()

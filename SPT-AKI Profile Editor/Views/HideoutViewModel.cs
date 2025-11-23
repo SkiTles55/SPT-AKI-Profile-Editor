@@ -7,8 +7,8 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class HideoutTabViewModel : PmcBindableViewModel
     {
-        private ObservableCollection<HideoutArea> areas = new();
-        private ObservableCollection<CharacterHideoutProduction> productions = new();
+        private ObservableCollection<HideoutArea> areas = [];
+        private ObservableCollection<CharacterHideoutProduction> productions = [];
         private string areaNameFilter;
         private string productionNameFilter;
         private string productionAreaFilter;
@@ -80,8 +80,8 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             ObservableCollection<CharacterHideoutProduction> filteredItems;
 
-            if (Profile?.Characters?.Pmc?.HideoutProductions == null || !Profile.Characters.Pmc.HideoutProductions.Any())
-                filteredItems = new();
+            if (Profile?.Characters?.Pmc?.HideoutProductions == null || Profile.Characters.Pmc.HideoutProductions.Count == 0)
+                filteredItems = [];
             else if (string.IsNullOrEmpty(ProductionNameFilter) && string.IsNullOrEmpty(ProductionAreaFilter))
                 filteredItems = new(Profile.Characters.Pmc.HideoutProductions);
             else
@@ -91,19 +91,19 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         private bool CanShow(CharacterHideoutProduction x)
-            => (string.IsNullOrEmpty(ProductionNameFilter) || x.ProductItem.Name.ToUpper().Contains(ProductionNameFilter.ToUpper()))
-            && (string.IsNullOrEmpty(ProductionAreaFilter) || x.AreaLocalizedName.ToUpper().Contains(ProductionAreaFilter.ToUpper()));
+            => (string.IsNullOrEmpty(ProductionNameFilter) || x.ProductItem.Name.Contains(ProductionNameFilter, System.StringComparison.CurrentCultureIgnoreCase))
+            && (string.IsNullOrEmpty(ProductionAreaFilter) || x.AreaLocalizedName.Contains(ProductionAreaFilter, System.StringComparison.CurrentCultureIgnoreCase));
 
         private void ApplyAreasFilter()
         {
             ObservableCollection<HideoutArea> filteredAreas;
 
-            if (Profile?.Characters?.Pmc?.Hideout?.Areas == null || !Profile.Characters.Pmc.Hideout.Areas.Any())
-                filteredAreas = new();
+            if (Profile?.Characters?.Pmc?.Hideout?.Areas == null || Profile.Characters.Pmc.Hideout.Areas.Length == 0)
+                filteredAreas = [];
             else if (string.IsNullOrEmpty(AreaNameFilter))
                 filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas);
             else
-                filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas.Where(x => x.LocalizedName.ToUpper().Contains(AreaNameFilter.ToUpper())));
+                filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas.Where(x => x.LocalizedName.Contains(AreaNameFilter, System.StringComparison.CurrentCultureIgnoreCase)));
 
             Areas = filteredAreas;
         }

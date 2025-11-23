@@ -6,6 +6,6 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class InfoTabViewModel : BindableViewModel
     {
-        public static List<string> Sides => new() { PMCSide.Bear.ToString(), PMCSide.Usec.ToString() };
+        public static List<string> Sides => [PMCSide.Bear.ToString(), PMCSide.Usec.ToString()];
     }
 }

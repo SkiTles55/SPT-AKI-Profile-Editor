@@ -124,7 +124,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async void ShowSaveResults(List<SaveException> exceptions)
         {
-            if (exceptions.Any())
+            if (exceptions.Count != 0)
             {
                 string messageKey = exceptions.HaveAllErrors()
                     ? "profile_not_saved_dialog_caption"

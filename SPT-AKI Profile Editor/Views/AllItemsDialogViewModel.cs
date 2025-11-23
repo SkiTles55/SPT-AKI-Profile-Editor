@@ -5,23 +5,17 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class AllItemsDialogViewModel : ClosableDialogViewModel
+    public class AllItemsDialogViewModel(RelayCommand addCommand,
+        bool stashSelectorVisible,
+        object context) : ClosableDialogViewModel(context)
     {
-        public AllItemsDialogViewModel(RelayCommand addCommand,
-                                       bool stashSelectorVisible,
-                                       object context) : base(context)
-        {
-            StashSelectorVisible = stashSelectorVisible;
-            AddCommand = addCommand;
-        }
-
         public static IEnumerable<AddableItem> AddableItems
             => ServerDatabase?.ItemsDB?.Values
             .Where(x => x.Properties.StackMaxSize > 0)
             .Select(x => TarkovItem.CopyFrom(x));
 
-        public bool StashSelectorVisible { get; }
+        public bool StashSelectorVisible { get; } = stashSelectorVisible;
 
-        public RelayCommand AddCommand { get; set; }
+        public RelayCommand AddCommand { get; set; } = addCommand;
     }
 }

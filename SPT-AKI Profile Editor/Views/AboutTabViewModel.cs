@@ -4,12 +4,8 @@ using System.Windows;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class AboutTabViewModel : BindableViewModel
+    public class AboutTabViewModel(IApplicationManager applicationManager) : BindableViewModel
     {
-        private readonly IApplicationManager _applicationManager;
-
-        public AboutTabViewModel(IApplicationManager applicationManager) => _applicationManager = applicationManager;
-
         public static AppSettings AppSettings => AppData.AppSettings;
 
         public static string RepositoryURL => $"https://github.com/{AppSettings.repoAuthor}/{AppSettings.repoName}/releases/latest";
@@ -28,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand OpenRepositoryGitHubUrl => new(obj => OpenUrl(RepositoryURL));
 
-        public RelayCommand OpenDiscord => new(obj => _applicationManager.OpenDiscord());
+        public RelayCommand OpenDiscord => new(obj => applicationManager.OpenDiscord());
 
         public RelayCommand OpenYoomoneyUrl => new(obj => OpenUrl(YoomoneyUrl));
 
@@ -36,6 +32,6 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public RelayCommand OpenSptProjectUrl => new(obj => OpenUrl(SptProjectUrl));
 
-        private void OpenUrl(string url) => _applicationManager.OpenUrl(url);
+        private void OpenUrl(string url) => applicationManager.OpenUrl(url);
     }
 }
