@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+!**/bin/Debug/net9.0/SPT-AKI Profile Editor.ModHelper.dll
+!**/bin/Debug/net9.0/version

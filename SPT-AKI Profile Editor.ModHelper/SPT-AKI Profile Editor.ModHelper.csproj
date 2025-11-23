@@ -34,4 +34,13 @@
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
+  <Target Name="CreateVersionFile" AfterTargets="Build">
+    <WriteLinesToFile
+      File="$(OutputPath)version"
+      Lines="$(Version)"
+      Overwrite="true"
+      Encoding="UTF-8" />
+    <Message Text="Version file created: $(OutputPath)version with version $(Version)" Importance="high" />
+  </Target>
+
 </Project>
