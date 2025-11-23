@@ -51,7 +51,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.Clothing && importedProgress.Clothing != null)
             {
                 var notClothingUnlocks = profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock);
-                profile.CustomisationUnlocks = notClothingUnlocks.Concat(importedProgress.Clothing.Select(x => new CustomisationUnlock(x))).ToArray();
+                profile.CustomisationUnlocks = [.. notClothingUnlocks, .. importedProgress.Clothing.Select(x => new CustomisationUnlock(x))];
             }
             ImportSkills(settings, importedProgress, pmc, profile?.Characters?.Scav);
             if (settings.Builds.GroupState != false && importedProgress.Builds != null)
@@ -170,7 +170,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         private static void ImportQuests(ProfileProgress importedProgress, Character pmc)
         {
             pmc.RemoveQuests(pmc.Quests.Select(x => x.Qid).Where(x => !importedProgress.Quests.ContainsKey(x)));
-            List<CharacterQuest> newQuests = new();
+            List<CharacterQuest> newQuests = [];
             foreach (var importedQuest in importedProgress.Quests)
             {
                 var existQuest = pmc.Quests.FirstOrDefault(x => x.Qid == importedQuest.Key);
@@ -179,7 +179,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 else
                     newQuests.Add(new() { Qid = importedQuest.Key, Status = importedQuest.Value });
             }
-            if (!newQuests.Any())
+            if (newQuests.Count == 0)
                 return;
             pmc.AddQuests(newQuests);
         }
