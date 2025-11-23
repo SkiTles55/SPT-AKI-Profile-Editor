@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
+using IOPath = System.IO.Path;
+
 namespace SPT_AKI_Profile_Editor.ModHelper;
 
 [Injectable(TypePriority = OnLoadOrder.PostSptModLoader + 1)]
@@ -26,13 +28,11 @@ public class ProfileEditorModHelper(
 
     public Task OnLoad()
     {
-        var pathToMod = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
-        exportPath = System.IO.Path.Combine(pathToMod, "exportedDB");
-        var hashesPath = System.IO.Path.Combine(pathToMod, hashesFileName);
+        var pathToMod = IOPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
+        exportPath = IOPath.Combine(pathToMod, "exportedDB");
+        var hashesPath = IOPath.Combine(pathToMod, hashesFileName);
         if (fileUtil.FileExists(hashesPath))
-        {
             hashes = jsonUtil.DeserializeFromFile<Dictionary<String, String>>(hashesPath) ?? [];
-        }
         LogMessage("Started database exporting");
         var tables = databaseServer.GetTables();
         ExportDatabaseEntry("Handbook", tables.Templates.Handbook);
@@ -41,9 +41,7 @@ public class ProfileEditorModHelper(
         ExportDatabaseEntry("Quests", tables.Templates.Quests);
         var questConfig = configServer.GetConfig<QuestConfig>();
         if (questConfig != null)
-        {
             ExportDatabaseEntry("QuestConfig", questConfig);
-        }
         // Traders still exporting on every run, due to nextRessuply changes
         ExportDictionaryEntry("Traders", (IDictionary<string, object>)tables.Traders.ToDictionary(x => x.Key.ToString(), y => y.Value.Base));
         ExportDictionaryEntry("Locales", (IDictionary<string, object>)tables.Locales.Global);
@@ -76,11 +74,9 @@ public class ProfileEditorModHelper(
         string entryHash = GenerateMd5Hash(entryJson);
 
         if (hashes.TryGetValue(name, out string? existingHash) && existingHash == entryHash)
-        {
             return;
-        }
 
-        string filePath = System.IO.Path.Combine(exportPath, $"{name}.json");
+        string filePath = IOPath.Combine(exportPath, $"{name}.json");
         fileUtil.WriteFile(filePath, entryJson);
         LogMessage($"{name} exported");
         hashes[name] = entryHash;
@@ -98,11 +94,9 @@ public class ProfileEditorModHelper(
             string valueHash = GenerateMd5Hash(valueJson);
 
             if (hashes.TryGetValue(entryName, out string? existingHash) && existingHash == valueHash)
-            {
                 continue;
-            }
 
-            string filePath = System.IO.Path.Combine(exportPath, $"{entryName}.json");
+            string filePath = IOPath.Combine(exportPath, $"{entryName}.json");
             fileUtil.WriteFile(filePath, valueJson);
             hashes[entryName] = valueHash;
             hasInnerUpdates = true;
@@ -115,8 +109,5 @@ public class ProfileEditorModHelper(
         }
     }
 
-    private void LogMessage(string message)
-    {
-        logger.LogWithColor($"[[SPT-AKI Profile Editor] Helper Mod] : {message}", LogTextColor.Green);
-    }
+    private void LogMessage(string message) => logger.LogWithColor($"[[SPT-AKI Profile Editor] Helper Mod] : {message}", LogTextColor.Green);
 }
