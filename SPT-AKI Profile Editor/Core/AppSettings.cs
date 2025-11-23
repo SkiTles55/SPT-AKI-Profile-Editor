@@ -57,6 +57,9 @@ namespace SPT_AKI_Profile_Editor.Core
         ];
 
         [JsonIgnore]
+        public readonly string configurationFile = configurationFile;
+
+        [JsonIgnore]
         public bool Loaded = false;
 
         private string serverPath;
