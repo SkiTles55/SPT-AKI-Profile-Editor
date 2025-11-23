@@ -2,14 +2,9 @@
 
 namespace SPT_AKI_Profile_Editor.Core.Issues
 {
-    public abstract class ProfileIssue
+    public abstract class ProfileIssue(string targetId)
     {
-        protected ProfileIssue(string targetId)
-        {
-            TargetId = targetId;
-        }
-
-        public string TargetId { get; }
+        public string TargetId { get; } = targetId;
         public abstract Action FixAction { get; }
         public abstract string Description { get; }
     }
