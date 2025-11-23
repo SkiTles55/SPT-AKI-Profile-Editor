@@ -44,7 +44,13 @@ public class ProfileEditorModHelper(
         {
             ExportDatabaseEntry("QuestConfig", questConfig);
         }
-        
+        // Traders still exporting on every run, due to nextRessuply changes
+        ExportDictionaryEntry("Traders", (IDictionary<string, object>)tables.Traders.ToDictionary(x => x.Key.ToString(), y => y.Value.Base));
+        ExportDictionaryEntry("Locales", (IDictionary<string, object>)tables.Locales.Global);
+        ExportDatabaseEntry("ItemPresets", tables.Globals.ItemPresets);
+        ExportDatabaseEntry("Mastering", tables.Globals.Configuration.Mastering);
+        ExportDatabaseEntry("ExpTable", tables.Globals.Configuration.Exp);
+
         if (hasDataUpdates)
         {
             fileUtil.WriteFile(hashesPath, jsonUtil.Serialize(hashes) ?? "");
@@ -79,6 +85,34 @@ public class ProfileEditorModHelper(
         LogMessage($"{name} exported");
         hashes[name] = entryHash;
         hasDataUpdates = true;
+    }
+
+    private void ExportDictionaryEntry(string name, IDictionary<string, object> dictionary)
+    {
+        bool hasInnerUpdates = false;
+
+        foreach (var (key, value) in dictionary)
+        {
+            string entryName = $"{name}/{key}";
+            string valueJson = jsonUtil.Serialize(value) ?? "";
+            string valueHash = GenerateMd5Hash(valueJson);
+
+            if (hashes.TryGetValue(entryName, out string? existingHash) && existingHash == valueHash)
+            {
+                continue;
+            }
+
+            string filePath = System.IO.Path.Combine(exportPath, $"{entryName}.json");
+            fileUtil.WriteFile(filePath, valueJson);
+            hashes[entryName] = valueHash;
+            hasInnerUpdates = true;
+        }
+
+        if (hasInnerUpdates)
+        {
+            LogMessage($"{name} exported");
+            hasDataUpdates = true;
+        }
     }
 
     private void LogMessage(string message)
