@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Tests
     {
         [Test]
         public void IdNotEmpty()
-            => Assert.That(ExtMethods.GenerateNewId(new string[] { "testid" }), Is.Not.Empty);
+            => Assert.That(ExtMethods.GenerateNewId(["testid"]), Is.Not.Empty);
 
         [Test]
         public void CanGenerateUniqueId()

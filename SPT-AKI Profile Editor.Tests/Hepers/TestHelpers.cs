@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestHelpers
     {
-        public static readonly JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = new List<JsonConverter>() { new StringEnumConverterExt() } };
+        public static readonly JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = [new StringEnumConverterExt()] };
         public static readonly string profileFile = @"E:\SPT\SPT\user\profiles\68f7a32d5e9e6c395857955c.json";
         public static readonly string serverPath = @"E:\SPT";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";

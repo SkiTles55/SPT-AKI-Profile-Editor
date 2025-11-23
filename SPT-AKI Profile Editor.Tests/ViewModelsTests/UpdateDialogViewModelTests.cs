@@ -22,18 +22,18 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static GitHubRelease GetTestRelease()
         {
-            List<GithubReleaseFile> files = new()
-            {
+            List<GithubReleaseFile> files =
+            [
                 new GithubReleaseFile()
                 {
                     Name = "TestFile",
                     Url = "TestUrl"
                 }
-            };
+            ];
 
             return new GitHubRelease()
             {
-                Files = files.ToArray(),
+                Files = [.. files],
                 PublishDate = DateTime.Now
             };
         }

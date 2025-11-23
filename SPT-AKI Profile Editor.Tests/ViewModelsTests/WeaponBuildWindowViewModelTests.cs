@@ -87,7 +87,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static void AddWeaponToWeaponBuildsAndCheck(bool isPmc)
         {
-            AppData.Profile.UserBuilds = new() { WeaponBuilds = new() };
+            AppData.Profile.UserBuilds = new() { WeaponBuilds = [] };
             WeaponBuildWindowViewModel weaponBuild = TestViewModel(worker, isPmc);
             weaponBuild.AddToWeaponBuilds.Execute(null);
             Assert.That(() => AppData.Profile.UserBuilds.WeaponBuilds.Any(x => x.Name == TestHelpers.GetTestName("WeaponBuildWindowViewModel", isPmc)), Is.True);
