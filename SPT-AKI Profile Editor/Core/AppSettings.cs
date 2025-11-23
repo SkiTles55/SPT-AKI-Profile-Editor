@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public readonly string sptProjectUrl = "https://www.sp-tarkov.com/";
 
         [JsonIgnore]
-        public readonly string modHelperUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/SPT-AKI%20Profile%20Editor/ModHelper/";
+        public readonly string modHelperUpdateUrl = "https://raw.githubusercontent.com/SkiTles55/SPT-AKI-Profile-Editor/master/SPT-AKI%20Profile%20Editor.ModHelper/bin/Debug/net9.0/";
 
         [JsonIgnore]
         public readonly string modHelperHowToUseUrl = "https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/Guidelines/ModHelper";
@@ -133,19 +133,15 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        [JsonIgnore]
-        public bool UsingModHelper = false;
-
-        // Need mod rewrite
-        //public bool UsingModHelper
-        //{
-        //    get => usingModHelper;
-        //    set
-        //    {
-        //        usingModHelper = value;
-        //        NotifyPropertyChangedAndSave(nameof(UsingModHelper));
-        //    }
-        //}
+        public bool UsingModHelper
+        {
+            get => usingModHelper;
+            set
+            {
+                usingModHelper = value;
+                NotifyPropertyChangedAndSave(nameof(UsingModHelper));
+            }
+        }
 
         public Dictionary<string, string> DirsList { get; set; }
 

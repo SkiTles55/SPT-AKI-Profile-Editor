@@ -22,16 +22,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="HelperModTestDirectoryWithMod\package.json">
+    <None Update="HelperModTestDirectoryWithMod\SPT-AKI Profile Editor.ModHelper.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="HelperModTestDirectoryWithMod\src\mod.ts">
+    <None Update="HelperModTestDirectoryWithMod\version">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ModHelperTestUpdate\mod.ts-source">
+    <None Update="ModHelperTestUpdate\SPT-AKI Profile Editor.ModHelper.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="ModHelperTestUpdate\package.json">
+    <None Update="ModHelperTestUpdate\SPT-AKI Profile Editor.ModHelper.dlle">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ModHelperTestUpdate\version">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="testFiles\profileWithDuplicatedItems.json">

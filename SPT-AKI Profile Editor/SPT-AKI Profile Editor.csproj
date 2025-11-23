@@ -47,13 +47,4 @@
     <SplashScreen Include="Resources\Images\profileeditor.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="ModHelper\package.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="ModHelper\mod.ts-source">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
