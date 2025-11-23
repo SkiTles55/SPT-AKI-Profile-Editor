@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
         {
             Item = item;
             EmptySlotText = emptySlotText;
-            ItemsList = new() { item };
+            ItemsList = [item];
         }
 
         public InventoryItem Item { get; }
