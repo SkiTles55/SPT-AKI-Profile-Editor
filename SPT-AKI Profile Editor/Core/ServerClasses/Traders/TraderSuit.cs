@@ -36,7 +36,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
                     if (AppData.Profile.CustomisationUnlocks.Any(x => x.IsSuitUnlock && x.Id == SuiteId))
                         AppData.Profile.CustomisationUnlocks = [.. AppData.Profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock || x.Id != SuiteId)];
                 }
-                OnPropertyChanged("Boughted");
+                OnPropertyChanged(nameof(Boughted));
             }
         }
     }

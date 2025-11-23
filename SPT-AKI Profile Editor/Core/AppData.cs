@@ -7,7 +7,6 @@ using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 

@@ -24,7 +24,7 @@
             set
             {
                 skillsTab = value;
-                OnPropertyChanged("SkillsTab");
+                OnPropertyChanged(nameof(SkillsTab));
             }
         }
 
@@ -34,7 +34,7 @@
             set
             {
                 masteringTab = value;
-                OnPropertyChanged("MasteringTab");
+                OnPropertyChanged(nameof(MasteringTab));
             }
         }
 
@@ -44,7 +44,7 @@
             set
             {
                 stashTab = value;
-                OnPropertyChanged("StashTab");
+                OnPropertyChanged(nameof(StashTab));
             }
         }
 
@@ -54,7 +54,7 @@
             set
             {
                 cleaningFromModsTab = value;
-                OnPropertyChanged("CleaningFromModsTab");
+                OnPropertyChanged(nameof(CleaningFromModsTab));
             }
         }
 

@@ -3,7 +3,6 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers

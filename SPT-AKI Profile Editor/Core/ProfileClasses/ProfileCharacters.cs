@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
-using System.Windows.Media;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
