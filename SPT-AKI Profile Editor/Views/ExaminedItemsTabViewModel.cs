@@ -6,16 +6,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class ExaminedItemsTabViewModel : PmcBindableViewModel
+    public class ExaminedItemsTabViewModel(IDialogManager dialogManager) : PmcBindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
-        private ObservableCollection<ExaminedItem> examinedItems = new();
+        private ObservableCollection<ExaminedItem> examinedItems = [];
         private string nameFilter;
-
-        public ExaminedItemsTabViewModel(IDialogManager dialogManager)
-        {
-            _dialogManager = dialogManager;
-        }
 
         public static RelayCommand ExamineAllCommand => new(obj => Profile.Characters.Pmc.ExamineAll());
 
@@ -51,18 +45,18 @@ namespace SPT_AKI_Profile_Editor.Views
             ObservableCollection<ExaminedItem> filteredItems;
 
             if (Profile?.Characters?.Pmc?.ExaminedItems == null || !Profile.Characters.Pmc.ExaminedItems.Any())
-                filteredItems = new();
+                filteredItems = [];
             else if (string.IsNullOrEmpty(NameFilter))
                 filteredItems = new(Profile.Characters.Pmc.ExaminedItems);
             else
-                filteredItems = new(Profile.Characters.Pmc.ExaminedItems.Where(x => x.Name.ToUpper().Contains(NameFilter.ToUpper())));
+                filteredItems = new(Profile.Characters.Pmc.ExaminedItems.Where(x => x.Name.Contains(NameFilter, System.StringComparison.CurrentCultureIgnoreCase)));
 
             ExaminedItems = filteredItems;
         }
 
         private async void RemoveItem(string id)
         {
-            if (await _dialogManager.YesNoDialog("remove_examined_item_title", "remove_examined_item_caption"))
+            if (await dialogManager.YesNoDialog("remove_examined_item_title", "remove_examined_item_caption"))
                 Profile?.Characters?.Pmc?.RemoveExaminedItem(id);
         }
     }

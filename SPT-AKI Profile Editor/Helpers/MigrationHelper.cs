@@ -12,18 +12,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
         void PerformMigration(AppSettings settings, IApplicationManager applicationManager);
     }
 
-    public class MigrationIntent
+    public class MigrationIntent(string title, string message, string tag)
     {
-        public MigrationIntent(string title, string message, string tag)
-        {
-            Title = title;
-            Message = message;
-            Tag = tag;
-        }
-
-        public string Title { get; }
-        public string Message { get; }
-        public string Tag { get; }
+        public string Title { get; } = title;
+        public string Message { get; } = message;
+        public string Tag { get; } = tag;
     }
 
     public class MigrationHelper : IMigrationHelper

@@ -32,6 +32,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                                       AppData.AppSettings);
 
         public CharacterInventory MakeInventory()
-            => new() { Items = BuildItems.ToArray() };
+            => new() { Items = [.. BuildItems] };
     }
 }

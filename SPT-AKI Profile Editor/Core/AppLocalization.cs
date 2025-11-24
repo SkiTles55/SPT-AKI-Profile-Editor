@@ -41,7 +41,7 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 translations = value;
-                OnPropertyChanged("Translations");
+                OnPropertyChanged(nameof(Translations));
             }
         }
 
@@ -52,13 +52,13 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 localizations = value;
-                OnPropertyChanged("Localizations");
+                OnPropertyChanged(nameof(Localizations));
             }
         }
 
         public static void Save(string path, AppLocalization data) => File.WriteAllText(path, JsonConvert.SerializeObject(data, Formatting.Indented));
 
-        public string GetLocalizedString(string key, params string[] args) => Translations != null && Translations.ContainsKey(key) ? string.Format(Translations[key], args) : key;
+        public string GetLocalizedString(string key, params string[] args) => Translations != null && Translations.TryGetValue(key, out string value) ? string.Format(value, args) : key;
 
         public void LoadLocalization(string key)
         {
@@ -127,7 +127,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private void CreateLocalizationsDictionary()
         {
-            Dictionary<string, string> localizations = new();
+            Dictionary<string, string> localizations = [];
             foreach (string file in Directory.GetFiles(localizationsDir))
             {
                 try

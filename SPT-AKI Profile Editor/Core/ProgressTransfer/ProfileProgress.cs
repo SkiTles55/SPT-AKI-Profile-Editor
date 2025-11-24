@@ -34,30 +34,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 public string Pockets;
                 public Health HealthMetrics;
 
-                public class Health
+                public class Health(CharacterHealth health)
                 {
-                    public Metric Head;
-                    public Metric Chest;
-                    public Metric Stomach;
-                    public Metric LeftArm;
-                    public Metric RightArm;
-                    public Metric LeftLeg;
-                    public Metric RightLeg;
-                    public Metric Hydration;
-                    public Metric Energy;
-
-                    public Health(CharacterHealth health)
-                    {
-                        Head = new(health?.BodyParts?.Head);
-                        Chest = new(health?.BodyParts?.Chest);
-                        Stomach = new(health?.BodyParts?.Stomach);
-                        LeftArm = new(health?.BodyParts?.LeftArm);
-                        RightArm = new(health?.BodyParts?.RightArm);
-                        LeftLeg = new(health?.BodyParts?.LeftLeg);
-                        RightLeg = new(health?.BodyParts?.RightLeg);
-                        Hydration = new(health?.Hydration);
-                        Energy = new(health?.Energy);
-                    }
+                    public Metric Head = new(health?.BodyParts?.Head);
+                    public Metric Chest = new(health?.BodyParts?.Chest);
+                    public Metric Stomach = new(health?.BodyParts?.Stomach);
+                    public Metric LeftArm = new(health?.BodyParts?.LeftArm);
+                    public Metric RightArm = new(health?.BodyParts?.RightArm);
+                    public Metric LeftLeg = new(health?.BodyParts?.LeftLeg);
+                    public Metric RightLeg = new(health?.BodyParts?.RightLeg);
+                    public Metric Hydration = new(health?.Hydration);
+                    public Metric Energy = new(health?.Energy);
 
                     public class Metric
                     {
@@ -88,26 +75,17 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             }
         }
 
-        public class Merchant
+        public class Merchant(string id,
+            bool enabled,
+            int level,
+            float standing,
+            long salesSum)
         {
-            public string Id;
-            public bool Enabled;
-            public int Level;
-            public float Standing;
-            public long SalesSum;
-
-            public Merchant(string id,
-                            bool enabled,
-                            int level,
-                            float standing,
-                            long salesSum)
-            {
-                Id = id;
-                Enabled = enabled;
-                Level = level;
-                Standing = standing;
-                SalesSum = salesSum;
-            }
+            public string Id = id;
+            public bool Enabled = enabled;
+            public int Level = level;
+            public float Standing = standing;
+            public long SalesSum = salesSum;
         }
 
         public class SkillsProgress

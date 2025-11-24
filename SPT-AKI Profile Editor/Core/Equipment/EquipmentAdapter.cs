@@ -37,8 +37,8 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
         {
             var emptySlotItemText = localization?.GetLocalizedString(emptySlotKey);
             var pocketsId = items?.Where(x => x.IsPockets).FirstOrDefault()?.Id;
-            return new()
-            {
+            return
+            [
                 new EquipmentSlotItem(GetSlotName("Earpiece", localesGlobal),
                                       GetEquipment(appSettings.EarpieceSlotId, items, root),
                                       emptySlotItemText),
@@ -80,7 +80,7 @@ namespace SPT_AKI_Profile_Editor.Core.Equipment
                 new EquipmentSlotItem(GetSlotName("SecuredContainer", localesGlobal),
                                       GetEquipment(appSettings.SecuredContainerSlotId, items, root),
                                       emptySlotItemText)
-            };
+            ];
         }
 
         private static string GetSlotName(string key, Dictionary<string, string> localesGlobal)

@@ -268,7 +268,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             ChangeCharacter(pmc, pmcNickname, pmcVoice, pmcSide, pmcExperience, pmcHead, pmcPockets);
             ChangeCharacter(scav, scavNickname, scavVoice, "Bear", scavExperience, scavHead, scavPockets);
 
-            merchantList = new();
+            merchantList = [];
             foreach (var trader in pmc.TraderStandingsExt)
             {
                 trader.LoyaltyLevel = Math.Min(2, trader.MaxLevel);
@@ -280,7 +280,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             }
 
             pmc.RemoveAllQuests();
-            pmc.Quests = AppData.ServerDatabase.QuestsData.Take(10).Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked }).ToArray();
+            pmc.Quests = [.. AppData.ServerDatabase.QuestsData.Take(10).Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked })];
             pmc.SetAllQuests(QuestStatus.Success);
             questsList = pmc.Quests.ToDictionary(x => x.Qid, x => x.Status);
 
@@ -290,7 +290,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
             foreach (var production in pmc.HideoutProductions.Take(4))
                 production.Added = true;
-            productionsList = pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray();
+            productionsList = [.. pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id)];
 
             foreach (var item in AppData.ServerDatabase.ItemsDB
                 .Where(x => x.Value.Parent != null
@@ -305,7 +305,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             foreach (var suit in AppData.ServerDatabase.TraderSuits.Where(x => !x.Boughted).Take(4))
                 suit.Boughted = true;
             var currentSuits = AppData.Profile.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Select(x => x.Id);
-            suitsList = AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).Union(currentSuits).ToArray();
+            suitsList = [.. AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).Union(currentSuits)];
 
             pmc.SetAllCommonSkills(500);
             pmcCommonSkills = pmc.Skills.Common.ToDictionary(x => x.Id, y => y.Progress);

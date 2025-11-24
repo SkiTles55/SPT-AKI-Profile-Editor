@@ -62,7 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 WeaponBuildsChanged();
         }
 
-        public void RemoveWeaponBuilds() => WeaponBuilds = new();
+        public void RemoveWeaponBuilds() => WeaponBuilds = [];
 
         public void RemoveEquipmentBuild(string id)
         {
@@ -71,7 +71,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 EquipmentBuildsChanged();
         }
 
-        public void RemoveEquipmentBuilds() => EquipmentBuilds = new();
+        public void RemoveEquipmentBuilds() => EquipmentBuilds = [];
 
         public void ImportWeaponBuildFromFile(string path)
         {
@@ -93,7 +93,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void ImportBuild(WeaponBuild weaponBuild)
         {
-            WeaponBuilds ??= new();
+            WeaponBuilds ??= [];
             weaponBuild.PrepareForImport(WeaponBuilds);
             WeaponBuilds.Add(weaponBuild);
             WeaponBuildsChanged();
@@ -101,7 +101,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void ImportBuild(EquipmentBuild equipmentBuild)
         {
-            EquipmentBuilds ??= new();
+            EquipmentBuilds ??= [];
             equipmentBuild.PrepareForImport(EquipmentBuilds);
             EquipmentBuilds.Add(equipmentBuild);
             EquipmentBuildsChanged();

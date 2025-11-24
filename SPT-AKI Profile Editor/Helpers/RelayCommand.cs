@@ -3,17 +3,8 @@ using System.Windows.Input;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand(Action<object> execute, Func<object, bool> canExecute = null) : ICommand
     {
-        private readonly Action<object> execute;
-        private readonly Func<object, bool> canExecute;
-
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute;
-        }
-
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }

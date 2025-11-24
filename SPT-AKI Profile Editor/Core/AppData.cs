@@ -7,7 +7,6 @@ using SPT_AKI_Profile_Editor.Core.ServerClasses.Hideout;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -25,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly IssuesService IssuesService;
         public static readonly IHelperModManager HelperModManager;
 
-        private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.ToLowerInvariant().StartsWith("nunit.framework"));
+        private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.StartsWith("nunit.framework", StringComparison.InvariantCultureIgnoreCase));
         private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
 
         static AppData()
@@ -74,7 +73,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static Dictionary<string, string> GetAvailableKeys()
         {
-            Dictionary<string, string> availableKeys = new();
+            Dictionary<string, string> availableKeys = [];
             try
             {
                 string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.languages]);
@@ -93,7 +92,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadLocalesGlobal()
         {
-            ServerDatabase.LocalesGlobal = new();
+            ServerDatabase.LocalesGlobal = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath($"Locales\\{AppSettings.Language}.json")
                 : Path.Combine(AppSettings.ServerPath,
@@ -109,20 +108,27 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadBotTypes()
         {
-            static string GetHeadName(string headKey, string botName)
+            static string GetLocalizedName(string key, string botName)
             {
-                if (ServerDatabase.LocalesGlobal.ContainsKey(headKey.Name()))
-                {
-                    var localizedName = ServerDatabase.LocalesGlobal[headKey.Name()];
-                    if (!string.IsNullOrWhiteSpace(localizedName))
-                        return localizedName;
-                }
+                if (ServerDatabase.LocalesGlobal.TryGetValue(key.Name(), out string value))
+                    if (!string.IsNullOrWhiteSpace(value))
+                        return value;
 
-                return $"{Path.GetFileNameWithoutExtension(botName)} [{headKey}]";
+                return $"{Path.GetFileNameWithoutExtension(botName)} [{key}]";
             }
 
-            Dictionary<string, string> Heads = new();
-            Dictionary<string, string> Voices = new();
+            Dictionary<string, string> Heads = [];
+            Dictionary<string, string> Voices = [];
+
+            static void ProcessItems<T>(Dictionary<string, T> source, Dictionary<string, string> target, string btype)
+            {
+                if (source == null)
+                    return;
+                foreach (var key in source.Keys)
+                    if (!target.ContainsKey(key))
+                        target.Add(key, GetLocalizedName(key, btype));
+            }
+
             foreach (var btype in Directory.GetFiles(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.bots])))
             {
                 try
@@ -130,19 +136,8 @@ namespace SPT_AKI_Profile_Editor.Core
                     if (!File.Exists(btype))
                         continue;
                     BotType bot = JsonConvert.DeserializeObject<BotType>(File.ReadAllText(btype));
-                    if (bot.Appearance.Heads != null)
-                        foreach (var head in bot.Appearance.Heads.Keys)
-                            if (!Heads.ContainsKey(head))
-                                Heads.Add(head, GetHeadName(head, btype));
-                    if (bot.Appearance.Voices != null)
-                        foreach (var voice in bot.Appearance.Voices.Keys)
-                            if (!Voices.ContainsKey(voice))
-                            {
-                                var localizedName = voice;
-                                if (ServerDatabase.LocalesGlobal.ContainsKey(voice.Name()))
-                                    localizedName = ServerDatabase.LocalesGlobal[voice.Name()];
-                                Voices.Add(voice, string.IsNullOrEmpty(localizedName) ? voice : localizedName);
-                            }
+                    ProcessItems(bot.Appearance?.Heads, Heads, btype);
+                    ProcessItems(bot.Appearance?.Voices, Voices, btype);
                 }
                 catch (Exception ex) { Logger.Log($"ServerDatabase BotType ({btype}) loading error: {ex.Message}"); }
             }
@@ -194,7 +189,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadTradersInfos()
         {
-            ServerDatabase.TraderInfos = new();
+            ServerDatabase.TraderInfos = [];
             var traderInfos = new Dictionary<string, TraderBase>();
             if (AppSettings.UsingModHelper)
             {
@@ -235,7 +230,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadQuestsData()
         {
-            ServerDatabase.QuestsData = new();
+            ServerDatabase.QuestsData = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath("Quests.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
@@ -249,7 +244,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHideoutAreaInfos()
         {
-            ServerDatabase.HideoutAreaInfos = new();
+            ServerDatabase.HideoutAreaInfos = [];
             string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.areas]);
             try
             {
@@ -261,7 +256,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHideoutProduction()
         {
-            ServerDatabase.HideoutProduction = Array.Empty<HideoutProduction>();
+            ServerDatabase.HideoutProduction = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath("Production.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
@@ -275,7 +270,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadItemsDB()
         {
-            ServerDatabase.ItemsDB = new();
+            ServerDatabase.ItemsDB = [];
             string path = AppSettings.UsingModHelper
                 ? GetHelperDBFilePath("Items.json")
                 : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
@@ -299,7 +294,7 @@ namespace SPT_AKI_Profile_Editor.Core
             if (specSlotsCount > 0)
             {
                 var key = "InventoryScreen/SpecialSlotsHeader";
-                var header = ServerDatabase.LocalesGlobal.ContainsKey(key) ? ServerDatabase.LocalesGlobal[key] : "special slots";
+                var header = ServerDatabase.LocalesGlobal.TryGetValue(key, out string value) ? value : "special slots";
                 name += $" + {header} ({specSlotsCount})";
             }
             return name;
@@ -307,7 +302,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadTraderSuits()
         {
-            ServerDatabase.TraderSuits = new();
+            ServerDatabase.TraderSuits = [];
             var traderSuits = new List<TraderSuit>();
             foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
             {
@@ -351,9 +346,7 @@ namespace SPT_AKI_Profile_Editor.Core
             }
             catch (Exception ex)
             {
-                ServerDatabase.HandbookHelper = new(new List<HandbookCategory>(),
-                                                    new Dictionary<string, TarkovItem>(),
-                                                    new ObservableCollection<WeaponBuild>());
+                ServerDatabase.HandbookHelper = new([], [], []);
                 Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
         }
@@ -361,7 +354,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static string GetHelperDBFilePath(string filename)
         {
             var path = Path.Combine(AppSettings.ServerPath, HelperModManager.DbPath, filename);
-            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Any())
+            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Length != 0)
                 ? path
                 : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
         }

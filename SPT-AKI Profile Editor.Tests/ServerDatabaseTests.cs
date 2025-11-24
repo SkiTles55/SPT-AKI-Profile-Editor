@@ -60,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void ServerGlobalsItemPresetsNotNull()
-            => Assert.That(AppData.ServerDatabase.ServerGlobals.ItemPresets.Any(), Is.True);
+            => Assert.That(AppData.ServerDatabase.ServerGlobals.ItemPresets.Count != 0, Is.True);
 
         [Test]
         public void ServerGlobalsItemPresetsCanbeConvertedToWeaponBuilds()
@@ -110,7 +110,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void TradersInfosHaveLoyaltyLevels()
-            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => !x.Value.LoyaltyLevels.Any()), Is.False);
+            => Assert.That(AppData.ServerDatabase.TraderInfos.Any(x => x.Value.LoyaltyLevels.Count == 0), Is.False);
 
         [Test]
         public void TradersInfosLoyaltyLevelsHaveMinLevel()

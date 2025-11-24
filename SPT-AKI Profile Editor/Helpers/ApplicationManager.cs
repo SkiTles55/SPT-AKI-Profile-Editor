@@ -101,7 +101,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (string.IsNullOrEmpty(path))
                 path = Path.Combine(AppData.AppSettings.ServerPath, AppData.AppSettings.FilesList[SPTServerFile.serverexe]);
             Process[] processesArray = Process.GetProcessesByName(name);
-            return processesArray.Where(x => x.MainModule.FileName.ToLower() == path.ToLower()).Any();
+            return processesArray.Where(x => x.MainModule.FileName.Equals(path, StringComparison.CurrentCultureIgnoreCase)).Any();
         }
 
         public async Task<GitHubRelease> CheckUpdate()

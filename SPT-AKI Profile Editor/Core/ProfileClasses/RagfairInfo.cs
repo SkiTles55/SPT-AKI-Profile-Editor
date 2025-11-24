@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 rating = value;
-                OnPropertyChanged("Rating");
+                OnPropertyChanged(nameof(Rating));
             }
         }
     }

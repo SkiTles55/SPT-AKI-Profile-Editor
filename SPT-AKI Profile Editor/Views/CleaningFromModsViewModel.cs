@@ -5,22 +5,12 @@ using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class CleaningFromModsViewModel : BindableViewModel
+    public class CleaningFromModsViewModel(IDialogManager dialogManager,
+        RelayCommand saveCommand,
+        ICleaningService cleaningService) : BindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
-        private readonly RelayCommand _saveCommand;
-
-        public CleaningFromModsViewModel(IDialogManager dialogManager,
-                                         RelayCommand saveCommand,
-                                         ICleaningService cleaningService)
-        {
-            _dialogManager = dialogManager;
-            _saveCommand = saveCommand;
-            CleaningService = cleaningService;
-        }
-
         public static AppSettings AppSettings => AppData.AppSettings;
-        public ICleaningService CleaningService { get; }
+        public ICleaningService CleaningService { get; } = cleaningService;
         public RelayCommand UpdateEntityList => new(obj => CleaningService?.LoadEntitiesList());
 
         public RelayCommand SelectAll => new(obj => CleaningService?.MarkAll(true,
@@ -29,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand DeselectAll => new(obj => CleaningService?.MarkAll(false,
                                                                                GetTypeFromCommand(obj)));
 
-        public RelayCommand RemoveSelected => new(obj => CleaningService?.RemoveSelected(_saveCommand, _dialogManager));
+        public RelayCommand RemoveSelected => new(obj => CleaningService?.RemoveSelected(saveCommand, dialogManager));
 
         private static ModdedEntityType? GetTypeFromCommand(object source)
         {

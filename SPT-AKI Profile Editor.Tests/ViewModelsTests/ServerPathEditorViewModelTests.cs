@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             var retryCommandCalled = false;
             RelayCommand retryCommand = new(obj => retryCommandCalled = true);
-            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(new List<ServerPathEntry>(), retryCommand);
+            ServerPathEditorViewModel pathEditorViewModel = TestViewModel([], retryCommand);
             pathEditorViewModel.RetryCommand.Execute(true);
             Assert.That(retryCommandCalled, Is.True, "ServerPathEditorViewModel RetryCommand not called");
         }
@@ -64,7 +64,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         {
             var faqCommandCalled = false;
             RelayCommand faqCommand = new(obj => faqCommandCalled = true);
-            ServerPathEditorViewModel pathEditorViewModel = TestViewModel(new List<ServerPathEntry>(), null, faqCommand);
+            ServerPathEditorViewModel pathEditorViewModel = TestViewModel([], null, faqCommand);
             pathEditorViewModel.FAQCommand.Execute(true);
             Assert.That(faqCommandCalled, Is.True, "ServerPathEditorViewModel FAQCommand not called");
         }

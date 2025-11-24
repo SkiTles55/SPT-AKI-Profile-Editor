@@ -31,9 +31,9 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 selectedLocalizationKey = value;
-                if (!string.IsNullOrEmpty(selectedLocalizationKey) && AvailableKeys.ContainsKey(selectedLocalizationKey))
-                    SelectedLocalizationValue = AvailableKeys[selectedLocalizationKey];
-                OnPropertyChanged("SelectedLocalizationKey");
+                if (!string.IsNullOrEmpty(selectedLocalizationKey) && AvailableKeys.TryGetValue(selectedLocalizationKey, out string value1))
+                    SelectedLocalizationValue = value1;
+                OnPropertyChanged(nameof(SelectedLocalizationKey));
             }
         }
 
@@ -43,7 +43,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 keyFilter = value;
-                OnPropertyChanged("KeyFilter");
+                OnPropertyChanged(nameof(KeyFilter));
                 Filter();
             }
         }
@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Views
             set
             {
                 valueFilter = value;
-                OnPropertyChanged("ValueFilter");
+                OnPropertyChanged(nameof(ValueFilter));
                 Filter();
             }
         }
@@ -95,8 +95,8 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        private bool ShouldFilterValue(Translation p) => string.IsNullOrEmpty(ValueFilter) || p.Value.ToLower().Contains(ValueFilter.ToLower());
+        private bool ShouldFilterValue(Translation p) => string.IsNullOrEmpty(ValueFilter) || p.Value.Contains(ValueFilter, System.StringComparison.CurrentCultureIgnoreCase);
 
-        private bool ShouldFilterKey(Translation p) => string.IsNullOrEmpty(KeyFilter) || p.Key.ToLower().Contains(KeyFilter.ToLower());
+        private bool ShouldFilterKey(Translation p) => string.IsNullOrEmpty(KeyFilter) || p.Key.Contains(KeyFilter, System.StringComparison.CurrentCultureIgnoreCase);
     }
 }

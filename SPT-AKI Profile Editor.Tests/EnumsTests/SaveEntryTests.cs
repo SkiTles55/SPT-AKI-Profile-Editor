@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
         [Test]
         public void SaveEntryHasLocalizedNames()
         {
-            foreach (var entry in Enum.GetValues(typeof(SaveEntry)).Cast<SaveEntry>())
+            foreach (var entry in Enum.GetValues<SaveEntry>().Cast<SaveEntry>())
             {
                 var name = entry.LocalizedName();
                 Assert.That(string.IsNullOrWhiteSpace(name),

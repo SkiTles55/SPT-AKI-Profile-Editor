@@ -4,23 +4,16 @@ using System;
 
 namespace SPT_AKI_Profile_Editor.Tests.EnumsTests
 {
-    internal class TestEnumReader : JsonReader
+    internal class TestEnumReader(object receivedValue) : JsonReader
     {
-        private readonly object _receivedValue;
-        private readonly JsonToken _tokenType;
-
-        public TestEnumReader(object receivedValue)
+        private readonly JsonToken _tokenType = receivedValue switch
         {
-            _receivedValue = receivedValue;
-            _tokenType = receivedValue switch
-            {
-                string => JsonToken.String,
-                int => JsonToken.Integer,
-                _ => JsonToken.Null,
-            };
-        }
+            string => JsonToken.String,
+            int => JsonToken.Integer,
+            _ => JsonToken.Null,
+        };
 
-        public override object Value => _receivedValue;
+        public override object Value => receivedValue;
 
         public override JsonToken TokenType => _tokenType;
 

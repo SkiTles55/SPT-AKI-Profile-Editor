@@ -47,8 +47,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             CommonSkillsTabViewModel viewModel = MakeSUT();
             viewModel.SetAllPmcSkillsValue = 200f;
             viewModel.SetAllPmsSkillsCommand.Execute(null);
-            Assert.That(AppData.Profile.Characters.Pmc.Skills.Common.Where(x => !x.Id.ToLower().StartsWith("bot")).All(x => x.Progress == 200f), Is.True);
-            Assert.That(AppData.Profile.Characters.Pmc.Skills.Common.Where(x => x.Id.ToLower().StartsWith("bot")).All(x => x.Progress == 0f), Is.True, "Bot skills progress not zero");
+            Assert.That(AppData.Profile.Characters.Pmc.Skills.Common.Where(x => !x.Id.StartsWith("bot", System.StringComparison.CurrentCultureIgnoreCase)).All(x => x.Progress == 200f), Is.True);
+            Assert.That(AppData.Profile.Characters.Pmc.Skills.Common.Where(x => x.Id.StartsWith("bot", System.StringComparison.CurrentCultureIgnoreCase)).All(x => x.Progress == 0f), Is.True, "Bot skills progress not zero");
         }
 
         [Test]
@@ -58,8 +58,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             CommonSkillsTabViewModel viewModel = MakeSUT();
             viewModel.SetAllScavSkillsValue = 200f;
             viewModel.SetAllScavSkillsCommand.Execute(null);
-            Assert.That(AppData.Profile.Characters.Scav.Skills.Common.Where(x => !x.Id.ToLower().StartsWith("bot")).All(x => x.Progress == 200f), Is.True);
-            Assert.That(AppData.Profile.Characters.Scav.Skills.Common.Where(x => x.Id.ToLower().StartsWith("bot")).All(x => x.Progress == 0f), Is.True, "Bot skills progress not zero");
+            Assert.That(AppData.Profile.Characters.Scav.Skills.Common.Where(x => !x.Id.StartsWith("bot", System.StringComparison.CurrentCultureIgnoreCase)).All(x => x.Progress == 200f), Is.True);
+            Assert.That(AppData.Profile.Characters.Scav.Skills.Common.Where(x => x.Id.StartsWith("bot", System.StringComparison.CurrentCultureIgnoreCase)).All(x => x.Progress == 0f), Is.True, "Bot skills progress not zero");
         }
 
         [Test]

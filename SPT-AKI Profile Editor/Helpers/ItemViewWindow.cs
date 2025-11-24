@@ -3,12 +3,10 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public class ItemViewWindow : MetroWindow
+    public class ItemViewWindow(string itemId) : MetroWindow
     {
         public DialogCoordinator DialogCoordinator = new();
 
-        public ItemViewWindow(string itemId) => ItemId = itemId;
-
-        public string ItemId { get; }
+        public string ItemId { get; } = itemId;
     }
 }

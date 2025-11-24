@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
     public class CleaningService : BindableEntity, ICleaningService
     {
-        private readonly List<PropertyChangedEventHandler> changedHandlers = new();
+        private readonly List<PropertyChangedEventHandler> changedHandlers = [];
         private ObservableCollection<ModdedEntity> moddedEntities;
 
         public ObservableCollection<ModdedEntity> ModdedEntities
@@ -79,11 +79,11 @@ namespace SPT_AKI_Profile_Editor.Core
                 switch (entity.Type)
                 {
                     case ModdedEntityType.PmcInventoryItem:
-                        AppData.Profile.Characters.Pmc.Inventory.RemoveItems(new() { entity.Id });
+                        AppData.Profile.Characters.Pmc.Inventory.RemoveItems([entity.Id]);
                         break;
 
                     case ModdedEntityType.ScavInventoryItem:
-                        AppData.Profile.Characters.Scav.Inventory.RemoveItems(new() { entity.Id });
+                        AppData.Profile.Characters.Scav.Inventory.RemoveItems([entity.Id]);
                         break;
 
                     case ModdedEntityType.ExaminedItem:
@@ -99,7 +99,7 @@ namespace SPT_AKI_Profile_Editor.Core
                         break;
 
                     case ModdedEntityType.Quest:
-                        AppData.Profile.Characters.Pmc.RemoveQuests(new string[] { entity.Id });
+                        AppData.Profile.Characters.Pmc.RemoveQuests([entity.Id]);
                         break;
 
                     case ModdedEntityType.Merchant:

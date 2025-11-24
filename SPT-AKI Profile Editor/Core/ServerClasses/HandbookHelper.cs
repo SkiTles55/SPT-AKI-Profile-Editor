@@ -6,20 +6,11 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 {
-    public class HandbookHelper
+    public class HandbookHelper(List<HandbookCategory> categories,
+                          Dictionary<string, TarkovItem> itemsDB,
+                          ObservableCollection<WeaponBuild> globalBuilds)
     {
-        private readonly List<HandbookCategory> categories;
-        private readonly Dictionary<string, TarkovItem> itemsDB;
-        private readonly ObservableCollection<WeaponBuildCategory> globalBuilds;
-
-        public HandbookHelper(List<HandbookCategory> categories,
-                              Dictionary<string, TarkovItem> itemsDB,
-                              ObservableCollection<WeaponBuild> globalBuilds)
-        {
-            this.categories = categories;
-            this.itemsDB = itemsDB;
-            this.globalBuilds = GlobalBuildsCategories(categories, globalBuilds);
-        }
+        private readonly ObservableCollection<WeaponBuildCategory> globalBuilds = GlobalBuildsCategories(categories, globalBuilds);
 
         public ObservableCollection<AddableCategory> CategoriesForItemsAdding => CategoriesForItemsAddingWithFilter("");
 

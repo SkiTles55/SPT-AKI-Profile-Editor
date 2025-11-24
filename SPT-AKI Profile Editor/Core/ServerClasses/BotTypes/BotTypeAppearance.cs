@@ -24,8 +24,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
             JObject jo = JObject.Load(reader);
             var botTypeAppearance = new BotTypeAppearance
             {
-                Heads = jo["head"].Type == JTokenType.Array ? new Dictionary<string, int>() : jo["head"].ToObject<Dictionary<string, int>>(),
-                Voices = jo["voice"].Type == JTokenType.Array ? new Dictionary<string, int>() : jo["voice"].ToObject<Dictionary<string, int>>()
+                Heads = jo["head"].Type == JTokenType.Array ? [] : jo["head"].ToObject<Dictionary<string, int>>(),
+                Voices = jo["voice"].Type == JTokenType.Array ? [] : jo["voice"].ToObject<Dictionary<string, int>>()
             };
             return botTypeAppearance;
         }

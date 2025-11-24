@@ -62,7 +62,8 @@ public class ProfileEditorModHelper(
             {
                 fileUtil.WriteFile(hashesPath, hasesData);
                 LogMessage("DB successfully exported");
-            } else
+            }
+            else
             {
                 LogMessage("DB successfully exported, but hashes not updated", LogTextColor.Red);
             }

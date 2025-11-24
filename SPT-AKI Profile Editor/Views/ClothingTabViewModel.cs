@@ -7,7 +7,7 @@ namespace SPT_AKI_Profile_Editor.Views
 {
     public class ClothingTabViewModel : PmcBindableViewModel
     {
-        private ObservableCollection<TraderSuit> suits = new();
+        private ObservableCollection<TraderSuit> suits = [];
         private string nameFilter;
 
         public static RelayCommand AcquireAllCommand => new(obj => ServerDatabase.AcquireAllClothing());
@@ -37,12 +37,12 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             ObservableCollection<TraderSuit> filteredItems;
 
-            if (ServerDatabase?.TraderSuits == null || !ServerDatabase.TraderSuits.Any())
-                filteredItems = new();
+            if (ServerDatabase?.TraderSuits == null || ServerDatabase.TraderSuits.Count == 0)
+                filteredItems = [];
             else if (string.IsNullOrEmpty(NameFilter))
                 filteredItems = new(ServerDatabase.TraderSuits);
             else
-                filteredItems = new(ServerDatabase.TraderSuits.Where(x => x.LocalizedName.ToUpper().Contains(NameFilter.ToUpper())));
+                filteredItems = new(ServerDatabase.TraderSuits.Where(x => x.LocalizedName.Contains(NameFilter, System.StringComparison.CurrentCultureIgnoreCase)));
 
             Suits = filteredItems;
         }

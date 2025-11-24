@@ -4,23 +4,14 @@ using System.Collections.Generic;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class ServerPathEditorViewModel : ClosableDialogViewModel
+    public class ServerPathEditorViewModel(IEnumerable<ServerPathEntry> paths,
+        RelayCommand retryCommand,
+        RelayCommand faqCommand,
+        object context) : ClosableDialogViewModel(context)
     {
-        private readonly RelayCommand retryCommand;
-
-        public ServerPathEditorViewModel(IEnumerable<ServerPathEntry> paths,
-                                         RelayCommand retryCommand,
-                                         RelayCommand faqCommand,
-                                         object context) : base(context)
-        {
-            Paths = paths;
-            this.retryCommand = retryCommand;
-            FAQCommand = faqCommand;
-        }
-
-        public IEnumerable<ServerPathEntry> Paths { get; }
+        public IEnumerable<ServerPathEntry> Paths { get; } = paths;
         public RelayCommand RetryCommand => new(obj => CloseAndRunRetryCommand());
-        public RelayCommand FAQCommand { get; }
+        public RelayCommand FAQCommand { get; } = faqCommand;
 
         private async void CloseAndRunRetryCommand()
         {

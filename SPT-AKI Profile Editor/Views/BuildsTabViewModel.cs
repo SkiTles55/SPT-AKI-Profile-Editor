@@ -7,24 +7,11 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class BuildsTabViewModel : BindableViewModel
+    public class BuildsTabViewModel(IDialogManager dialogManager,
+        IWorker worker,
+        IWindowsDialogs windowsDialogs,
+        IApplicationManager applicationManager) : BindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
-        private readonly IWindowsDialogs _windowsDialogs;
-        private readonly IWorker _worker;
-        private readonly IApplicationManager _applicationManager;
-
-        public BuildsTabViewModel(IDialogManager dialogManager,
-                                     IWorker worker,
-                                     IWindowsDialogs windowsDialogs,
-                                     IApplicationManager applicationManager)
-        {
-            _dialogManager = dialogManager;
-            _windowsDialogs = windowsDialogs;
-            _worker = worker;
-            _applicationManager = applicationManager;
-        }
-
         public RelayCommand AddBuildToStash
             => new(obj => AddBuildToProfileStash(obj));
 
@@ -55,13 +42,13 @@ namespace SPT_AKI_Profile_Editor.Views
         public RelayCommand OpenContainer => new(obj =>
         {
             if (obj is (InventoryItem item, EquipmentBuild build))
-                _applicationManager.OpenContainerWindow(item, build.MakeInventory(), false);
+                applicationManager.OpenContainerWindow(item, build.MakeInventory(), false);
         });
 
         public RelayCommand InspectWeapon => new(obj =>
         {
             if (obj is (InventoryItem item, EquipmentBuild build))
-                _applicationManager.OpenWeaponBuildWindow(item, build.MakeInventory(), false);
+                applicationManager.OpenWeaponBuildWindow(item, build.MakeInventory(), false);
         });
 
         private static WorkerTask ExportTask(Action action)
@@ -74,61 +61,61 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             if (obj is WeaponBuild build)
             {
-                var (success, path) = _windowsDialogs.SaveWeaponBuildDialog(build.Name);
+                var (success, path) = windowsDialogs.SaveWeaponBuildDialog(build.Name);
                 if (success)
-                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, path)));
+                    worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, path)));
                 return;
             }
 
             if (obj is EquipmentBuild eBuild)
             {
-                var (success, path) = _windowsDialogs.SaveEquipmentBuildDialog(eBuild.Name);
+                var (success, path) = windowsDialogs.SaveEquipmentBuildDialog(eBuild.Name);
                 if (success)
-                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(eBuild, path)));
+                    worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(eBuild, path)));
                 return;
             }
         }
 
         private void ExportAllWeaponBuilds()
         {
-            var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
+            var (success, path) = windowsDialogs.FolderBrowserDialog(true);
             if (success)
                 foreach (var build in Profile.UserBuilds.WeaponBuilds)
-                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Weapon preset {build.Name}.json"))));
+                    worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Weapon preset {build.Name}.json"))));
         }
 
         private void ExportAllEquipmentBuilds()
         {
-            var (success, path) = _windowsDialogs.FolderBrowserDialog(true);
+            var (success, path) = windowsDialogs.FolderBrowserDialog(true);
             if (success)
                 foreach (var build in Profile.UserBuilds.EquipmentBuilds)
-                    _worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Equipment preset {build.Name}.json"))));
+                    worker.AddTask(ExportTask(() => UserBuilds.ExportBuild(build, Path.Combine(path, $"Equipment preset {build.Name}.json"))));
         }
 
         private void ImportWeaponBuildsFromFiles()
         {
             foreach (var file in GetImportPaths())
-                _worker.AddTask(ImportTask(() => Profile.UserBuilds.ImportWeaponBuildFromFile(file)));
+                worker.AddTask(ImportTask(() => Profile.UserBuilds.ImportWeaponBuildFromFile(file)));
         }
 
         private void ImportEquipmentBuildsFromFile()
         {
             foreach (var file in GetImportPaths())
-                _worker.AddTask(ImportTask(() => Profile.UserBuilds.ImportEquipmentBuildFromFile(file)));
+                worker.AddTask(ImportTask(() => Profile.UserBuilds.ImportEquipmentBuildFromFile(file)));
         }
 
         private string[] GetImportPaths()
         {
-            var (success, _, paths) = _windowsDialogs.OpenBuildDialog();
+            var (success, _, paths) = windowsDialogs.OpenBuildDialog();
             if (success)
                 return paths;
-            return Array.Empty<string>();
+            return [];
         }
 
         private void AddBuildToProfileStash(object obj)
         {
             if (obj is WeaponBuild build)
-                _worker.AddTask(ImportTask(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build)));
+                worker.AddTask(ImportTask(() => Profile.Characters.Pmc.Inventory.AddNewItemsToStash(build)));
         }
 
         private async Task RemoveBuildFromProfile(object obj)
@@ -159,9 +146,9 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         private async Task<bool> AskRemoveBuild()
-            => await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_preset_dialog_caption");
+            => await dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_preset_dialog_caption");
 
         private async Task<bool> AskRemoveBuilds()
-            => await _dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption");
+            => await dialogManager.YesNoDialog("remove_preset_dialog_title", "remove_presets_dialog_caption");
     }
 }

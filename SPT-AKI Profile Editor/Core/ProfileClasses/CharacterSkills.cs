@@ -41,13 +41,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public bool IsMasteringsEmpty => Mastering == null || Mastering.Length == 0;
 
         public void RemoveCommonSkills(IEnumerable<string> skillIds)
-            => Common = Common.Where(x => !skillIds.Contains(x.Id)).ToArray();
+            => Common = [.. Common.Where(x => !skillIds.Contains(x.Id))];
 
-        public void AddCommonSkill(CharacterSkill skill) => Common = Common.Append(skill).ToArray();
+        public void AddCommonSkill(CharacterSkill skill) => Common = [.. Common, skill];
 
         public void RemoveMasteringSkills(IEnumerable<string> skillIds)
-            => Mastering = Mastering.Where(x => !skillIds.Contains(x.Id)).ToArray();
+            => Mastering = [.. Mastering.Where(x => !skillIds.Contains(x.Id))];
 
-        public void AddMasteringSkill(CharacterSkill skill) => Mastering = Mastering.Append(skill).ToArray();
+        public void AddMasteringSkill(CharacterSkill skill) => Mastering = [.. Mastering, skill];
     }
 }
