@@ -117,7 +117,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             && merchant.Standing == other.Standing;
 
         private static string GetVoice(Character character)
-                    => AppData.ServerDatabase.Voices.FirstOrDefault(x => x.Key != character.Info.Voice).Key;
+                    => AppData.ServerDatabase.Voices.FirstOrDefault(x => x.Key != character.Customization.Voice).Key;
 
         private static string GetHead(Character character)
             => AppData.ServerDatabase.Heads.FirstOrDefault(x => x.Key != character.Customization.Head).Key;
@@ -137,7 +137,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                                             string pockets)
         {
             pmc.Info.Nickname = nickname;
-            pmc.Info.Voice = voice;
+            pmc.Customization.Voice = voice;
             pmc.Info.Side = side;
             pmc.Info.Experience = exp;
             pmc.Customization.Head = head;
@@ -186,7 +186,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                                                       Health expectedHealth)
         {
             Assert.That(character.Info.Nickname, Is.EqualTo(expectedNickname));
-            Assert.That(character.Info.Voice, Is.EqualTo(expectedVoice));
+            Assert.That(character.Customization.Voice, Is.EqualTo(expectedVoice));
             Assert.That(character.Info.Side, Is.EqualTo(expectedSide));
             Assert.That(character.Info.Experience, Is.EqualTo(expectedExp));
             Assert.That(character.Customization.Head, Is.EqualTo(expectedHead));
@@ -234,7 +234,8 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray(),
                         Is.EqualTo(productionsList));
             Assert.That(pmc.Encyclopedia, Is.EqualTo(encyclopediaList));
-            Assert.That(AppData.Profile.Suits.OrderBy(x => x), Is.EqualTo(suitsList.OrderBy(x => x)));
+            Assert.That(AppData.Profile.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Select(x => x.Id).OrderBy(x => x),
+                        Is.EqualTo(suitsList.OrderBy(x => x)));
             Assert.That(pmc.Skills.Common.ToDictionary(x => x.Id, x => x.Progress), Is.EqualTo(pmcCommonSkills));
             Assert.That(scav.Skills.Common.ToDictionary(x => x.Id, x => x.Progress), Is.EqualTo(scavCommonSkills));
             Assert.That(pmc.Skills.Mastering.ToDictionary(x => x.Id, x => x.Progress), Is.EqualTo(pmcMasteringSkills));
@@ -267,7 +268,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             ChangeCharacter(pmc, pmcNickname, pmcVoice, pmcSide, pmcExperience, pmcHead, pmcPockets);
             ChangeCharacter(scav, scavNickname, scavVoice, "Bear", scavExperience, scavHead, scavPockets);
 
-            merchantList = new();
+            merchantList = [];
             foreach (var trader in pmc.TraderStandingsExt)
             {
                 trader.LoyaltyLevel = Math.Min(2, trader.MaxLevel);
@@ -279,7 +280,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             }
 
             pmc.RemoveAllQuests();
-            pmc.Quests = AppData.ServerDatabase.QuestsData.Take(10).Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked }).ToArray();
+            pmc.Quests = [.. AppData.ServerDatabase.QuestsData.Take(10).Select(x => new CharacterQuest { Qid = x.Key, Status = QuestStatus.Locked })];
             pmc.SetAllQuests(QuestStatus.Success);
             questsList = pmc.Quests.ToDictionary(x => x.Qid, x => x.Status);
 
@@ -289,7 +290,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
             foreach (var production in pmc.HideoutProductions.Take(4))
                 production.Added = true;
-            productionsList = pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray();
+            productionsList = [.. pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id)];
 
             foreach (var item in AppData.ServerDatabase.ItemsDB
                 .Where(x => x.Value.Parent != null
@@ -303,7 +304,8 @@ namespace SPT_AKI_Profile_Editor.Tests
 
             foreach (var suit in AppData.ServerDatabase.TraderSuits.Where(x => !x.Boughted).Take(4))
                 suit.Boughted = true;
-            suitsList = AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).Union(AppData.Profile.Suits).ToArray();
+            var currentSuits = AppData.Profile.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Select(x => x.Id);
+            suitsList = [.. AppData.ServerDatabase.TraderSuits.Where(x => x.Boughted).Select(x => x.SuiteId).Union(currentSuits)];
 
             pmc.SetAllCommonSkills(500);
             pmcCommonSkills = pmc.Skills.Common.ToDictionary(x => x.Id, y => y.Progress);

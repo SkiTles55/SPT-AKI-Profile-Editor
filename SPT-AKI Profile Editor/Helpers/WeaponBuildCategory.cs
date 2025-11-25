@@ -24,7 +24,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         {
             LocalizedName = name;
             Categories = categories;
-            Items = new();
+            Items = [];
         }
 
         public static WeaponBuildCategory CopyFrom(WeaponBuildCategory category) => new()

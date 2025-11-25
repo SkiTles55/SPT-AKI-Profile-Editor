@@ -40,8 +40,8 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
 
-        public static List<string> BannedItems => new()
-        {
+        public static List<string> BannedItems =>
+        [
             "543be5dd4bdc2deb348b4569",
             "55d720f24bdc2d88028b456d",
             "557596e64bdc2dc2118b4571",
@@ -54,35 +54,35 @@ namespace SPT_AKI_Profile_Editor.Core
             "5996f6fc86f7745e585b4de3",
             "5cdeb229d7f00c000e7ce174",
             "5d52cc5ba4b9367408500062"
-        };
+        ];
 
         public static Dictionary<string, string> DefaultDirsList => new()
         {
-            [SPTServerDir.globals] = "SPT_Data\\Server\\database\\locales\\global",
-            [SPTServerDir.traders] = "SPT_Data\\Server\\database\\traders",
-            [SPTServerDir.bots] = "SPT_Data\\Server\\database\\bots\\types",
-            [SPTServerDir.profiles] = "user\\profiles",
-            [SPTServerDir.handbookIcons] = "SPT_Data\\Server\\images\\handbook",
-            [SPTServerDir.traderImages] = "SPT_Data\\Server\\images\\traders"
+            [SPTServerDir.globals] = "SPT\\SPT_Data\\database\\locales\\global",
+            [SPTServerDir.traders] = "SPT\\SPT_Data\\database\\traders",
+            [SPTServerDir.bots] = "SPT\\SPT_Data\\database\\bots\\types",
+            [SPTServerDir.profiles] = "SPT\\user\\profiles",
+            [SPTServerDir.handbookIcons] = "SPT\\SPT_Data\\images\\handbook",
+            [SPTServerDir.traderImages] = "SPT\\SPT_Data\\images\\trader\\avatar"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
         {
-            [SPTServerFile.globals] = "SPT_Data\\Server\\database\\globals.json",
-            [SPTServerFile.items] = "SPT_Data\\Server\\database\\templates\\items.json",
-            [SPTServerFile.quests] = "SPT_Data\\Server\\database\\templates\\quests.json",
-            [SPTServerFile.questConfig] = "SPT_Data\\Server\\configs\\quest.json",
-            [SPTServerFile.areas] = "SPT_Data\\Server\\database\\hideout\\areas.json",
-            [SPTServerFile.production] = "SPT_Data\\Server\\database\\hideout\\production.json",
-            [SPTServerFile.handbook] = "SPT_Data\\Server\\database\\templates\\handbook.json",
-            [SPTServerFile.languages] = "SPT_Data\\Server\\database\\locales\\languages.json",
-            [SPTServerFile.serverexe] = "SPT.Server.exe"
+            [SPTServerFile.globals] = "SPT\\SPT_Data\\database\\globals.json",
+            [SPTServerFile.items] = "SPT\\SPT_Data\\database\\templates\\items.json",
+            [SPTServerFile.quests] = "SPT\\SPT_Data\\database\\templates\\quests.json",
+            [SPTServerFile.questConfig] = "SPT\\SPT_Data\\configs\\quest.json",
+            [SPTServerFile.areas] = "SPT\\SPT_Data\\database\\hideout\\areas.json",
+            [SPTServerFile.production] = "SPT\\SPT_Data\\database\\hideout\\production.json",
+            [SPTServerFile.handbook] = "SPT\\SPT_Data\\database\\templates\\handbook.json",
+            [SPTServerFile.languages] = "SPT\\SPT_Data\\database\\locales\\languages.json",
+            [SPTServerFile.serverexe] = "SPT\\SPT.Server.exe"
         };
 
         public static List<AppLocalization> DefaultLocalizations()
         {
-            List<AppLocalization> loaded = new();
-            foreach (var file in new string[] { "en.json", "ru.json", "ch.json" })
+            List<AppLocalization> loaded = [];
+            foreach (var file in new string[] { "en.json", "ru.json", "ch.json", "jp.json" })
             {
                 try
                 {

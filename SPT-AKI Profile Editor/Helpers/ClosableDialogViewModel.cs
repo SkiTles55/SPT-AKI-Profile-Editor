@@ -3,12 +3,8 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
-    public class ClosableDialogViewModel : BindableViewModel
+    public class ClosableDialogViewModel(object context) : BindableViewModel
     {
-        private readonly object context;
-
-        public ClosableDialogViewModel(object context) => this.context = context;
-
         public RelayCommand CancelCommand => new(async obj => await CloseDialog());
 
         public async Task CloseDialog()

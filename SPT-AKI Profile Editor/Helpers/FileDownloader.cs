@@ -8,17 +8,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
 #nullable enable
 
-    public class FileDownloader
+    public class FileDownloader(IProgress<float>? progressIndicator = null,
+        CancellationToken? cancellationToken = null)
     {
-        private readonly IProgress<float>? progressIndicator;
-        private readonly CancellationToken cancellationToken;
-
-        public FileDownloader(IProgress<float>? progressIndicator = null,
-                              CancellationToken? cancellationToken = null)
-        {
-            this.progressIndicator = progressIndicator;
-            this.cancellationToken = cancellationToken ?? CancellationToken.None;
-        }
+        private readonly CancellationToken cancellationToken = cancellationToken ?? CancellationToken.None;
 
         public async Task DownloadFromUrl(string url, string filePath)
         {
@@ -46,16 +39,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private async Task CopyToAsync(Stream source, Stream destination, int bufferSize, IProgress<long>? progress)
         {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
             if (!source.CanRead)
                 throw new ArgumentException("Has to be readable", nameof(source));
-            if (destination == null)
-                throw new ArgumentNullException(nameof(destination));
+            ArgumentNullException.ThrowIfNull(destination);
             if (!destination.CanWrite)
                 throw new ArgumentException("Has to be writable", nameof(destination));
-            if (bufferSize < 0)
-                throw new ArgumentOutOfRangeException(nameof(bufferSize));
+            ArgumentOutOfRangeException.ThrowIfNegative(bufferSize);
 
             var buffer = new byte[bufferSize];
             long totalBytesRead = 0;

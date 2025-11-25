@@ -20,6 +20,10 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [提交Bug报告 \ 功能要求](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
+### [版本 4.0 适配服务器 SPT 4.0.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0)
+### [版本 3.3 适配服务器 SPT 3.11.2](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
+### [版本 3.2.1 适配服务器 SPT 3.11.0 - 3.11.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
+### [版本 3.1 适配服务器 SPT 3.10.5](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.1)
 ### [版本 3.0 适配服务器 SPT 3.9.0](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.0)
 ### [版本 2.9.3 适配服务器 SPT-AKI 3.8.0 - 3.8.3](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.3)
 ### [版本 2.8.6 适配服务器 SPT-AKI 3.7.0 - 3.7.6](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.6)
@@ -74,6 +78,3 @@ Lomenot - 中文本地化
 ![Screenshot5](/screenshots/5CH.png?raw=true)
 ![Screenshot6](/screenshots/6CH.png?raw=true)
 ![Screenshot7](/screenshots/7CH.png?raw=true)
-
-### 其他有用的模组
-[Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)

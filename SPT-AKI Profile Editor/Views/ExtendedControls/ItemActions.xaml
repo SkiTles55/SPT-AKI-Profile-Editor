@@ -51,7 +51,7 @@
                 d:Visibility="Visible"
                 Command="{Binding ElementName=Control, Path=RemoveItem}"
                 CommandParameter="{Binding ElementName=Control, Path=Item.Id}"
-                Icon="TrashAltSolid"
+                Icon="TrashCanSolid"
                 IconSize="15"
                 Style="{StaticResource IconOnlyButton}"
                 ToolTip="{Binding ElementName=Control, Path=LocalizationDict[tab_backups_remove]}"

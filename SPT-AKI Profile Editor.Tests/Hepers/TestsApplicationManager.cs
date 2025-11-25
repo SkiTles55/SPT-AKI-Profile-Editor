@@ -44,10 +44,10 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 
         public IEnumerable<AccentItem> GetColorSchemes()
         {
-            return new List<AccentItem>() {
+            return [
                 new("test1", "test1", "test1"),
                 new("test2", "test2", "test2")
-            };
+            ];
         }
 
         public void OpenContainerWindow(InventoryItem item, CharacterInventory inventory, bool editingAllowed) => ContainerWindowOpened = true;

@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ProfileNotEmpty() => Assert.That(AppData.Profile.IsProfileEmpty, Is.False, "Profile is empty");
 
         [Test]
-        public void SuitsNotEmpty() => Assert.That(AppData.Profile.Suits, Is.Not.Empty);
+        public void CustomisationUnlocksNotEmpty() => Assert.That(AppData.Profile.CustomisationUnlocks, Is.Not.Empty);
 
         [Test]
         public void PmcNotNull() => Assert.That(AppData.Profile.Characters.Pmc, Is.Not.Null);
@@ -54,7 +54,7 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void VoiceNotEmpty()
-            => Assert.That(AppData.Profile.Characters.Pmc.Info.Voice, Is.Not.Null, "Voice is empty");
+            => Assert.That(AppData.Profile.Characters.Pmc.Customization.Voice, Is.Not.Null, "Voice is empty");
 
         [Test]
         public void PmcExperienceNotZero()
@@ -151,7 +151,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void QuestsLoadCorrectly()
         {
             Assert.That(AppData.Profile.Characters.Pmc.Quests, Is.Not.Null, "Quests is null");
-            Assert.That(AppData.Profile.Characters.Pmc.Quests.Any(), Is.True, "Quests is empty");
+            Assert.That(AppData.Profile.Characters.Pmc.Quests.Length != 0, Is.True, "Quests is empty");
             Assert.That(AppData.Profile.Characters.Pmc.Quests.Any(x => x.LocalizedTraderName == x.QuestTrader),
                         Is.False,
                         "Quests Localized TraderName's not loaded");
@@ -517,7 +517,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => string.IsNullOrEmpty(x.TraderBase.Id)),
                         Is.False,
                         "Traders TraderBase id's not loaded");
-            Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => !x.TraderBase.LoyaltyLevels.Any()),
+            Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.TraderBase.LoyaltyLevels.Count == 0),
                         Is.False,
                         "Traders TraderBase LoyaltyLevels's not loaded");
             Assert.That(AppData.Profile.Characters.Pmc.TraderStandingsExt.Any(x => x.BitmapImage == null),
@@ -750,7 +750,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void ExaminedItemsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
-            AppData.Profile.Characters.Pmc.Encyclopedia = new();
+            AppData.Profile.Characters.Pmc.Encyclopedia = [];
             var expected = AppData.Profile.Characters.Pmc.ExaminedItems.Count();
             AppData.Profile.Characters.Pmc.ExamineAll();
             TestHelpers.SaveAndLoadProfile("testExaminedItems.json");
@@ -762,8 +762,9 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.ServerDatabase.AcquireAllClothing();
-            TestHelpers.SaveAndLoadProfile("testSuits.json");
-            Assert.That(AppData.Profile.Suits.Length, Is.GreaterThanOrEqualTo(AppData.ServerDatabase.TraderSuits.Count));
+            string savePath = "testSuits.json";
+            TestHelpers.SaveAndLoadProfile(savePath);
+            Assert.That(AppData.Profile.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Count, Is.GreaterThanOrEqualTo(AppData.ServerDatabase.TraderSuits.Count));
         }
 
         [Test]
@@ -793,7 +794,7 @@ namespace SPT_AKI_Profile_Editor.Tests
                 .Where(x => x.Id != expectedId1 && x.ParentId != expectedId1)
                 .First()
                 .Id;
-            RemovingItemsSavesCorrectly(new() { expectedId1, expectedId2 },
+            RemovingItemsSavesCorrectly([expectedId1, expectedId2],
                                         AppData.Profile.Characters.Pmc.Inventory,
                                         "testStashRemovingItems.json");
         }
@@ -819,7 +820,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             var expectedIds = AppData.Profile.Characters.Scav.Inventory.EquipmentSlots
-                .Where(x => x is EquipmentSlotItem && x.ItemsList.Any())
+                .Where(x => x is EquipmentSlotItem && x.ItemsList.Count != 0)
                 .Take(2)
                 .SelectMany(x => x.ItemsList)
                 .Where(x => x != null)
@@ -889,7 +890,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             item1.AddingFir = false;
             item2.AddingQuantity = 2;
             item2.AddingFir = true;
-            var savedItems = AddAndGetItemsToProfileStash(new TarkovItem[] { item2, item1 },
+            var savedItems = AddAndGetItemsToProfileStash([item2, item1],
                                                           "testStashAddingItems.json",
                                                           AppData.Profile.Characters.Pmc.Inventory.Stash);
             Assert.That(savedItems[0].Upd.SpawnedInSession, Is.True);
@@ -1112,7 +1113,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(TestHelpers.weaponBuild));
-            List<string> iDs = new() { weaponBuild.Root };
+            List<string> iDs = [weaponBuild.Root];
             var weaponsCount = AppData.Profile.Characters.Pmc.Inventory.Items.Where(x => x.Tpl == weaponBuild.RootTpl).Count();
             iDs.AddRange(weaponBuild.BuildItems.Select(x => x.Id));
             weaponBuild.AddingQuantity = 2;
@@ -1345,9 +1346,9 @@ namespace SPT_AKI_Profile_Editor.Tests
             character.SetAllCommonSkills(AppData.AppSettings.CommonSkillMaxValue);
             TestHelpers.SaveAndLoadProfile(filename);
             Assert.That(character.Skills.Common
-                .Where(x => x.Id.ToLower().StartsWith("bot"))
+                .Where(x => x.Id.StartsWith("bot", StringComparison.CurrentCultureIgnoreCase))
                 .Any(x => x.Progress > 0), Is.False);
-            Assert.That(character.Skills.Common.All(x => x.Id.ToLower().StartsWith("bot") || x.Progress == AppData.AppSettings.CommonSkillMaxValue),
+            Assert.That(character.Skills.Common.All(x => x.Id.StartsWith("bot", StringComparison.CurrentCultureIgnoreCase) || x.Progress == AppData.AppSettings.CommonSkillMaxValue),
                         Is.True);
         }
 

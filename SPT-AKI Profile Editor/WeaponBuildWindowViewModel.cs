@@ -28,12 +28,12 @@ namespace SPT_AKI_Profile_Editor
             WindowTitle = item.LocalizedName;
             _item = item;
             _inventory = inventory;
-            List<InventoryItem> items = new() { _item };
-            List<string> skippedSlots = new() { "patron_in_weapon", "cartridges" };
+            List<InventoryItem> items = [_item];
+            List<string> skippedSlots = ["patron_in_weapon", "cartridges"];
             List<InventoryItem> innerItems = inventory?.GetInnerItems(item.Id, skippedSlots);
             if (innerItems != null)
                 items.AddRange(innerItems);
-            WeaponBuild = new WeaponBuild(_item, items.Select(x => InventoryItem.CopyFrom(x)).ToList());
+            WeaponBuild = new WeaponBuild(_item, [.. items.Select(x => InventoryItem.CopyFrom(x))]);
             RemoveAllowed = removeAllowed;
         }
 
@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor
         public RelayCommand RemoveItem => new(async obj =>
         {
             if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_item_caption"))
-                _inventory?.RemoveItems(new() { _item.Id });
+                _inventory?.RemoveItems([_item.Id]);
         });
 
         public RelayCommand ExportBuild => new(obj =>

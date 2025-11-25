@@ -6,7 +6,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class ApplicationManagerTests
     {
-        private IApplicationManager _applicationManager;
+        private ApplicationManager _applicationManager;
 
         [OneTimeSetUp]
         public void Setup()

@@ -46,7 +46,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     innerItem.SlotId = null;
                 }
             }
-            Items = items.ToArray();
+            Items = [.. items];
             BuildItems = items;
             CalculateBuildProperties();
             CanBeAddedToStash = true;

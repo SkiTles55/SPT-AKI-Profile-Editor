@@ -59,17 +59,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task OpenServerSelectHelpAsync(AppSettings appSettings);
     }
 
-    public class MetroDialogManager : IDialogManager
+    public class MetroDialogManager(object viewModel, IDialogCoordinator dialogCoordinator) : IDialogManager
     {
-        private readonly object viewModel;
-        private readonly IDialogCoordinator _dialogCoordinator;
         private ProgressDialogController progressDialog;
-
-        public MetroDialogManager(object viewModel, IDialogCoordinator dialogCoordinator)
-        {
-            this.viewModel = viewModel;
-            _dialogCoordinator = dialogCoordinator;
-        }
 
         public event EventHandler ProgressDialogCanceled;
 
@@ -97,19 +89,19 @@ namespace SPT_AKI_Profile_Editor.Helpers
         };
 
         public async Task<bool> YesNoDialog(string title, string caption) =>
-            await _dialogCoordinator.ShowMessageAsync(viewModel,
-                                                      AppData.AppLocalization.GetLocalizedString(title),
-                                                      AppData.AppLocalization.GetLocalizedString(caption),
-                                                      MessageDialogStyle.AffirmativeAndNegative,
-                                                      YesNoDialogSettings) == MessageDialogResult.Affirmative;
+            await dialogCoordinator.ShowMessageAsync(viewModel,
+                                                     AppData.AppLocalization.GetLocalizedString(title),
+                                                     AppData.AppLocalization.GetLocalizedString(caption),
+                                                     MessageDialogStyle.AffirmativeAndNegative,
+                                                     YesNoDialogSettings) == MessageDialogResult.Affirmative;
 
         public async Task ShutdownCozServerRunned()
         {
-            if (await _dialogCoordinator.ShowMessageAsync(viewModel,
-                                                          AppData.AppLocalization.GetLocalizedString("app_quit"),
-                                                          AppData.AppLocalization.GetLocalizedString("server_runned"),
-                                                          MessageDialogStyle.Affirmative,
-                                                          ShutdownDialogSettings) == MessageDialogResult.Affirmative)
+            if (await dialogCoordinator.ShowMessageAsync(viewModel,
+                                                         AppData.AppLocalization.GetLocalizedString("app_quit"),
+                                                         AppData.AppLocalization.GetLocalizedString("server_runned"),
+                                                         MessageDialogStyle.Affirmative,
+                                                         ShutdownDialogSettings) == MessageDialogResult.Affirmative)
                 App.ApplicationManager.CloseApplication.Execute(null);
         }
 
@@ -123,7 +115,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             CustomDialog settingsDialog = CustomDialog(AppData.AppLocalization.GetLocalizedString("tab_settings_title"), 600);
             RelayCommand closeCommand = new(async obj =>
             {
-                await _dialogCoordinator.HideMetroDialogAsync(viewModel, settingsDialog);
+                await dialogCoordinator.HideMetroDialogAsync(viewModel, settingsDialog);
                 string newValues = AppData.AppSettings.GetStamp();
                 if (startValues != newValues)
                     reloadCommand.Execute(null);
@@ -207,7 +199,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public async Task ShowOkMessageAsync(string title, string message)
         {
-            await _dialogCoordinator.ShowMessageAsync(viewModel, title,
+            await dialogCoordinator.ShowMessageAsync(viewModel, title,
                 message, MessageDialogStyle.Affirmative, OkDialogSettings);
         }
 
@@ -246,10 +238,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private async Task ShowCustomDialog<T>(object context, CustomDialog dialog, BindableViewModel viewModel) where T : UserControl
         {
-            T control = (T)Activator.CreateInstance(typeof(T));
+            T control = Activator.CreateInstance<T>();
             control.DataContext = viewModel;
             dialog.Content = control;
-            await _dialogCoordinator.ShowMetroDialogAsync(context, dialog);
+            await dialogCoordinator.ShowMetroDialogAsync(context, dialog);
         }
 
         private void UpdateProgressDialog(string title, string description)
@@ -260,11 +252,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private async Task CreateProgressDialog(string title, string description, bool cancelable, MetroDialogSettings dialogSettings)
         {
-            progressDialog = await _dialogCoordinator.ShowProgressAsync(viewModel,
-                                                                        title,
-                                                                        description,
-                                                                        cancelable,
-                                                                        dialogSettings);
+            progressDialog = await dialogCoordinator.ShowProgressAsync(viewModel,
+                                                                       title,
+                                                                       description,
+                                                                       cancelable,
+                                                                       dialogSettings);
             progressDialog.Canceled += ProgressDialogCanceled;
         }
 

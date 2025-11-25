@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Views
                 _ when Moneys.Id == AppSettings.MoneysRublesTpl => PackIconFontAwesomeKind.RubleSignSolid,
                 _ when Moneys.Id == AppSettings.MoneysDollarsTpl => PackIconFontAwesomeKind.DollarSignSolid,
                 _ when Moneys.Id == AppSettings.MoneysEurosTpl => PackIconFontAwesomeKind.EuroSignSolid,
-                _ => PackIconFontAwesomeKind.ExclamationTriangleSolid,
+                _ => PackIconFontAwesomeKind.TriangleExclamationSolid,
             };
         }
     }

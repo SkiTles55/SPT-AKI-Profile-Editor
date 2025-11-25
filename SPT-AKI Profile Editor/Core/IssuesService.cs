@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
     public class IssuesService : BindableEntity, IIssuesService
     {
-        private ObservableCollection<ProfileIssue> profileIssues = new();
+        private ObservableCollection<ProfileIssue> profileIssues = [];
 
         public ObservableCollection<ProfileIssue> ProfileIssues { get => profileIssues; set => profileIssues = value; }
 
@@ -39,8 +39,8 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public void UpdateIssues()
         {
-            OnPropertyChanged("ProfileIssues");
-            OnPropertyChanged("HasIssues");
+            OnPropertyChanged(nameof(ProfileIssues));
+            OnPropertyChanged(nameof(HasIssues));
         }
 
         public void FixAllIssues()

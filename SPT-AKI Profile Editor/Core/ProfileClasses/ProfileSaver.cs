@@ -44,25 +44,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public static class IEnumerableExtension
     {
         public static bool HaveAllErrors(this IEnumerable<SaveException> entries)
-            => Enum.GetNames(typeof(SaveEntry)).Length == entries.Count();
+            => Enum.GetNames<SaveEntry>().Length == entries.Count();
 
         public static string GetLocalizedDescription(this IEnumerable<SaveException> exceptions)
             => string.Join("\n", exceptions.Select(x => $"{x.Entry.LocalizedName()}: {x.Exception.Message}"));
     }
 
-    public class ProfileSaver
+    public class ProfileSaver(Profile profile, AppSettings appSettings, ServerDatabase serverDatabase)
     {
-        private readonly Profile profile;
-        private readonly List<SaveException> exceptions = new();
-        private readonly AppSettings appSettings;
-        private readonly ServerDatabase serverDatabase;
-
-        public ProfileSaver(Profile profile, AppSettings appSettings, ServerDatabase serverDatabase)
-        {
-            this.profile = profile;
-            this.appSettings = appSettings;
-            this.serverDatabase = serverDatabase;
-        }
+        private readonly List<SaveException> exceptions = [];
 
         public enum SaveEntry
         {
@@ -90,7 +80,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private static JsonSerializerSettings SeriSettings => new()
         {
             Formatting = Formatting.Indented,
-            Converters = new List<JsonConverter>() { new StringEnumConverterExt() }
+            Converters = [new StringEnumConverterExt()]
         };
 
         public List<SaveException> Save(string targetPath, string savePath = null)
@@ -150,6 +140,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void UpdateStashForHideoutArea(HideoutAreaInfo hideoutAreaInfo, string type, int level, CharacterInventory inventory)
         {
+            if (hideoutAreaInfo == null)
+                return;
             var areaInfoObject = JObject.Parse(hideoutAreaInfo.Stages[level.ToString()].ToString());
             var areaStageContainer = areaInfoObject.SelectToken("container").ToObject<string>();
             if (!string.IsNullOrEmpty(areaStageContainer))
@@ -164,12 +156,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
                 if (type == appSettings.HideoutAreaEquipmentPresetsType.ToString() && serverDatabase.ItemsDB.ContainsKey(areaStageContainer))
                     AddMissingPresetStandItems(areaStageContainer, inventoryItemsList, hideoutAreaInfo.Id, inventory.Pockets);
-                inventory.Items = inventoryItemsList.ToArray();
+                inventory.Items = [.. inventoryItemsList];
             }
             else
             {
                 inventory.HideoutAreaStashes.Remove(type);
-                inventory.Items = inventory.Items.Where(x => x.Id != hideoutAreaInfo.Id).ToArray();
+                inventory.Items = [.. inventory.Items.Where(x => x.Id != hideoutAreaInfo.Id)];
             }
         }
 
@@ -195,7 +187,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (inventoryItemsList.FirstOrDefault(x => x.ParentId == areaId && x.SlotId == mannequinSlot.Name) != null)
                     continue;
-                List<string> iDs = inventoryItemsList.Select(x => x.Id).ToList();
+                List<string> iDs = [.. inventoryItemsList.Select(x => x.Id)];
                 string newId = ExtMethods.GenerateNewId(iDs);
                 AddItem(newId, appSettings.MannequinInventoryTpl, areaId, mannequinSlot.Name);
                 iDs.Add(newId);
@@ -206,7 +198,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void WriteSuits(JObject jobject)
         {
-            try { jobject.SelectToken("suits").Replace(JToken.FromObject(profile.Suits.ToArray())); }
+            try { jobject.SelectToken("customisationUnlocks").Replace(JToken.FromObject(profile.CustomisationUnlocks.ToArray())); }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.Suits, ex)); }
         }
 
@@ -246,10 +238,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 JToken infoToken = character.SelectToken("Info");
                 infoToken["Nickname"] = profileCharacter.Info.Nickname;
-                infoToken["Voice"] = profileCharacter.Info.Voice;
                 infoToken["Level"] = profileCharacter.Info.Level;
                 infoToken["Experience"] = profileCharacter.Info.Experience;
                 character.SelectToken("Customization")["Head"] = profileCharacter.Customization.Head;
+                character.SelectToken("Customization")["Voice"] = profileCharacter.Customization.Voice;
 
                 if (!profileCharacter.IsScav)
                 {
@@ -292,10 +284,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             try
             {
                 JToken questsToken = pmc.SelectToken("Quests");
-                List<JToken> questsForRemove = new();
+                List<JToken> questsForRemove = [];
 
                 var questsObject = questsToken.ToObject<CharacterQuest[]>();
-                if (questsObject.Any())
+                if (questsObject.Length != 0)
                 {
                     for (int index = 0; index < questsObject.Length; ++index)
                     {
@@ -308,6 +300,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                             if (quest != null && quest.Status != edited.Status)
                             {
                                 questToken["status"] = edited.Status.ToString();
+                                questToken["startTime"] = edited.StartTime;
                                 questToken["statusTimers"] = JObject.FromObject(edited.StatusTimers);
                                 if (edited.Status <= QuestStatus.AvailableForStart && questToken["completedConditions"] != null)
                                     questToken["completedConditions"]?.Replace(JToken.FromObject(Array.Empty<string>()));
@@ -407,7 +400,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             try
             {
-                List<JToken> ForRemove = new();
+                List<JToken> ForRemove = [];
                 var inventoryToken = characterToken.SelectToken("Inventory");
                 JToken itemsToken = inventoryToken?.SelectToken("items");
                 var itemsObject = itemsToken.ToObject<InventoryItem[]>();
@@ -540,10 +533,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
                 profile.UserBuilds.RemoveParentsFromBuilds();
                 jobject.SelectToken("userbuilds").Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
-                if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
-                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
                 if (profile.UserBuilds.WeaponBuilds?.Any() != true)
                     jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
+                if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
+                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
                 // Returning previous magazineBuilds
                 jobject.SelectToken("userbuilds")["magazineBuilds"] = magazineBulds;
             }
@@ -551,15 +544,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
     }
 
-    public class SaveException
+    public class SaveException(ProfileSaver.SaveEntry entry, Exception exception)
     {
-        public SaveException(SaveEntry entry, Exception exception)
-        {
-            Entry = entry;
-            Exception = exception;
-        }
-
-        public SaveEntry Entry { get; }
-        public Exception Exception { get; }
+        public SaveEntry Entry { get; } = entry;
+        public Exception Exception { get; } = exception;
     }
 }

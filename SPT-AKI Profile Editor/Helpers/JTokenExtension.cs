@@ -12,7 +12,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
             if (token is not JContainer container)
                 return token;
 
-            List<JToken> removeList = new();
+            List<JToken> removeList = [];
             foreach (JToken el in container.Children())
             {
                 if (el is JProperty p && fields.Contains(p.Name))

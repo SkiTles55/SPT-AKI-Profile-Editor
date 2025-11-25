@@ -20,7 +20,11 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [アプリ不具合 \ 追加したい機能](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [バージョン 3.0 サーバー SPT-AKI 3.9.0 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.0)
+### [バージョン 4.0 サーバー SPT 4.0.1 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0)
+### [バージョン 3.3 サーバー SPT 3.11.2 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
+### [バージョン 3.2.1 サーバー SPT 3.11.0 - 3.11.1 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
+### [バージョン 3.1 サーバー SPT 3.10.5 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.1)
+### [バージョン 3.0 サーバー SPT 3.9.0 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.0)
 ### [バージョン 2.9.3 サーバー SPT-AKI 3.8.0 - 3.8.3 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.9.3)
 ### [バージョン 2.8.6 サーバー SPT-AKI 3.7.0 - 3.7.6 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.8.6)
 ### [バージョン 2.7 サーバー SPT-AKI 3.4.0 - 3.6.1 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/2.7)
@@ -74,6 +78,3 @@ Lomenot - 日本語&中国語の翻訳
 ![Screenshot5](/screenshots/5CH.png?raw=true)
 ![Screenshot6](/screenshots/6CH.png?raw=true)
 ![Screenshot7](/screenshots/7CH.png?raw=true)
-
-### その他の便利なMOD
-[Weapon builds for Mechanic quests (by Clerance)](https://hub.sp-tarkov.com/files/file/1310-gunsmith-presets-updated/)

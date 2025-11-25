@@ -79,7 +79,7 @@
                                             <Setter Property="Foreground" Value="Green" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsFounded}" Value="False">
-                                                    <Setter Property="Kind" Value="ExclamationTriangleSolid" />
+                                                    <Setter Property="Kind" Value="TriangleExclamationSolid" />
                                                     <Setter Property="Foreground" Value="Red" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -109,7 +109,7 @@
                                 Width="20"
                                 Height="22"
                                 VerticalAlignment="Center"
-                                Kind="InfoCircleSolid" />
+                                Kind="CircleInfoSolid" />
                             <TextBlock
                                 Margin="4,0,0,0"
                                 VerticalAlignment="Center"

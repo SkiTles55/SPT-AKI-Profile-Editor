@@ -36,12 +36,12 @@
             <extendedcontrols:ButtonFontAwesomeIcon
                 Command="{Binding OpenFAQ}"
                 Content="{Binding AppLocalization.Translations[button_faq]}"
-                Icon="InfoCircleSolid"
+                Icon="CircleInfoSolid"
                 Style="{StaticResource WindowCommandButton}" />
             <extendedcontrols:ButtonFontAwesomeIcon
                 Command="{Binding OpenFastModeCommand}"
                 Content="{Binding AppLocalization.Translations[button_fast_mode]}"
-                Icon="FighterJetSolid"
+                Icon="JetFighterSolid"
                 Style="{StaticResource WindowCommandButton}" />
             <extendedcontrols:ButtonFontAwesomeIcon
                 Command="{Binding OpenSettingsCommand}"
@@ -127,14 +127,14 @@
                 Margin="10,5,5,0"
                 Command="{Binding ReloadButtonCommand}"
                 Content="{Binding AppLocalization.Translations[button_reload_profile], FallbackValue=button_reload_profile}"
-                Icon="UndoSolid"
+                Icon="RotateLeftSolid"
                 IconSize="22" />
             <extendedcontrols:ButtonFontAwesomeIcon
                 Width="250"
                 Margin="5,5,10,0"
                 Command="{Binding SaveButtonCommand}"
                 Content="{Binding AppLocalization.Translations[button_save_profile], FallbackValue=button_save_profile}"
-                Icon="SaveRegular"
+                Icon="FloppyDiskSolid"
                 IconSize="22" />
         </StackPanel>
         <extendedcontrols:EmptyDataPanel

@@ -49,7 +49,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Foreground="Red"
-            Kind="ExclamationTriangleSolid"
+            Kind="TriangleExclamationSolid"
             ToolTip="{Binding AppLocalization.Translations[tab_presets_modded_items]}"
             Visibility="{Binding Path=WeaponBuild.HasModdedItems, Converter={StaticResource BooleanToVisibilityConverter}}" />
         <StackPanel

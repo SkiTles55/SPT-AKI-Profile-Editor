@@ -159,7 +159,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             WeaponBuild weaponBuild = JsonConvert.DeserializeObject<WeaponBuild>(File.ReadAllText(TestHelpers.moddedWeaponBuild));
             weaponBuild.Id = weaponBuildId;
-            List<WeaponBuild> moddedBuilds = new() { weaponBuild };
+            List<WeaponBuild> moddedBuilds = [weaponBuild];
             UserBuilds builds = profileJObject.SelectToken("userbuilds")?.ToObject<UserBuilds>() ?? new();
             builds.WeaponBuilds = moddedBuilds;
             profileJObject.SelectToken("userbuilds").Replace(JObject.FromObject(builds).RemoveNullAndEmptyProperties());
@@ -169,7 +169,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             EquipmentBuild equipmentBuild = JsonConvert.DeserializeObject<EquipmentBuild>(File.ReadAllText(TestHelpers.moddedWeaponBuild));
             equipmentBuild.Id = equipmentBuildId;
-            List<EquipmentBuild> moddedBuilds = new() { equipmentBuild };
+            List<EquipmentBuild> moddedBuilds = [equipmentBuild];
             UserBuilds builds = profileJObject.SelectToken("userbuilds")?.ToObject<UserBuilds>() ?? new();
             builds.EquipmentBuilds = moddedBuilds;
             profileJObject.SelectToken("userbuilds").Replace(JObject.FromObject(builds).RemoveNullAndEmptyProperties());

@@ -49,7 +49,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.ExaminedItems && importedProgress.ExaminedItems != null)
                 pmc.Encyclopedia = importedProgress.ExaminedItems;
             if (settings.Clothing && importedProgress.Clothing != null)
-                profile.Suits = importedProgress.Clothing;
+            {
+                var notClothingUnlocks = profile.CustomisationUnlocks.Where(x => !x.IsSuitUnlock);
+                profile.CustomisationUnlocks = [.. notClothingUnlocks, .. importedProgress.Clothing.Select(x => new CustomisationUnlock(x))];
+            }
             ImportSkills(settings, importedProgress, pmc, profile?.Characters?.Scav);
             if (settings.Builds.GroupState != false && importedProgress.Builds != null)
                 ImportBuilds(settings, profile, importedProgress);
@@ -78,7 +81,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (settings.ExaminedItems)
                 profileProgress.ExaminedItems = pmc?.Encyclopedia;
             if (settings.Clothing)
-                profileProgress.Clothing = profile?.Suits;
+                profileProgress.Clothing = profile?.CustomisationUnlocks.Where(x => x.IsSuitUnlock).Select(x => x.Id).ToArray();
             if (settings.Skills.GroupState != false)
                 ExportCommonSkills(settings, profile, profileProgress);
             if (settings.Masterings.GroupState != false)
@@ -111,7 +114,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
             if (info.SideEnabled && info.Side && imported.Side != null)
                 character.Info.Side = imported.Side;
             if (info.Voice && imported.Voice != null)
-                character.Info.Voice = imported.Voice;
+                character.Customization.Voice = imported.Voice;
             if (info.Experience && imported.Experience != null)
                 character.Info.Experience = imported.Experience ?? 0;
             if (info.Head && imported.Head != null)
@@ -167,7 +170,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
         private static void ImportQuests(ProfileProgress importedProgress, Character pmc)
         {
             pmc.RemoveQuests(pmc.Quests.Select(x => x.Qid).Where(x => !importedProgress.Quests.ContainsKey(x)));
-            List<CharacterQuest> newQuests = new();
+            List<CharacterQuest> newQuests = [];
             foreach (var importedQuest in importedProgress.Quests)
             {
                 var existQuest = pmc.Quests.FirstOrDefault(x => x.Qid == importedQuest.Key);
@@ -176,7 +179,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 else
                     newQuests.Add(new() { Qid = importedQuest.Key, Status = importedQuest.Value });
             }
-            if (!newQuests.Any())
+            if (newQuests.Count == 0)
                 return;
             pmc.AddQuests(newQuests);
         }
@@ -323,7 +326,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProgressTransfer
                 if (info.SideEnabled && info.Side)
                     characterInfo.Side = character?.Info?.Side;
                 if (info.Voice)
-                    characterInfo.Voice = character?.Info?.Voice;
+                    characterInfo.Voice = character?.Customization?.Voice;
                 if (info.Experience && character?.Info?.Experience != null)
                     characterInfo.Experience = character.Info.Experience;
                 if (info.Head)

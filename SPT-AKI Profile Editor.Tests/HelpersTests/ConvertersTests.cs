@@ -60,7 +60,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void QuestStatusValueConverterCanConvertQuestStatus()
         {
             QuestStatusValueConverter questStatusValueConverter = new();
-            foreach (var status in Enum.GetValues(typeof(QuestStatus)))
+            foreach (var status in Enum.GetValues<QuestStatus>())
             {
                 var result = questStatusValueConverter.Convert(status, null, null, null);
                 Assert.That(result is string, Is.True);
@@ -73,7 +73,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void QuestStatusValueConverterCanConvertQuestType()
         {
             QuestStatusValueConverter questStatusValueConverter = new();
-            foreach (var type in Enum.GetValues(typeof(QuestType)))
+            foreach (var type in Enum.GetValues<QuestType>())
             {
                 var result = questStatusValueConverter.Convert(type, null, null, null);
                 Assert.That(result is IEnumerable<string>, Is.True);
@@ -94,7 +94,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void QuestStatusValueConverterCanConvertBackQuestStatus()
         {
             QuestStatusValueConverter questStatusValueConverter = new();
-            foreach (var status in Enum.GetValues(typeof(QuestStatus)))
+            foreach (var status in Enum.GetValues<QuestStatus>())
             {
                 var result = questStatusValueConverter.ConvertBack(status.ToString(), null, null, null);
                 Assert.That(result is QuestStatus, Is.True);
@@ -115,7 +115,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void IssuesActionValueConverterStringsNotEmpty()
         {
             Assert.That(IssuesActionValueConverter.Strings, Is.Not.Empty);
-            var actionsCount = Enum.GetValues(typeof(IssuesAction)).Length;
+            var actionsCount = Enum.GetValues<IssuesAction>().Length;
             Assert.That(IssuesActionValueConverter.Strings.Count, Is.EqualTo(actionsCount));
         }
 
@@ -123,7 +123,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void IssuesActionValueConverterCanConvert()
         {
             IssuesActionValueConverter issuesActionValueConverter = new();
-            foreach (var action in Enum.GetValues(typeof(IssuesAction)))
+            foreach (var action in Enum.GetValues<IssuesAction>())
             {
                 var result = issuesActionValueConverter.Convert(action, null, null, null);
                 Assert.That(result is string, Is.True);
@@ -144,7 +144,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         public void IssuesActionValueConverterCanConvertBackQuestStatus()
         {
             IssuesActionValueConverter issuesActionValueConverter = new();
-            foreach (var action in Enum.GetValues(typeof(IssuesAction)))
+            foreach (var action in Enum.GetValues<IssuesAction>())
             {
                 var result = issuesActionValueConverter.ConvertBack(action.ToString(), null, null, null);
                 Assert.That(result is IssuesAction, Is.True);

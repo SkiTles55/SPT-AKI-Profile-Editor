@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 return false;
             if (filters[0].Filter.Length > 0)
             {
-                List<string> parents = new() { Parent };
+                List<string> parents = [Parent];
                 while (AppData.ServerDatabase.ItemsDB.ContainsKey(parents.Last()))
                     parents.Add(AppData.ServerDatabase.ItemsDB[parents.Last()].Parent);
                 return parents.Any(x => filters[0].Filter.Contains(x));
@@ -58,13 +58,13 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public bool ContainsText(string text, bool includeDesriptions)
         {
-            return LocalizedName.ToUpper().Contains(text.ToUpper())
+            return LocalizedName.Contains(text, StringComparison.CurrentCultureIgnoreCase)
                 || FilterWithDescription(text, includeDesriptions, LocalizedDescription);
         }
 
         private static bool FilterWithDescription(string text, bool includeDesriptions, string itemDescription)
             => includeDesriptions
             && !string.IsNullOrEmpty(itemDescription)
-            && itemDescription.ToUpper().Contains(text.ToUpper());
+            && itemDescription.Contains(text, StringComparison.CurrentCultureIgnoreCase);
     }
 }

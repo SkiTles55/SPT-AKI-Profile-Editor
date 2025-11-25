@@ -5,26 +5,18 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class Build : AddableItem
+    public class Build(string id,
+                 string name,
+                 string root,
+                 object[] items) : AddableItem
     {
-        public Build(string id,
-                     string name,
-                     string root,
-                     object[] items)
-        {
-            Id = id;
-            Name = name;
-            Root = root;
-            Items = items;
-        }
+        public override string Id { get; set; } = id;
 
-        public override string Id { get; set; }
+        public string Name { get; set; } = name;
 
-        public string Name { get; set; }
+        public string Root { get; set; } = root;
 
-        public string Root { get; set; }
-
-        public object[] Items { get; set; }
+        public object[] Items { get; set; } = items;
 
         [JsonIgnore]
         public IEnumerable<InventoryItem> BuildItems { get; set; }

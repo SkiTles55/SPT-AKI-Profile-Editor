@@ -19,7 +19,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonProperty("BuildType")]
-        public int? Type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("fastPanel")]
         public object[] FastPanel { get; set; }
@@ -32,6 +32,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                                       AppData.AppSettings);
 
         public CharacterInventory MakeInventory()
-            => new() { Items = BuildItems.ToArray() };
+            => new() { Items = [.. BuildItems] };
     }
 }

@@ -5,21 +5,15 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class HideoutTabViewModel : PmcBindableViewModel
+    public class HideoutTabViewModel(IDialogManager dialogManager) : PmcBindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
-        private ObservableCollection<HideoutArea> areas = new();
-        private ObservableCollection<CharacterHideoutProduction> productions = new();
-        private ObservableCollection<StartedHideoutProduction> startedProductions = new();
+        private ObservableCollection<HideoutArea> areas = [];
+        private ObservableCollection<CharacterHideoutProduction> productions = [];
+        private ObservableCollection<StartedHideoutProduction> startedProductions = [];
         private string areaNameFilter;
         private string productionNameFilter;
         private string productionAreaFilter;
         private string startedProductionNameFilter;
-
-        public HideoutTabViewModel(IDialogManager dialogManager)
-        {
-            _dialogManager = dialogManager;
-        }
 
         public static RelayCommand SetAllMaxCommand => new(obj => Profile.Characters?.Pmc?.SetAllHideoutAreasMax());
 
@@ -132,8 +126,8 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             ObservableCollection<CharacterHideoutProduction> filteredItems;
 
-            if (Profile?.Characters?.Pmc?.HideoutProductions == null || !Profile.Characters.Pmc.HideoutProductions.Any())
-                filteredItems = new();
+            if (Profile?.Characters?.Pmc?.HideoutProductions == null || Profile.Characters.Pmc.HideoutProductions.Count == 0)
+                filteredItems = [];
             else if (string.IsNullOrEmpty(ProductionNameFilter) && string.IsNullOrEmpty(ProductionAreaFilter))
                 filteredItems = new(Profile.Characters.Pmc.HideoutProductions);
             else
@@ -143,19 +137,19 @@ namespace SPT_AKI_Profile_Editor.Views
         }
 
         private bool CanShow(CharacterHideoutProduction x)
-            => (string.IsNullOrEmpty(ProductionNameFilter) || x.ProductItem.Name.ToUpper().Contains(ProductionNameFilter.ToUpper()))
-            && (string.IsNullOrEmpty(ProductionAreaFilter) || x.AreaLocalizedName.ToUpper().Contains(ProductionAreaFilter.ToUpper()));
+            => (string.IsNullOrEmpty(ProductionNameFilter) || x.ProductItem.Name.Contains(ProductionNameFilter, System.StringComparison.CurrentCultureIgnoreCase))
+            && (string.IsNullOrEmpty(ProductionAreaFilter) || x.AreaLocalizedName.Contains(ProductionAreaFilter, System.StringComparison.CurrentCultureIgnoreCase));
 
         private void ApplyAreasFilter()
         {
             ObservableCollection<HideoutArea> filteredAreas;
 
-            if (Profile?.Characters?.Pmc?.Hideout?.Areas == null || !Profile.Characters.Pmc.Hideout.Areas.Any())
-                filteredAreas = new();
+            if (Profile?.Characters?.Pmc?.Hideout?.Areas == null || Profile.Characters.Pmc.Hideout.Areas.Length == 0)
+                filteredAreas = [];
             else if (string.IsNullOrEmpty(AreaNameFilter))
                 filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas);
             else
-                filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas.Where(x => x.LocalizedName.ToUpper().Contains(AreaNameFilter.ToUpper())));
+                filteredAreas = new(Profile.Characters.Pmc.Hideout.Areas.Where(x => x.LocalizedName.Contains(AreaNameFilter, System.StringComparison.CurrentCultureIgnoreCase)));
 
             Areas = filteredAreas;
         }
@@ -163,15 +157,15 @@ namespace SPT_AKI_Profile_Editor.Views
         private void ApplyStartedProductionsFilter()
         {
             ObservableCollection<StartedHideoutProduction> filteredProductions;
-            if (Profile?.Characters?.Pmc?.Hideout?.Production == null || !Profile.Characters.Pmc.Hideout.Production.Any())
-                filteredProductions = new();
+            if (Profile?.Characters?.Pmc?.Hideout?.Production == null || Profile.Characters.Pmc.Hideout.Production.Count == 0)
+                filteredProductions = [];
             else
             {
                 var values = Profile.Characters.Pmc.Hideout.Production.Values;
                 if (string.IsNullOrEmpty(StartedProductionNameFilter))
                     filteredProductions = new(values);
                 else
-                    filteredProductions = new(values.Where(x => x.ProductItem.Name.ToUpper().Contains(StartedProductionNameFilter.ToUpper())));
+                    filteredProductions = new(values.Where(x => x.ProductItem.Name.Contains(StartedProductionNameFilter, System.StringComparison.CurrentCultureIgnoreCase)));
             }
 
             StartedProductions = filteredProductions;
@@ -188,7 +182,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private async void RemoveStartedCraft(string id)
         {
-            if (await _dialogManager.YesNoDialog("remove_started_craft_title", "remove_started_craft_caption"))
+            if (await dialogManager.YesNoDialog("remove_started_craft_title", "remove_started_craft_caption"))
             {
                 Profile?.Characters?.Pmc?.Hideout?.RemoveCraft(id);
                 ApplyStartedProductionsFilter();
@@ -203,7 +197,7 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private async void RemoveAllStartedCrafts()
         {
-            if (await _dialogManager.YesNoDialog("remove_started_crafts_title", "remove_started_crafts_caption"))
+            if (await dialogManager.YesNoDialog("remove_started_crafts_title", "remove_started_crafts_caption"))
             {
                 Profile?.Characters?.Pmc?.Hideout?.RemoveAllCrafts();
                 ApplyStartedProductionsFilter();

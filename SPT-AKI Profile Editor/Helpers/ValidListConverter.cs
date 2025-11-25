@@ -9,7 +9,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public override List<T> ReadJson(JsonReader reader, Type objectType, List<T> existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            List<T> list = new();
+            List<T> list = [];
             var token = JToken.Load(reader);
 
             if (token.Type == JTokenType.Array)

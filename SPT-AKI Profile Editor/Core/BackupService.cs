@@ -31,8 +31,8 @@ namespace SPT_AKI_Profile_Editor.Core
             set
             {
                 backupList = value;
-                OnPropertyChanged("BackupList");
-                OnPropertyChanged("HasBackups");
+                OnPropertyChanged(nameof(BackupList));
+                OnPropertyChanged(nameof(HasBackups));
             }
         }
 
@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (string.IsNullOrEmpty(profile) && !string.IsNullOrEmpty(AppData.AppSettings.DefaultProfile))
                 profile = Path.GetFileNameWithoutExtension(AppData.AppSettings.DefaultProfile);
-            List<BackupFile> backups = new();
+            List<BackupFile> backups = [];
             if (!string.IsNullOrEmpty(profile) && Directory.Exists(Path.Combine(backupFolder, profile)))
             {
                 foreach (var bk in Directory.GetFiles(Path.Combine(backupFolder, profile)).Where(x => x.Contains("backup")))
@@ -58,7 +58,7 @@ namespace SPT_AKI_Profile_Editor.Core
                         backups.Add(new BackupFile
                         {
                             Path = bk,
-                            Date = DateTime.ParseExact(Path.GetFileNameWithoutExtension(bk).Remove(0, profile.Length + 8),
+                            Date = DateTime.ParseExact(Path.GetFileNameWithoutExtension(bk)[(profile.Length + 8)..],
                             "dd-MM-yyyy-HH-mm-ss",
                             CultureInfo.InvariantCulture, DateTimeStyles.None)
                         });

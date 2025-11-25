@@ -10,34 +10,19 @@ using System.Windows.Data;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class QuestsTabViewModel : PmcBindableViewModel
+    public class QuestsTabViewModel(IDialogManager dialogManager,
+        RelayCommand reloadCommand,
+        RelayCommand faqCommand,
+        IWorker worker,
+        IHelperModManager helperModManager) : PmcBindableViewModel
     {
-        private readonly IDialogManager _dialogManager;
-        private readonly RelayCommand _reloadCommand;
-        private readonly RelayCommand _faqCommand;
-        private readonly IWorker worker;
-        private readonly IHelperModManager _helperModManager;
-
-        private readonly Dictionary<string, bool> questTypesExpander = new();
-        private ObservableCollection<CharacterQuest> questsCollection = new();
+        private readonly Dictionary<string, bool> questTypesExpander = [];
+        private ObservableCollection<CharacterQuest> questsCollection = [];
         private string traderNameFilter;
         private string questNameFilter;
         private string questStatusFilter;
         private bool hasMissingQuests;
         private bool hasMissingEventQuests;
-
-        public QuestsTabViewModel(IDialogManager dialogManager,
-                                  RelayCommand reloadCommand,
-                                  RelayCommand faqCommand,
-                                  IWorker worker,
-                                  IHelperModManager helperModManager)
-        {
-            _dialogManager = dialogManager;
-            _reloadCommand = reloadCommand;
-            _faqCommand = faqCommand;
-            this.worker = worker;
-            _helperModManager = helperModManager;
-        }
 
         public static QuestStatus SetAllValue { get; set; } = QuestStatus.Success;
 
@@ -102,11 +87,11 @@ namespace SPT_AKI_Profile_Editor.Views
         });
 
         public RelayCommand OpenSettingsCommand
-            => new(async obj => await _dialogManager.ShowSettingsDialog(_reloadCommand,
-                                                                        _faqCommand,
-                                                                        worker,
-                                                                        _helperModManager,
-                                                                        1));
+            => new(async obj => await dialogManager.ShowSettingsDialog(reloadCommand,
+                                                                       faqCommand,
+                                                                       worker,
+                                                                       helperModManager,
+                                                                       1));
 
         public bool HasMissingQuests
         {
@@ -132,8 +117,8 @@ namespace SPT_AKI_Profile_Editor.Views
         {
             ObservableCollection<CharacterQuest> filteredQuests;
 
-            if (Profile?.Characters?.Pmc?.Quests == null || !Profile.Characters.Pmc.Quests.Any())
-                filteredQuests = new();
+            if (Profile?.Characters?.Pmc?.Quests == null || Profile.Characters.Pmc.Quests.Length == 0)
+                filteredQuests = [];
             else if (FiltersIsEmpty())
                 filteredQuests = new(Profile.Characters.Pmc.Quests);
             else
@@ -150,8 +135,8 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private async void RemoveQuest(string qid)
         {
-            if (await _dialogManager.YesNoDialog("remove_quest_title", "remove_quest_caption"))
-                Profile?.Characters?.Pmc?.RemoveQuests(new string[] { qid });
+            if (await dialogManager.YesNoDialog("remove_quest_title", "remove_quest_caption"))
+                Profile?.Characters?.Pmc?.RemoveQuests([qid]);
         }
 
         private void UpdateExpanderGroups(RoutedEventArgs e)
@@ -170,8 +155,7 @@ namespace SPT_AKI_Profile_Editor.Views
             if (e.Source is not Expander expander || expander.DataContext is not CollectionViewGroup group)
                 return;
             var groupName = group.Name.ToString();
-            if (!questTypesExpander.ContainsKey(groupName))
-                questTypesExpander.Add(groupName, true);
+            questTypesExpander.TryAdd(groupName, true);
             expander.IsExpanded = questTypesExpander[groupName];
         }
 
@@ -188,19 +172,19 @@ namespace SPT_AKI_Profile_Editor.Views
             bool QuestNameContainsFilterText()
             {
                 return string.IsNullOrEmpty(QuestNameFilter)
-                || quest.LocalizedQuestName.ToUpper().Contains(QuestNameFilter.ToUpper());
+                || quest.LocalizedQuestName.Contains(QuestNameFilter, System.StringComparison.CurrentCultureIgnoreCase);
             }
 
             bool QuestTraderNameContainsFilterText()
             {
                 return string.IsNullOrEmpty(TraderNameFilter)
-                || quest.LocalizedTraderName.ToUpper().Contains(TraderNameFilter.ToUpper());
+                || quest.LocalizedTraderName.Contains(TraderNameFilter, System.StringComparison.CurrentCultureIgnoreCase);
             }
 
             bool QuestStatusContainsFilterText()
             {
                 return string.IsNullOrEmpty(QuestStatusFilter)
-                || quest.Status.ToString().ToUpper().Contains(QuestStatusFilter.ToUpper());
+                || quest.Status.ToString().Contains(QuestStatusFilter, System.StringComparison.CurrentCultureIgnoreCase);
             }
         }
     }

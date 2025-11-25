@@ -11,19 +11,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void AddTask(WorkerTask task);
     }
 
-    public class Worker : IWorker
+    public class Worker(IDialogManager dialogManager) : IWorker
     {
-        private readonly IDialogManager _dialogManager;
-        private readonly List<WorkerTask> tasks;
-        private readonly List<WorkerNotification> workerNotifications;
+        private readonly List<WorkerTask> tasks = [];
+        private readonly List<WorkerNotification> workerNotifications = [];
         private bool isBusy = false;
-
-        public Worker(IDialogManager dialogManager)
-        {
-            tasks = new List<WorkerTask>();
-            workerNotifications = new List<WorkerNotification>();
-            _dialogManager = dialogManager;
-        }
 
         public void AddTask(WorkerTask task)
         {
@@ -40,11 +32,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
                 await RunTask(tasks[0]);
                 tasks.RemoveAt(0);
             }
-            await _dialogManager.HideProgressDialog();
+            await dialogManager.HideProgressDialog();
             while (workerNotifications.Count > 0)
             {
-                await _dialogManager.ShowOkMessageAsync(workerNotifications[0].NotificationTitle,
-                                                        workerNotifications[0].NotificationDescription);
+                await dialogManager.ShowOkMessageAsync(workerNotifications[0].NotificationTitle,
+                                                       workerNotifications[0].NotificationDescription);
                 workerNotifications.RemoveAt(0);
             }
             isBusy = false;
@@ -52,7 +44,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private async Task RunTask(WorkerTask task)
         {
-            await _dialogManager.ShowProgressDialog(task.Title, task.Description);
+            await dialogManager.ShowProgressDialog(task.Title, task.Description);
             try
             {
                 await Task.Run(() => task.Action());
@@ -61,9 +53,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
             }
             catch (Exception ex)
             {
-                await _dialogManager.HideProgressDialog();
-                await _dialogManager.ShowOkMessageAsync(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
-                                                        ex.Message);
+                await dialogManager.HideProgressDialog();
+                await dialogManager.ShowOkMessageAsync(AppData.AppLocalization.GetLocalizedString("invalid_server_location_caption"),
+                                                       ex.Message);
                 Logger.Log($"Run Worker Error | {ex.Message}");
             }
         }

@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 loyaltyLevel = value;
-                OnPropertyChanged("LoyaltyLevel");
+                OnPropertyChanged(nameof(LoyaltyLevel));
             }
         }
 
@@ -31,7 +31,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 salesSum = value;
-                OnPropertyChanged("SalesSum");
+                OnPropertyChanged(nameof(SalesSum));
             }
         }
 
@@ -42,7 +42,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 standing = value;
-                OnPropertyChanged("Standing");
+                OnPropertyChanged(nameof(Standing));
             }
         }
 
@@ -53,7 +53,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             set
             {
                 unlocked = value;
-                OnPropertyChanged("Unlocked");
+                OnPropertyChanged(nameof(Unlocked));
             }
         }
     }

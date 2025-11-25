@@ -4,17 +4,8 @@ using SPT_AKI_Profile_Editor.Helpers;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class ProgressTransferTabViewModel : BindableViewModel
+    public class ProgressTransferTabViewModel(IWindowsDialogs windowsDialogs, IWorker worker) : BindableViewModel
     {
-        private readonly IWindowsDialogs _windowsDialogs;
-        private readonly IWorker _worker;
-
-        public ProgressTransferTabViewModel(IWindowsDialogs windowsDialogs, IWorker worker)
-        {
-            _windowsDialogs = windowsDialogs;
-            _worker = worker;
-        }
-
         public SettingsModel SettingsModel { get; } = new();
 
         public RelayCommand SelectAll => new(_ => SettingsModel.ChangeAll(true));
@@ -27,18 +18,18 @@ namespace SPT_AKI_Profile_Editor.Views
 
         private void ExportProgressTask()
         {
-            var (success, path) = _windowsDialogs.SaveProfileProgressDialog(Profile.Characters.Pmc.Info.Nickname);
+            var (success, path) = windowsDialogs.SaveProfileProgressDialog(Profile.Characters.Pmc.Info.Nickname);
             if (success)
-                _worker.AddTask(ProgressTask(() => ProgressTransferService.ExportProgress(SettingsModel, Profile, path),
-                                             "tab_presets_export"));
+                worker.AddTask(ProgressTask(() => ProgressTransferService.ExportProgress(SettingsModel, Profile, path),
+                    "tab_presets_export"));
         }
 
         private void ImportProgressTask()
         {
-            var (success, path, _) = _windowsDialogs.OpenBuildDialog(false);
+            var (success, path, _) = windowsDialogs.OpenBuildDialog(false);
             if (success)
-                _worker.AddTask(ProgressTask(() => ProgressTransferService.ImportProgress(SettingsModel, Profile, path),
-                                             "tab_presets_import"));
+                worker.AddTask(ProgressTask(() => ProgressTransferService.ImportProgress(SettingsModel, Profile, path),
+                    "tab_presets_import"));
         }
     }
 }

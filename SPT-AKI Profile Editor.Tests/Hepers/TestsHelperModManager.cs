@@ -3,14 +3,10 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
-    internal class TestsHelperModManager : IHelperModManager
+    internal class TestsHelperModManager(HelperModStatus helperModStatus = HelperModStatus.NotInstalled) : IHelperModManager
     {
         public bool RemoveModCalled = false;
         public bool UpdateModCalled = false;
-        private HelperModStatus helperModStatus;
-
-        public TestsHelperModManager(HelperModStatus helperModStatus = HelperModStatus.NotInstalled)
-            => this.helperModStatus = helperModStatus;
 
         public string DbPath => "";
 

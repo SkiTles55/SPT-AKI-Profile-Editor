@@ -131,7 +131,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public List<InventoryItem> GetInnerItems(string itemId, List<string> skippedSlots = null)
         {
-            List<InventoryItem> items = new();
+            List<InventoryItem> items = [];
             foreach (var item in Items?.Where(x => x.ParentId == itemId))
             {
                 if (skippedSlots != null && skippedSlots.Count > 0 && skippedSlots.Contains(item.SlotId))
@@ -212,7 +212,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             List<ItemLocation> freeSlots = GetFreeSlots(stash);
             if (freeSlots.Count < itemWidth * itemHeight * stacks)
                 return null;
-            List<ItemLocation> NewItemsLocations = new();
+            List<ItemLocation> NewItemsLocations = [];
             foreach (var slot in freeSlots)
             {
                 if (itemWidth == 1 && itemHeight == 1)
@@ -239,7 +239,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private static List<ItemLocation> GetFreeSlots(int[,] Stash)
         {
-            List<ItemLocation> locations = new();
+            List<ItemLocation> locations = [];
             for (int y = 0; y < Stash.GetLength(0); y++)
                 for (int x = 0; x < Stash.GetLength(1); x++)
                     if (Stash[y, x] == 0)
@@ -268,7 +268,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private static (int itemWidth, int itemHeight) GetSizeOfInventoryItem(string itemId, string itemTpl, IEnumerable<InventoryItem> itemsArray)
         {
-            List<string> toDo = new() { itemId };
+            List<string> toDo = [itemId];
             TarkovItem tmpItem = AppData.ServerDatabase.ItemsDB[itemTpl];
             InventoryItem rootItem = itemsArray.Where(x => x.ParentId == itemId).FirstOrDefault();
             bool FoldableWeapon = tmpItem.Properties.Foldable;
@@ -287,7 +287,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int outY = tmpItem.Properties.Height;
             if (rootItem != null && !rootItem.IsContainer)
             {
-                List<string> skipThisItems = new() { "5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041" };
+                List<string> skipThisItems = ["5448e53e4bdc2d60728b4567", "566168634bdc2d144c8b456c", "5795f317245977243854e041"];
                 bool rootFolded = rootItem.Upd != null && rootItem.Upd.Foldable != null && rootItem.Upd.Foldable.Folded;
 
                 if (FoldableWeapon && string.IsNullOrEmpty(FoldedSlot) && rootFolded)
@@ -304,9 +304,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                 if (!item.SlotId.Contains("mod_"))
                                     continue;
                                 toDo.Add(item.Id);
-                                if (!AppData.ServerDatabase.ItemsDB.ContainsKey(item.Tpl))
+                                if (!AppData.ServerDatabase.ItemsDB.TryGetValue(item.Tpl, out TarkovItem itm))
                                     throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_modded_item_founded_error"));
-                                TarkovItem itm = AppData.ServerDatabase.ItemsDB[item.Tpl];
                                 bool childFoldable = itm.Properties.Foldable;
                                 bool childFolded = item.Upd != null && item.Upd.Foldable != null && item.Upd.Foldable.Folded;
                                 if (FoldableWeapon && FoldedSlot == item.SlotId && (rootFolded || childFolded))
@@ -406,8 +405,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             int[,] Stash = GetSlotsMap(container);
             List<ItemLocation> NewItemsLocations = GetItemLocations(itemWidth, itemHeight, Stash, stacks)
                 ?? throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
-            List<string> iDs = Items.Select(x => x.Id).ToList();
-            List<InventoryItem> items = Items.ToList();
+            List<string> iDs = [.. Items.Select(x => x.Id)];
+            List<InventoryItem> items = [.. Items];
             for (int i = 0; i < NewItemsLocations.Count; i++)
             {
                 if (count <= 0) break;
@@ -426,7 +425,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 AddInnerItems(rootId, rootNewId, fir);
                 count -= stackSize;
             }
-            Items = items.ToArray();
+            Items = [.. items];
 
             void AddInnerItems(string rootId, string newRootId, bool fir)
             {
@@ -444,12 +443,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private List<string> GetCompleteItemsList(IEnumerable<string> items)
         {
-            List<string> itemIds = new();
+            List<string> itemIds = [];
             foreach (var TargetItem in items)
             {
                 if (string.IsNullOrEmpty(TargetItem))
                     continue;
-                List<string> toDo = new() { TargetItem };
+                List<string> toDo = [TargetItem];
                 while (toDo.Count > 0)
                 {
                     foreach (var item in Items.Where(x => x.ParentId == toDo.ElementAt(0)))
@@ -465,7 +464,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             var completedList = GetCompleteItemsList(itemIds);
             App.ApplicationManager.CloseItemViewWindows(completedList);
-            List<InventoryItem> ItemsList = Items.ToList();
+            List<InventoryItem> ItemsList = [.. Items];
             while (completedList.Count > 0)
             {
                 var item = ItemsList.Where(x => x.Id == completedList[0]).FirstOrDefault();
@@ -474,7 +473,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 else
                     completedList.RemoveAt(0);
             }
-            Items = ItemsList.ToArray();
+            Items = [.. ItemsList];
         }
 
         private string GetMoneyCountString(string moneys) => (Items?

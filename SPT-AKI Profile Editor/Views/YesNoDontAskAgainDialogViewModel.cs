@@ -3,39 +3,25 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class YesNoDontAskAgainDialogResult
+    public class YesNoDontAskAgainDialogResult(bool affirmative, bool dontAskAgain)
     {
-        public YesNoDontAskAgainDialogResult(bool affirmative, bool dontAskAgain)
-        {
-            Affirmative = affirmative;
-            DontAskAgain = dontAskAgain;
-        }
-
-        public bool Affirmative { get; }
-        public bool DontAskAgain { get; }
+        public bool Affirmative { get; } = affirmative;
+        public bool DontAskAgain { get; } = dontAskAgain;
     }
 
-    public class YesNoDontAskAgainDialogViewModel : ClosableDialogViewModel
+    public class YesNoDontAskAgainDialogViewModel(string yesText,
+        string noText,
+        string message,
+        bool dontAskAgain,
+        object context) : ClosableDialogViewModel(context)
     {
         private readonly TaskCompletionSource<YesNoDontAskAgainDialogResult> dialogResult = new();
 
-        public YesNoDontAskAgainDialogViewModel(string yesText,
-                                                string noText,
-                                                string message,
-                                                bool dontAskAgain,
-                                                object context) : base(context)
-        {
-            YesText = yesText;
-            NoText = noText;
-            Message = message;
-            DontAskAgain = dontAskAgain;
-        }
-
         public Task<YesNoDontAskAgainDialogResult> DialogResult => dialogResult.Task;
-        public string YesText { get; }
-        public string NoText { get; }
-        public string Message { get; }
-        public bool DontAskAgain { get; set; }
+        public string YesText { get; } = yesText;
+        public string NoText { get; } = noText;
+        public string Message { get; } = message;
+        public bool DontAskAgain { get; set; } = dontAskAgain;
 
         public RelayCommand YesCommand => new(async _ => await CloseDialog(true));
 

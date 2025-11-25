@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public class FileSizeConverter : IValueConverter
     {
-        private readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        private readonly string[] SizeSuffixes = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -57,17 +57,17 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string s)
-                return Enum.Parse(typeof(QuestStatus), s);
+                return Enum.Parse<QuestStatus>(s);
             return null;
         }
 
         private static string[] GetStrings()
         {
-            List<string> list = new();
+            List<string> list = [];
             foreach (QuestStatus format in AppData.AppSettings.standartQuestStatuses)
                 list.Add(GetString(format));
 
-            return list.ToArray();
+            return [.. list];
         }
     }
 
@@ -86,7 +86,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string s)
-                return Enum.Parse(typeof(IssuesAction), s);
+                return Enum.Parse<IssuesAction>(s);
             return null;
         }
 
@@ -94,8 +94,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private static Dictionary<string, string> GetStrings()
         {
-            Dictionary<string, string> list = new();
-            foreach (IssuesAction action in Enum.GetValues(typeof(IssuesAction)))
+            Dictionary<string, string> list = [];
+            foreach (IssuesAction action in Enum.GetValues<IssuesAction>())
                 list.Add(GetString(action), AppData.AppLocalization.GetLocalizedString($"issue_action_{GetString(action).ToLower()}"));
             return list;
         }
@@ -116,7 +116,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string s)
-                return Enum.Parse(typeof(StashType), s);
+                return Enum.Parse<StashType>(s);
             return null;
         }
 
@@ -124,8 +124,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private static Dictionary<string, string> GetStrings()
         {
-            Dictionary<string, string> list = new();
-            foreach (StashType stashType in Enum.GetValues(typeof(StashType)))
+            Dictionary<string, string> list = [];
+            foreach (StashType stashType in Enum.GetValues<StashType>())
                 list.Add(GetString(stashType), AppData.AppLocalization.GetLocalizedString($"stash_type_{GetString(stashType).ToLower()}"));
             return list;
         }

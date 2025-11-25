@@ -85,7 +85,7 @@
                             Margin="0,0,10,0"
                             VerticalAlignment="Center"
                             Command="{Binding OpenLocalizationEditor}"
-                            Icon="PencilAltSolid"
+                            Icon="PencilSolid"
                             IconSize="15"
                             IsEnabled="{Binding ServerPathValid}"
                             Style="{StaticResource IconOnlyButton}"
@@ -382,7 +382,7 @@
                                 <iconPacks:PackIconFontAwesome
                                     Width="18"
                                     Height="18"
-                                    Kind="QuestionCircleSolid" />
+                                    Kind="CircleQuestionSolid" />
                             </Label.Content>
                         </Label>
                     </DockPanel>

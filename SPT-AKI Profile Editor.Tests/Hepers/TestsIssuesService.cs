@@ -7,7 +7,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
 {
     internal class TestsIssuesService : IIssuesService
     {
-        private ObservableCollection<ProfileIssue> profileIssues = new();
+        private ObservableCollection<ProfileIssue> profileIssues = [];
 
         public ObservableCollection<ProfileIssue> ProfileIssues { get => profileIssues; set => profileIssues = value; }
 
@@ -31,14 +31,9 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         }
     }
 
-    internal class TestsProfileIssue : ProfileIssue
+    internal class TestsProfileIssue(Action fixAction, string targetId) : ProfileIssue(targetId)
     {
-        public TestsProfileIssue(Action fixAction, string targetId) : base(targetId)
-        {
-            FixAction = fixAction;
-        }
-
-        public override Action FixAction { get; }
+        public override Action FixAction { get; } = fixAction;
 
         public override string Description => "TestsProfileIssue";
     }

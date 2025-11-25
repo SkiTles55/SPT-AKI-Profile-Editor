@@ -61,9 +61,9 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             return folderBrowserDialogMode switch
             {
                 FolderBrowserDialogMode.weaponBuildsExport
-                => (true, null, new string[2] { TestHelpers.weaponBuild, TestHelpers.weaponBuild }),
+                => (true, null, [TestHelpers.weaponBuild, TestHelpers.weaponBuild]),
                 FolderBrowserDialogMode.equipmentBuildsExport
-                => (true, null, new string[2] { TestHelpers.equipmentBuild, TestHelpers.equipmentBuild }),
+                => (true, null, [TestHelpers.equipmentBuild, TestHelpers.equipmentBuild]),
                 FolderBrowserDialogMode.profileProgressExport => (true, TestHelpers.profileProgress, null),
                 _ => throw new NotImplementedException(),
             };

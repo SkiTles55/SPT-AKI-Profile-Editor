@@ -47,7 +47,7 @@
                                 <iconPacks:PackIconFontAwesome
                                     Width="16"
                                     Height="18"
-                                    Kind="QuestionCircleRegular" />
+                                    Kind="CircleQuestionRegular" />
                             </Label>
                             <Label
                                 Grid.Column="1"
@@ -59,7 +59,7 @@
                                 <iconPacks:PackIconFontAwesome
                                     Width="16"
                                     Height="18"
-                                    Kind="CheckCircleRegular" />
+                                    Kind="CircleCheckRegular" />
                             </Label>
                             <Label
                                 Grid.Column="2"

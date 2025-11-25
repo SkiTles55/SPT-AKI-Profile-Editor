@@ -14,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Side = side;
             Level = level;
             Status = "Killed by ";
-            AvailableWeapons = AppData.ServerDatabase.ItemsDB.Values.Where(x => x.IsWeapon).ToList();
+            AvailableWeapons = [.. AppData.ServerDatabase.ItemsDB.Values.Where(x => x.IsWeapon)];
             WeaponName = AvailableWeapons.FirstOrDefault()?.Id;
         }
 
@@ -46,7 +46,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void UpdateProperties()
         {
             var accountId = AppData.Profile.Characters.Pmc.Aid;
-            var id = ExtMethods.GenerateNewId(new string[] { accountId });
+            var id = ExtMethods.GenerateNewId([accountId]);
             AccountId = id;
             ProfileId = id;
             KillerAccountId = accountId;

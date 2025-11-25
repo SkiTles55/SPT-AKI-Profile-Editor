@@ -95,13 +95,13 @@ namespace SPT_AKI_Profile_Editor
 
         private void RemoveItemFromContainer(string id)
         {
-            _inventory.RemoveItems(new() { id });
+            _inventory.RemoveItems([id]);
             OnPropertyChanged("");
         }
 
         private void RemoveAllItemsFromContainer()
         {
-            _inventory.RemoveItems(Items.Select(x => x.Id).ToList());
+            _inventory.RemoveItems([.. Items.Select(x => x.Id)]);
             OnPropertyChanged("");
         }
 

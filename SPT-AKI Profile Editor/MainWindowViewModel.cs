@@ -5,7 +5,6 @@ using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor
@@ -124,7 +123,7 @@ namespace SPT_AKI_Profile_Editor
 
         private async void ShowSaveResults(List<SaveException> exceptions)
         {
-            if (exceptions.Any())
+            if (exceptions.Count != 0)
             {
                 string messageKey = exceptions.HaveAllErrors()
                     ? "profile_not_saved_dialog_caption"

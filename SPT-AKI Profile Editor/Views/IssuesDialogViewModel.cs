@@ -6,16 +6,10 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Views
 {
-    public class IssuesDialogViewModel : ClosableDialogViewModel
+    public class IssuesDialogViewModel(RelayCommand saveCommand, IIssuesService issuesService, object context) : ClosableDialogViewModel(context)
     {
-        public IssuesDialogViewModel(RelayCommand saveCommand, IIssuesService issuesService, object context) : base(context)
-        {
-            SaveCommand = saveCommand;
-            IssuesService = issuesService;
-        }
-
-        public IIssuesService IssuesService { get; }
-        public RelayCommand SaveCommand { get; }
+        public IIssuesService IssuesService { get; } = issuesService;
+        public RelayCommand SaveCommand { get; } = saveCommand;
         public RelayCommand FixCommand => new(async obj => await ExecuteFixCommand(obj));
         public RelayCommand IgnoreCommand => new(obj => ExecuteSaveCommand(IssuesAction.AlwaysIgnore));
         public RelayCommand FixAllCommand => new(obj => ExecuteSaveCommand(IssuesAction.AlwaysFix));

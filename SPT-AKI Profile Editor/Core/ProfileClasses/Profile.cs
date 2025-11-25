@@ -10,12 +10,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class Profile : BindableEntity
     {
         [JsonIgnore]
-        public List<ModdedEntity> ModdedEntitiesForRemoving = new();
+        public List<ModdedEntity> ModdedEntitiesForRemoving = [];
 
         private ProfileCharacters characters;
-        private string[] suits;
         private UserBuilds userBuilds;
         private int profileHash = 0;
+        private CustomisationUnlock[] customisationUnlocks;
 
         [JsonProperty("characters")]
         public ProfileCharacters Characters
@@ -29,14 +29,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
-        [JsonProperty("suits")]
-        public string[] Suits
+        [JsonProperty("customisationUnlocks")]
+        public CustomisationUnlock[] CustomisationUnlocks
         {
-            get => suits;
+            get => customisationUnlocks;
             set
             {
-                suits = value;
-                OnPropertyChanged(nameof(Suits));
+                customisationUnlocks = value;
+                OnPropertyChanged(nameof(CustomisationUnlocks));
             }
         }
 
@@ -67,9 +67,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 profile.Characters.Pmc.UpdateQuestsData();
             if (NeedToAddMissingScavCommonSkills())
             {
-                profile.Characters.Scav.Skills.Common = profile.Characters.Pmc.Skills.Common
-                    .Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })
-                    .ToArray();
+                profile.Characters.Scav.Skills.Common = [.. profile.Characters.Pmc.Skills.Common.Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })];
             }
             if (NeedToAddMissingMasteringsSkills())
             {
@@ -79,7 +77,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             AddMisingHeadToServerDatabase(profile.Characters?.Pmc);
             AddMisingHeadToServerDatabase(profile.Characters?.Scav);
             Characters = profile.Characters;
-            Suits = profile.Suits;
+            CustomisationUnlocks = profile.customisationUnlocks;
             UserBuilds = profile.UserBuilds;
 
             static void AddMisingHeadToServerDatabase(Character character)
@@ -99,12 +97,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 if (characterSkills.Mastering.Length != AppData.ServerDatabase.ServerGlobals.Config.Mastering.Length)
                 {
-                    characterSkills.Mastering = characterSkills.Mastering
-                        .Concat(AppData.ServerDatabase.ServerGlobals.Config.Mastering
-                        .Where(x => !characterSkills.Mastering.Any(y => y.Id == x.Name))
-                        .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 })
-                        .ToArray())
-                        .ToArray();
+                    characterSkills.Mastering =
+                    [
+                        .. characterSkills.Mastering,
+                        .. AppData.ServerDatabase.ServerGlobals.Config.Mastering
+                            .Where(x => !characterSkills.Mastering.Any(y => y.Id == x.Name))
+                            .Select(x => new CharacterSkill { Id = x.Name, Progress = 0 }),
+                    ];
                 }
             }
 
