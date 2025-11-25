@@ -500,10 +500,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
                 profile.UserBuilds.RemoveParentsFromBuilds();
                 jobject.SelectToken("userbuilds").Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
-                if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
-                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
                 if (profile.UserBuilds.WeaponBuilds?.Any() != true)
                     jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
+                if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
+                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
                 // Returning previous magazineBuilds
                 jobject.SelectToken("userbuilds")["magazineBuilds"] = magazineBulds;
             }
