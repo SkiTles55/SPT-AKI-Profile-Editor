@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
     xmlns:local="clr-namespace:SPT_AKI_Profile_Editor.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:Background="White"
@@ -17,11 +18,7 @@
             Grid.Row="0"
             Margin="0,10,0,0"
             Orientation="Vertical">
-            <Image Height="320">
-                <Image.Source>
-                    <BitmapImage UriSource="/Resources/Images/server_folder.jpg" />
-                </Image.Source>
-            </Image>
+            <Image Height="360" gif:AnimationBehavior.SourceUri="/Resources/Images/spt-server.gif" />
             <Label
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"

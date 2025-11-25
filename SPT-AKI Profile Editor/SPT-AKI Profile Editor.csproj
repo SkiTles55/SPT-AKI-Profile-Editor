@@ -20,7 +20,7 @@
   <ItemGroup>
     <None Remove="Resources\Images\ltcWallet.png" />
     <None Remove="profileeditor.png" />
-    <None Remove="Resources\Images\server_folder.jpg" />
+    <None Remove="Resources\Images\spt-server.gif" />
     <None Remove="Resources\Localizations\ch.json" />
     <None Remove="Resources\Localizations\en.json" />
     <None Remove="Resources\Localizations\jp.json" />
@@ -32,11 +32,12 @@
     <PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="6.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="ReleaseChecker.GitHub" Version="1.0.2" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\Images\ltcWallet.png" />
-    <Resource Include="Resources\Images\server_folder.jpg" />
+    <Resource Include="Resources\Images\spt-server.gif" />
     <EmbeddedResource Include="Resources\Localizations\ch.json" />
     <EmbeddedResource Include="Resources\Localizations\en.json" />
     <EmbeddedResource Include="Resources\Localizations\jp.json" />
