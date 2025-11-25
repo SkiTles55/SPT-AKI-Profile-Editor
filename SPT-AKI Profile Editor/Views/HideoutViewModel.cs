@@ -49,11 +49,9 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
-        public bool CanRemoveAnyStartedProduction
-            => Profile?.Characters?.Pmc?.Hideout?.Production?.Any() ?? false;
+        public bool CanRemoveAnyStartedProduction => StartedProductions.Any();
 
-        public bool CanFinishAnyStartedProduction
-            => Profile?.Characters?.Pmc?.Hideout?.Production?.Where(x => !x.Value.IsFinished).Any() ?? false;
+        public bool CanFinishAnyStartedProduction => StartedProductions.Where(x => !x.IsFinished).Any();
 
         public string AreaNameFilter
         {

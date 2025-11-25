@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
-using System;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -18,8 +17,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var production = AppData.ServerDatabase?.HideoutProduction.FirstOrDefault(x => x.Id == recipeId);
             if (production != null)
             {
-                ProductItem = AppData.ServerDatabase.ItemsDB.ContainsKey(production.EndProduct)
-                    ? AppData.ServerDatabase.ItemsDB[production.EndProduct].GetExaminedItem()
+                ProductItem = AppData.ServerDatabase.ItemsDB.TryGetValue(production.EndProduct, out ServerClasses.TarkovItem value)
+                    ? value.GetExaminedItem()
                     : new ExaminedItem(production.EndProduct, production.EndProduct, null);
             }
         }

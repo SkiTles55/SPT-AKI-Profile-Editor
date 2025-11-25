@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public void RemoveCraft(string id) => Production?.Remove(id);
 
-        public void RemoveAllCrafts() => Production = new ();
+        public void RemoveAllCrafts() => Production = [];
 
         public void SetAllCraftsFinished()
         {

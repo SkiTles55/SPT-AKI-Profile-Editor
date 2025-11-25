@@ -680,7 +680,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void HideouFinishedCraftSavesCorrectly()
+        public void HideoutFinishedCraftSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             var craft = AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault(x => !x.IsFinished);
@@ -691,7 +691,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void HideouFinishedAllCraftsSavesCorrectly()
+        public void HideoutFinishedAllCraftsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Hideout?.SetAllCraftsFinished();
@@ -700,7 +700,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void HideouRemovedCraftSavesCorrectly()
+        public void HideoutRemovedCraftSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             var craft = AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault();
@@ -711,12 +711,12 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void HideouRemoveAllCraftsSavesCorrectly()
+        public void HideoutRemoveAllCraftsSavesCorrectly()
         {
             AppData.Profile.Load(TestHelpers.profileFile);
             AppData.Profile.Characters.Pmc.Hideout.RemoveAllCrafts();
             TestHelpers.SaveAndLoadProfile("testSaveRemovedAllCrafts.json");
-            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Any(), Is.False, "Crafts not removed");
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Count, Is.Not.Null.And.Zero, "Crafts not removed");
         }
 
         [Test]
@@ -1006,7 +1006,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             LoadProfileAndPrepareWeaponBuilds();
             AppData.Profile.UserBuilds.RemoveWeaponBuilds();
             TestHelpers.SaveAndLoadProfile("testWeaponBuildsRemove.json");
-            Assert.That(AppData.Profile.UserBuilds?.WeaponBuilds?.Any() == true, Is.False);
+            Assert.That(AppData.Profile.UserBuilds?.WeaponBuilds?.Count, Is.Not.Null.And.Zero);
         }
 
         [Test]
@@ -1026,7 +1026,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             LoadProfileAndPrepareEquipmentBuilds();
             AppData.Profile.UserBuilds.RemoveEquipmentBuilds();
             TestHelpers.SaveAndLoadProfile("testEquipmentBuildsRemove.json");
-            Assert.That(AppData.Profile.UserBuilds?.EquipmentBuilds?.Any() == true, Is.False);
+            Assert.That(AppData.Profile.UserBuilds?.EquipmentBuilds?.Count, Is.Not.Null.And.Zero);
         }
 
         [Test]

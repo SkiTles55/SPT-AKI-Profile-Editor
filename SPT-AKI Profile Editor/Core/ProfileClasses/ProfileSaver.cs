@@ -499,7 +499,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             try
             {
                 var forSave = profile.Characters.Pmc.Hideout?.Production;
-                if (forSave != null && forSave.Any())
+                if (forSave != null && forSave.Count != 0)
                 {
                     JToken productionToken = pmc.SelectToken("Hideout").SelectToken("Production");
                     if (productionToken == null)
