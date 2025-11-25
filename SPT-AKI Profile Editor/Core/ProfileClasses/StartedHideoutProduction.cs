@@ -7,7 +7,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class StartedHideoutProduction: BindableEntity
     {
         [JsonConstructor]
-        public StartedHideoutProduction(string recipeId, float progress, float productionTime, double startTimestamp)
+        public StartedHideoutProduction(string recipeId, double progress, double productionTime, long startTimestamp)
         {
             RecipeId = recipeId;
             Progress = progress;
@@ -25,11 +25,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public string RecipeId { get; set; }
 
-        public float Progress { get; set; }
+        public double Progress { get; set; }
 
-        public float ProductionTime { get; set; }
+        public double ProductionTime { get; set; }
 
-        public double StartTimestamp { get; set; }
+        public long StartTimestamp { get; set; }
 
         public ExaminedItem ProductItem { get; }
 
@@ -49,7 +49,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (IsFinished)
                 return;
             var remainingSeconds = (ProductionTime - Progress) * 3600;
-            StartTimestamp -= remainingSeconds;
+            StartTimestamp -= (long)remainingSeconds;
             Progress = ProductionTime;
             OnPropertyChanged(nameof(Status));
         }
