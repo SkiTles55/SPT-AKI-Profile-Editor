@@ -134,7 +134,7 @@
                                                 <iconPacks:PackIconFontAwesome
                                                     Width="18"
                                                     Height="18"
-                                                    Kind="ExclamationTriangleSolid" />
+                                                    Kind="TriangleExclamationSolid" />
                                             </Label>
                                             <StackPanel Grid.Column="3" Orientation="Horizontal">
                                                 <extendedcontrols:ButtonFontAwesomeIcon
@@ -233,7 +233,7 @@
                                                                 <iconPacks:PackIconFontAwesome
                                                                     Width="18"
                                                                     Height="18"
-                                                                    Kind="ExclamationTriangleSolid" />
+                                                                    Kind="TriangleExclamationSolid" />
                                                             </Label>
                                                             <StackPanel Grid.Column="2" Orientation="Horizontal">
                                                                 <extendedcontrols:ButtonFontAwesomeIcon

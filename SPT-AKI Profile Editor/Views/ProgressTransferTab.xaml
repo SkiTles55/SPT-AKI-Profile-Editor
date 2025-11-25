@@ -128,7 +128,7 @@
                             <Label
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
-                                Content="{iconPacks:FontAwesome Kind=ExclamationTriangleSolid}"
+                                Content="{iconPacks:FontAwesome Kind=TriangleExclamationSolid}"
                                 Foreground="{DynamicResource MahApps.Brushes.ValidationSummary1}" />
                             <Label
                                 HorizontalAlignment="Left"
@@ -162,7 +162,7 @@
                             <Label
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
-                                Content="{iconPacks:FontAwesome Kind=ExclamationTriangleSolid}"
+                                Content="{iconPacks:FontAwesome Kind=TriangleExclamationSolid}"
                                 Foreground="{DynamicResource MahApps.Brushes.ValidationSummary1}" />
                             <Label
                                 HorizontalAlignment="Left"
@@ -186,7 +186,7 @@
             Grid.Column="0"
             Command="{Binding SelectAll}"
             Content="{Binding AppLocalization.Translations[button_select_all], FallbackValue=button_select_all}"
-            Icon="TasksSolid"
+            Icon="ListCheckSolid"
             IsEnabled="{Binding SettingsModel.CanSelectAll}"
             Style="{StaticResource ActionButton}" />
         <extendedcontrols:ButtonFontAwesomeIcon
@@ -202,7 +202,7 @@
             Grid.Column="0"
             Command="{Binding ExportProgress}"
             Content="{Binding AppLocalization.Translations[tab_presets_export], FallbackValue=tab_presets_export}"
-            Icon="SignOutAltSolid"
+            Icon="FileExportSolid"
             IsEnabled="{Binding SettingsModel.CanDeselectAny}"
             Style="{StaticResource ActionButton}" />
         <extendedcontrols:ButtonFontAwesomeIcon
@@ -210,7 +210,7 @@
             Grid.Column="1"
             Command="{Binding ImportProgress}"
             Content="{Binding AppLocalization.Translations[tab_presets_import], FallbackValue=tab_presets_import}"
-            Icon="SignInAltSolid"
+            Icon="FileImportSolid"
             IsEnabled="{Binding SettingsModel.CanDeselectAny}"
             Style="{StaticResource ActionButton}" />
     </Grid>

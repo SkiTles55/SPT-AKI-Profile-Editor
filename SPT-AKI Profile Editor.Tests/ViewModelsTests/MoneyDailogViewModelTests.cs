@@ -30,7 +30,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanInitializeForWrongItem()
             => InitializeAndCheck(AppData.ServerDatabase.ItemsDB.Keys.First(),
-                                  PackIconFontAwesomeKind.ExclamationTriangleSolid,
+                                  PackIconFontAwesomeKind.TriangleExclamationSolid,
                                   PackIconFontAwesomeKind.EuroSignSolid);
 
         [Test]
@@ -48,7 +48,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 
         private static void InitializeAndCheck(string moneyTpl,
                                                PackIconFontAwesomeKind icon,
-                                               PackIconFontAwesomeKind wrongIcon = PackIconFontAwesomeKind.ExclamationTriangleSolid)
+                                               PackIconFontAwesomeKind wrongIcon = PackIconFontAwesomeKind.TriangleExclamationSolid)
         {
             var money = AppData.ServerDatabase.ItemsDB[moneyTpl];
             MoneyDailogViewModel viewModel = new(money, null, null);

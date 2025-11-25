@@ -92,7 +92,7 @@
                                 Margin="5,5,10,5"
                                 Command="{Binding Data.RemoveItemCommand, Source={StaticResource proxy}}"
                                 CommandParameter="{Binding Path=Id}"
-                                Icon="TrashAltSolid"
+                                Icon="TrashCanSolid"
                                 IconSize="15"
                                 Style="{StaticResource IconOnlyButton}"
                                 ToolTip="{Binding Data.AppLocalization.Translations[tab_backups_remove], FallbackValue=tab_backups_remove, Source={StaticResource proxy}}" />

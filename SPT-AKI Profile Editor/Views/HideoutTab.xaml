@@ -240,7 +240,7 @@
                                         Height="15"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        Kind="CheckSquareRegular" />
+                                        Kind="SquareCheckRegular" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>

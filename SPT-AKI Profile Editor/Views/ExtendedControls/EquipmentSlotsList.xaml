@@ -24,7 +24,7 @@
                 <iconPacks:PackIconFontAwesome
                     Width="18"
                     Height="18"
-                    Kind="ExclamationTriangleSolid" />
+                    Kind="TriangleExclamationSolid" />
             </Label>
         </ControlTemplate>
     </UserControl.Resources>

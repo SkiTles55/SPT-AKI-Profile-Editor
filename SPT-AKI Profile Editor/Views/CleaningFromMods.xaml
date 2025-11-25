@@ -94,7 +94,7 @@
                                                             Command="{Binding Data.SelectAll, Source={StaticResource proxy}}"
                                                             CommandParameter="{Binding}"
                                                             Content="{Binding Data.AppLocalization.Translations[button_select_all], Source={StaticResource proxy}}"
-                                                            Icon="TasksSolid"
+                                                            Icon="ListCheckSolid"
                                                             IconSize="15" />
                                                         <extendedcontrols:ButtonFontAwesomeIcon
                                                             MaxHeight="15"
@@ -135,7 +135,7 @@
                                 Height="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Kind="CheckSquareRegular" />
+                                Kind="SquareCheckRegular" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -215,7 +215,7 @@
             Margin="5,10,5,0"
             Command="{Binding SelectAll}"
             Content="{Binding AppLocalization.Translations[button_select_all], FallbackValue=button_select_all}"
-            Icon="TasksSolid"
+            Icon="ListCheckSolid"
             IconSize="15"
             IsEnabled="{Binding CleaningService.CanSelectAll}" />
         <extendedcontrols:ButtonFontAwesomeIcon
@@ -235,7 +235,7 @@
             Margin="5,10,5,0"
             Command="{Binding RemoveSelected}"
             Content="{Binding AppLocalization.Translations[button_remove_selected], FallbackValue=button_remove_selected}"
-            Icon="TrashAltSolid"
+            Icon="TrashCanSolid"
             IconSize="15"
             IsEnabled="{Binding CleaningService.CanDeselectAny}" />
     </Grid>
