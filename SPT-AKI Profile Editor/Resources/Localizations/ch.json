@@ -263,6 +263,11 @@
     "checkbox_dont_ask_again": "不再询问",
     "server_select_help": "需要帮助？",
     "fast_mode_apply_and_save": "应用并保存",
-    "fast_mode_apply_without_save": "应用，但不要保存"
+    "fast_mode_apply_without_save": "应用，但不要保存",
+    "remove_started_craft_title": "移除制作",
+    "remove_started_craft_caption": "您确定要移除此制作项目吗？",
+    "remove_started_crafts_title": "移除所有制作",
+    "remove_started_crafts_caption": "您确定要移除所有制作项目吗？",
+    "experimental_section": "此部分为实验性功能，可能会导致存档损坏。如遇问题，您可以在 Discord 或 GitHub 上提交错误报告给开发者。"
   }
 }
