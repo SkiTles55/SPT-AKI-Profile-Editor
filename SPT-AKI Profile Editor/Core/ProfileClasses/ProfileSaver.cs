@@ -515,7 +515,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     var existCrafts = productionToken.ToObject<Dictionary<string, object>>()?.Keys;
                     var forRemove = existCrafts.Except(forSave.Keys);
                     productionToken.RemoveFields(forRemove);
-                } else
+                }
+                else
                 {
                     var emptyDict = new Dictionary<string, object>();
                     pmc.SelectToken("Hideout").SelectToken("Production").Replace(JToken.FromObject(emptyDict));

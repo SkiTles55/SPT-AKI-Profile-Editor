@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
-    public class StartedHideoutProduction: BindableEntity
+    public class StartedHideoutProduction : BindableEntity
     {
         [JsonConstructor]
         public StartedHideoutProduction(string recipeId, double progress, double productionTime, long startTimestamp)

@@ -687,7 +687,7 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(craft, Is.Not.Null, "Started craft not founded");
             craft.SetFinished();
             TestHelpers.SaveAndLoadProfile("testSaveFinishedCraft.json");
-            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault(x => x.RecipeId == craft.RecipeId)?.IsFinished,Is.True, "Craft not finished");
+            Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production?.Values.FirstOrDefault(x => x.RecipeId == craft.RecipeId)?.IsFinished, Is.True, "Craft not finished");
         }
 
         [Test]
