@@ -473,6 +473,23 @@ namespace SPT_AKI_Profile_Editor.Tests
             => Assert.That(AppData.Profile.Characters.Scav.Inventory.Items.Any(x => x.IsWeapon), Is.True);
 
         [Test]
+        public void AllAchievementsLoadsCorrectly()
+        {
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements,
+                        Is.Not.Null,
+                        "AllAchievements is null");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements,
+                        Is.Not.Empty,
+                        "AllAchievements is empty");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => x.BitmapImage != null),
+                        Is.True,
+                        "AllAchievements doesnt have images");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => x.Timestamp == 0),
+                        Is.False,
+                        "AllAchievements has item with bad Timestamp");
+        }
+
+        [Test]
         public void ProfileSavesCorrectly()
         {
             AppData.AppSettings.AutoAddMissingMasterings = false;

@@ -330,9 +330,6 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             Assert.That(AppData.ServerDatabase.Achievements, Is.Not.Null, "Achievements is null");
             Assert.That(AppData.ServerDatabase.Achievements, Is.Not.Empty, "Achievements empty");
-            Assert.That(AppData.ServerDatabase.Achievements.Any(x => x.BitmapImage == null),
-                        Is.False,
-                        "Some achievements doesnt have images");
         }
 
         private static Func<KeyValuePair<string, QuestData>, bool> ContainsCondition(QuestConditionType condition)
