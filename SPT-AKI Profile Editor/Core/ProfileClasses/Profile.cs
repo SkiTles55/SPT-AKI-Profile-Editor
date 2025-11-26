@@ -62,6 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             string fileText = File.ReadAllText(path);
             Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
             profile.Characters.Pmc.SetupHideoutProductions();
+            profile.Characters.Pmc.SetupCharacterAchievements();
             profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
             if (profile.Characters?.Pmc?.Quests != null)
                 profile.Characters.Pmc.UpdateQuestsData();

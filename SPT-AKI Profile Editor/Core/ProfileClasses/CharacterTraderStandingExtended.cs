@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 LocalizedName = localizedName;
             else
                 LocalizedName = traderBase?.Nickname ?? Id;
-                LoadBitmapImage();
+            LoadBitmapImage();
         }
 
         public string Id { get; }

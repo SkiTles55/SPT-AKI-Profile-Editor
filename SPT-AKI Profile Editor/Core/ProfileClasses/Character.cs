@@ -28,6 +28,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         private CharacterInventory inventory;
         private UnlockedInfo unlockedInfo;
         private CharacterBonus[] bonuses;
+        private List<CharacterAchievement> allAchievements;
 
         [JsonIgnore]
         public bool IsScav => Info?.Side == "Savage";
@@ -187,6 +188,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             }
         }
 
+        public Dictionary<string, long> Achievements { get; set; }
+
         [JsonIgnore]
         public int StashRowsBonusCount
         {
@@ -227,6 +230,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public List<CharacterHideoutProduction> HideoutProductions => hideoutProductions;
+
+        [JsonIgnore]
+        public List<CharacterAchievement> AllAchievements => allAchievements;
 
         public void NotifyTradersUpdated()
         {
@@ -384,6 +390,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     .Where(x => x.UnlocksByQuest)
                     .Select(x => new CharacterHideoutProduction(x, UnlockedInfo.UnlockedProductionRecipe.Contains(x.Id)))];
             OnPropertyChanged(nameof(HideoutProductions));
+        }
+
+        public void SetupCharacterAchievements()
+        {
+            allAchievements = [.. AppData.ServerDatabase?.Achievements
+                .Select(x => new CharacterAchievement(x.Id, Achievements, x.ImageUrl, x.Side))];
+            OnPropertyChanged(nameof(AllAchievements));
         }
 
         private static TraderBase GetTraderInfo(string key)
