@@ -38,7 +38,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string MannequinInventoryTpl = "55d7217a4bdc2d86028b456d";
         public const int HideoutAreaEquipmentPresetsType = 26;
 
-        public static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPT-AKI Profile Editor");
+        public static readonly string AppDataFolder = AppDomain.CurrentDomain.BaseDirectory;
 
         public static List<string> BannedItems =>
         [
