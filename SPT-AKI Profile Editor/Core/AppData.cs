@@ -58,6 +58,7 @@ namespace SPT_AKI_Profile_Editor.Core
                 LoadTraderSuits();
                 LoadHandbook();
                 LoadHandbookHelper();
+                LoadAchievements();
             }
         }
 
@@ -349,6 +350,20 @@ namespace SPT_AKI_Profile_Editor.Core
                 ServerDatabase.HandbookHelper = new([], [], []);
                 Logger.Log($"ServerDatabase HandbookHelper loading error: {ex.Message}");
             }
+        }
+
+        private static void LoadAchievements()
+        {
+            ServerDatabase.Achievements = [];
+            string path = AppSettings.UsingModHelper
+                ? GetHelperDBFilePath("Achievements.json")
+                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.achievements]);
+            try
+            {
+                List<Achievement> Achievements = JsonConvert.DeserializeObject<List<Achievement>>(File.ReadAllText(path));
+                ServerDatabase.Achievements = Achievements;
+            }
+            catch (Exception ex) { Logger.Log($"ServerDatabase Achievements ({path}) loading error: {ex.Message}"); }
         }
 
         private static string GetHelperDBFilePath(string filename)

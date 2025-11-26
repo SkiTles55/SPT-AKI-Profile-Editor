@@ -63,7 +63,8 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerDir.bots] = "SPT\\SPT_Data\\database\\bots\\types",
             [SPTServerDir.profiles] = "SPT\\user\\profiles",
             [SPTServerDir.handbookIcons] = "SPT\\SPT_Data\\images\\handbook",
-            [SPTServerDir.traderImages] = "SPT\\SPT_Data\\images\\trader\\avatar"
+            [SPTServerDir.traderImages] = "SPT\\SPT_Data\\images\\trader\\avatar",
+            [SPTServerDir.achievementImages] = "SPT\\SPT_Data\\images\\achievement"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
@@ -76,7 +77,8 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerFile.production] = "SPT\\SPT_Data\\database\\hideout\\production.json",
             [SPTServerFile.handbook] = "SPT\\SPT_Data\\database\\templates\\handbook.json",
             [SPTServerFile.languages] = "SPT\\SPT_Data\\database\\locales\\languages.json",
-            [SPTServerFile.serverexe] = "SPT\\SPT.Server.exe"
+            [SPTServerFile.serverexe] = "SPT\\SPT.Server.exe",
+            [SPTServerFile.achievements] = "SPT\\SPT_Data\\database\\templates\\achievements.json"
         };
 
         public static List<AppLocalization> DefaultLocalizations()

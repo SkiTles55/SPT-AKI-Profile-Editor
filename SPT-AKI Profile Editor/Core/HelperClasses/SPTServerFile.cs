@@ -13,5 +13,6 @@
         public static readonly string handbook = $"{prefix}_handbook";
         public static readonly string languages = $"{prefix}_languages";
         public static readonly string serverexe = $"{prefix}_serverexe";
+        public static readonly string achievements = $"{prefix}_achievements";
     }
 }

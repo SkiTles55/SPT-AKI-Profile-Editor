@@ -18,6 +18,7 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         private List<TraderSuit> traderSuits;
         private Handbook handbook;
         private HandbookHelper handbookHelper;
+        private List<Achievement> achievements;
 
         public Dictionary<string, string> Heads
         {
@@ -140,6 +141,16 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
         }
 
         public HideoutProduction[] HideoutProduction { get; set; }
+
+        public List<Achievement> Achievements
+        {
+            get => achievements;
+            set
+            {
+                achievements = value;
+                OnPropertyChanged(nameof(Achievements));
+            }
+        }
 
         public void AcquireAllClothing()
         {
