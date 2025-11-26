@@ -14,6 +14,7 @@ namespace SPT_AKI_Profile_Editor.Views
         private string productionNameFilter;
         private string productionAreaFilter;
         private string startedProductionNameFilter;
+        private string startedProductionAreaFilter;
 
         public static RelayCommand SetAllMaxCommand => new(obj => Profile.Characters?.Pmc?.SetAllHideoutAreasMax());
 
@@ -97,6 +98,17 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public string StartedProductionAreaFilter
+        {
+            get => startedProductionAreaFilter;
+            set
+            {
+                startedProductionAreaFilter = value;
+                OnPropertyChanged(nameof(StartedProductionAreaFilter));
+                ApplyFilter();
+            }
+        }
+
         public RelayCommand SetCraftFinishedCommand => new(obj =>
         {
             if (obj is string id)
@@ -129,14 +141,10 @@ namespace SPT_AKI_Profile_Editor.Views
             else if (string.IsNullOrEmpty(ProductionNameFilter) && string.IsNullOrEmpty(ProductionAreaFilter))
                 filteredItems = new(Profile.Characters.Pmc.HideoutProductions);
             else
-                filteredItems = new(Profile.Characters.Pmc.HideoutProductions.Where(x => CanShow(x)));
+                filteredItems = new(Profile.Characters.Pmc.HideoutProductions.Where(x => CanShow(ProductionNameFilter, x.ProductItem.Name, ProductionAreaFilter, x.AreaLocalizedName)));
 
             Productions = filteredItems;
         }
-
-        private bool CanShow(CharacterHideoutProduction x)
-            => (string.IsNullOrEmpty(ProductionNameFilter) || x.ProductItem.Name.Contains(ProductionNameFilter, System.StringComparison.CurrentCultureIgnoreCase))
-            && (string.IsNullOrEmpty(ProductionAreaFilter) || x.AreaLocalizedName.Contains(ProductionAreaFilter, System.StringComparison.CurrentCultureIgnoreCase));
 
         private void ApplyAreasFilter()
         {
@@ -160,16 +168,20 @@ namespace SPT_AKI_Profile_Editor.Views
             else
             {
                 var values = Profile.Characters.Pmc.Hideout.Production.Values;
-                if (string.IsNullOrEmpty(StartedProductionNameFilter))
+                if (string.IsNullOrEmpty(StartedProductionNameFilter) && string.IsNullOrEmpty(StartedProductionAreaFilter))
                     filteredProductions = new(values);
                 else
-                    filteredProductions = new(values.Where(x => x.ProductItem.Name.Contains(StartedProductionNameFilter, System.StringComparison.CurrentCultureIgnoreCase)));
+                    filteredProductions = new(values.Where(x => CanShow(StartedProductionNameFilter, x.ProductItem.Name, StartedProductionAreaFilter, x.AreaLocalizedName)));
             }
 
             StartedProductions = filteredProductions;
             OnPropertyChanged(nameof(CanFinishAnyStartedProduction));
             OnPropertyChanged(nameof(CanRemoveAnyStartedProduction));
         }
+
+        private static bool CanShow(string productNameFilter, string productName, string areaNameFilter, string areaName)
+            => (string.IsNullOrEmpty(productNameFilter) || productName.Contains(productNameFilter, System.StringComparison.CurrentCultureIgnoreCase))
+            && (string.IsNullOrEmpty(areaNameFilter) || areaName.Contains(areaNameFilter, System.StringComparison.CurrentCultureIgnoreCase));
 
         private void SetCraftFinished(string id)
         {

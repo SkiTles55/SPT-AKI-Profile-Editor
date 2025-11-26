@@ -17,9 +17,14 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var production = AppData.ServerDatabase?.HideoutProduction.FirstOrDefault(x => x.Id == recipeId);
             if (production != null)
             {
-                ProductItem = AppData.ServerDatabase.ItemsDB.TryGetValue(production.EndProduct, out ServerClasses.TarkovItem value)
-                    ? value.GetExaminedItem()
-                    : new ExaminedItem(production.EndProduct, production.EndProduct, null);
+                var hideoutProduction = new CharacterHideoutProduction(production, true);
+
+                ProductItem = hideoutProduction.ProductItem;
+                AreaLocalizedName = hideoutProduction.AreaLocalizedName;
+            }
+            else
+            {
+                AreaLocalizedName = "unknown";
             }
         }
 
@@ -32,6 +37,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public long StartTimestamp { get; set; }
 
         public ExaminedItem ProductItem { get; }
+
+        public string AreaLocalizedName { get; }
 
         public bool IsFinished => Progress >= ProductionTime;
 

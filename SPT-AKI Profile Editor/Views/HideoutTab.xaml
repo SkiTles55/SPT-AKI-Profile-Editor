@@ -292,7 +292,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
-                            Width="*"
+                            Width="2*"
                             Header="{Binding Data.AppLocalization.Translations[tab_hideout_end_product], FallbackValue=tab_hideout_end_product, Source={StaticResource proxy}}"
                             SortMemberPath="ProductItem.Name">
                             <DataGridTemplateColumn.HeaderTemplate>
@@ -341,6 +341,36 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Status}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="*"
+                            Header="{Binding Data.AppLocalization.Translations[tab_hideout_area], FallbackValue=tab_hideout_craft_status, Source={StaticResource proxy}}"
+                            SortMemberPath="AreaLocalizedName">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock
+                                            Margin="5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBox
+                                            Margin="5"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Controls:TextBoxHelper.ClearTextButton="True"
+                                            DockPanel.Dock="Right"
+                                            Text="{Binding Data.StartedProductionAreaFilter, Source={StaticResource proxy}, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding AreaLocalizedName}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
