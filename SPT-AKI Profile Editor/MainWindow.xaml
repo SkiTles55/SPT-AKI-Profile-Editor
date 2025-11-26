@@ -96,6 +96,9 @@
             <TabItem Header="{Binding AppLocalization.Translations[tab_stash_title], FallbackValue=tab_stash_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:StashTab DataContext="{Binding ViewModels.StashTab}" />
             </TabItem>
+            <TabItem Header="{Binding AppLocalization.Translations[tab_achievements_title], FallbackValue=tab_achievements_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
+                <views:Achievements DataContext="{Binding ViewModels.AchievementsTab}" />
+            </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_clothing_title], FallbackValue=tab_clothing_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:ClothingTab DataContext="{Binding ViewModels.ClothingTab}" />
             </TabItem>

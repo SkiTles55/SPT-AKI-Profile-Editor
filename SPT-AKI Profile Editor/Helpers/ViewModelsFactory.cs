@@ -17,6 +17,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public InfoTabViewModel InfoTab { get; } = new();
 
+        public AchievementsViewModel AchievementsTab { get; } = new();
+
         public MerchantsTabViewModel MerchantsTab { get; } = new();
 
         public QuestsTabViewModel QuestsTab { get; } = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);

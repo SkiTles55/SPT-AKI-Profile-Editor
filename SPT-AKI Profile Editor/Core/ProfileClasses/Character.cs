@@ -405,5 +405,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return null;
             return AppData.ServerDatabase.TraderInfos.TryGetValue(key, out TraderBase value) ? value : null;
         }
+
+        internal void ReceiveAllAchievements()
+        {
+            foreach (var achievements in AllAchievements)
+                achievements.IsReceived = true;
+            OnPropertyChanged(nameof(AllAchievements));
+        }
     }
 }

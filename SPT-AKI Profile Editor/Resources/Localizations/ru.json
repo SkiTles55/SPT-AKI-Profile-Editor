@@ -276,6 +276,9 @@
     "remove_started_crafts_caption": "Вы действительно хотите удалить все крафты?",
     "experimental_section": "Этот раздел работает в экспериментальном режиме и может привести к повреждениям профиля. В случае возникновения проблем вы можете сообщить об этом разработчику создав баг репорт в Discord или GitHub",
     "dir_achievementImages_description": "Папка с изображениями достижений",
-    "file_achievements_description": "Файл с основными настройками достижений"
+    "file_achievements_description": "Файл с основными настройками достижений",
+    "tab_achievements_title": "Достижения",
+    "tab_achievements_achievement": "Достижение",
+    "tab_achievements_receive_all":  "Получить все"
   }
 }

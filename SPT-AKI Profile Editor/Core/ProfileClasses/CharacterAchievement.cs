@@ -1,4 +1,5 @@
 ﻿using SPT_AKI_Profile_Editor.Core.HelperClasses;
+using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,7 +22,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (achievements.TryGetValue(id, out long timestamp)) {
                 Timestamp = timestamp;
                 isReceived = true;
-            } else
+            }
+            else
             {
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 isReceived = false;
@@ -39,6 +41,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 }
                 catch { }
             }
+
+            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.QuestName(), out var localizedName))
+                LocalizedName = localizedName;
+            else
+                LocalizedName = id;
         }
 
         public string Id { get; }
@@ -55,5 +62,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged(nameof(IsReceived));
             }
         }
+
+        public string LocalizedName { get; }
     }
 }
