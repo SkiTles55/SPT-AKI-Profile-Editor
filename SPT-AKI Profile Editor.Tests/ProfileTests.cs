@@ -260,7 +260,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         public void HideoutStartedProductionsNotEmpty()
             => Assert.That(AppData.Profile.Characters.Pmc.Hideout.Production.Any,
                            Is.True,
-                           "HideoutAreas is empty");
+                           "HideoutProductions is empty");
 
         [Test]
         public void PmcSkillsNotNull()
