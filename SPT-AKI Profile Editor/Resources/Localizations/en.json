@@ -263,6 +263,17 @@
     "checkbox_dont_ask_again": "Don't ask again",
     "server_select_help": "Need help?",
     "fast_mode_apply_and_save": "Apply and save profile",
-    "fast_mode_apply_without_save": "Apply without saving"
+    "fast_mode_apply_without_save": "Apply without saving",
+    "tab_hideout_crafts_unlock": "Unlock crafts",
+    "tab_hideout_craft_status": "Status",
+    "tab_hideout_craft_status_finished": "Finished",
+    "tab_hideout_craft_status_in_progress": "In progress",
+    "tab_hideout_craft_set_finished": "Set finished",
+    "tab_hideout_complete_all_crafts": "Finish all",
+    "remove_started_craft_title": "Removing craft",
+    "remove_started_craft_caption": "Are you sure you want to remove this craft?",
+    "remove_started_crafts_title": "Removing crafts",
+    "remove_started_crafts_caption": "Are you sure you want to remove all crafts?",
+    "experimental_section": "This section works in experimental mode and may cause damage to your profile. If you encounter any issues, you can report them to the developer by creating a bug report in Discord or GitHub"
   }
 }

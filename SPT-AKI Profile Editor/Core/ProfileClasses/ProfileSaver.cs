@@ -34,7 +34,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 SaveEntry.StashPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
                 SaveEntry.StashScav => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
                 SaveEntry.Hideout => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_zones")})",
-                SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
+                SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts_unlock")})",
+                SaveEntry.HideoutStartedCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
                 SaveEntry.Bonuses => AppData.AppLocalization.GetLocalizedString("tab_stash_additional_lines"),
                 _ => entry.ToString(),
             };
@@ -72,6 +73,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Hideout,
             UserBuilds,
             HideoutCrafts,
+            HideoutStartedCrafts,
             Bonuses
         }
 
@@ -98,6 +100,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteQuests(pmc);
             WriteHideout(pmc, profile.Characters.Pmc.Inventory, out string newStash);
             WriteHideoutCrafts(pmc);
+            WriteHideoutStartedCrafts(pmc);
             WriteSkills(profile.Characters.Pmc.Skills.Common, pmc, "Common", SaveEntry.CommonSkillsPmc);
             WriteSkills(profile.Characters.Scav.Skills.Common, scav, "Common", SaveEntry.CommonSkillsScav);
             WriteSkills(profile.Characters.Pmc.Skills.Mastering, pmc, "Mastering", SaveEntry.MasteringSkillsPmc);
@@ -489,6 +492,37 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 pmc.SelectToken("UnlockedInfo")["unlockedProductionRecipe"].Replace(JToken.FromObject(crafts));
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutCrafts, ex)); }
+        }
+
+        private void WriteHideoutStartedCrafts(JToken pmc)
+        {
+            try
+            {
+                var forSave = profile.Characters.Pmc.Hideout?.Production;
+                if (forSave != null && forSave.Count != 0)
+                {
+                    JToken productionToken = pmc.SelectToken("Hideout").SelectToken("Production");
+                    if (productionToken == null)
+                        return;
+                    foreach (var startedCraft in forSave?.Values)
+                    {
+                        var production = productionToken[startedCraft.RecipeId];
+                        if (production == null)
+                            continue;
+                        production["Progress"] = startedCraft.Progress;
+                        production["StartTimestamp"] = startedCraft.StartTimestamp;
+                    }
+                    var existCrafts = productionToken.ToObject<Dictionary<string, object>>()?.Keys;
+                    var forRemove = existCrafts.Except(forSave.Keys);
+                    productionToken.RemoveFields(forRemove);
+                }
+                else
+                {
+                    var emptyDict = new Dictionary<string, object>();
+                    pmc.SelectToken("Hideout").SelectToken("Production").Replace(JToken.FromObject(emptyDict));
+                }
+            }
+            catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutStartedCrafts, ex)); }
         }
 
         private void WriteUserBuilds(JObject jobject)

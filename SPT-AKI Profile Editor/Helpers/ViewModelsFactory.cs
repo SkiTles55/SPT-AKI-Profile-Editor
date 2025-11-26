@@ -21,7 +21,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public QuestsTabViewModel QuestsTab { get; } = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
 
-        public HideoutTabViewModel HideoutTab { get; } = new();
+        public HideoutTabViewModel HideoutTab { get; } = new(dialogManager);
 
         public CommonSkillsTabViewModel SkillsTab { get; } = new(dialogManager, reloadCommand, faqCommand, worker, helperModManager);
 

@@ -263,6 +263,17 @@
     "checkbox_dont_ask_again": "Больше не спрашивать",
     "server_select_help": "Нужна помощь?",
     "fast_mode_apply_and_save": "Применить и сохранить профиль",
-    "fast_mode_apply_without_save": "Применить без сохранения"
+    "fast_mode_apply_without_save": "Применить без сохранения",
+    "tab_hideout_crafts_unlock": "Разблокировка крафтов",
+    "tab_hideout_craft_status": "Статус",
+    "tab_hideout_craft_status_finished": "Завершена",
+    "tab_hideout_craft_status_in_progress": "В процессе",
+    "tab_hideout_craft_set_finished": "Завершить",
+    "tab_hideout_complete_all_crafts": "Завершить все",
+    "remove_started_craft_title": "Удаление крафта",
+    "remove_started_craft_caption": "Вы действительно хотите удалить этот крафт?",
+    "remove_started_crafts_title": "Удаление крафтов",
+    "remove_started_crafts_caption": "Вы действительно хотите удалить все крафты?",
+    "experimental_section": "Этот раздел работает в экспериментальном режиме и может привести к повреждениям профиля. В случае возникновения проблем вы можете сообщить об этом разработчику создав баг репорт в Discord или GitHub"
   }
 }
