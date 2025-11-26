@@ -22,7 +22,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Id = id;
             TraderBase = traderBase;
             MaxLevel = Math.Max(TraderBase?.LoyaltyLevels.Count ?? 0, TraderStanding.LoyaltyLevel);
-            LoadBitmapImage();
+            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(Id.Nickname(), out string localizedName))
+                LocalizedName = localizedName;
+            else
+                LocalizedName = traderBase?.Nickname ?? Id;
+                LoadBitmapImage();
         }
 
         public string Id { get; }
@@ -31,8 +35,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public TraderBase TraderBase { get; }
         public BitmapImage BitmapImage { get; private set; }
 
-        public string LocalizedName
-            => AppData.ServerDatabase.LocalesGlobal.ContainsKey(Id.Nickname()) ? AppData.ServerDatabase.LocalesGlobal[Id.Nickname()] : Id;
+        public string LocalizedName { get; }
 
         public int LoyaltyLevel
         {

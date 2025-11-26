@@ -160,7 +160,7 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             if (merchantIds != null && AppData.ServerDatabase?.LocalesGlobal != null)
                 AddModdedEntity(merchantIds,
-                                x => !AppData.ServerDatabase.LocalesGlobal.ContainsKey(x.Nickname()),
+                                x => !AppData.ServerDatabase.TraderInfos.ContainsKey(x),
                                 x => x,
                                 ModdedEntityType.Merchant,
                                 compositeCollection);
