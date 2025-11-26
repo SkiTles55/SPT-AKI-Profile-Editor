@@ -355,9 +355,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadAchievements()
         {
             ServerDatabase.Achievements = [];
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("Achievements.json")
-                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.achievements]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.achievements]);
             try
             {
                 List<Achievement> Achievements = JsonConvert.DeserializeObject<List<Achievement>>(File.ReadAllText(path));
