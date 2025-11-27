@@ -496,6 +496,9 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => string.IsNullOrEmpty(x.Side)),
                         Is.False,
                         "AllAchievements has item with bad Side");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => string.IsNullOrEmpty(x.Rarity)),
+                        Is.False,
+                        "AllAchievements has item with bad Rarity");
         }
 
         [Test]

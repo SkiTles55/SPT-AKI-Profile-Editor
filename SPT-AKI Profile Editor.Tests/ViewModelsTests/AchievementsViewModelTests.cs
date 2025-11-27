@@ -20,7 +20,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanReceiveAllAchievements()
         {
-            PrepareProfileWithUnreceivedAchievements();
+            PrepareProfileWithAchievements();
             AchievementsViewModel.ReceiveAllCommand.Execute(null);
             Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.All(x => x.IsReceived),
                         Is.True, "All achievements should be received");
@@ -29,7 +29,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         [Test]
         public void CanReceiveAllPropertyReturnsTrueWhenThereAreUnreceivedAchievements()
         {
-            PrepareProfileWithUnreceivedAchievements();
+            PrepareProfileWithAchievements();
             AchievementsViewModel viewModel = new();
             viewModel.ApplyFilter();
             Assert.That(viewModel.CanReceiveAll, Is.True,
@@ -87,27 +87,6 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                         "Achievements count should decrease after applying filter");
         }
 
-        private static void PrepareProfileWithUnreceivedAchievements()
-        {
-            TestHelpers.LoadDatabaseAndProfile();
-
-            // Добавляем несколько неполученных достижений
-            if (AppData.Profile.Characters.Pmc.AllAchievements.Count == 0)
-            {
-                Dictionary<string, long> achievements = [];
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_1", achievements, null, "all"));
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "all"));
-            }
-            else
-            {
-                // Убеждаемся, что есть хотя бы одно неполученное достижение
-                foreach (var achievement in AppData.Profile.Characters.Pmc.AllAchievements)
-                {
-                    achievement.IsReceived = false;
-                }
-            }
-        }
-
         private static void PrepareProfileWithAllAchievementsReceived()
         {
             PrepareProfileWithAchievements();
@@ -124,10 +103,14 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             if (AppData.Profile.Characters.Pmc.AllAchievements.Count == 0)
             {
                 Dictionary<string, long> achievements = [];
-                achievements.Add("test_achievement_2", 456897897446);
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_1", achievements, null, "all"));
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "all"));
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_3", achievements, null, "all"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_1", achievements, null, "all", "none"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "all", "none"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_3", achievements, null, "all", "none"));
+            }
+
+            foreach (var achievement in AppData.Profile.Characters.Pmc.AllAchievements)
+            {
+                achievement.IsReceived = false;
             }
         }
     }

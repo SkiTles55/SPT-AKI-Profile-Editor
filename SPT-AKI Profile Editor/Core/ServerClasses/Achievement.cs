@@ -12,5 +12,8 @@ namespace SPT_AKI_Profile_Editor.Core.ServerClasses
 
         [JsonProperty("side")]
         public string Side { get; set; }
+
+        [JsonProperty("rarity")]
+        public string Rarity { get; set; }
     }
 }

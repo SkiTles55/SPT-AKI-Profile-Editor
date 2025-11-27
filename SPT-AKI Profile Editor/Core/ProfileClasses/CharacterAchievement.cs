@@ -15,10 +15,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public CharacterAchievement(string id,
                                     Dictionary<string, long> achievements,
                                     string imageUrl,
-                                    string side)
+                                    string side,
+                                    string rarity)
         {
             Id = id;
             Side = side;
+            Rarity = rarity;
 
             if (achievements.TryGetValue(id, out long timestamp))
             {
@@ -59,6 +61,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public string Side { get; }
+
+        public string Rarity { get; }
 
         public bool IsReceived
         {
