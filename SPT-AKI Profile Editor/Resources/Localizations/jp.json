@@ -274,6 +274,11 @@
     "remove_started_craft_caption": "このクラフトを削除してもよろしいですか？",
     "remove_started_crafts_title": "クラフトの一括削除",
     "remove_started_crafts_caption": "全てのクラフトを削除してもよろしいですか？",
-    "experimental_section": "このセクションは実験的な機能であり、プロファイルの損傷を引き起こす可能性があります。問題が発生した場合は、DiscordまたはGitHubで開発者にバグレポートを作成して報告してください。"
+    "experimental_section": "このセクションは実験的な機能であり、プロファイルの損傷を引き起こす可能性があります。問題が発生した場合は、DiscordまたはGitHubで開発者にバグレポートを作成して報告してください。",
+    "dir_achievementImages_description": "実績画像フォルダ",
+    "file_achievements_description": "主要な実績設定ファイル",
+    "tab_achievements_title": "実績",
+    "tab_achievements_achievement": "実績",
+    "tab_achievements_receive_all": "全て獲得"
   }
 }

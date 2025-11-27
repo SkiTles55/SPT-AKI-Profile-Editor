@@ -274,6 +274,11 @@
     "remove_started_craft_caption": "您确定要移除此制作项目吗？",
     "remove_started_crafts_title": "移除所有制作",
     "remove_started_crafts_caption": "您确定要移除所有制作项目吗？",
-    "experimental_section": "此部分为实验性功能，可能会导致存档损坏。如遇问题，您可以在 Discord 或 GitHub 上提交错误报告给开发者。"
+    "experimental_section": "此部分为实验性功能，可能会导致存档损坏。如遇问题，您可以在 Discord 或 GitHub 上提交错误报告给开发者。",
+    "dir_achievementImages_description": "成就图片文件夹",
+    "file_achievements_description": "主要成就设置文件",
+    "tab_achievements_title": "成就",
+    "tab_achievements_achievement": "成就",
+    "tab_achievements_receive_all": "获取全部"
   }
 }
