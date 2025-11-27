@@ -331,7 +331,6 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.ServerDatabase.Achievements, Is.Not.Null, "Achievements is null");
             Assert.That(AppData.ServerDatabase.Achievements, Is.Not.Empty, "Achievements empty");
             Assert.That(AppData.ServerDatabase.Achievements.Any(x => string.IsNullOrEmpty(x.Id)), Is.False, "Achievements have items with incorrect Id");
-            Assert.That(AppData.ServerDatabase.Achievements.Any(x => string.IsNullOrEmpty(x.Side)), Is.False, "Achievements have items with incorrect Side");
             Assert.That(AppData.ServerDatabase.Achievements.Any(x => string.IsNullOrEmpty(x.Rarity)), Is.False, "Achievements have items with incorrect Rarity");
         }
 

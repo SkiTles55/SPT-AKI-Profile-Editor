@@ -103,9 +103,9 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             if (AppData.Profile.Characters.Pmc.AllAchievements.Count == 0)
             {
                 Dictionary<string, long> achievements = [];
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_1", achievements, null, "all", "none"));
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "all", "none"));
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_3", achievements, null, "all", "none"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_1", achievements, null, "none"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "none"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_3", achievements, null, "none"));
             }
 
             foreach (var achievement in AppData.Profile.Characters.Pmc.AllAchievements)

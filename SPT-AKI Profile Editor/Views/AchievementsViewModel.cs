@@ -10,6 +10,7 @@ namespace SPT_AKI_Profile_Editor.Views
     {
         private ObservableCollection<CharacterAchievement> achievements = [];
         private string achievementFilter;
+        private string rarityFilter;
 
         public static RelayCommand ReceiveAllCommand => new(obj => Profile.Characters?.Pmc?.ReceiveAllAchievements());
 
@@ -37,18 +38,35 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public string RarityFilter
+        {
+            get => rarityFilter;
+            set
+            {
+                rarityFilter = value;
+                OnPropertyChanged(nameof(RarityFilter));
+                ApplyFilter();
+            }
+        }
+
         public override void ApplyFilter()
         {
             ObservableCollection<CharacterAchievement> filteredItems;
-
             if (Profile?.Characters?.Pmc?.AllAchievements == null || Profile.Characters.Pmc.AllAchievements.Count == 0)
                 filteredItems = [];
-            else if (string.IsNullOrEmpty(AchievementFilter))
-                filteredItems = new(Profile.Characters.Pmc.AllAchievements);
             else
-                filteredItems = new(Profile.Characters.Pmc.AllAchievements.Where(x => x.LocalizedName.Contains(AchievementFilter, StringComparison.CurrentCultureIgnoreCase)));
-
+            {
+                var values = Profile.Characters.Pmc.AllAchievements;
+                if (string.IsNullOrEmpty(AchievementFilter) && string.IsNullOrEmpty(RarityFilter))
+                    filteredItems = new(values);
+                else
+                    filteredItems = new(values.Where(x => CanShow(AchievementFilter, x.LocalizedName, RarityFilter, x.Rarity)));
+            }
             Achievements = filteredItems;
         }
+
+        private static bool CanShow(string achievementFilter, string achievementName, string rarityFilter, string rarityName)
+            => (string.IsNullOrEmpty(achievementFilter) || achievementName.Contains(achievementFilter, StringComparison.CurrentCultureIgnoreCase))
+            && (string.IsNullOrEmpty(rarityFilter) || rarityName.Contains(rarityFilter, StringComparison.CurrentCultureIgnoreCase));
     }
 }

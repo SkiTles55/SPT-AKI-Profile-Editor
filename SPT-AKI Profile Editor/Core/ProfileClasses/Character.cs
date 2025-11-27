@@ -395,7 +395,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public void SetupCharacterAchievements()
         {
             allAchievements = [.. AppData.ServerDatabase?.Achievements
-                .Select(x => new CharacterAchievement(x.Id, Achievements, x.ImageUrl, x.Side, x.Rarity))];
+                .Select(x => new CharacterAchievement(x.Id, Achievements, x.ImageUrl, x.Rarity))];
             OnPropertyChanged(nameof(AllAchievements));
         }
 

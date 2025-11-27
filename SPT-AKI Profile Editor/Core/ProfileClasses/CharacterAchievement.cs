@@ -15,11 +15,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public CharacterAchievement(string id,
                                     Dictionary<string, long> achievements,
                                     string imageUrl,
-                                    string side,
                                     string rarity)
         {
             Id = id;
-            Side = side;
             Rarity = rarity;
 
             if (achievements.TryGetValue(id, out long timestamp))
@@ -59,8 +57,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 OnPropertyChanged(nameof(BitmapImage));
             }
         }
-
-        public string Side { get; }
 
         public string Rarity { get; }
 
