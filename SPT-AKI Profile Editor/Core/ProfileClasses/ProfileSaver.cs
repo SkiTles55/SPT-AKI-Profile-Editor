@@ -37,6 +37,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts_unlock")})",
                 SaveEntry.HideoutStartedCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
                 SaveEntry.Bonuses => AppData.AppLocalization.GetLocalizedString("tab_stash_additional_lines"),
+                SaveEntry.Achievements => AppData.AppLocalization.GetLocalizedString("tab_achievements_title"),
                 _ => entry.ToString(),
             };
     }
@@ -74,7 +75,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             UserBuilds,
             HideoutCrafts,
             HideoutStartedCrafts,
-            Bonuses
+            Bonuses,
+            Achievements
         }
 
         private static JsonSerializerSettings SeriSettings => new()
@@ -111,6 +113,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash, SaveEntry.StashPmc);
             WriteStash(scav, profile.Characters.Scav.Inventory, null, SaveEntry.StashScav);
             WriteUserBuilds(jobject);
+            WriteAchievements(pmc);
             if (!exceptions.HaveAllErrors())
             {
                 string json = SerializeProfile(jobject);
@@ -542,6 +545,18 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 jobject.SelectToken("userbuilds")["magazineBuilds"] = magazineBulds;
             }
             catch (Exception ex) { exceptions.Add(new(SaveEntry.UserBuilds, ex)); }
+        }
+
+        private void WriteAchievements(JToken pmc)
+        {
+            try
+            {
+                Dictionary<string, long> achievements = profile.Characters.Pmc.AllAchievements
+                    .Where(x => x.IsReceived)
+                    .ToDictionary(x => x.Id, x => x.Timestamp);
+                pmc.SelectToken("Achievements").Replace(JToken.FromObject(achievements));
+            }
+            catch (Exception ex) { exceptions.Add(new(SaveEntry.Achievements, ex)); }
         }
     }
 
