@@ -279,6 +279,7 @@
     "file_achievements_description": "Файл с основными настройками достижений",
     "tab_achievements_title": "Достижения",
     "tab_achievements_achievement": "Достижение",
-    "tab_achievements_receive_all":  "Получить все"
+    "tab_achievements_receive_all": "Получить все",
+    "tab_achievements_rarity":  "Редкость"
   }
 }

@@ -279,6 +279,7 @@
     "file_achievements_description": "主要成就设置文件",
     "tab_achievements_title": "成就",
     "tab_achievements_achievement": "成就",
-    "tab_achievements_receive_all": "获取全部"
+    "tab_achievements_receive_all": "获取全部",
+    "tab_achievements_rarity": "稀有度"
   }
 }

@@ -279,6 +279,7 @@
     "file_achievements_description": "File with main achievement settings",
     "tab_achievements_title": "Achievements",
     "tab_achievements_achievement": "Achievement",
-    "tab_achievements_receive_all": "Receive all"
+    "tab_achievements_receive_all": "Receive all",
+    "tab_achievements_rarity": "Rarity"
   }
 }

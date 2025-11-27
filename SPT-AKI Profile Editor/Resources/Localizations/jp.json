@@ -279,6 +279,7 @@
     "file_achievements_description": "主要な実績設定ファイル",
     "tab_achievements_title": "実績",
     "tab_achievements_achievement": "実績",
-    "tab_achievements_receive_all": "全て獲得"
+    "tab_achievements_receive_all": "全て獲得",
+    "tab_achievements_rarity": "レア度"
   }
 }

@@ -100,7 +100,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="*"
-                    Header="Rarity"
+                    Header="{Binding Data.AppLocalization.Translations[tab_achievements_rarity], FallbackValue=tab_achievements_rarity, Source={StaticResource proxy}}"
                     SortMemberPath="Rarity">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
