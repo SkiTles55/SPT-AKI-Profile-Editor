@@ -39,7 +39,7 @@
         <ScrollViewer Grid.Row="0">
             <Grid Margin="10,5,5,5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="40" />
@@ -48,6 +48,8 @@
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -92,12 +94,17 @@
                     Style="{StaticResource GroupBorder}" />
                 <Border
                     Grid.Row="10"
-                    Grid.RowSpan="2"
+                    Grid.RowSpan="3"
                     Grid.Column="1"
                     Grid.ColumnSpan="6"
                     Style="{StaticResource GroupBorder}" />
                 <Border
-                    Grid.Row="12"
+                    Grid.Row="13"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="6"
+                    Style="{StaticResource GroupBorder}" />
+                <Border
+                    Grid.Row="14"
                     Grid.Column="1"
                     Grid.ColumnSpan="6"
                     Style="{StaticResource GroupBorder}" />
@@ -514,6 +521,26 @@
                     IsChecked="{Binding PmcMerchants}" />
                 <Label
                     Grid.Row="12"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="8,5,5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_hideout_crafts_unlock], FallbackValue=tab_hideout_crafts_unlock}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
+                <mah:ToggleSwitch
+                    Grid.Row="12"
+                    Grid.Column="4"
+                    Margin="12,10,5,5"
+                    IsEnabled="{Binding PmcMerchants}"
+                    IsOn="{Binding UnlockAllCrafts}"
+                    OffContent="{Binding AppLocalization.Translations[button_no]}"
+                    OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+                <Label
+                    Grid.Row="13"
                     Grid.Column="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -523,7 +550,7 @@
                     </Label.Content>
                 </Label>
                 <Label
-                    Grid.Row="12"
+                    Grid.Row="13"
                     Grid.Column="1"
                     Grid.ColumnSpan="3"
                     Margin="8,5,5,5"
@@ -535,10 +562,39 @@
                     </Label.Content>
                 </Label>
                 <mah:ToggleSwitch
-                    Grid.Row="12"
+                    Grid.Row="13"
                     Grid.Column="4"
                     Margin="12,10,5,10"
                     IsOn="{Binding SetHideoutMax}"
+                    OffContent="{Binding AppLocalization.Translations[button_no]}"
+                    OnContent="{Binding AppLocalization.Translations[button_yes]}" />
+                <Label
+                    Grid.Row="14"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_achievements_title], FallbackValue=tab_achievements_title}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
+                <Label
+                    Grid.Row="14"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="8,5,5,5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold">
+                    <Label.Content>
+                        <TextBlock Text="{Binding AppLocalization.Translations[tab_achievements_receive_all], FallbackValue=tab_achievements_receive_all}" TextWrapping="Wrap" />
+                    </Label.Content>
+                </Label>
+                <mah:ToggleSwitch
+                    Grid.Row="14"
+                    Grid.Column="4"
+                    Margin="12,10,5,10"
+                    IsOn="{Binding ReceiveAllAchievements}"
                     OffContent="{Binding AppLocalization.Translations[button_no]}"
                     OnContent="{Binding AppLocalization.Translations[button_yes]}" />
                 <Label

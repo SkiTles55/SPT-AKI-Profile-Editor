@@ -61,6 +61,20 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
+        public void CanFilterAchievementsByRarity()
+        {
+            PrepareProfileWithAchievements();
+            AchievementsViewModel viewModel = new()
+            {
+                RarityFilter = "Legendary"
+            };
+            viewModel.ApplyFilter();
+            var filteredAchievements = viewModel.Achievements;
+            Assert.That(filteredAchievements.All(x => x.Rarity.Contains("Legendary", System.StringComparison.CurrentCultureIgnoreCase)),
+                        Is.True, "All filtered achievements should contain the filter text");
+        }
+
+        [Test]
         public void CanClearFilter()
         {
             PrepareProfileWithAchievements();
@@ -104,7 +118,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             {
                 Dictionary<string, long> achievements = [];
                 AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_1", achievements, null, "none"));
-                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "none"));
+                AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_2", achievements, null, "Legendary"));
                 AppData.Profile.Characters.Pmc.AllAchievements.Add(new CharacterAchievement("test_achievement_3", achievements, null, "none"));
             }
 

@@ -80,6 +80,10 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public bool SetHideoutMax { get; set; } = true;
 
+        public bool UnlockAllCrafts { get; set; } = true;
+
+        public bool ReceiveAllAchievements { get; set; } = true;
+
         public float SetAllPmcSkillsValue
         {
             get => setAllPmcSkillsValue;
@@ -255,6 +259,10 @@ namespace SPT_AKI_Profile_Editor.Views
             }
             if (SetHideoutMax)
                 Profile.Characters.Pmc.SetAllHideoutAreasMax();
+            if (UnlockAllCrafts)
+                Profile.Characters.Pmc.AddAllCrafts();
+            if (ReceiveAllAchievements)
+                Profile.Characters.Pmc.ReceiveAllAchievements();
             if (PmcCommonSkills)
                 Profile.Characters.Pmc.SetAllCommonSkills(SetAllPmcSkillsValue);
             if (ScavCommonSkills)

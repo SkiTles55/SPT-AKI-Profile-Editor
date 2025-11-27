@@ -23,6 +23,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(viewModel.SetMerchantsMax, Is.True);
             Assert.That(viewModel.SetAllQuestsValue, Is.EqualTo(QuestStatus.Success));
             Assert.That(viewModel.SetHideoutMax, Is.True);
+            Assert.That(viewModel.UnlockAllCrafts, Is.True);
+            Assert.That(viewModel.ReceiveAllAchievements, Is.True);
             Assert.That(viewModel.SetAllPmcSkillsValue, Is.EqualTo(0f));
             Assert.That(viewModel.SetAllScavSkillsValue, Is.EqualTo(0f));
             Assert.That(viewModel.SetAllPmcMasteringsValue, Is.EqualTo(0f));
