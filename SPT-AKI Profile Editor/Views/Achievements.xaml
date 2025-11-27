@@ -70,18 +70,25 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <DockPanel>
-                                <!--<extendedcontrols:IconWithBackground
-                                    Width="30"
-                                    Height="30"
+                                <extendedcontrols:IconWithBackground
+                                    MaxWidth="40"
                                     Margin="2"
                                     Source="{Binding BitmapImage}"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />-->
-                                <TextBlock
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(extendedcontrols:IconWithBackground.Source), Converter={StaticResource NullToVisibilityConverter}}" />
+                                <StackPanel
                                     Margin="2,0,0,0"
                                     VerticalAlignment="Center"
-                                    DockPanel.Dock="Right"
-                                    Text="{Binding LocalizedName}"
-                                    TextWrapping="Wrap" />
+                                    DockPanel.Dock="Right">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Text="{Binding LocalizedName}"
+                                        TextWrapping="Wrap" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Text="{Binding LocalizedDescription}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

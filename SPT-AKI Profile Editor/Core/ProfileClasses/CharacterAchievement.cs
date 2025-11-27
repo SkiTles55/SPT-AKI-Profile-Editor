@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -10,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public class CharacterAchievement : BindableEntity
     {
         private bool isReceived;
+        private BitmapImage bitmapImage;
 
         public CharacterAchievement(string id,
                                     Dictionary<string, long> achievements,
@@ -19,7 +21,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Id = id;
             Side = side;
 
-            if (achievements.TryGetValue(id, out long timestamp)) {
+            if (achievements.TryGetValue(id, out long timestamp))
+            {
                 Timestamp = timestamp;
                 isReceived = true;
             }
@@ -29,28 +32,33 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 isReceived = false;
             }
 
-                var imagePath = Path.Combine(AppData.AppSettings.ServerPath,
-                    AppData.AppSettings.DirsList[SPTServerDir.achievementImages],
-                    Path.GetFileNameWithoutExtension(imageUrl) + ".png");
+            LoadImage(imageUrl);
 
-            if (File.Exists(imagePath))
-            {
-                try
-                {
-                    BitmapImage = new BitmapImage(new Uri(imagePath));
-                }
-                catch { }
-            }
-
-            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.QuestName(), out var localizedName))
+            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.NameLowercased(), out var localizedName))
                 LocalizedName = localizedName;
             else
                 LocalizedName = id;
+
+            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.DescriptionLowercased(), out var localizedDescription))
+                LocalizedDescription = localizedDescription;
+            else
+                LocalizedName = "";
         }
 
         public string Id { get; }
+
         public long Timestamp { get; }
-        public BitmapImage BitmapImage { get; }
+
+        public BitmapImage BitmapImage
+        {
+            get => bitmapImage;
+            set
+            {
+                bitmapImage = value;
+                OnPropertyChanged(nameof(BitmapImage));
+            }
+        }
+
         public string Side { get; }
 
         public bool IsReceived
@@ -64,5 +72,24 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         public string LocalizedName { get; }
+
+        public string LocalizedDescription { get; }
+
+        private void LoadImage(string imageUrl)
+        {
+            var imagePath = Path.Combine(AppData.AppSettings.ServerPath,
+                            AppData.AppSettings.DirsList[SPTServerDir.achievementImages],
+                            Path.GetFileNameWithoutExtension(imageUrl) + ".png");
+            if (!File.Exists(imagePath))
+                return;
+            try
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    BitmapImage = new BitmapImage(new Uri(imagePath));
+                });
+            }
+            catch { }
+        }
     }
 }

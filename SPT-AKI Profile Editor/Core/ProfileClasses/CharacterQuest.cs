@@ -65,7 +65,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         [JsonIgnore]
         public string LocalizedQuestName
-            => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestQid.QuestName()) ? AppData.ServerDatabase.LocalesGlobal[QuestQid.QuestName()] : QuestQid;
+            => AppData.ServerDatabase.LocalesGlobal.ContainsKey(QuestQid.NameLowercased()) ? AppData.ServerDatabase.LocalesGlobal[QuestQid.NameLowercased()] : QuestQid;
 
         [JsonIgnore]
         public QuestType Type

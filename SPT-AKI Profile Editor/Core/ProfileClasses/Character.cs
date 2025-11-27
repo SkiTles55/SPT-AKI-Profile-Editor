@@ -281,7 +281,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             {
                 quest.QuestQid = quest.Qid;
                 quest.Type = QuestType.Standart;
-                if (AppData.ServerDatabase.LocalesGlobal.ContainsKey(quest.Qid.QuestName()) || RepeatableQuests == null || RepeatableQuests.Length == 0)
+                if (AppData.ServerDatabase.LocalesGlobal.ContainsKey(quest.Qid.NameLowercased()) || RepeatableQuests == null || RepeatableQuests.Length == 0)
                 {
                     quest.QuestTrader = AppData.ServerDatabase.QuestsData.TryGetValue(quest.Qid, out QuestData value) ? value.TraderId : "unknown";
                     quest.QuestData = AppData.ServerDatabase.QuestsData.TryGetValue(quest.Qid, out QuestData value1) ? value1 : null;

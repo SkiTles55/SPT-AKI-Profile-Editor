@@ -8,6 +8,8 @@
 
         public static string Nickname(this string value) => $"{value} Nickname";
 
-        public static string QuestName(this string value) => $"{value} name";
+        public static string NameLowercased(this string value) => $"{value} name";
+
+        public static string DescriptionLowercased(this string value) => $"{value} description";
     }
 }
