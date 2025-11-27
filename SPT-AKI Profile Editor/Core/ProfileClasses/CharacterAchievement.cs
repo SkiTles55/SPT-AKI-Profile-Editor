@@ -18,7 +18,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                     string rarity)
         {
             Id = id;
-            Rarity = rarity;
+            var rarityLocalized = AppData.ServerDatabase.LocalesGlobal.TryGetValue($"Achievements/Tab/{rarity}Rarity", out string rarityName);
+            Rarity = rarityLocalized ? rarityName : rarity;
             isReceived = achievements.TryGetValue(id, out long timestamp);
             Timestamp = isReceived ? timestamp : DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             LoadImage(imageUrl);
