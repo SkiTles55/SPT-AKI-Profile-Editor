@@ -60,13 +60,17 @@ namespace SPT_AKI_Profile_Editor.Views
                 if (string.IsNullOrEmpty(AchievementFilter) && string.IsNullOrEmpty(RarityFilter))
                     filteredItems = new(values);
                 else
-                    filteredItems = new(values.Where(x => CanShow(AchievementFilter, x.LocalizedName, RarityFilter, x.Rarity)));
+                    filteredItems = new(values.Where(x => CanShow(AchievementFilter,
+                                                                  x.LocalizedName,
+                                                                  x.LocalizedDescription,
+                                                                  RarityFilter,
+                                                                  x.Rarity)));
             }
             Achievements = filteredItems;
         }
 
-        private static bool CanShow(string achievementFilter, string achievementName, string rarityFilter, string rarityName)
-            => (string.IsNullOrEmpty(achievementFilter) || achievementName.Contains(achievementFilter, StringComparison.CurrentCultureIgnoreCase))
+        private static bool CanShow(string achievementFilter, string achievementName, string achievementDescription, string rarityFilter, string rarityName)
+            => (string.IsNullOrEmpty(achievementFilter) || (achievementName + achievementDescription).Contains(achievementFilter, StringComparison.CurrentCultureIgnoreCase))
             && (string.IsNullOrEmpty(rarityFilter) || rarityName.Contains(rarityFilter, StringComparison.CurrentCultureIgnoreCase));
     }
 }
