@@ -16,30 +16,33 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
     public static class SaveEntryExtension
     {
         public static string LocalizedName(this SaveEntry entry)
-            => entry switch
+        {
+            var locale = AppData.AppLocalization;
+            return entry switch
             {
-                SaveEntry.UserBuilds => AppData.AppLocalization.GetLocalizedString("tab_presets_title"),
-                SaveEntry.Suits => AppData.AppLocalization.GetLocalizedString("tab_clothing_title"),
-                SaveEntry.Traders => AppData.AppLocalization.GetLocalizedString("tab_merchants_title"),
-                SaveEntry.Encyclopedia => AppData.AppLocalization.GetLocalizedString("tab_examined_items_title"),
-                SaveEntry.CharacterInfoPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_info_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
-                SaveEntry.CharacterInfoScav => $"{AppData.AppLocalization.GetLocalizedString("tab_info_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
-                SaveEntry.CharacterHealthPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_info_health")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
-                SaveEntry.CharacterHealthScav => $"{AppData.AppLocalization.GetLocalizedString("tab_info_health")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
-                SaveEntry.Quests => AppData.AppLocalization.GetLocalizedString("tab_quests_title"),
-                SaveEntry.CommonSkillsPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_skills_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
-                SaveEntry.CommonSkillsScav => $"{AppData.AppLocalization.GetLocalizedString("tab_skills_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
-                SaveEntry.MasteringSkillsPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_mastering_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
-                SaveEntry.MasteringSkillsScav => $"{AppData.AppLocalization.GetLocalizedString("tab_mastering_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
-                SaveEntry.StashPmc => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_pmc")})",
-                SaveEntry.StashScav => $"{AppData.AppLocalization.GetLocalizedString("tab_stash_title")} ({AppData.AppLocalization.GetLocalizedString("tab_info_scav")})",
-                SaveEntry.Hideout => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_zones")})",
-                SaveEntry.HideoutCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts_unlock")})",
-                SaveEntry.HideoutStartedCrafts => $"{AppData.AppLocalization.GetLocalizedString("tab_hideout_title")} ({AppData.AppLocalization.GetLocalizedString("tab_hideout_crafts")})",
-                SaveEntry.Bonuses => AppData.AppLocalization.GetLocalizedString("tab_stash_additional_lines"),
-                SaveEntry.Achievements => AppData.AppLocalization.GetLocalizedString("tab_achievements_title"),
+                SaveEntry.UserBuilds => locale.GetLocalizedString(LocalizationKeys.Tabs.Presets),
+                SaveEntry.Suits => locale.GetLocalizedString(LocalizationKeys.Tabs.Clothing),
+                SaveEntry.Traders => locale.GetLocalizedString(LocalizationKeys.Tabs.Merchants),
+                SaveEntry.Encyclopedia => locale.GetLocalizedString(LocalizationKeys.Tabs.ExaminedItems),
+                SaveEntry.CharacterInfoPmc => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Info)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Pmc)})",
+                SaveEntry.CharacterInfoScav => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Info)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Scav)})",
+                SaveEntry.CharacterHealthPmc => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Health)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Pmc)})",
+                SaveEntry.CharacterHealthScav => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Health)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Scav)})",
+                SaveEntry.Quests => locale.GetLocalizedString(LocalizationKeys.Tabs.Quests),
+                SaveEntry.CommonSkillsPmc => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Skills)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Pmc)})",
+                SaveEntry.CommonSkillsScav => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Skills)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Scav)})",
+                SaveEntry.MasteringSkillsPmc => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Mastering)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Pmc)})",
+                SaveEntry.MasteringSkillsScav => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Mastering)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Scav)})",
+                SaveEntry.StashPmc => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Stash)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Pmc)})",
+                SaveEntry.StashScav => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Stash)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.Scav)})",
+                SaveEntry.Hideout => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Hideout)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.HideoutZones)})",
+                SaveEntry.HideoutCrafts => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Hideout)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.HideoutCraftsUnlock)})",
+                SaveEntry.HideoutStartedCrafts => $"{locale.GetLocalizedString(LocalizationKeys.Tabs.Hideout)} ({locale.GetLocalizedString(LocalizationKeys.Tabs.HideoutCrafts)})",
+                SaveEntry.Bonuses => locale.GetLocalizedString(LocalizationKeys.Tabs.StashAdditionalLines),
+                SaveEntry.Achievements => locale.GetLocalizedString(LocalizationKeys.Tabs.Achievements),
                 _ => entry.ToString(),
             };
+        }
     }
 
     public static class IEnumerableExtension
@@ -53,8 +56,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
     public class ProfileSaver(Profile profile, AppSettings appSettings, ServerDatabase serverDatabase)
     {
-        private readonly List<SaveException> exceptions = [];
-
         public enum SaveEntry
         {
             Suits,
@@ -87,58 +88,142 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public List<SaveException> Save(string targetPath, string savePath = null)
         {
-            if (string.IsNullOrEmpty(savePath))
-                savePath = targetPath;
-            JObject jobject = JObject.Parse(File.ReadAllText(targetPath));
-            JToken pmc = jobject.SelectToken("characters")["pmc"];
-            JToken scav = jobject.SelectToken("characters")["scav"];
-            WriteCharacterInfo(pmc, profile.Characters.Pmc, SaveEntry.CharacterInfoPmc);
-            WriteCharacterInfo(scav, profile.Characters.Scav, SaveEntry.CharacterInfoScav);
-            WriteCharacterHealth(pmc, profile.Characters.Pmc.Health, SaveEntry.CharacterHealthPmc);
-            WriteCharacterHealth(scav, profile.Characters.Scav.Health, SaveEntry.CharacterHealthScav);
-            WriteEncyclopedia(pmc);
-            WriteTraders(pmc, profile.Characters.Pmc);
-            WriteTraders(scav, profile.Characters.Scav);
-            WriteQuests(pmc);
-            WriteHideout(pmc, profile.Characters.Pmc.Inventory, out string newStash);
-            WriteHideoutCrafts(pmc);
-            WriteHideoutStartedCrafts(pmc);
-            WriteSkills(profile.Characters.Pmc.Skills.Common, pmc, "Common", SaveEntry.CommonSkillsPmc);
-            WriteSkills(profile.Characters.Scav.Skills.Common, scav, "Common", SaveEntry.CommonSkillsScav);
-            WriteSkills(profile.Characters.Pmc.Skills.Mastering, pmc, "Mastering", SaveEntry.MasteringSkillsPmc);
-            WriteSkills(profile.Characters.Scav.Skills.Mastering, scav, "Mastering", SaveEntry.MasteringSkillsScav);
-            WriteSuits(jobject);
-            WriteStashBonus(pmc);
-            // Stash writing always must be after after writing hideout due to update stashes by hideout area stages
-            WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash, SaveEntry.StashPmc);
-            WriteStash(scav, profile.Characters.Scav.Inventory, null, SaveEntry.StashScav);
-            WriteUserBuilds(jobject);
-            WriteAchievements(pmc);
-            if (!exceptions.HaveAllErrors())
+            savePath ??= targetPath;
+            List<SaveException> exceptions = [];
+            var jobject = JObject.Parse(File.ReadAllText(targetPath));
+            var pmc = jobject.SelectToken(JsonPaths.Characters)[JsonPaths.Pmc];
+            var scav = jobject.SelectToken(JsonPaths.Characters)[JsonPaths.Scav];
+            string newStash = string.Empty;
+            var writeOperations = new (Action, SaveEntry)[]
             {
-                string json = SerializeProfile(jobject);
-                File.WriteAllText(savePath, json);
+                (() => WriteCharacterInfo(pmc, profile.Characters.Pmc), SaveEntry.CharacterInfoPmc),
+                (() => WriteCharacterInfo(scav, profile.Characters.Scav), SaveEntry.CharacterInfoScav),
+                (() => WriteCharacterHealth(pmc, profile.Characters.Pmc.Health), SaveEntry.CharacterHealthPmc),
+                (() => WriteCharacterHealth(scav, profile.Characters.Scav.Health), SaveEntry.CharacterHealthScav),
+                (() => WriteEncyclopedia(pmc), SaveEntry.Encyclopedia),
+                (() => WriteTraders(pmc, profile.Characters.Pmc), SaveEntry.Traders),
+                (() => WriteTraders(scav, profile.Characters.Scav), SaveEntry.Traders),
+                (() => WriteQuests(pmc), SaveEntry.Quests),
+                (() => WriteHideout(pmc, profile.Characters.Pmc.Inventory, out newStash), SaveEntry.Hideout),
+                (() => WriteHideoutCrafts(pmc), SaveEntry.HideoutCrafts),
+                (() => WriteHideoutStartedCrafts(pmc), SaveEntry.HideoutStartedCrafts),
+                (() => WriteSkills(profile.Characters.Pmc.Skills.Common, pmc, SkillTypes.Common), SaveEntry.CommonSkillsPmc),
+                (() => WriteSkills(profile.Characters.Scav.Skills.Common, scav, SkillTypes.Common), SaveEntry.CommonSkillsScav),
+                (() => WriteSkills(profile.Characters.Pmc.Skills.Mastering, pmc, SkillTypes.Mastering), SaveEntry.MasteringSkillsPmc),
+                (() => WriteSkills(profile.Characters.Scav.Skills.Mastering, scav, SkillTypes.Mastering), SaveEntry.MasteringSkillsScav),
+                (() => WriteSuits(jobject), SaveEntry.Suits),
+                (() => WriteStashBonus(pmc), SaveEntry.Bonuses),
+                // Stash writing always must be after after writing hideout due to update stashes by hideout area stages
+                (() => WriteStash(pmc, profile.Characters.Pmc.Inventory, newStash), SaveEntry.StashPmc),
+                (() => WriteStash(scav, profile.Characters.Scav.Inventory, null), SaveEntry.StashScav),
+                (() => WriteUserBuilds(jobject), SaveEntry.UserBuilds),
+                (() => WriteAchievements(pmc), SaveEntry.Achievements)
+            };
+            foreach (var (operation, entry) in writeOperations)
+            {
+                try { operation(); }
+                catch (Exception ex) { exceptions.Add(new(entry, ex)); }
             }
+            if (!exceptions.HaveAllErrors())
+                File.WriteAllText(savePath, SerializeProfile(jobject));
             return exceptions;
         }
 
         private static string SerializeProfile(JObject profileObject)
         {
-            JsonSerializer jsonSerializer = JsonSerializer.CreateDefault(SeriSettings);
+            var jsonSerializer = JsonSerializer.CreateDefault(SeriSettings);
             jsonSerializer.Formatting = Formatting.Indented;
-
-            StringBuilder sb = new(256);
-            StringWriter sw = new(sb, CultureInfo.InvariantCulture);
-            using (JsonTextWriter jsonWriter = new(sw))
+            var sb = new StringBuilder(256);
+            var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            using (var jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = jsonSerializer.Formatting;
                 jsonWriter.IndentChar = '\t';
                 jsonWriter.Indentation = 1;
-
                 jsonSerializer.Serialize(jsonWriter, profileObject);
             }
-
             return sw.ToString();
+        }
+
+        private static void WriteCharacterInfo(JToken character, Character profileCharacter)
+        {
+            var infoToken = character.SelectToken(JsonPaths.Info);
+            infoToken[CharacterProperties.Nickname] = profileCharacter.Info.Nickname;
+            infoToken[CharacterProperties.Level] = profileCharacter.Info.Level;
+            infoToken[CharacterProperties.Experience] = profileCharacter.Info.Experience;
+            character.SelectToken(JsonPaths.Customization)[CharacterProperties.Head] = profileCharacter.Customization.Head;
+            character.SelectToken(JsonPaths.Customization)[CharacterProperties.Voice] = profileCharacter.Customization.Voice;
+            if (!profileCharacter.IsScav)
+            {
+                infoToken[CharacterProperties.LowerNickname] = profileCharacter.Info.Nickname.ToLower();
+                infoToken[CharacterProperties.Side] = profileCharacter.Info.Side;
+            }
+        }
+
+        private static void WriteCharacterHealth(JToken character, CharacterHealth characterHealth)
+        {
+            var healthToken = character.SelectToken(JsonPaths.Health);
+            var bodyParts = new[] {
+                    (BodyParts.Head, characterHealth.BodyParts.Head),
+                    (BodyParts.Chest, characterHealth.BodyParts.Chest),
+                    (BodyParts.Stomach, characterHealth.BodyParts.Stomach),
+                    (BodyParts.LeftArm, characterHealth.BodyParts.LeftArm),
+                    (BodyParts.RightArm, characterHealth.BodyParts.RightArm),
+                    (BodyParts.LeftLeg, characterHealth.BodyParts.LeftLeg),
+                    (BodyParts.RightLeg, characterHealth.BodyParts.RightLeg)
+                };
+            healthToken[HealthProperties.Energy][HealthProperties.Current] = (int)characterHealth.Energy.Current;
+            healthToken[HealthProperties.Energy][HealthProperties.Maximum] = (int)characterHealth.Energy.Maximum;
+            healthToken[HealthProperties.Hydration][HealthProperties.Current] = (int)characterHealth.Hydration.Current;
+            healthToken[HealthProperties.Hydration][HealthProperties.Maximum] = (int)characterHealth.Hydration.Maximum;
+            foreach (var (partName, bodyPart) in bodyParts)
+            {
+                healthToken[JsonPaths.BodyParts][partName][JsonPaths.Health][HealthProperties.Current] = (int)bodyPart.Health.Current;
+                healthToken[JsonPaths.BodyParts][partName][JsonPaths.Health][HealthProperties.Maximum] = (int)bodyPart.Health.Maximum;
+            }
+        }
+
+        private static void WriteSkills(CharacterSkill[] skills, JToken character, string skillType)
+        {
+            var skillsToken = character.SelectToken(JsonPaths.Skills).SelectToken(skillType);
+            var existingSkills = skillsToken.ToObject<CharacterSkill[]>();
+            if (existingSkills.Length == 0)
+            {
+                skillsToken.Replace(JToken.FromObject(skills));
+                return;
+            }
+            for (int i = 0; i < existingSkills.Length; i++)
+            {
+                var skillToken = skillsToken[i];
+                var existingSkill = existingSkills[i];
+                var editedSkill = skills.FirstOrDefault(x => x.Id == existingSkill.Id);
+
+                if (editedSkill != null && editedSkill.Progress != existingSkill.Progress)
+                    skillToken[SkillProperties.Progress] = editedSkill.Progress;
+            }
+            foreach (var newSkill in skills.Where(x => !existingSkills.Any(y => y.Id == x.Id)))
+                skillsToken.Last().AddAfterSelf(JObject.FromObject(newSkill));
+        }
+
+        private static void WriteStash(JToken characterToken, CharacterInventory inventory, string newStash)
+        {
+            var inventoryToken = characterToken.SelectToken(JsonPaths.Inventory);
+            var itemsToken = inventoryToken?.SelectToken(JsonPaths.Items);
+            var existingItems = itemsToken.ToObject<InventoryItem[]>().ToList();
+            existingItems.RemoveAll(existingItem =>
+            {
+                var currentItem = inventory.Items.FirstOrDefault(x => x.Id == existingItem.Id);
+                if (currentItem == null)
+                    return true;
+                if (!string.IsNullOrEmpty(newStash) && existingItem.Id == inventory.Stash)
+                    existingItem.Tpl = newStash;
+                if (existingItem.IsPockets)
+                    existingItem.Tpl = inventory.Pockets;
+                return false;
+            });
+            existingItems.AddRange(inventory.Items.Where(x => !existingItems.Any(y => y.Id == x.Id)));
+            itemsToken.Replace(JToken.FromObject(existingItems));
+            inventoryToken.SelectToken(JsonPaths.HideoutAreaStashes).Replace(JToken.FromObject(inventory.HideoutAreaStashes));
         }
 
         private void UpdateStashForHideoutArea(HideoutAreaInfo hideoutAreaInfo, string type, int level, CharacterInventory inventory)
@@ -146,12 +231,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             if (hideoutAreaInfo == null)
                 return;
             var areaInfoObject = JObject.Parse(hideoutAreaInfo.Stages[level.ToString()].ToString());
-            var areaStageContainer = areaInfoObject.SelectToken("container").ToObject<string>();
+            var areaStageContainer = areaInfoObject.SelectToken(JsonPaths.Container).ToObject<string>();
             if (!string.IsNullOrEmpty(areaStageContainer))
             {
                 var inventoryItemsList = inventory.Items.ToList();
                 inventory.HideoutAreaStashes[type] = hideoutAreaInfo.Id;
                 var inventoryItem = inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaInfo.Id);
+
                 if (inventoryItem != null)
                     inventoryItem.Tpl = areaStageContainer;
                 else
@@ -159,6 +245,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
                 if (type == appSettings.HideoutAreaEquipmentPresetsType.ToString() && serverDatabase.ItemsDB.ContainsKey(areaStageContainer))
                     AddMissingPresetStandItems(areaStageContainer, inventoryItemsList, hideoutAreaInfo.Id, inventory.Pockets);
+
                 inventory.Items = [.. inventoryItemsList];
             }
             else
@@ -176,24 +263,25 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
             void AddItem(string id, string tpl, string parentId, string slotId)
             {
-                InventoryItem newItem = new()
+                inventoryItemsList.Add(new InventoryItem
                 {
                     Id = id,
                     Tpl = tpl,
                     ParentId = parentId,
                     SlotId = slotId
-                };
-                inventoryItemsList.Add(newItem);
+                });
             }
 
             foreach (var mannequinSlot in slots)
             {
-                if (inventoryItemsList.FirstOrDefault(x => x.ParentId == areaId && x.SlotId == mannequinSlot.Name) != null)
+                if (inventoryItemsList.Any(x => x.ParentId == areaId && x.SlotId == mannequinSlot.Name))
                     continue;
-                List<string> iDs = [.. inventoryItemsList.Select(x => x.Id)];
-                string newId = ExtMethods.GenerateNewId(iDs);
+
+                var iDs = inventoryItemsList.Select(x => x.Id).ToList();
+                var newId = ExtMethods.GenerateNewId(iDs);
                 AddItem(newId, appSettings.MannequinInventoryTpl, areaId, mannequinSlot.Name);
                 iDs.Add(newId);
+
                 // Add pocket child item
                 AddItem(ExtMethods.GenerateNewId(iDs), pocketsTpl, newId, appSettings.PocketsSlotId);
             }
@@ -201,362 +289,355 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private void WriteSuits(JObject jobject)
         {
-            try { jobject.SelectToken("customisationUnlocks").Replace(JToken.FromObject(profile.CustomisationUnlocks.ToArray())); }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Suits, ex)); }
+            jobject.SelectToken(JsonPaths.CustomisationUnlocks).Replace(JToken.FromObject(profile.CustomisationUnlocks.ToArray()));
         }
 
         private void WriteTraders(JToken token, Character character)
         {
-            try
+            var tradersToken = token.SelectToken(JsonPaths.TradersInfo);
+            var tradersIdsForRemove = profile.ModdedEntitiesForRemoving
+                .Where(x => x.Type == ModdedEntityType.Merchant)
+                .Select(x => x.Id);
+            if (tradersIdsForRemove.Any())
+                tradersToken.RemoveFields(tradersIdsForRemove);
+            foreach (var trader in character.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
             {
-                JToken TradersInfo = token.SelectToken("TradersInfo");
-                var tradersIdsForRemove = profile.ModdedEntitiesForRemoving
-                    .Where(x => x.Type == ModdedEntityType.Merchant)
-                    .Select(x => x.Id);
-                if (tradersIdsForRemove.Any())
-                    TradersInfo.RemoveFields(tradersIdsForRemove);
-                foreach (var trader in character.TraderStandings.Where(x => !tradersIdsForRemove.Contains(x.Key)))
-                {
-                    JToken traderToken = TradersInfo.SelectToken($"['{trader.Key}']");
-                    var traderInfo = character.TraderStandings[trader.Key];
-                    traderToken["loyaltyLevel"] = traderInfo.LoyaltyLevel;
-                    traderToken["salesSum"] = traderInfo.SalesSum;
-                    traderToken["standing"] = Math.Round(traderInfo.Standing, 2);
-                    traderToken["unlocked"] = traderInfo.Unlocked;
-                }
-                token.SelectToken("RagfairInfo")["rating"] = Math.Round(character.RagfairInfo.Rating, 2);
+                var traderToken = tradersToken.SelectToken($"['{trader.Key}']");
+                var traderInfo = trader.Value;
+                traderToken[TraderProperties.LoyaltyLevel] = traderInfo.LoyaltyLevel;
+                traderToken[TraderProperties.SalesSum] = traderInfo.SalesSum;
+                traderToken[TraderProperties.Standing] = Math.Round(traderInfo.Standing, 2);
+                traderToken[TraderProperties.Unlocked] = traderInfo.Unlocked;
             }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Traders, ex)); }
+            token.SelectToken(JsonPaths.RagfairInfo)[TraderProperties.Rating] = Math.Round(character.RagfairInfo.Rating, 2);
         }
 
         private void WriteEncyclopedia(JToken pmc)
         {
-            try { pmc.SelectToken("Encyclopedia").Replace(JToken.FromObject(profile.Characters.Pmc.Encyclopedia)); }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Encyclopedia, ex)); }
-        }
-
-        private void WriteCharacterInfo(JToken character, Character profileCharacter, SaveEntry entry)
-        {
-            try
-            {
-                JToken infoToken = character.SelectToken("Info");
-                infoToken["Nickname"] = profileCharacter.Info.Nickname;
-                infoToken["Level"] = profileCharacter.Info.Level;
-                infoToken["Experience"] = profileCharacter.Info.Experience;
-                character.SelectToken("Customization")["Head"] = profileCharacter.Customization.Head;
-                character.SelectToken("Customization")["Voice"] = profileCharacter.Customization.Voice;
-
-                if (!profileCharacter.IsScav)
-                {
-                    infoToken["LowerNickname"] = profileCharacter.Info.Nickname.ToLower();
-                    infoToken["Side"] = profileCharacter.Info.Side;
-                }
-            }
-            catch (Exception ex) { exceptions.Add(new(entry, ex)); }
-        }
-
-        private void WriteCharacterHealth(JToken character, CharacterHealth characterHealth, SaveEntry entry)
-        {
-            try
-            {
-                JToken healthToken = character.SelectToken("Health");
-                healthToken["Energy"]["Current"] = (int)characterHealth.Energy.Current;
-                healthToken["Energy"]["Maximum"] = (int)characterHealth.Energy.Maximum;
-                healthToken["Hydration"]["Current"] = (int)characterHealth.Hydration.Current;
-                healthToken["Hydration"]["Maximum"] = (int)characterHealth.Hydration.Maximum;
-                healthToken["BodyParts"]["Head"]["Health"]["Current"] = (int)characterHealth.BodyParts.Head.Health.Current;
-                healthToken["BodyParts"]["Head"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.Head.Health.Maximum;
-                healthToken["BodyParts"]["Chest"]["Health"]["Current"] = (int)characterHealth.BodyParts.Chest.Health.Current;
-                healthToken["BodyParts"]["Chest"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.Chest.Health.Maximum;
-                healthToken["BodyParts"]["Stomach"]["Health"]["Current"] = (int)characterHealth.BodyParts.Stomach.Health.Current;
-                healthToken["BodyParts"]["Stomach"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.Stomach.Health.Maximum;
-                healthToken["BodyParts"]["LeftArm"]["Health"]["Current"] = (int)characterHealth.BodyParts.LeftArm.Health.Current;
-                healthToken["BodyParts"]["LeftArm"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.LeftArm.Health.Maximum;
-                healthToken["BodyParts"]["RightArm"]["Health"]["Current"] = (int)characterHealth.BodyParts.RightArm.Health.Current;
-                healthToken["BodyParts"]["RightArm"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.RightArm.Health.Maximum;
-                healthToken["BodyParts"]["LeftLeg"]["Health"]["Current"] = (int)characterHealth.BodyParts.LeftLeg.Health.Current;
-                healthToken["BodyParts"]["LeftLeg"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.LeftLeg.Health.Maximum;
-                healthToken["BodyParts"]["RightLeg"]["Health"]["Current"] = (int)characterHealth.BodyParts.RightLeg.Health.Current;
-                healthToken["BodyParts"]["RightLeg"]["Health"]["Maximum"] = (int)characterHealth.BodyParts.RightLeg.Health.Maximum;
-            }
-            catch (Exception ex) { exceptions.Add(new(entry, ex)); }
+            pmc.SelectToken(JsonPaths.Encyclopedia).Replace(JToken.FromObject(profile.Characters.Pmc.Encyclopedia));
         }
 
         private void WriteQuests(JToken pmc)
         {
-            try
+            JToken questsToken = pmc.SelectToken(JsonPaths.Quests);
+            List<JToken> questsForRemove = [];
+            var questsObject = questsToken.ToObject<CharacterQuest[]>();
+            if (questsObject.Length != 0)
             {
-                JToken questsToken = pmc.SelectToken("Quests");
-                List<JToken> questsForRemove = [];
-
-                var questsObject = questsToken.ToObject<CharacterQuest[]>();
-                if (questsObject.Length != 0)
+                for (int index = 0; index < questsObject.Length; ++index)
                 {
-                    for (int index = 0; index < questsObject.Length; ++index)
+                    JToken questToken = questsToken[index];
+                    var quest = questToken.ToObject<CharacterQuest>();
+
+                    var edited = profile.Characters.Pmc.Quests.FirstOrDefault(x => x.Qid == quest.Qid);
+                    if (edited != null)
                     {
-                        JToken questToken = questsToken[index];
-                        var quest = questToken.ToObject<CharacterQuest>();
-
-                        var edited = profile.Characters.Pmc.Quests.Where(x => x.Qid == quest.Qid).FirstOrDefault();
-                        if (edited != null)
+                        if (quest != null && quest.Status != edited.Status)
                         {
-                            if (quest != null && quest.Status != edited.Status)
-                            {
-                                questToken["status"] = edited.Status.ToString();
-                                questToken["startTime"] = edited.StartTime;
-                                questToken["statusTimers"] = JObject.FromObject(edited.StatusTimers);
-                                if (edited.Status <= QuestStatus.AvailableForStart && questToken["completedConditions"] != null)
-                                    questToken["completedConditions"]?.Replace(JToken.FromObject(Array.Empty<string>()));
-                            }
-                        }
-                        else
-                            questsForRemove.Add(questToken);
-                    }
-
-                    foreach (var token in questsForRemove)
-                        token.Remove();
-
-                    foreach (var quest in profile.Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
-                    {
-                        var lastQuestToken = questsToken.LastOrDefault();
-                        if (lastQuestToken != null)
-                            lastQuestToken.AddAfterSelf(JObject.FromObject(quest));
-                        else
-                        {
-                            questsToken.Replace(JToken.FromObject(new CharacterQuest[] { quest }));
-                            questsToken = pmc.SelectToken("Quests");
+                            questToken[QuestProperties.Status] = edited.Status.ToString();
+                            questToken[QuestProperties.StartTime] = edited.StartTime;
+                            questToken[QuestProperties.StatusTimers] = JObject.FromObject(edited.StatusTimers);
+                            if (edited.Status <= QuestStatus.AvailableForStart && questToken[QuestProperties.CompletedConditions] != null)
+                                questToken[QuestProperties.CompletedConditions]?.Replace(JToken.FromObject(Array.Empty<string>()));
                         }
                     }
+                    else
+                        questsForRemove.Add(questToken);
                 }
-                else
-                    questsToken.Replace(JToken.FromObject(profile.Characters.Pmc.Quests));
-            }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Quests, ex)); }
-        }
-
-        private void WriteSkills(CharacterSkill[] skills, JToken character, string type, SaveEntry entry)
-        {
-            try
-            {
-                JToken skillsToken = character.SelectToken("Skills").SelectToken(type);
-                var skillsObject = skillsToken.ToObject<CharacterSkill[]>();
-                if (skillsObject.Length > 0)
+                foreach (var token in questsForRemove)
+                    token.Remove();
+                foreach (var quest in profile.Characters.Pmc.Quests.Where(x => !questsObject.Any(y => y.Qid == x.Qid)))
                 {
-                    for (int index = 0; index < skillsObject.Length; ++index)
+                    var lastQuestToken = questsToken.LastOrDefault();
+                    if (lastQuestToken != null)
+                        lastQuestToken.AddAfterSelf(JObject.FromObject(quest));
+                    else
                     {
-                        JToken skillToken = skillsToken[index];
-                        var probe = skillToken?.ToObject<CharacterSkill>();
-                        var edited = skills.Where(x => x.Id == probe.Id).FirstOrDefault();
-                        if (edited != null && probe != null && edited.Progress != probe.Progress)
-                            skillToken["Progress"] = edited.Progress;
+                        questsToken.Replace(JToken.FromObject(new CharacterQuest[] { quest }));
+                        questsToken = pmc.SelectToken(JsonPaths.Quests);
                     }
-                    foreach (var skill in skills.Where(x => !skillsObject.Any(y => y.Id == x.Id)))
-                        skillsToken.LastOrDefault().AddAfterSelf(JObject.FromObject(skill));
                 }
-                else
-                    skillsToken.Replace(JToken.FromObject(skills));
             }
-            catch (Exception ex) { exceptions.Add(new(entry, ex)); }
+            else
+                questsToken.Replace(JToken.FromObject(profile.Characters.Pmc.Quests));
         }
 
         private void WriteStashBonus(JToken pmc)
         {
-            try
-            {
-                JToken bonusesToken = pmc.SelectToken("Bonuses");
-                var bonusesObject = bonusesToken.ToObject<CharacterBonus[]>();
-                var isStashRowsBonusUpdate = profile.Characters.Pmc.StashRowsBonusCount > 0;
-                if (bonusesObject.Length > 0)
-                {
-                    var bonusEdited = false;
-                    JToken forRemove = null;
-                    for (int index = 0; index < bonusesObject.Length; ++index)
-                    {
-                        JToken bonusToken = bonusesToken[index];
-                        var probe = bonusToken?.ToObject<CharacterBonus>();
-                        if (probe != null && probe.Type == CharacterBonus.StashRowsType)
-                        {
-                            if (isStashRowsBonusUpdate)
-                            {
-                                bonusToken["value"] = profile.Characters.Pmc.StashRowsBonusCount;
-                                bonusEdited = true;
-                            }
-                            else
-                                forRemove = bonusToken;
-                            break;
-                        }
-                    }
-                    forRemove?.Remove();
-                    if (!bonusEdited && isStashRowsBonusUpdate)
-                    {
-                        var bonusToken = CharacterBonus.CreateStashRowsBonus(profile.Characters.Pmc.StashRowsBonusCount);
-                        pmc.SelectToken("Bonuses").LastOrDefault().AddAfterSelf(JObject.FromObject(bonusToken).RemoveNullAndEmptyProperties());
-                    }
-                }
-                else if (isStashRowsBonusUpdate)
-                    bonusesToken.Replace(JObject.FromObject(profile.Characters.Pmc.Bonuses).RemoveNullAndEmptyProperties());
-            }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Bonuses, ex)); }
-        }
+            var bonusesToken = pmc.SelectToken(JsonPaths.Bonuses);
+            var bonusesObject = bonusesToken.ToObject<CharacterBonus[]>();
+            var isStashRowsBonusUpdate = profile.Characters.Pmc.StashRowsBonusCount > 0;
 
-        private void WriteStash(JToken characterToken, CharacterInventory inventory, string newStash, SaveEntry entry)
-        {
-            try
+            if (bonusesObject.Length > 0)
             {
-                List<JToken> ForRemove = [];
-                var inventoryToken = characterToken.SelectToken("Inventory");
-                JToken itemsToken = inventoryToken?.SelectToken("items");
-                var itemsObject = itemsToken.ToObject<InventoryItem[]>();
-                if (itemsObject.Length > 0)
+                var bonusEdited = false;
+                JToken forRemove = null;
+                for (int index = 0; index < bonusesObject.Length; index++)
                 {
-                    for (int index = 0; index < itemsObject.Length; ++index)
+                    var bonusToken = bonusesToken[index];
+                    var probe = bonusToken?.ToObject<CharacterBonus>();
+                    if (probe != null && probe.Type == BonusTypes.StashRows)
                     {
-                        JToken itemToken = itemsToken[index];
-                        var probe = itemToken?.ToObject<InventoryItem>();
-                        if (probe == null)
-                            continue;
-                        if (!string.IsNullOrEmpty(newStash) && probe.Id == inventory.Stash && probe.Tpl != newStash)
-                            itemToken["_tpl"] = newStash;
-                        if (!inventory.Items.Any(x => x.Id == probe.Id))
-                            ForRemove.Add(itemToken);
-                        if (probe.IsPockets)
-                            itemToken["_tpl"] = inventory.Pockets;
+                        if (isStashRowsBonusUpdate)
+                        {
+                            bonusToken[BonusProperties.Value] = profile.Characters.Pmc.StashRowsBonusCount;
+                            bonusEdited = true;
+                        }
+                        else
+                            forRemove = bonusToken;
+                        break;
                     }
-                    foreach (var removedItem in ForRemove)
-                        removedItem.Remove();
-                    JsonSerializer serializer = JsonSerializer.Create(SeriSettings);
-                    foreach (var item in inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
-                        itemsToken?.LastOrDefault()?.AddAfterSelf(JObject.FromObject(item, serializer).RemoveNullAndEmptyProperties());
                 }
-                inventoryToken?.SelectToken("hideoutAreaStashes").Replace(JToken.FromObject(inventory.HideoutAreaStashes));
+                forRemove?.Remove();
+                if (!bonusEdited && isStashRowsBonusUpdate)
+                {
+                    var bonusToken = CharacterBonus.CreateStashRowsBonus(profile.Characters.Pmc.StashRowsBonusCount);
+                    pmc.SelectToken(JsonPaths.Bonuses).LastOrDefault().AddAfterSelf(JObject.FromObject(bonusToken).RemoveNullAndEmptyProperties());
+                }
             }
-            catch (Exception ex) { exceptions.Add(new(entry, ex)); }
+            else if (isStashRowsBonusUpdate)
+                bonusesToken.Replace(JObject.FromObject(profile.Characters.Pmc.Bonuses).RemoveNullAndEmptyProperties());
         }
 
         private void WriteHideout(JToken pmc, CharacterInventory inventory, out string newStash)
         {
             newStash = string.Empty;
-            try
+            var areasToken = pmc.SelectToken(JsonPaths.Hideout).SelectToken(JsonPaths.Areas);
+            var hideoutAreasObject = areasToken.ToObject<HideoutArea[]>();
+            for (int i = 0; i < hideoutAreasObject.Length; i++)
             {
-                JToken areasToken = pmc.SelectToken("Hideout").SelectToken("Areas");
-                var hideoutAreasObject = areasToken.ToObject<HideoutArea[]>();
-                for (int i = 0; i < hideoutAreasObject.Length; i++)
+                var areaToken = areasToken[i];
+                var probe = areaToken.ToObject<HideoutArea>();
+                var areaInfo = profile.Characters.Pmc.Hideout.Areas.FirstOrDefault(x => x.Type == probe.Type);
+                if (areaInfo == null)
+                    continue;
+                var areaDBInfo = serverDatabase.HideoutAreaInfos.FirstOrDefault(x => x.Type == probe.Type);
+                if (areaInfo.Level > 0 && areaInfo.Level > probe.Level)
                 {
-                    JToken areaToken = areasToken[i];
-                    var probe = areaToken.ToObject<HideoutArea>();
-                    var areaInfo = profile.Characters.Pmc.Hideout.Areas.Where(x => x.Type == probe.Type).FirstOrDefault();
-                    if (areaInfo == null)
-                        continue;
-                    var areaDBInfo = serverDatabase.HideoutAreaInfos
-                        .Where(x => x.Type == probe.Type)
-                        .FirstOrDefault();
-                    if (areaInfo.Level > 0 && areaInfo.Level > probe.Level)
+                    for (int l = probe.Level; l <= areaInfo.Level; l++)
                     {
-                        for (int l = probe.Level; l <= areaInfo.Level; l++)
+                        var areaBonuses = areaDBInfo.Stages[l.ToString()];
+                        if (areaBonuses == null)
+                            continue;
+                        var areaInfoObject = JObject.Parse(areaBonuses.ToString());
+                        var bonusesList = areaInfoObject.SelectToken(AreInfoProperties.Bonuses).ToObject<List<JToken>>();
+                        if (bonusesList == null || bonusesList.Count == 0)
+                            continue;
+                        foreach (var listItem in bonusesList)
                         {
-                            var areaBonuses = areaDBInfo.Stages[l.ToString()];
-                            if (areaBonuses == null)
+                            var bonus = listItem.ToObject<CharacterBonus>();
+                            if (bonus == null)
                                 continue;
-                            var areaInfoObject = JObject.Parse(areaBonuses.ToString());
-                            var BonusesList = areaInfoObject.SelectToken("bonuses").ToObject<List<JToken>>();
-                            if (BonusesList == null || BonusesList.Count == 0)
-                                continue;
-                            foreach (var listItem in BonusesList)
+                            switch (bonus.Type)
                             {
-                                var bonus = listItem.ToObject<CharacterBonus>();
-                                if (bonus == null)
-                                    continue;
-                                switch (bonus.Type)
-                                {
-                                    case "StashSize":
-                                        newStash = bonus.TemplateId;
-                                        break;
+                                case BonusTypes.StashSize:
+                                    newStash = bonus.TemplateId;
+                                    break;
 
-                                    case "MaximumEnergyReserve":
-                                        pmc.SelectToken("Health").SelectToken("Energy")["Maximum"] = Math.Max(110, profile.Characters.Pmc.Health.Energy.Maximum);
-                                        break;
-                                }
-                                pmc.SelectToken("Bonuses").LastOrDefault().AddAfterSelf(JObject.FromObject(listItem));
+                                case BonusTypes.MaximumEnergyReserve:
+                                    pmc.SelectToken(JsonPaths.Health).SelectToken(HealthProperties.Energy)[HealthProperties.Maximum] =
+                                        Math.Max(110, profile.Characters.Pmc.Health.Energy.Maximum);
+                                    break;
                             }
+                            pmc.SelectToken(JsonPaths.Bonuses).LastOrDefault().AddAfterSelf(JObject.FromObject(listItem));
                         }
                     }
-                    areaToken["level"] = areaInfo.Level;
-                    UpdateStashForHideoutArea(areaDBInfo, areaInfo.Type.ToString(), areaInfo.Level, inventory);
                 }
+                areaToken[HideoutProperties.Level] = areaInfo.Level;
+                UpdateStashForHideoutArea(areaDBInfo, areaInfo.Type.ToString(), areaInfo.Level, inventory);
             }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Hideout, ex)); }
         }
 
         private void WriteHideoutCrafts(JToken pmc)
         {
-            try
-            {
-                var crafts = profile.Characters.Pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray();
-                pmc.SelectToken("UnlockedInfo")["unlockedProductionRecipe"].Replace(JToken.FromObject(crafts));
-            }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutCrafts, ex)); }
+            var crafts = profile.Characters.Pmc.HideoutProductions.Where(x => x.Added).Select(x => x.Production.Id).ToArray();
+            pmc.SelectToken(JsonPaths.UnlockedInfo)[HideoutProperties.UnlockedProductionRecipe].Replace(JToken.FromObject(crafts));
         }
 
         private void WriteHideoutStartedCrafts(JToken pmc)
         {
-            try
+            var forSave = profile.Characters.Pmc.Hideout?.Production;
+            if (forSave != null && forSave.Count != 0)
             {
-                var forSave = profile.Characters.Pmc.Hideout?.Production;
-                if (forSave != null && forSave.Count != 0)
+                var productionToken = pmc.SelectToken(JsonPaths.Hideout).SelectToken(JsonPaths.Production);
+                if (productionToken == null)
+                    return;
+                foreach (var startedCraft in forSave.Values)
                 {
-                    JToken productionToken = pmc.SelectToken("Hideout").SelectToken("Production");
-                    if (productionToken == null)
-                        return;
-                    foreach (var startedCraft in forSave?.Values)
-                    {
-                        var production = productionToken[startedCraft.RecipeId];
-                        if (production == null)
-                            continue;
-                        production["Progress"] = startedCraft.Progress;
-                        production["StartTimestamp"] = startedCraft.StartTimestamp;
-                    }
-                    var existCrafts = productionToken.ToObject<Dictionary<string, object>>()?.Keys;
-                    var forRemove = existCrafts.Except(forSave.Keys);
-                    productionToken.RemoveFields(forRemove);
+                    var production = productionToken[startedCraft.RecipeId];
+                    if (production == null)
+                        continue;
+                    production[HideoutProperties.Progress] = startedCraft.Progress;
+                    production[HideoutProperties.StartTimestamp] = startedCraft.StartTimestamp;
                 }
-                else
-                {
-                    var emptyDict = new Dictionary<string, object>();
-                    pmc.SelectToken("Hideout").SelectToken("Production").Replace(JToken.FromObject(emptyDict));
-                }
+                var existCrafts = productionToken.ToObject<Dictionary<string, object>>()?.Keys;
+                var forRemove = existCrafts.Except(forSave.Keys);
+                productionToken.RemoveFields(forRemove);
             }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.HideoutStartedCrafts, ex)); }
+            else
+            {
+                var emptyDict = new Dictionary<string, object>();
+                pmc.SelectToken(JsonPaths.Hideout).SelectToken(JsonPaths.Production).Replace(JToken.FromObject(emptyDict));
+            }
         }
 
         private void WriteUserBuilds(JObject jobject)
         {
-            try
-            {
-                // Saving magazineBuilds for returning them back later
-                var magazineBulds = jobject.SelectToken("userbuilds")["magazineBuilds"];
-
-                profile.UserBuilds.RemoveParentsFromBuilds();
-                jobject.SelectToken("userbuilds").Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
-                if (profile.UserBuilds.WeaponBuilds?.Any() != true)
-                    jobject.SelectToken("userbuilds")["weaponBuilds"] = JToken.FromObject(Array.Empty<WeaponBuild>());
-                if (profile.UserBuilds.EquipmentBuilds?.Any() != true)
-                    jobject.SelectToken("userbuilds")["equipmentBuilds"] = JToken.FromObject(Array.Empty<EquipmentBuild>());
-                // Returning previous magazineBuilds
-                jobject.SelectToken("userbuilds")["magazineBuilds"] = magazineBulds;
-            }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.UserBuilds, ex)); }
+            var magazineBuilds = jobject.SelectToken(JsonPaths.Userbuilds)[JsonPaths.MagazineBuilds];
+            profile.UserBuilds.RemoveParentsFromBuilds();
+            jobject.SelectToken(JsonPaths.Userbuilds).Replace(JObject.FromObject(profile.UserBuilds).RemoveNullAndEmptyProperties());
+            if ((profile.UserBuilds.WeaponBuilds?.Count > 0) != true)
+                jobject.SelectToken(JsonPaths.Userbuilds)[JsonPaths.WeaponBuilds] = JToken.FromObject(Array.Empty<WeaponBuild>());
+            if ((profile.UserBuilds.EquipmentBuilds?.Count > 0) != true)
+                jobject.SelectToken(JsonPaths.Userbuilds)[JsonPaths.EquipmentBuilds] = JToken.FromObject(Array.Empty<EquipmentBuild>());
+            jobject.SelectToken(JsonPaths.Userbuilds)[JsonPaths.MagazineBuilds] = magazineBuilds;
         }
 
         private void WriteAchievements(JToken pmc)
         {
-            try
-            {
-                Dictionary<string, long> achievements = profile.Characters.Pmc.AllAchievements
+            var achievements = profile.Characters.Pmc.AllAchievements
                     .Where(x => x.IsReceived)
                     .ToDictionary(x => x.Id, x => x.Timestamp);
-                pmc.SelectToken("Achievements").Replace(JToken.FromObject(achievements));
+            pmc.SelectToken(JsonPaths.Achievements).Replace(JToken.FromObject(achievements));
+        }
+
+        internal static class LocalizationKeys
+        {
+            public static class Tabs
+            {
+                public const string Presets = "tab_presets_title";
+                public const string Clothing = "tab_clothing_title";
+                public const string Merchants = "tab_merchants_title";
+                public const string ExaminedItems = "tab_examined_items_title";
+                public const string Info = "tab_info_title";
+                public const string Pmc = "tab_info_pmc";
+                public const string Scav = "tab_info_scav";
+                public const string Health = "tab_info_health";
+                public const string Quests = "tab_quests_title";
+                public const string Skills = "tab_skills_title";
+                public const string Mastering = "tab_mastering_title";
+                public const string Stash = "tab_stash_title";
+                public const string Hideout = "tab_hideout_title";
+                public const string HideoutZones = "tab_hideout_zones";
+                public const string HideoutCraftsUnlock = "tab_hideout_crafts_unlock";
+                public const string HideoutCrafts = "tab_hideout_crafts";
+                public const string StashAdditionalLines = "tab_stash_additional_lines";
+                public const string Achievements = "tab_achievements_title";
             }
-            catch (Exception ex) { exceptions.Add(new(SaveEntry.Achievements, ex)); }
+        }
+
+        private static class JsonPaths
+        {
+            public const string Characters = "characters";
+            public const string Pmc = "pmc";
+            public const string Scav = "scav";
+            public const string CustomisationUnlocks = "customisationUnlocks";
+            public const string TradersInfo = "TradersInfo";
+            public const string RagfairInfo = "RagfairInfo";
+            public const string Encyclopedia = "Encyclopedia";
+            public const string Info = "Info";
+            public const string Customization = "Customization";
+            public const string Health = "Health";
+            public const string BodyParts = "BodyParts";
+            public const string Quests = "Quests";
+            public const string Skills = "Skills";
+            public const string Inventory = "Inventory";
+            public const string Items = "items";
+            public const string HideoutAreaStashes = "hideoutAreaStashes";
+            public const string Bonuses = "Bonuses";
+            public const string Hideout = "Hideout";
+            public const string Areas = "Areas";
+            public const string Production = "Production";
+            public const string UnlockedInfo = "UnlockedInfo";
+            public const string Userbuilds = "userbuilds";
+            public const string MagazineBuilds = "magazineBuilds";
+            public const string WeaponBuilds = "weaponBuilds";
+            public const string EquipmentBuilds = "equipmentBuilds";
+            public const string Achievements = "Achievements";
+            public const string Container = "container";
+        }
+
+        private static class CharacterProperties
+        {
+            public const string Nickname = "Nickname";
+            public const string LowerNickname = "LowerNickname";
+            public const string Level = "Level";
+            public const string Experience = "Experience";
+            public const string Side = "Side";
+            public const string Head = "Head";
+            public const string Voice = "Voice";
+        }
+
+        private static class HealthProperties
+        {
+            public const string Energy = "Energy";
+            public const string Hydration = "Hydration";
+            public const string Current = "Current";
+            public const string Maximum = "Maximum";
+        }
+
+        private static class BodyParts
+        {
+            public const string Head = "Head";
+            public const string Chest = "Chest";
+            public const string Stomach = "Stomach";
+            public const string LeftArm = "LeftArm";
+            public const string RightArm = "RightArm";
+            public const string LeftLeg = "LeftLeg";
+            public const string RightLeg = "RightLeg";
+        }
+
+        private static class TraderProperties
+        {
+            public const string LoyaltyLevel = "loyaltyLevel";
+            public const string SalesSum = "salesSum";
+            public const string Standing = "standing";
+            public const string Unlocked = "unlocked";
+            public const string Rating = "rating";
+        }
+
+        private static class SkillProperties
+        {
+            public const string Progress = "Progress";
+        }
+
+        private static class SkillTypes
+        {
+            public const string Common = "Common";
+            public const string Mastering = "Mastering";
+        }
+
+        private static class BonusTypes
+        {
+            public const string StashRows = "StashRows";
+            public const string StashSize = "StashSize";
+            public const string MaximumEnergyReserve = "MaximumEnergyReserve";
+        }
+
+        private static class BonusProperties
+        {
+            public const string Value = "value";
+        }
+
+        private static class AreInfoProperties
+        {
+            public const string Bonuses = "bonuses";
+        }
+
+        private static class HideoutProperties
+        {
+            public const string Level = "level";
+            public const string UnlockedProductionRecipe = "unlockedProductionRecipe";
+            public const string Progress = "Progress";
+            public const string StartTimestamp = "StartTimestamp";
+        }
+
+        private static class QuestProperties
+        {
+            public const string Status = "status";
+            public const string StartTime = "startTime";
+            public const string StatusTimers = "statusTimers";
+            public const string CompletedConditions = "completedConditions";
         }
     }
 
