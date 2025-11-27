@@ -63,7 +63,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             Profile profile = JsonConvert.DeserializeObject<Profile>(fileText);
             profile.Characters.Pmc.SetupHideoutProductions();
             profile.Characters.Pmc.SetupCharacterAchievements();
-            profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
+            profileHash = profile.CreateHashCode();
             if (profile.Characters?.Pmc?.Quests != null)
                 profile.Characters.Pmc.UpdateQuestsData();
             if (NeedToAddMissingScavCommonSkills())
@@ -122,6 +122,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             => new ProfileSaver(this, AppData.AppSettings, AppData.ServerDatabase).Save(targetPath, savePath);
 
         public bool IsProfileChanged()
-            => ProfileHash != 0 && ProfileHash != JsonConvert.SerializeObject(this).ToString().GetHashCode();
+            => ProfileHash != 0 && ProfileHash != CreateHashCode();
+
+        private int CreateHashCode()
+        {
+            return (JsonConvert.SerializeObject(this).ToString()
+                + JsonConvert.SerializeObject(Characters?.Pmc?.AllAchievements ?? []).ToString()).GetHashCode();
+        }
     }
 }
