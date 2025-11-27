@@ -19,29 +19,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             Id = id;
             Rarity = rarity;
-
-            if (achievements.TryGetValue(id, out long timestamp))
-            {
-                Timestamp = timestamp;
-                isReceived = true;
-            }
-            else
-            {
-                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                isReceived = false;
-            }
-
+            isReceived = achievements.TryGetValue(id, out long timestamp);
+            Timestamp = isReceived ? timestamp : DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             LoadImage(imageUrl);
-
-            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.NameLowercased(), out var localizedName))
-                LocalizedName = localizedName;
-            else
-                LocalizedName = id;
-
-            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.DescriptionLowercased(), out var localizedDescription))
-                LocalizedDescription = localizedDescription;
-            else
-                LocalizedName = "";
+            var nameLoclaized = AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.NameLowercased(), out string localizedName);
+            LocalizedName = nameLoclaized ? localizedName : id;
+            var descriptionLocalized =AppData.ServerDatabase.LocalesGlobal.TryGetValue(id.DescriptionLowercased(), out string localizedDescription);
+            LocalizedDescription = descriptionLocalized ? localizedDescription : "";
         }
 
         public string Id { get; }
