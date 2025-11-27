@@ -3,7 +3,6 @@ using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
@@ -80,14 +79,21 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             var imagePath = Path.Combine(AppData.AppSettings.ServerPath,
                             AppData.AppSettings.DirsList[SPTServerDir.achievementImages],
                             Path.GetFileNameWithoutExtension(imageUrl) + ".png");
+
             if (!File.Exists(imagePath))
                 return;
+
             try
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    BitmapImage = new BitmapImage(new Uri(imagePath));
-                });
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                bitmapImage.UriSource = new Uri(imagePath);
+                bitmapImage.EndInit();
+                if (bitmapImage.CanFreeze)
+                    bitmapImage.Freeze();
+                BitmapImage = bitmapImage;
             }
             catch { }
         }

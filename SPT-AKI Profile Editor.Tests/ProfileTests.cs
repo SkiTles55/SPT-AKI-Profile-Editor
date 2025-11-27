@@ -487,6 +487,15 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => x.Timestamp == 0),
                         Is.False,
                         "AllAchievements has item with bad Timestamp");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => x.LocalizedName == x.Id),
+                        Is.False,
+                        "AllAchievements has item with bad LocalizedName");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => x.LocalizedDescription == ""),
+                        Is.False,
+                        "AllAchievements has item with bad LocalizedDescription");
+            Assert.That(AppData.Profile.Characters.Pmc.AllAchievements.Any(x => string.IsNullOrEmpty(x.Side)),
+                        Is.False,
+                        "AllAchievements has item with bad Side");
         }
 
         [Test]
@@ -1251,6 +1260,16 @@ namespace SPT_AKI_Profile_Editor.Tests
             Assert.That(AppData.Profile.Characters.Pmc.Health.BodyParts.RightLeg.Health.Maximum,
                         Is.EqualTo(700),
                         "Health.BodyParts.RightLeg.Health.Maximum is not 700");
+        }
+
+        [Test]
+        public void AchievementsSavesCorrectly()
+        {
+            AppData.Profile.Load(TestHelpers.profileFile);
+            var startCount = AppData.Profile.Characters.Pmc.Achievements.Count;
+            AppData.Profile.Characters.Pmc.ReceiveAllAchievements();
+            TestHelpers.SaveAndLoadProfile("testAchievementst.json");
+            Assert.That(AppData.Profile.Characters.Pmc.Achievements.Count, Is.GreaterThan(startCount));
         }
 
         private static void SaveAndCheckStashBonuses(int expectedValue, string filename)
