@@ -10,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     internal class TestHelpers
     {
         public static readonly JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = [new StringEnumConverterExt()] };
-        public static readonly string profileFile = @"E:\SPT\SPT\user\profiles\6925679d84e2493be4c06da0.json";
+        public static readonly string profileFile = @"E:\SPT\SPT\user\profiles\692ab300864c24352c711a34.json";
         public static readonly string serverPath = @"E:\SPT";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");

@@ -20,7 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [アプリ不具合 \ 追加したい機能](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [バージョン 4.0 サーバー SPT 4.0.1 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0)
+### [バージョン 4.0.1 サーバー SPT 4.0.1 - 4.0.7 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0.1)
 ### [バージョン 3.3 サーバー SPT 3.11.2 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
 ### [バージョン 3.2.1 サーバー SPT 3.11.0 - 3.11.1 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
 ### [バージョン 3.1 サーバー SPT 3.10.5 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.1)
@@ -53,7 +53,8 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 * 自動的にプロファイルバックアップ
 
 ### アプリ実行環境:
-* [.NET 6.0 Desktop x64](https://dotnet.microsoft.com/ja-jp/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
+* [.NET 9.0 Desktop x64](https://dotnet.microsoft.com/ja-jp/download/dotnet/thank-you/runtime-desktop-9.0.11-windows-x64-installer)
+* [.NET 6.0 Desktop x64 (アプリバージョン 4.0.1 未満のみ)](https://dotnet.microsoft.com/ja-jp/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
 * .NET 5.0 (アプリケーション2.0まで使用)
 
 ### 古いバージョン:

@@ -20,7 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [Отправить баг репорт \ Предложить новую функцию](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Версия 4.0 для сервера SPT 4.0.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0)
+### [Версия 4.0.1 для сервера SPT 4.0.1 - 4.0.7](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0.1)
 ### [Версия 3.3 для сервера SPT 3.11.2](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
 ### [Версия 3.2.1 для сервера SPT 3.11.0 - 3.11.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
 ### [Версия 3.1 для сервера SPT 3.10.5](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.1)
@@ -53,7 +53,8 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 * Автоматические бэкапы при каждом сохранении профиля
 
 ### Требования:
-* [.NET 6.0 Desktop x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
+* [.NET 9.0 Desktop x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-9.0.11-windows-x64-installer)
+* [.NET 6.0 Desktop x64 (только для версии приложения ниже 4.0.1)](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
 * .NET 5.0 (только для версии приложения 2.0)
 
 ### Предыдущие версии:
