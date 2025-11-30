@@ -65,10 +65,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             profileHash = JsonConvert.SerializeObject(profile).ToString().GetHashCode();
             if (profile.Characters?.Pmc?.Quests != null)
                 profile.Characters.Pmc.UpdateQuestsData();
-            if (NeedToAddMissingScavCommonSkills())
-            {
-                profile.Characters.Scav.Skills.Common = [.. profile.Characters.Pmc.Skills.Common.Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })];
-            }
             if (NeedToAddMissingMasteringsSkills())
             {
                 AddMissingMasteringSkills(profile.Characters.Pmc.Skills);
@@ -106,11 +102,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                     ];
                 }
             }
-
-            bool NeedToAddMissingScavCommonSkills() => AppData.AppSettings.AutoAddMissingScavSkills
-                && profile.Characters?.Pmc?.Skills?.Common != null
-                && profile.Characters?.Scav?.Skills?.Common != null
-                && profile.Characters.Scav.Skills.Common.Length == 0;
 
             bool NeedToAddMissingMasteringsSkills() => AppData.AppSettings.AutoAddMissingMasterings
                 && profile.Characters?.Pmc?.Skills?.Mastering != null

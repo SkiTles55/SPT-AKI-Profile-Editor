@@ -223,7 +223,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -247,24 +246,10 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,5,0,0"
-                        Content="{Binding AppLocalization.Translations[tab_settings_auto_add_scav_skills], FallbackValue=tab_settings_auto_add_scav_skills}"
-                        Template="{StaticResource TitleLabel}" />
-                    <mah:ToggleSwitch
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="12,5,0,0"
-                        VerticalAlignment="Top"
-                        IsOn="{Binding AppSettings.AutoAddMissingScavSkills}"
-                        OffContent="{Binding AppLocalization.Translations[button_no], FallbackValue=button_no}"
-                        OnContent="{Binding AppLocalization.Translations[button_yes], FallbackValue=button_yes}" />
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_issues_action], FallbackValue=tab_settings_issues_action}"
                         Template="{StaticResource TitleLabel}" />
                     <ComboBox
-                        Grid.Row="2"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Margin="10,5,10,0"
                         VerticalAlignment="Top"

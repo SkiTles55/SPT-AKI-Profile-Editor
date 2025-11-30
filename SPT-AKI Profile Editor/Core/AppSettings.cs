@@ -66,7 +66,6 @@ namespace SPT_AKI_Profile_Editor.Core
         private string defaultProfile;
         private string language;
         private string colorScheme;
-        private bool autoAddMissingScavSkills;
         private bool autoAddMissingMasterings;
         private Dictionary<string, string> serverProfiles;
         private IssuesAction issuesAction;
@@ -152,16 +151,6 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 autoAddMissingMasterings = value;
                 NotifyPropertyChangedAndSave(nameof(AutoAddMissingMasterings));
-            }
-        }
-
-        public bool AutoAddMissingScavSkills
-        {
-            get => autoAddMissingScavSkills;
-            set
-            {
-                autoAddMissingScavSkills = value;
-                NotifyPropertyChangedAndSave(nameof(AutoAddMissingScavSkills));
             }
         }
 
@@ -355,7 +344,6 @@ namespace SPT_AKI_Profile_Editor.Core
             DirsList = loaded.DirsList;
             FilesList = loaded.FilesList;
             AutoAddMissingMasterings = loaded.AutoAddMissingMasterings;
-            AutoAddMissingScavSkills = loaded.AutoAddMissingScavSkills;
             PocketsContainerTpl = loaded.PocketsContainerTpl;
             FirstPrimaryWeaponSlotId = loaded.FirstPrimaryWeaponSlotId;
             HeadwearSlotId = loaded.HeadwearSlotId;
@@ -565,7 +553,6 @@ namespace SPT_AKI_Profile_Editor.Core
             CheckUpdates = DefaultValues.CheckUpdates;
             UsingModHelper = false;
             AutoAddMissingMasterings = false;
-            AutoAddMissingScavSkills = false;
             PocketsContainerTpl = DefaultValues.PocketsContainerTpl;
             CommonSkillMaxValue = DefaultValues.CommonSkillMaxValue;
             PocketsSlotId = DefaultValues.PocketsSlotId;
