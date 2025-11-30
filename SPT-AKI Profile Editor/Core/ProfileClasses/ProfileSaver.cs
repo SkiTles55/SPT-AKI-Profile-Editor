@@ -244,26 +244,27 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 return;
             var areaInfoObject = JObject.Parse(hideoutAreaInfo.Stages[level.ToString()].ToString());
             var areaStageContainer = areaInfoObject.SelectToken(JsonPaths.Container).ToObject<string>();
+            string newStashId = inventory.HideoutAreaStashes.TryGetValue(type, out string existStashId) ? existStashId : hideoutAreaInfo.Id;
             if (!string.IsNullOrEmpty(areaStageContainer))
             {
                 var inventoryItemsList = inventory.Items.ToList();
-                inventory.HideoutAreaStashes[type] = hideoutAreaInfo.Id;
-                var inventoryItem = inventory.Items.FirstOrDefault(x => x.Id == hideoutAreaInfo.Id);
+                inventory.HideoutAreaStashes[type] = newStashId;
+                var inventoryItem = inventory.Items.FirstOrDefault(x => x.Id == newStashId);
 
                 if (inventoryItem != null)
                     inventoryItem.Tpl = areaStageContainer;
                 else
-                    inventoryItemsList.Add(new InventoryItem() { Id = hideoutAreaInfo.Id, Tpl = areaStageContainer });
+                    inventoryItemsList.Add(new InventoryItem() { Id = newStashId, Tpl = areaStageContainer });
 
                 if (type == appSettings.HideoutAreaEquipmentPresetsType.ToString() && serverDatabase.ItemsDB.ContainsKey(areaStageContainer))
-                    AddMissingPresetStandItems(areaStageContainer, inventoryItemsList, hideoutAreaInfo.Id, inventory.Pockets);
+                    AddMissingPresetStandItems(areaStageContainer, inventoryItemsList, newStashId, inventory.Pockets);
 
                 inventory.Items = [.. inventoryItemsList];
             }
             else
             {
                 inventory.HideoutAreaStashes.Remove(type);
-                inventory.Items = [.. inventory.Items.Where(x => x.Id != hideoutAreaInfo.Id)];
+                inventory.Items = [.. inventory.Items.Where(x => x.Id != newStashId)];
             }
         }
 

@@ -478,11 +478,11 @@ namespace SPT_AKI_Profile_Editor.Tests
             AppData.AppSettings.AutoAddMissingMasterings = false;
             AppData.AppSettings.AutoAddMissingScavSkills = false;
             AppData.Profile.Load(TestHelpers.profileFile);
-            var expected = JsonConvert.DeserializeObject(File.ReadAllText(TestHelpers.profileFile));
+            var expected = JsonConvert.DeserializeObject(File.ReadAllText(TestHelpers.profileFile)).ToString();
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.json");
             AppData.Profile.Save(TestHelpers.profileFile, testFile);
-            var result = JsonConvert.DeserializeObject(File.ReadAllText(testFile));
-            Assert.That(result.ToString(), Is.EqualTo(expected.ToString()));
+            var result = JsonConvert.DeserializeObject(File.ReadAllText(testFile)).ToString();
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
