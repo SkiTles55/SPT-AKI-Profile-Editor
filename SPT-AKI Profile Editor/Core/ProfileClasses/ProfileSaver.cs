@@ -210,23 +210,32 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         private static void WriteStash(JToken characterToken, CharacterInventory inventory, string newStash)
         {
+            List<JToken> ForRemove = [];
             var inventoryToken = characterToken.SelectToken(JsonPaths.Inventory);
-            var itemsToken = inventoryToken?.SelectToken(JsonPaths.Items);
-            var existingItems = itemsToken.ToObject<InventoryItem[]>().ToList();
-            existingItems.RemoveAll(existingItem =>
+            JToken itemsToken = inventoryToken?.SelectToken(JsonPaths.Items);
+            var itemsObject = itemsToken.ToObject<InventoryItem[]>();
+            if (itemsObject.Length > 0)
             {
-                var currentItem = inventory.Items.FirstOrDefault(x => x.Id == existingItem.Id);
-                if (currentItem == null)
-                    return true;
-                if (!string.IsNullOrEmpty(newStash) && existingItem.Id == inventory.Stash)
-                    existingItem.Tpl = newStash;
-                if (existingItem.IsPockets)
-                    existingItem.Tpl = inventory.Pockets;
-                return false;
-            });
-            existingItems.AddRange(inventory.Items.Where(x => !existingItems.Any(y => y.Id == x.Id)));
-            itemsToken.Replace(JToken.FromObject(existingItems));
-            inventoryToken.SelectToken(JsonPaths.HideoutAreaStashes).Replace(JToken.FromObject(inventory.HideoutAreaStashes));
+                for (int index = 0; index < itemsObject.Length; ++index)
+                {
+                    JToken itemToken = itemsToken[index];
+                    var probe = itemToken?.ToObject<InventoryItem>();
+                    if (probe == null)
+                        continue;
+                    if (!string.IsNullOrEmpty(newStash) && probe.Id == inventory.Stash && probe.Tpl != newStash)
+                        itemToken[ItemProperties.tpl] = newStash;
+                    if (!inventory.Items.Any(x => x.Id == probe.Id))
+                        ForRemove.Add(itemToken);
+                    if (probe.IsPockets)
+                        itemToken[ItemProperties.tpl] = inventory.Pockets;
+                }
+                foreach (var removedItem in ForRemove)
+                    removedItem.Remove();
+                JsonSerializer serializer = JsonSerializer.Create(SeriSettings);
+                foreach (var item in inventory.Items.Where(x => !itemsObject.Any(y => y.Id == x.Id)))
+                    itemsToken?.LastOrDefault()?.AddAfterSelf(JObject.FromObject(item, serializer).RemoveNullAndEmptyProperties());
+            }
+            inventoryToken?.SelectToken(JsonPaths.HideoutAreaStashes).Replace(JToken.FromObject(inventory.HideoutAreaStashes));
         }
 
         private void UpdateStashForHideoutArea(HideoutAreaInfo hideoutAreaInfo, string type, int level, CharacterInventory inventory)
@@ -631,6 +640,11 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             public const string StartTime = "startTime";
             public const string StatusTimers = "statusTimers";
             public const string CompletedConditions = "completedConditions";
+        }
+
+        private static class ItemProperties
+        {
+            public const string tpl = "_tpl";
         }
     }
 
