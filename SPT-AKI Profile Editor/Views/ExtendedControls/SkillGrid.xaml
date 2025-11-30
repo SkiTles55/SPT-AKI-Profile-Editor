@@ -9,18 +9,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
     x:Name="Control"
+    d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:CommonSkillsTabViewModel}"
     d:Width="500"
     mc:Ignorable="d">
     <helpers:GridControl.Resources>
         <CollectionViewSource x:Key="items" Source="{Binding ElementName=Control, Path=ItemsSource}" />
+        <helpers:BooleanToVisibilityConverter
+            x:Key="BooleanToVisibilityConverter"
+            False="Collapsed"
+            True="Visible" />
     </helpers:GridControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <DataGrid
                 x:Name="skillsGrid"
@@ -108,8 +114,16 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Label
+            <Button
                 Grid.Row="1"
+                Margin="5,5"
+                Padding="15,0"
+                HorizontalAlignment="Center"
+                Command="{Binding ElementName=Control, Path=AddMissingItems}"
+                Content="{Binding ElementName=Control, Path=AddMissingItemsTitle, FallbackValue=AddMissingItemsTitle}"
+                Visibility="{Binding ElementName=Control, Path=HasMissingItems, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Label
+                Grid.Row="2"
                 Margin="5,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -119,7 +133,7 @@
                 </Label.Content>
             </Label>
             <StackPanel
-                Grid.Row="2"
+                Grid.Row="3"
                 Margin="10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">

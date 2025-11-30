@@ -5,6 +5,7 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -12,6 +13,11 @@
     d:Background="White"
     d:DataContext="{d:DesignInstance Type=views:MasteringTabViewModel}"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateModelBindingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <TabControl
         mah:TabControlHelper.Transition="Up"
         mah:TabControlHelper.Underlined="SelectedTabItem"

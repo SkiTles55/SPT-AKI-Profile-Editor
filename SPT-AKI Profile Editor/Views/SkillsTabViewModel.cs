@@ -7,10 +7,12 @@ namespace SPT_AKI_Profile_Editor.Views
         RelayCommand reloadCommand,
         RelayCommand faqCommand,
         IWorker worker,
-        IHelperModManager helperModManager) : BindableViewModel
+        IHelperModManager helperModManager) : PmcBindableViewModel
     {
         private float setAllPmcSkillsValue;
         private float setAllScavSkillsValue;
+        private bool hasMissingPmcSkills = false;
+        private bool hasMissingScavSkills = false;
 
         public virtual float MaxSkillsValue { get; }
 
@@ -43,5 +45,24 @@ namespace SPT_AKI_Profile_Editor.Views
                                                                        worker,
                                                                        helperModManager,
                                                                        1));
+
+        public bool HasMissingPmcSkills
+        {
+            get => hasMissingPmcSkills;
+            set
+            {
+                hasMissingPmcSkills = value;
+                OnPropertyChanged(nameof(HasMissingPmcSkills));
+            }
+        }
+
+        public bool HasMissingScavSkills {
+            get => hasMissingScavSkills;
+            set
+            {
+                hasMissingScavSkills = value;
+                OnPropertyChanged(nameof(HasMissingScavSkills));
+            }
+        }
     }
 }

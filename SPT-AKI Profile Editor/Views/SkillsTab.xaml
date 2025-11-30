@@ -5,6 +5,7 @@
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extendedcontrols="clr-namespace:SPT_AKI_Profile_Editor.Views.ExtendedControls"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:SPT_AKI_Profile_Editor.Views"
@@ -13,6 +14,11 @@
     d:DataContext="{d:DesignInstance Type=views:CommonSkillsTabViewModel}"
     d:Width="500"
     mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding UpdateModelBindingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <TabControl
         mah:TabControlHelper.Transition="Up"
         mah:TabControlHelper.Underlined="SelectedTabItem"
@@ -20,26 +26,32 @@
         TabStripPlacement="Right">
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_pmc], FallbackValue=tab_info_pmc}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:SkillGrid
+                AddMissingItems="{Binding AddMissingPmcSkills}"
+                AddMissingItemsTitle="{Binding AppLocalization.Translations[tab_skills_add_missing_skills], FallbackValue=tab_skills_add_missing_skills}"
                 FilterValue="{Binding GridFilters.SkillsTab.SkillNamePmcFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 FirstCollumnTitle="{Binding AppLocalization.Translations[tab_skills_skill]}"
+                HasMissingItems="{Binding HasMissingPmcSkills, FallbackValue=true}"
                 ItemsSource="{Binding Profile.Characters.Pmc.Skills.Common}"
                 MaxValue="{Binding MaxSkillsValue}"
                 SecondCollumnTitle="{Binding AppLocalization.Translations[tab_skills_exp]}"
-                SetAllButtonTitle="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}"
+                SetAllButtonTitle="{Binding AppLocalization.Translations[tab_quests_edit_all_button], FallbackValue=tab_quests_edit_all_button}"
                 SetAllCommand="{Binding SetAllPmsSkillsCommand}"
-                SetAllTitle="{Binding AppLocalization.Translations[tab_skills_set_all]}"
+                SetAllTitle="{Binding AppLocalization.Translations[tab_skills_set_all], FallbackValue=tab_skills_set_all}"
                 SetAllValue="{Binding SetAllPmcSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </TabItem>
         <TabItem Header="{Binding AppLocalization.Translations[tab_info_scav], FallbackValue=tab_info_scav}" HeaderTemplate="{StaticResource CharacterHeaderTemplate}">
             <extendedcontrols:SkillGrid
+                AddMissingItems="{Binding AddMissingScavSkills}"
+                AddMissingItemsTitle="{Binding AppLocalization.Translations[tab_skills_add_missing_skills], FallbackValue=tab_skills_add_missing_skills}"
                 FilterValue="{Binding GridFilters.SkillsTab.SkillNameScavFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 FirstCollumnTitle="{Binding AppLocalization.Translations[tab_skills_skill]}"
+                HasMissingItems="{Binding HasMissingScavSkills, FallbackValue=true}"
                 ItemsSource="{Binding Profile.Characters.Scav.Skills.Common}"
                 MaxValue="{Binding MaxSkillsValue}"
                 SecondCollumnTitle="{Binding AppLocalization.Translations[tab_skills_exp]}"
-                SetAllButtonTitle="{Binding AppLocalization.Translations[tab_quests_edit_all_button]}"
+                SetAllButtonTitle="{Binding AppLocalization.Translations[tab_quests_edit_all_button], FallbackValue=tab_quests_edit_all_button}"
                 SetAllCommand="{Binding SetAllScavSkillsCommand}"
-                SetAllTitle="{Binding AppLocalization.Translations[tab_skills_set_all]}"
+                SetAllTitle="{Binding AppLocalization.Translations[tab_skills_set_all], FallbackValue=tab_skills_set_all}"
                 SetAllValue="{Binding SetAllScavSkillsValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </TabItem>
     </TabControl>

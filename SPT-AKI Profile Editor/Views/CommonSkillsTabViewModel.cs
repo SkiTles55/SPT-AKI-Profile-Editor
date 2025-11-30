@@ -20,5 +20,23 @@ namespace SPT_AKI_Profile_Editor.Views
 
         public override RelayCommand SetAllScavSkillsCommand
             => new(obj => Profile.Characters.Scav.SetAllCommonSkills(SetAllScavSkillsValue));
+
+        public RelayCommand AddMissingPmcSkills => new(obj =>
+        {
+            Profile.Characters.Pmc.AddMissingSkills();
+            ApplyFilter();
+        });
+
+        public RelayCommand AddMissingScavSkills => new(obj =>
+        {
+            Profile.Characters.Scav.AddMissingSkills();
+            ApplyFilter();
+        });
+
+        public override void ApplyFilter()
+        {
+            HasMissingPmcSkills = Profile?.Characters?.Pmc?.Skills?.IsCommonSkillsEmpty ?? false;
+            HasMissingScavSkills = Profile?.Characters?.Scav?.Skills?.IsCommonSkillsEmpty ?? false;
+        }
     }
 }

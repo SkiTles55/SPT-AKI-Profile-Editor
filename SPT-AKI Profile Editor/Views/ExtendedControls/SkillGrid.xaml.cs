@@ -38,6 +38,15 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
         public static readonly DependencyProperty SetAllCommandProperty =
             DependencyProperty.Register(nameof(SetAllCommand), typeof(ICommand), typeof(SkillGrid), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty HasMissingItemsProperty =
+            DependencyProperty.Register(nameof(HasMissingItems), typeof(bool), typeof(SkillGrid), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty AddMissingItemsProperty =
+            DependencyProperty.Register(nameof(AddMissingItems), typeof(ICommand), typeof(SkillGrid), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty AddMissingItemsTitleProperty =
+            DependencyProperty.Register(nameof(AddMissingItemsTitle), typeof(string), typeof(SkillGrid), new PropertyMetadata(null));
+
         public SkillGrid()
         {
             InitializeComponent();
@@ -91,6 +100,24 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
             set { SetValue(SetAllCommandProperty, value); }
         }
 
+        public bool HasMissingItems
+        {
+            get { return (bool)GetValue(HasMissingItemsProperty); }
+            set { SetValue(HasMissingItemsProperty, value); }
+        }
+
+        public ICommand AddMissingItems
+        {
+            get { return (ICommand)GetValue(AddMissingItemsProperty); }
+            set { SetValue(AddMissingItemsProperty, value); }
+        }
+
+        public string AddMissingItemsTitle
+        {
+            get { return (string)GetValue(AddMissingItemsTitleProperty); }
+            set { SetValue(AddMissingItemsTitleProperty, value); }
+        }
+
         private static void ApplyFilter(IEnumerable source, string filter)
         {
             ICollectionView cv = CollectionViewSource.GetDefaultView(source);
@@ -103,7 +130,7 @@ namespace SPT_AKI_Profile_Editor.Views.ExtendedControls
                 cv.Filter = o =>
                 {
                     CharacterSkill p = o as CharacterSkill;
-                    return p.LocalizedName.ToUpper().Contains(filter.ToUpper());
+                    return p.LocalizedName.Contains(filter, System.StringComparison.CurrentCultureIgnoreCase);
                 };
             }
         }

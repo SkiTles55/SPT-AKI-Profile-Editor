@@ -386,6 +386,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             OnPropertyChanged(nameof(HideoutProductions));
         }
 
+        public void AddMissingSkills()
+        {
+            if (!IsScav)
+                return;
+            Skills.Common = [.. AppData.Profile.Characters.Pmc.Skills.Common.Select(x => new CharacterSkill { Id = x.Id, Progress = 0 })];
+        }
+
         private static TraderBase GetTraderInfo(string key)
         {
             if (key == null)
