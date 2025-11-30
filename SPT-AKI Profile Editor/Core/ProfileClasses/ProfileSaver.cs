@@ -150,33 +150,39 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             infoToken[CharacterProperties.Experience] = profileCharacter.Info.Experience;
             character.SelectToken(JsonPaths.Customization)[CharacterProperties.Head] = profileCharacter.Customization.Head;
             character.SelectToken(JsonPaths.Customization)[CharacterProperties.Voice] = profileCharacter.Customization.Voice;
-            if (!profileCharacter.IsScav)
-            {
-                infoToken[CharacterProperties.LowerNickname] = profileCharacter.Info.Nickname.ToLower();
-                infoToken[CharacterProperties.Side] = profileCharacter.Info.Side;
-            }
+            if (profileCharacter.IsScav)
+                return;
+            infoToken[CharacterProperties.LowerNickname] = profileCharacter.Info.Nickname.ToLower();
+            infoToken[CharacterProperties.Side] = profileCharacter.Info.Side;
         }
 
         private static void WriteCharacterHealth(JToken character, CharacterHealth characterHealth)
         {
             var healthToken = character.SelectToken(JsonPaths.Health);
-            var bodyParts = new[] {
-                    (BodyParts.Head, characterHealth.BodyParts.Head),
-                    (BodyParts.Chest, characterHealth.BodyParts.Chest),
-                    (BodyParts.Stomach, characterHealth.BodyParts.Stomach),
-                    (BodyParts.LeftArm, characterHealth.BodyParts.LeftArm),
-                    (BodyParts.RightArm, characterHealth.BodyParts.RightArm),
-                    (BodyParts.LeftLeg, characterHealth.BodyParts.LeftLeg),
-                    (BodyParts.RightLeg, characterHealth.BodyParts.RightLeg)
-                };
-            healthToken[HealthProperties.Energy][HealthProperties.Current] = (int)characterHealth.Energy.Current;
-            healthToken[HealthProperties.Energy][HealthProperties.Maximum] = (int)characterHealth.Energy.Maximum;
-            healthToken[HealthProperties.Hydration][HealthProperties.Current] = (int)characterHealth.Hydration.Current;
-            healthToken[HealthProperties.Hydration][HealthProperties.Maximum] = (int)characterHealth.Hydration.Maximum;
+            var bodyParts = new[]
+            {
+                (BodyParts.Head, characterHealth.BodyParts.Head),
+                (BodyParts.Chest, characterHealth.BodyParts.Chest),
+                (BodyParts.Stomach, characterHealth.BodyParts.Stomach),
+                (BodyParts.LeftArm, characterHealth.BodyParts.LeftArm),
+                (BodyParts.RightArm, characterHealth.BodyParts.RightArm),
+                (BodyParts.LeftLeg, characterHealth.BodyParts.LeftLeg),
+                (BodyParts.RightLeg, characterHealth.BodyParts.RightLeg)
+            };
+            var healthParts = new[]
+            {
+                (HealthProperties.Energy, characterHealth.Energy),
+                (HealthProperties.Hydration, characterHealth.Hydration)
+            };
             foreach (var (partName, bodyPart) in bodyParts)
             {
                 healthToken[JsonPaths.BodyParts][partName][JsonPaths.Health][HealthProperties.Current] = (int)bodyPart.Health.Current;
                 healthToken[JsonPaths.BodyParts][partName][JsonPaths.Health][HealthProperties.Maximum] = (int)bodyPart.Health.Maximum;
+            }
+            foreach (var (partName, healthPart) in healthParts)
+            {
+                healthToken[partName][HealthProperties.Current] = (int)healthPart.Current;
+                healthToken[partName][HealthProperties.Maximum] = (int)healthPart.Maximum;
             }
         }
 
