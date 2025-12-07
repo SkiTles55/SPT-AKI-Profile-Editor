@@ -8,7 +8,7 @@ assignees: SkiTles55
 ---
 
 **Versions**
-- SPT-AKI Server version
+- SPT Server version
 - SPT-AKI Profile Editor version
 - List of installed mods
 
@@ -16,5 +16,5 @@ assignees: SkiTles55
 A clear and concise description of what the bug is.
 
 **Additional context**
-SPT-AKI Profile file
+SPT Profile file
 Just create zip archive with your profile file and drag'n'drop here. Bug reports without attached profile file will be closed without any help if they related to user profile
