@@ -7,7 +7,8 @@ using System.Windows;
 namespace SPT_AKI_Profile_Editor
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// WPF 应用程序入口类。
+    /// 创建全局应用管理器、对话协调器和窗口对话框接口，并统一处理未捕获异常。
     /// </summary>
 
     public partial class App : Application

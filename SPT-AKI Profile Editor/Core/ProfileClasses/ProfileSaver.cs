@@ -13,6 +13,10 @@ using static SPT_AKI_Profile_Editor.Core.ProfileClasses.ProfileSaver;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
+    /// <summary>
+    /// profile 保存入口与扩展。
+    /// 将内存 profile 数据序列化回 SPT profile JSON 的各个区域，并收集保存异常。
+    /// </summary>
     public static class SaveEntryExtension
     {
         public static string LocalizedName(this SaveEntry entry)

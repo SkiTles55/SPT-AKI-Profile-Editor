@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor
 {
+    /// <summary>
+    /// 主窗口视图模型。
+    /// 管理应用启动、设置显示、保存与重载逻辑，并协调所有选项卡视图模型。
+    /// </summary>
     public class MainWindowViewModel : BindableViewModel
     {
         private readonly IDialogManager _dialogManager;

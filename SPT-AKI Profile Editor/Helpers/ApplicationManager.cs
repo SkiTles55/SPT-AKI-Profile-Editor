@@ -15,6 +15,9 @@ using System.Windows;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
+    /// <summary>
+    /// 应用程序管理接口，封装窗口管理、主题切换、外部链接、更新检查等全局应用功能。
+    /// </summary>
     public interface IApplicationManager
     {
         public RelayCommand CloseApplication { get; }
@@ -46,6 +49,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void RestartApplication();
     }
 
+    /// <summary>
+    /// 应用程序管理实现类。
+    /// 提供窗口打开与关闭、主题应用、更新检查、外部链接打开和当前游戏进程检测等服务。
+    /// </summary>
     public class ApplicationManager : IApplicationManager
     {
         private static readonly GitHubChecker gitHubChecker = new(AppData.AppSettings.repoAuthor, AppData.AppSettings.repoName);

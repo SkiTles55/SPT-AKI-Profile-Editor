@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
+    /// <summary>
+    /// 迁移助手接口。
+    /// 提供检查是否需要迁移和执行配置迁移的能力。
+    /// </summary>
     public interface IMigrationHelper
     {
         MigrationIntent GetMigrationIntent(AppSettings settings, AppLocalization localization);
@@ -12,6 +16,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
         void PerformMigration(AppSettings settings, IApplicationManager applicationManager);
     }
 
+    /// <summary>
+    /// 迁移意图描述。
+    /// 包含迁移标题、提示信息和唯一标签，用于确认用户是否执行迁移。
+    /// </summary>
     public class MigrationIntent(string title, string message, string tag)
     {
         public string Title { get; } = title;
@@ -19,6 +27,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public string Tag { get; } = tag;
     }
 
+    /// <summary>
+    /// 迁移实现类。
+    /// 检测旧版 path 配置并更新为当前默认目录结构，必要时重启应用。
+    /// </summary>
     public class MigrationHelper : IMigrationHelper
     {
         public void PerformMigration(AppSettings settings, IApplicationManager applicationManager)

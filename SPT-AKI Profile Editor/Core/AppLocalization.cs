@@ -8,6 +8,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
+    /// <summary>
+    /// 本地化管理类。
+    /// 负责创建默认语言、加载指定语言文件、更新翻译词条并提供本地化字符串读取。
+    /// </summary>
     public class AppLocalization : BindableEntity
     {
         [JsonIgnore]

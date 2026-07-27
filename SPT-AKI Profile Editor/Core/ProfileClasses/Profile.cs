@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 {
+    /// <summary>
+    /// 玩家 profile 数据模型。
+    /// 负责加载 profile JSON、补全缺失数据、启动 hideout 生产并提供是否修改检测。
+    /// </summary>
     public class Profile : BindableEntity
     {
         [JsonIgnore]

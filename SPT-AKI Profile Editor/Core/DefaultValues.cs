@@ -8,6 +8,10 @@ using System.Reflection;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
+    /// <summary>
+    /// 默认值提供类。
+    /// 定义应用默认主题、路径映射、物品模板 ID、本地化默认值和默认黑名单等常量。
+    /// </summary>
     public static class DefaultValues
     {
         public const string ColorScheme = "Light.Emerald";

@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
+    /// <summary>
+    /// 备份管理服务。
+    /// 负责为 profile 创建定时备份、读取备份列表、恢复备份以及删除备份文件。
+    /// </summary>
     public class BackupService : BindableEntity
     {
         private readonly string backupFolder;

@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
+    /// <summary>
+    /// profile 问题检测服务接口。
+    /// 提供异常问题收集、更新和自动修复能力。
+    /// </summary>
     public interface IIssuesService
     {
         public ObservableCollection<ProfileIssue> ProfileIssues { get; set; }
@@ -19,6 +23,10 @@ namespace SPT_AKI_Profile_Editor.Core
         public void FixAllIssues();
     }
 
+    /// <summary>
+    /// profile 问题检测与修复实现类。
+    /// 检测重复物品、任务条件、贸易商等级和信誉等可能导致 profile 不一致的问题。
+    /// </summary>
     public class IssuesService : BindableEntity, IIssuesService
     {
         private ObservableCollection<ProfileIssue> profileIssues = [];

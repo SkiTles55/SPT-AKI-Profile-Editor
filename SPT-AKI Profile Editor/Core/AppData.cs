@@ -12,6 +12,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
+    /// <summary>
+    /// 全局静态数据中心。
+    /// 初始化并持有应用设置、本地化、profile、服务器配置、数据库、备份、问题检测与 ModHelper 管理。
+    /// </summary>
     public static class AppData
     {
         public static readonly AppSettings AppSettings;

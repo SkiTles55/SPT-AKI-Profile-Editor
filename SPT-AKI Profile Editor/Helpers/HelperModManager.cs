@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace SPT_AKI_Profile_Editor.Helpers
 {
+    /// <summary>
+    /// HelperMod 管理接口。
+    /// 提供 HelperMod 安装、移除、更新检测与数据库文件状态查询。
+    /// </summary>
     public interface IHelperModManager
     {
         public string DbPath { get; }
@@ -24,6 +28,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task DownloadUpdates();
     }
 
+    /// <summary>
+    /// HelperMod 管理实现类。
+    /// 负责检查 ModHelper 状态、下载更新并在 SPT 服务器目录中安装或移除扩展。
+    /// </summary>
     public class HelperModManager : IHelperModManager
     {
         private readonly string helperDbPath;

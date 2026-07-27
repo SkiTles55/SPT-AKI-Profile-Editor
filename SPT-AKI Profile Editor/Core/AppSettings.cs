@@ -9,6 +9,10 @@ using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Core
 {
+    /// <summary>
+    /// 应用程序设置模型。
+    /// 负责保存加载配置文件、校验默认值、服务器路径检测和 profile 列表管理。
+    /// </summary>
     public class AppSettings(string configurationFile) : BindableEntity
     {
         [JsonIgnore]
