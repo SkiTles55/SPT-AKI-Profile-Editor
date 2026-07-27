@@ -185,6 +185,7 @@
     "weapon_build_window_export": "Export build",
     "weapon_build_window_add": "Add to builds",
     "container_window_content": "Contents",
+    "container_window_add_all_keys": "Add all keys",
     "localization_editor_title": "Localization editor",
     "localization_editor_key": "Key",
     "localization_editor_value": "Translation",

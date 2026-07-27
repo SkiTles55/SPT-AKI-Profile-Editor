@@ -196,6 +196,7 @@
     "weapon_build_window_export": "セットエクスポート",
     "weapon_build_window_add": "セットに加える",
     "container_window_content": "容器",
+    "container_window_add_all_keys": "すべてのキーを追加",
     "localization_editor_title": "言語編集",
     "localization_editor_key": "キーワード",
     "localization_editor_value": "翻訳",

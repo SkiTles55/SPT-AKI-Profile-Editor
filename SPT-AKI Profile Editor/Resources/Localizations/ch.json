@@ -196,6 +196,7 @@
     "weapon_build_window_export": "导出预设",
     "weapon_build_window_add": "添加到预设",
     "container_window_content": "容器",
+    "container_window_add_all_keys": "添加所有钥匙",
     "localization_editor_title": "本地化编辑器",
     "localization_editor_key": "关键词",
     "localization_editor_value": "翻译文本",

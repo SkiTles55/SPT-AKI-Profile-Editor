@@ -185,6 +185,7 @@
     "weapon_build_window_export": "Экспорт сборки",
     "weapon_build_window_add": "Добавить в сборки",
     "container_window_content": "Содержимое",
+    "container_window_add_all_keys": "Добавить все ключи",
     "localization_editor_title": "Редактор локализации",
     "localization_editor_key": "Ключ",
     "localization_editor_value": "Перевод",
