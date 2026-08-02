@@ -40,9 +40,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         }
 
         [JsonIgnore]
-        public string LocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey($"hideout_area_{Type}_name") ?
-            AppData.ServerDatabase.LocalesGlobal[$"hideout_area_{Type}_name"] :
-            $"hideout_area_{Type}_name";
+        public string LocalizedName => ExtMethods.HideoutAreaLocalizedName(Type);
 
         [JsonIgnore]
         public int MaxLevel => GetMaxLevel();

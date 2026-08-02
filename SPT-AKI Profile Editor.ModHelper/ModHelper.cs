@@ -1,22 +1,26 @@
-﻿using SPTarkov.DI.Annotations;
+﻿using SPTarkov.Common.Models.Logging;
+using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
-using SPTarkov.Server.Core.Models.Logging;
 using SPTarkov.Server.Core.Models.Spt.Config;
-using SPTarkov.Server.Core.Models.Utils;
-using SPTarkov.Server.Core.Servers;
+using SPTarkov.Server.Core.Models.Spt.Tables;
 using SPTarkov.Server.Core.Utils;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
+using Color = Spectre.Console.Color;
 using IOPath = System.IO.Path;
 
 namespace SPT_AKI_Profile_Editor.ModHelper;
 
-[Injectable(TypePriority = OnLoadOrder.PostSptModLoader + 1)]
+[Injectable(TypePriority = OnLoadOrder.PostLoad + 1)]
 public class ProfileEditorModHelper(
-    DatabaseServer databaseServer,
-    ConfigServer configServer,
+    TemplateTable templateTable,
+    HideoutTable hideoutTable,
+    TradersTable tradersTable,
+    LocaleTable localeTable,
+    GlobalTable globalTable,
+    QuestConfig questConfig,
     ISptLogger<ProfileEditorModHelper> logger,
     FileUtil fileUtil,
     JsonUtil jsonUtil) : IOnLoad
@@ -26,12 +30,12 @@ public class ProfileEditorModHelper(
     private bool hasDataUpdates = false;
     private string exportPath = "";
 
-    public Task OnLoad()
+    public Task OnLoadAsync(CancellationToken cancellationToken)
     {
         var pathToMod = IOPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         if (pathToMod == null)
         {
-            LogMessage("Unable to get mod location path. Export Cancelled", LogTextColor.Red);
+            LogMessage("Unable to get mod location path. Export Cancelled", Color.Red);
             return Task.CompletedTask;
         }
 
@@ -40,20 +44,17 @@ public class ProfileEditorModHelper(
         if (fileUtil.FileExists(hashesPath))
             hashes = jsonUtil.DeserializeFromFile<Dictionary<String, String>>(hashesPath) ?? [];
         LogMessage("Started database exporting");
-        var tables = databaseServer.GetTables();
-        ExportDatabaseEntry("Handbook", tables.Templates.Handbook);
-        ExportDatabaseEntry("Production", tables.Hideout.Production);
-        ExportDatabaseEntry("Items", tables.Templates.Items);
-        ExportDatabaseEntry("Quests", tables.Templates.Quests);
-        var questConfig = configServer.GetConfig<QuestConfig>();
-        if (questConfig != null)
-            ExportDatabaseEntry("QuestConfig", questConfig);
+        ExportDatabaseEntry("Handbook", templateTable.Handbook);
+        ExportDatabaseEntry("Production", hideoutTable.Production);
+        ExportDatabaseEntry("Items", templateTable.Items);
+        ExportDatabaseEntry("Quests", templateTable.Quests);
+        ExportDatabaseEntry("QuestConfig", questConfig);
         // Traders still exporting on every run, due to nextRessuply changes
-        ExportDictionaryEntry("Traders", tables.Traders.ToDictionary(x => x.Key.ToString(), y => (object)y.Value.Base));
-        ExportDictionaryEntry("Locales", tables.Locales.Global.ToDictionary(x => x.Key.ToString(), y => (object)(y.Value.Value ?? [])));
-        ExportDatabaseEntry("ItemPresets", tables.Globals.ItemPresets);
-        ExportDatabaseEntry("Mastering", tables.Globals.Configuration.Mastering);
-        ExportDatabaseEntry("ExpTable", tables.Globals.Configuration.Exp);
+        ExportDictionaryEntry("Traders", tradersTable.ToDictionary(x => x.Key.ToString(), y => (object)y.Value.Base));
+        ExportDictionaryEntry("Locales", localeTable.Global.ToDictionary(x => x.Key.ToString(), y => (object)(y.Value.Value ?? [])));
+        ExportDatabaseEntry("ItemPresets", globalTable.ItemPresets);
+        ExportDatabaseEntry("Mastering", globalTable.Configuration.Mastering);
+        ExportDatabaseEntry("ExpTable", globalTable.Configuration.Exp);
 
         if (hasDataUpdates)
         {
@@ -65,7 +66,7 @@ public class ProfileEditorModHelper(
             }
             else
             {
-                LogMessage("DB successfully exported, but hashes not updated", LogTextColor.Red);
+                LogMessage("DB successfully exported, but hashes not updated", Color.Red);
             }
         }
         else
@@ -127,6 +128,6 @@ public class ProfileEditorModHelper(
         }
     }
 
-    private void LogMessage(string message, LogTextColor textColor = LogTextColor.Green)
-        => logger.LogWithColor($"[[SPT-AKI Profile Editor] Helper Mod] : {message}", textColor);
+    private void LogMessage(string message, Color? textColor = null)
+        => logger.LogWithColor($"[[SPT-AKI Profile Editor] Helper Mod] : {message}", textColor ?? Color.Green);
 }
