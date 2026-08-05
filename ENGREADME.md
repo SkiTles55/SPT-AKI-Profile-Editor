@@ -20,6 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
+### [Version 4.1 for server SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1)
 ### [Version 4.0.1 for server SPT 4.0.1 - 4.0.7](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0.1)
 ### [Version 3.3 for server SPT 3.11.2](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
 ### [Version 3.2.1 for server SPT 3.11.0 -3.11.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
@@ -53,7 +54,8 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 * Automatic backups every time you save your profile
 
 ### Requirements:
-* [.NET 9.0 Desktop x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-9.0.11-windows-x64-installer)
+* [.NET 10.0 Desktop x64](https://dotnet.microsoft.com/ru-ru/download/dotnet/thank-you/sdk-10.0.302-windows-x64-installer)
+* [.NET 9.0 Desktop x64 (Only for app version below 4.1)](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-9.0.11-windows-x64-installer)
 * [.NET 6.0 Desktop x64 (Only for app version below 4.0.1)](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.4-windows-x64-installer)
 * .NET 5.0 (only for app version 2.0)
 
@@ -70,6 +72,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 Anonymous donaters on yoomoney\
 [havaed](https://github.com/havaed) - [Fix unvalid IDs making created items unsellable](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
 Lomenot - Chinese localization 
+[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)
 
 ### Screenshots
 ![Screenshot1](/screenshots/1EN.PNG?raw=true)
