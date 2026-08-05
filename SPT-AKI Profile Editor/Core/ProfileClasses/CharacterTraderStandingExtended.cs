@@ -127,9 +127,13 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         {
             var imageUrl = TraderBase?.ImageUrl ?? "unknown.png";
 
-            var imagePath = Path.Combine(AppData.AppSettings.ServerPath,
-                AppData.AppSettings.DirsList[SPTServerDir.traderImages],
-                Path.GetFileNameWithoutExtension(imageUrl) + ".png");
+            var imagesDir = Path.Combine(AppData.AppSettings.ServerPath,
+                AppData.AppSettings.DirsList[SPTServerDir.traderImages]);
+            var imagePath = Path.Combine(imagesDir, Path.GetFileNameWithoutExtension(imageUrl) + ".png");
+
+            // Some traders point at an avatar that the server doesn't ship
+            if (!File.Exists(imagePath))
+                imagePath = Path.Combine(imagesDir, "unknown.png");
 
             if (File.Exists(imagePath))
             {

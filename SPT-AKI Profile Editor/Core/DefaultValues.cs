@@ -37,6 +37,8 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string FenceTraderId = "579dc571d53a0658a154fbec";
         public const string MannequinInventoryTpl = "55d7217a4bdc2d86028b456d";
         public const int HideoutAreaEquipmentPresetsType = 26;
+        public const int WeaponStandAreaType = 24;
+        public const int WeaponStandSecondaryAreaType = 25;
 
         public static readonly string AppDataFolder = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -58,25 +60,25 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static Dictionary<string, string> DefaultDirsList => new()
         {
-            [SPTServerDir.globals] = "SPT\\SPT_Data\\database\\locales\\global",
-            [SPTServerDir.traders] = "SPT\\SPT_Data\\database\\traders",
-            [SPTServerDir.bots] = "SPT\\SPT_Data\\database\\bots\\types",
-            [SPTServerDir.profiles] = "SPT\\user\\profiles",
-            [SPTServerDir.handbookIcons] = "SPT\\SPT_Data\\images\\handbook",
-            [SPTServerDir.traderImages] = "SPT\\SPT_Data\\images\\trader\\avatar"
+            [SPTServerDir.globals] = "SPT_Runtime\\SPT_Data\\database\\locales\\global",
+            [SPTServerDir.traders] = "SPT_Runtime\\SPT_Data\\database\\traders",
+            [SPTServerDir.bots] = "SPT_Runtime\\SPT_Data\\database\\bots\\types",
+            [SPTServerDir.profiles] = "SPT_Runtime\\user\\profiles",
+            [SPTServerDir.handbookIcons] = "SPT_Runtime\\SPT_Data\\images\\handbook",
+            [SPTServerDir.traderImages] = "SPT_Runtime\\SPT_Data\\images\\trader\\avatar"
         };
 
         public static Dictionary<string, string> DefaultFilesList => new()
         {
-            [SPTServerFile.globals] = "SPT\\SPT_Data\\database\\globals.json",
-            [SPTServerFile.items] = "SPT\\SPT_Data\\database\\templates\\items.json",
-            [SPTServerFile.quests] = "SPT\\SPT_Data\\database\\templates\\quests.json",
-            [SPTServerFile.questConfig] = "SPT\\SPT_Data\\configs\\quest.json",
-            [SPTServerFile.areas] = "SPT\\SPT_Data\\database\\hideout\\areas.json",
-            [SPTServerFile.production] = "SPT\\SPT_Data\\database\\hideout\\production.json",
-            [SPTServerFile.handbook] = "SPT\\SPT_Data\\database\\templates\\handbook.json",
-            [SPTServerFile.languages] = "SPT\\SPT_Data\\database\\locales\\languages.json",
-            [SPTServerFile.serverexe] = "SPT\\SPT.Server.exe"
+            [SPTServerFile.globals] = "SPT_Runtime\\SPT_Data\\database\\globals.json",
+            [SPTServerFile.items] = "SPT_Runtime\\SPT_Data\\database\\templates\\items.json",
+            [SPTServerFile.quests] = "SPT_Runtime\\SPT_Data\\database\\templates\\quests.json",
+            [SPTServerFile.questConfig] = "SPT_Runtime\\SPT_Data\\configs\\quest.json",
+            [SPTServerFile.areas] = "SPT_Runtime\\SPT_Data\\database\\hideout\\areas.json",
+            [SPTServerFile.production] = "SPT_Runtime\\SPT_Data\\database\\hideout\\production.json",
+            [SPTServerFile.handbook] = "SPT_Runtime\\SPT_Data\\database\\templates\\handbook.json",
+            [SPTServerFile.languages] = "SPT_Runtime\\SPT_Data\\database\\locales\\languages.json",
+            [SPTServerFile.serverexe] = "SPT_Runtime\\SPT.Server.exe"
         };
 
         public static List<AppLocalization> DefaultLocalizations()

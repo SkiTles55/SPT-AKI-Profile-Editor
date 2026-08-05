@@ -11,6 +11,17 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public static double GetTimestamp => Math.Floor(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
 
+        public static string HideoutAreaLocalizedName(int areaType)
+        {
+            var key = $"hideout_area_{areaType}_name";
+            if (AppData.ServerDatabase.LocalesGlobal.TryGetValue(key, out string value))
+                return value;
+            // The secondary weapon stand has no name of its own, it shares the weapon stand name
+            if (areaType == DefaultValues.WeaponStandSecondaryAreaType)
+                return HideoutAreaLocalizedName(DefaultValues.WeaponStandAreaType);
+            return key;
+        }
+
         public static string GenerateNewId(IEnumerable<string> ids)
         {
             string id;

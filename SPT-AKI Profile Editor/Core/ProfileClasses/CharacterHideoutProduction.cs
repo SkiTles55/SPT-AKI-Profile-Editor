@@ -30,8 +30,6 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
 
         public ExaminedItem ProductItem { get; set; }
 
-        public string AreaLocalizedName => AppData.ServerDatabase.LocalesGlobal.ContainsKey($"hideout_area_{Production.AreaType}_name") ?
-            AppData.ServerDatabase.LocalesGlobal[$"hideout_area_{Production.AreaType}_name"] :
-            $"hideout_area_{Production.AreaType}_name";
+        public string AreaLocalizedName => ExtMethods.HideoutAreaLocalizedName(Production.AreaType);
     }
 }
