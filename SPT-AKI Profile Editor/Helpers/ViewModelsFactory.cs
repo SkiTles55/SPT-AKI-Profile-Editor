@@ -39,6 +39,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         public ProgressTransferTabViewModel ProgressTransferTab { get; } = new(windowsDialogs, worker);
 
+        public GameParameterEditorTabViewModel GameParameterEditorTab { get; } = new();
+
         public BackupsTabViewModel BackupsTab { get; } = new(dialogManager, worker, cleaningService);
 
         public AboutTabViewModel AboutTab { get; } = new(applicationManager);

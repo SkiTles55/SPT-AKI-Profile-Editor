@@ -193,6 +193,33 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return Stash2D;
         }
 
+        public int GetMaxItemsToFit(InventoryItem container, IEnumerable<TarkovItem> items)
+        {
+            int[,] map = GetSlotsMap(container);
+            int count = 0;
+            foreach (var item in items)
+            {
+                int width = item.Properties?.Width ?? 1;
+                int height = item.Properties?.Height ?? 1;
+                var locations = GetItemLocations(width, height, map, 1);
+                if (locations == null || locations.Count == 0)
+                    break;
+                count++;
+                foreach (var location in locations)
+                    MarkItemOnMap(map, location, width, height);
+            }
+            return count;
+        }
+
+        private static void MarkItemOnMap(int[,] map, ItemLocation location, int width, int height)
+        {
+            int itemWidth = location.R == ItemRotation.Vertical ? height : width;
+            int itemHeight = location.R == ItemRotation.Vertical ? width : height;
+            for (int y = location.Y; y < location.Y + itemHeight && y < map.GetLength(0); y++)
+                for (int x = location.X; x < location.X + itemWidth && x < map.GetLength(1); x++)
+                    map[y, x] = 1;
+        }
+
         private static void AddItemToList(List<InventoryItem> items, string id, string parentId, string slotId, string tpl, ItemLocation location = null, ItemUpd itemUpd = null)
         {
             var newItem = new InventoryItem

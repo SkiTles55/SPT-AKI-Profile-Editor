@@ -40,6 +40,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const IssuesAction DefaultIssuesAction = IssuesAction.AlwaysShow;
         public const string FenceTraderId = "579dc571d53a0658a154fbec";
         public const string MannequinInventoryTpl = "55d7217a4bdc2d86028b456d";
+        public const string KeycardHolderTpl = "619cbf9e0a7c3a1a2731940a";
         public const int HideoutAreaEquipmentPresetsType = 26;
 
         public static readonly string AppDataFolder = AppDomain.CurrentDomain.BaseDirectory;

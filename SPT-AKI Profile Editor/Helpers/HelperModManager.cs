@@ -28,6 +28,23 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public Task DownloadUpdates();
     }
 
+    public sealed class NoOpHelperModManager : IHelperModManager
+    {
+        public string DbPath => string.Empty;
+        public HelperModStatus HelperModStatus => HelperModStatus.NotInstalled;
+        public bool UpdateAvailable => false;
+        public bool IsInstalled => false;
+        public bool DbFilesExist => false;
+
+        public void InstallMod() { }
+
+        public void RemoveMod() { }
+
+        public void UpdateMod() { }
+
+        public Task DownloadUpdates() => Task.CompletedTask;
+    }
+
     /// <summary>
     /// HelperMod 管理实现类。
     /// 负责检查 ModHelper 状态、下载更新并在 SPT 服务器目录中安装或移除扩展。

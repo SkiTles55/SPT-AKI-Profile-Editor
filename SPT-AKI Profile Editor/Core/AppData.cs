@@ -26,7 +26,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public static readonly GridFilters GridFilters;
         public static readonly BackupService BackupService;
         public static readonly IssuesService IssuesService;
-        public static readonly IHelperModManager HelperModManager;
+        public static readonly IHelperModManager HelperModManager = new NoOpHelperModManager();
 
         private static readonly bool IsRunningFromNUnit = AppDomain.CurrentDomain.GetAssemblies().Any(a => a.FullName.StartsWith("nunit.framework", StringComparison.InvariantCultureIgnoreCase));
         private static readonly string AppDataPath = IsRunningFromNUnit ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestAppData") : DefaultValues.AppDataFolder;
@@ -42,7 +42,6 @@ namespace SPT_AKI_Profile_Editor.Core
             Profile = new();
             ServerConfigs = new();
             ServerDatabase = new();
-            HelperModManager = new HelperModManager(AppSettings.modHelperUpdateUrl, Path.Combine(AppDataPath, "ModHelperUpdate"));
         }
 
         public static void LoadDatabase()
@@ -97,11 +96,9 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadLocalesGlobal()
         {
             ServerDatabase.LocalesGlobal = [];
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath($"Locales\\{AppSettings.Language}.json")
-                : Path.Combine(AppSettings.ServerPath,
-                               AppSettings.DirsList[SPTServerDir.globals],
-                               AppSettings.Language + ".json");
+            string path = Path.Combine(AppSettings.ServerPath,
+                                       AppSettings.DirsList[SPTServerDir.globals],
+                                       AppSettings.Language + ".json");
             try
             {
                 Dictionary<string, string> global = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
@@ -151,9 +148,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadServerGlobals()
         {
-            ServerDatabase.ServerGlobals = AppSettings.UsingModHelper
-                ? GetHelperModDBServerGlobals()
-                : GetServerDBServerGlobals();
+            ServerDatabase.ServerGlobals = GetServerDBServerGlobals();
         }
 
         private static ServerGlobals GetServerDBServerGlobals()
@@ -170,44 +165,15 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        private static ServerGlobals GetHelperModDBServerGlobals()
-        {
-            string itemPresetsPath = GetHelperDBFilePath("ItemPresets.json");
-            string expTablePath = GetHelperDBFilePath("ExpTable.json");
-            string masteringPath = GetHelperDBFilePath("Mastering.json");
-            try
-            {
-                Dictionary<string, ItemPreset> itemPresets = JsonConvert.DeserializeObject<Dictionary<string, ItemPreset>>(File.ReadAllText(itemPresetsPath));
-                Mastering[] mastering = JsonConvert.DeserializeObject<Mastering[]>(File.ReadAllText(masteringPath));
-                ConfigExp configExp = JsonConvert.DeserializeObject<ConfigExp>(File.ReadAllText(expTablePath));
-
-                ServerGlobalsConfig globalsConfig = new() { Mastering = mastering, Exp = configExp };
-                return new(globalsConfig, itemPresets);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"ServerDatabase ServerGlobals build from HelperMod DB error: {ex.Message}");
-                return new();
-            }
-        }
-
         private static void LoadTradersInfos()
         {
             ServerDatabase.TraderInfos = [];
             var traderInfos = new Dictionary<string, TraderBase>();
-            if (AppSettings.UsingModHelper)
+            foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
             {
-                foreach (var baseFile in Directory.GetFiles(GetHelperDBFilePath("Traders")))
-                    AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(baseFile), baseFile);
-            }
-            else
-            {
-                foreach (var tbase in Directory.GetDirectories(Path.Combine(AppSettings.ServerPath, AppSettings.DirsList[SPTServerDir.traders])))
-                {
-                    if (!File.Exists(Path.Combine(tbase, "base.json")))
-                        continue;
-                    AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(tbase), Path.Combine(tbase, "base.json"));
-                }
+                if (!File.Exists(Path.Combine(tbase, "base.json")))
+                    continue;
+                AddTraderInfo(traderInfos, Path.GetFileNameWithoutExtension(tbase), Path.Combine(tbase, "base.json"));
             }
             ServerDatabase.TraderInfos = traderInfos;
         }
@@ -221,9 +187,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadQuestConfig()
         {
             ServerConfigs.Quest = new();
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("QuestConfig.json")
-                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.questConfig]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.questConfig]);
             try
             {
                 Quest questConfig = JsonConvert.DeserializeObject<Quest>(File.ReadAllText(path));
@@ -235,9 +199,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadQuestsData()
         {
             ServerDatabase.QuestsData = [];
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("Quests.json")
-                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.quests]);
             try
             {
                 Dictionary<string, QuestData> questsData = JsonConvert.DeserializeObject<Dictionary<string, QuestData>>(File.ReadAllText(path));
@@ -261,9 +223,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadHideoutProduction()
         {
             ServerDatabase.HideoutProduction = [];
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("Production.json")
-                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.production]);
             try
             {
                 HideoutProductions HideoutProductions = JsonConvert.DeserializeObject<HideoutProductions>(File.ReadAllText(path));
@@ -275,9 +235,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private static void LoadItemsDB()
         {
             ServerDatabase.ItemsDB = [];
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("Items.json")
-                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.items]);
             try
             {
                 Dictionary<string, TarkovItem> itemsDB = JsonConvert.DeserializeObject<Dictionary<string, TarkovItem>>(File.ReadAllText(path));
@@ -325,9 +283,7 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static void LoadHandbook()
         {
-            string path = AppSettings.UsingModHelper
-                ? GetHelperDBFilePath("Handbook.json")
-                : Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
+            string path = Path.Combine(AppSettings.ServerPath, AppSettings.FilesList[SPTServerFile.handbook]);
             try
             {
                 Handbook handbook = JsonConvert.DeserializeObject<Handbook>(File.ReadAllText(path));
@@ -355,12 +311,5 @@ namespace SPT_AKI_Profile_Editor.Core
             }
         }
 
-        private static string GetHelperDBFilePath(string filename)
-        {
-            var path = Path.Combine(AppSettings.ServerPath, HelperModManager.DbPath, filename);
-            return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Length != 0)
-                ? path
-                : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
-        }
     }
 }

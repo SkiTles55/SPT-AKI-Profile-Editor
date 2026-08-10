@@ -108,6 +108,9 @@
             <TabItem Header="{Binding AppLocalization.Translations[tab_progress_transfer_title], FallbackValue=tab_progress_transfer_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:ProgressTransferTab DataContext="{Binding ViewModels.ProgressTransferTab}" />
             </TabItem>
+            <TabItem Header="{Binding AppLocalization.Translations[tab_game_parameter_editor_title], FallbackValue=tab_game_parameter_editor_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
+                <views:GameParameterEditorTab DataContext="{Binding ViewModels.GameParameterEditorTab}" />
+            </TabItem>
             <TabItem Header="{Binding AppLocalization.Translations[tab_backups_title], FallbackValue=tab_backups_title}" HeaderTemplate="{StaticResource HeaderTemplate}">
                 <views:BackupsTab DataContext="{Binding ViewModels.BackupsTab}" />
             </TabItem>

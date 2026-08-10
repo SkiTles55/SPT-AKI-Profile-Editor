@@ -17,6 +17,8 @@ namespace SPT_AKI_Profile_Editor
         private readonly IDialogManager _dialogManager;
         private readonly IWorker _worker;
         private readonly IApplicationManager _applicationManager;
+        private static readonly HashSet<string> KeyParentIds = ["5c99f98d86f7745c314214b3", "5c164d2286f774194c5e69fa"];
+        private static readonly HashSet<string> BadKeyItems = ["5a043f2c86f7741aa57b5145", "5751916f24597720a27126df", "57518f7724597720a31c09ab", "57518fd424597720c85dbaaa", "590de4a286f77423d9312a32"];
         private ObservableCollection<AddableCategory> categoriesForItemsAdding;
 
         public ContainerWindowViewModel(InventoryItem item,
@@ -92,12 +94,24 @@ namespace SPT_AKI_Profile_Editor
                 _worker.AddTask(ProgressTask(() => AddItemToContainer(item)));
         });
 
-        public RelayCommand AddAllKeys => new(obj =>
+        public RelayCommand AddAllKeys => new(async obj =>
         {
             if (!AddAllKeysAllowed)
                 return;
 
-            _worker.AddTask(ProgressTask(() => AddAllKeysToContainer(),
+            var keys = GetKeysToAdd(out int fitCount);
+            if (keys.Count == 0)
+                return;
+
+            bool addNewHolder = false;
+            if (fitCount < keys.Count)
+                addNewHolder = await _dialogManager.YesNoDialog(
+                    "container_window_add_all_keys",
+                    AppLocalization.GetLocalizedString("container_window_add_all_keys_no_space",
+                        (keys.Count - fitCount).ToString()));
+
+            _worker.AddTask(ProgressTask(() => AddAllKeysToContainer(keys.Take(fitCount).ToList(),
+                                                                     addNewHolder ? keys.Skip(fitCount).ToList() : new List<TarkovItem>()),
                 AppLocalization.GetLocalizedString("container_window_add_all_keys")));
         });
 
@@ -124,94 +138,106 @@ namespace SPT_AKI_Profile_Editor
             OnPropertyChanged("");
         }
 
-        private void AddAllKeysToContainer()
+        private void AddAllKeysToContainer(List<TarkovItem> keys, List<TarkovItem> keysForNewHolder)
         {
+            AddKeysToContainer(_item, keys);
+
+            if (keysForNewHolder.Count > 0)
+                AddKeysToNewHolder(keysForNewHolder);
+
+            OnPropertyChanged("");
+        }
+
+        private List<TarkovItem> GetKeysToAdd(out int fitCount)
+        {
+            fitCount = 0;
             if (!_item.IsInItemsDB || !_item.CanAddItems)
-                return;
+                return [];
 
             if (!AppData.ServerDatabase.ItemsDB.TryGetValue(_item.Tpl, out TarkovItem containerTpl))
-                return;
+                return [];
 
             var existingItemTpls = Items.Select(x => x.Tpl).ToHashSet();
-            var keyItems = GetAllKeyItems()
+            var keys = GetAllKeyItems()
                 .Where(x => !existingItemTpls.Contains(x.Id))
                 .Where(x => x.CanBeAddedToContainer(containerTpl))
                 .OrderBy(x => (x.Properties?.Width ?? 0) * (x.Properties?.Height ?? 0))
                 .ToList();
 
-            foreach (var keyItem in keyItems)
+            fitCount = _inventory.GetMaxItemsToFit(_item, keys);
+            return keys;
+        }
+
+        private int AddKeysToContainer(InventoryItem container, List<TarkovItem> keys)
+        {
+            int added = 0;
+            foreach (var key in keys)
             {
                 try
                 {
-                    _inventory.AddNewItemsToContainer(_item, keyItem, "main");
+                    _inventory.AddNewItemsToContainer(container, key, "main");
+                    added++;
                 }
                 catch (Exception ex)
                 {
                     if (ex.Message == AppLocalization.GetLocalizedString("tab_stash_no_slots"))
-                        break;
+                        return added;
 
                     throw;
                 }
             }
+            return added;
+        }
 
-            OnPropertyChanged("");
+        private void AddKeysToNewHolder(List<TarkovItem> keys)
+        {
+            if (!AppData.ServerDatabase.ItemsDB.TryGetValue(DefaultValues.KeycardHolderTpl, out TarkovItem holderTemplate))
+                return;
+
+            var remainingKeys = new List<TarkovItem>(keys);
+            while (remainingKeys.Count > 0)
+            {
+                var holder = AddNewKeycardHolder(holderTemplate);
+                if (holder == null)
+                    return;
+
+                int added = AddKeysToContainer(holder, remainingKeys);
+                if (added == 0)
+                    return;
+
+                remainingKeys.RemoveRange(0, added);
+            }
+        }
+
+        private InventoryItem AddNewKeycardHolder(TarkovItem holderTemplate)
+        {
+            try
+            {
+                _inventory.AddNewItemsToStash(holderTemplate);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message == AppLocalization.GetLocalizedString("tab_stash_no_slots"))
+                    return null;
+
+                throw;
+            }
+
+            return _inventory.Items?.LastOrDefault(x => x.Tpl == holderTemplate.Id
+                                                        && x.ParentId == _inventory.Stash
+                                                        && x.SlotId == "hideout");
         }
 
         private IEnumerable<TarkovItem> GetAllKeyItems()
-        {
-            if (AppData.ServerDatabase.Handbook?.Items != null)
-            {
-                var keyCategoryIds = GetKeyCategoryIds();
-                if (keyCategoryIds.Count > 0)
-                {
-                    return AppData.ServerDatabase.Handbook.Items
-                        .Where(x => keyCategoryIds.Contains(x.ParentId))
-                        .Select(x => AppData.ServerDatabase.ItemsDB.TryGetValue(x.Id, out TarkovItem item) ? item : null)
-                        .Where(x => x != null && !x.IsQuestItem);
-                }
-            }
-
-            return AppData.ServerDatabase.ItemsDB?.Values
-                .Where(x => !x.IsQuestItem && IsKeyItemByName(x)) ?? Enumerable.Empty<TarkovItem>();
-        }
-
-        private HashSet<string> GetKeyCategoryIds()
-        {
-            HashSet<string> keyCategoryIds = new();
-            if (AppData.ServerDatabase.Handbook?.Categories == null)
-                return keyCategoryIds;
-
-            foreach (var category in AppData.ServerDatabase.Handbook.Categories)
-            {
-                if (CategoryNameContainsKeyWords(category.LocalizedName))
-                    keyCategoryIds.Add(category.Id);
-            }
-
-            bool added;
-            do
-            {
-                added = false;
-                foreach (var category in AppData.ServerDatabase.Handbook.Categories)
-                {
-                    if (!string.IsNullOrEmpty(category.ParentId) && keyCategoryIds.Contains(category.ParentId) && keyCategoryIds.Add(category.Id))
-                        added = true;
-                }
-            } while (added);
-
-            return keyCategoryIds;
-        }
+            => AppData.ServerDatabase.ItemsDB?.Values
+                .Where(x => x != null && !BadKeyItems.Contains(x.Id) && KeyParentIds.Contains(x.Parent))
+                ?? Enumerable.Empty<TarkovItem>();
 
         private static bool CategoryNameContainsKeyWords(string text)
             => !string.IsNullOrEmpty(text)
                 && (text.Contains("key", StringComparison.OrdinalIgnoreCase)
                     || text.Contains("钥匙", StringComparison.OrdinalIgnoreCase)
                     || text.Contains("ключ", StringComparison.OrdinalIgnoreCase));
-
-        private static bool IsKeyItemByName(TarkovItem item)
-            => item != null && !string.IsNullOrEmpty(item.LocalizedName)
-                && (item.LocalizedName.Contains("key", StringComparison.OrdinalIgnoreCase)
-                    || item.LocalizedName.Contains("钥匙", StringComparison.OrdinalIgnoreCase)
-                    || item.LocalizedName.Contains("ключ", StringComparison.OrdinalIgnoreCase));
 
         private bool IsKeyContainer()
         {
