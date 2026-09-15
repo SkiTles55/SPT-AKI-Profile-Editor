@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
+using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -122,6 +123,38 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(settingsVM.AppSettings.FilesList[SPTServerFile.serverexe], Is.EqualTo("Test.exe"));
             settingsVM.AppSettings.FilesList[SPTServerFile.serverexe] = "SPT_Runtime\\SPT.Server.exe";
             settingsVM.AppSettings.Save();
+        }
+
+        [Test]
+        public void CanServerSelectWithCustomServerDirectory()
+        {
+            dialogManager.ServerPathEditorDialogOpened = false;
+            SettingsDialogViewModel settingsVM = null;
+            string temp = TestHelpers.CreateFakeServerFolder("SPT");
+            try
+            {
+                TestsWindowsDialogs windowsDialogs = new()
+                {
+                    folderBrowserDialogMode = FolderBrowserDialogMode.customServerFolder,
+                    customServerFolderPath = temp
+                };
+                settingsVM = new(null, dialogManager, windowsDialogs, null, null, null, null);
+                settingsVM.ServerSelect.Execute(null);
+                Assert.That(settingsVM.AppSettings.ServerDirectory, Is.EqualTo("SPT"));
+                Assert.That(settingsVM.AppSettings.ServerPath, Is.EqualTo(temp));
+                Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.False);
+            }
+            finally
+            {
+                if (settingsVM != null)
+                {
+                    settingsVM.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                    settingsVM.AppSettings.RebuildServerPaths();
+                    settingsVM.AppSettings.ServerPath = TestHelpers.serverPath;
+                    settingsVM.AppSettings.Save();
+                }
+                Directory.Delete(temp, true);
+            }
         }
 
         [Test]
