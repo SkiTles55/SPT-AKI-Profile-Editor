@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
@@ -82,6 +83,33 @@ namespace SPT_AKI_Profile_Editor
             if (await _dialogManager.YesNoDialog("remove_stash_item_title", "remove_stash_items_caption"))
                 _worker.AddTask(ProgressTask(() => RemoveAllItemsFromContainer(),
                                     AppLocalization.GetLocalizedString("remove_stash_item_title")));
+        });
+
+        public bool AddAllCollectionButtonVisible
+            => EditingAllowed && OrganizerCollections.GetByOrganizerTpl(_item.Tpl) != null;
+
+        public string AddAllCollectionButtonText
+        {
+            get
+            {
+                var info = OrganizerCollections.GetByOrganizerTpl(_item.Tpl);
+                return info == null ? "" : AppLocalization.GetLocalizedString(info.ButtonTextKey);
+            }
+        }
+
+        public RelayCommand AddAllCollectionItems => new(async obj =>
+        {
+            if (!AddAllCollectionButtonVisible)
+                return;
+            if (!await _dialogManager.YesNoDialog("container_add_all_title", "container_add_all_confirm"))
+                return;
+            _worker.AddTask(ProgressTask(() =>
+            {
+                var result = _inventory.AddCollectionItemsToOrganizer(_item);
+                OnPropertyChanged("");
+                _dialogManager.ShowOkMessageAsync("container_add_all_title",
+                    AppLocalization.GetLocalizedString("container_add_all_done", result.AddedItems.ToString(), result.AddedContainers.ToString()));
+            }, AppLocalization.GetLocalizedString("container_add_all_title")));
         });
 
         public RelayCommand AddItem => new(obj =>
