@@ -142,25 +142,75 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             return items;
         }
 
-        public void AddNewItemsToContainer(InventoryItem container, AddableItem item, string slotId)
+        public string AddNewItemsToContainer(InventoryItem container, AddableItem item, string slotId)
         {
             switch (item)
             {
                 case TarkovItem:
-                    AddNewItemsToContainer(container, (TarkovItem)item, slotId);
-                    break;
+                    return AddNewItemsToContainer(container, (TarkovItem)item, slotId);
 
                 case WeaponBuild:
-                    AddNewWeaponToContainer(container, (WeaponBuild)item, slotId);
-                    break;
+                    return AddNewWeaponToContainer(container, (WeaponBuild)item, slotId);
             }
+            return null;
         }
 
-        public void AddNewItemsToStash(AddableItem item)
+        public string AddNewItemsToStash(AddableItem item)
         {
             var stashId = item.IsQuestItem ? GetStashId(item.StashType) : Stash;
             InventoryItem ProfileStash = Items.Where(x => x.Id == stashId).FirstOrDefault();
-            AddNewItemsToContainer(ProfileStash, item, "hideout");
+            return AddNewItemsToContainer(ProfileStash, item, "hideout");
+        }
+
+        public OrganizerFillResult AddCollectionItemsToOrganizer(InventoryItem organizer)
+        {
+            OrganizerCollectionInfo info = OrganizerCollections.GetByOrganizerTpl(organizer.Tpl);
+            if (info == null)
+                return new(0, 0);
+
+            List<TarkovItem> candidates = info.GetCandidates().ToList();
+            if (candidates.Count == 0)
+                return new(0, 0);
+
+            HashSet<string> existingTpls = new(Items
+                .Where(x => x.Tpl == organizer.Tpl)
+                .SelectMany(x => GetInnerItems(x.Id))
+                .Select(x => x.Tpl));
+
+            InventoryItem currentContainer = organizer;
+            int addedItems = 0;
+            int addedContainers = 0;
+            string fullErrorKey = AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots");
+
+            foreach (TarkovItem candidate in candidates)
+            {
+                if (existingTpls.Contains(candidate.Id))
+                    continue;
+                try
+                {
+                    AddSingleItemToContainer(currentContainer, candidate.Id);
+                }
+                catch (Exception ex) when (ex.Message == fullErrorKey)
+                {
+                    currentContainer = AddNewContainerToStash(info);
+                    addedContainers++;
+                    AddSingleItemToContainer(currentContainer, candidate.Id);
+                }
+                existingTpls.Add(candidate.Id);
+                addedItems++;
+            }
+
+            return new(addedItems, addedContainers);
+        }
+
+        private void AddSingleItemToContainer(InventoryItem container, string itemTpl)
+            => AddNewItemsToContainer(container, AppData.ServerDatabase.ItemsDB[itemTpl], "main");
+
+        private InventoryItem AddNewContainerToStash(OrganizerCollectionInfo info)
+        {
+            string newId = AddNewItemsToStash(AppData.ServerDatabase.ItemsDB[info.OrganizerTpl]);
+            try { return Items.First(x => x.Id == newId); }
+            catch (Exception) { Logger.Log($"Failed to locate newly created organizer {newId}"); throw; }
         }
 
         public void RemoveAllEquipment()
@@ -356,9 +406,9 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
             };
         }
 
-        private void AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, string slotId)
+        private string AddNewItemsToContainer(InventoryItem container, TarkovItem tarkovItem, string slotId)
         {
-            AddItemToContainer(container,
+            return AddItemToContainer(container,
                                tarkovItem.Properties.Width,
                                tarkovItem.Properties.Height,
                                tarkovItem.Id,
@@ -372,10 +422,10 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                tarkovItem.DogtagProperties);
         }
 
-        private void AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, string slotId)
+        private string AddNewWeaponToContainer(InventoryItem container, WeaponBuild weaponBuild, string slotId)
         {
             var (itemWidth, itemHeight) = GetSizeOfInventoryItem(weaponBuild.Root, weaponBuild.RootTpl, weaponBuild.BuildItems);
-            AddItemToContainer(container,
+            return AddItemToContainer(container,
                                itemWidth,
                                itemHeight,
                                weaponBuild.RootTpl,
@@ -387,7 +437,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                                weaponBuild.BuildItems);
         }
 
-        private void AddItemToContainer(InventoryItem container,
+        private string AddItemToContainer(InventoryItem container,
                                         int itemWidth,
                                         int itemHeight,
                                         string itemTpl,
@@ -407,10 +457,12 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 ?? throw new Exception(AppData.AppLocalization.GetLocalizedString("tab_stash_no_slots"));
             List<string> iDs = [.. Items.Select(x => x.Id)];
             List<InventoryItem> items = [.. Items];
+            string firstRootId = null;
             for (int i = 0; i < NewItemsLocations.Count; i++)
             {
                 if (count <= 0) break;
                 string rootNewId = ExtMethods.GenerateNewId(iDs);
+                firstRootId ??= rootNewId;
                 iDs.Add(rootNewId);
                 var location = new ItemLocation { R = NewItemsLocations[i].R, X = NewItemsLocations[i].X, Y = NewItemsLocations[i].Y, IsSearched = true };
                 var upd = new ItemUpd { StackObjectsCount = count > stackSize ? stackSize : count, SpawnedInSession = fir };
@@ -426,6 +478,7 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 count -= stackSize;
             }
             Items = [.. items];
+            return firstRootId;
 
             void AddInnerItems(string rootId, string newRootId, bool fir)
             {
