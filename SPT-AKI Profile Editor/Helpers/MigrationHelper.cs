@@ -22,8 +22,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
     {
         public void PerformMigration(AppSettings settings, IApplicationManager applicationManager)
         {
-            settings.DirsList = DefaultValues.DefaultDirsList;
-            settings.FilesList = DefaultValues.DefaultFilesList;
+            settings.DirsList = DefaultValues.GetDefaultDirsList(settings.ServerDirectory);
+            settings.FilesList = DefaultValues.GetDefaultFilesList(settings.ServerDirectory);
             settings.Save();
             applicationManager.DeleteLocalizations();
             applicationManager.RestartApplication();
@@ -40,8 +40,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private static bool MigrationRequered(AppSettings settings)
         {
-            var defaultDirs = DefaultValues.DefaultDirsList;
-            var defaultFiles = DefaultValues.DefaultFilesList;
+            var serverDirectory = settings.ServerDirectory ?? DefaultValues.DefaultServerDirectory;
+            var defaultDirs = DefaultValues.GetDefaultDirsList(serverDirectory);
+            var defaultFiles = DefaultValues.GetDefaultFilesList(serverDirectory);
             return settings.DirsList.Any(x => !defaultDirs.TryGetValue(x.Key, out var path) || x.Value != path)
                 || settings.FilesList.Any(x => !defaultFiles.TryGetValue(x.Key, out var path) || x.Value != path);
         }

@@ -72,6 +72,23 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public static string GetTestName(string prefix, bool isPmcItem)
             => $"{prefix}_Test_{(isPmcItem ? "PMC" : "Scav")}";
 
+        public static string CreateFakeServerFolder(string serverDirectory)
+        {
+            string root = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestServerFolder");
+            if (Directory.Exists(root))
+                Directory.Delete(root, true);
+            Directory.CreateDirectory(root);
+            foreach (var path in DefaultValues.GetDefaultDirsList(serverDirectory).Values)
+                Directory.CreateDirectory(Path.Combine(root, path));
+            foreach (var path in DefaultValues.GetDefaultFilesList(serverDirectory).Values)
+            {
+                string file = Path.Combine(root, path);
+                Directory.CreateDirectory(Path.GetDirectoryName(file));
+                File.WriteAllText(file, "{}");
+            }
+            return root;
+        }
+
         public static void SetupTestCharacters(string prefix)
         {
             CharacterInventory pmcInventory = new()
