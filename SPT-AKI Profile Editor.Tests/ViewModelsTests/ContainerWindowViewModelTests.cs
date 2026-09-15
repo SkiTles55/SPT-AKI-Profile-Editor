@@ -11,7 +11,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class ContainerWindowViewModelTests
     {
         private static readonly TestsDialogManager dialogManager = new();
-        private static readonly TestsWorker worker = new();
+        private static readonly TestsWorker worker = new(dialogManager);
         private static readonly string backpackTpl = "545cdae64bdc2d39198b4568";
         private static string BackpackName => AppData.ServerDatabase.LocalesGlobal[backpackTpl.Name()];
 

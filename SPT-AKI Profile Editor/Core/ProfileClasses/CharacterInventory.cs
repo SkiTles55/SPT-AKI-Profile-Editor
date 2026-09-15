@@ -189,15 +189,27 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 try
                 {
                     AddSingleItemToContainer(currentContainer, candidate.Id);
+                    addedItems++;
                 }
-                catch (Exception ex) when (ex.Message == fullErrorKey)
+                catch (Exception ex)
                 {
-                    currentContainer = AddNewContainerToStash(info);
-                    addedContainers++;
-                    AddSingleItemToContainer(currentContainer, candidate.Id);
+                    Logger.Log($"Failed to add {candidate.Id} to organizer: {ex.Message}");
+                    if (ex.Message == fullErrorKey)
+                    {
+                        try
+                        {
+                            currentContainer = AddNewContainerToStash(info);
+                            addedContainers++;
+                            AddSingleItemToContainer(currentContainer, candidate.Id);
+                            addedItems++;
+                        }
+                        catch (Exception ex2)
+                        {
+                            Logger.Log($"Failed to add {candidate.Id} to new organizer: {ex2.Message}");
+                        }
+                    }
                 }
                 existingTpls.Add(candidate.Id);
-                addedItems++;
             }
 
             return new(addedItems, addedContainers);
@@ -222,6 +234,8 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
         public int[,] GetSlotsMap(InventoryItem container)
         {
             int[,] Stash2D = CreateContainerStash2D(container);
+            int gridHeight = Stash2D.GetLength(0);
+            int gridWidth = Stash2D.GetLength(1);
             foreach (var item in Items?.Where(x => x.ParentId == container.Id))
             {
                 (int itemWidth, int itemHeight) = GetSizeOfInventoryItem(item.Id, item.Tpl, Items);
@@ -231,8 +245,15 @@ namespace SPT_AKI_Profile_Editor.Core.ProfileClasses
                 {
                     try
                     {
+                        int cellY = item.Location.Y + y;
+                        if (cellY < 0 || cellY >= gridHeight)
+                            continue;
                         for (int z = item.Location.X; z < item.Location.X + rotatedWidth; z++)
-                            Stash2D[item.Location.Y + y, z] = 1;
+                        {
+                            if (z < 0 || z >= gridWidth)
+                                continue;
+                            Stash2D[cellY, z] = 1;
+                        }
                     }
                     catch (Exception ex)
                     {
