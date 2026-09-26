@@ -1,8 +1,12 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
@@ -10,8 +14,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     internal class TestHelpers
     {
         public static readonly JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = [new StringEnumConverterExt()] };
-        public static readonly string profileFile = @"E:\SPT\SPT_Runtime\user\profiles\692ab300864c24352c711a34.json";
-        public static readonly string serverPath = @"E:\SPT";
+        public static readonly string profileFile = @"E:\game\tkf\SPT-4.1.5-40743-7d7add5\SPT_Runtime\user\profiles\6a36abb273318377b8e8ef4e.json";
+        public static readonly string serverPath = @"E:\game\tkf\SPT-4.1.5-40743-7d7add5";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
         public static readonly string weaponBuild = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "testBuild.json");
@@ -68,6 +72,23 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public static string GetTestName(string prefix, bool isPmcItem)
             => $"{prefix}_Test_{(isPmcItem ? "PMC" : "Scav")}";
 
+        public static string CreateFakeServerFolder(string serverDirectory)
+        {
+            string root = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestServerFolder");
+            if (Directory.Exists(root))
+                Directory.Delete(root, true);
+            Directory.CreateDirectory(root);
+            foreach (var path in DefaultValues.GetDefaultDirsList(serverDirectory).Values)
+                Directory.CreateDirectory(Path.Combine(root, path));
+            foreach (var path in DefaultValues.GetDefaultFilesList(serverDirectory).Values)
+            {
+                string file = Path.Combine(root, path);
+                Directory.CreateDirectory(Path.GetDirectoryName(file));
+                File.WriteAllText(file, "{}");
+            }
+            return root;
+        }
+
         public static void SetupTestCharacters(string prefix)
         {
             CharacterInventory pmcInventory = new()
@@ -111,6 +132,31 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
+        }
+
+        public static CharacterInventory SetupOrganizerInventory()
+        {
+            AppData.ServerDatabase.LocalesGlobal = [];
+            AppData.Profile.Characters = new ProfileCharacters { Pmc = new Character { Bonuses = [], StashRowsBonusCount = 0 } };
+            AppData.ServerDatabase.ItemsDB = new Dictionary<string, TarkovItem>
+            {
+                ["stash_tpl"] = new("stash_tpl", new TarkovItemProperties { Width = 2, Height = 2, Grids = new[] { new Grid { Props = new GridProps { CellsH = 5, CellsV = 5 } } } }, "container_parent", "Item"),
+                [OrganizerCollections.KeyOrganizerTpl] = new(OrganizerCollections.KeyOrganizerTpl, new TarkovItemProperties { Width = 2, Height = 2, StackMaxSize = 1, Grids = new[] { new Grid { Props = new GridProps { CellsH = 2, CellsV = 2, Filters = new[] { new Filters { Filter = new[] { "keycat" }, ExcludedFilter = [] } } } } } }, "container_parent", "Item"),
+                ["k1"] = new("k1", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k2"] = new("k2", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k3"] = new("k3", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k4"] = new("k4", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k5"] = new("k5", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item")
+            };
+            return new CharacterInventory
+            {
+                Stash = "stash_id",
+                Items = new[]
+                {
+                    new InventoryItem { Id = "stash_id", Tpl = "stash_tpl" },
+                    new InventoryItem { Id = "organizer_vm_id", Tpl = OrganizerCollections.KeyOrganizerTpl, ParentId = "stash_id", Location = new ItemLocation { X = 0, Y = 0, R = ItemRotation.Horizontal } }
+                }
+            };
         }
     }
 }

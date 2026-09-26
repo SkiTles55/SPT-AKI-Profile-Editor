@@ -51,6 +51,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="160" />
@@ -135,8 +136,39 @@
                             Command="{Binding ServerSelect}"
                             Content="{Binding AppLocalization.Translations[button_select], FallbackValue=button_select}" />
                     </Grid>
-                    <TextBlock
+                    <Label
                         Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,5,0,0"
+                        Content="{Binding AppLocalization.Translations[server_directory], FallbackValue=server_directory}"
+                        Template="{StaticResource TitleLabel}" />
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="10,5,10,0"
+                        VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox
+                            Grid.Column="0"
+                            VerticalContentAlignment="Center"
+                            ToolTip="{Binding AppLocalization.Translations[server_directory_tip], FallbackValue=server_directory_tip}"
+                            Text="{Binding ServerDirectory, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+                        <extendedcontrols:ButtonFontAwesomeIcon
+                            Grid.Column="1"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Command="{Binding ServerSelect}"
+                            Icon="RecycleSolid"
+                            IconSize="15"
+                            Style="{StaticResource IconOnlyButton}"
+                            ToolTip="{Binding AppLocalization.Translations[server_directory_redetect], FallbackValue=server_directory_redetect}" />
+                    </Grid>
+                    <TextBlock
+                        Grid.Row="3"
                         Grid.Column="0"
                         Margin="15,0,0,5">
                         <Hyperlink
@@ -147,20 +179,20 @@
                         </Hyperlink>
                     </TextBlock>
                     <Label
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="1"
                         d:Visibility="Visible"
                         Content="{Binding AppLocalization.Translations[invalid_server_location_text], FallbackValue=invalid_server_location_text}"
                         Template="{StaticResource ValidationLabel}"
                         Visibility="{Binding ServerPathValid, Converter={StaticResource FalseToVisibleConverter}}" />
                     <Label
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_account], FallbackValue=tab_settings_account}"
                         Template="{StaticResource TitleLabel}" />
                     <ComboBox
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="1"
                         Margin="10,5,10,0"
                         VerticalAlignment="Top"
@@ -170,20 +202,20 @@
                         SelectedValue="{Binding AppSettings.DefaultProfile}"
                         SelectedValuePath="Key" />
                     <Label
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="1"
                         d:Visibility="Visible"
                         Content="{Binding AppLocalization.Translations[no_accounts], FallbackValue=no_accounts}"
                         Template="{StaticResource ValidationLabel}"
                         Visibility="{Binding ServerHasAccounts, Converter={StaticResource FalseToVisibleConverter}}" />
                     <Label
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_color_scheme], FallbackValue=tab_settings_color_scheme}"
                         Template="{StaticResource TitleLabel}" />
                     <ComboBox
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Grid.Column="1"
                         Margin="10,5,10,0"
                         VerticalAlignment="Top"
@@ -203,13 +235,13 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Label
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Grid.Column="0"
                         Margin="0,5,0,0"
                         Content="{Binding AppLocalization.Translations[tab_settings_check_updates], FallbackValue=tab_settings_check_updates}"
                         Template="{StaticResource TitleLabel}" />
                     <mah:ToggleSwitch
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Grid.Column="1"
                         Margin="12,5,0,0"
                         VerticalAlignment="Top"
