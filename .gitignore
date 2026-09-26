@@ -362,5 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-!**/bin/Debug/net9.0/SPT-AKI Profile Editor.ModHelper.dll
-!**/bin/Debug/net9.0/version
+# The helper release artifacts are added explicitly under bin/Release/net10.0.
