@@ -37,16 +37,25 @@
                     HasItems="{Binding HasItems}"
                     ItemsSource="{Binding Items}"
                     RemovingAllowed="{Binding EditingAllowed}" />
-                <Button
+                <StackPanel
                     Grid.Row="1"
-                    Width="200"
-                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Command="{Binding RemoveAllItems}"
-                    Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
-                    IsEnabled="{Binding HasItems}"
-                    Visibility="{Binding EditingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    Orientation="Horizontal">
+                    <Button
+                        Width="200"
+                        Margin="10"
+                        Command="{Binding AddAllCollectionItems}"
+                        Content="{Binding AddAllCollectionButtonText}"
+                        Visibility="{Binding AddAllCollectionButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Button
+                        Width="200"
+                        Margin="10"
+                        Command="{Binding RemoveAllItems}"
+                        Content="{Binding AppLocalization.Translations[tab_stash_remove], FallbackValue=tab_stash_remove}"
+                        IsEnabled="{Binding HasItems}"
+                        Visibility="{Binding EditingAllowed, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
             </Grid>
         </TabItem>
         <TabItem

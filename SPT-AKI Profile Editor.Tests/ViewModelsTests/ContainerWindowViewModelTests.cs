@@ -1,8 +1,12 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -10,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
     internal class ContainerWindowViewModelTests
     {
         private static readonly TestsDialogManager dialogManager = new();
-        private static readonly TestsWorker worker = new();
+        private static readonly TestsWorker worker = new(dialogManager);
         private static readonly string backpackTpl = "545cdae64bdc2d39198b4568";
         private static string BackpackName => AppData.ServerDatabase.LocalesGlobal[backpackTpl.Name()];
 
@@ -128,6 +132,135 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
                        true,
                        dialogManager,
                        worker);
+        }
+
+        private static readonly InventoryItem organizerItem = new()
+        {
+            Id = "organizer_vm_id",
+            Tpl = OrganizerCollections.KeyOrganizerTpl
+        };
+
+        [SetUp]
+        public void ResetSharedTestState()
+        {
+            dialogManager.YesNoDialogResult = true;
+            dialogManager.LastOkMessage = null;
+            worker.AddTaskCalled = false;
+        }
+
+        [Test]
+        public void AddAllCollectionButtonVisibleForSupportedOrganizer()
+        {
+            var inventory = TestHelpers.SetupOrganizerInventory();
+            ContainerWindowViewModel vm = new(organizerItem, inventory, null, null, true, dialogManager, worker);
+            Assert.That(vm.AddAllCollectionButtonVisible, Is.True);
+        }
+
+        [Test]
+        public void AddAllCollectionButtonVisibleFalseForRegularContainer()
+        {
+            ContainerWindowViewModel vm = TestViewModel(true);
+            Assert.That(vm.AddAllCollectionButtonVisible, Is.False);
+        }
+
+        [Test]
+        public void AddAllCollectionButtonVisibleFalseWhenEditingDisabled()
+        {
+            var inventory = TestHelpers.SetupOrganizerInventory();
+            ContainerWindowViewModel vm = new(organizerItem, inventory, null, null, false, dialogManager, worker);
+            Assert.That(vm.AddAllCollectionButtonVisible, Is.False);
+        }
+
+        [Test]
+        public void AddAllCollectionButtonTextReturnsLocalizedValue()
+        {
+            Assert.That(new ContainerWindowViewModel(organizerItem, TestHelpers.SetupOrganizerInventory(), null, null, true, dialogManager, worker).AddAllCollectionButtonText,
+                        Is.EqualTo(AppData.AppLocalization.GetLocalizedString("container_add_all_keys")));
+        }
+
+        [Test]
+        public void AddAllCollectionItemsExecutesFillAndShowsResult()
+        {
+            var inventory = TestHelpers.SetupOrganizerInventory();
+            ContainerWindowViewModel vm = new(organizerItem, inventory, null, null, true, dialogManager, worker);
+            vm.AddAllCollectionItems.Execute(null);
+            Assert.That(worker.AddTaskCalled, Is.True);
+            Assert.That(dialogManager.LastOkMessage, Is.Not.Null);
+            // Compare against the localized string: the active language comes from the machine's
+            // settings, so a hardcoded "Added" would fail on a Russian locale.
+            Assert.That(dialogManager.LastOkMessage,
+                        Is.EqualTo(AppData.AppLocalization.GetLocalizedString("container_add_all_done", "5", "1", "0")));
+            Assert.That(inventory.Items.Count(x => x.Tpl == OrganizerCollections.KeyOrganizerTpl), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void AddAllCollectionItemsWarnsWhenItemsAreSkipped()
+        {
+            // A 1x1 stash fits the single 1x1 organizer and nothing else, so the fill has to be
+            // reported as partial instead of as a complete success.
+            AppData.ServerDatabase.ItemsDB = new Dictionary<string, TarkovItem>
+            {
+                ["stash_tpl"] = new("stash_tpl", new TarkovItemProperties
+                {
+                    Width = 1,
+                    Height = 1,
+                    StackMaxSize = 1,
+                    Grids = [new Grid { Props = new GridProps { CellsH = 1, CellsV = 1 } }]
+                }, "container_parent", "Item"),
+                [OrganizerCollections.KeyOrganizerTpl] = new(OrganizerCollections.KeyOrganizerTpl, new TarkovItemProperties
+                {
+                    Width = 1,
+                    Height = 1,
+                    StackMaxSize = 1,
+                    Grids = [new Grid { Props = new GridProps
+                    {
+                        CellsH = 1,
+                        CellsV = 1,
+                        Filters = [new Filters { Filter = ["keycat"], ExcludedFilter = [] }]
+                    } }]
+                }, "container_parent", "Item")
+            };
+            foreach (var id in new[] { "k1", "k2", "k3" })
+                AppData.ServerDatabase.ItemsDB[id] = new(id, new TarkovItemProperties
+                {
+                    Width = 1,
+                    Height = 1,
+                    StackMaxSize = 1
+                }, "keycat", "Item");
+
+            var inventory = new CharacterInventory
+            {
+                Stash = "stash_id",
+                Items =
+                [
+                    new InventoryItem { Id = "stash_id", Tpl = "stash_tpl" },
+                    new InventoryItem
+                    {
+                        Id = "organizer_vm_id",
+                        Tpl = OrganizerCollections.KeyOrganizerTpl,
+                        ParentId = "stash_id",
+                        Location = new ItemLocation { X = 0, Y = 0, R = ItemRotation.Horizontal }
+                    }
+                ]
+            };
+            ContainerWindowViewModel vm = new(organizerItem, inventory, null, null, true, dialogManager, worker);
+            vm.AddAllCollectionItems.Execute(null);
+            Assert.That(dialogManager.LastOkMessage,
+                        Is.EqualTo(AppData.AppLocalization.GetLocalizedString("container_add_all_done", "1", "0", "2")),
+                        "skipped keys must be reported, not presented as a complete fill");
+        }
+
+        [Test]
+        public void AddAllCollectionItemsDoesNothingWhenCanceled()
+        {
+            dialogManager.YesNoDialogResult = false;
+            var inventory = TestHelpers.SetupOrganizerInventory();
+            int before = inventory.Items.Count();
+            ContainerWindowViewModel vm = new(organizerItem, inventory, null, null, true, dialogManager, worker);
+            vm.AddAllCollectionItems.Execute(null);
+            Assert.That(worker.AddTaskCalled, Is.False);
+            Assert.That(dialogManager.LastOkMessage, Is.Null);
+            Assert.That(inventory.Items.Count(), Is.EqualTo(before));
         }
     }
 }
