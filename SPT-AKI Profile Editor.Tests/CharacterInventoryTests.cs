@@ -15,6 +15,7 @@ namespace SPT_AKI_Profile_Editor.Tests
         private static readonly string stashId = "stash_id";
         private static readonly string organizerId = "organizer_id";
         private static readonly string[] keyCandidates = ["k1", "k2", "k3", "k4", "k5", "k6"];
+        private static readonly string[] crowdedKeyCandidates = ["k1", "k2", "k3"];
 
         private static TarkovItem ContainerTpl(string id, int cellsH, int cellsV, string[] filter) => new(id, new TarkovItemProperties
         {
@@ -52,6 +53,23 @@ namespace SPT_AKI_Profile_Editor.Tests
                 [OrganizerCollections.KeyOrganizerTpl] = ContainerTpl(OrganizerCollections.KeyOrganizerTpl, 2, 2, new[] { "keycat" })
             };
             foreach (var id in keyCandidates)
+                db[id] = ItemTpl(id, "keycat");
+            AppData.ServerDatabase.ItemsDB = db;
+        }
+
+        /// <summary>
+        /// A 2x2 stash that the 2x2 organizer fills exactly, plus a 1-cell organizer that can hold
+        /// a single key. The organizer therefore fills up while the stash still has no room for a
+        /// second organizer, so everything after the first key has nowhere to go.
+        /// </summary>
+        private void LoadCrowdedItemsDb()
+        {
+            var db = new Dictionary<string, TarkovItem>
+            {
+                [stashTpl] = ContainerTpl(stashTpl, 2, 2, null),
+                [OrganizerCollections.KeyOrganizerTpl] = ContainerTpl(OrganizerCollections.KeyOrganizerTpl, 1, 1, new[] { "keycat" })
+            };
+            foreach (var id in crowdedKeyCandidates)
                 db[id] = ItemTpl(id, "keycat");
             AppData.ServerDatabase.ItemsDB = db;
         }
@@ -133,6 +151,28 @@ namespace SPT_AKI_Profile_Editor.Tests
             var result = inventory.AddCollectionItemsToOrganizer(GetOrganizer(inventory));
             Assert.That(result, Is.EqualTo(new OrganizerFillResult(6, 1)));
             Assert.That(innerTpls(inventory), Does.Not.Contain("57518f7724597720a31c09ab"));
+        }
+
+        [Test]
+        public void ReportsKeysDroppedWhenOrganizerAndStashAreBothFull()
+        {
+            LoadCrowdedItemsDb();
+            var inventory = InventoryWithOrganizer();
+            var result = inventory.AddCollectionItemsToOrganizer(GetOrganizer(inventory));
+
+            Assert.That(inventory.Items.Count(x => x.ParentId == organizerId), Is.EqualTo(1));
+            Assert.That(result.AddedItems, Is.EqualTo(1));
+            Assert.That(result.AddedContainers, Is.EqualTo(0));
+            Assert.That(result.SkippedItems, Is.EqualTo(2),
+                "keys that could not be placed must be reported, not silently dropped");
+        }
+
+        [Test]
+        public void ReportsNoSkippedKeysWhenFillSucceeds()
+        {
+            var inventory = InventoryWithOrganizer();
+            var result = inventory.AddCollectionItemsToOrganizer(GetOrganizer(inventory));
+            Assert.That(result.SkippedItems, Is.EqualTo(0));
         }
 
         private static List<string> innerTpls(CharacterInventory inventory)

@@ -118,11 +118,15 @@ namespace SPT_AKI_Profile_Editor
             {
                 var result = _inventory.AddCollectionItemsToOrganizer(_item);
                 OnPropertyChanged("");
+                // Items that could not be placed are reported in the description, and the title
+                // switches to a warning so a partial fill is not presented as a complete one.
                 task.WorkerNotification = new WorkerNotification
                 {
-                    NotificationTitle = AppLocalization.GetLocalizedString("container_add_all_title"),
+                    NotificationTitle = AppLocalization.GetLocalizedString(result.SkippedItems > 0
+                                                                               ? "container_add_all_warning_title"
+                                                                               : "container_add_all_title"),
                     NotificationDescription = AppLocalization.GetLocalizedString("container_add_all_done",
-                        result.AddedItems.ToString(), result.AddedContainers.ToString())
+                        result.AddedItems.ToString(), result.AddedContainers.ToString(), result.SkippedItems.ToString())
                 };
             };
             return task;
