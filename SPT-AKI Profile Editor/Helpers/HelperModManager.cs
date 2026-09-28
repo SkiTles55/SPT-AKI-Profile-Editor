@@ -146,15 +146,25 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private (string packagePath, string srcPath) GetFilesPaths()
         {
-            if (HaveUpdatedFiles)
+            var bundledPackagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                  modSourceDirName,
+                                                  versionFileName);
+            var bundledModPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                              modSourceDirName,
+                                              modPackageFileName);
+
+            if (!HaveUpdatedFiles)
+                return (bundledPackagePath, bundledModPath);
+
+            var bundledVersion = GetModVersion(bundledPackagePath);
+            var updatedVersion = GetModVersion(updatedVersionPath);
+
+            // An update cache can survive an application upgrade. Do not let an
+            // older cached helper replace the helper bundled with this build.
+            if (bundledVersion == null || updatedVersion == null || updatedVersion > bundledVersion)
                 return (updatedVersionPath, updatedModPackagePath);
-            var packagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           modSourceDirName,
-                                           versionFileName);
-            var srcPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                       modSourceDirName,
-                                       modPackageFileName);
-            return (packagePath, srcPath);
+
+            return (bundledPackagePath, bundledModPath);
         }
     }
 }
