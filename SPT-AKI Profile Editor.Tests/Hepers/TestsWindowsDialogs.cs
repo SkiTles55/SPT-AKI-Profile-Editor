@@ -52,7 +52,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             {
                 FolderBrowserDialogMode.weaponBuildsExport => (true, weaponBuildsExportPath),
                 FolderBrowserDialogMode.equipmentBuildsExport => (true, equipmentBuildsExportPath),
-FolderBrowserDialogMode.serverFolder => (true, TestHelpers.serverPath),
+                FolderBrowserDialogMode.serverFolder => (true, TestHelpers.serverPath),
                     FolderBrowserDialogMode.wrongServerFolder => (true, TestHelpers.wrongServerPath),
                     FolderBrowserDialogMode.customServerFolder => (true, customServerFolderPath),
                 _ => throw new NotImplementedException(),
