@@ -1,5 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using SPT_AKI_Profile_Editor.Classes;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
@@ -83,6 +85,52 @@ namespace SPT_AKI_Profile_Editor
                 _worker.AddTask(ProgressTask(() => RemoveAllItemsFromContainer(),
                                     AppLocalization.GetLocalizedString("remove_stash_item_title")));
         });
+
+        public bool AddAllCollectionButtonVisible
+            => EditingAllowed && OrganizerCollections.GetByOrganizerTpl(_item.Tpl) != null;
+
+        public string AddAllCollectionButtonText
+        {
+            get
+            {
+                var info = OrganizerCollections.GetByOrganizerTpl(_item.Tpl);
+                return info == null ? "" : AppLocalization.GetLocalizedString(info.ButtonTextKey);
+            }
+        }
+
+        public RelayCommand AddAllCollectionItems => new(async obj =>
+        {
+            if (!AddAllCollectionButtonVisible)
+                return;
+            if (!await _dialogManager.YesNoDialog("container_add_all_title", "container_add_all_confirm"))
+                return;
+            _worker.AddTask(CreateAddAllCollectionTask());
+        });
+
+        private WorkerTask CreateAddAllCollectionTask()
+        {
+            var task = new WorkerTask
+            {
+                Title = AppLocalization.GetLocalizedString("progress_dialog_title"),
+                Description = AppLocalization.GetLocalizedString("container_add_all_title")
+            };
+            task.Action = () =>
+            {
+                var result = _inventory.AddCollectionItemsToOrganizer(_item);
+                OnPropertyChanged("");
+                // Items that could not be placed are reported in the description, and the title
+                // switches to a warning so a partial fill is not presented as a complete one.
+                task.WorkerNotification = new WorkerNotification
+                {
+                    NotificationTitle = AppLocalization.GetLocalizedString(result.SkippedItems > 0
+                                                                               ? "container_add_all_warning_title"
+                                                                               : "container_add_all_title"),
+                    NotificationDescription = AppLocalization.GetLocalizedString("container_add_all_done",
+                        result.AddedItems.ToString(), result.AddedContainers.ToString(), result.SkippedItems.ToString())
+                };
+            };
+            return task;
+        }
 
         public RelayCommand AddItem => new(obj =>
         {

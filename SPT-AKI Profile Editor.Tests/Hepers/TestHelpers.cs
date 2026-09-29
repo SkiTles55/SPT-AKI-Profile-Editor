@@ -3,6 +3,7 @@ using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
+using SPT_AKI_Profile_Editor.Core.ServerClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
     internal class TestHelpers
     {
         public static readonly JsonSerializerSettings seriSettings = new() { Formatting = Formatting.Indented, Converters = [new StringEnumConverterExt()] };
-        public static readonly string profileFile = @"E:\SPT\SPT_Runtime\user\profiles\692ab300864c24352c711a34.json";
+        public static readonly string profileFile = @"E:\SPT\SPT_Runtime\user\profiles\6a9d99c692b3387c465de3c2.json";
         public static readonly string serverPath = @"E:\SPT";
         public static readonly string wrongServerPath = @"D:\WinSetupFromUSB";
         public static readonly string profileWithDuplicatedItems = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testFiles", "profileWithDuplicatedItems.json");
@@ -145,6 +146,31 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
             AppData.Profile.Save(profileFile, testFile);
             AppData.Profile.Load(testFile);
+        }
+
+        public static CharacterInventory SetupOrganizerInventory()
+        {
+            AppData.ServerDatabase.LocalesGlobal = [];
+            AppData.Profile.Characters = new ProfileCharacters { Pmc = new Character { Bonuses = [], StashRowsBonusCount = 0 } };
+            AppData.ServerDatabase.ItemsDB = new Dictionary<string, TarkovItem>
+            {
+                ["stash_tpl"] = new("stash_tpl", new TarkovItemProperties { Width = 2, Height = 2, Grids = new[] { new Grid { Props = new GridProps { CellsH = 5, CellsV = 5 } } } }, "container_parent", "Item"),
+                [OrganizerCollections.KeyOrganizerTpl] = new(OrganizerCollections.KeyOrganizerTpl, new TarkovItemProperties { Width = 2, Height = 2, StackMaxSize = 1, Grids = new[] { new Grid { Props = new GridProps { CellsH = 2, CellsV = 2, Filters = new[] { new Filters { Filter = new[] { "keycat" }, ExcludedFilter = [] } } } } } }, "container_parent", "Item"),
+                ["k1"] = new("k1", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k2"] = new("k2", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k3"] = new("k3", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k4"] = new("k4", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item"),
+                ["k5"] = new("k5", new TarkovItemProperties { Width = 1, Height = 1, StackMaxSize = 1 }, "keycat", "Item")
+            };
+            return new CharacterInventory
+            {
+                Stash = "stash_id",
+                Items = new[]
+                {
+                    new InventoryItem { Id = "stash_id", Tpl = "stash_tpl" },
+                    new InventoryItem { Id = "organizer_vm_id", Tpl = OrganizerCollections.KeyOrganizerTpl, ParentId = "stash_id", Location = new ItemLocation { X = 0, Y = 0, R = ItemRotation.Horizontal } }
+                }
+            };
         }
     }
 }
