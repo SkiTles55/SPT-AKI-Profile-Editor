@@ -63,6 +63,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public bool Loaded = false;
 
         private string serverPath;
+        private string serverDirectory = DefaultValues.DefaultServerDirectory;
         private string defaultProfile;
         private string language;
         private string colorScheme;
@@ -88,6 +89,18 @@ namespace SPT_AKI_Profile_Editor.Core
                         LoadProfiles();
                     Save();
                 }
+            }
+        }
+
+        public string ServerDirectory
+        {
+            get => serverDirectory;
+            set
+            {
+                if (serverDirectory == value) return;
+                serverDirectory = value ?? DefaultValues.DefaultServerDirectory;
+                RebuildServerPaths();
+                NotifyPropertyChangedAndSave(nameof(ServerDirectory));
             }
         }
 
@@ -256,17 +269,58 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public bool PathIsServerFolder(string path = null) => CheckServerPath(path)?.All(x => x.IsFounded) == true;
 
-        public List<ServerPathEntry> CheckServerPath(string path = null)
+        public List<ServerPathEntry> CheckServerPath(string path = null,
+                                                      Dictionary<string, string> dirs = null,
+                                                      Dictionary<string, string> files = null)
         {
             if (string.IsNullOrEmpty(path)) path = ServerPath;
             if (string.IsNullOrEmpty(path)) return null;
             if (!Directory.Exists(path)) return null;
+            dirs ??= DirsList;
+            files ??= FilesList;
             var result = new List<ServerPathEntry>();
 
-            result.AddRange(FilesList.Select(x => new ServerPathEntry(x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
-            result.AddRange(DirsList.Select(x => new ServerPathEntry(x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(files.Select(x => new ServerPathEntry(x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(dirs.Select(x => new ServerPathEntry(x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
 
             return result;
+        }
+
+        public static string TryAutoDetectServerDirectory(string rootPath)
+        {
+            if (string.IsNullOrEmpty(rootPath) || !Directory.Exists(rootPath))
+                return null;
+
+            foreach (var known in new[] { "SPT_Runtime", "SPT" })
+            {
+                string candidate = Path.Combine(rootPath, known);
+                if (Directory.Exists(candidate) && LooksLikeServerDir(candidate))
+                    return known;
+            }
+
+            if (LooksLikeServerDir(rootPath))
+                return "";
+
+            foreach (var dir in Directory.GetDirectories(rootPath).OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+            {
+                string name = Path.GetFileName(dir);
+                if (LooksLikeServerDir(dir))
+                    return name;
+            }
+
+            return null;
+        }
+
+        private static bool LooksLikeServerDir(string path)
+        {
+            return Directory.Exists(Path.Combine(path, "SPT_Data", "database"))
+                && Directory.Exists(Path.Combine(path, "user", "profiles"));
+        }
+
+        public void RebuildServerPaths()
+        {
+            DirsList = DefaultValues.GetDefaultDirsList(ServerDirectory);
+            FilesList = DefaultValues.GetDefaultFilesList(ServerDirectory);
         }
 
         public void Load()
@@ -347,6 +401,7 @@ namespace SPT_AKI_Profile_Editor.Core
         private void ApplyLoadedValues(AppSettings loaded)
         {
             ServerPath = loaded.ServerPath;
+            ServerDirectory = loaded.ServerDirectory ?? DefaultValues.DefaultServerDirectory;
             DefaultProfile = loaded.DefaultProfile;
             Language = loaded.Language;
             ColorScheme = loaded.ColorScheme;
@@ -388,6 +443,11 @@ namespace SPT_AKI_Profile_Editor.Core
         private bool CheckValues()
         {
             bool _needReSave = false;
+            if (serverDirectory == null)
+            {
+                serverDirectory = DefaultValues.DefaultServerDirectory;
+                _needReSave = true;
+            }
             if (DirsList == null)
             {
                 DirsList = [];
@@ -398,12 +458,12 @@ namespace SPT_AKI_Profile_Editor.Core
                 FilesList = [];
                 _needReSave = true;
             }
-            foreach (var dir in DefaultValues.DefaultDirsList.Where(x => !DirsList.ContainsKey(x.Key)))
+            foreach (var dir in DefaultValues.GetDefaultDirsList(ServerDirectory).Where(x => !DirsList.ContainsKey(x.Key)))
             {
                 DirsList.Add(dir.Key, dir.Value);
                 _needReSave = true;
             }
-            foreach (var file in DefaultValues.DefaultFilesList.Where(x => !FilesList.ContainsKey(x.Key)))
+            foreach (var file in DefaultValues.GetDefaultFilesList(ServerDirectory).Where(x => !FilesList.ContainsKey(x.Key)))
             {
                 FilesList.Add(file.Key, file.Value);
                 _needReSave = true;
@@ -560,8 +620,9 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             ColorScheme = DefaultValues.ColorScheme;
             Language = ExtMethods.WindowsCulture;
-            DirsList = DefaultValues.DefaultDirsList;
-            FilesList = DefaultValues.DefaultFilesList;
+            ServerDirectory = DefaultValues.DefaultServerDirectory;
+            DirsList = DefaultValues.GetDefaultDirsList(ServerDirectory);
+            FilesList = DefaultValues.GetDefaultFilesList(ServerDirectory);
             CheckUpdates = DefaultValues.CheckUpdates;
             UsingModHelper = false;
             AutoAddMissingMasterings = false;

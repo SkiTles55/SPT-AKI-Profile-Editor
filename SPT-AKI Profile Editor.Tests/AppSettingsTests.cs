@@ -1,8 +1,10 @@
 ﻿using NUnit.Framework;
 using SPT_AKI_Profile_Editor.Core;
 using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -34,6 +36,153 @@ namespace SPT_AKI_Profile_Editor.Tests
 
         [Test]
         public void FilesListCorrect() => Assert.That(settings.FilesList, Is.EqualTo(DefaultValues.DefaultFilesList), "Files list not correct");
+
+        [Test]
+        public void ServerDirectoryDefault() => Assert.That(settings.ServerDirectory, Is.EqualTo(DefaultValues.DefaultServerDirectory));
+
+        [Test]
+        public void ServerDirectoryNullSetToDefault()
+        {
+            settings.ServerDirectory = null;
+            Assert.That(settings.ServerDirectory, Is.EqualTo(DefaultValues.DefaultServerDirectory));
+        }
+
+        [Test]
+        public void ServerDirectoryChangePersistsRebuiltPaths()
+        {
+            try
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                settings.ServerDirectory = "SPT";
+                AppSettings persisted = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(settings.configurationFile));
+                Assert.That(persisted.ServerDirectory, Is.EqualTo("SPT"));
+                Assert.That(persisted.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("SPT", "user", "profiles")));
+                Assert.That(persisted.FilesList[SPTServerFile.serverexe], Is.EqualTo(Path.Combine("SPT", "SPT.Server.exe")));
+            }
+            finally
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            }
+        }
+
+        [Test]
+        public void GetDefaultDirsListCustomServerDir()
+        {
+            var dirs = DefaultValues.GetDefaultDirsList("CustomDir");
+            Assert.That(dirs[SPTServerDir.profiles], Is.EqualTo(Path.Combine("CustomDir", "user", "profiles")));
+            Assert.That(dirs[SPTServerDir.globals], Is.EqualTo(Path.Combine("CustomDir", "SPT_Data", "database", "locales", "global")));
+        }
+
+        [Test]
+        public void GetDefaultDirsListEmptyServerDir()
+        {
+            var dirs = DefaultValues.GetDefaultDirsList("");
+            Assert.That(dirs[SPTServerDir.profiles], Is.EqualTo(Path.Combine("user", "profiles")));
+        }
+
+        [Test]
+        public void GetDefaultFilesListCustomServerDir()
+        {
+            var files = DefaultValues.GetDefaultFilesList("CustomDir");
+            Assert.That(files[SPTServerFile.serverexe], Is.EqualTo(Path.Combine("CustomDir", "SPT.Server.exe")));
+            Assert.That(files[SPTServerFile.globals], Is.EqualTo(Path.Combine("CustomDir", "SPT_Data", "database", "globals.json")));
+        }
+
+        [Test]
+        public void TryAutoDetectReturnsNullForInvalidPath() => Assert.That(AppSettings.TryAutoDetectServerDirectory(TestHelpers.wrongServerPath), Is.Null);
+
+        [Test]
+        public void TryAutoDetectFindsKnownServerDirectory()
+        {
+            string temp = TestHelpers.CreateFakeServerFolder("SPT_Runtime");
+            try
+            {
+                Assert.That(AppSettings.TryAutoDetectServerDirectory(temp), Is.EqualTo("SPT_Runtime"));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
+        public void TryAutoDetectFindsFlatLayout()
+        {
+            string temp = TestHelpers.CreateFakeServerFolder("");
+            try
+            {
+                Assert.That(AppSettings.TryAutoDetectServerDirectory(temp), Is.EqualTo(""));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
+        public void TryAutoDetectPrefersAlphabeticallyFirstMatch()
+        {
+            string temp = TestHelpers.CreateFakeServerRoot("TestMultiMatchServerFolder", ["Zeta", "Alpha"]);
+            try
+            {
+                Assert.That(AppSettings.TryAutoDetectServerDirectory(temp), Is.EqualTo("Alpha"));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
+        public void TryAutoDetectIsStableAcrossCalls()
+        {
+            string temp = TestHelpers.CreateFakeServerRoot("TestMultiMatchServerFolder", ["Zeta", "Alpha"]);
+            try
+            {
+                string first = AppSettings.TryAutoDetectServerDirectory(temp);
+                Assert.That(first, Is.Not.Null);
+                for (int i = 0; i < 20; i++)
+                    Assert.That(AppSettings.TryAutoDetectServerDirectory(temp), Is.EqualTo(first));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
+        public void ServerDirectorySetterRebuildsDictionaries()
+        {
+            try
+            {
+                settings.ServerDirectory = "CustomDir";
+                Assert.That(settings.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("CustomDir", "user", "profiles")));
+                Assert.That(settings.FilesList[SPTServerFile.serverexe], Is.EqualTo(Path.Combine("CustomDir", "SPT.Server.exe")));
+            }
+            finally
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            }
+        }
+
+        [Test]
+        public void ServerDirectoryRoundTripKeepsCustomDirsList()
+        {
+            try
+            {
+                settings.ServerDirectory = "SPT";
+                settings.DirsList[SPTServerDir.profiles] = Path.Combine("HandEdited", "user", "profiles");
+                settings.Save();
+                AppSettings reloaded = new(settings.configurationFile);
+                reloaded.Load();
+                Assert.That(reloaded.ServerDirectory, Is.EqualTo("SPT"));
+                Assert.That(reloaded.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("HandEdited", "user", "profiles")));
+            }
+            finally
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            }
+        }
 
         [Test]
         public void IssuesActionAlwaysShowSavesCorrectly() => IssuesActionSavesCorrectly(IssuesAction.AlwaysShow);

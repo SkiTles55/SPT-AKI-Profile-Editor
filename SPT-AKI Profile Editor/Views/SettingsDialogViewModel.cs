@@ -130,6 +130,21 @@ namespace SPT_AKI_Profile_Editor.Views
             }
         }
 
+        public string ServerDirectory
+        {
+            get => AppSettings.ServerDirectory;
+            set
+            {
+                if (AppSettings.ServerDirectory == value) return;
+                AppSettings.ServerDirectory = value;
+                AppSettings.LoadProfiles();
+                OnPropertyChanged(nameof(ServerDirectory));
+                OnPropertyChanged(nameof(ServerPathValid));
+                OnPropertyChanged(nameof(ServerHasAccounts));
+                OnPropertyChanged(nameof(HelperModManager));
+            }
+        }
+
         public string ColorScheme
         {
             get => AppSettings.ColorScheme;
@@ -179,6 +194,22 @@ namespace SPT_AKI_Profile_Editor.Views
                     ServerPath = path;
                     return;
                 }
+
+                var detected = AppSettings.TryAutoDetectServerDirectory(path);
+                if (detected != null)
+                {
+                    var detectedResult = AppSettings.CheckServerPath(path,
+                                                                     DefaultValues.GetDefaultDirsList(detected),
+                                                                     DefaultValues.GetDefaultFilesList(detected));
+                    if (detectedResult?.All(x => x.IsFounded) == true)
+                    {
+                        ServerDirectory = detected;
+                        ServerPath = path;
+                        return;
+                    }
+                    checkResult = detectedResult ?? checkResult;
+                }
+
                 await dialogManager.ShowServerPathEditorDialog(checkResult, ServerPathEditorRetryCommand, faqCommand);
             }
         }
