@@ -158,6 +158,38 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
+        public void ServerDirectorySetReloadsProfilesAndAccounts()
+        {
+            string root = TestHelpers.CreateFakeServerRoot("TestTwoLayoutServerFolder", ["SPT_Runtime", "SPT"]);
+            TestHelpers.CopyProfileToProfilesDir(root, "SPT_Runtime", "profile_runtime.json");
+            TestHelpers.CopyProfileToProfilesDir(root, "SPT", "profile_spt.json");
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousDefaultProfile = AppData.AppSettings.DefaultProfile;
+            try
+            {
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.ServerPath = root;
+                AppData.AppSettings.LoadProfiles();
+                Assert.That(AppData.AppSettings.ServerProfiles.Keys, Is.EquivalentTo(new[] { "profile_runtime.json" }));
+
+                SettingsDialogViewModel settingsVM = new(null, null, null, null, null, null, null);
+                settingsVM.ServerDirectory = "SPT";
+
+                Assert.That(settingsVM.AppSettings.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("SPT", "user", "profiles")));
+                Assert.That(settingsVM.AppSettings.ServerProfiles.Keys, Is.EquivalentTo(new[] { "profile_spt.json" }));
+                Assert.That(settingsVM.ServerHasAccounts, Is.True);
+            }
+            finally
+            {
+                AppData.AppSettings.ServerDirectory = previousServerDirectory;
+                AppData.AppSettings.ServerPath = previousServerPath;
+                AppData.AppSettings.DefaultProfile = previousDefaultProfile;
+                Directory.Delete(root, true);
+            }
+        }
+
+        [Test]
         public void CanResetLocalizations()
         {
             TestsApplicationManager applicationManager = new();

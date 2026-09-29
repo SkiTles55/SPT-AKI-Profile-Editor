@@ -137,10 +137,11 @@ namespace SPT_AKI_Profile_Editor.Views
             {
                 if (AppSettings.ServerDirectory == value) return;
                 AppSettings.ServerDirectory = value;
-                AppSettings.RebuildServerPaths();
+                AppSettings.LoadProfiles();
                 OnPropertyChanged(nameof(ServerDirectory));
                 OnPropertyChanged(nameof(ServerPathValid));
                 OnPropertyChanged(nameof(ServerHasAccounts));
+                OnPropertyChanged(nameof(HelperModManager));
             }
         }
 
