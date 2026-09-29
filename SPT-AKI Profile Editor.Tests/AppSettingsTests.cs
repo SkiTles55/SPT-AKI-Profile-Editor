@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core.Enums;
 using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
@@ -44,6 +45,24 @@ namespace SPT_AKI_Profile_Editor.Tests
         {
             settings.ServerDirectory = null;
             Assert.That(settings.ServerDirectory, Is.EqualTo(DefaultValues.DefaultServerDirectory));
+        }
+
+        [Test]
+        public void ServerDirectoryChangePersistsRebuiltPaths()
+        {
+            try
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                settings.ServerDirectory = "SPT";
+                AppSettings persisted = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(settings.configurationFile));
+                Assert.That(persisted.ServerDirectory, Is.EqualTo("SPT"));
+                Assert.That(persisted.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("SPT", "user", "profiles")));
+                Assert.That(persisted.FilesList[SPTServerFile.serverexe], Is.EqualTo(Path.Combine("SPT", "SPT.Server.exe")));
+            }
+            finally
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            }
         }
 
         [Test]
@@ -101,15 +120,37 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
-        public void RebuildServerPathsUpdatesDictionaries()
+        public void ServerDirectorySetterRebuildsDictionaries()
         {
-            settings.ServerDirectory = "CustomDir";
-            settings.RebuildServerPaths();
-            Assert.That(settings.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("CustomDir", "user", "profiles")));
-            Assert.That(settings.FilesList[SPTServerFile.serverexe], Is.EqualTo(Path.Combine("CustomDir", "SPT.Server.exe")));
-            settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
-            settings.RebuildServerPaths();
-            settings.Save();
+            try
+            {
+                settings.ServerDirectory = "CustomDir";
+                Assert.That(settings.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("CustomDir", "user", "profiles")));
+                Assert.That(settings.FilesList[SPTServerFile.serverexe], Is.EqualTo(Path.Combine("CustomDir", "SPT.Server.exe")));
+            }
+            finally
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            }
+        }
+
+        [Test]
+        public void ServerDirectoryRoundTripKeepsCustomDirsList()
+        {
+            try
+            {
+                settings.ServerDirectory = "SPT";
+                settings.DirsList[SPTServerDir.profiles] = Path.Combine("HandEdited", "user", "profiles");
+                settings.Save();
+                AppSettings reloaded = new(settings.configurationFile);
+                reloaded.Load();
+                Assert.That(reloaded.ServerDirectory, Is.EqualTo("SPT"));
+                Assert.That(reloaded.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("HandEdited", "user", "profiles")));
+            }
+            finally
+            {
+                settings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            }
         }
 
         [Test]

@@ -99,9 +99,8 @@ namespace SPT_AKI_Profile_Editor.Core
             {
                 if (serverDirectory == value) return;
                 serverDirectory = value ?? DefaultValues.DefaultServerDirectory;
-                OnPropertyChanged(nameof(ServerDirectory));
-                if (Loaded)
-                    Save();
+                RebuildServerPaths();
+                NotifyPropertyChangedAndSave(nameof(ServerDirectory));
             }
         }
 
@@ -318,8 +317,6 @@ namespace SPT_AKI_Profile_Editor.Core
         {
             DirsList = DefaultValues.GetDefaultDirsList(ServerDirectory);
             FilesList = DefaultValues.GetDefaultFilesList(ServerDirectory);
-            OnPropertyChanged(nameof(DirsList));
-            OnPropertyChanged(nameof(FilesList));
         }
 
         public void Load()
