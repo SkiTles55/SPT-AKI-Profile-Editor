@@ -155,7 +155,7 @@
                             Grid.Column="0"
                             VerticalContentAlignment="Center"
                             ToolTip="{Binding AppLocalization.Translations[server_directory_tip], FallbackValue=server_directory_tip}"
-                            Text="{Binding ServerDirectory, UpdateSourceTrigger=PropertyChanged}"
+                            Text="{Binding ServerDirectory, UpdateSourceTrigger=LostFocus}"
                             TextWrapping="Wrap" />
                         <extendedcontrols:ButtonFontAwesomeIcon
                             Grid.Column="1"
