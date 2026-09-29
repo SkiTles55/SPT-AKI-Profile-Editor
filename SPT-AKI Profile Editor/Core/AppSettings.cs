@@ -297,7 +297,7 @@ namespace SPT_AKI_Profile_Editor.Core
             if (LooksLikeServerDir(rootPath))
                 return "";
 
-            foreach (var dir in Directory.GetDirectories(rootPath))
+            foreach (var dir in Directory.GetDirectories(rootPath).OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
             {
                 string name = Path.GetFileName(dir);
                 if (LooksLikeServerDir(dir))

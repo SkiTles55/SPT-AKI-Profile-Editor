@@ -120,6 +120,37 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void TryAutoDetectPrefersAlphabeticallyFirstMatch()
+        {
+            string temp = TestHelpers.CreateFakeServerRoot("TestMultiMatchServerFolder", ["Zeta", "Alpha"]);
+            try
+            {
+                Assert.That(AppSettings.TryAutoDetectServerDirectory(temp), Is.EqualTo("Alpha"));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
+        public void TryAutoDetectIsStableAcrossCalls()
+        {
+            string temp = TestHelpers.CreateFakeServerRoot("TestMultiMatchServerFolder", ["Zeta", "Alpha"]);
+            try
+            {
+                string first = AppSettings.TryAutoDetectServerDirectory(temp);
+                Assert.That(first, Is.Not.Null);
+                for (int i = 0; i < 20; i++)
+                    Assert.That(AppSettings.TryAutoDetectServerDirectory(temp), Is.EqualTo(first));
+            }
+            finally
+            {
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
         public void ServerDirectorySetterRebuildsDictionaries()
         {
             try
