@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.Enums;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Core.ProfileClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SPT_AKI_Profile_Editor.Tests.Hepers
@@ -69,20 +72,34 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
             => $"{prefix}_Test_{(isPmcItem ? "PMC" : "Scav")}";
 
         public static string CreateFakeServerFolder(string serverDirectory)
+            => CreateFakeServerRoot("TestServerFolder", [serverDirectory]);
+
+        public static string CreateFakeServerRoot(string rootName, IEnumerable<string> serverDirectories, bool complete = true)
         {
-            string root = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestServerFolder");
+            string root = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rootName);
             if (Directory.Exists(root))
                 Directory.Delete(root, true);
-            Directory.CreateDirectory(root);
-            foreach (var path in DefaultValues.GetDefaultDirsList(serverDirectory).Values)
-                Directory.CreateDirectory(Path.Combine(root, path));
-            foreach (var path in DefaultValues.GetDefaultFilesList(serverDirectory).Values)
+            foreach (var serverDirectory in serverDirectories)
             {
-                string file = Path.Combine(root, path);
-                Directory.CreateDirectory(Path.GetDirectoryName(file));
-                File.WriteAllText(file, "{}");
+                foreach (var path in DefaultValues.GetDefaultDirsList(serverDirectory).Values)
+                    Directory.CreateDirectory(Path.Combine(root, path));
+                foreach (var entry in DefaultValues.GetDefaultFilesList(serverDirectory))
+                {
+                    if (!complete && entry.Key == SPTServerFile.serverexe)
+                        continue;
+                    string file = Path.Combine(root, entry.Value);
+                    Directory.CreateDirectory(Path.GetDirectoryName(file));
+                    File.WriteAllText(file, "{}");
+                }
             }
             return root;
+        }
+
+        public static void CopyProfileToProfilesDir(string root, string serverDirectory, string profileFileName)
+        {
+            string targetDir = Path.Combine(root, DefaultValues.GetDefaultDirsList(serverDirectory)[SPTServerDir.profiles]);
+            Directory.CreateDirectory(targetDir);
+            File.Copy(profileWithDuplicatedItems, Path.Combine(targetDir, profileFileName), true);
         }
 
         public static void SetupTestCharacters(string prefix)
