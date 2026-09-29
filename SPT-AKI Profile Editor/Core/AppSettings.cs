@@ -269,15 +269,19 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public bool PathIsServerFolder(string path = null) => CheckServerPath(path)?.All(x => x.IsFounded) == true;
 
-        public List<ServerPathEntry> CheckServerPath(string path = null)
+        public List<ServerPathEntry> CheckServerPath(string path = null,
+                                                      Dictionary<string, string> dirs = null,
+                                                      Dictionary<string, string> files = null)
         {
             if (string.IsNullOrEmpty(path)) path = ServerPath;
             if (string.IsNullOrEmpty(path)) return null;
             if (!Directory.Exists(path)) return null;
+            dirs ??= DirsList;
+            files ??= FilesList;
             var result = new List<ServerPathEntry>();
 
-            result.AddRange(FilesList.Select(x => new ServerPathEntry(x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
-            result.AddRange(DirsList.Select(x => new ServerPathEntry(x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(files.Select(x => new ServerPathEntry(x.Key, x.Value, File.Exists(Path.Combine(path, x.Value)))));
+            result.AddRange(dirs.Select(x => new ServerPathEntry(x.Key, x.Value, Directory.Exists(Path.Combine(path, x.Value)))));
 
             return result;
         }

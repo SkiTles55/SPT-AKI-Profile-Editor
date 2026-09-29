@@ -198,14 +198,16 @@ namespace SPT_AKI_Profile_Editor.Views
                 var detected = AppSettings.TryAutoDetectServerDirectory(path);
                 if (detected != null)
                 {
-                    AppSettings.ServerDirectory = detected;
-                    AppSettings.RebuildServerPaths();
-                    checkResult = AppSettings.CheckServerPath(path);
-                    if (checkResult?.All(x => x.IsFounded) == true)
+                    var detectedResult = AppSettings.CheckServerPath(path,
+                                                                     DefaultValues.GetDefaultDirsList(detected),
+                                                                     DefaultValues.GetDefaultFilesList(detected));
+                    if (detectedResult?.All(x => x.IsFounded) == true)
                     {
+                        ServerDirectory = detected;
                         ServerPath = path;
                         return;
                     }
+                    checkResult = detectedResult ?? checkResult;
                 }
 
                 await dialogManager.ShowServerPathEditorDialog(checkResult, ServerPathEditorRetryCommand, faqCommand);
