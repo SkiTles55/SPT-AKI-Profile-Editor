@@ -19,6 +19,8 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool IssuesDialogOpened = false;
         public bool ServerPathEditorDialogOpened = false;
         public bool ShouldExecuteServerPathEditorRetryCommand = false;
+        public bool ServerPathEditorRetryShouldModifyPaths = true;
+        public IEnumerable<ServerPathEntry> LastServerPathEditorPaths;
         public string LastOkMessage = null;
         public double LastProgress = 0;
         public bool YesNoDialogResult = true;
@@ -83,12 +85,14 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
                                                RelayCommand faqCommand)
         {
             ServerPathEditorDialogOpened = true;
+            LastServerPathEditorPaths = paths;
             if (ShouldExecuteServerPathEditorRetryCommand)
             {
                 ShouldExecuteServerPathEditorRetryCommand = false;
-                foreach (var path in paths)
-                    if (path.Key == SPTServerFile.serverexe)
-                        path.Path = "Test.exe";
+                if (ServerPathEditorRetryShouldModifyPaths)
+                    foreach (var path in paths)
+                        if (path.Key == SPTServerFile.serverexe)
+                            path.Path = "Test.exe";
                 retryCommand.Execute(paths);
             }
             return Task.CompletedTask;

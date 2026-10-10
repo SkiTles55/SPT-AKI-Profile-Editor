@@ -207,7 +207,6 @@ namespace SPT_AKI_Profile_Editor.Views
                         ServerPath = path;
                         return;
                     }
-                    checkResult = detectedResult ?? checkResult;
                 }
 
                 await dialogManager.ShowServerPathEditorDialog(checkResult, ServerPathEditorRetryCommand, faqCommand);
