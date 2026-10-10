@@ -196,6 +196,37 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
         }
 
         [Test]
+        public void ServerDirectorySetClearsStaleProfilesWhenProfilesDirMissing()
+        {
+            string root = TestHelpers.CreateFakeServerRoot("TestStaleProfilesServerFolder", ["SPT_Runtime"]);
+            TestHelpers.CopyProfileToProfilesDir(root, "SPT_Runtime", "profile_runtime.json");
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousDefaultProfile = AppData.AppSettings.DefaultProfile;
+            try
+            {
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.ServerPath = root;
+                AppData.AppSettings.LoadProfiles();
+                Assert.That(AppData.AppSettings.ServerProfiles.Keys, Is.EquivalentTo(new[] { "profile_runtime.json" }));
+
+                SettingsDialogViewModel settingsVM = new(null, null, null, null, null, null, null);
+                settingsVM.ServerDirectory = "Nonexistent";
+
+                Assert.That(AppData.AppSettings.ServerProfiles, Is.Empty);
+                Assert.That(AppData.AppSettings.DefaultProfile, Is.Null);
+                Assert.That(settingsVM.ServerHasAccounts, Is.False);
+            }
+            finally
+            {
+                AppData.AppSettings.ServerDirectory = previousServerDirectory;
+                AppData.AppSettings.ServerPath = previousServerPath;
+                AppData.AppSettings.DefaultProfile = previousDefaultProfile;
+                Directory.Delete(root, true);
+            }
+        }
+
+        [Test]
         public void ServerSelectKeepsManualPathsWhenDetectionFailsValidation()
         {
             dialogManager.ServerPathEditorDialogOpened = false;

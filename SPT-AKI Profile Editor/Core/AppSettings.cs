@@ -338,11 +338,14 @@ namespace SPT_AKI_Profile_Editor.Core
 
         public void LoadProfiles()
         {
+            if (string.IsNullOrEmpty(ServerPath) || !Directory.Exists(Path.Combine(ServerPath, DirsList[SPTServerDir.profiles])))
+            {
+                DefaultProfile = null;
+                ServerProfiles = [];
+                return;
+            }
             Dictionary<string, string> Profiles = [];
-            if (string.IsNullOrEmpty(ServerPath)) return;
-            var profilesPath = Path.Combine(ServerPath, DirsList[SPTServerDir.profiles]);
-            if (!Directory.Exists(profilesPath)) return;
-            foreach (var file in Directory.GetFiles(profilesPath))
+            foreach (var file in Directory.GetFiles(Path.Combine(ServerPath, DirsList[SPTServerDir.profiles])))
             {
                 try
                 {
