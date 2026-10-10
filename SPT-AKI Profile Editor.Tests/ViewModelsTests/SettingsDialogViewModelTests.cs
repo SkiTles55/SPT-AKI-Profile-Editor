@@ -203,6 +203,8 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             string root = TestHelpers.CreateFakeServerRoot("TestIncompleteServerFolder", ["SPT"], false);
             string previousServerPath = AppData.AppSettings.ServerPath;
             string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousExe = AppData.AppSettings.FilesList[SPTServerFile.serverexe];
+            string previousProfiles = AppData.AppSettings.DirsList[SPTServerDir.profiles];
             string handEditedExe = "HandEdited.exe";
             string handEditedProfiles = Path.Combine("HandEdited", "user", "profiles");
             try
@@ -226,8 +228,7 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             }
             finally
             {
-                AppData.AppSettings.ServerDirectory = previousServerDirectory;
-                AppData.AppSettings.ServerPath = previousServerPath;
+                RestoreServerPaths(previousServerPath, previousServerDirectory, previousExe, previousProfiles);
                 Directory.Delete(root, true);
             }
         }
@@ -353,6 +354,18 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(settingsVM.HelperModManager.HelperModStatus,
                         Is.EqualTo(expectedStatus),
                         $"HelperMod status not equal to {expectedStatus}");
+        }
+
+        private static void RestoreServerPaths(string previousServerPath,
+                                               string previousServerDirectory,
+                                               string previousExe,
+                                               string previousProfiles)
+        {
+            AppData.AppSettings.ServerDirectory = previousServerDirectory;
+            AppData.AppSettings.ServerPath = previousServerPath;
+            AppData.AppSettings.FilesList[SPTServerFile.serverexe] = previousExe;
+            AppData.AppSettings.DirsList[SPTServerDir.profiles] = previousProfiles;
+            AppData.AppSettings.Save();
         }
     }
 }
