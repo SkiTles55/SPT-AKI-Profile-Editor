@@ -72,6 +72,37 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public static string GetTestName(string prefix, bool isPmcItem)
             => $"{prefix}_Test_{(isPmcItem ? "PMC" : "Scav")}";
 
+        public static string CreateFakeServerFolder(string serverDirectory)
+            => CreateFakeServerRoot("TestServerFolder", [serverDirectory]);
+
+        public static string CreateFakeServerRoot(string rootName, IEnumerable<string> serverDirectories, bool complete = true)
+        {
+            string root = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, rootName);
+            if (Directory.Exists(root))
+                Directory.Delete(root, true);
+            foreach (var serverDirectory in serverDirectories)
+            {
+                foreach (var path in DefaultValues.GetDefaultDirsList(serverDirectory).Values)
+                    Directory.CreateDirectory(Path.Combine(root, path));
+                foreach (var entry in DefaultValues.GetDefaultFilesList(serverDirectory))
+                {
+                    if (!complete && entry.Key == SPTServerFile.serverexe)
+                        continue;
+                    string file = Path.Combine(root, entry.Value);
+                    Directory.CreateDirectory(Path.GetDirectoryName(file));
+                    File.WriteAllText(file, "{}");
+                }
+            }
+            return root;
+        }
+
+        public static void CopyProfileToProfilesDir(string root, string serverDirectory, string profileFileName)
+        {
+            string targetDir = Path.Combine(root, DefaultValues.GetDefaultDirsList(serverDirectory)[SPTServerDir.profiles]);
+            Directory.CreateDirectory(targetDir);
+            File.Copy(profileWithDuplicatedItems, Path.Combine(targetDir, profileFileName), true);
+        }
+
         public static void SetupTestCharacters(string prefix)
         {
             CharacterInventory pmcInventory = new()

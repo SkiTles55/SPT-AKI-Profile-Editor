@@ -4,6 +4,7 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
+using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
@@ -122,6 +123,216 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(settingsVM.AppSettings.FilesList[SPTServerFile.serverexe], Is.EqualTo("Test.exe"));
             settingsVM.AppSettings.FilesList[SPTServerFile.serverexe] = "SPT_Runtime\\SPT.Server.exe";
             settingsVM.AppSettings.Save();
+        }
+
+        [Test]
+        public void CanServerSelectWithCustomServerDirectory()
+        {
+            dialogManager.ServerPathEditorDialogOpened = false;
+            AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+            SettingsDialogViewModel settingsVM = null;
+            bool notified = false;
+            string temp = TestHelpers.CreateFakeServerFolder("SPT");
+            try
+            {
+                TestsWindowsDialogs windowsDialogs = new()
+                {
+                    folderBrowserDialogMode = FolderBrowserDialogMode.customServerFolder,
+                    customServerFolderPath = temp
+                };
+                settingsVM = new(null, dialogManager, windowsDialogs, null, null, null, null);
+                settingsVM.PropertyChanged += (_, e) =>
+                {
+                    if (e.PropertyName == nameof(SettingsDialogViewModel.ServerDirectory))
+                        notified = true;
+                };
+                settingsVM.ServerSelect.Execute(null);
+                Assert.That(settingsVM.AppSettings.ServerDirectory, Is.EqualTo("SPT"));
+                Assert.That(settingsVM.AppSettings.ServerPath, Is.EqualTo(temp));
+                Assert.That(notified, Is.True, "ServerDirectory PropertyChanged was not raised");
+                Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.False);
+            }
+            finally
+            {
+                if (settingsVM != null)
+                {
+                    settingsVM.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                    settingsVM.AppSettings.ServerPath = TestHelpers.serverPath;
+                }
+                Directory.Delete(temp, true);
+            }
+        }
+
+        [Test]
+        public void ServerDirectorySetReloadsProfilesAndAccounts()
+        {
+            string root = TestHelpers.CreateFakeServerRoot("TestTwoLayoutServerFolder", ["SPT_Runtime", "SPT"]);
+            TestHelpers.CopyProfileToProfilesDir(root, "SPT_Runtime", "profile_runtime.json");
+            TestHelpers.CopyProfileToProfilesDir(root, "SPT", "profile_spt.json");
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousDefaultProfile = AppData.AppSettings.DefaultProfile;
+            try
+            {
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.ServerPath = root;
+                AppData.AppSettings.LoadProfiles();
+                Assert.That(AppData.AppSettings.ServerProfiles.Keys, Is.EquivalentTo(new[] { "profile_runtime.json" }));
+
+                SettingsDialogViewModel settingsVM = new(null, null, null, null, null, null, null);
+                settingsVM.ServerDirectory = "SPT";
+
+                Assert.That(settingsVM.AppSettings.DirsList[SPTServerDir.profiles], Is.EqualTo(Path.Combine("SPT", "user", "profiles")));
+                Assert.That(settingsVM.AppSettings.ServerProfiles.Keys, Is.EquivalentTo(new[] { "profile_spt.json" }));
+                Assert.That(settingsVM.ServerHasAccounts, Is.True);
+            }
+            finally
+            {
+                AppData.AppSettings.ServerDirectory = previousServerDirectory;
+                AppData.AppSettings.ServerPath = previousServerPath;
+                AppData.AppSettings.DefaultProfile = previousDefaultProfile;
+                Directory.Delete(root, true);
+            }
+        }
+
+        [Test]
+        public void ServerDirectorySetClearsStaleProfilesWhenProfilesDirMissing()
+        {
+            string root = TestHelpers.CreateFakeServerRoot("TestStaleProfilesServerFolder", ["SPT_Runtime"]);
+            TestHelpers.CopyProfileToProfilesDir(root, "SPT_Runtime", "profile_runtime.json");
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousDefaultProfile = AppData.AppSettings.DefaultProfile;
+            try
+            {
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.ServerPath = root;
+                AppData.AppSettings.LoadProfiles();
+                Assert.That(AppData.AppSettings.ServerProfiles.Keys, Is.EquivalentTo(new[] { "profile_runtime.json" }));
+
+                SettingsDialogViewModel settingsVM = new(null, null, null, null, null, null, null);
+                settingsVM.ServerDirectory = "Nonexistent";
+
+                Assert.That(AppData.AppSettings.ServerProfiles, Is.Empty);
+                Assert.That(AppData.AppSettings.DefaultProfile, Is.Null);
+                Assert.That(settingsVM.ServerHasAccounts, Is.False);
+            }
+            finally
+            {
+                AppData.AppSettings.ServerDirectory = previousServerDirectory;
+                AppData.AppSettings.ServerPath = previousServerPath;
+                AppData.AppSettings.DefaultProfile = previousDefaultProfile;
+                Directory.Delete(root, true);
+            }
+        }
+
+        [Test]
+        public void ServerSelectKeepsManualPathsWhenDetectionFailsValidation()
+        {
+            dialogManager.ServerPathEditorDialogOpened = false;
+            dialogManager.ShouldExecuteServerPathEditorRetryCommand = false;
+            string root = TestHelpers.CreateFakeServerRoot("TestIncompleteServerFolder", ["SPT"], false);
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousExe = AppData.AppSettings.FilesList[SPTServerFile.serverexe];
+            string previousProfiles = AppData.AppSettings.DirsList[SPTServerDir.profiles];
+            string handEditedExe = "HandEdited.exe";
+            string handEditedProfiles = Path.Combine("HandEdited", "user", "profiles");
+            try
+            {
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.FilesList[SPTServerFile.serverexe] = handEditedExe;
+                AppData.AppSettings.DirsList[SPTServerDir.profiles] = handEditedProfiles;
+                AppData.AppSettings.ServerPath = TestHelpers.wrongServerPath;
+                SettingsDialogViewModel settingsVM = new(null, dialogManager, new TestsWindowsDialogs()
+                {
+                    folderBrowserDialogMode = FolderBrowserDialogMode.customServerFolder,
+                    customServerFolderPath = root
+                }, null, null, null, null);
+                settingsVM.ServerSelect.Execute(null);
+
+                Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.True);
+                Assert.That(AppData.AppSettings.ServerDirectory, Is.EqualTo(DefaultValues.DefaultServerDirectory));
+                Assert.That(AppData.AppSettings.FilesList[SPTServerFile.serverexe], Is.EqualTo(handEditedExe));
+                Assert.That(AppData.AppSettings.DirsList[SPTServerDir.profiles], Is.EqualTo(handEditedProfiles));
+                Assert.That(AppData.AppSettings.ServerPath, Is.EqualTo(TestHelpers.wrongServerPath));
+            }
+            finally
+            {
+                RestoreServerPaths(previousServerPath, previousServerDirectory, previousExe, previousProfiles);
+                Directory.Delete(root, true);
+            }
+        }
+
+        [Test]
+        public void ServerSelectEditorReceivesManualLayoutWhenDetectionFailsValidation()
+        {
+            dialogManager.ServerPathEditorDialogOpened = false;
+            dialogManager.ShouldExecuteServerPathEditorRetryCommand = false;
+            string root = TestHelpers.CreateFakeServerRoot("TestIncompleteServerFolderEditorPaths", ["SPT"], false);
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousExe = AppData.AppSettings.FilesList[SPTServerFile.serverexe];
+            string previousProfiles = AppData.AppSettings.DirsList[SPTServerDir.profiles];
+            try
+            {
+                AppData.AppSettings.ServerDirectory = "SPT";
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.ServerPath = TestHelpers.wrongServerPath;
+                SettingsDialogViewModel settingsVM = new(null, dialogManager, new TestsWindowsDialogs()
+                {
+                    folderBrowserDialogMode = FolderBrowserDialogMode.customServerFolder,
+                    customServerFolderPath = root
+                }, null, null, null, null);
+                settingsVM.ServerSelect.Execute(null);
+
+                Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.True);
+                var editorPaths = dialogManager.LastServerPathEditorPaths.ToDictionary(x => x.Key, x => x.Path);
+                Assert.That(editorPaths[SPTServerDir.profiles],
+                            Is.EqualTo(Path.Combine(DefaultValues.DefaultServerDirectory, "user", "profiles")));
+            }
+            finally
+            {
+                RestoreServerPaths(previousServerPath, previousServerDirectory, previousExe, previousProfiles);
+                Directory.Delete(root, true);
+            }
+        }
+
+        [Test]
+        public void ServerSelectRetryWithoutEditsKeepsPathsConsistentWithServerDirectory()
+        {
+            dialogManager.ServerPathEditorDialogOpened = false;
+            dialogManager.ShouldExecuteServerPathEditorRetryCommand = true;
+            dialogManager.ServerPathEditorRetryShouldModifyPaths = false;
+            string root = TestHelpers.CreateFakeServerRoot("TestIncompleteServerFolderRetryConsistent", ["SPT"], false);
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            string previousExe = AppData.AppSettings.FilesList[SPTServerFile.serverexe];
+            string previousProfiles = AppData.AppSettings.DirsList[SPTServerDir.profiles];
+            try
+            {
+                AppData.AppSettings.ServerDirectory = "SPT";
+                AppData.AppSettings.ServerDirectory = DefaultValues.DefaultServerDirectory;
+                AppData.AppSettings.ServerPath = TestHelpers.wrongServerPath;
+                SettingsDialogViewModel settingsVM = new(null, dialogManager, new TestsWindowsDialogs()
+                {
+                    folderBrowserDialogMode = FolderBrowserDialogMode.customServerFolder,
+                    customServerFolderPath = root
+                }, null, null, null, null);
+                settingsVM.ServerSelect.Execute(null);
+
+                Assert.That(AppData.AppSettings.ServerDirectory, Is.EqualTo(DefaultValues.DefaultServerDirectory));
+                Assert.That(AppData.AppSettings.DirsList,
+                            Is.EquivalentTo(DefaultValues.GetDefaultDirsList(AppData.AppSettings.ServerDirectory)));
+                Assert.That(AppData.AppSettings.FilesList,
+                            Is.EquivalentTo(DefaultValues.GetDefaultFilesList(AppData.AppSettings.ServerDirectory)));
+            }
+            finally
+            {
+                dialogManager.ServerPathEditorRetryShouldModifyPaths = true;
+                RestoreServerPaths(previousServerPath, previousServerDirectory, previousExe, previousProfiles);
+                Directory.Delete(root, true);
+            }
         }
 
         [Test]
@@ -245,6 +456,18 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(settingsVM.HelperModManager.HelperModStatus,
                         Is.EqualTo(expectedStatus),
                         $"HelperMod status not equal to {expectedStatus}");
+        }
+
+        private static void RestoreServerPaths(string previousServerPath,
+                                               string previousServerDirectory,
+                                               string previousExe,
+                                               string previousProfiles)
+        {
+            AppData.AppSettings.ServerDirectory = previousServerDirectory;
+            AppData.AppSettings.ServerPath = previousServerPath;
+            AppData.AppSettings.FilesList[SPTServerFile.serverexe] = previousExe;
+            AppData.AppSettings.DirsList[SPTServerDir.profiles] = previousProfiles;
+            AppData.AppSettings.Save();
         }
     }
 }

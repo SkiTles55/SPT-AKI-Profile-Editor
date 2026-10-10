@@ -11,6 +11,7 @@ namespace SPT_AKI_Profile_Editor.Core
     public static class DefaultValues
     {
         public const string ColorScheme = "Light.Emerald";
+        public const string DefaultServerDirectory = "SPT_Runtime";
         public const string PocketsContainerTpl = "557596e64bdc2dc2118b4571";
         public const string PocketsSlotId = "Pockets";
         public const string FirstPrimaryWeaponSlotId = "FirstPrimaryWeapon";
@@ -58,28 +59,32 @@ namespace SPT_AKI_Profile_Editor.Core
             "5d52cc5ba4b9367408500062"
         ];
 
-        public static Dictionary<string, string> DefaultDirsList => new()
+        public static Dictionary<string, string> GetDefaultDirsList(string serverDirectory) => new()
         {
-            [SPTServerDir.globals] = "SPT_Runtime\\SPT_Data\\database\\locales\\global",
-            [SPTServerDir.traders] = "SPT_Runtime\\SPT_Data\\database\\traders",
-            [SPTServerDir.bots] = "SPT_Runtime\\SPT_Data\\database\\bots\\types",
-            [SPTServerDir.profiles] = "SPT_Runtime\\user\\profiles",
-            [SPTServerDir.handbookIcons] = "SPT_Runtime\\SPT_Data\\images\\handbook",
-            [SPTServerDir.traderImages] = "SPT_Runtime\\SPT_Data\\images\\trader\\avatar"
+            [SPTServerDir.globals] = Path.Combine(serverDirectory, "SPT_Data", "database", "locales", "global"),
+            [SPTServerDir.traders] = Path.Combine(serverDirectory, "SPT_Data", "database", "traders"),
+            [SPTServerDir.bots] = Path.Combine(serverDirectory, "SPT_Data", "database", "bots", "types"),
+            [SPTServerDir.profiles] = Path.Combine(serverDirectory, "user", "profiles"),
+            [SPTServerDir.handbookIcons] = Path.Combine(serverDirectory, "SPT_Data", "images", "handbook"),
+            [SPTServerDir.traderImages] = Path.Combine(serverDirectory, "SPT_Data", "images", "trader", "avatar")
         };
 
-        public static Dictionary<string, string> DefaultFilesList => new()
+        public static Dictionary<string, string> GetDefaultFilesList(string serverDirectory) => new()
         {
-            [SPTServerFile.globals] = "SPT_Runtime\\SPT_Data\\database\\globals.json",
-            [SPTServerFile.items] = "SPT_Runtime\\SPT_Data\\database\\templates\\items.json",
-            [SPTServerFile.quests] = "SPT_Runtime\\SPT_Data\\database\\templates\\quests.json",
-            [SPTServerFile.questConfig] = "SPT_Runtime\\SPT_Data\\configs\\quest.json",
-            [SPTServerFile.areas] = "SPT_Runtime\\SPT_Data\\database\\hideout\\areas.json",
-            [SPTServerFile.production] = "SPT_Runtime\\SPT_Data\\database\\hideout\\production.json",
-            [SPTServerFile.handbook] = "SPT_Runtime\\SPT_Data\\database\\templates\\handbook.json",
-            [SPTServerFile.languages] = "SPT_Runtime\\SPT_Data\\database\\locales\\languages.json",
-            [SPTServerFile.serverexe] = "SPT_Runtime\\SPT.Server.exe"
+            [SPTServerFile.globals] = Path.Combine(serverDirectory, "SPT_Data", "database", "globals.json"),
+            [SPTServerFile.items] = Path.Combine(serverDirectory, "SPT_Data", "database", "templates", "items.json"),
+            [SPTServerFile.quests] = Path.Combine(serverDirectory, "SPT_Data", "database", "templates", "quests.json"),
+            [SPTServerFile.questConfig] = Path.Combine(serverDirectory, "SPT_Data", "configs", "quest.json"),
+            [SPTServerFile.areas] = Path.Combine(serverDirectory, "SPT_Data", "database", "hideout", "areas.json"),
+            [SPTServerFile.production] = Path.Combine(serverDirectory, "SPT_Data", "database", "hideout", "production.json"),
+            [SPTServerFile.handbook] = Path.Combine(serverDirectory, "SPT_Data", "database", "templates", "handbook.json"),
+            [SPTServerFile.languages] = Path.Combine(serverDirectory, "SPT_Data", "database", "locales", "languages.json"),
+            [SPTServerFile.serverexe] = Path.Combine(serverDirectory, "SPT.Server.exe")
         };
+
+        public static Dictionary<string, string> DefaultDirsList => GetDefaultDirsList(DefaultServerDirectory);
+
+        public static Dictionary<string, string> DefaultFilesList => GetDefaultFilesList(DefaultServerDirectory);
 
         public static List<AppLocalization> DefaultLocalizations()
         {
