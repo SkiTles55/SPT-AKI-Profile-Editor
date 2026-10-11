@@ -20,7 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [アプリ不具合 \ 追加したい機能](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [バージョン 4.1 サーバー SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1)
+### [バージョン 4.1.1 サーバー SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1.1)
 ### [バージョン 4.0.1 サーバー SPT 4.0.1 - 4.0.7 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0.1)
 ### [バージョン 3.3 サーバー SPT 3.11.2 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
 ### [バージョン 3.2.1 サーバー SPT 3.11.0 - 3.11.1 適用](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
@@ -73,6 +73,8 @@ yoomoney の匿名の寄付者全員\
 [havaed](https://github.com/havaed) - [無効なアイテム ID の作成によりアイテムが販売できなくなる問題を修正しました](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
 Lomenot - 日本語&中国語の翻訳\
 [raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)\
+[ghostLiulang](https://github.com/ghostLiulang) - [Add fill-all-collection feature for key and keycard organizers](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/196)\
+[ghostLiulang](https://github.com/ghostLiulang) - [Server directory auto-detection](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/201)\
 
 ### スクリーンショット
 ![Screenshot1](/screenshots/1CH.png?raw=true)

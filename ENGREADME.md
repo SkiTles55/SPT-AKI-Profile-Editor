@@ -20,7 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [Submit a bug report \ Feature request](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [Version 4.1 for server SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1)
+### [Version 4.1.1 for server SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1.1)
 ### [Version 4.0.1 for server SPT 4.0.1 - 4.0.7](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0.1)
 ### [Version 3.3 for server SPT 3.11.2](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
 ### [Version 3.2.1 for server SPT 3.11.0 -3.11.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
@@ -73,6 +73,8 @@ Anonymous donaters on yoomoney\
 [havaed](https://github.com/havaed) - [Fix unvalid IDs making created items unsellable](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
 Lomenot - Chinese localization \
 [raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)\
+[ghostLiulang](https://github.com/ghostLiulang) - [Add fill-all-collection feature for key and keycard organizers](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/196)\
+[ghostLiulang](https://github.com/ghostLiulang) - [Server directory auto-detection](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/201)\
 
 ### Screenshots
 ![Screenshot1](/screenshots/1EN.PNG?raw=true)

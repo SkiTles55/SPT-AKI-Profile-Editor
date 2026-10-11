@@ -20,7 +20,7 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 
 ### [提交Bug报告 \ 功能要求](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose)
 
-### [版本 4.1 适配服务器 SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1)
+### [版本 4.1.1 适配服务器 SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1.1)
 ### [版本 4.0.1 适配服务器 SPT 4.0.1 - 4.0.7](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.0.1)
 ### [版本 3.3 适配服务器 SPT 3.11.2](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.3)
 ### [版本 3.2.1 适配服务器 SPT 3.11.0 - 3.11.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/3.2.1)
@@ -73,6 +73,8 @@ yoomoney上的所有匿名捐献者\
 [havaed](https://github.com/havaed) - [修复无效物品ID创建使物品无法出售的问题](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
 Lomenot - 中文本地化\
 [raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)\
+[ghostLiulang](https://github.com/ghostLiulang) - [Add fill-all-collection feature for key and keycard organizers](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/196)\
+[ghostLiulang](https://github.com/ghostLiulang) - [Server directory auto-detection](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/201)\
 
 ### 截图
 ![Screenshot1](/screenshots/1CH.png?raw=true)
