@@ -98,6 +98,27 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         }
 
         [Test]
+        public void FullDbPathIsNullWithoutServerPath()
+        {
+            string originalServerPath = AppData.AppSettings.ServerPath;
+            try
+            {
+                AppData.AppSettings.ServerPath = null;
+                HelperModManager helperModManager = new(fakeUpdateUrl, "test");
+
+                Assert.That(helperModManager.FullDbPath, Is.Null, "FullDbPath without server path");
+                Assert.That(helperModManager.IsInstalled, Is.False, "IsInstalled without server path");
+                Assert.That(helperModManager.DbFilesExist, Is.False, "DbFilesExist without server path");
+                Assert.DoesNotThrow(helperModManager.RemoveMod, "RemoveMod without server path threw");
+                Assert.DoesNotThrow(helperModManager.InstallMod, "InstallMod without server path threw");
+            }
+            finally
+            {
+                AppData.AppSettings.ServerPath = originalServerPath;
+            }
+        }
+
+        [Test]
         public void ResolvesModPathFromConfiguredServerPaths()
         {
             string root = TestHelpers.CreateFakeServerFolder("CustomRuntime");
@@ -110,7 +131,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
                 HelperModManager helperModManager = new(fakeUpdateUrl, "test");
                 string expectedModPath = Path.Combine(root, "CustomRuntime", "user", "mods", "SPT-AKI Profile Editor.ModHelper");
 
-                Assert.That(helperModManager.FullDbPath, Is.EqualTo(Path.Combine(expectedModPath, "exportedDB")), "FullDbPath not resolved from settings");
+                Assert.That(helperModManager.FullDbPath, Is.EqualTo(Path.Combine(expectedModPath, DefaultValues.ModHelperDbDirectoryName)), "FullDbPath not resolved from settings");
                 Assert.That(helperModManager.IsInstalled, Is.False, "Mod should not be installed yet");
 
                 helperModManager.InstallMod();
@@ -147,7 +168,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
                 Assert.That(helperModManager.FullDbPath,
                             Is.EqualTo(Path.Combine(testDirectoryWithoutMod,
                                                     DefaultValues.ModHelperDirectoryName,
-                                                    "exportedDB")),
+                                                    DefaultValues.ModHelperDbDirectoryName)),
                             "FullDbPath not following configured entry");
             }
             finally
@@ -224,7 +245,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
             Assert.That(helperModManager.UpdateAvailable,
                         Is.EqualTo(expectedUpdateAvailable),
                         $"UpdateAvailable is not {expectedUpdateAvailable}");
-            var expectedPath = Path.Combine(path, "exportedDB");
+            var expectedPath = Path.Combine(path, DefaultValues.ModHelperDbDirectoryName);
             Assert.That(helperModManager.FullDbPath, Is.EqualTo(expectedPath), $"FullDbPath is not {expectedPath}");
             Assert.That(helperModManager.DbFilesExist,
                         Is.EqualTo(expectedDbFilesExist),
@@ -242,7 +263,7 @@ namespace SPT_AKI_Profile_Editor.Tests.HelpersTests
         {
             if (!Directory.Exists(testDirectoryWithMod))
                 Directory.CreateDirectory(testDirectoryWithMod);
-            var directoryPath = Path.Combine(testDirectoryWithMod, "exportedDB");
+            var directoryPath = Path.Combine(testDirectoryWithMod, DefaultValues.ModHelperDbDirectoryName);
             if (haveFiles)
             {
                 if (!Directory.Exists(directoryPath))

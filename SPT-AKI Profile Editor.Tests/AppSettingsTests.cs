@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace SPT_AKI_Profile_Editor.Tests
 {
+    [NonParallelizable]
     internal class AppSettingsTests
     {
         private AppSettings settings;
