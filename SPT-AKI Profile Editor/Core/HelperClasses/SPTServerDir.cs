@@ -8,6 +8,7 @@
         public static readonly string traders = $"{prefix}_traders";
         public static readonly string bots = $"{prefix}_bots";
         public static readonly string profiles = $"{prefix}_profiles";
+        public static readonly string mods = $"{prefix}_mods";
         public static readonly string handbookIcons = $"{prefix}_handbookIcons";
         public static readonly string traderImages = $"{prefix}_tradersImages";
     }

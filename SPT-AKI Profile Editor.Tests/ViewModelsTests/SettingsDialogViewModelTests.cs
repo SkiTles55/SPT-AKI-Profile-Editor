@@ -4,11 +4,13 @@ using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using SPT_AKI_Profile_Editor.Helpers;
 using SPT_AKI_Profile_Editor.Tests.Hepers;
 using SPT_AKI_Profile_Editor.Views;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
 {
+    [NonParallelizable]
     internal class SettingsDialogViewModelTests
     {
         private static readonly TestsDialogManager dialogManager = new();
@@ -123,6 +125,40 @@ namespace SPT_AKI_Profile_Editor.Tests.ViewModelsTests
             Assert.That(settingsVM.AppSettings.FilesList[SPTServerFile.serverexe], Is.EqualTo("Test.exe"));
             settingsVM.AppSettings.FilesList[SPTServerFile.serverexe] = "SPT_Runtime\\SPT.Server.exe";
             settingsVM.AppSettings.Save();
+        }
+
+        [Test]
+        public void ServerPathEditorRetryKeepsModsEntry()
+        {
+            dialogManager.ServerPathEditorDialogOpened = false;
+            dialogManager.ShouldExecuteServerPathEditorRetryCommand = true;
+            var previousDirs = new Dictionary<string, string>(AppData.AppSettings.DirsList);
+            string previousServerPath = AppData.AppSettings.ServerPath;
+            string previousServerDirectory = AppData.AppSettings.ServerDirectory;
+            try
+            {
+                SettingsDialogViewModel settingsVM = new(null, dialogManager, new TestsWindowsDialogs()
+                {
+                    folderBrowserDialogMode = FolderBrowserDialogMode.wrongServerFolder
+                }, null, null, null, null);
+                settingsVM.ServerSelect.Execute(null);
+
+                Assert.That(dialogManager.ServerPathEditorDialogOpened, Is.True);
+                Assert.That(settingsVM.AppSettings.DirsList.Keys,
+                            Is.EquivalentTo(previousDirs.Keys),
+                            "Server path editor dropped dir entries");
+                Assert.That(settingsVM.AppSettings.DirsList[SPTServerDir.mods],
+                            Is.EqualTo(previousDirs[SPTServerDir.mods]),
+                            "Mods entry was not kept by the server path editor");
+            }
+            finally
+            {
+                dialogManager.ShouldExecuteServerPathEditorRetryCommand = false;
+                AppData.AppSettings.ServerDirectory = previousServerDirectory;
+                AppData.AppSettings.ServerPath = previousServerPath;
+                AppData.AppSettings.DirsList = previousDirs;
+                AppData.AppSettings.Save();
+            }
         }
 
         [Test]

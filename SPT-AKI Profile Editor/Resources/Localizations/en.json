@@ -204,6 +204,7 @@
     "dir_traders_description": "Folder containing merchant settings",
     "dir_bots_description": "Folder containing bot type settings",
     "dir_profiles_description": "Folder containing profiles",
+    "dir_mods_description": "Folder containing mods",
     "dir_handbookIcons_description": "Folder containing icons for handbook",
     "dir_tradersImages_description": "Folder containing images for traders",
     "file_globals_description": "File with main settings of server",

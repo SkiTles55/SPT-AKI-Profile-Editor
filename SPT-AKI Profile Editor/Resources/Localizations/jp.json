@@ -215,6 +215,7 @@
     "dir_traders_description": "商人ファイル位置",
     "dir_bots_description": "BOTファイル位置",
     "dir_profiles_description": "プロファイル位置",
+    "dir_mods_description": "MODフォルダー",
     "dir_handbookIcons_description": "ゲームアイコン位置",
     "dir_tradersImages_description": "商人アイコン位置",
     "file_globals_description": "サーバー設置ファイル",

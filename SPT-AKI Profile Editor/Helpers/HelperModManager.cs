@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SPT_AKI_Profile_Editor.Core;
+using SPT_AKI_Profile_Editor.Core.HelperClasses;
 using System;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
 {
     public interface IHelperModManager
     {
-        public string DbPath { get; }
+        public string FullDbPath { get; }
         public HelperModStatus HelperModStatus { get; }
         public bool UpdateAvailable { get; }
         public bool IsInstalled { get; }
@@ -26,8 +27,10 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
     public class HelperModManager : IHelperModManager
     {
-        private readonly string helperDbPath;
-        private readonly string modPath;
+        // Returns the helper mod folder either relative to the server root or as an
+        // absolute path. Path.Combine ignores the server root in the absolute case,
+        // which is what lets tests point the manager at a directory of their own.
+        private readonly Func<string> modPathResolver;
         private readonly Uri updateUrl;
         private readonly string updateSaveDirectory;
         private readonly string updatedVersionPath;
@@ -39,12 +42,11 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private Version AvailableVersion = new();
 
-        public HelperModManager(string updateUrl, string updateSaveDirectory, string modPath = "SPT_Runtime\\user\\mods\\SPT-AKI Profile Editor.ModHelper")
+        public HelperModManager(string updateUrl, string updateSaveDirectory, Func<string> modPathResolver = null)
         {
             this.updateUrl = new(updateUrl);
             this.updateSaveDirectory = updateSaveDirectory;
-            this.modPath = modPath;
-            helperDbPath = Path.Combine(modPath, "exportedDB");
+            this.modPathResolver = modPathResolver ?? DefaultModPathResolver;
             updatedVersionPath = Path.Combine(updateSaveDirectory, versionFileName);
             updatedModPackagePath = Path.Combine(updateSaveDirectory, modPackageFileName);
         }
@@ -53,7 +55,7 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public bool UpdateAvailable => HelperModStatus == HelperModStatus.UpdateAvailable;
         public bool IsInstalled => HelperModStatus != HelperModStatus.NotInstalled;
         public bool DbFilesExist => CheckDbStatus();
-        public string DbPath => helperDbPath;
+        public string FullDbPath => GetFullDbPath();
         private bool HaveUpdatedFiles => File.Exists(updatedVersionPath) && File.Exists(updatedModPackagePath);
 
         public void InstallMod()
@@ -71,6 +73,8 @@ namespace SPT_AKI_Profile_Editor.Helpers
         public void RemoveMod()
         {
             var fullModPath = GetFullModPath();
+            if (string.IsNullOrEmpty(fullModPath) || !Directory.Exists(fullModPath))
+                return;
             Directory.Delete(fullModPath, true);
         }
 
@@ -109,10 +113,27 @@ namespace SPT_AKI_Profile_Editor.Helpers
             catch { return null; }
         }
 
+        private static string DefaultModPathResolver()
+        {
+            var settings = AppData.AppSettings;
+            string modsPath = settings.DirsList.TryGetValue(SPTServerDir.mods, out var configuredPath)
+                              && !string.IsNullOrEmpty(configuredPath)
+                                  ? configuredPath
+                                  : DefaultValues.GetDefaultDirsList(settings.ServerDirectory)[SPTServerDir.mods];
+            return Path.Combine(modsPath, DefaultValues.ModHelperDirectoryName);
+        }
+
+        // The single place that may return null: every caller checks the result.
         private string GetFullModPath()
-            => string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
-            ? null
-            : Path.Combine(AppData.AppSettings.ServerPath, modPath);
+        {
+            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath))
+                return null;
+            var modPath = modPathResolver();
+            return string.IsNullOrEmpty(modPath) ? null : Path.Combine(AppData.AppSettings.ServerPath, modPath);
+        }
+
+        private string GetFullDbPath()
+            => GetFullModPath() is { } modPath ? Path.Combine(modPath, DefaultValues.ModHelperDbDirectoryName) : null;
 
         private HelperModStatus CheckModStatus()
         {
@@ -134,10 +155,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
         private bool CheckDbStatus()
         {
-            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath))
-                return false;
-            var fullDbPath = Path.Combine(AppData.AppSettings.ServerPath, helperDbPath);
-            if (Directory.Exists(fullDbPath)
+            var fullDbPath = GetFullDbPath();
+            if (fullDbPath != null
+                && Directory.Exists(fullDbPath)
                 && Directory.GetFiles(fullDbPath, "*.json").Length != 0
                 && Directory.GetDirectories(fullDbPath).Length != 0)
                 return true;

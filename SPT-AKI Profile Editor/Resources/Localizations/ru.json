@@ -204,6 +204,7 @@
     "dir_traders_description": "Папка содержащая настройки торговцев",
     "dir_bots_description": "Папка содержащая настройки типов ботов",
     "dir_profiles_description": "Папка содержащая профили",
+    "dir_mods_description": "Папка содержащая моды",
     "dir_handbookIcons_description": "Папка с иконками для справочника предметов",
     "dir_tradersImages_description": "Папка с изображениями торговцев",
     "file_globals_description": "Файл с основными настройками сервера",

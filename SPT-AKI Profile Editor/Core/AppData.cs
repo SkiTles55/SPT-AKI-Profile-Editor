@@ -353,10 +353,16 @@ namespace SPT_AKI_Profile_Editor.Core
 
         private static string GetHelperDBFilePath(string filename)
         {
-            var path = Path.Combine(AppSettings.ServerPath, HelperModManager.DbPath, filename);
+            string dbPath = HelperModManager.FullDbPath;
+            if (string.IsNullOrEmpty(dbPath))
+                throw HelperDbFileNotFound();
+            var path = Path.Combine(dbPath, filename);
             return File.Exists(path) || (Directory.Exists(path) && Directory.GetFiles(path).Length != 0)
                 ? path
-                : throw new Exception(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
+                : throw HelperDbFileNotFound();
         }
+
+        private static Exception HelperDbFileNotFound()
+            => new(AppLocalization.GetLocalizedString("db_load_helper_file_not_found"));
     }
 }
