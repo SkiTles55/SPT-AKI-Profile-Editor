@@ -71,8 +71,8 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 ### 制作团队 
 yoomoney上的所有匿名捐献者\
 [havaed](https://github.com/havaed) - [修复无效物品ID创建使物品无法出售的问题](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
-Lomenot - 中文本地化
-[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)
+Lomenot - 中文本地化\
+[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)\
 
 ### 截图
 ![Screenshot1](/screenshots/1CH.png?raw=true)

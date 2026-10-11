@@ -69,10 +69,10 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 ### [FAQ](JPFAQ.md)
 
 ### サポートチーム 
-yoomoney の匿名の寄付者全員
+yoomoney の匿名の寄付者全員\
 [havaed](https://github.com/havaed) - [無効なアイテム ID の作成によりアイテムが販売できなくなる問題を修正しました](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
-Lomenot - 日本語&中国語の翻訳
-[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)
+Lomenot - 日本語&中国語の翻訳\
+[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)\
 
 ### スクリーンショット
 ![Screenshot1](/screenshots/1CH.png?raw=true)

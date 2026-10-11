@@ -71,8 +71,8 @@ LTC: MNtz8Zz1cPD1CZadoc38jT5qeqeFBS6Aif\
 ### Благодарности
 Анонимные донатеры на yoomoney\
 [havaed](https://github.com/havaed) - [Fix unvalid IDs making created items unsellable](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/68)\
-Lomenot - Китайская локализация
-[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)
+Lomenot - Китайская локализация\
+[raxjinn](https://github.com/raxjinn) - [Update for SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/pull/191)\
 
 ### Скриншоты
 ![Скриншот1](/screenshots/1.PNG?raw=true)
