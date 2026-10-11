@@ -6,21 +6,27 @@
 .DESCRIPTION
     Run without arguments to get an interactive menu:
 
-      1. Clean + build the main app and the test project
+      1. Clean + build the main app, the tests and the helper mod
       2. Clean build output (bin/obj, .vs, TestResults, *_wpftmp.csproj)
       3. Clean build output + clear the NuGet cache
 
     You can also pass -Choice to skip the menu, which is handy for scripts.
 
-    The solution also contains the ModHelper (needs the SPTarkov references)
-    and the Installer (vdproj, Visual Studio only). Neither can be built with
-    the dotnet CLI, so only the two buildable projects are built here.
+    The helper mod is always rebuilt, copied into the app's ModHelper folder
+    and only then is the app built, so the build output always ships the
+    current mod. The mod is built in Release regardless of -Configuration,
+    because only the Release artifacts are published. It needs the SPT server
+    DLLs referenced by the mod project to be present.
+
+    The Installer (vdproj) cannot be built with the dotnet CLI at all, so it
+    is not covered here. It is no longer used for distribution.
 
 .PARAMETER Choice
     1, 2 or 3 to run an option directly without showing the menu.
 
 .PARAMETER Configuration
-    Debug (default) or Release.
+    Debug (default) or Release. Ignored for the helper mod, which is always
+    built in Release because only the Release artifacts are published.
 
 .EXAMPLE
     .\build.ps1
@@ -44,7 +50,13 @@ $solution = Join-Path $root 'SPT-AKI Profile Editor.sln'
 $mainProject = Join-Path $root 'SPT-AKI Profile Editor\SPT-AKI Profile Editor.csproj'
 $testProject = Join-Path $root 'SPT-AKI Profile Editor.Tests\SPT-AKI Profile Editor.Tests.csproj'
 $modHelperDir = Join-Path $root 'SPT-AKI Profile Editor.ModHelper'
+$modHelperProject = Join-Path $modHelperDir 'SPT-AKI Profile Editor.ModHelper.csproj'
+$modHelperOutDir = Join-Path $modHelperDir 'bin\Release\net10.0'
+$modHelperDeployDir = Join-Path $root 'SPT-AKI Profile Editor\ModHelper'
 $appProcessName = 'SPT-AKI Profile Editor'
+
+# Only these two files are published to GitHub and copied into the app.
+$modHelperArtifacts = @('SPT-AKI Profile Editor.ModHelper.dll', 'version')
 
 if (-not (Test-Path -LiteralPath $solution)) {
     throw "Solution not found at '$solution'. Run this script from inside the repository."
@@ -120,12 +132,70 @@ function Invoke-Build {
     Write-Ok 'Build finished.'
 }
 
+function Get-ModHelperMissingReferences {
+    # The mod compiles against the SPT server DLLs through HintPath entries,
+    # so it can only be built when the SPT installation is present.
+    # local-name() is used so the lookup works with or without an xmlns on the project root.
+    [xml]$proj = Get-Content -LiteralPath $modHelperProject -Raw
+    $hints = $proj.SelectNodes("//Reference/*[local-name()='HintPath']")
+
+    if ($hints.Count -eq 0) {
+        throw "No HintPath references found in '$modHelperProject'. The SPT server paths could not be resolved."
+    }
+
+    $missing = @()
+
+    foreach ($hint in $hints) {
+        $path = $hint.InnerText.Trim()
+        if (-not [System.IO.Path]::IsPathRooted($path)) {
+            $path = Join-Path $root $path
+        }
+        if (-not (Test-Path -LiteralPath $path)) {
+            $missing += $path
+        }
+    }
+
+    return $missing
+}
+
+function Invoke-ModHelperBuild {
+    Write-Step 'Building helper mod (Release)'
+
+    if (-not (Test-Path -LiteralPath $modHelperProject)) {
+        throw "Helper mod project not found at '$modHelperProject'."
+    }
+
+    $missing = Get-ModHelperMissingReferences
+    if ($missing.Count -gt 0) {
+        Write-Note 'The helper mod needs the SPT server DLLs and they were not found:'
+        foreach ($path in $missing) { Write-Detail $path }
+        throw 'Install/update SPT so that these paths exist, then run the build again.'
+    }
+
+    & dotnet build $modHelperProject -c Release
+    if ($LASTEXITCODE -ne 0) { throw 'Build failed: helper mod' }
+
+    Write-Step 'Deploying helper mod into the app'
+    foreach ($artifact in $modHelperArtifacts) {
+        $source = Join-Path $modHelperOutDir $artifact
+        if (-not (Test-Path -LiteralPath $source)) {
+            throw "Expected mod artifact was not produced: '$source'"
+        }
+        Copy-Item -LiteralPath $source -Destination $modHelperDeployDir -Force
+        Write-Detail "Copied $artifact -> SPT-AKI Profile Editor\ModHelper"
+    }
+
+    Write-Note 'The helper mod files are tracked by git, so rebuilding them shows up in git status. Commit them together with the mod sources when the mod changed.'
+
+    Write-Ok 'Helper mod finished.'
+}
+
 function Show-Menu {
     Write-Host ''
     Write-Host 'SPT-AKI Profile Editor build helper' -ForegroundColor Cyan
     Write-Host "  Configuration: $Configuration"
     Write-Host ''
-    Write-Host '  1. Clean + build main app and tests'
+    Write-Host '  1. Clean + build main app, tests and helper mod'
     Write-Host '  2. Clean build output'
     Write-Host '  3. Clean build output + clear NuGet cache'
     Write-Host '  0. Exit'
@@ -151,7 +221,7 @@ if (-not $selected) {
 Stop-RunningApp
 
 switch ($selected) {
-    '1' { Invoke-Clean; Invoke-Build }
+    '1' { Invoke-Clean; Invoke-ModHelperBuild; Invoke-Build }
     '2' { Invoke-Clean }
     '3' { Invoke-Clean; Clear-NuGetCache }
 }
