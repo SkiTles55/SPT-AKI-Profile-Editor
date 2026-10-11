@@ -215,6 +215,7 @@
     "dir_traders_description": "商人设置文件夹",
     "dir_bots_description": "BOT设置文件夹",
     "dir_profiles_description": "存档文件夹",
+    "dir_mods_description": "模组文件夹",
     "dir_handbookIcons_description": "通用小图标文件夹",
     "dir_tradersImages_description": "商人图标文件夹",
     "file_globals_description": "服务器主要设置文件",

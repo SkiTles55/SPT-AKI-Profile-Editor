@@ -74,6 +74,34 @@ namespace SPT_AKI_Profile_Editor.Tests
         }
 
         [Test]
+        public void GetDefaultDirsListContainsMods()
+        {
+            var dirs = DefaultValues.GetDefaultDirsList("CustomDir");
+            Assert.That(dirs[SPTServerDir.mods], Is.EqualTo(Path.Combine("CustomDir", "user", "mods")));
+        }
+
+        [Test]
+        public void MissingModsEntryIsAddedOnLoad()
+        {
+            string modsPath = settings.DirsList[SPTServerDir.mods];
+            try
+            {
+                settings.DirsList.Remove(SPTServerDir.mods);
+                settings.Save();
+                AppSettings reloaded = new(settings.configurationFile);
+                reloaded.Load();
+                Assert.That(reloaded.DirsList[SPTServerDir.mods],
+                            Is.EqualTo(modsPath),
+                            "Mods entry was not restored on load");
+            }
+            finally
+            {
+                settings.DirsList[SPTServerDir.mods] = modsPath;
+                settings.Save();
+            }
+        }
+
+        [Test]
         public void GetDefaultDirsListEmptyServerDir()
         {
             var dirs = DefaultValues.GetDefaultDirsList("");

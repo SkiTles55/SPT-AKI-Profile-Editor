@@ -12,6 +12,7 @@ namespace SPT_AKI_Profile_Editor.Core
     {
         public const string ColorScheme = "Light.Emerald";
         public const string DefaultServerDirectory = "SPT_Runtime";
+        public const string ModHelperDirectoryName = "SPT-AKI Profile Editor.ModHelper";
         public const string PocketsContainerTpl = "557596e64bdc2dc2118b4571";
         public const string PocketsSlotId = "Pockets";
         public const string FirstPrimaryWeaponSlotId = "FirstPrimaryWeapon";
@@ -65,6 +66,7 @@ namespace SPT_AKI_Profile_Editor.Core
             [SPTServerDir.traders] = Path.Combine(serverDirectory, "SPT_Data", "database", "traders"),
             [SPTServerDir.bots] = Path.Combine(serverDirectory, "SPT_Data", "database", "bots", "types"),
             [SPTServerDir.profiles] = Path.Combine(serverDirectory, "user", "profiles"),
+            [SPTServerDir.mods] = Path.Combine(serverDirectory, "user", "mods"),
             [SPTServerDir.handbookIcons] = Path.Combine(serverDirectory, "SPT_Data", "images", "handbook"),
             [SPTServerDir.traderImages] = Path.Combine(serverDirectory, "SPT_Data", "images", "trader", "avatar")
         };

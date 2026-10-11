@@ -8,7 +8,7 @@ namespace SPT_AKI_Profile_Editor.Tests.Hepers
         public bool RemoveModCalled = false;
         public bool UpdateModCalled = false;
 
-        public string DbPath => "";
+        public string FullDbPath => "";
 
         public HelperModStatus HelperModStatus => helperModStatus;
 
