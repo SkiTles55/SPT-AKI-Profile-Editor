@@ -13,6 +13,7 @@ namespace SPT_AKI_Profile_Editor.Core
         public const string ColorScheme = "Light.Emerald";
         public const string DefaultServerDirectory = "SPT_Runtime";
         public const string ModHelperDirectoryName = "SPT-AKI Profile Editor.ModHelper";
+        public const string ModHelperDbDirectoryName = "exportedDB";
         public const string PocketsContainerTpl = "557596e64bdc2dc2118b4571";
         public const string PocketsSlotId = "Pockets";
         public const string FirstPrimaryWeaponSlotId = "FirstPrimaryWeapon";

@@ -27,6 +27,9 @@ namespace SPT_AKI_Profile_Editor.Helpers
 
     public class HelperModManager : IHelperModManager
     {
+        // Returns the helper mod folder either relative to the server root or as an
+        // absolute path. Path.Combine ignores the server root in the absolute case,
+        // which is what lets tests point the manager at a directory of their own.
         private readonly Func<string> modPathResolver;
         private readonly Uri updateUrl;
         private readonly string updateSaveDirectory;
@@ -120,13 +123,17 @@ namespace SPT_AKI_Profile_Editor.Helpers
             return Path.Combine(modsPath, DefaultValues.ModHelperDirectoryName);
         }
 
+        // The single place that may return null: every caller checks the result.
         private string GetFullModPath()
-            => string.IsNullOrEmpty(AppData.AppSettings.ServerPath)
-            ? null
-            : Path.Combine(AppData.AppSettings.ServerPath, modPathResolver());
+        {
+            if (string.IsNullOrEmpty(AppData.AppSettings.ServerPath))
+                return null;
+            var modPath = modPathResolver();
+            return string.IsNullOrEmpty(modPath) ? null : Path.Combine(AppData.AppSettings.ServerPath, modPath);
+        }
 
         private string GetFullDbPath()
-            => GetFullModPath() is { } modPath ? Path.Combine(modPath, "exportedDB") : null;
+            => GetFullModPath() is { } modPath ? Path.Combine(modPath, DefaultValues.ModHelperDbDirectoryName) : null;
 
         private HelperModStatus CheckModStatus()
         {
