@@ -46,7 +46,7 @@
 - Теги в git — лёгкие (`git cat-file -t 4.1` → `commit`), имя тега = версия релиза
   без четвёртой части: `4.1`, `4.0.1`, `3.3`.
 - Текущий последний тег: `4.1` (2026-08-05). На `master` после него лежит
-  21 коммит, версия в проекте — `4.1.0`. Следующий релиз — `4.2`.
+  21 коммит, версия в проекте — `4.1.0`. Следующий релиз — `4.1.1`.
 
 ### Что НЕ должно попасть в архив
 
@@ -140,7 +140,24 @@ git diff --name-only <последний_тег> HEAD
 ```
 
 Пользователь может: подтвердить как есть, удалить пункты, добавить свои,
-попросить переформулировать. Внеси правки и повтори показ, если нужно.
+попросить переформулировать или сократить до пользовательского уровня.
+
+### Правки не считаются подтверждением
+
+Если пользователь попросил что-то изменить — это **не** согласие, а только
+правка. После любой правки:
+
+1. Внеси изменения в список.
+2. **Покажи обновлённый список целиком заново.**
+3. **Дождись явного подтверждения** — отдельного ответа вроде «да», «подтверждаю»,
+   «всё верно».
+
+Не переходи к следующему шагу, пока не получено явное подтверждение именно
+этой, исправленной, версии списка. Молчаливый переход дальше после замечания
+пользователя — ошибка, даже если правка выглядела очевидной.
+
+Повторять показ нужно и тогда, когда пользователь правил список в несколько
+приёмов: каждая итерация заканчивается отдельным подтверждением.
 
 ---
 
@@ -148,14 +165,33 @@ git diff --name-only <последний_тег> HEAD
 
 **Спроси пользователя номер новой версии.** Не выбирай его сам.
 
+Одним вопросом уточни **два** значения: номер версии приложения и версию
+сервера SPT, которую он поддерживает. Второе нужно, чтобы понять, добавлять
+новую строку в README или заменять старую (шаг 4).
+
 Ориентиры, которые стоит сообщить пользователю:
 
 - Текущая версия в проекте: `<Version>` в `SPT-AKI Profile Editor.csproj`
   (на момент последней работы — `4.1.0`).
 - Последний тег: `git describe --tags --abbrev=0` (на момент последней работы — `4.1`).
-- Схема: `X.Y` или `X.Y.Z`. Тег = `X.Y` (`4.1.0` → тег `4.1`).
+- Схема: `X.Y` или `X.Y.Z`.
 - Роста минорной версии (4.1 → 4.2) обычно достаточно; патч (`4.1.1`) — для
   срочных исправлений.
+
+### Как из версии получается тег
+
+Хвост `.0` отбрасывается **только** у минорных релизов:
+
+| Версия в `.csproj` | Тег |
+|---|---|
+| `4.2.0` | `4.2` |
+| `4.1.0` | `4.1` |
+| `4.1.1` | `4.1.1` |
+| `4.0.1` | `4.0.1` |
+
+**Не обрезай `.0` у патч-версии.** Для `4.1.1` тег должен быть `4.1.1` —
+иначе получится `4.1`, а такой тег в репозитории уже есть и git откажется
+создавать дубль.
 
 Запиши полученное значение и используй его дальше как `<ВЕРСИЯ>`.
 
@@ -177,10 +213,11 @@ git diff --name-only <последний_тег> HEAD
 на
 
 ```xml
-<Version>4.2.0</Version>
+<Version><ВЕРСИЯ></Version>
 ```
 
-Значение `X.Y.0` соответствует тегу `X.Y`.
+Подставь версию из шага 3. Тег берётся из неё по таблице выше: `4.1.1` →
+тег `4.1.1`, `4.2.0` → тег `4.2`.
 
 Если менялась версия мода (`ModHelper`), обнови `<Version>` в
 `SPT-AKI Profile Editor.ModHelper\SPT-AKI Profile Editor.ModHelper.csproj` —
@@ -188,13 +225,36 @@ git diff --name-only <последний_тег> HEAD
 
 ### Версия в README
 
-В `README.md`, `ENGREADME.md`, `CHREADME.md`, `JPREADME.md` в блоке релизов
-добавь строку новой версии **сверху** и поправь версию .NET в ссылке на
-runtime, если она менялась:
+В блоке релизов **одна строка на каждую поддерживаемую версию сервера**, и в ней
+указана последняя версия приложения под этот сервер. Поэтому есть два случая:
+
+| Ситуация | Что делать со строкой |
+|---|---|
+| Релиз меняет поддерживаемую версию SPT | **добавить** новую строку сверху |
+| Релиз не меняет версию SPT (патч, исправления) | **заменить** верхнюю строку, а не добавлять вторую |
+
+Так и делалось раньше: при `3.2` → `3.2.1` строка `3.2` была заменена на `3.2.1`,
+при `4.0` → `4.0.1` — аналогично. Количество строк не росло.
+
+**Какую версию сервера поддерживает релиз — уточни у пользователя** (шаг 3).
+Это не выводится из кода. Например, для `4.1` было `SPT 4.1.1`,
+для `4.0.1` — `SPT 4.0.1 - 4.0.7`.
+
+Если поддерживаемая версия сервера не изменилась — правь существующую строку:
 
 ```markdown
-### [Version <X.Y> for server SPT <ВЕРСИЯ_SPT>](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/<X.Y>)
+-### [Версия 4.1 для сервера SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1)
++### [Версия 4.1.1 для сервера SPT 4.1.1](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/4.1.1)
 ```
+
+Если сервер новый — добавь строку сверху:
+
+```markdown
+### [Version <ТЕГ> for server SPT <ВЕРСИЯ_SPT>](https://github.com/SkiTles55/SPT-AKI-Profile-Editor/releases/tag/<ТЕГ>)
+```
+
+Правку внеси во всех четырёх файлах: `README.md`, `ENGREADME.md`, `CHREADME.md`,
+`JPREADME.md`. Заодно поправь версию .NET в ссылке на runtime, если она менялась.
 
 ### Раздел «Благодарности»
 
@@ -224,7 +284,7 @@ git log <последний_тег>..HEAD --no-merges --format="%an <%ae>" | Sor
 Авторство берётся из последней команды, номер и название PR — из merge-коммита.
 Свои правки (владелец `SkiTles55`) в благодарности не указываются.
 
-Для релиза 4.2 в благодарностях нужно добавить
+Для релиза 4.1.1 в благодарностях нужно добавить
 [ghostLiulang](https://github.com/ghostLiulang) — PR #201 и PR #196.
 
 ---
@@ -234,6 +294,14 @@ git log <последний_тег>..HEAD --no-merges --format="%an <%ae>" | Sor
 Эти два файла кладутся в корень архива. `readMe.txt` — английский,
 `Изменения.txt` — русский. Содержимое **не генерируется автоматически**:
 шапка и блоки поддержки стабильны, меняется только блок изменений.
+
+Пиши их в **папку версии** `<папка релизов>\<версия>` — там они лежат и в
+существующих релизах. В корне папки релизов их нет, оттуда шаг 7 их и берёт.
+
+```powershell
+$vdir = Join-Path 'C:\Users\Dmitry\OneDrive\Рабочий стол\SPT PE test' '<ВЕРСИЯ>'
+New-Item -ItemType Directory -Path $vdir -Force | Out-Null
+```
 
 ### Требования к кодировке (важно)
 
@@ -262,9 +330,8 @@ Discord server for discussion - https://discord.gg/NTwSA4AfRP
 For installation, extract to any folder (except the server folder) and run SPT-AKI Profile Editor.exe
 
 Changes:
-<пункт 1>;
+<пункт 1> updated by <автор, если это не SkiTles55>;
 <пункт 2>;
-<пункт 3>;
 
 Support the developer:
 https://yoomoney.ru/to/410015658095326
@@ -291,9 +358,8 @@ Discord сервер для обсуждения - https://discord.gg/NTwSA4AfRP
 Для установки распакуйте в любую папку (кроме папки сервера), и запустите SPT-AKI Profile Editor.exe
 
 Изменения:
-<пункт 1>;
+<пункт 1> updated by <автор, если это не SkiTles55>;
 <пункт 2>;
-<пункт 3>;
 
 Поддержать разработчика:
 https://yoomoney.ru/to/410015658095326
@@ -308,6 +374,33 @@ https://github.com/SkiTles55/SPT-AKI-Profile-Editor/issues/new/choose
 Часто задаваемые вопросы - https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/FAQ.md
 Использование вспомогательного мода - https://github.com/SkiTles55/SPT-AKI-Profile-Editor/blob/master/Guidelines/ModHelperRu.md
 ```
+
+### Авторство изменений
+
+Если пункт списка сделан **не владельцем репозитория** (`SkiTles55`), допиши в конец
+этой строки `updated by <ник>`. Так сделано в релизе 4.1 — там изменения от `raxjinn`
+помечены так в обоих файлах и в тексте релиза на GitHub:
+
+```
+Migration to SPT 4.1.1 (previous server versions are no longer compatible) updated by raxjinn;
+```
+
+Правила:
+
+- пометка ставится в `readMe.txt`, `Изменения.txt` **и** в тексте GitHub-релиза;
+- на русском тоже пишется латиницей `updated by <ник>`, без перевода;
+- свои правки (`SkiTles55`) не помечаются;
+- если пункт объединяет работу нескольких авторов — перечисли их через запятую.
+
+**Как определить автора пункта:**
+
+```powershell
+git log <последний_тег>..HEAD --no-merges --format="%an | %h | %s" |
+    Where-Object { $_ -notmatch "^SkiTles55|^Dmitry Khudyakov" }
+```
+
+Ники авторов, не совпадающие с владельцем, и есть те, кого нужно указать.
+Названия пунктов сопоставь с их коммитами по смыслу.
 
 ### Что нужно уточнить у пользователя дополнительно
 
@@ -366,20 +459,27 @@ SPT-AKI Profile Editor\bin\Release\net10.0-windows10.0.17763.0\
 $repo = 'D:\GitHubRepos\SPT-AKI-Profile-Editor'   # или корень worktree
 $out  = Join-Path $repo 'SPT-AKI Profile Editor\bin\Release\net10.0-windows10.0.17763.0'
 $rel  = 'C:\Users\Dmitry\OneDrive\Рабочий стол\SPT PE test'
+$vdir = Join-Path $rel '<ВЕРСИЯ>'
 $stage = Join-Path $env:TEMP 'spt-pe-release'
 
 if (-not (Test-Path $out)) { throw "Нет выхода Release-сборки: $out. Сначала выполни шаг 6." }
+foreach ($txt in @('readMe.txt', 'Изменения.txt')) {
+    if (-not (Test-Path (Join-Path $vdir $txt))) { throw "Нет файла $txt в папке версии. Сначала выполни шаг 5." }
+}
 
 Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
 Copy-Item $out $stage -Recurse
-Copy-Item (Join-Path $rel 'readMe.txt')      $stage
-Copy-Item (Join-Path $rel 'Изменения.txt')   $stage
+Copy-Item (Join-Path $vdir 'readMe.txt')      $stage
+Copy-Item (Join-Path $vdir 'Изменения.txt')   $stage
 
 $zip = Join-Path $rel 'SPT-AKI.Profile.Editor.zip'
 Remove-Item $zip -Force -ErrorAction SilentlyContinue
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
 ```
+
+Тексты берутся из **папки версии** `<папка релизов>\<версия>` — там они и лежат
+в существующих релизах. В корне папки релизов их нет.
 
 `CreateFromDirectory` кладёт содержимое в корень архива без общей папки —
 это совпадает с форматом существующих релизов.
@@ -465,9 +565,9 @@ Remove-Item $vdir -Recurse -Force -ErrorAction SilentlyContinue
    (версия в блоке релизов + авторы чужих PR в «Благодарности»).
 2. Создать лёгкий тег с именем версии без четвёртой части:
    ```powershell
-   git tag <X.Y>
+   git tag <ТЕГ>
    git push origin master
-   git push origin <X.Y>
+   git push origin <ТЕГ>
    ```
 
 Тег должен указывать на коммит, в котором уже есть и новая версия, и
@@ -480,7 +580,7 @@ Remove-Item $vdir -Recurse -Force -ErrorAction SilentlyContinue
 **Самый последний шаг релиза.** Выполняй только когда:
 
 - пользователь принял архив;
-- репозиторий закоммичен и помечен тегом `<X.Y>` (шаг 9);
+- репозиторий закоммичен и помечен тегом `<ТЕГ>` (шаг 9);
 - проверено, что в архиве та версия, которая в теге.
 
 Релиз на GitHub нужен не только пользователям: `ReleaseChecker.GitHub` внутри
@@ -492,16 +592,16 @@ Remove-Item $vdir -Recurse -Force -ErrorAction SilentlyContinue
 Смотри его через API, чтобы увидеть разметку без интерпретации GitHub:
 
 ```
-https://api.github.com/repos/SkiTles55/SPT-AKI-Profile-Editor/releases/tags/<X.Y>
+https://api.github.com/repos/SkiTles55/SPT-AKI-Profile-Editor/releases/tags/<ТЕГ>
 ```
 
 Параметры релиза:
 
 | Поле | Значение |
 |---|---|
-| Tag | `<X.Y>` — уже созданный лёгкий тег |
+| Tag | `<ТЕГ>` — уже созданный лёгкий тег |
 | Target | `master` |
-| Название | `SPT-AKI Profile Editor <X.Y>` |
+| Название | `SPT-AKI Profile Editor <ТЕГ>` |
 | Draft / Pre-release | выкл / выкл |
 | Вложение | ровно один файл — `SPT-AKI.Profile.Editor.zip` |
 
@@ -553,9 +653,9 @@ For installation, extract to any folder (except the server folder) and run SPT-A
 ```powershell
 $body = Join-Path $env:TEMP 'release-notes.md'
 # заполнить $body по шаблону выше
-gh release create <X.Y> "SPT-AKI.Profile.Editor.zip" `
+gh release create <ТЕГ> "SPT-AKI.Profile.Editor.zip" `
   --repo SkiTles55/SPT-AKI-Profile-Editor `
-  --title "SPT-AKI Profile Editor <X.Y>" `
+  --title "SPT-AKI Profile Editor <ТЕГ>" `
   --notes-file $body `
   --target master
 ```
@@ -622,18 +722,21 @@ M SPT-AKI Profile Editor/ModHelper/SPT-AKI Profile Editor.ModHelper.dll
 
 - [ ] Собран список изменений с последнего тега
 - [ ] Пользователь подтвердил/отредактировал список изменений
+- [ ] Список показан заново после правок и явно подтверждён пользователем
 - [ ] Пользователь назвал номер версии
+- [ ] Пользователь назвал поддерживаемую версию сервера SPT
 
 **Правки в репозитории — до сборки**
 
 - [ ] `<Version>` в `.csproj` обновлён
 - [ ] Версия мода в его `.csproj` обновлена (если менялась)
-- [ ] `README*.md`: строка новой версии добавлена в блок релизов
+- [ ] `README*.md`: строка версии в блоке релизов обновлена (добавлена, если сменился сервер, или заменена верхняя, если нет)
 - [ ] Авторы чужих PR добавлены в «Благодарности» во всех 4 README
 
 **Тексты и сборка**
 
 - [ ] `readMe.txt` и `Изменения.txt` заполнены (UTF-8 без BOM, CRLF)
+- [ ] В txt-файлах указано авторство пунктов, сделанных не владельцем (`updated by <ник>`)
 - [ ] Сборка `Release` успешна без предупреждений
 - [ ] Архив `SPT-AKI.Profile.Editor.zip` собран из выхода build + 2 txt
 - [ ] В архиве нет `AppSettings.json`, `Backups`, `Localizations`, `Logs`, `ModHelperUpdate`
@@ -645,9 +748,9 @@ M SPT-AKI Profile Editor/ModHelper/SPT-AKI Profile Editor.ModHelper.dll
 **Git — до публикации**
 
 - [ ] Коммит со всеми правками релиза сделан
-- [ ] Тег `<X.Y>` создан и отправлен в origin
+- [ ] Тег `<ТЕГ>` создан и отправлен в origin
 
 **Публикация — последним шагом**
 
-- [ ] GitHub-релиз создан: имя `SPT-AKI Profile Editor <X.Y>`, вложен `SPT-AKI.Profile.Editor.zip`, текст двуязычный
+- [ ] GitHub-релиз создан: имя `SPT-AKI Profile Editor <ТЕГ>`, вложен `SPT-AKI.Profile.Editor.zip`, текст двуязычный
 - [ ] В тексте релиза нет `setup.exe` (установщик не распространяется с 4.0.1)
